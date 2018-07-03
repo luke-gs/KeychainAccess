@@ -215,6 +215,7 @@ extension AssetManager {
         public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailer48")
         public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailer96")
 
+        @available(iOS, deprecated, message: "EntityThumbnail now uses themed coloured backgrounds")
         public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
 
         public static let iconEntityVehicleMotorcycle = ImageKey("iconEntityVehicleMotorcycle")

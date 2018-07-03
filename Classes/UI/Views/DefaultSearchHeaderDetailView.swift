@@ -116,11 +116,11 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
             self.thumbnailView.imageView.contentMode = imageSizable.sizing().contentMode ?? .center
         })
 
-        // hide the silver background for non entity images
+        // hide the background color for non entity images
         if configuration.imageStyle != .entity {
-            thumbnailView.backgroundImageView.image = nil
+            thumbnailView.backgroundView.backgroundColor = .clear
         }
-
+        
         thumbnailView.imageView.layer.cornerRadius = imageStyle.cornerRadius(for: CGSize(width: imageWidth, height: imageWidth))
         thumbnailView.imageView.clipsToBounds = true
         thumbnailView.imageView.tintColor = configuration.tintColor
@@ -178,6 +178,9 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
 
         titleLabel.textColor = theme.color(forKey: .headerTitleText)
         subtitleLabel.textColor = theme.color(forKey: .headerSubtitleText)
+        
+        if imageStyle == .entity {
+            thumbnailView.apply(theme: theme)
+        }
     }
-
 }

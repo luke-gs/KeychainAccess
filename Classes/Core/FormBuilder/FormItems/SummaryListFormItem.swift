@@ -116,6 +116,10 @@ public class SummaryListFormItem: BaseFormItem {
         cell.sourceLabel.textColor = secondaryTextColor
         cell.sourceLabel.borderColor = secondaryTextColor
         cell.sourceLabel.backgroundColor = .clear
+        
+        if imageTintColor == nil {
+            cell.thumbnailView.apply(theme: theme)
+        }
     }
     
     private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {

@@ -155,6 +155,9 @@ extension Theme {
         public static let groupedTableBackground     = ColorKey(rawValue: "groupedTableBackground")
         public static let groupedTableCellBackground = ColorKey(rawValue: "groupedTableCellBackground")
         
+        public static let entityThumbnailBackground = ColorKey(rawValue: "entityThumbnailBackgroundColor")
+        public static let entityImageTint           = ColorKey(rawValue: "entityImageTint")
+        
     }
     
     public struct ImageKey: RawRepresentable, Hashable {

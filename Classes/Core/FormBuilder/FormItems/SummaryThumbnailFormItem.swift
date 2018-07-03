@@ -38,6 +38,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
     public var subtitleTextColor: UIColor?
 
     public var detailTextColor: UIColor?
+    
+    public var thumbnailBackgroundColor: UIColor?
 
     public init(style: EntityCollectionViewCell.Style = .hero) {
         self.style = style
@@ -58,6 +60,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.detailLabel.apply(sizable: detail, defaultFont: defaultDetailFont(for: cell.traitCollection), defaultNumberOfLines: 2)
         cell.borderColor = badgeColor
         cell.badgeCount = badge
+        cell.sourceLabel.backgroundColor = .black
         cell.thumbnailView.borderColor = borderColor
         cell.thumbnailView.tintColor = imageTintColor
 
@@ -65,7 +68,10 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.thumbnailView.imageView.image = sizing?.image
         cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
         
-
+        if let thumbnailBackgroundColor = thumbnailBackgroundColor {
+            cell.thumbnailView.backgroundView.backgroundColor = thumbnailBackgroundColor
+        }
+        
         image?.loadImage(completion: { (imageSizable) in
             let sizing = imageSizable.sizing()
             if self.cell == cell {
@@ -97,6 +103,14 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.titleLabel.textColor    = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
         cell.detailLabel.textColor   = tertiaryTextColor
+        if thumbnailBackgroundColor == nil {
+            cell.thumbnailView.backgroundView.backgroundColor = theme.color(forKey: .entityThumbnailBackground)
+        }
+        
+        if imageTintColor == nil {
+            cell.thumbnailView.imageView.tintColor = theme.color(forKey: .entityImageTint)
+        }
+       
     }
     
     private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {
@@ -192,6 +206,12 @@ extension SummaryThumbnailFormItem {
     @discardableResult
     public func detailTextColor(_ detailTextColor: UIColor?) -> Self {
         self.detailTextColor = detailTextColor
+        return self
+    }
+    
+    @discardableResult
+    public func thumbnailBackgroundColor(_ thumbnailBackgroundColor: UIColor?) -> Self {
+        self.thumbnailBackgroundColor = thumbnailBackgroundColor
         return self
     }
 

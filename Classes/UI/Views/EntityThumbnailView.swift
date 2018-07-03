@@ -18,7 +18,7 @@ public class EntityThumbnailView: UIControl {
         case large
     }
     
-    public let backgroundImageView = UIImageView(frame: .zero)
+    public let backgroundView = UIView(frame: .zero)
     
     public let imageView = UIImageView(frame: .zero)
     
@@ -62,11 +62,11 @@ public class EntityThumbnailView: UIControl {
     private lazy var highlightView: UIView = { [unowned self] in
         defer { self.isHighlightViewLoaded = true }
         
-        let highlightView = UIView(frame: self.backgroundImageView.bounds)
+        let highlightView = UIView(frame: self.backgroundView.bounds)
         highlightView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         highlightView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.2980303697)
         highlightView.isHidden = self.isHighlighted == false && self.isEnabled
-        self.backgroundImageView.addSubview(highlightView)
+        self.backgroundView.addSubview(highlightView)
         return highlightView
     }()
     
@@ -86,17 +86,17 @@ public class EntityThumbnailView: UIControl {
     }
     
     private func commonInit() {
-        backgroundImageView.image = UIImage(named: "EntityThumbnailBackground", in: .mpolKit, compatibleWith: nil)
-        backgroundImageView.frame = bounds
-        backgroundImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundImageView.contentMode = .scaleAspectFill
-        backgroundImageView.clipsToBounds = true
-        addSubview(backgroundImageView)
+        backgroundView.backgroundColor = ThemeManager.shared.theme(for: .current).color(forKey: .entityThumbnailBackground)
+        backgroundView.frame = bounds
+        backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundView.contentMode = .scaleAspectFill
+        backgroundView.clipsToBounds = true
+        addSubview(backgroundView)
         
-        imageView.frame = backgroundImageView.bounds
+        imageView.frame = backgroundView.bounds
         imageView.tintAdjustmentMode = .normal
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundImageView.addSubview(imageView)
+        backgroundView.addSubview(imageView)
         
         updateCornerRadius()
         
@@ -109,6 +109,10 @@ public class EntityThumbnailView: UIControl {
         addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
     }
     
+    open func apply(theme: Theme) {
+        backgroundView.backgroundColor = theme.color(forKey: .entityThumbnailBackground)
+        imageView.tintColor = theme.color(forKey: .entityImageTint)
+    }
     
     // MARK: - Overrides
     
@@ -156,12 +160,12 @@ public class EntityThumbnailView: UIControl {
         layer.cornerRadius = cornerRadius
         
         if borderColor == nil || borderWidth == 0.0 {
-            backgroundImageView.layer.cornerRadius = cornerRadius
-            backgroundImageView.frame = bounds
+            backgroundView.layer.cornerRadius = cornerRadius
+            backgroundView.frame = bounds
             layer.borderWidth = 0.0
         } else {
-            backgroundImageView.layer.cornerRadius = max(cornerRadius - 3.0, 0.0)
-            backgroundImageView.frame = bounds.insetBy(dx: 4.0, dy: 4.0)
+            backgroundView.layer.cornerRadius = max(cornerRadius - 3.0, 0.0)
+            backgroundView.frame = bounds.insetBy(dx: 4.0, dy: 4.0)
             layer.borderWidth = borderWidth
         }
     }

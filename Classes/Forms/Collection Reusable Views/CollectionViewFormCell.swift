@@ -41,6 +41,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         case indentedAtRowLeading
         
+        case indentedAtTextLeading
+        
         case fullWidth
     }
 

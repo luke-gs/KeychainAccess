@@ -13,9 +13,12 @@ fileprivate var kvoContext = 1
 
 fileprivate let titleDetailSeparation: CGFloat = 14.0
 
-
 open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
+    public enum ImageStyle {
+        case centered
+        case titleAligned
+    }
     
     /// Calculates a minimum height with the standard configuration of single lines
     /// for the title and subtitle, and a double line for detail text unless detail sizable
@@ -61,6 +64,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     public let detailLabel: UILabel = UILabel(frame: .zero)
+    
+    public var imageStyle: ImageStyle = .centered
     
     /// The image view for the cell. This view is lazy loaded.
     public var imageView: UIImageView {
@@ -175,8 +180,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         }
 
         let widthMinusInset = contentRect.width - imageInset
-
-        let titleSize    = titleLabel.sizeThatFits(CGSize(width: widthMinusInset, height: .greatestFiniteMagnitude))
+        
+        let titleSize    = titleLabel.textRect(forBounds: CGRect(origin: .zero, size: CGSize(width: widthMinusInset, height: .greatestFiniteMagnitude)), limitedToNumberOfLines: titleLabel.numberOfLines).size
         let subtitleSize = subtitleLabel.sizeThatFits(CGSize(width: widthMinusInset, height: .greatestFiniteMagnitude))
         let detailSize   = detailLabel.sizeThatFits(CGSize(width: widthMinusInset, height: .greatestFiniteMagnitude))
         
@@ -200,9 +205,19 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         // Update accessory positions
         
-        _imageView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? (contentRect.maxX - imageSize.width).ceiled(toScale: displayScale): contentRect.minX,
-                                                   y: (contentYOrigin + (titleContentHeight - imageSize.height) / 2.0).rounded(toScale: displayScale)),
-                                   size: imageSize)
+        switch imageStyle {
+        case .centered:
+            _imageView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? (contentRect.maxX - imageSize.width).ceiled(toScale: displayScale): contentRect.minX,
+                                                       y: (contentYOrigin + (titleContentHeight - imageSize.height) / 2.0).rounded(toScale: displayScale)),
+                                       size: imageSize)
+        case .titleAligned:
+            _imageView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? (contentRect.maxX - imageSize.width).ceiled(toScale: displayScale): contentRect.minX,
+                                                       y: (contentYOrigin + (titleContentHeight - titleLabelContentHeight) / 2.0).rounded(toScale: displayScale)),
+                                       size: imageSize)
+            
+            
+        }
+
         accessoryView?.frame = CGRect(origin: CGPoint(x: (isRightToLeft ? contentRect.minX - accessorySize.width - CollectionViewFormCell.accessoryContentInset : contentRect.maxX + CollectionViewFormCell.accessoryContentInset).floored(toScale: displayScale),
                                                       y: (contentYOrigin + ((totalContentHeight - accessorySize.height) / 2.0)).rounded(toScale: displayScale)),
                                       size: accessorySize)
@@ -213,6 +228,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
                                                 y: (contentYOrigin + (titleContentHeight - titleLabelContentHeight) / 2.0).rounded(toScale: displayScale)),
                                 size: titleSize)
         titleLabel.frame = titleFrame
+        
         subtitleLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - imageInset - subtitleSize.width : contentRect.minX + imageInset,
                                                      y: (showingTitle ? titleFrame.maxY + CellTitleSubtitleSeparation.ceiled(toScale: displayScale) : titleFrame.minY)),
                                      size: subtitleSize)
@@ -220,6 +236,10 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         detailLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - imageInset - detailSize.width : contentRect.minX + imageInset,
                                                    y: contentYOrigin + titleContentHeight + (titleContentHeight >~ 0.0 ? titleDetailSeparation.rounded(toScale: displayScale) : 0.0)),
                                    size: detailSize)
+        
+        if separatorStyle == .indentedAtTextLeading {
+            customSeparatorInsets = UIEdgeInsets(top: 0, left: isRightToLeft ? contentRect.maxX - imageInset - titleSize.width : contentRect.minX + imageInset, bottom: 0, right: 0)
+        }
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

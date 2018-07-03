@@ -110,6 +110,9 @@ public class SummaryDetailFormItem: BaseFormItem {
         cell.titleLabel.textColor       = primaryTextColor
         cell.subtitleLabel.textColor    = primaryTextColor
         cell.descriptionLabel.textColor = isDetailPlaceholder ? placeholderTextColor : primaryTextColor
+        if imageTintColor == nil {
+            cell.thumbnailView.apply(theme: theme)
+        }
     }
 
     @objc private func imageTapped() {

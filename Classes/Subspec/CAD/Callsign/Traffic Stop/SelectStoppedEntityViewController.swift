@@ -107,6 +107,13 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
         }
     }
     
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        if let cell = cell as? EntityListCollectionViewCell {
+            cell.thumbnailView.apply(theme: ThemeManager.shared.theme(for: .current))
+        }
+    }
+    
     // MARK: - UICollectionViewDelegate
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

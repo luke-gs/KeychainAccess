@@ -17,18 +17,21 @@ public class DetailFormItem: BaseFormItem {
     public var detail: StringSizable?
 
     public var image: UIImage?
+    
+    public var imageStyle: CollectionViewFormDetailCell.ImageStyle = .centered
 
     public init() {
         super.init(cellType: CollectionViewFormDetailCell.self, reuseIdentifier: CollectionViewFormDetailCell.defaultReuseIdentifier)
     }
 
-    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, detail: StringSizable? = nil, image: UIImage? = nil) {
+    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, detail: StringSizable? = nil, image: UIImage? = nil, imageStyle: CollectionViewFormDetailCell.ImageStyle = .centered) {
         self.init()
 
         self.title = title
         self.subtitle = subtitle
         self.detail = detail
         self.image = image
+        self.imageStyle = imageStyle
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
@@ -39,6 +42,7 @@ public class DetailFormItem: BaseFormItem {
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: fonts.subtitleFont, defaultNumberOfLines: 1)
         cell.detailLabel.apply(sizable: detail, defaultFont: fonts.detailFont, defaultNumberOfLines: 0)
         cell.imageView.image = image
+        cell.imageStyle = imageStyle
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -87,6 +91,12 @@ extension DetailFormItem {
     @discardableResult
     public func image(_ image: UIImage?) -> Self {
         self.image = image
+        return self
+    }
+    
+    @discardableResult
+    public func imageStyle(_ imageStyle: CollectionViewFormDetailCell.ImageStyle) -> Self {
+        self.imageStyle = imageStyle
         return self
     }
 

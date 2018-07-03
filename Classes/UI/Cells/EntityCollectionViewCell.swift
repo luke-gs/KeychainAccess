@@ -320,15 +320,14 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                 ]
             case .detail:
                 styleConstraints = [
-                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 128.0),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 128.0),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: .almostRequired),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 16.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY, relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing),
-                    NSLayoutConstraint(item: detailLabel, attribute: .width, relatedBy: .equal, toConstant: 170)
+                    NSLayoutConstraint(item: thumbnailView, attribute: .width,      relatedBy: .equal, toConstant: 128.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .height,     relatedBy: .equal, toConstant: 128.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .leading,    relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerY,    relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: .almostRequired),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .top,        relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,   relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 16.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,   relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing)
                 ]
             case .thumbnail:
                 styleConstraints = [

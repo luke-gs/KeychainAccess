@@ -70,19 +70,27 @@ open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
     open func headerItemForRecentlyViewed() -> FormItem? {
         guard (delegate?.traitCollection.horizontalSizeClass ?? .compact) != .compact else { return nil }
-
         let theme = ThemeManager.shared.theme(for: .dark)
-        let separatorColor = theme.color(forKey: .separator) ?? .gray
-        return HeaderFormItem(text: NSLocalizedString("RECENTLY VIEWED", comment: ""))
-            .separatorColor(separatorColor)
+        let attributedTitle = NSMutableAttributedString(string: NSLocalizedString("Recently Viewed", comment: ""))
+        if let titleColor = theme.color(forKey: .primaryText) {
+            attributedTitle.setAttributes([NSAttributedStringKey.foregroundColor: titleColor], range: NSMakeRange(0, attributedTitle.length))
+        }
+        
+        let largeTextHeader = LargeTextHeaderFormItem(text: attributedTitle)
+        largeTextHeader.separatorColor(.clear)
+        largeTextHeader.layoutMargins?.top = 0
+        largeTextHeader.layoutMargins?.bottom = 0
+        return largeTextHeader
     }
 
     open func summaryItemsForRecentlyViewed() -> [FormItem] {
         let isCompact = (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact
 
         let theme = ThemeManager.shared.theme(for: .dark)
-        let primaryColor = theme.color(forKey: .primaryText)
-        let secondaryColor = theme.color(forKey: .secondaryText)
+        let primaryColor          = theme.color(forKey: .primaryText)
+        let secondaryColor        = theme.color(forKey: .secondaryText)
+        let entityBackgroundColor = theme.color(forKey: .entityThumbnailBackground)
+        let entityImageTint       = theme.color(forKey: .entityImageTint)
 
         var recentlyViewed = userSession.recentlyViewed.entities
         let numberOfEntities = recentlyViewed.count
@@ -95,10 +103,13 @@ open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
         return recentlyViewed.reversed().compactMap { entity in
             guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
+            let thumbnailTint = summary.iconColor ?? entityImageTint
             return summary.summaryThumbnailFormItem(with: .detail)
                 .titleTextColor(!isCompact ? primaryColor : nil)
-                .subtitleTextColor(!isCompact ? secondaryColor : nil)
+                .subtitleTextColor(!isCompact ? primaryColor : nil)
                 .detailTextColor(!isCompact ? secondaryColor : nil)
+                .thumbnailBackgroundColor(!isCompact ? entityBackgroundColor : nil)
+                .imageTintColor(!isCompact ? thumbnailTint : summary.iconColor)
                 .badge(0)
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
@@ -114,21 +125,28 @@ open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
     open func headerItemForRecentlySearched() -> FormItem? {
         guard (delegate?.traitCollection.horizontalSizeClass ?? .compact) != .compact else { return nil }
-
-        return HeaderFormItem(text: NSLocalizedString("RECENTLY SEARCHED", comment: ""))
+        let largeTextHeader = LargeTextHeaderFormItem(text: NSLocalizedString("Recently Searched", comment: "Title of a list of the last searches the user has made"))
+        largeTextHeader.separatorColor(.clear)
+        return largeTextHeader
     }
 
     open func summaryItemsForRecentlySearched() -> [FormItem] {
+        // TODO: replace with real time ago value
+        let timeAgoAttributedString = NSMutableAttributedString(string: "5 mins ago", attributes: [.font            : UIFont.systemFont(ofSize: 12),
+                                                                                                   .foregroundColor : UIColor.gray])
+        
         let assetManager = AssetManager.shared
 
         return userSession.recentlySearched.compactMap { searchable -> FormItem in
-            return SubtitleFormItem()
+            return DetailFormItem()
+                .imageStyle(.titleAligned)
+                .separatorStyle(.indentedAtTextLeading)
                 .title(searchable.text?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "[Recently Searched] - No search term"))
                 .subtitle(searchable.type?.ifNotEmpty() ?? NSLocalizedString("(No Search Category)", comment: "[Recently Searched] - No search category"))
-                .labelSeparation(2.0)
-                .image(searchable.imageKey != nil ? assetManager.image(forKey: searchable.imageKey!) : nil)
-                .accessory(ItemAccessory.disclosure)
-                .width(.column(1))
+                .detail(timeAgoAttributedString)
+                .image((searchable.imageKey != nil ? assetManager.image(forKey: searchable.imageKey!) : nil)?.surroundWithCircle(diameter: 50, color: .disabledGray))
+                .accessory(RoundedLabelAccessory(text: NSLocalizedString("Search", comment: "[Recently Searched] - Search Accessory")))
+                .width(.column(2))
                 .highlightStyle(.fade)
                 .onSelection { [weak self] _ in
                     guard let `self` = self else { return }

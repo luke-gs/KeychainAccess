@@ -9,8 +9,7 @@
 import Foundation
 
 public extension UIImage {
-
-
+    
     /// Returns an image of a circle of a certain diameter and color
     ///
     /// - Parameters:
