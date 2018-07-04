@@ -10,6 +10,7 @@ public enum LocationBasicSearchResultType: String {
     case lookup
     case advance = "Advanced Search"
     case map = "Search on Map"
+    case currentLocation = "Search Current Location"
 }
 
 /// Implementation of basic search options that allows results to be provided the client.
@@ -25,7 +26,7 @@ open class LocationBasicSearchOptions: SearchOptions {
     public init() {}
 
     open var results: [LookupResult] = []
-    open var others: [LocationBasicSearchResultType] = [.map, .advance]
+    open var others: [LocationBasicSearchResultType] = [.currentLocation, .map, .advance]
     
     open weak var delegate: LocationBasicSearchOptionsDelegate?
 
@@ -79,6 +80,8 @@ open class LocationBasicSearchOptions: SearchOptions {
 
             let other = others[otherIndex]
             switch other {
+            case .currentLocation:
+                return .action(image: AssetManager.shared.image(forKey: .mapUserLocation), buttonTitle: nil, buttonHandler:nil)
             case .map:
                 return .action(image: AssetManager.shared.image(forKey: .map), buttonTitle: nil, buttonHandler:nil)
             case .advance:

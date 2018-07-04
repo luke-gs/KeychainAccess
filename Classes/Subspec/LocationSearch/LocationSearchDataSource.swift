@@ -156,6 +156,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
             switch options.resultType(at: index) {
             case .lookup:
                 performSearchOnLocation(withResult: options.results[index])
+            case .currentLocation:
+                didTapCurrentLocation()
             case .advance:
                 didTapAdvanceButton()
             case .map:
