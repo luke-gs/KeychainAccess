@@ -15,15 +15,15 @@ open class TasksMapViewController: MapViewController {
 
     open weak var clusterDelegate: ClusterTasksViewControllerDelegate?
 
-    private var annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle?
-    private var performedInitialLoadAction: Bool = false
-    private var addedFirstAnnotations: Bool = false
-    private var savedRegion: MKCoordinateRegion?
-    private var zPositionObservers: [NSKeyValueObservation] = []
+    open private(set) var annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle?
+    open var performedInitialLoadAction: Bool = false
+    open private(set) var addedFirstAnnotations: Bool = false
+    open private(set) var savedRegion: MKCoordinateRegion?
+    open private(set) var zPositionObservers: [NSKeyValueObservation] = []
 
     public let viewModel: TasksMapViewModel
 
-    private let clusterManager: ClusterManager = {
+    open let clusterManager: ClusterManager = {
         let clusterManager = ClusterManager()
         clusterManager.cellSize = nil
         clusterManager.minCountForClustering = 2
@@ -178,7 +178,7 @@ open class TasksMapViewController: MapViewController {
     }
     
     /// Zooms to the annotations when they are loaded for the first time
-    private func zoomToAnnotationsOnLoad() {
+    open func zoomToAnnotationsOnLoad() {
         if let annotationsInitialLoadZoomStyle = annotationsInitialLoadZoomStyle,
             !performedInitialLoadAction,
             addedFirstAnnotations
