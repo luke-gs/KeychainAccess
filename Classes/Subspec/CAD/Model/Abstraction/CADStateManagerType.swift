@@ -195,6 +195,8 @@ public enum CADSyncMode: Equatable {
             return patrolGroup1 == patrolGroup2
         case (let .map(boundingBox1), let .map(boundingBox2)):
             return boundingBox1 == boundingBox2
+        case (let .none, let .none):
+            return true
         default:
             return false
         }
