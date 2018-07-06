@@ -22,7 +22,7 @@ public protocol TasksListViewControllerDelegate: class {
 ///
 /// This uses CADFormCollectionViewController for consistent styling and reduced boilerplate.
 ///
-open class TasksListViewController: FormBuilderViewController, UISearchBarDelegate {
+open class TasksListViewController: FormBuilderViewController, UISearchBarDelegate, CADFormCollectionViewModelDelegate {
 
     fileprivate struct LayoutConstants {
         static let searchBarHeight: CGFloat = 32
@@ -278,6 +278,16 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     @objc open func refreshTasks() {
         delegate?.taskListDidPullToRefresh()
     }
+    
+    open func sectionsUpdated() {
+        // Update loading state
+        let noSections = (viewModel.numberOfSections() == 0)
+        loadingManager.state = noSections ? .noContent : .loaded
+        searchBar.isHidden = noSections && searchBar.text?.isEmpty == true
+        
+        // Reload content
+        reloadContent()
+    }
 }
 
 extension TasksListViewController: LoadingStateManagerDelegate {
@@ -286,18 +296,6 @@ extension TasksListViewController: LoadingStateManagerDelegate {
             // Hide search bar when first loaded
             hideSearchBar()
         }
-    }
-}
-
-extension TasksListViewController: CADFormCollectionViewModelDelegate {
-    public func sectionsUpdated() {
-        // Update loading state
-        let noSections = (viewModel.numberOfSections() == 0)
-        loadingManager.state = noSections ? .noContent : .loaded
-        searchBar.isHidden = noSections && searchBar.text?.isEmpty == true
-
-        // Reload content
-        reloadContent()
     }
 }
 
