@@ -178,7 +178,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         return tracker
         }()
     
-    private var containerScrollView: UIScrollView?
+    public private(set) var containerScrollView: UIScrollView?
     
     private var containerInsetManager: ScrollViewInsetManager?
     
