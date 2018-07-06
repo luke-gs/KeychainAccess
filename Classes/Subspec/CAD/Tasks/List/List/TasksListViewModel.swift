@@ -55,6 +55,10 @@ open class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel
     open func otherSectionTitle() -> String {
         return NSLocalizedString("Other areas", comment: "")
     }
+    
+    open override func numberOfSections() -> Int {
+        return sections.count + otherSections.count
+    }
 
     open func showsUpdatesIndicator(at section: Int) -> Bool {
         if let sectionViewModel = sections[ifExists: section] {

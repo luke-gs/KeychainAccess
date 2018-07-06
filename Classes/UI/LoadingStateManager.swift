@@ -169,6 +169,11 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
     }
 
+    // Refresh control
+    
+    public var onRefreshControlCreated: ((_ refreshControl: UIRefreshControl) -> Void)?
+    public private(set) var refreshControl: UIRefreshControl?
+    
     // MARK: - Private properties
 
     private lazy var traitTrackerView: TraitCollectionTracker = { [unowned self] in
@@ -216,11 +221,24 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             return nil
         }
     }
+    
+    private func createRefreshControl() -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        onRefreshControlCreated?(refreshControl)
+        return refreshControl
+    }
 
     private func createContainerScrollview(_ baseView: UIView) -> UIScrollView {
         let scrollView = UIScrollView(frame: baseView.bounds)
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+        
+        if onRefreshControlCreated != nil {
+            scrollView.alwaysBounceVertical = true
+            let refreshControl = createRefreshControl()
+            self.refreshControl = refreshControl
+            scrollView.addSubview(refreshControl)
+        }
+        
         if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
             baseView.insertSubview(scrollView, at: indexOfContentView)
         } else {
