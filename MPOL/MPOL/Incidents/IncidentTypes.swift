@@ -36,7 +36,7 @@ extension IncidentType {
         switch self {
             case .interceptReport, .domesticViolence:
                 if entity is Person {
-                    return ["Respondant", "Aggrieved", "Claimant", "Custody", "Informant", "Interviewed", "Named Person", "Subject", "Witness"]
+                    return ["Respondent", "Aggrieved", "Claimant", "Custody", "Informant", "Interviewed", "Named Person", "Subject", "Witness"]
                 }
                 if entity is Vehicle {
                     return ["Involved in Offence","Involved in Crash","Damaged", "Towed", "Abandoned", "Defective"]
