@@ -14,9 +14,8 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
 
     public var viewModel: SearchResultViewModelable? {
         didSet {
-            viewModel?.style       = wantsThumbnails ? .grid : .list
-            viewModel?.delegate    = self
-
+            viewModel?.setStyleIfAllowed(wantsThumbnails ? .grid : .list)
+            viewModel?.delegate = self
             if isViewLoaded {
                 searchFieldButton?.text = viewModel?.title
 
@@ -35,8 +34,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
             if wantsThumbnails == oldValue { return }
 
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .navBarThumbnailSelected : .navBarThumbnail)
-
-            viewModel?.style = wantsThumbnails ? .grid : .list
+            viewModel?.setStyleIfAllowed(wantsThumbnails ? .grid : .list)
 
             if traitCollection.horizontalSizeClass != .compact {
                 reloadForm()
@@ -55,11 +53,10 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
 
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
-
         listStateItem.target = self
         listStateItem.action = #selector(toggleThumbnails)
         listStateItem.imageInsets = .zero
-
+        
         navigationItem.rightBarButtonItems = [listStateItem]
     }
 
@@ -168,13 +165,16 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
     }
     
     private func updateBarItems() {
+        guard let viewModel = viewModel else { return }
         let isCompact = traitCollection.horizontalSizeClass == .compact
-        if var buttons = viewModel?.additionalBarButtonItems {
-            if !isCompact {
+        let hasMoreThanOneState = viewModel.allowedStyles.count > 1
+        let requiresListStateItem = hasMoreThanOneState && !isCompact
+        if var buttons = viewModel.additionalBarButtonItems {
+            if requiresListStateItem {
                 buttons.insert(listStateItem, at: 1)
             }
             navigationItem.rightBarButtonItems = buttons
-        } else if !isCompact {
+        } else if requiresListStateItem {
             navigationItem.rightBarButtonItems = [listStateItem]
         } else {
             navigationItem.rightBarButtonItems = nil

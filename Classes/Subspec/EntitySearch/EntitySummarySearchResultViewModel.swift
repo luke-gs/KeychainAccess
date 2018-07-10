@@ -72,7 +72,16 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         return aggregatedSearch.state
     }
     
-    public var style: SearchResultStyle = .grid
+    public var allowedStyles: [SearchResultStyle] = SearchResultStyle.all {
+        didSet {
+            if !allowedStyles.contains(style),
+            let firstStyle = allowedStyles.first {
+                setStyleIfAllowed(firstStyle)
+            }
+        }
+    }
+    
+    public private(set) var style: SearchResultStyle = .grid
     
     public var results: [SearchResultSection] = []
     
@@ -120,6 +129,13 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         }
 
         return items
+    }
+    
+    @discardableResult
+    public func setStyleIfAllowed(_ newStyle: SearchResultStyle) -> Bool {
+        guard allowedStyles.contains(newStyle) else { return false }
+        style = newStyle
+        return true
     }
 
     // MARK: - Subclass can override these methods

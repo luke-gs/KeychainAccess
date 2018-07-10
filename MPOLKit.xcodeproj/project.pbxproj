@@ -541,8 +541,9 @@
 		9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */; };
 		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
-		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
 		AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */; };
+		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
+		AA16412B20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */; };
 		AA19D88120BE08880082E326 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19D88020BE08880082E326 /* AdditionalActionManager.swift */; };
 		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
@@ -1459,8 +1460,9 @@
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
 		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
-		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
 		AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLinkFormItem.swift; sourceTree = "<group>"; };
+		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
+		AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModelTests.swift; sourceTree = "<group>"; };
 		AA19D88020BE08880082E326 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
@@ -4567,6 +4569,7 @@
 			isa = PBXGroup;
 			children = (
 				EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */,
+				AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */,
 			);
 			path = EntitySearch;
 			sourceTree = "<group>";
@@ -5655,6 +5658,7 @@
 				1211E36B1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift in Sources */,
 				12F869EC1F5FD2350006EC5C /* NewUserSessionTests.swift in Sources */,
 				12F869ED1F5FD2350006EC5C /* ActiveUserSessionTests.swift in Sources */,
+				AA16412B20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift in Sources */,
 				EAF76C831F942A5D00405DC9 /* CustomItemAccessoryTests.swift in Sources */,
 				EA05400A1F94988000F6E63C /* PickerFormItemTests.swift in Sources */,
 				EA42F8DE1F958A7200C5C38E /* NotSpecificationTests.swift in Sources */,
