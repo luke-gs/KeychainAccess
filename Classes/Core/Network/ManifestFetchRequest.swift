@@ -55,6 +55,7 @@ public enum ManifestFetchType: Equatable {
     }
 }
 
+/// Fetch request for manifest retrieval
 public struct ManifestFetchRequest: Parameterisable {
 
     public typealias ResultClass = [[String:Any]]

@@ -14,7 +14,6 @@ import Alamofire
 fileprivate let manifestLastUpdateKey = "Manifest_LastUpdate"
 
 public extension NSNotification.Name {
-    
     static let ManifestDidUpdate = NSNotification.Name(rawValue: "ManifestDidUpdate")
 }
 
@@ -72,8 +71,11 @@ public final class Manifest: NSObject {
     private let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
     /// The view context for the manifest. This should only be accessed from the main thread.
-    public let viewContext: NSManagedObjectContext
-    
+    private let viewContext: NSManagedObjectContext
+
+    private static let dateFormatter: ISO8601DateFormatter = ISO8601DateFormatter()
+    private var isSaving: Bool = false
+
     private(set) public var lastUpdateDate: Date? {
         get {
             if FileManager.default.fileExists(at: Manifest.storageURL) {
@@ -259,10 +261,7 @@ public final class Manifest: NSObject {
             NotificationCenter.default.post(name: .ManifestDidUpdate, object: self)
         }
     }
-    
-    public static let dateFormatter: ISO8601DateFormatter = ISO8601DateFormatter()
-    public private(set) var isSaving: Bool = false
-    
+
     // MARK: - Save manifest
     
     /// Save dictionary of manifest items to the coredata table
