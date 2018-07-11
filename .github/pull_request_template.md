@@ -18,6 +18,7 @@ https://gridstone.atlassian.net/browse/MPOLA-1546
 
 ## Link to KIT component (if applicable)
 https://github.com/Gridstone/mPolKit-iOS/pull/426
+{kit-branch='MPOLA-1543'}
  
 # UI
 Upload any images here if there are UI components
