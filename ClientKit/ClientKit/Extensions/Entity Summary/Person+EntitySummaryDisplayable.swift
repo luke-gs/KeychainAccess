@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
+public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
 
     private var person: Person
 
@@ -31,6 +31,10 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     
     public var detail2: String? {
         return formattedAddress()
+    }
+    
+    public var association: String? {
+        return person.formattedAssociationReasonsString()
     }
     
     public var borderColor: UIColor? {
@@ -109,7 +113,12 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
         guard let shortAddressForm = AddressFormatter(style: .short).formattedString(from: address) else { return nil }
         let components = [address.county, address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
         guard components.isEmpty == false else { return nil }
-        return shortAddressForm + "," + "\n" + components.joined(separator: " ")
+        return shortAddressForm + ", " + components.joined(separator: " ")
+    }
+    
+    private func formattedAssociationReason() -> String? {
+        guard let lastReason = person.associatedReasons?.last else { return nil }
+        return lastReason.formattedReason()
     }
 }
 

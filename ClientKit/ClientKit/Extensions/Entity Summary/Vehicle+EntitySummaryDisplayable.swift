@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
+public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
 
     private var vehicle: Vehicle
 
@@ -31,6 +31,10 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     
     public var detail2: String? {
         return vehicle.bodyType
+    }
+    
+    public var association: String? {
+        return vehicle.formattedAssociationReasonsString()
     }
     
     public var borderColor: UIColor? {

@@ -228,58 +228,58 @@
 			<string>%d Orders</string>
 		</dict>
 	</dict>
-	<key>%d PEOPLE</key>
+	<key>%d People</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@PEOPLE@</string>
-		<key>PEOPLE</key>
+		<string>%#@people@</string>
+		<key>people</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>zero</key>
-			<string>NO PEOPLE</string>
+			<string>No People</string>
 			<key>one</key>
-			<string>%d PERSON</string>
+			<string>%d Person</string>
 			<key>other</key>
-			<string>%d PEOPLE</string>
+			<string>%d People</string>
 		</dict>
 	</dict>
-	<key>%d VEHICLE(S)</key>
+	<key>%d Vehicle(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@VEHICLES@</string>
-		<key>VEHICLES</key>
+		<string>%#@vehicles@</string>
+		<key>vehicles</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>zero</key>
-			<string>NO VEHICLES</string>
+			<string>No Vehicles</string>
 			<key>one</key>
-			<string>%d VEHICLE</string>
+			<string>%d Vehicle</string>
 			<key>other</key>
-			<string>%d VEHICLES</string>
+			<string>%d Vehicles</string>
 		</dict>
 	</dict>
-	<key>%d LOCATION(S)</key>
+	<key>%d Location(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@LOCATIONS@</string>
-		<key>LOCATIONS</key>
+		<string>%#@locations@</string>
+		<key>locations</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>zero</key>
-			<string>NO LOCATIONS</string>
+			<string>No Locations</string>
 			<key>one</key>
-			<string>%d LOCATION</string>
+			<string>%d Location</string>
 			<key>other</key>
-			<string>%d LOCATIONS</string>
+			<string>%d Locations</string>
 		</dict>
 	</dict>
 	<key>%d Conviction(s)</key>
