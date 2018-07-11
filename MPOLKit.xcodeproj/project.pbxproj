@@ -471,7 +471,6 @@
 		96728C1220CF39CB00B82A53 /* CADGetDetailsRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C1120CF39CB00B82A53 /* CADGetDetailsRequestType.swift */; };
 		96728C4220D8849100B82A53 /* PickableManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C4120D8849100B82A53 /* PickableManifestEntry.swift */; };
 		96728C4820D9C47F00B82A53 /* ManifestCollection+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C4720D9C47F00B82A53 /* ManifestCollection+CAD.swift */; };
-		96728C4B20D9C64100B82A53 /* ManifestCollection+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C4A20D9C64100B82A53 /* ManifestCollection+Search.swift */; };
 		9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
@@ -541,8 +540,8 @@
 		9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */; };
 		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
-		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
 		AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */; };
+		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
 		AA19D88120BE08880082E326 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19D88020BE08880082E326 /* AdditionalActionManager.swift */; };
 		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
@@ -1388,7 +1387,6 @@
 		96728C1120CF39CB00B82A53 /* CADGetDetailsRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADGetDetailsRequestType.swift; sourceTree = "<group>"; };
 		96728C4120D8849100B82A53 /* PickableManifestEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickableManifestEntry.swift; sourceTree = "<group>"; };
 		96728C4720D9C47F00B82A53 /* ManifestCollection+CAD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManifestCollection+CAD.swift"; sourceTree = "<group>"; };
-		96728C4A20D9C64100B82A53 /* ManifestCollection+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManifestCollection+Search.swift"; sourceTree = "<group>"; };
 		9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
@@ -1459,8 +1457,8 @@
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
 		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
-		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
 		AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLinkFormItem.swift; sourceTree = "<group>"; };
+		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
 		AA19D88020BE08880082E326 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
@@ -1925,7 +1923,6 @@
 		12D3700E20200B5A00D79DDB /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				96728C4920D9C62B00B82A53 /* Manifest */,
 				12D3700F20200B5A00D79DDB /* Event.swift */,
 				46A0A2B020BE4444007AAAA8 /* EventBuilding.swift */,
 				12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */,
@@ -3184,14 +3181,6 @@
 			isa = PBXGroup;
 			children = (
 				96728C4720D9C47F00B82A53 /* ManifestCollection+CAD.swift */,
-			);
-			path = Manifest;
-			sourceTree = "<group>";
-		};
-		96728C4920D9C62B00B82A53 /* Manifest */ = {
-			isa = PBXGroup;
-			children = (
-				96728C4A20D9C64100B82A53 /* ManifestCollection+Search.swift */,
 			);
 			path = Manifest;
 			sourceTree = "<group>";
@@ -4969,7 +4958,6 @@
 				EA09A04E1F78B92100BC3C0E /* SpecificationOperator.swift in Sources */,
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
 				E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */,
-				96728C4B20D9C64100B82A53 /* ManifestCollection+Search.swift in Sources */,
 				270C60FD1FBA5DCB006F11AD /* TasksListIncidentCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				467EAFAE20193BEE00B4CCC3 /* AudioPreview.swift in Sources */,
