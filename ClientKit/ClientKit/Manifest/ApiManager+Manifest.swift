@@ -10,6 +10,12 @@ import PromiseKit
 
 extension Manifest {
 
+    /// Convience function to fetch manifest without having to create your own fetchRequests
+    ///
+    /// - Parameters:
+    ///   - collections: the collections to fetch. Pass in nil if you want a full fetch
+    ///   - date: the date from which to fetch manifest since
+    /// - Returns: a void promise defining whether the fetch was successful or not
     open func fetchManifest(collections: [ManifestCollection]? = nil, sinceDate date: Date? = Manifest.shared.lastUpdateDate) -> Promise<Void> {
         let manifestRequest: ManifestFetchRequest
         if let collections = collections {
@@ -22,10 +28,13 @@ extension Manifest {
         return update(request: manifestRequest)
     }
 
-    /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
+    /// Uses the APIManager to connect and retrive the latest manifest with your specific fetch request
+    /// If you don't want to bother using a specific fetch request, use the convienece function:
     ///
-    /// - Return: A promise that returns the successful result once complete
+    /// `fetchManifest(collections: sinceDate)`
     ///
+    /// - Parameter request: the manifest fetch request
+    /// - Returns: a void promise defining whether the fetch was successful or not
     public func update(request: ManifestFetchRequest? = nil) -> Promise<Void> {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
