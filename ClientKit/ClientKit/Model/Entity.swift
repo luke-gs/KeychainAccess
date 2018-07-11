@@ -43,6 +43,7 @@ open class Entity: MPOLKitEntity {
     open var events: [RetrievedEvent]?
     open var addresses: [Address]?
     open var media: [Media]?
+    open var associatedReasons: [AssociationReason]?
 
     open var externalIdentifiers: [MPOLSource: String]?
     
@@ -81,6 +82,7 @@ open class Entity: MPOLKitEntity {
         events = unboxer.unbox(key: "events")
         addresses = unboxer.unbox(key: "locations")
         media = unboxer.unbox(key: "mediaItems")
+        associatedReasons = unboxer.unbox(key: "associationReasons")
 
         externalIdentifiers = unboxer.unbox(key: Coding.externalIdentifiers.rawValue)
         alerts = alerts?.filter { $0.level != nil }
@@ -112,6 +114,7 @@ open class Entity: MPOLKitEntity {
         events = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.events.rawValue) as? [RetrievedEvent]
         addresses = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.addresses.rawValue) as? [Address]
         media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as? [Media]
+        associatedReasons = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associationReasons.rawValue) as? [AssociationReason]
 
         let decodedExternalIdentifiers = aDecoder.decodeObject(of: NSDictionary.self, forKey: Coding.externalIdentifiers.rawValue) as? [String: String]
         externalIdentifiers = decodedExternalIdentifiers?.transform { key, value in
@@ -152,6 +155,7 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(events, forKey: Coding.events.rawValue)
         aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
         aCoder.encode(media, forKey: Coding.media.rawValue)
+        aCoder.encode(associatedReasons, forKey: Coding.associationReasons.rawValue)
 
         let encodedExternalIdentifiers = externalIdentifiers?.transform { (key, value) in
             return (key.rawValue, value)
@@ -229,5 +233,6 @@ private enum Coding: String {
     case events = "events"
     case addresses = "addresses"
     case media = "media"
+    case associationReasons = "associationReasons"
     case externalIdentifiers
 }

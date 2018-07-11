@@ -10,8 +10,7 @@ import Foundation
 import MPOLKit
 import MapKit
 
-public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
-
+public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, AssociatedEntitySummaryDisplayable {
     public let address: Address
     
     public init(_ entity: MPOLKitEntity) {
@@ -35,6 +34,10 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     
     public var detail2: String? {
         return nil
+    }
+    
+    public var association: String? {
+        return address.formattedAssociationReasonsString()
     }
     
     public var borderColor: UIColor? {
@@ -79,5 +82,10 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         }
 
         return nil
+    }
+    
+    private func formattedAssociationReason() -> String? {
+        guard let lastReason = address.associatedReasons?.last else { return nil }
+        return lastReason.formattedReason()
     }
 }

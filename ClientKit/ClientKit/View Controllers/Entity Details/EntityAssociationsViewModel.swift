@@ -48,11 +48,11 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         
         if !persons.isEmpty {
             let count = persons.count
-            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d PEOPLE", comment: ""), count), style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d People", comment: ""), count), separatorColor: .clear)
             
             for person in persons {
                 let displayable = PersonSummaryDisplayable(person)
-                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                builder += displayable.associatedSummaryFormItem(isCompact: isCompact || !wantsThumbnails)
                     .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(person) {
                             self?.searchDelegate?.handlePresentable(presentable)
@@ -63,11 +63,11 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         
         if !vehicles.isEmpty {
             let count = vehicles.count
-            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d VEHICLE(S)", comment: ""), count), style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d Vehicle(s)", comment: ""), count), separatorColor: .clear)
             
             for vehicle in vehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
-                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                builder += displayable.associatedSummaryFormItem(isCompact: isCompact || !wantsThumbnails)
                     .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(vehicle) {
                             self?.searchDelegate?.handlePresentable(presentable)
@@ -78,11 +78,11 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
 
         if !locations.isEmpty {
             let count = locations.count
-            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d LOCATION(S)", comment: ""), count), style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d Location(s)", comment: ""), count), separatorColor: .clear)
 
             for location in locations {
                 let displayable = AddressSummaryDisplayable(location)
-                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                builder += displayable.associatedSummaryFormItem(isCompact: isCompact || !wantsThumbnails)
                     .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(location) {
                             self?.searchDelegate?.handlePresentable(presentable)
@@ -125,7 +125,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         
         var buttons: [UIBarButtonItem] = [filterButton]
         if !isCompact {
-            let image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
+            let image = AssetManager.shared.image(forKey: wantsThumbnails ? .navBarThumbnailSelected : .navBarThumbnail)
             buttons.append(UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleThumbnails)))
         }
         return buttons
