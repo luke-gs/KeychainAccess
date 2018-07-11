@@ -87,7 +87,8 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             })
 
         // locationPickerformitem
-        let locationViewModel = LocationSelectionViewModel(location: self.viewModel.report.location)
+        let locationViewModel = LocationSelectionViewModel(location: self.viewModel.report.location,
+                                                           typeManifestCollection: ManifestCollection.eventLocationInvolvementType)
 
         builder += PickerFormItem(pickerAction: LocationAction(viewModel: locationViewModel))
             .required()
