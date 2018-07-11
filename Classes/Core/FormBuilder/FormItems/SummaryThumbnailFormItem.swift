@@ -20,6 +20,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
     public var subtitle: StringSizable?
 
     public var detail: StringSizable?
+    
+    public var subdetail: StringSizable?
 
     public var badge: UInt = 0
 
@@ -58,6 +60,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection).withSize(20), defaultNumberOfLines: 1)
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection).withSize(15), defaultNumberOfLines: 1)
         cell.detailLabel.apply(sizable: detail, defaultFont: defaultDetailFont(for: cell.traitCollection), defaultNumberOfLines: 2)
+        cell.subdetailLabel.apply(sizable: subdetail, defaultFont: defaultDetailFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.borderColor = badgeColor
         cell.badgeCount = badge
         cell.sourceLabel.backgroundColor = .black
@@ -103,6 +106,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.titleLabel.textColor    = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
         cell.detailLabel.textColor   = tertiaryTextColor
+        cell.subdetailLabel.textColor = primaryTextColor
+
         if thumbnailBackgroundColor == nil {
             cell.thumbnailView.backgroundView.backgroundColor = theme.color(forKey: .entityThumbnailBackground)
         }
@@ -158,6 +163,12 @@ extension SummaryThumbnailFormItem {
     @discardableResult
     public func detail(_ detail: StringSizable?) -> Self {
         self.detail = detail
+        return self
+    }
+    
+    @discardableResult
+    public func subdetail(_ subdetail: StringSizable?) -> Self {
+        self.subdetail = subdetail
         return self
     }
 

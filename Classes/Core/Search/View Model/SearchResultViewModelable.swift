@@ -13,6 +13,11 @@ import Foundation
 public enum SearchResultStyle {
     case grid
     case list
+    
+    // TODO: Replace with all cases once we hit 4.2
+    public static var all: [SearchResultStyle] {
+        return [.grid, .list]
+    }
 }
 
 public class SearchResultSection {
@@ -64,13 +69,7 @@ public protocol SearchResultViewModelDelegate: class {
 
 }
 
-public protocol SearchResultViewModelable: SearchResultModelable {
-
-    /// The style of the results to be shown.
-    ///
-    /// The current supported styles are grid and list styles. There may be more styles
-    /// in the future. Subclass only need to handle these styles for now.
-    var style: SearchResultStyle { get set }
+public protocol SearchResultViewModelable: SearchResultModelable, ResultViewStylable {
     
     /// Contains information for each section
     var results: [SearchResultSection] { get }
@@ -87,5 +86,25 @@ public protocol SearchResultViewModelable: SearchResultModelable {
     /// - Returns: A collection of form items.
     func itemsForResultsInSection(_ section: SearchResultSection) -> [FormItem]
 
+
+}
+
+public protocol ResultViewStylable {
+    
+    /// The style of the results to be shown.
+    ///
+    /// The current supported styles are grid and list styles. There may be more styles
+    /// in the future. Subclass only need to handle these styles for now.
+    var style: SearchResultStyle { get }
+    
+    /// Whitelist of styles that the model responds to
+    var allowedStyles: [SearchResultStyle] { get }
+    
+    /// A style setter that allows us to protect against setting a style that isn't defined
+    /// in the allowedStyles array.
+    ///
+    /// - Returns: Whether the operation was successful.
+    @discardableResult
+    mutating func setStyleIfAllowed(_ newStyle: SearchResultStyle) -> Bool
 }
 
