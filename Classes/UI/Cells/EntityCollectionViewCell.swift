@@ -138,9 +138,10 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
             }
             
             let isThumbnail = style == .thumbnail
-            titleLabel.isHidden    = isThumbnail || (titleLabel.text?.isEmpty    ?? true)
-            subtitleLabel.isHidden = isThumbnail || (subtitleLabel.text?.isEmpty ?? true)
-            detailLabel.isHidden   = isThumbnail || (detailLabel.text?.isEmpty   ?? true)
+            titleLabel.isHidden       = isThumbnail || (titleLabel.text?.isEmpty    ?? true)
+            subtitleLabel.isHidden    = isThumbnail || (subtitleLabel.text?.isEmpty ?? true)
+            detailLabel.isHidden      = isThumbnail || (detailLabel.text?.isEmpty   ?? true)
+            subdetailLabel.isHidden   = isThumbnail || (subdetailLabel.text?.isEmpty   ?? true)
         }
     }
     
@@ -160,6 +161,9 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     
     /// The detail label. This should be any secondary details.
     public let detailLabel = UILabel(frame: .zero)
+    
+    /// The detail label. This should be any secondary details.
+    public let subdetailLabel = UILabel(frame: .zero)
     
     
     /// The source label.
@@ -204,7 +208,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     
     private var subtitleToDetailConstraint: NSLayoutConstraint!
     
-    
+    private var detailToSubdetailConstraint: NSLayoutConstraint!
     
     // MARK: - Initializers
     
@@ -218,45 +222,51 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         let titleLabel     = self.titleLabel
         let subtitleLabel  = self.subtitleLabel
         let detailLabel    = self.detailLabel
+        let subdetailLabel = self.subdetailLabel
         let badgeView      = self.badgeView
         let sourceLabel    = self.sourceLabel
         let textLabelGuide = self.textLabelGuide
 
         sourceLabel.layoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 6.0, bottom: 2.0, right: 6.0)
         
-        thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints    = false
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailLabel.translatesAutoresizingMaskIntoConstraints   = false
-        badgeView.translatesAutoresizingMaskIntoConstraints     = false
-        sourceLabel.translatesAutoresizingMaskIntoConstraints   = false
+        thumbnailView.translatesAutoresizingMaskIntoConstraints    = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints       = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints    = false
+        detailLabel.translatesAutoresizingMaskIntoConstraints      = false
+        subdetailLabel.translatesAutoresizingMaskIntoConstraints   = false
+        badgeView.translatesAutoresizingMaskIntoConstraints        = false
+        sourceLabel.translatesAutoresizingMaskIntoConstraints      = false
         
         contentView.addSubview(thumbnailView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(detailLabel)
+        contentView.addSubview(subdetailLabel)
         contentView.addSubview(badgeView)
         contentView.addSubview(sourceLabel)
         contentView.addLayoutGuide(textLabelGuide)
         
-        titleLabel.isHidden    = true
-        subtitleLabel.isHidden = true
-        detailLabel.isHidden   = true
+        titleLabel.isHidden     = true
+        subtitleLabel.isHidden  = true
+        detailLabel.isHidden    = true
+        subdetailLabel.isHidden = true
         
-        titleLabel.adjustsFontForContentSizeCategory    = true
-        subtitleLabel.adjustsFontForContentSizeCategory = true
-        detailLabel.adjustsFontForContentSizeCategory   = true
+        titleLabel.adjustsFontForContentSizeCategory     = true
+        subtitleLabel.adjustsFontForContentSizeCategory  = true
+        detailLabel.adjustsFontForContentSizeCategory    = true
+        subdetailLabel.adjustsFontForContentSizeCategory = true
         
         detailLabel.numberOfLines = 2
         
-        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        titleLabel.font    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        subtitleLabel.font = footnoteFont
-        detailLabel.font   = footnoteFont
+        let footnoteFont    = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        titleLabel.font     = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        subtitleLabel.font  = footnoteFont
+        detailLabel.font    = footnoteFont
+        subdetailLabel.font = footnoteFont
     
-        titleToSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,    attribute: .bottom)
-        subtitleToDetailConstraint = NSLayoutConstraint(item: detailLabel,   attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom)
-        
+        titleToSubtitleConstraint   = NSLayoutConstraint(item: subtitleLabel,    attribute: .top, relatedBy: .equal, toItem: titleLabel,    attribute: .bottom)
+        subtitleToDetailConstraint  = NSLayoutConstraint(item: detailLabel,      attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom)
+        detailToSubdetailConstraint = NSLayoutConstraint(item: subdetailLabel,   attribute: .top, relatedBy: .greaterThanOrEqual, toItem: detailLabel,   attribute: .bottom)
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: -2.0),
             NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: thumbnailView, attribute: .top,      constant: 2.0),
@@ -265,17 +275,19 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: thumbnailView, attribute: .bottom,   constant: -10.0),
             NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: thumbnailView, attribute: .trailing, constant: -10.0),
             
-            NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
-            NSLayoutConstraint(item: detailLabel,   attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel,    attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
-            NSLayoutConstraint(item: detailLabel,   attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel,     attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: subtitleLabel,  attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: detailLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: subdetailLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel,     attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel,  attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            NSLayoutConstraint(item: detailLabel,    attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subdetailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: titleLabel,  attribute: .top,    relatedBy: .equal, toItem: textLabelGuide, attribute: .top),
-            NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: textLabelGuide, attribute: .bottom),
+            NSLayoutConstraint(item: titleLabel,     attribute: .top,    relatedBy: .equal, toItem: textLabelGuide, attribute: .top),
+            NSLayoutConstraint(item: subdetailLabel, attribute: .bottom, relatedBy: .equal, toItem: thumbnailView, attribute: .bottom),
             
-            titleToSubtitleConstraint, subtitleToDetailConstraint
+            titleToSubtitleConstraint, subtitleToDetailConstraint, detailToSubdetailConstraint
         ])
         
         badgeView.backgroundColor = .gray
@@ -284,6 +296,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         titleLabel.addObserver(self,    forKeyPath: textKey, context: &textContext)
         subtitleLabel.addObserver(self, forKeyPath: textKey, context: &textContext)
         detailLabel.addObserver(self,   forKeyPath: textKey, context: &textContext)
+        subdetailLabel.addObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
     deinit {
@@ -291,6 +304,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         titleLabel.removeObserver(self,    forKeyPath: textKey, context: &textContext)
         subtitleLabel.removeObserver(self, forKeyPath: textKey, context: &textContext)
         detailLabel.removeObserver(self,   forKeyPath: textKey, context: &textContext)
+        subdetailLabel.removeObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
 
@@ -326,7 +340,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: thumbnailView, attribute: .centerY,    relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: .almostRequired),
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,        relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,   relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 16.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,   relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,   relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 8),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: 8),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing)
                 ]
             case .thumbnail:
@@ -366,13 +381,16 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                 titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
             } else {
                 let hasNoSubtitle = subtitleLabel.text?.isEmpty ?? true
-                let hasNoDetail   = detailLabel.text?.isEmpty   ?? true
+                let hasNoDetail = detailLabel.text?.isEmpty ?? true
+                let hasNoSubdetail = subdetailLabel.text?.isEmpty ?? true
                 
                 titleToSubtitleConstraint.constant  = hasNoSubtitle && hasNoDetail ? 0.0 : 6.0
                 subtitleToDetailConstraint.constant = hasNoDetail || hasNoSubtitle ? 0.0 : 10.0
                 
                 subtitleLabel.isHidden = hasNoSubtitle
                 detailLabel.isHidden   = hasNoDetail
+                subdetailLabel.isHidden = hasNoSubdetail
+                
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
