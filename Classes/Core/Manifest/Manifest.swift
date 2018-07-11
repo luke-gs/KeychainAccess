@@ -73,7 +73,7 @@ public final class Manifest: NSObject {
     /// The view context for the manifest. This should only be accessed from the main thread.
     private let viewContext: NSManagedObjectContext
 
-    private static let dateFormatter: ISO8601DateFormatter = ISO8601DateFormatter()
+    public static let dateFormatter: ISO8601DateFormatter = ISO8601DateFormatter()
     private var isSaving: Bool = false
 
     private(set) public var lastUpdateDate: Date? {
