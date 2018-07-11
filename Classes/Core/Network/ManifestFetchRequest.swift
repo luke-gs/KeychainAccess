@@ -9,10 +9,15 @@ import Foundation
 import PromiseKit
 import Alamofire
 
+/// The type of manifest fetch
+///
+/// - full: fetch the whole manifest
+/// - partial: fetch a pratial manifest with the `ManifestCollection` to fetch
 public enum ManifestFetchType: Equatable {
     case full
     case partial(collections: [ManifestCollection])
 
+    /// The URL path of for each fetch type
     var path: String {
         switch self {
         case .full:
@@ -22,6 +27,7 @@ public enum ManifestFetchType: Equatable {
         }
     }
 
+    /// The HTTP Method for each fetch type
     var method: HTTPMethod {
         switch self {
         case .full:
@@ -31,6 +37,14 @@ public enum ManifestFetchType: Equatable {
         }
     }
 
+    /// Equality
+    ///
+    /// If comparing partials, ignores the associated `[ManifestCollection]` types equality
+    ///
+    /// - Parameters:
+    ///   - lhs: the left hand ManifestFetchType
+    ///   - rhs: the right hand ManifestFetchType
+    /// - Returns: Whether the lhs is equal to the rhs
     public static func ==(lhs: ManifestFetchType, rhs: ManifestFetchType) -> Bool {
         switch (lhs, rhs) {
         case (.partial, .full), (.full, .partial):
