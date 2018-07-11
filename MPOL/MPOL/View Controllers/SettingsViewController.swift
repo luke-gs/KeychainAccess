@@ -8,6 +8,7 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
 
 private let switchCellID = "SwitchCell"
 private let buttonCellID = "ButtonCell"
@@ -215,7 +216,7 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
                 cell?.accessoryView = loadingAccessory
                 cell?.detailTextLabel?.text = NSLocalizedString("Downloading...", comment: "")
                 loadingAccessory.play()
-                Manifest.shared.update(collections: ManifestCollection.cadCollections).ensure {
+                Manifest.shared.fetchManifest().ensure {
                     loadingAccessory.stop()
                     cell?.accessoryView = nil
                 }.done {

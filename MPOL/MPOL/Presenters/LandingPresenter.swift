@@ -186,7 +186,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     override open func postAuthenticateChain() -> Promise<Void> {
         return firstly {
             // Sync manifest items used in search app
-            return Manifest.shared.update(collections: ManifestCollection.searchCollections)
+            return Manifest.shared.fetchManifest(collections: ManifestCollection.searchCollections)
         }.then { _ in
             // Fetch the current officer details
             return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
