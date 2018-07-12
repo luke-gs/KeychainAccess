@@ -24,12 +24,14 @@ open class LocationSelectionViewModel: Evaluatable {
     private var placemark: CLPlacemark?
 
     public var dropsPinAutomatically: Bool = false
+    public var typeManifestCollection: ManifestCollection?
 
     public var location: EventLocation? {
         didSet {
             evaluator.updateEvaluation(for: .locationType)
         }
     }
+
     public var type: PickableManifestEntry? {
         didSet {
             evaluator.updateEvaluation(for: .locationType)
@@ -37,11 +39,13 @@ open class LocationSelectionViewModel: Evaluatable {
     }
 
     public var locationTypeOptions: [PickableManifestEntry] {
-        return Manifest.shared.entries(for: .eventLocationInvolvementType)?.pickableList() ?? []
+        guard let collection = typeManifestCollection else { return [] }
+        return Manifest.shared.entries(for: collection)?.pickableList() ?? []
     }
 
-    public init(location: EventLocation? = nil) {
+    public init(location: EventLocation? = nil, typeManifestCollection: ManifestCollection? = nil) {
         self.location = location
+        self.typeManifestCollection = typeManifestCollection
         evaluator.registerKey(.locationType) { () -> (Bool) in
             return self.location != nil && self.type != nil
         }
