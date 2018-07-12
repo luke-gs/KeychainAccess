@@ -78,6 +78,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
                                                        detail: """
 [MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
+[MPOLA-1565] - Use manifest for event entity relationships.
 """)
             let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
             whatsNewVC.delegate = self
@@ -186,7 +187,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     override open func postAuthenticateChain() -> Promise<Void> {
         return firstly {
             // Sync manifest items used in search app
-            return Manifest.shared.update(collections: ManifestCollection.searchCollections)
+            return Manifest.shared.fetchManifest(collections: ManifestCollection.searchCollections)
             }.then { _ in
                 // Fetch the current officer details
                 return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,

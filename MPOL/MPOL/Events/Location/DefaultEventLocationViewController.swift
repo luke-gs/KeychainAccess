@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import MPOLKit
+import ClientKit
 
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
@@ -48,7 +49,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.forceLinearLayout = true
 
-        let viewModel = LocationSelectionViewModel(location: self.viewModel.report.eventLocation)
+        let viewModel = LocationSelectionViewModel(location: self.viewModel.report.eventLocation,
+                                                   typeManifestCollection: ManifestCollection.eventLocationInvolvementType)
 
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)
