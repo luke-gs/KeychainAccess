@@ -13,7 +13,7 @@ public struct HighlightTextModel {
     public var text: String
 
     /// The text to highlight
-    public var highlightText: String
+    public var highlightText: String?
 
     /// The action to perform when the text is tapped
     public var action: ((UIViewController)->())?
@@ -24,7 +24,7 @@ public struct HighlightTextModel {
     ///   - text: the text to display
     ///   - highlightText: the text to highlight
     ///   - action: the action to perform when the text is tapped
-    public init(text: String, highlightText: String, action: ((UIViewController)->())?) {
+    public init(text: String, highlightText: String?, action: ((UIViewController)->())? = nil) {
         self.text = text
         self.highlightText = highlightText
         self.action = action
@@ -42,10 +42,15 @@ public class HighlightingTextView: UITextView {
     /// The text highlight container
     public var highlightTextModel: HighlightTextModel? {
         didSet {
-            guard let highlightContainerThing = highlightTextModel else { return }
+            guard let highlightTextModel = highlightTextModel else { return }
+            guard let highlightText = highlightTextModel.highlightText else {
+                self.isSelectable = false
+                self.text = highlightTextModel.text
+                return
+            }
 
-            let text = NSMutableAttributedString(string: highlightContainerThing.text)
-            let range = text.mutableString.range(of: highlightContainerThing.highlightText)
+            let text = NSMutableAttributedString(string: highlightTextModel.text)
+            let range = text.mutableString.range(of: highlightText)
 
             text.addAttribute(.link, value: "", range: range)
             text.addAttribute(.foregroundColor, value: ThemeManager.shared.theme(for: .current).color(forKey: .tint)!, range: range)
