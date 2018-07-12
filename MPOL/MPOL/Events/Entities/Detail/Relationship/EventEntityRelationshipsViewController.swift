@@ -63,7 +63,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
 
     func presentEntityToEntityRelationshipPickerVC(entity: MPOLKitEntity) {
 
-        let objects: [Pickable] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
+        let objects: [PickableManifestEntry] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
 
         let selectedObjects: [Pickable]? = viewModel.relationshipWith(relatedEntity: entity)?.reasons
         let datasource = RelationshipSearchDatasource(objects: objects,
@@ -103,42 +103,17 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
     }
 }
 
-public enum RelationshipReason: String, Pickable {
-
-    public var title: String? {
-        return self.rawValue
-    }
-    public var subtitle: String? {
-        return nil
-    }
-
-    case parent = "Parent"
-    case sibling = "Sibling"
-    case cousin = "Cousin"
-    case friend = "Friend"
-    case coWorker = "Co-worker"
-    case drivenBy = "Driven By"
-    case collidedWith = "Collided With"
-    case ownedBy = "Owned By"
-    case driver = "Driver"
-    case registeredOwner = "Registered Owner"
-    case seenIn = "Seen In"
-    case seenNearTo = "Seen Near To"
-    case passenger = "Passenger"
-    case drovePast = "Drove Past"
-    case other = "Other"
-
-    static func reasonsFor(_ firstEntity: MPOLKitEntity, _ secondEntity: MPOLKitEntity) -> [RelationshipReason] {
-
+public struct RelationshipReason {
+    static func reasonsFor(_ firstEntity: MPOLKitEntity, _ secondEntity: MPOLKitEntity) -> [PickableManifestEntry] {
         switch (firstEntity, secondEntity) {
         case is (Person, Person):
-            return [.parent, .sibling, .cousin, .friend, .coWorker, .other]
+            return Manifest.shared.entries(for: .eventPersonPersonRelationship)?.pickableList() ?? []
         case is (Vehicle, Person):
-            return [.drivenBy, .collidedWith, .ownedBy, .other]
+            return Manifest.shared.entries(for: .eventPersonVehicleRelationship)?.pickableList() ?? []
         case is (Person, Vehicle):
-            return [.driver, .registeredOwner, .seenIn, .seenNearTo, .passenger, .other]
+            return Manifest.shared.entries(for: .eventPersonVehicleRelationship)?.pickableList() ?? []
         case is (Vehicle, Vehicle):
-            return [.collidedWith, .drovePast, .other]
+            return Manifest.shared.entries(for: .eventVehicleVehicleRelationship)?.pickableList() ?? []
         default:
             return []
         }

@@ -11,6 +11,8 @@
 		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
 		1288D83820DA3DA300FA6EB0 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */; };
 		12B556C420DA07620001FFD6 /* LoginStyleSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B556C320DA07620001FFD6 /* LoginStyleSetup.swift */; };
+		12CD1A5120F46F9600D5A74D /* ManifestCollection+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CD1A5020F46F9600D5A74D /* ManifestCollection+Search.swift */; };
+		12CD1A5A20F4828400D5A74D /* ApiManager+Manifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CD1A5920F4828400D5A74D /* ApiManager+Manifest.swift */; };
 		19191C8B2092CBD800767A5F /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8A2092CBD800767A5F /* Order.swift */; };
 		19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */; };
 		191E183E20B246CB0086B545 /* EntityLocationInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191E183D20B246CB0086B545 /* EntityLocationInformationViewController.swift */; };
@@ -125,6 +127,8 @@
 		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
 		1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		12B556C320DA07620001FFD6 /* LoginStyleSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStyleSetup.swift; sourceTree = "<group>"; };
+		12CD1A5020F46F9600D5A74D /* ManifestCollection+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManifestCollection+Search.swift"; sourceTree = "<group>"; };
+		12CD1A5920F4828400D5A74D /* ApiManager+Manifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ApiManager+Manifest.swift"; sourceTree = "<group>"; };
 		19191C8A2092CBD800767A5F /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewModel.swift; sourceTree = "<group>"; };
 		191E183D20B246CB0086B545 /* EntityLocationInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityLocationInformationViewController.swift; sourceTree = "<group>"; };
@@ -272,6 +276,15 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		12CD1A4F20F46F6100D5A74D /* Manifest */ = {
+			isa = PBXGroup;
+			children = (
+				12CD1A5020F46F9600D5A74D /* ManifestCollection+Search.swift */,
+				12CD1A5920F4828400D5A74D /* ApiManager+Manifest.swift */,
+			);
+			path = Manifest;
+			sourceTree = "<group>";
+		};
 		191E183F20B24B0C0086B545 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +361,7 @@
 		BC12DC8E1F023EF0001A5BB7 /* ClientKit */ = {
 			isa = PBXGroup;
 			children = (
+				12CD1A4F20F46F6100D5A74D /* Manifest */,
 				12B556C220DA07510001FFD6 /* Login */,
 				968B5EF61FBA8C4C0097B3F9 /* Presenters */,
 				EA8B66571F381F8100F09716 /* Configuration */,
@@ -847,6 +861,7 @@
 				1AB8251C1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift in Sources */,
 				AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
+				12CD1A5120F46F9600D5A74D /* ManifestCollection+Search.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */,
@@ -858,6 +873,7 @@
 				1937186E20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				19F2CF6420A967F8006E6253 /* TrafficHistory.swift in Sources */,
+				12CD1A5A20F4828400D5A74D /* ApiManager+Manifest.swift in Sources */,
 				19191C8B2092CBD800767A5F /* Order.swift in Sources */,
 				4421347620031575009A931A /* EntityDetailFilterableFormViewModel.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
