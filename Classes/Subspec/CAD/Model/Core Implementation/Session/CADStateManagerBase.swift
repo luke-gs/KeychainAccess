@@ -178,6 +178,8 @@ open class CADStateManagerBase: CADStateManagerType {
         return Manifest.shared.entries(for: collection, activeOnly: activeOnly, sortedBy: sortedBy) ?? []
     }
 
+    /// TODO: Remove this function and use the ClientKit's version once CAD is separated into Kit/App
+    ///
     /// Sync the latest manifest items, optionally matching the specified categories
     /// We use our own implementation of update here, so we can use custom API manager
     open func syncManifestItems(collections: [ManifestCollection]?) -> Promise<Void> {
@@ -185,21 +187,16 @@ open class CADStateManagerBase: CADStateManagerType {
 
         let manifestRequest: ManifestFetchRequest
         if let collections = collections {
-            let categories = collections.map { $0.rawValue }
             manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
-                                                   path: "manifest/manifest/categories",
-                                                   parameters: ["categories": categories],
-                                                   method: .post, updateType: .dateTime)
+                                                   fetchType: .partial(collections: collections))
         } else {
             manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
-                                                   path: "manifest/manifest",
-                                                   method: .get,
-                                                   updateType: .dateTime)
+                                                   fetchType: .full)
         }
         return apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
-        }.done { [unowned self] _ in
-            self.lastManifestSyncTime = Date()
+            }.done { [unowned self] _ in
+                self.lastManifestSyncTime = Date()
         }
     }
 
