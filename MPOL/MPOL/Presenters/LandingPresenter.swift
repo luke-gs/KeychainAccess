@@ -75,11 +75,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
             return navController
 
         case .whatsNew:
-            let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New", detail: "Swipe through and discover the new features and updates that have been included in this release. Refer to the release summary for full update notes.")
-            let whatsNewSecondPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "RefreshMagnify"), title: "Search", detail: "Search for persons. Search for vehicles.")
-            let whatsNewThirdPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "Avatar 1"), title: "Details", detail: "View details for person and vehicle entities.")
+            let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
+                                                       detail: """
+[MPOLA-1565] - Use manifest for event entity relationships.
+""")
 
-            let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage, whatsNewSecondPage, whatsNewThirdPage])
+            let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
             whatsNewVC.delegate = self
 
             return whatsNewVC
