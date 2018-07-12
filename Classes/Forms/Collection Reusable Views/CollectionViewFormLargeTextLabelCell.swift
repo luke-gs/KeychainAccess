@@ -26,7 +26,7 @@ open class CollectionViewFormLargeTextLabelCell: UICollectionReusableView, Defau
                 // Make sure action button is not being used in another cell due to cell reuse
                 // Ideally we would just clear this in prepareForReuse(), but collection view
                 // sometimes configures a new cell before calling that method on old one :(
-                if let previousCell = actionButton.superview as? CollectionViewFormHeaderView {
+                if let previousCell = actionButton.superview as? CollectionViewFormLargeTextLabelCell {
                     // Remove button from old cell
                     previousCell.actionButton = nil
                 }
@@ -40,7 +40,7 @@ open class CollectionViewFormLargeTextLabelCell: UICollectionReusableView, Defau
                     actionButton.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor),
                     actionButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
                     actionButton.trailingAnchor.constraint(equalTo: safeAreaOrFallbackTrailingAnchor).withPriority(.required),
-                    ])
+                ])
             }
         }
     }
