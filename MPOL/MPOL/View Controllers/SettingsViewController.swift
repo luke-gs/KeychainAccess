@@ -239,7 +239,7 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
 
                 let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
                                                            detail: """
-- [MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
+[MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
 """)
 
                 let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
