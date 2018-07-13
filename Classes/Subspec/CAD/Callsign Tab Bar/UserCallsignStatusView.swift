@@ -117,6 +117,7 @@ open class UserCallsignStatusView: UIControl {
     
     open func apply(theme: Theme) {
         titleLabel.textColor = theme.color(forKey: .primaryText)
+        countLabel.textColor = theme.color(forKey: .primaryText)
         subtitleLabel.textColor = theme.color(forKey: .secondaryText)
         iconImageView.tintColor = theme.color(forKey: .primaryText)
     }

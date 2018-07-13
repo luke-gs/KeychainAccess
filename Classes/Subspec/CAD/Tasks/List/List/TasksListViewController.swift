@@ -263,6 +263,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         delegate?.taskListDidChangeSearchText(searchText: searchText)
     }
 
+    open func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     open func hideSearchBar() {
         // Clear the search text
         searchBar.text = nil
