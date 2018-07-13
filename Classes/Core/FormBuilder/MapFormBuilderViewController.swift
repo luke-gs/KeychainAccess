@@ -94,6 +94,16 @@ open class MapFormBuilderViewController: FormBuilderViewController {
         layout?.viewDidLoad()
         super.viewDidLoad()
     }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        layout?.viewDidAppear(animated)
+        super.viewDidAppear(animated)
+    }
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        layout?.viewDidDisappear(animated)
+        super.viewDidDisappear(animated)
+    }
 
     open override func viewWillLayoutSubviews() {
         if layout?.viewWillLayoutSubviews() ?? true {
@@ -173,7 +183,14 @@ open class MapFormBuilderViewLayout: NSObject {
     open func viewDidLoad() {
     }
 
-
+    /// A callback that the view disappeared
+    open func viewDidDisappear(_ animated: Bool) {
+    }
+    
+    /// A callback that the view appeared
+    open func viewDidAppear(_ animated: Bool) {
+    }
+    
     /// A callback that the view will layout subviews.
     ///
     /// This method will be called at the start of the collection performing the
