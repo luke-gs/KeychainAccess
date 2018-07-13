@@ -37,6 +37,16 @@ open class DialogActionButtonsView: UIView {
         super.init(frame: .zero)
 
         createSubviews()
+        createButtons()
+        createConstraints()
+    }
+
+    public init(views: [DialogActionView]) {
+        self.buttons = views
+        self.actions = views.map{$0.action}
+        super.init(frame: .zero)
+
+        createSubviews()
         createConstraints()
     }
 
@@ -52,8 +62,10 @@ open class DialogActionButtonsView: UIView {
         buttonStackView.spacing = 0
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(buttonStackView)
+    }
 
-        // Create buttons
+    // Create buttons
+    open func createButtons() {
         for (index, action) in actions.enumerated() {
             let actionView = DialogActionView(action: action)
             // If multiple items and this is not the last, give it a side divider
@@ -85,4 +97,3 @@ open class DialogActionButtonsView: UIView {
     }
 
 }
-
