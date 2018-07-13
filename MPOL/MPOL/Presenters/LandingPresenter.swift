@@ -77,9 +77,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
         case .whatsNew:
             let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
                                                        detail: """
+[MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
 [MPOLA-1565] - Use manifest for event entity relationships.
 """)
-
             let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
             whatsNewVC.delegate = self
 
@@ -188,14 +188,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
         return firstly {
             // Sync manifest items used in search app
             return Manifest.shared.fetchManifest(collections: ManifestCollection.searchCollections)
-        }.then { _ in
-            // Fetch the current officer details
-            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
-                                                                with: CurrentOfficerDetailsFetchRequest())
-        }.done { officer in
-            try! UserSession.current.userStorage?.add(object: officer,
-                                                      key: UserSession.currentOfficerKey,
-                                                      flag: UserStorageFlag.session)
+            }.then { _ in
+                // Fetch the current officer details
+                return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
+                                                                    with: CurrentOfficerDetailsFetchRequest())
+            }.done { officer in
+                try! UserSession.current.userStorage?.add(object: officer,
+                                                          key: UserSession.currentOfficerKey,
+                                                          flag: UserStorageFlag.session)
         }
     }
     
@@ -228,7 +228,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     @objc private func openTasks() {
         guard let controller = tabBarController else { return }
-            _ = controller.delegate?.tabBarController?(controller, shouldSelect: tasksProxyViewController)
+        _ = controller.delegate?.tabBarController?(controller, shouldSelect: tasksProxyViewController)
     }
 }
 

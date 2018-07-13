@@ -9,15 +9,7 @@ import MPOLKit
 
 public extension LoginViewController {
     public func setupDefaultStyle(with username: String?) {
-        let subtitleContainer = HighlightTextModel(text: "By continuing you are agreeing to the Terms and Conditions of Use previously presented to you.",
-                                                   highlightText: "Terms and Conditions of Use") { vc in
-                                                    print("HELLO!!")
-        }
-
-        let detailContainer = HighlightTextModel(text: "Forgot Your Password?",
-                                                 highlightText: "Forgot Your Password?") { vc in
-                                                    print("HELLO PASSWORD!!")
-        }
+        let subtitleContainer = HighlightTextModel(text: "By continuing you are agreeing to the Terms and Conditions previously presented to you.", highlightText: nil)
 
         titleLabel.textColor = .white
         titleLabel.text = self.title
@@ -30,12 +22,6 @@ public extension LoginViewController {
         subtitleTextView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         subtitleTextView.textAlignment = .center
         subtitleTextView.delegate = self
-
-        detailTextView.highlightTextModel = detailContainer
-        detailTextView.textColor = .white
-        detailTextView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        detailTextView.textAlignment = .center
-        detailTextView.delegate = self
 
         let usernameCred = UsernameCredential(username: username)
         let passwordCred = PasswordCredential()
