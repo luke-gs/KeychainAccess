@@ -20,6 +20,8 @@
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
 		125E2A0820F84F7E00942B29 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0720F84F7E00942B29 /* Settings.swift */; };
 		125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0920F84FA600942B29 /* SettingsViewController.swift */; };
+		125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0C20F8511200942B29 /* DarkModeSetting.swift */; };
+		125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0E20F854D700942B29 /* SignatureSetting.swift */; };
 		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
 		125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */; };
 		125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */; };
@@ -935,6 +937,8 @@
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
 		125E2A0720F84F7E00942B29 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		125E2A0920F84FA600942B29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		125E2A0C20F8511200942B29 /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
+		125E2A0E20F854D700942B29 /* SignatureSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSetting.swift; sourceTree = "<group>"; };
 		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
 		125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
 		125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
@@ -1887,6 +1891,15 @@
 				125E2A0920F84FA600942B29 /* SettingsViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		125E2A0B20F850F300942B29 /* DefaultSettings */ = {
+			isa = PBXGroup;
+			children = (
+				125E2A0C20F8511200942B29 /* DarkModeSetting.swift */,
+				125E2A0E20F854D700942B29 /* SignatureSetting.swift */,
+			);
+			path = DefaultSettings;
 			sourceTree = "<group>";
 		};
 		125EAE0F2092FCE200C09FED /* Submission */ = {
@@ -5071,6 +5084,7 @@
 				96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */,
 				1993386420F47F180047084A /* SessionPlugin.swift in Sources */,
 				2744E3902051DD8500561A8F /* CADResourceUnitCore.swift in Sources */,
+				125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */,
 				DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */,
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
@@ -5091,6 +5105,7 @@
 				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
 				2744EECC1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift in Sources */,
 				461F7AA12022BE8900885E93 /* RecordButton.swift in Sources */,
+				125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */,
 				274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
