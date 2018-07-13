@@ -191,6 +191,7 @@ extension Licence {
         
         open var code: String?
         open var name: String?
+        open var proficiency: String?
         open var classDescription: String?
         open var conditions: [Condition]?
         
@@ -227,6 +228,7 @@ extension Licence {
             
             code = unboxer.unbox(key: "code")
             name = unboxer.unbox(key: "name")
+            proficiency = unboxer.unbox(key: "proficiency")
             classDescription = unboxer.unbox(key: "description")
             conditions = unboxer.unbox(key: "conditions")
             
@@ -251,6 +253,7 @@ extension Licence {
                 self.source = MPOLSource(rawValue: source)
             }
 
+            proficiency = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.proficiency.rawValue) as String?
             classDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.classDescription.rawValue) as String?
             conditions = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.status.rawValue) as? [Condition]
 
@@ -267,6 +270,7 @@ extension Licence {
             aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
             aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
             aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+            aCoder.encode(proficiency, forKey: CodingKey.proficiency.rawValue)
             aCoder.encode(classDescription, forKey: CodingKey.classDescription.rawValue)
             aCoder.encode(conditions, forKey: CodingKey.conditions.rawValue)
         }
@@ -283,6 +287,7 @@ extension Licence {
             case entityType
             case isSummary
             case source
+            case proficiency
             case classDescription
             case conditions
         }

@@ -308,7 +308,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
                         _subtitle = text.sizing(withNumberOfLines: 0)
                     } else {
                         let text = String(format: NSLocalizedString("Expired Since %1$@ (%2$d day(s))", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate), abs(day))
-                        _subtitle = NSAttributedString(string: text, attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+                        _subtitle = NSAttributedString(string: text, attributes: [ .font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
                         valid = false
                     }
                 } else {
@@ -340,8 +340,14 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
     }
 
     var detail: StringSizing? {
+        let proficiency = licenceClass.proficiency ?? "Unknown"
         let conditions = licenceClass.conditions?.compactMap { $0.condition } ?? []
         let conditionText = conditions.joined(separator: ", ")
-        return String(format: NSLocalizedString("Conditions: %@", comment: ""), conditionText).sizing(withNumberOfLines: 0)
+        let detailString = String(format: NSLocalizedString("Proficiency: %@, Conditions: %@", comment: ""), proficiency, conditionText)
+        
+        let attributedDetailString = NSMutableAttributedString(string: detailString)
+        attributedDetailString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15), range: NSRange(location: 0, length: 12))
+        attributedDetailString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15), range: NSRange(location: 15 + proficiency.count, length: 11))
+        return attributedDetailString.sizing(withNumberOfLines: 0)
     }
 }

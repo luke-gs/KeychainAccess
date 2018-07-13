@@ -164,7 +164,7 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 
     private var headerTitle: String {
         let count = filteredTrafficHistory.count
-        return String.localizedStringWithFormat(NSLocalizedString("%d RECORD(s)", comment: ""), count)
+        return String.localizedStringWithFormat(NSLocalizedString("%d record(s)", comment: ""), count)
     }
 
     private func subtitle(for history: TrafficHistory) -> String? {
@@ -267,9 +267,9 @@ public struct TrafficHistoryOverviewDisplay {
         case .licenceSurrendered:
             return NSLocalizedString("Times Licence Surrendered", comment: "")
         case .licenceCancelled:
-            return NSLocalizedString("Times Licence Refused", comment: "")
-        case .licenceRefused:
             return NSLocalizedString("Times Licence Cancelled", comment: "")
+        case .licenceRefused:
+            return NSLocalizedString("Times Licence Refused", comment: "")
         }
     }
 

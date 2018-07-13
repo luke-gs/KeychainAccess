@@ -318,22 +318,22 @@
 			<string>No Charges</string>
 		</dict>
 	</dict>
-	<key>%d RECORD(s)</key>
+	<key>%d records(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@RECORDS@</string>
-		<key>RECORDS</key>
+		<string>%#@records@</string>
+		<key>records</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>other</key>
-			<string>%d RECORDS</string>
+			<string>%d Records</string>
 			<key>one</key>
-			<string>%d RECORD</string>
+			<string>%d Record</string>
 			<key>zero</key>
-			<string>NO RECORDS</string>
+			<string>No Records</string>
 		</dict>
 	</dict>
 	<key>Expired Since %1$@ (%2$d day(s))</key>
