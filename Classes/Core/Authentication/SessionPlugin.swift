@@ -10,6 +10,7 @@ import PromiseKit
 
 /// Plugin that will inject **X-Session-ID**, **X-Device-ID**, **X-Transaction-ID**, and **X-User-ID**
 /// to the header of requests. UserID and SessionID will be sourced from UserSession.current.
+/// DeviceID will be sourced from Device.current.
 public struct SessionPlugin: PluginType {
 
     enum Keys: String {
@@ -19,10 +20,8 @@ public struct SessionPlugin: PluginType {
         case userID = "X-User-ID"
     }
 
-    public let deviceID: String
+    public init() {
 
-    public init(deviceID: String) {
-        self.deviceID = deviceID
     }
     
     public func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
@@ -33,10 +32,11 @@ public struct SessionPlugin: PluginType {
         adaptedRequest.setValue(session.sessionID, forHTTPHeaderField: Keys.sessionID.rawValue)
         if let userID = session.user?.username {
             adaptedRequest.setValue(userID, forHTTPHeaderField: Keys.userID.rawValue)
+
         }
 
-        // Data from App
-        adaptedRequest.setValue(deviceID, forHTTPHeaderField: Keys.deviceID.rawValue)
+        // Data from Device.current()
+        adaptedRequest.setValue(Device.current.deviceUuid, forHTTPHeaderField: Keys.deviceID.rawValue)
 
         // Generated Data
         adaptedRequest.setValue(UUID().uuidString, forHTTPHeaderField: Keys.transactionID.rawValue)
