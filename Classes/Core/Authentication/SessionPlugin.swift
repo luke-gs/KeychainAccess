@@ -32,7 +32,7 @@ public struct SessionPlugin: PluginType {
         let session = UserSession.current
         adaptedRequest.setValue(session.sessionID, forHTTPHeaderField: Keys.sessionID.rawValue)
         if let userID = session.user?.username {
-            adaptedRequest.setValue(session.user?.username, forHTTPHeaderField: Keys.userID.rawValue)
+            adaptedRequest.setValue(userID, forHTTPHeaderField: Keys.userID.rawValue)
         }
 
         // Data from App
