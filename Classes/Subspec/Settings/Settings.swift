@@ -6,11 +6,12 @@
 //
 
 public enum SettingType {
-    case `switch`(isOn: Bool, action: ((Bool)->()))
+    case `switch`(isOn: (()->(Bool)), action: ((Bool)->()))
     case button((UIViewController)->())
+    case plain
 }
 
-public struct Setting {
+public struct Setting: Equatable {
     public var title: String
     public var subtitle: String?
     public var image: UIImage?
@@ -21,6 +22,10 @@ public struct Setting {
         self.subtitle = subtitle
         self.image = image
         self.type = type
+    }
+
+    public static func ==(lhs: Setting, rhs: Setting) -> Bool {
+        return lhs.title == rhs.title
     }
 }
 
