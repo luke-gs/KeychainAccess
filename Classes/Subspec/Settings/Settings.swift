@@ -11,10 +11,17 @@ public enum SettingType {
 }
 
 public struct Setting {
-    var title: String
-    var subtitle: String?
-    var image: UIImage?
-    var type: SettingType
+    public var title: String
+    public var subtitle: String?
+    public var image: UIImage?
+    public var type: SettingType
+
+    public init(title: String, subtitle: String?, image: UIImage?, type: SettingType) {
+        self.title = title
+        self.subtitle = subtitle
+        self.image = image
+        self.type = type
+    }
 }
 
 public enum SettingSectionType: Equatable {
@@ -27,20 +34,24 @@ public enum SettingSectionType: Equatable {
             return false
         case (.plain(let lhsTitle), .plain(let rhsTitle)):
             return lhsTitle == rhsTitle
-        default:
-            return false
+        case (.pinned, .pinned):
+            return true
         }
     }
 }
 
 public struct SettingSection {
-    var type: SettingSectionType
-    var settings: [Setting]
+    public var type: SettingSectionType
+    public var settings: [Setting]
+
+    public init(type: SettingSectionType, settings: [Setting]) {
+        self.type = type
+        self.settings = settings
+    }
 }
 
 public struct Settings: RawRepresentable {
     public let rawValue: Setting
-
     public init(rawValue: Setting) {
         self.rawValue = rawValue
     }
