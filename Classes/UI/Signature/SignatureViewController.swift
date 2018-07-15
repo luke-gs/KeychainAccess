@@ -40,7 +40,7 @@ open class SignatureViewController: UIViewController {
 
         title = "Capture Signature"
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         navigationItem.rightBarButtonItem = doneButton
     }
 
@@ -83,12 +83,12 @@ open class SignatureViewController: UIViewController {
 
     @objc private func cancelTapped() {
         delegate?.controllerDidCancelIn(self)
-        dismiss(animated: true, completion: nil)
+//        dismiss(animated: true, completion: nil)
     }
 
     @objc private func doneTapped() {
         delegate?.controller(self, didFinishWithSignature: signatureView.renderedImage())
-        dismiss(animated: true, completion: nil)
+//        dismiss(animated: true, completion: nil)
     }
 
     @objc private func clearTapped() {
