@@ -100,7 +100,6 @@
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
 		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
-		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
@@ -261,7 +260,6 @@
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
-		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* PS Core Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core Search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -587,14 +585,6 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				BC4E81101EBEE38400188181 /* SettingsViewController.swift */,
-			);
-			path = "View Controllers";
-			sourceTree = "<group>";
-		};
 		BCD4EA801E515ACE000B993D = {
 			isa = PBXGroup;
 			children = (
@@ -635,7 +625,6 @@
 				96BE10E92080406E005D4BAA /* Notifications */,
 				EAAFAD511F665B8A00AA2F94 /* Presenters */,
 				EA3C89041F32E31500F38461 /* Resources */,
-				BC0D8E821E94067800EDFC45 /* View Controllers */,
 				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
 				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 				192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */,
@@ -961,7 +950,6 @@
 				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
 				379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
-				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */,
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
 				AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */,
