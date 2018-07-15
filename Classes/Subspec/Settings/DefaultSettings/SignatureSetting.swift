@@ -5,17 +5,16 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-extension Settings {
-    static let signature = Setting(title: "Edit Signature",
-                                   subtitle: nil,
-                                   image: AssetManager.shared.image(forKey: .nightMode),
-                                   type: .button({ viewController in
-                                    Settings.presentVC(from: viewController)
-                                   }))
+public extension Settings {
+    public static let signature = Setting(title: "Edit Signature",
+                                          subtitle: nil,
+                                          image: AssetManager.shared.image(forKey: .edit),
+                                          type: .button(presentVC))
 
-    private static func presentVC(from viewController: UIViewController) {
+    private static func presentVC(_ viewController: UIViewController) {
         let vc = SignatureViewController()
         vc.delegate = viewController as? SignatureViewControllerDelegate
-        viewController.show(vc, sender: nil)
+        vc.modalPresentationStyle = .formSheet
+        viewController.show(vc, sender: viewController)
     }
 }

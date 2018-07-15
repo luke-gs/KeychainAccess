@@ -22,6 +22,9 @@
 		125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0920F84FA600942B29 /* SettingsViewController.swift */; };
 		125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0C20F8511200942B29 /* DarkModeSetting.swift */; };
 		125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0E20F854D700942B29 /* SignatureSetting.swift */; };
+		125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1920F89C5100942B29 /* LogoutSetting.swift */; };
+		125E2A2020FB7ED200942B29 /* NumericKeyboardSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */; };
+		125E2A2220FB820400942B29 /* BiometricIDSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2120FB820400942B29 /* BiometricIDSetting.swift */; };
 		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
 		125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */; };
 		125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */; };
@@ -939,6 +942,9 @@
 		125E2A0920F84FA600942B29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		125E2A0C20F8511200942B29 /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
 		125E2A0E20F854D700942B29 /* SignatureSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSetting.swift; sourceTree = "<group>"; };
+		125E2A1920F89C5100942B29 /* LogoutSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutSetting.swift; sourceTree = "<group>"; };
+		125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericKeyboardSetting.swift; sourceTree = "<group>"; };
+		125E2A2120FB820400942B29 /* BiometricIDSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDSetting.swift; sourceTree = "<group>"; };
 		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
 		125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
 		125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
@@ -1886,9 +1892,9 @@
 		125E2A0620F84F6600942B29 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				125E2A0B20F850F300942B29 /* DefaultSettings */,
 				125E2A0720F84F7E00942B29 /* Settings.swift */,
 				125E2A0920F84FA600942B29 /* SettingsViewController.swift */,
+				125E2A0B20F850F300942B29 /* DefaultSettings */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1896,7 +1902,10 @@
 		125E2A0B20F850F300942B29 /* DefaultSettings */ = {
 			isa = PBXGroup;
 			children = (
+				125E2A2120FB820400942B29 /* BiometricIDSetting.swift */,
 				125E2A0C20F8511200942B29 /* DarkModeSetting.swift */,
+				125E2A1920F89C5100942B29 /* LogoutSetting.swift */,
+				125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */,
 				125E2A0E20F854D700942B29 /* SignatureSetting.swift */,
 			);
 			path = DefaultSettings;
@@ -5053,6 +5062,7 @@
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
+				125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */,
 				27C9C7671F95737C00799855 /* BookOnLandingItemViewModel.swift in Sources */,
 				463694E9200ED8D000C51BB4 /* ColorPickable.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
@@ -5070,6 +5080,7 @@
 				9668DC2A2084682B00D7C419 /* CADBookOnRequestType.swift in Sources */,
 				967BFABA203B90E500A9C789 /* TrafficStopViewController.swift in Sources */,
 				278A16251FBAB17400C01C38 /* TasksListInfoRowView.swift in Sources */,
+				125E2A2220FB820400942B29 /* BiometricIDSetting.swift in Sources */,
 				460B5BC82007187600AB7D12 /* SketchPen.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
 				279B057A200D572300C3EFB0 /* CollectionViewFormLargeTextLabelCell.swift in Sources */,
@@ -5090,6 +5101,7 @@
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				2744E38E2051DD8500561A8F /* CADResourceStatusCore.swift in Sources */,
 				125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */,
+				125E2A2020FB7ED200942B29 /* NumericKeyboardSetting.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
