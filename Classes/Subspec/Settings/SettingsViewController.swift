@@ -15,39 +15,48 @@ final public class SettingsViewController: FormTableViewController {
     let sections: [SettingSection]
     var pinnedSection: [SettingSection]
 
+    private var buttonsView: DialogActionButtonsView?
+
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(settingSections: [SettingSection]) {
         self.sections = settingSections.filter{$0.type != .pinned}
-        self.pinnedSection = sections.filter{$0.type == .pinned}
-        super.init(style: .plain)
+        self.pinnedSection = settingSections.filter{$0.type == .pinned}
+        super.init(style: .grouped)
         createButtonViewIfNecessary()
     }
 
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Settings"
+
+        tableView?.delegate = self
+        tableView?.dataSource = self
+    }
+
     open func createButtonViewIfNecessary() {
-        let buttons: [DialogActionView] = pinnedSection.flatMap{$0.settings}.compactMap { setting in
+        guard pinnedSection.count > 0 else { return }
+
+        let actions: [DialogAction] = pinnedSection.flatMap{$0.settings}.compactMap { setting in
             switch setting.type {
             case .button(let action):
                 let buttonAction = DialogAction(title: setting.title,
                                                 style: DialogActionStyle.default) { [unowned self] buttonAction in
                                                     action(self)
                 }
-                let view = UIView()
-                view.backgroundColor = .green
-                return DialogActionView(action: buttonAction, view: view)
+                return buttonAction
             case .switch(let (isOn, action)):
                 let buttonAction = DialogAction(title: setting.title,
                                                 style: DialogActionStyle.default) { buttonAction in
                                                     action(!isOn)
                 }
-                let view = UIView()
-                view.backgroundColor = .magenta
-                return DialogActionView(action: buttonAction, view: view)
+                return buttonAction
             }
         }
 
-        let buttonsView = DialogActionButtonsView(views: buttons)
-        buttonsView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(buttonsView)
+        buttonsView = DialogActionButtonsView(actions: actions, layoutStyle: .vertical)
+        buttonsView!.backgroundColor = .clear
+        buttonsView!.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(buttonsView!)
 
         tableView?.translatesAutoresizingMaskIntoConstraints = false
 
@@ -57,11 +66,11 @@ final public class SettingsViewController: FormTableViewController {
                 tableView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 tableView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor).withPriority(.almostRequired),
 
-                buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+                buttonsView!.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+                buttonsView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                buttonsView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                buttonsView!.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
                 ])
         }
     }
@@ -102,12 +111,11 @@ final public class SettingsViewController: FormTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: buttonCellID)
                 ?? UITableViewCell(style: .subtitle, reuseIdentifier: buttonCellID)
         case .switch(let (isOn, _)):
-            cell = tableView.dequeueReusableCell(withIdentifier: switchCellID) ?? UITableViewCell(style: .subtitle, reuseIdentifier: switchCellID)
+            cell = tableView.dequeueReusableCell(withIdentifier: switchCellID)
+                ?? UITableViewCell(style: .subtitle, reuseIdentifier: switchCellID)
 
             let switchControl: UISwitch = cell.accessoryView as? UISwitch ?? UISwitch()
-
-            switchControl.isUserInteractionEnabled = false
-            //                switchControl.addTarget(self, action: #selector(switchControlValueDidChange(_:)), for: .valueChanged)
+            switchControl.addTarget(self, action: #selector(switchControlValueDidChange(_:)), for: .valueChanged)
             cell.accessoryView = switchControl
             cell.selectionStyle = .none
 
@@ -123,6 +131,22 @@ final public class SettingsViewController: FormTableViewController {
         return cell
     }
 
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")
+    }
+
+    public override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView, let textLabel = header.textLabel {
+            textLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+            switch sections[section].type {
+            case .pinned: break
+            case .plain(title: let title):
+                textLabel.text = title
+            }
+            textLabel.textColor = ThemeManager.shared.theme(for: userInterfaceStyle).color(forKey: .primaryText)
+        }
+    }
+
     // MARK: - UITableViewDelegate methods
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -131,64 +155,93 @@ final public class SettingsViewController: FormTableViewController {
         switch setting.type {
         case .button(let action):
             action(self)
-        case .switch(let (isOn, action)):
-            action(!isOn)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .switch:
+            break
         }
 
-//        if setting.style == .button || setting.style == .none {
-//            tableView.deselectRow(at: indexPath, animated: true)
-//
-//            if setting == .askBiometric {
-//                dismiss(animated: true, completion: {
-//                    UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
-//                })
-//            } else if setting == .updateManifest {
-//                let cell = tableView.cellForRow(at: indexPath)
-//                let loadingAccessory = MPOLSpinnerView(style: .regular, color: tintColor)
-//                cell?.accessoryView = loadingAccessory
-//                cell?.detailTextLabel?.text = NSLocalizedString("Downloading...", comment: "")
-//                loadingAccessory.play()
-//                Manifest.shared.fetchManifest().ensure {
-//                    loadingAccessory.stop()
-//                    cell?.accessoryView = nil
-//                    }.done {
-//                        tableView.reloadData()
-//                    }.catch { (error) in
-//                        let alertImageView = ImageAccessoryItem(image: AssetManager.shared.image(forKey: .alert)!).view()
-//                        (alertImageView as! UIImageView).tintColor = UIColor.orangeRed
-//                        cell?.accessoryView = alertImageView
-//                        cell?.detailTextLabel?.text = "An issue occured. Tap to try again."
-//                }
-//            } else if setting == .support {
-//                // TODO: Implement this
-//            } else if setting == .termsOfService {
-//                let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
-//                tsAndCsVC.navigationItem.rightBarButtonItem = nil
-//                tsAndCsVC.navigationItem.leftBarButtonItem = nil
-//                tsAndCsVC.delegate = self
-//
-//                show(tsAndCsVC, sender: self)
-//            } else if setting == .whatsNew {
-//
-//                let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
-//                                                           detail: """
-//[MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
-//[MPOLA-1565] - Use manifest for event entity relationships.
-//""")
-//
-//                let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
-//                whatsNewVC.title = "What's New"
-//                whatsNewVC.delegate = self
-//
-//                show(whatsNewVC, sender: self)
-//            }
-//            else {
-//                sections[indexPath.section].items[indexPath.row].currentValue = true
-//            }
-//            return
-//        }
+        //        if setting.style == .button || setting.style == .none {
+        //            tableView.deselectRow(at: indexPath, animated: true)
+        //
+        //            if setting == .askBiometric {
+        //                dismiss(animated: true, completion: {
+        //                    UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
+        //                })
+        //            } else if setting == .updateManifest {
+        //                let cell = tableView.cellForRow(at: indexPath)
+        //                let loadingAccessory = MPOLSpinnerView(style: .regular, color: tintColor)
+        //                cell?.accessoryView = loadingAccessory
+        //                cell?.detailTextLabel?.text = NSLocalizedString("Downloading...", comment: "")
+        //                loadingAccessory.play()
+        //                Manifest.shared.fetchManifest().ensure {
+        //                    loadingAccessory.stop()
+        //                    cell?.accessoryView = nil
+        //                    }.done {
+        //                        tableView.reloadData()
+        //                    }.catch { (error) in
+        //                        let alertImageView = ImageAccessoryItem(image: AssetManager.shared.image(forKey: .alert)!).view()
+        //                        (alertImageView as! UIImageView).tintColor = UIColor.orangeRed
+        //                        cell?.accessoryView = alertImageView
+        //                        cell?.detailTextLabel?.text = "An issue occured. Tap to try again."
+        //                }
+        //            } else if setting == .support {
+        //                // TODO: Implement this
+        //            } else if setting == .termsOfService {
+        //                let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
+        //                tsAndCsVC.navigationItem.rightBarButtonItem = nil
+        //                tsAndCsVC.navigationItem.leftBarButtonItem = nil
+        //                tsAndCsVC.delegate = self
+        //
+        //                show(tsAndCsVC, sender: self)
+        //            } else if setting == .whatsNew {
+        //
+        //                let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
+        //                                                           detail: """
+        //[MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
+        //[MPOLA-1565] - Use manifest for event entity relationships.
+        //""")
+        //
+        //                let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
+        //                whatsNewVC.title = "What's New"
+        //                whatsNewVC.delegate = self
+        //
+        //                show(whatsNewVC, sender: self)
+        //            }
+        //            else {
+        //                sections[indexPath.section].items[indexPath.row].currentValue = true
+        //            }
+        //            return
+        //        }
 
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+
+    @objc private func switchControlValueDidChange(_ control: UISwitch) {
+        guard let tableView = self.tableView,
+            let indexPath = tableView.indexPathForRow(at: tableView.convert(control.bounds.origin, from: control)) else { return }
+
+        let setting = sections[indexPath.section].settings[indexPath.row]
+
+        switch setting.type {
+        case .switch(let (_, action)):
+            action(control.isOn)
+        case .button:
+            break
+        }
+
+        //        var setting = sections[indexPath.section].items[indexPath.row]
+        //        if setting == .biometric {
+        //            handler?.clear()
+        //            UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
+        //            dismiss(animated: true, completion: { [weak self] in
+        //                self?.sections[indexPath.section].items[indexPath.row].currentValue = true
+        //            })
+        //        }
+        //
+        //        setting.currentValue = control.isOn
+    }
+
+    public override func apply(_ theme: Theme) {
+        super.apply(theme)
+        buttonsView?.backgroundColor = theme.color(forKey: .groupedTableCellBackground)
     }
 }
