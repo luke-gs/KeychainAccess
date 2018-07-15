@@ -16,11 +16,11 @@ public protocol DialogActionViewDelegate: class {
 open class DialogActionView: UIControl {
 
     open weak var delegate: DialogActionViewDelegate?
-    open var action: DialogAction
+    private var action: DialogAction
     
     // MARK: - Views
     
-    open private(set) var view: UIView!
+    open private(set) var titleLabel: UILabel!
     open private(set) var topDivider: UIView!
     open private(set) var sideDivider: UIView!
     
@@ -38,9 +38,8 @@ open class DialogActionView: UIControl {
     
     // MARK: - Setup
     
-    public init(frame: CGRect = .zero, action: DialogAction, view: UIView = UILabel()) {
+    public init(frame: CGRect = .zero, action: DialogAction) {
         self.action = action
-        self.view = view
         super.init(frame: frame)
         setupViews()
         setupConstraints()
@@ -62,17 +61,15 @@ open class DialogActionView: UIControl {
         sideDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         sideDivider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(sideDivider)
-
-        if let label = view as? UILabel {
-            label.text = action.title
-            label.font = action.style.font
-            label.textColor = action.style.color
-            label.textAlignment = .center
-        }
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(view)
-
+        
+        titleLabel = UILabel()
+        titleLabel.text = action.title
+        titleLabel.font = action.style.font
+        titleLabel.textColor = action.style.color
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleLabel)
+        
         addTarget(self, action: #selector(didSelectButton), for: .touchUpInside)
     }
     
@@ -89,11 +86,11 @@ open class DialogActionView: UIControl {
             sideDivider.bottomAnchor.constraint(equalTo: bottomAnchor),
             sideDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            view.topAnchor.constraint(equalTo: topDivider.bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            view.bottomAnchor.constraint(equalTo: bottomAnchor),
-            view.heightAnchor.constraint(equalToConstant: 64)
+            titleLabel.topAnchor.constraint(equalTo: topDivider.bottomAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 64)
         ])
     }
     
