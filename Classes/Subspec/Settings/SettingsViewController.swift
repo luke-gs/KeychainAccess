@@ -9,6 +9,7 @@ import UIKit
 
 private let switchCellID = "SwitchCell"
 private let buttonCellID = "ButtonCell"
+private let plainCellID = "PlainCell"
 
 final public class SettingsViewController: FormTableViewController {
 
@@ -38,6 +39,10 @@ final public class SettingsViewController: FormTableViewController {
 
         let actions: [DialogAction] = pinnedSection.flatMap{$0.settings}.compactMap { setting in
             switch setting.type {
+            case .plain:
+                let buttonAction = DialogAction(title: setting.title,
+                                                style: DialogActionStyle.default)
+                return buttonAction
             case .button(let action):
                 let buttonAction = DialogAction(title: setting.title,
                                                 style: DialogActionStyle.default) { [unowned self] buttonAction in
@@ -47,7 +52,7 @@ final public class SettingsViewController: FormTableViewController {
             case .switch(let (isOn, action)):
                 let buttonAction = DialogAction(title: setting.title,
                                                 style: DialogActionStyle.default) { buttonAction in
-                                                    action(!isOn)
+                                                    action(!isOn())
                 }
                 return buttonAction
             }
@@ -107,9 +112,14 @@ final public class SettingsViewController: FormTableViewController {
         var cell: UITableViewCell!
 
         switch setting.type {
+        case .plain:
+            cell = tableView.dequeueReusableCell(withIdentifier: plainCellID)
+                ?? UITableViewCell(style: .subtitle, reuseIdentifier: plainCellID)
+            cell.selectionStyle = .none
         case .button:
             cell = tableView.dequeueReusableCell(withIdentifier: buttonCellID)
                 ?? UITableViewCell(style: .subtitle, reuseIdentifier: buttonCellID)
+            cell.accessoryType = .disclosureIndicator
         case .switch(let (isOn, _)):
             cell = tableView.dequeueReusableCell(withIdentifier: switchCellID)
                 ?? UITableViewCell(style: .subtitle, reuseIdentifier: switchCellID)
@@ -120,7 +130,7 @@ final public class SettingsViewController: FormTableViewController {
             cell.selectionStyle = .none
 
             switchControl.onTintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint)
-            switchControl.isOn = isOn
+            switchControl.isOn = isOn()
         }
 
         cell.textLabel?.text = setting.title
@@ -155,7 +165,7 @@ final public class SettingsViewController: FormTableViewController {
         switch setting.type {
         case .button(let action):
             action(self)
-        case .switch:
+        case .switch, .plain:
             break
         }
 
@@ -224,7 +234,7 @@ final public class SettingsViewController: FormTableViewController {
         switch setting.type {
         case .switch(let (_, action)):
             action(control.isOn)
-        case .button:
+        case .button, .plain:
             break
         }
 
