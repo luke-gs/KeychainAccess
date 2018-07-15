@@ -13,12 +13,17 @@ private let plainCellID = "PlainCell"
 
 final public class SettingsViewController: FormTableViewController {
 
-    let sections: [SettingSection]
-    var pinnedSection: [SettingSection]
+    // MARK: Start public interfaces
 
-    private var buttonsView: DialogActionButtonsView?
+    /// The sections of the table
+    public let sections: [SettingSection]
 
-    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
+    /// The sections pinned to the bottom of the screen
+    public private(set) var pinnedSection: [SettingSection]
+
+    /// Initiaise the SettingsViewController with sections
+    ///
+    /// - Parameter settingSections: the sections
     public init(settingSections: [SettingSection]) {
         self.sections = settingSections.filter{$0.type != .pinned}
         self.pinnedSection = settingSections.filter{$0.type == .pinned}
@@ -26,15 +31,22 @@ final public class SettingsViewController: FormTableViewController {
         createButtonViewIfNecessary()
     }
 
+    // MARK: End public interfaces
+
+    private var buttonsView: DialogActionButtonsView?
+
+    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Settings"
 
         tableView?.delegate = self
         tableView?.dataSource = self
+        tableView?.rowHeight = 64
     }
 
-    open func createButtonViewIfNecessary() {
+    private func createButtonViewIfNecessary() {
         guard pinnedSection.count > 0 else { return }
 
         let actions: [DialogAction] = pinnedSection.flatMap{$0.settings}.compactMap { setting in
@@ -59,7 +71,6 @@ final public class SettingsViewController: FormTableViewController {
         }
 
         buttonsView = DialogActionButtonsView(actions: actions, layoutStyle: .vertical)
-        buttonsView!.backgroundColor = .clear
         buttonsView!.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonsView!)
 
@@ -93,10 +104,6 @@ final public class SettingsViewController: FormTableViewController {
         case .pinned:
             return nil
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -169,59 +176,6 @@ final public class SettingsViewController: FormTableViewController {
             break
         }
 
-        //        if setting.style == .button || setting.style == .none {
-        //            tableView.deselectRow(at: indexPath, animated: true)
-        //
-        //            if setting == .askBiometric {
-        //                dismiss(animated: true, completion: {
-        //                    UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
-        //                })
-        //            } else if setting == .updateManifest {
-        //                let cell = tableView.cellForRow(at: indexPath)
-        //                let loadingAccessory = MPOLSpinnerView(style: .regular, color: tintColor)
-        //                cell?.accessoryView = loadingAccessory
-        //                cell?.detailTextLabel?.text = NSLocalizedString("Downloading...", comment: "")
-        //                loadingAccessory.play()
-        //                Manifest.shared.fetchManifest().ensure {
-        //                    loadingAccessory.stop()
-        //                    cell?.accessoryView = nil
-        //                    }.done {
-        //                        tableView.reloadData()
-        //                    }.catch { (error) in
-        //                        let alertImageView = ImageAccessoryItem(image: AssetManager.shared.image(forKey: .alert)!).view()
-        //                        (alertImageView as! UIImageView).tintColor = UIColor.orangeRed
-        //                        cell?.accessoryView = alertImageView
-        //                        cell?.detailTextLabel?.text = "An issue occured. Tap to try again."
-        //                }
-        //            } else if setting == .support {
-        //                // TODO: Implement this
-        //            } else if setting == .termsOfService {
-        //                let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
-        //                tsAndCsVC.navigationItem.rightBarButtonItem = nil
-        //                tsAndCsVC.navigationItem.leftBarButtonItem = nil
-        //                tsAndCsVC.delegate = self
-        //
-        //                show(tsAndCsVC, sender: self)
-        //            } else if setting == .whatsNew {
-        //
-        //                let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
-        //                                                           detail: """
-        //[MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
-        //[MPOLA-1565] - Use manifest for event entity relationships.
-        //""")
-        //
-        //                let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
-        //                whatsNewVC.title = "What's New"
-        //                whatsNewVC.delegate = self
-        //
-        //                show(whatsNewVC, sender: self)
-        //            }
-        //            else {
-        //                sections[indexPath.section].items[indexPath.row].currentValue = true
-        //            }
-        //            return
-        //        }
-
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
@@ -237,17 +191,6 @@ final public class SettingsViewController: FormTableViewController {
         case .button, .plain:
             break
         }
-
-        //        var setting = sections[indexPath.section].items[indexPath.row]
-        //        if setting == .biometric {
-        //            handler?.clear()
-        //            UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
-        //            dismiss(animated: true, completion: { [weak self] in
-        //                self?.sections[indexPath.section].items[indexPath.row].currentValue = true
-        //            })
-        //        }
-        //
-        //        setting.currentValue = control.isOn
     }
 
     public override func apply(_ theme: Theme) {
