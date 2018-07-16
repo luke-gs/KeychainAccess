@@ -24,7 +24,7 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
     open private(set) var mapViewController: MapViewController?
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
-    open private(set) var containingSplitViewController: PushableSplitViewController?
+    open private(set) weak var containingSplitViewController: PushableSplitViewController?
     open private(set) var cardStateWhenShowingCluster: DraggableCardView.CardState?
 
     // MARK: - Constraints

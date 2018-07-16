@@ -128,9 +128,9 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
 
         // Resize the sidebar table as content size may have changed, and keep selection
         if let sidebarTableView = regularSidebarViewController.sidebarTableView {
-            DispatchQueue.main.async {
-                sidebarTableView.beginUpdates()
-                sidebarTableView.endUpdates()
+            DispatchQueue.main.async { [weak sidebarTableView] in
+                sidebarTableView?.beginUpdates()
+                sidebarTableView?.endUpdates()
             }
         }
     }
