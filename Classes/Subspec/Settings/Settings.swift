@@ -5,19 +5,33 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-public enum SettingType {
+/// The type of UI control for the setting
+///
+/// - `switch`->: A switch control. `isOn` is a closure that runs to see whether the switch should be on. `action` is the closure to run when the switch is toggled.
+/// - button->: A button type. `action` is the closure that runs when the button is tapped.
+/// - plain: A boring ole type
+public enum SettingControlType {
     case `switch`(isOn: (()->(Bool)), action: ((Bool)->()))
     case button((UIViewController)->())
     case plain
 }
 
+/// A Setting to be used in SettingsViewController
 public struct Setting: Equatable {
-    public var title: String
-    public var subtitle: String?
-    public var image: UIImage?
-    public var type: SettingType
 
-    public init(title: String, subtitle: String?, image: UIImage?, type: SettingType) {
+    /// The title of the setting
+    public var title: String
+
+    /// A subtitle
+    public var subtitle: String?
+
+    /// An image
+    public var image: UIImage?
+
+    /// The setting type
+    public var type: SettingControlType
+
+    public init(title: String, subtitle: String?, image: UIImage?, type: SettingControlType) {
         self.title = title
         self.subtitle = subtitle
         self.image = image
@@ -29,6 +43,11 @@ public struct Setting: Equatable {
     }
 }
 
+
+/// The setting section type
+///
+/// - plain: A normal section in the body of the screen. `title` is the title of the section.
+/// - pinned: A section that is pinned to the bottom of the screen.
 public enum SettingSectionType: Equatable {
     case plain(title: String)
     case pinned
@@ -45,8 +64,13 @@ public enum SettingSectionType: Equatable {
     }
 }
 
+/// A setting section to be used in SettingsViewController
 public struct SettingSection {
+
+    /// The type of section
     public var type: SettingSectionType
+
+    /// The settings in this section
     public var settings: [Setting]
 
     public init(type: SettingSectionType, settings: [Setting]) {
@@ -55,6 +79,7 @@ public struct SettingSection {
     }
 }
 
+/// An extensible setting object
 public struct Settings: RawRepresentable {
     public let rawValue: Setting
     public init(rawValue: Setting) {
