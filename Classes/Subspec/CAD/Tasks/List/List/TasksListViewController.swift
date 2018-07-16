@@ -89,6 +89,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         // Add search bar for filtering task list
         searchBar = UISearchBar(frame: .zero)
+        searchBar.enablesReturnKeyAutomatically = false
         searchBar.barStyle = .black
         searchBar.showsCancelButton = false
         searchBar.searchBarStyle = .minimal
