@@ -87,8 +87,14 @@ open class RoundedRectLabel : UILabel {
 
         //Checks to see if the corner radius is equal to the height/width
         //If it is - inset-ing by 1 could be catastrophic 💥
-        let rect = min(bounds.size.width, bounds.size.height) >= cornerRadius * 2 ? bounds : bounds.insetBy(dx: 1, dy: 1)
+        let rect = min(bounds.size.width, bounds.size.height) == cornerRadius * 2 ? bounds : bounds.insetBy(dx: 1, dy: 1)
+        
+        // Fix for internal assert in CGPath: (corner_height >= 0 && 2 * corner_height <= CGRectGetHeight(rect))
+        if cornerRadius * 2 > rect.height {
+            cornerRadius = rect.height / 2
+        }
 
+        
         let path = CGPath(roundedRect: rect,
                           cornerWidth: cornerRadius,
                           cornerHeight: cornerRadius,
