@@ -20,7 +20,7 @@ let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, Logoutable {
 
     var window: UIWindow?
     var landingPresenter: LandingPresenter!

@@ -112,12 +112,32 @@ public class LandingPresenter: AppGroupLandingPresenter {
     private weak var tabBarController: CADStatusTabBarController!
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
-        let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
-        settingsNavController.modalPresentationStyle = .popover
 
-        if let popoverController = settingsNavController.popoverPresentationController {
-            popoverController.barButtonItem = item
-        }
+        let accessibilitySection: SettingSection = SettingSection(type: .plain(title: "Accessibility"), settings: [
+            Settings.numericKeyboard,
+            Settings.darkMode,
+            Settings.biometrics,
+            Settings.signature
+            ])
+        let generalSection: SettingSection = SettingSection(type: .plain(title: "General"), settings: [
+            Settings.manifest,
+            Settings.support,
+            Settings.termsAndConditions,
+            Settings.whatsNew
+            ])
+        let pinnedSection: SettingSection = SettingSection(type: .pinned, settings: [
+            Settings.logOut
+            ])
+
+        let settingsVC = SettingsViewController(settingSections: [
+            accessibilitySection,
+            generalSection,
+            pinnedSection
+            ])
+
+        let settingsNavController = ThemedNavigationController(rootViewController: settingsVC)
+        settingsNavController.modalPresentationStyle = .formSheet
+        settingsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: settingsVC, action: #selector(UIViewController.dismissAnimated))
 
         tabBarController.show(settingsNavController, sender: self)
     }
