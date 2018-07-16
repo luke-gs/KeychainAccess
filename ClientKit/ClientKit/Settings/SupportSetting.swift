@@ -8,6 +8,10 @@
 import MPOLKit
 
 public extension Settings {
+
+    /// Setting for support handling
+    ///
+    /// Does nothing...
     public static let support = Setting(title: "Support",
                                         subtitle: Settings.formattedSupportString(),
                                         image: nil,

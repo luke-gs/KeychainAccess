@@ -8,6 +8,10 @@
 import MPOLKit
 
 public extension Settings {
+
+    /// Setting for terms and conditions presentation handling
+    ///
+    /// Presents the terms and conditions screen
     public static let termsAndConditions = Setting(title: "Terms and Conditions",
                                                    subtitle: nil,
                                                    image: nil,

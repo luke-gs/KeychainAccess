@@ -8,6 +8,10 @@
 import MPOLKit
 
 public extension Settings {
+
+    /// Setting for manifest handling
+    ///
+    /// Fully updates the manifest
     public static let manifest = Setting(title: "Update Manifest",
                                          subtitle: Settings.formattedManifestString(),
                                          image: nil,

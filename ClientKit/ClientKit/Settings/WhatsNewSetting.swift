@@ -8,6 +8,11 @@
 import MPOLKit
 
 public extension Settings {
+
+
+    /// Setting for whats new presentation handling
+    ///
+    /// Presents the whats new screen
     public static let whatsNew = Setting(title: "What's New",
                                          subtitle: nil,
                                          image: nil,

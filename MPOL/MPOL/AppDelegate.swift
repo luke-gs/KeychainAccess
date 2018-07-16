@@ -218,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // TEMP
-    func logOut() {
+    @objc func logOut() {
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
