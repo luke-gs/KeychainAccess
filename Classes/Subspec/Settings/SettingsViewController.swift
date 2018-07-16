@@ -86,7 +86,7 @@ final public class SettingsViewController: FormTableViewController {
                 buttonsView!.topAnchor.constraint(equalTo: tableView.bottomAnchor),
                 buttonsView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 buttonsView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                buttonsView!.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+                buttonsView!.bottomAnchor.constraint(equalTo: view.bottomAnchor)
                 ])
         }
     }
