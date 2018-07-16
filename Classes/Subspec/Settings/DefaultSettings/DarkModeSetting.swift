@@ -6,6 +6,8 @@
 //
 
 public extension Settings {
+
+    /// Setting for dark mode handling
     public static let darkMode = Setting(title: "Dark Mode",
                                          subtitle: "Triple tap on navigation bar to toggle night mode",
                                          image: AssetManager.shared.image(forKey: .nightMode),

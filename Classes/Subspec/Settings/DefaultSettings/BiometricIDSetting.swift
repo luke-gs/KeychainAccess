@@ -6,6 +6,8 @@
 //
 
 public extension Settings {
+
+    /// Setting for biometric identification handling
     public static let biometrics = Setting(title: "Touch/FaceID",
                                            subtitle: nil,
                                            image: AssetManager.shared.image(forKey: .touchId),

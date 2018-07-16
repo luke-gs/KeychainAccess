@@ -6,6 +6,8 @@
 //
 
 public extension Settings {
+
+    /// Setting for numeric keyboard handling
     public static let numericKeyboard = Setting(title: "Numeric Keyboard",
                                                 subtitle: nil,
                                                 image: AssetManager.shared.image(forKey: .keyboard),

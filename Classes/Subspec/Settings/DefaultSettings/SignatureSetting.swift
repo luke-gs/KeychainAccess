@@ -6,6 +6,8 @@
 //
 
 public extension Settings {
+    
+    /// Setting for signature handling
     public static let signature = Setting(title: "Edit Signature",
                                           subtitle: nil,
                                           image: AssetManager.shared.image(forKey: .edit),
