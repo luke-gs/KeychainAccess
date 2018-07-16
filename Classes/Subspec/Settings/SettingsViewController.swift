@@ -198,6 +198,7 @@ final public class SettingsViewController: FormTableViewController {
         buttonsView?.backgroundColor = theme.color(forKey: .groupedTableCellBackground)
 
         // Update Dark mode switch state if it exists
+        // TODO: Find a way to decouple DarkMode from settings
         let settings = sections.flatMap{$0.settings}
         if settings.contains(where: {$0 == Settings.darkMode}) {
             let sectionIndex = sections.index(where: {$0.settings.contains(where: {$0 == Settings.darkMode})})
