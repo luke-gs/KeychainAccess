@@ -161,6 +161,7 @@ final public class SettingsViewController: FormTableViewController {
                 textLabel.text = title
             }
             textLabel.textColor = ThemeManager.shared.theme(for: userInterfaceStyle).color(forKey: .primaryText)
+            view.backgroundColor = ThemeManager.shared.theme(for: userInterfaceStyle).color(forKey: .background)
         }
     }
 
@@ -196,6 +197,7 @@ final public class SettingsViewController: FormTableViewController {
     public override func apply(_ theme: Theme) {
         super.apply(theme)
         buttonsView?.backgroundColor = theme.color(forKey: .groupedTableCellBackground)
+        view?.backgroundColor = theme.color(forKey: .background)
 
         // Update Dark mode switch state if it exists
         // TODO: Find a way to decouple DarkMode from settings
