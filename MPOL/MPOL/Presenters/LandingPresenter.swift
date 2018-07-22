@@ -243,8 +243,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
             pinnedSection
             ])
 
-        let settingsNavController = ThemedNavigationController(rootViewController: settingsVC)
+        let settingsNavController = PopoverNavigationController(rootViewController: settingsVC)
         settingsNavController.modalPresentationStyle = .formSheet
+        settingsNavController.wantsDoneButton = false
         settingsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: settingsVC, action: #selector(UIViewController.dismissAnimated))
 
         tabBarController?.show(settingsNavController, sender: self)
