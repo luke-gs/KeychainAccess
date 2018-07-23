@@ -18,6 +18,13 @@
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
 		12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353413207F16C4008256AA /* DefaultDateTimeReport.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
+		125E2A0820F84F7E00942B29 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0720F84F7E00942B29 /* Settings.swift */; };
+		125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0920F84FA600942B29 /* SettingsViewController.swift */; };
+		125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0C20F8511200942B29 /* DarkModeSetting.swift */; };
+		125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0E20F854D700942B29 /* SignatureSetting.swift */; };
+		125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1920F89C5100942B29 /* LogoutSetting.swift */; };
+		125E2A2020FB7ED200942B29 /* NumericKeyboardSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */; };
+		125E2A2220FB820400942B29 /* BiometricIDSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2120FB820400942B29 /* BiometricIDSetting.swift */; };
 		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
 		125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */; };
 		125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */; };
@@ -543,8 +550,8 @@
 		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
 		AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */; };
-		AA16412B20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */; };
 		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
+		AA16412B20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */; };
 		AA19D88120BE08880082E326 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19D88020BE08880082E326 /* AdditionalActionManager.swift */; };
 		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
@@ -931,6 +938,13 @@
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
 		12353413207F16C4008256AA /* DefaultDateTimeReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDateTimeReport.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
+		125E2A0720F84F7E00942B29 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		125E2A0920F84FA600942B29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		125E2A0C20F8511200942B29 /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
+		125E2A0E20F854D700942B29 /* SignatureSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSetting.swift; sourceTree = "<group>"; };
+		125E2A1920F89C5100942B29 /* LogoutSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutSetting.swift; sourceTree = "<group>"; };
+		125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericKeyboardSetting.swift; sourceTree = "<group>"; };
+		125E2A2120FB820400942B29 /* BiometricIDSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDSetting.swift; sourceTree = "<group>"; };
 		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
 		125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
 		125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
@@ -1462,9 +1476,9 @@
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
 		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
-		AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModelTests.swift; sourceTree = "<group>"; };
 		AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLinkFormItem.swift; sourceTree = "<group>"; };
 		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
+		AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModelTests.swift; sourceTree = "<group>"; };
 		AA19D88020BE08880082E326 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
@@ -1873,6 +1887,28 @@
 				12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */,
 			);
 			path = DateTime;
+			sourceTree = "<group>";
+		};
+		125E2A0620F84F6600942B29 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				125E2A0720F84F7E00942B29 /* Settings.swift */,
+				125E2A0920F84FA600942B29 /* SettingsViewController.swift */,
+				125E2A0B20F850F300942B29 /* DefaultSettings */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		125E2A0B20F850F300942B29 /* DefaultSettings */ = {
+			isa = PBXGroup;
+			children = (
+				125E2A2120FB820400942B29 /* BiometricIDSetting.swift */,
+				125E2A0C20F8511200942B29 /* DarkModeSetting.swift */,
+				125E2A1920F89C5100942B29 /* LogoutSetting.swift */,
+				125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */,
+				125E2A0E20F854D700942B29 /* SignatureSetting.swift */,
+			);
+			path = DefaultSettings;
 			sourceTree = "<group>";
 		};
 		125EAE0F2092FCE200C09FED /* Submission */ = {
@@ -4517,8 +4553,6 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
-				37D718FF20BBB379004C3F0B /* Summary */,
-				463BDD1820BF67510074B99C /* Security */,
 				19A2E1252075FE980033ADA3 /* Activities */,
 				9624A4581F83555A00CAE056 /* CAD */,
 				192F679820A2CDDB00015E86 /* Displayable */,
@@ -4530,6 +4564,9 @@
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
 				AA7F795020AABC3100985705 /* RelationshipManager */,
+				463BDD1820BF67510074B99C /* Security */,
+				125E2A0620F84F6600942B29 /* Settings */,
+				37D718FF20BBB379004C3F0B /* Summary */,
 				EA85BFE81F678945002EEB49 /* ThemeGesture */,
 				19F2CF5E20A959FD006E6253 /* TrafficHistory */,
 				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
@@ -4992,6 +5029,7 @@
 				46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
 				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
+				125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */,
 				273DE2D11FE9D855000C46DD /* CreateIncidentViewModel.swift in Sources */,
 				199571C81FB913D400950EAB /* OAuth2.swift in Sources */,
 				19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */,
@@ -5024,6 +5062,7 @@
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
+				125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */,
 				27C9C7671F95737C00799855 /* BookOnLandingItemViewModel.swift in Sources */,
 				463694E9200ED8D000C51BB4 /* ColorPickable.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
@@ -5041,6 +5080,7 @@
 				9668DC2A2084682B00D7C419 /* CADBookOnRequestType.swift in Sources */,
 				967BFABA203B90E500A9C789 /* TrafficStopViewController.swift in Sources */,
 				278A16251FBAB17400C01C38 /* TasksListInfoRowView.swift in Sources */,
+				125E2A2220FB820400942B29 /* BiometricIDSetting.swift in Sources */,
 				460B5BC82007187600AB7D12 /* SketchPen.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
 				279B057A200D572300C3EFB0 /* CollectionViewFormLargeTextLabelCell.swift in Sources */,
@@ -5055,11 +5095,13 @@
 				96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */,
 				1993386420F47F180047084A /* SessionPlugin.swift in Sources */,
 				2744E3902051DD8500561A8F /* CADResourceUnitCore.swift in Sources */,
+				125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */,
 				DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */,
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				2744E38E2051DD8500561A8F /* CADResourceStatusCore.swift in Sources */,
 				125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */,
+				125E2A2020FB7ED200942B29 /* NumericKeyboardSetting.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
@@ -5075,6 +5117,7 @@
 				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
 				2744EECC1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift in Sources */,
 				461F7AA12022BE8900885E93 /* RecordButton.swift in Sources */,
+				125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */,
 				274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
@@ -5217,6 +5260,7 @@
 				4634B4421FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift in Sources */,
 				12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
+				125E2A0820F84F7E00942B29 /* Settings.swift in Sources */,
 				9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */,
 				12ABD56A207F1967004D0C9F /* LocationSelectionViewModel.swift in Sources */,
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,

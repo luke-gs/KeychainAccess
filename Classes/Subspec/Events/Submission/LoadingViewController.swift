@@ -8,7 +8,13 @@
 import UIKit
 import PromiseKit
 
+/// A loading view controller that presents a spinner
+/// and executes the promise in the loading view builder
+///
+/// use with the `LoadingViewController` static function `presentWith(from:)`
 open class LoadingViewController<T>: ThemedPopoverViewController {
+
+    /// The loading view builder with generic type of expected response
     private(set) public var builder: LoadingViewBuilder<T>?
     private var loadingManager = LoadingStateManager()
 
@@ -34,6 +40,16 @@ open class LoadingViewController<T>: ThemedPopoverViewController {
 }
 
 extension LoadingViewController {
+
+    /// Present the loading view controller and attmept to fulfil the promise in the
+    /// loading view builder
+    ///
+    /// will use the presenting view controllers content size is not specified in the `builder`
+    ///
+    /// - Parameters:
+    ///   - builder: the loading view builder
+    ///   - presentingViewController: the presenting view controller
+    /// - Returns: the promise that will be fulfilled
     @discardableResult
     public static func presentWith(_ builder: LoadingViewBuilder<T>,
                                    from presentingViewController: UIViewController)
@@ -57,10 +73,21 @@ extension LoadingViewController {
     }
 }
 
+
+/// The loading view builder to be used with `LoadingViewController`
+/// Provide the expected response as the generic type. `Void` if no response.
 open class LoadingViewBuilder<Response> {
+
+    /// The title to display while loading
     open var title: String?
+
+    /// The subtitle to display while loading
     open var subtitle: String?
+
+    /// the prefered content size of the view controller when presented
     open var preferredContentSize: CGSize?
+
+    /// The request
     open var request: (() -> Promise<Response>)? {
         didSet {
             self.pendingPromise = Promise<Response>.pending()

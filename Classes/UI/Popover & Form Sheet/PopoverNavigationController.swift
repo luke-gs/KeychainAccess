@@ -37,13 +37,16 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         }
     }
     
-    
+
     /// A boolean value indicating whether the navigation controller (and its children)
     /// should be displayed with a transparent background.
     open var wantsTransparentBackground: Bool = true {
         didSet { applyTheme() }
     }
-    
+
+    /// A boolean value indicating whether the navigation controller (and its children)
+    /// should have a done button as the right nav bar button item
+    open var wantsDoneButton: Bool = true
     
     /// An optional dismiss handler.
     ///
@@ -274,6 +277,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
 
     
     private func installDoneButton(on item: UINavigationItem) {
+        guard wantsDoneButton else { return }
         let leftDoneButton = item.leftBarButtonItems?.first { $0.style == .done }
         let rightDoneButton = item.rightBarButtonItems?.first { $0.style == .done }
         // Don't add a new done button if we already have one

@@ -30,9 +30,13 @@ open class DialogActionButtonsView: UIView {
     /// Footer dividing line
     open var footerDivider: UIView!
 
+    /// The button layout style
+    open var layoutStyle: DialogActionLayoutStyle
+
     // MARK: - Setup
 
-    public init(actions: [DialogAction]) {
+    public init(actions: [DialogAction], layoutStyle: DialogActionLayoutStyle = .adaptive) {
+        self.layoutStyle = layoutStyle
         self.actions = actions
         super.init(frame: .zero)
 
@@ -47,7 +51,7 @@ open class DialogActionButtonsView: UIView {
     /// Creates and styles views
     open func createSubviews() {
         buttonStackView = UIStackView(frame: .zero)
-        buttonStackView.axis = .horizontal
+        buttonStackView.axis = layoutStyle == .vertical ? .vertical : .horizontal
         buttonStackView.distribution = .fillEqually
         buttonStackView.spacing = 0
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,12 +81,24 @@ open class DialogActionButtonsView: UIView {
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.horizontalSizeClass == .compact && actions.count > 2 {
-            buttonStackView.axis = .vertical
-        } else {
-            buttonStackView.axis = .horizontal
+
+        if layoutStyle == .adaptive {
+            if traitCollection.horizontalSizeClass == .compact && actions.count > 2 {
+                buttonStackView.axis = .vertical
+            } else {
+                buttonStackView.axis = .horizontal
+            }
         }
     }
-
 }
 
+/// The Dialog Action Layout Style
+///
+/// - vertical: buttons are laid out vertically
+/// - horizontal: buttons are laid out horizontally
+/// - adaptive: buttons are laid out depending on trait collections
+public enum DialogActionLayoutStyle {
+    case vertical
+    case horizontal
+    case adaptive
+}
