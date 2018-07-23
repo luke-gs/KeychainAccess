@@ -19,10 +19,10 @@ extension Manifest {
     open func fetchManifest(collections: [ManifestCollection]? = nil, sinceDate date: Date? = Manifest.shared.lastUpdateDate) -> Promise<Void> {
         let manifestRequest: ManifestFetchRequest
         if let collections = collections {
-            manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
+            manifestRequest = ManifestFetchRequest(date: date,
                                                    fetchType: .partial(collections: collections))
         } else {
-            manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
+            manifestRequest = ManifestFetchRequest(date: date,
                                                    fetchType: .full)
         }
         return update(request: manifestRequest)
