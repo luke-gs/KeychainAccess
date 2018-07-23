@@ -170,6 +170,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         // It causes some data to go out of sync due to the order of loading and saving.
         var lToken: OAuthAccessToken?
 
+        UserSession.prepareForSession()
+
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Promise<Void> in
             guard let `self` = self else {
                 throw PMKError.cancelled
@@ -209,6 +211,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             return .value(())
 
         }.recover(policy: .allErrors) { error -> Promise<Void> in
+            UserSession.cleanupFailedSession()
+
             if let error = error as? Status {
                 // Let the user know something terrible happen, then proceed as usual.
                 return self.presentAlertController(in: controller, title: NSLocalizedString("AppGroupLandingPresenter.BiometricSaveCredentialsFailedTitle", comment: "Failed to save credentials using Biometric."), message: error.localizedDescription)
