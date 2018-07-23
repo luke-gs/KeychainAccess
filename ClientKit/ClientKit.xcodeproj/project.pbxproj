@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		125E2A1E20FB371B00942B29 /* ManifestSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1D20FB371B00942B29 /* ManifestSetting.swift */; };
+		125E2A2620FB9B7B00942B29 /* SupportSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2520FB9B7B00942B29 /* SupportSetting.swift */; };
+		125E2A2820FB9F7900942B29 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2720FB9F7900942B29 /* TermsAndConditionSetting.swift */; };
+		125E2A2A20FBA28100942B29 /* WhatsNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2920FBA28100942B29 /* WhatsNewSetting.swift */; };
 		125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE16209932F800C09FED /* EventSubmissionRequest.swift */; };
 		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
 		1288D83820DA3DA300FA6EB0 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */; };
@@ -123,6 +127,10 @@
 		0EEA13744A9245F633EE23BB /* Pods-ClientKit.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-release.xcconfig"; sourceTree = "<group>"; };
 		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
+		125E2A1D20FB371B00942B29 /* ManifestSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestSetting.swift; sourceTree = "<group>"; };
+		125E2A2520FB9B7B00942B29 /* SupportSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportSetting.swift; sourceTree = "<group>"; };
+		125E2A2720FB9F7900942B29 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
+		125E2A2920FBA28100942B29 /* WhatsNewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSetting.swift; sourceTree = "<group>"; };
 		125EAE16209932F800C09FED /* EventSubmissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionRequest.swift; sourceTree = "<group>"; };
 		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
 		1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
@@ -267,6 +275,17 @@
 			path = Matches;
 			sourceTree = "<group>";
 		};
+		125E2A2420FB9B6300942B29 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				125E2A1D20FB371B00942B29 /* ManifestSetting.swift */,
+				125E2A2520FB9B7B00942B29 /* SupportSetting.swift */,
+				125E2A2720FB9F7900942B29 /* TermsAndConditionSetting.swift */,
+				125E2A2920FBA28100942B29 /* WhatsNewSetting.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		12B556C220DA07510001FFD6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +380,7 @@
 		BC12DC8E1F023EF0001A5BB7 /* ClientKit */ = {
 			isa = PBXGroup;
 			children = (
+				125E2A2420FB9B6300942B29 /* Settings */,
 				12CD1A4F20F46F6100D5A74D /* Manifest */,
 				12B556C220DA07510001FFD6 /* Login */,
 				968B5EF61FBA8C4C0097B3F9 /* Presenters */,
@@ -818,6 +838,7 @@
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
 				BCAEFE931F03150800C97F9C /* Alert.swift in Sources */,
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
+				125E2A2820FB9F7900942B29 /* TermsAndConditionSetting.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
 				46E0B8BA2033AAE600B40DF2 /* OfficerSearchRequest.swift in Sources */,
@@ -828,6 +849,7 @@
 				EAE12B051FC2A66500851619 /* VehicleEditViewController.swift in Sources */,
 				198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */,
 				AA16412D20F476970027F947 /* AssociationReason.swift in Sources */,
+				125E2A2A20FBA28100942B29 /* WhatsNewSetting.swift in Sources */,
 				1288D83820DA3DA300FA6EB0 /* LoginCredentials.swift in Sources */,
 				EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */,
 				198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */,
@@ -862,9 +884,11 @@
 				AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				12CD1A5120F46F9600D5A74D /* ManifestCollection+Search.swift in Sources */,
+				125E2A1E20FB371B00942B29 /* ManifestSetting.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */,
+				125E2A2620FB9B7B00942B29 /* SupportSetting.swift in Sources */,
 				19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */,
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
 				EAE12B031FC2548800851619 /* PersonEditViewController.swift in Sources */,

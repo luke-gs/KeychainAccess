@@ -79,6 +79,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                        detail: """
 [MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
 [MPOLA-1565] - Use manifest for event entity relationships.
+[MPOLA-1568] - Pin the logout button to the bottom
+[MPOLA-1597] - Update presentation for Terms and Conditions from Settings
+[MPOLA-1597] - Update presentation for What's New from Settings
+[MPOLA-1597] - Add basic signature capture from Settings
+
 """)
             let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
             whatsNewVC.delegate = self
@@ -216,12 +221,32 @@ public class LandingPresenter: AppGroupLandingPresenter {
     public weak var tabBarController: UITabBarController?
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
-        let settingsNavController = ThemedNavigationController(rootViewController: SettingsViewController())
-        settingsNavController.modalPresentationStyle = .formSheet
+        let accessibilitySection: SettingSection = SettingSection(type: .plain(title: "Accessibility"), settings: [
+            Settings.numericKeyboard,
+            Settings.darkMode,
+            Settings.biometrics,
+            Settings.signature
+            ])
+        let generalSection: SettingSection = SettingSection(type: .plain(title: "General"), settings: [
+            Settings.manifest,
+            Settings.support,
+            Settings.termsAndConditions,
+            Settings.whatsNew
+            ])
+        let pinnedSection: SettingSection = SettingSection(type: .pinned, settings: [
+            Settings.logOut
+            ])
 
-        if let popoverController = settingsNavController.popoverPresentationController {
-            popoverController.barButtonItem = item
-        }
+        let settingsVC = SettingsViewController(settingSections: [
+            accessibilitySection,
+            generalSection,
+            pinnedSection
+            ])
+
+        let settingsNavController = PopoverNavigationController(rootViewController: settingsVC)
+        settingsNavController.modalPresentationStyle = .formSheet
+        settingsNavController.wantsDoneButton = false
+        settingsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: settingsVC, action: #selector(UIViewController.dismissAnimated))
 
         tabBarController?.show(settingsNavController, sender: self)
     }

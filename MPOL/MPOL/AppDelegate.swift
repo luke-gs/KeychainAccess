@@ -23,7 +23,7 @@ let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.1"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, Logoutable {
 
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
@@ -219,7 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // TEMP
-    func logOut() {
+    @objc func logOut() {
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
