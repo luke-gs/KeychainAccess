@@ -65,11 +65,22 @@ public class UserSession: UserSessionable {
         notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyViewed)
     }
 
-    public static func startSession(user: User, token: OAuthAccessToken) {
+    /// Prepare for a new session, setup any required headers for authentication
+    public static func prepareForSession() {
         let sessionID = UUID().uuidString
+        UserSession.current.sessionID = sessionID
+    }
+
+    /// Cleanup after a failed attempt at creating a new session
+    public static func cleanupFailedSession() {
+        UserSession.current.sessionID = nil
+    }
+
+    public static func startSession(user: User, token: OAuthAccessToken) {
+        // Should already have a session ID by this point
+        guard let sessionID = UserSession.current.sessionID else { fatalError("Missing session ID") }
 
         UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: sessionID)
-        UserSession.current.sessionID = sessionID
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlySearched = []
