@@ -16,9 +16,9 @@ public extension Settings {
     public static let whatsNew = Setting(title: "What's New",
                                          subtitle: nil,
                                          image: nil,
-                                         type: .button(Settings.presentVC))
+                                         type: .button(action: presentVC))
 
-    private static func presentVC(_ viewController: UIViewController) {
+    private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
         let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New",
                                                    detail: """
 [MPOLA-1584] - Update Login screen to remove highlighting in T&Cs and forgot password.
