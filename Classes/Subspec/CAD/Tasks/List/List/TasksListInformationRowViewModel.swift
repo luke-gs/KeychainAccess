@@ -9,6 +9,8 @@
 import Foundation
 
 public struct TasksListInformationRowViewModel {
+    public static var blank = TasksListInformationRowViewModel(image: nil, title: nil)
+    
     public let image: UIImage?
     public let title: String?
     public let detail: String?

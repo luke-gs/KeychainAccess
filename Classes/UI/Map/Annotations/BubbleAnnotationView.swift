@@ -68,6 +68,8 @@ open class BubbleAnnotationView: AutoLayoutAnnotationView, DefaultReusable {
         backgroundView.layer.shadowOpacity = 1
         backgroundView.layer.shadowRadius = 4
         backgroundView.layer.cornerRadius = 4
+        backgroundView.layer.shouldRasterize = true
+        backgroundView.layer.rasterizationScale = UIScreen.main.scale
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(backgroundView)
         
@@ -139,6 +141,8 @@ fileprivate class CalloutArrow: UIView {
         shadowView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         shadowView.layer.shadowOpacity = 1
         shadowView.layer.shadowRadius = 4
+        shadowView.layer.shouldRasterize = true
+        shadowView.layer.rasterizationScale = UIScreen.main.scale
         addSubview(shadowView)
         
         backgroundView = UIView()

@@ -118,6 +118,9 @@ open class MPOLMarkerAnnotationView: MKAnnotationView {
         titleLabel.layer.shadowOffset = .zero
         titleLabel.layer.shadowRadius  = 2
         titleLabel.layer.shadowOpacity = 1
+        titleLabel.layer.shouldRasterize = true
+        titleLabel.layer.rasterizationScale = UIScreen.main.scale
+
         addSubview(titleLabel)
         updateTitleHidden()
     }

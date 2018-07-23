@@ -85,6 +85,9 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
         detailsView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         detailsView.layer.shadowOpacity = 1
         detailsView.layer.shadowRadius = 4
+        detailsView.layer.shouldRasterize = true
+        detailsView.layer.rasterizationScale = UIScreen.main.scale
+
         contentView.addSubview(detailsView)
         
         detailsTitleLabel = UILabel()
@@ -105,6 +108,8 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
         circleView.layer.shadowOffset = CGSize(width: 0, height: 2)
         circleView.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
         circleView.layer.shadowOpacity = 1
+        circleView.layer.shouldRasterize = true
+        circleView.layer.rasterizationScale = UIScreen.main.scale
         circleView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(circleView)
         

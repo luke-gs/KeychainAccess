@@ -21,7 +21,10 @@ open class ColumnContainerView: UIView {
     
     /// Builds the columns
     open func construct() {
-        guard let dataSource = dataSource else { return }
+        // Don't do anything if we have the same view types
+        guard let dataSource = dataSource,
+            !isSameContentViews(asDataSource: dataSource)
+            else { return }
         
         // Clean up old views
         columnContentViews.forEach { $0.removeFromSuperview() }
@@ -37,6 +40,18 @@ open class ColumnContainerView: UIView {
         }
         
         layout()
+    }
+    
+    private func isSameContentViews(asDataSource dataSource: ColumnContainerViewDataSource) -> Bool {
+        guard dataSource.numberOfColumns(self) == columnContentViews.count else { return false }
+        for index in 0..<dataSource.numberOfColumns(self) {
+            if type(of: dataSource.viewForColumn(self, at: index)) != type(of: columnContentViews[index]) ||
+                dataSource.columnInfo(self, at: index) != columnsInfo[index]
+            {
+                return false
+            }
+        }
+        return true
     }
     
     open override var bounds: CGRect {

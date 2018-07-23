@@ -18,6 +18,7 @@ open class TasksListInfoRowStackView: UIView {
     
     /// Stack view for resources
     public let stackView = UIStackView()
+    private var infoRowViews: [TasksListInfoRowView] = []
     
     // MARK: - Properties
     
@@ -60,22 +61,39 @@ open class TasksListInfoRowStackView: UIView {
     // MARK: - Config
     
     open func setRows(_ viewModels: [TasksListInformationRowViewModel]?) {
-        stackView.removeArrangedSubviewsFromViewHierarchy()
-        
-        guard let viewModels = viewModels, viewModels.count > 0 else {
+        guard let viewModels = viewModels else {
+            infoRowViews.forEach { $0.decorate(with: .blank) }
             return
         }
         
-        // Add first (max) view models
-        for viewModel in viewModels[0..<min(maxViews, viewModels.count)] {
-            let infoRow = TasksListInfoRowView()
+        // Only allow the max views
+        let allowedVmCount = min(maxViews, viewModels.count)
+        
+        if viewModels.count > infoRowViews.count {
+            // Have more views models than current views, need to add more
+            for _ in infoRowViews.count..<allowedVmCount {
+                let infoRow = TasksListInfoRowView()
+                stackView.addArrangedSubview(infoRow)
+                infoRowViews.append(infoRow)
+            }
+        } else if viewModels.count < infoRowViews.count {
+            // Has less view models than current views, need to hide some
+            for i in allowedVmCount..<infoRowViews.count {
+                infoRowViews[i].decorate(with: .blank)
+            }
+        }
+        
+        for (index, viewModel) in viewModels[0..<viewModels.count].enumerated() {
+            let infoRow = infoRowViews[index]
             infoRow.decorate(with: viewModel)
-            stackView.addArrangedSubview(infoRow)
         }
         
         // Add spacer view if less than max views
-        if stackView.arrangedSubviews.count < maxViews + 1 {
-            stackView.addArrangedSubview(UIView())
+        if stackView.arrangedSubviews.count < maxViews {
+            let infoRow = TasksListInfoRowView()
+            infoRow.decorate(with: .blank)
+            stackView.addArrangedSubview(infoRow)
+            infoRowViews.append(infoRow)
         }
     }
 }
