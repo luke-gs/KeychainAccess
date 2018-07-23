@@ -11,9 +11,9 @@ public extension Settings {
     public static let signature = Setting(title: "Edit Signature",
                                           subtitle: nil,
                                           image: AssetManager.shared.image(forKey: .edit),
-                                          type: .button(presentVC))
+                                          type: .button(action: presentVC))
 
-    private static func presentVC(_ viewController: UIViewController) {
+    private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
         let vc = SignatureViewController()
         vc.delegate = viewController as? SignatureViewControllerDelegate
         vc.modalPresentationStyle = .formSheet
