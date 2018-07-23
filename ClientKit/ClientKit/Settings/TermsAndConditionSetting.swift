@@ -1,5 +1,5 @@
 //
-//  T&TermsAndConditionSetting.swift
+//  TermsAndConditionSetting.swift
 //  ClientKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
