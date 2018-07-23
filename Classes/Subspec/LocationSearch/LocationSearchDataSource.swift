@@ -30,9 +30,8 @@ public let LocationSearchDataSourceSearchableType = "Location"
 
 public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSearchStrategy>: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate, LocationAdvancedOptionDelegate, CLLocationManagerDelegate where T.Location == U.Location {
 
-    private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. 28 Wellington Street", comment: ""),
-                                                       attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
-    
+    private var searchPlaceholder: NSAttributedString
+
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
         helpButton.addTarget(self, action: #selector(didTapHelpButton), for: .touchUpInside)
@@ -93,7 +92,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         }
     }
 
-    private let basicOptions = LocationBasicSearchOptions()
+    private let basicOptions = LocationBasicSearchOptions(additionalOptions: [LocationBasicSearchResultType.make.map(), LocationBasicSearchResultType.make.currentLocation(), LocationBasicSearchResultType.make.manual()])
     public let advanceOptions: T?
     public let searchStrategy: U
 
@@ -127,14 +126,17 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         return NSLocalizedString("Location", comment: "")
     }
     
-    public init(strategy: U, advanceOptions: T) {
+    public init(strategy: U, advanceOptions: T, searchPlaceholderText: String = NSLocalizedString("Enter an Address", comment: "Enter an Address")) {
         self.searchStrategy = strategy
         self.advanceOptions = advanceOptions
-        
+
+        searchPlaceholder = NSAttributedString(string: NSLocalizedString(searchPlaceholderText, comment: ""),
+                                                           attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+
         super.init()
 
         if searchStrategy.resultModelForMap() == nil {
-            basicOptions.others = [.advance]
+            basicOptions.others = [LocationBasicSearchResultType.make.manual()]
         }
 
         self.advanceOptions?.delegate = self
@@ -158,7 +160,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
                 performSearchOnLocation(withResult: options.results[index])
             case .currentLocation:
                 didTapCurrentLocation()
-            case .advance:
+            case .manual:
                 didTapAdvanceButton()
             case .map:
                 didTapMapButton()
