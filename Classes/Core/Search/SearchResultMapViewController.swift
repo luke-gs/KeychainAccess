@@ -404,7 +404,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         /// Remove all the existing annotations, except current user location
         clusterManager.removeAll()
 
-        if let annotations = viewModel?.allAnnotations {
+        if let annotations = viewModel?.resultAnnotations {
             clusterManager.add(annotations)
         }
 

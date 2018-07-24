@@ -60,7 +60,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var results: [SearchResultSection] { get }
 
     /// Return all the annotations available on the map
-    var allAnnotations: [MKAnnotation]? { get }
+    var resultAnnotations: [MKAnnotation]? { get }
 
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
 

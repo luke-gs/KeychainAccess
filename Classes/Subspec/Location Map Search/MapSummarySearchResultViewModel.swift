@@ -37,7 +37,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     public var results: [SearchResultSection]  = [] {
         didSet {
             var itemsMap = [MPOLKitEntity: FormItem]()
-            allAnnotations = results.flatMap({ section -> [MKAnnotation] in
+            resultAnnotations = results.flatMap({ section -> [MKAnnotation] in
                 for (entity, item) in zip(section.entities, self.summaryItemsForSection(section)) {
                     itemsMap[entity] = item
                 }
@@ -48,7 +48,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         }
     }
 
-    public private(set) var allAnnotations: [MKAnnotation]?
+    public private(set) var resultAnnotations: [MKAnnotation]?
 
     private var itemsMap: [MPOLKitEntity: FormItem] = [:]
 
