@@ -26,6 +26,8 @@ private var token: OAuthAccessToken {
 class NewUserSessionTests: XCTestCase {
 
     override func setUp() {
+        // Start with no session
+        UserSession.current.endSession()
         super.setUp()
     }
 
@@ -34,28 +36,47 @@ class NewUserSessionTests: XCTestCase {
     }
 
     func testSessionIsActive() {
+        XCTAssertFalse(UserSession.current.isActive)
+
         UserSession.startSession(user: user, token: token)
         XCTAssertTrue(UserSession.current.isActive)
     }
 
     func testSessionUser() {
+        XCTAssertNil(UserSession.current.user?.username)
+
         UserSession.startSession(user: user, token: token)
         XCTAssertEqual(user.username, UserSession.current.user?.username)
     }
 
     func testSessionRecentlyViewedIsEmpty() {
+        XCTAssertEqual([], UserSession.current.recentlyViewed.entities)
+
         UserSession.startSession(user: user, token: token)
         XCTAssertEqual([], UserSession.current.recentlyViewed.entities)
     }
 
     func testSessionRecentlySearchedIsEmpty() {
+        XCTAssertEqual([], UserSession.current.recentlyViewed.entities)
+
         UserSession.startSession(user: user, token: token)
         XCTAssertEqual([], UserSession.current.recentlySearched)
     }
 
     func testSessionIDExists() {
+        XCTAssertNil(UserSession.current.sessionID)
+
         UserSession.startSession(user: user, token: token)
         let testID = UserDefaults.standard.string(forKey: "LatestSessionKey")
         XCTAssertEqual(testID, UserSession.current.sessionID)
     }
+
+    func testPrepareForSession() {
+        XCTAssertNil(UserSession.current.sessionID)
+
+        UserSession.prepareForSession()
+        let testID = UserDefaults.standard.string(forKey: "LatestSessionKey")
+        XCTAssertEqual(testID, UserSession.current.sessionID)
+    }
+
 }

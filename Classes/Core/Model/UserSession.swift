@@ -45,7 +45,9 @@ public class UserSession: UserSessionable {
     public private(set) var recentIdsListMap: [String: [String]] = [:]
 
     public var isActive: Bool {
-        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
+        // Note: during login we will briefly have a session ID without a started session.
+        // If you need to know if session is started, check for a current user or token
+        return sessionID != nil
     }
 
     public private(set) var sessionID: String? {
@@ -71,14 +73,10 @@ public class UserSession: UserSessionable {
         UserSession.current.sessionID = sessionID
     }
 
-    /// Cleanup after a failed attempt at creating a new session
-    public static func cleanupFailedSession() {
-        UserSession.current.sessionID = nil
-    }
-
     public static func startSession(user: User, token: OAuthAccessToken) {
-        // Should already have a session ID by this point
-        guard let sessionID = UserSession.current.sessionID else { fatalError("Missing session ID") }
+        // Should already have a session ID by this point, but use fallback for older clients
+        let sessionID = UserSession.current.sessionID ?? UUID().uuidString
+        UserSession.current.sessionID = sessionID
 
         UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: sessionID)
         UserSession.current.token = token
@@ -104,19 +102,22 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
-        UserSession.userDefaults.removeObject(forKey: UserSession.latestSessionKey)
-
-        user = nil
-        token = nil
-        recentlySearched = []
-        recentlyViewed.removeAll()
-        recentIdsListMap = [:]
-        userStorage = nil
-        directoryManager.write(nil, toKeyChain: "token")
+        // Clear session ID
         sessionID = nil
 
-        try! directoryManager.remove(at: paths.session)
-        NotificationCenter.default.post(name: .userSessionEnded, object: nil)
+        // Perform further cleanup if session was actually started
+        if paths != nil {
+            user = nil
+            token = nil
+            recentlySearched = []
+            recentlyViewed.removeAll()
+            recentIdsListMap = [:]
+            userStorage = nil
+            directoryManager.write(nil, toKeyChain: "token")
+
+            try! directoryManager.remove(at: paths.session)
+            NotificationCenter.default.post(name: .userSessionEnded, object: nil)
+        }
     }
 
     public func isTokenValid() -> Bool {
