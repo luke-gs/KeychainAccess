@@ -138,8 +138,10 @@ public class UserSession: UserSessionable {
 
         let directoryManager = self.directoryManager
 
-        let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
-
+        guard let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper else {
+            UserSession.current.endSession()
+            return
+        }
 
         // Currently, these 2 are sessions based only. So when they fail to deserialise
         // which most of the cases are just due to not migrating data, it'll just empty it out instead
@@ -166,14 +168,9 @@ public class UserSession: UserSessionable {
             self.token = token
         }
 
-        guard userWrapper != nil else {
-            UserSession.current.endSession()
-            return
-        }
-
         //Documents directory will change so can't rely on absolute path
-        let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
-        let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
+        let first = (userWrapper.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
+        let second = (userWrapper.symbolicLinkDestinationURL?.lastPathComponent)!
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
 
         self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)
