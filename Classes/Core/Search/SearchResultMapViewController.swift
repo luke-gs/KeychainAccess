@@ -493,3 +493,7 @@ extension SearchResultMapViewController: MapSettingsViewModelDelegate {
     }
 
 }
+
+public class ColoredPinAnnotation: MKPointAnnotation {
+    var pinTintColor: UIColor?
+}
