@@ -19,7 +19,7 @@ public protocol SearchRecentsViewModel: class {
     /// Array of recently searched
     var recentlySearched: [Searchable] { get set }
 
-    var customNoContentView: (UIView & LoadingStateNoContent)? { get set }
+    var customNoContentView: UIView? { get set }
 
     var delegate: (SearchRecentsViewModelDelegate & UIViewController)? { get set }
 
