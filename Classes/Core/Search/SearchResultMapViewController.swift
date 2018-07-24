@@ -42,7 +42,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     weak var delegate: SearchDelegate?
 
-    var sidebarDelegate: LocationSearchSidebarDelegate?
+    var collectionViewDelegate: LocationSearchCollectionViewDelegate?
 
     public var selectedAnnotation: MKAnnotation? {
         didSet {
@@ -99,9 +99,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         return formatter
     }()
 
-    public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
+    public init(layout: MapFormBuilderViewLayout & LocationSearchCollectionViewDelegate) {
         super.init(layout: layout)
-        sidebarDelegate = layout
+        collectionViewDelegate = layout
         title = NSLocalizedString("Location Search", comment: "Location Search Title")
         userInterfaceStyle = .current
     }
@@ -189,18 +189,8 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-
-            if let collectionView = collectionView, let mapView = mapView {
-                let rect = collectionView.convert(collectionView.bounds, to: mapView)
-                mapView.layoutMargins = UIEdgeInsetsMake(0.0, rect.maxX, 0.0, 0.0)
-            }
         } else {
             legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-
-            if let collectionView = collectionView, let mapView = mapView {
-                let rect = collectionView.convert(collectionView.bounds, to: mapView)
-                mapView.layoutMargins = UIEdgeInsetsMake(searchFieldButton!.frame.height, rect.maxX, 0.0, 0.0)
-            }
         }
     }
 
@@ -273,6 +263,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation else { return }
         selectedAnnotation = annotation
+        if let delegate = collectionViewDelegate, !delegate.isShowing {
+            collectionViewDelegate?.showSidebar()
+        }
         viewModel?.annotationViewDidSelect(annotationView: view, in: mapView)
     }
 
@@ -373,9 +366,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         reloadForm()
 
         if viewModel?.searchType != nil {
-            sidebarDelegate?.showSidebar()
+            collectionViewDelegate?.showSidebar()
         } else {
-            sidebarDelegate?.hideSidebar()
+            collectionViewDelegate?.hideSidebar()
         }
     }
 

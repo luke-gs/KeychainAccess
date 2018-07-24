@@ -197,15 +197,15 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     public func titleForResult(_ result: AggregatedResult<T>) -> String {
         switch result.state {
         case .idle:
-            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle)
         case .searching:
-            return String.localizedStringWithFormat(NSLocalizedString("SEARCHING %2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("Searching %2$@", comment: ""), result.request.source.localizedBadgeTitle)
         case .finished where result.error != nil:
             fallthrough
         case .failed:
-            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle)
         case .finished:
-            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), result.entities.count, result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s)", comment: ""), result.entities.count)
         }
     }
 

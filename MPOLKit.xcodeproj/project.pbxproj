@@ -142,7 +142,7 @@
 		19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */; };
 		19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */; };
 		19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */; };
-		19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */; };
+		19C9C7521FC28A6A003C8CE4 /* MapFormBuilderCollectionViewSideBarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C7511FC28A6A003C8CE4 /* MapFormBuilderCollectionViewSideBarLayout.swift */; };
 		19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */; };
 		19D8D7981FB520930002332D /* AuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D8D7971FB520930002332D /* AuthenticationProvider.swift */; };
 		19DBD5CB1FA8E1A200205EEC /* ResponseSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */; };
@@ -559,6 +559,7 @@
 		AA1CFA9C20AA67990032A30E /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9B20AA67990032A30E /* ServiceType.swift */; };
 		AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */; };
 		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
+		AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */; };
 		AA440BE420E2187F009BAF98 /* OutlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */; };
 		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
@@ -1062,7 +1063,7 @@
 		19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLQueryBuilder+Parameterisable.swift"; sourceTree = "<group>"; };
 		19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapDirectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSubtitleButton.swift; sourceTree = "<group>"; };
-		19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchMapCollectionViewSideBarLayout.swift; sourceTree = "<group>"; };
+		19C9C7511FC28A6A003C8CE4 /* MapFormBuilderCollectionViewSideBarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewSideBarLayout.swift; sourceTree = "<group>"; };
 		19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthenticator.swift; sourceTree = "<group>"; };
 		19D8D7971FB520930002332D /* AuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationProvider.swift; sourceTree = "<group>"; };
 		19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSerializing.swift; sourceTree = "<group>"; };
@@ -1486,6 +1487,7 @@
 		AA1CFA9B20AA67990032A30E /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
 		AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemFormItem.swift; sourceTree = "<group>"; };
 		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewDraggableCardLayout.swift; sourceTree = "<group>"; };
 		AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedLabel.swift; sourceTree = "<group>"; };
 		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
@@ -3953,10 +3955,11 @@
 		BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */ = {
 			isa = PBXGroup;
 			children = (
-				19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */,
+				19C9C7511FC28A6A003C8CE4 /* MapFormBuilderCollectionViewSideBarLayout.swift */,
 				BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */,
 				BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */,
 				BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */,
+				AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */,
 			);
 			path = MapCollectionViewLayout;
 			sourceTree = "<group>";
@@ -4870,6 +4873,7 @@
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
 				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
+				AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */,
 				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
@@ -5328,7 +5332,7 @@
 				EA7C50A21FA05C7D004930BF /* CollectionViewFormMediaCell.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
-				19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */,
+				19C9C7521FC28A6A003C8CE4 /* MapFormBuilderCollectionViewSideBarLayout.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				1288D83620DA2F5C00FA6EB0 /* LoginProtocols.swift in Sources */,
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
