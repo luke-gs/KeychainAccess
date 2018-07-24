@@ -79,13 +79,13 @@ public final class Manifest: NSObject {
     private(set) public var lastUpdateDate: Date? {
         get {
             if FileManager.default.fileExists(at: Manifest.storageURL) {
-                return AppGroupCapability.appUserDefaults.object(forKey: manifestLastUpdateKey) as? Date
+                return UserDefaults.standard.object(forKey: manifestLastUpdateKey) as? Date
             } else {
-                AppGroupCapability.appUserDefaults.setValue(nil, forKey: manifestLastUpdateKey)
+                UserDefaults.standard.setValue(nil, forKey: manifestLastUpdateKey)
             }
             return nil
         }
-        set { AppGroupCapability.appUserDefaults.set(newValue, forKey: manifestLastUpdateKey) }
+        set { UserDefaults.standard.set(newValue, forKey: manifestLastUpdateKey) }
     }
     
     private override init() {
