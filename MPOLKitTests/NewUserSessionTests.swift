@@ -28,6 +28,11 @@ class NewUserSessionTests: XCTestCase {
     override func setUp() {
         // Start with no session
         UserSession.current.endSession()
+
+        // Hack due to bizarre apple bug with user defaults
+        UserDefaults.resetStandardUserDefaults()
+        UserSession.userDefaults = UserDefaults.standard
+
         super.setUp()
     }
 
