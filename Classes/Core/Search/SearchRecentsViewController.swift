@@ -86,9 +86,11 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
         formLayout.pinsGlobalHeaderWhenBouncing = true
 
         // Setup the no content view.
-
+        loadingManager.delegate = self
         if let customNoContentView = viewModel.customNoContentView {
-            loadingManager.noContentView = customNoContentView
+            if let loadingStateView = customNoContentView as? BaseLoadingStateView {
+                loadingStateView.actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
+            }
         } else {
             let noContentView = loadingManager.noContentView
             noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
@@ -98,9 +100,9 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
 
             let actionButton = noContentView.actionButton
             actionButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
-        }
 
-        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
+            noContentView.actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
+        }
 
         updateLoadingManagerState()
 
@@ -235,6 +237,25 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
     
 }
 
+// MARK: - LoadingStateManagerDelegate
+
+extension SearchRecentsViewController: LoadingStateManagerDelegate {
+    public func loadingStateManager(_ stateManager: LoadingStateManager, containerViewForState state: LoadingStateManager.State) -> UIView? {
+        switch state {
+        case .noContent:
+            // Use custom no content view if set
+            return viewModel.customNoContentView
+        default:
+            return nil
+        }
+    }
+
+    public func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State) {
+    }
+}
+
+
+// MARK: - RecentEntitiesHeaderView
 
 private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusable {
 

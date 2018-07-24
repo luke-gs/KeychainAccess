@@ -18,6 +18,11 @@ public protocol LoadableViewController {
 
 /// Protocol for a loading state delegate
 public protocol LoadingStateManagerDelegate: class {
+
+    // Give delegate option to override the default container presented for a given state
+    func loadingStateManager(_ stateManager: LoadingStateManager, containerViewForState state: LoadingStateManager.State) -> UIView?
+
+    // Notify delegate of change to state
     func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State)
 }
 
@@ -201,7 +206,13 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     // MARK: - Private methods
 
     /// Return the container view for the given state
-    private func containerViewForState(_ state: LoadingStateManager.State) -> BaseLoadingStateView? {
+    private func containerViewForState(_ state: LoadingStateManager.State) -> UIView? {
+        // Use custom container view if provided by delegate
+        if let view = delegate?.loadingStateManager(self, containerViewForState: state) {
+            return view
+        }
+
+        // Otherwise fallback to default implementations
         switch state {
         case .loading:
             return loadingView
@@ -312,17 +323,12 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
 
         // Load the container view for the current state and add to scroll view
-        let containerView: BaseLoadingStateView! = containerViewForState(state)
+        let containerView: UIView! = containerViewForState(state)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containerView)
 
         // Override default title and subtitle colors on the container if set
-        if let titleColor = titleColor {
-            containerView.titleLabel.textColor = titleColor
-        }
-        if let subtitleColor = subtitleColor {
-            containerView.subtitleLabel.textColor = subtitleColor
-        }
+        updateLabelColors()
 
         var constraints: [NSLayoutConstraint] = []
         constraints += [

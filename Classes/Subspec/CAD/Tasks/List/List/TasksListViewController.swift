@@ -296,6 +296,11 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 }
 
 extension TasksListViewController: LoadingStateManagerDelegate {
+    public func loadingStateManager(_ stateManager: LoadingStateManager, containerViewForState state: LoadingStateManager.State) -> UIView? {
+        // Use default
+        return nil
+    }
+
     public func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State) {
         if state == .loaded && !searchBar.isFirstResponder {
             // Hide search bar when first loaded
