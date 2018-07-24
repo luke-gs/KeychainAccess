@@ -211,7 +211,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             return .value(())
 
         }.recover(policy: .allErrors) { error -> Promise<Void> in
-            UserSession.cleanupFailedSession()
+            UserSession.current.endSession()
 
             if let error = error as? Status {
                 // Let the user know something terrible happen, then proceed as usual.
