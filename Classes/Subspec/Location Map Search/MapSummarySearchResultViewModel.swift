@@ -117,6 +117,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             }
 
             return pinView
+        } else if let annotation = annotation as? ColoredPinAnnotation {
+            let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: MapSummaryAnnotationViewIdentifier.single.rawValue)
+            pinView.pinTintColor = annotation.pinTintColor
+            return pinView
         }
 
         return nil
