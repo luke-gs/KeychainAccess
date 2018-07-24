@@ -155,9 +155,11 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%1$d RESULT</string>
+			<string>%1$d Result</string>
+			<key>zero</key>
+			<string>No Results</string>
 			<key>other</key>
-			<string>%1$d RESULTS</string>
+			<string>%1$d Results</string>
 		</dict>
 	</dict>
 	<key>%1$d Result(s) from %2$@</key>
