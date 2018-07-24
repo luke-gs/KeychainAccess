@@ -61,6 +61,10 @@ public protocol MapResultViewModelable: SearchResultModelable {
 
     /// Return all the annotations available on the map
     var resultAnnotations: [MKAnnotation]? { get }
+    
+    /// Annotation to represent the center of the search radius
+    /// When nil it is not shown.
+    var searchOriginAnnotation: MKPointAnnotation? { get }
 
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
 
@@ -76,6 +80,16 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// A search strategy to handle searches
     var searchStrategy: LocationSearchModelStrategy { get }
 
+}
+
+extension MapResultViewModelable {
+    /// Default implementation of SearchOrigin that places
+    /// a default blue pin
+    public var searchOriginAnnotation: MKPointAnnotation? {
+        let originAnnotation = ColouredPinAnnotation()
+        originAnnotation.pinTintColor = .brightBlue
+        return originAnnotation
+    }
 }
 
 
