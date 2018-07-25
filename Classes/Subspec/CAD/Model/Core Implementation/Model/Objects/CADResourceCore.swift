@@ -32,7 +32,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 
     open var location: CADLocationType?
 
-    open var odometer: Int?
+    open var odometer: String?
 
     open var patrolGroup: String?
 
@@ -52,7 +52,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 
     open var type: CADResourceUnitType
 
-    open var vehicleCategory: String?
+    open var vehicleCategoryId: String?
 
     // MARK: - Generated
 
@@ -141,7 +141,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
         case station = "station"
         case status = "status"
         case type = "type"
-        case vehicleCategory = "vehicleCategory"
+        case vehicleCategoryId = "vehicleCategoryId"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -155,7 +155,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
         equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment) ?? []
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
-        odometer = try values.decodeIfPresent(Int.self, forKey: .odometer)
+        odometer = try values.decodeIfPresent(String.self, forKey: .odometer)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
         payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds) ?? []
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
@@ -165,7 +165,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
         station = try values.decodeIfPresent(String.self, forKey: .station)
         status = try values.decodeIfPresent(CADResourceStatusCore.self, forKey: .status) ?? .unavailable
         type = try values.decodeIfPresent(CADResourceUnitCore.self, forKey: .type) ?? .vehicle
-        vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
+        vehicleCategoryId = try values.decodeIfPresent(String.self, forKey: .vehicleCategoryId)
     }
 
     public func encode(to encoder: Encoder) throws {
