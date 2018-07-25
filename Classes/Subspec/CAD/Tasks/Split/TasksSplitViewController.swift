@@ -164,6 +164,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     @objc private func performInitialSync() {
         tasksListContainer?.loadingManager.state = .loading
+        tasksListContainer?.loadingManager.loadingView.userInterfaceStyle = .dark
 
         // Sync data needed for displaying main UI, making master VC full width until loaded
         setMasterWidth(view.bounds.width, animated: false)
