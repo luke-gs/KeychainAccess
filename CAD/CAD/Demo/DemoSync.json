@@ -679,9 +679,9 @@
       ], 
       "contactNumber": "0491 570 156", 
       "employeeNumber": "777122", 
-      "firstName": "Tina", 
-      "lastName": "Bailey", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Bailey", 
+      "givenName": "Tina", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "F.", 
       "patrolGroup": "Collingwood", 
       "radioId": "38754276", 
@@ -696,9 +696,9 @@
       ], 
       "contactNumber": "0491 570 110", 
       "employeeNumber": "777453", 
-      "firstName": "Darren", 
-      "lastName": "Fisher", 
-      "licenceTypeId": "Silver Licence", 
+      "familyName": "Fisher", 
+      "givenName": "Darren", 
+      "licenceTypeId": "72852b9f-5d51-4da0-b3a0-0ff56f05d10d", 
       "middleName": "A.", 
       "patrolGroup": "Collingwood", 
       "radioId": "82654386", 
@@ -712,9 +712,9 @@
       ], 
       "contactNumber": "0491 570 157", 
       "employeeNumber": "777032", 
-      "firstName": "Bill", 
-      "lastName": "Cooper", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Cooper", 
+      "givenName": "Bill", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "O.", 
       "patrolGroup": "Collingwood", 
       "radioId": "19975433", 
@@ -728,9 +728,9 @@
       ], 
       "contactNumber": "0467 933 518", 
       "employeeNumber": "777001", 
-      "firstName": "Joel", 
-      "lastName": "Burnell", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Burnell", 
+      "givenName": "Joel", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "F.", 
       "patrolGroup": "Collingwood", 
       "radioId": "09769388", 
@@ -744,9 +744,9 @@
       ], 
       "contactNumber": "0240 796 388", 
       "employeeNumber": "777019", 
-      "firstName": "Hamish", 
-      "lastName": "Gadget", 
-      "licenceTypeId": "Silver Licence", 
+      "familyName": "Gadget", 
+      "givenName": "Hamish", 
+      "licenceTypeId": "72852b9f-5d51-4da0-b3a0-0ff56f05d10d", 
       "middleName": "Whittingham", 
       "patrolGroup": "Collingwood", 
       "radioId": "13975544", 
@@ -761,9 +761,9 @@
       ], 
       "contactNumber": "0240 745 026", 
       "employeeNumber": "777202", 
-      "firstName": "Eva", 
-      "lastName": "Saltau", 
-      "licenceTypeId": "Silver Licence", 
+      "familyName": "Saltau", 
+      "givenName": "Eva", 
+      "licenceTypeId": "72852b9f-5d51-4da0-b3a0-0ff56f05d10d", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "87247643", 
@@ -777,9 +777,9 @@
       ], 
       "contactNumber": "0240 894 617", 
       "employeeNumber": "777791", 
-      "firstName": "Taj", 
-      "lastName": "Singh", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Singh", 
+      "givenName": "Taj", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "Rajesh", 
       "patrolGroup": "Collingwood", 
       "radioId": "65476229", 
@@ -791,9 +791,9 @@
       "capabilities": [], 
       "contactNumber": "0202 111 903", 
       "employeeNumber": "777199", 
-      "firstName": "Jack", 
-      "lastName": "Smart", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Smart", 
+      "givenName": "Jack", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "18654354", 
@@ -805,9 +805,9 @@
       "capabilities": [], 
       "contactNumber": "0240 758 258", 
       "employeeNumber": "GS005", 
-      "firstName": "Jackson", 
-      "lastName": "Smith", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Smith", 
+      "givenName": "Jackson", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "82626288", 
@@ -819,9 +819,9 @@
       "capabilities": [], 
       "contactNumber": "0240 547 378", 
       "employeeNumber": "GS002", 
-      "firstName": "Carl", 
-      "lastName": "Johnson", 
-      "licenceTypeId": "Bronze Licence", 
+      "familyName": "Johnson", 
+      "givenName": "Carl", 
+      "licenceTypeId": "afea460a-913d-4403-bdd6-54bb277d5539", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "74985904", 
@@ -833,9 +833,9 @@
       "capabilities": [], 
       "contactNumber": "0202 021 032", 
       "employeeNumber": "182732", 
-      "firstName": "Scott", 
-      "lastName": "Garett", 
-      "licenceTypeId": "Silver Licence", 
+      "familyName": "Garett", 
+      "givenName": "Scott", 
+      "licenceTypeId": "72852b9f-5d51-4da0-b3a0-0ff56f05d10d", 
       "middleName": "Warwick", 
       "patrolGroup": "South Melbourne", 
       "radioId": "83646297", 
@@ -847,9 +847,9 @@
       "capabilities": [], 
       "contactNumber": "0200 513 188", 
       "employeeNumber": "183728", 
-      "firstName": "James", 
-      "lastName": "Logan", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Logan", 
+      "givenName": "James", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "James", 
       "patrolGroup": "South Melbourne", 
       "radioId": "92747297", 
@@ -863,9 +863,9 @@
       ], 
       "contactNumber": "0202 190 404", 
       "employeeNumber": "182992", 
-      "firstName": "Riccardo", 
-      "lastName": "Lopez", 
-      "licenceTypeId": "Bronze Licence", 
+      "familyName": "Lopez", 
+      "givenName": "Riccardo", 
+      "licenceTypeId": "afea460a-913d-4403-bdd6-54bb277d5539", 
       "middleName": "", 
       "patrolGroup": "South Melbourne", 
       "radioId": "28462827", 
@@ -880,9 +880,9 @@
       ], 
       "contactNumber": "0200 990 332", 
       "employeeNumber": "188278", 
-      "firstName": "Diana", 
-      "lastName": "Wales", 
-      "licenceTypeId": "Silver Licence", 
+      "familyName": "Wales", 
+      "givenName": "Diana", 
+      "licenceTypeId": "72852b9f-5d51-4da0-b3a0-0ff56f05d10d", 
       "middleName": "E", 
       "patrolGroup": "South Melbourne", 
       "radioId": "93462834", 
@@ -894,9 +894,9 @@
       "capabilities": [], 
       "contactNumber": "0182 322 102", 
       "employeeNumber": "172645", 
-      "firstName": "Luke", 
-      "lastName": "Ivenson", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Ivenson", 
+      "givenName": "Luke", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "92746261", 
@@ -910,9 +910,9 @@
       ], 
       "contactNumber": "0204 776 726", 
       "employeeNumber": "182638", 
-      "firstName": "John", 
-      "lastName": "Dread", 
-      "licenceTypeId": "Silver Licence", 
+      "familyName": "Dread", 
+      "givenName": "John", 
+      "licenceTypeId": "72852b9f-5d51-4da0-b3a0-0ff56f05d10d", 
       "middleName": "Savage", 
       "patrolGroup": "Collingwood", 
       "radioId": "92747182", 
@@ -927,9 +927,9 @@
       ], 
       "contactNumber": "0202 930 412", 
       "employeeNumber": "192632", 
-      "firstName": "Meetu", 
-      "lastName": "Singh", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Singh", 
+      "givenName": "Meetu", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "92648263", 
@@ -941,9 +941,9 @@
       "capabilities": [], 
       "contactNumber": "0212 421 188", 
       "employeeNumber": "782737", 
-      "firstName": "Nick", 
-      "lastName": "Fury", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Fury", 
+      "givenName": "Nick", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "92747263", 
@@ -955,9 +955,9 @@
       "capabilities": [], 
       "contactNumber": "0425 584 678", 
       "employeeNumber": "777086", 
-      "firstName": "Gavin", 
-      "lastName": "Raisin", 
-      "licenceTypeId": "Gold Licence", 
+      "familyName": "Raisin", 
+      "givenName": "Gavin", 
+      "licenceTypeId": "b50862f7-961a-43d6-9111-0f43d0787503", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "92757488", 
@@ -1055,7 +1055,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777122", 
@@ -1070,7 +1070,7 @@
       "station": "Collingwood", 
       "status": "At Incident", 
       "type": "Vehicle", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1119,7 +1119,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777032"
@@ -1131,7 +1131,7 @@
       "station": "Collingwood", 
       "status": "Duress", 
       "type": "Motorcycle", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1174,7 +1174,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777001", 
@@ -1187,7 +1187,7 @@
       "station": "Collingwood", 
       "status": "At Incident", 
       "type": "Vehicle", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1239,7 +1239,7 @@
         "streetType": "Crescent", 
         "suburb": "Abbotsford"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777019", 
@@ -1252,7 +1252,7 @@
       "station": "Collingwood", 
       "status": "Meal Break", 
       "type": "Vehicle", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1286,7 +1286,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777202"
@@ -1298,7 +1298,7 @@
       "station": "Collingwood", 
       "status": "At Station", 
       "type": "DogSquad", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1341,7 +1341,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777791"
@@ -1353,7 +1353,7 @@
       "station": "Collingwood", 
       "status": "Proceeding", 
       "type": "DogSquad", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1396,7 +1396,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777199"
@@ -1408,7 +1408,7 @@
       "station": "Collingwood", 
       "status": "Proceeding", 
       "type": "PoliceOfficer", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "callsign": "V23", 
@@ -1472,7 +1472,7 @@
         "streetType": "Street", 
         "suburb": "Southbank"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182732", 
@@ -1485,7 +1485,7 @@
       "station": "Southbank", 
       "status": "At Incident", 
       "type": "Helicopter", 
-      "vehicleCategory": "1"
+      "vehicleCategoryId": "8d5719c2-fddb-4d24-95f9-47994e25345f"
     }, 
     {
       "activityLog": [
@@ -1514,7 +1514,7 @@
         "streetType": "Street", 
         "suburb": "South Melbourne"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182992"
@@ -1526,7 +1526,7 @@
       "station": "South Melbourne", 
       "status": "On Air", 
       "type": "MarineCraft", 
-      "vehicleCategory": "2"
+      "vehicleCategoryId": "05ee6025-fa54-4fcd-a710-5273ae6c07ad"
     }, 
     {
       "activityLog": [
@@ -1561,7 +1561,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": 1234,
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "188278"
@@ -1573,7 +1573,7 @@
       "station": "South Melbourne", 
       "status": "Inquiries1", 
       "type": "Bicycle", 
-      "vehicleCategory": "1"
+      "vehicleCategoryId": "8d5719c2-fddb-4d24-95f9-47994e25345f"
     }
   ]
 }
