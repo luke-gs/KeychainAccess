@@ -13,7 +13,7 @@ import UIKit
 extension UIViewController {
 
     /// Anchor for top of safe area, or bottom of top layout guide
-    var safeAreaOrLayoutGuideTopAnchor: NSLayoutYAxisAnchor {
+    public var safeAreaOrLayoutGuideTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return view.safeAreaLayoutGuide.topAnchor
         } else {
@@ -22,7 +22,7 @@ extension UIViewController {
     }
 
     /// Anchor for bottom of safe area, or top of bottom layout guide
-    var safeAreaOrLayoutGuideBottomAnchor: NSLayoutYAxisAnchor {
+    public var safeAreaOrLayoutGuideBottomAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return view.safeAreaLayoutGuide.bottomAnchor
         } else {
