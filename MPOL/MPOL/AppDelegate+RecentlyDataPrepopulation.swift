@@ -18,7 +18,6 @@ extension AppDelegate {
     @objc func prepopulate() {
         // Prepopulate if DEBUG (Convenience)
         // or External (Requirements)
-        print(NSHomeDirectory())
         #if DEBUG || EXTERNAL
 
         // userSessionStarted is also called on restoreSession
