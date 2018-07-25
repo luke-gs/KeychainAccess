@@ -29,6 +29,17 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
     open var isDriver: Bool?
 
+    open var licenceTypeEntry: PickableManifestEntry? {
+        get {
+            if let licenceTypeId = licenceTypeId {
+                if let entry = Manifest.shared.entry(withID: licenceTypeId) {
+                    return PickableManifestEntry(entry)
+                }
+            }
+            return nil
+        }
+    }
+
     open var subtitle: String {
         if inComplete {
             return NSLocalizedString("Additional details required", comment: "")
@@ -37,7 +48,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
     
     open var officerInfoSubtitle: String {
-        return [rank, officerId, licenceTypeId].joined(separator: ThemeConstants.dividerSeparator)
+        return [rank, officerId, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     open var driverStatus: String? {
