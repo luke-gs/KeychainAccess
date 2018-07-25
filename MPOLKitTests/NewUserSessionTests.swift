@@ -29,9 +29,10 @@ class NewUserSessionTests: XCTestCase {
         // Start with no session
         UserSession.current.endSession()
 
-        // Hack due to bizarre apple bug with user defaults
-        UserDefaults.resetStandardUserDefaults()
-        UserSession.userDefaults = UserDefaults.standard
+        // Hack due to bizarre apple bug with user defaults. Use our own suite, and clear it on each launch
+        let suiteName = "NewUserSessionTests"
+        UserSession.userDefaults.removePersistentDomain(forName: suiteName)
+        UserSession.userDefaults = UserDefaults(suiteName: suiteName)!
 
         super.setUp()
     }
@@ -72,7 +73,7 @@ class NewUserSessionTests: XCTestCase {
         XCTAssertNil(UserSession.current.sessionID)
 
         UserSession.startSession(user: user, token: token)
-        let testID = UserDefaults.standard.string(forKey: "LatestSessionKey")
+        let testID = UserSession.userDefaults.string(forKey: "LatestSessionKey")
         XCTAssertEqual(testID, UserSession.current.sessionID)
     }
 
@@ -80,7 +81,7 @@ class NewUserSessionTests: XCTestCase {
         XCTAssertNil(UserSession.current.sessionID)
 
         UserSession.prepareForSession()
-        let testID = UserDefaults.standard.string(forKey: "LatestSessionKey")
+        let testID = UserSession.userDefaults.string(forKey: "LatestSessionKey")
         XCTAssertEqual(testID, UserSession.current.sessionID)
     }
 
