@@ -30,8 +30,6 @@ public class UsernameCredential: LoginCredential {
         textField.textColor = .white
         textField.autocorrectionType = .no
 
-        NSLayoutConstraint.activate([inputField.heightAnchor.constraint(equalToConstant: 60)])
-
         value = username
         #if DEBUG
         value = "gridstone"
@@ -63,8 +61,6 @@ public class PasswordCredential: LoginCredential {
         textField.textColor = .white
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
-
-        NSLayoutConstraint.activate([inputField.heightAnchor.constraint(equalToConstant: 60)])
 
         #if DEBUG
         value = "mock"
