@@ -411,7 +411,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             case .radius(coordinate: let coordinate, radius: _):
                 if let originAnnotation = viewModel?.searchOriginAnnotation {
                     originAnnotation.coordinate = coordinate
-                    clusterManager.add(originAnnotation)
+                    mapView?.addAnnotation(originAnnotation)
                 }
             }
             
