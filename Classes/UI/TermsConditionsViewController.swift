@@ -17,6 +17,8 @@ public final class TermsConditionsViewController: UIViewController {
     private var textView: UITextView?
     
     private var textViewInsetManager: ScrollViewInsetManager?
+
+    private var buttonsView: DialogActionButtonsView!
     
     public let fileURL: URL
     
@@ -24,15 +26,13 @@ public final class TermsConditionsViewController: UIViewController {
     
     public init(fileURL: URL,
                 acceptText: String? = NSLocalizedString("Accept", bundle: .mpolKit, comment: "T&C - Accept"),
-                cancelText: String? = NSLocalizedString("Cancel", bundle: .mpolKit, comment: "T&C - Cancel")) {
+                declineText: String? = NSLocalizedString("Decline", bundle: .mpolKit, comment: "T&C - Decline")) {
         self.fileURL = fileURL
-        
+
         super.init(nibName: nil, bundle: nil)
-        
+
         title = NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: "Title")
-        
-        navigationItem.leftBarButtonItem  = UIBarButtonItem(title: cancelText, style: .done, target: self, action: #selector(cancelButtonDidSelect(_:)))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: acceptText, style: .done, target: self, action: #selector(acceptButtonDidSelect(_:)))
+
         automaticallyAdjustsScrollViewInsets = false
     }
     
@@ -52,7 +52,7 @@ public final class TermsConditionsViewController: UIViewController {
         
         self.textView = textView
         self.textViewInsetManager = ScrollViewInsetManager(scrollView: textView)
-        self.view = textView
+        view = UIView(frame: .zero)
     }
     
     public override func viewDidLoad() {
@@ -63,6 +63,34 @@ public final class TermsConditionsViewController: UIViewController {
         }
         
         textView!.attributedText = text
+
+        let declineAction = DialogAction(title: "Decline") { _ in
+            self.declineButtonDidSelect()
+        }
+        let acceptAction = DialogAction(title: "Accept") { _ in
+            self.acceptButtonDidSelect()
+        }
+        buttonsView = DialogActionButtonsView(actions: [declineAction, acceptAction])
+        buttonsView.backgroundColor = .white
+        buttonsView.layer.cornerRadius = 0
+
+        textView!.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(textView!)
+        view.addSubview(buttonsView)
+
+        NSLayoutConstraint.activate([
+
+            textView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            textView!.topAnchor.constraint(equalTo: view.topAnchor),
+            textView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonsView.topAnchor.constraint(equalTo: textView!.bottomAnchor),
+            buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonsView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
     
     public override func viewDidLayoutSubviews() {
@@ -79,11 +107,11 @@ public final class TermsConditionsViewController: UIViewController {
 
     // MARK: - Action methods
     
-    @objc private func cancelButtonDidSelect(_ item: UIBarButtonItem) {
+    private func declineButtonDidSelect() {
         delegate?.termsConditionsController(self, didFinishAcceptingConditions: false)
     }
     
-    @objc private func acceptButtonDidSelect(_ item: UIBarButtonItem) {
+    private func acceptButtonDidSelect() {
         delegate?.termsConditionsController(self, didFinishAcceptingConditions: true)
     }
 }

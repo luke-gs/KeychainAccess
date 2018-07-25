@@ -560,6 +560,7 @@
 		AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */; };
 		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
 		AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */; };
+		AA1F649420F583830097A378 /* SemanticVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1F649320F583830097A378 /* SemanticVersionTest.swift */; };
 		AA440BE420E2187F009BAF98 /* OutlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */; };
 		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
@@ -572,6 +573,7 @@
 		AA7B25D620B28659005A23F0 /* DefaultPickableSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */; };
 		AA7F795320AABC4A00985705 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795120AABC4A00985705 /* Relationship.swift */; };
 		AA7F795420AABC4A00985705 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795220AABC4A00985705 /* RelationshipManager.swift */; };
+		AABE49772106B7B300680FD5 /* SemanticVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE49762106B7B300680FD5 /* SemanticVersion.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -1480,6 +1482,7 @@
 		AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLinkFormItem.swift; sourceTree = "<group>"; };
 		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
 		AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModelTests.swift; sourceTree = "<group>"; };
+		AA18995C20F48E4E001E4CBC /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
 		AA19D88020BE08880082E326 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
@@ -1488,6 +1491,7 @@
 		AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemFormItem.swift; sourceTree = "<group>"; };
 		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewDraggableCardLayout.swift; sourceTree = "<group>"; };
+		AA1F649320F583830097A378 /* SemanticVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersionTest.swift; sourceTree = "<group>"; };
 		AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedLabel.swift; sourceTree = "<group>"; };
 		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
@@ -1500,6 +1504,7 @@
 		AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPickableSearchDatasource.swift; sourceTree = "<group>"; };
 		AA7F795120AABC4A00985705 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Relationship.swift; path = Classes/Subspec/RelationshipManager/Relationship.swift; sourceTree = SOURCE_ROOT; };
 		AA7F795220AABC4A00985705 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationshipManager.swift; path = Classes/Subspec/RelationshipManager/RelationshipManager.swift; sourceTree = SOURCE_ROOT; };
+		AABE49762106B7B300680FD5 /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -3419,12 +3424,21 @@
 			path = EntityManager;
 			sourceTree = "<group>";
 		};
+		AA1F649220F583650097A378 /* Versioning */ = {
+			isa = PBXGroup;
+			children = (
+				AA1F649320F583830097A378 /* SemanticVersionTest.swift */,
+			);
+			path = Versioning;
+			sourceTree = "<group>";
+		};
 		AA792CCF2098323B008C7606 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				469EB5801F452FAB0005CAF7 /* LoginViewController.swift */,
 				469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */,
 				46A0A2AE20BE4314007AAAA8 /* Reportable.swift */,
+				AA18995C20F48E4E001E4CBC /* SemanticVersion.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -3459,6 +3473,14 @@
 				AA7F795220AABC4A00985705 /* RelationshipManager.swift */,
 			);
 			name = RelationshipManager;
+			sourceTree = "<group>";
+		};
+		AABE49752106B77400680FD5 /* Versioning */ = {
+			isa = PBXGroup;
+			children = (
+				AABE49762106B7B300680FD5 /* SemanticVersion.swift */,
+			);
+			path = Versioning;
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -4230,6 +4252,7 @@
 		E2552CA21FCBA7D2007376C5 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				AA1F649220F583650097A378 /* Versioning */,
 				EAC0256D1FD8F3DD00E45DB6 /* EntitySearch */,
 			);
 			path = Subspec;
@@ -4556,6 +4579,7 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				AABE49752106B77400680FD5 /* Versioning */,
 				19A2E1252075FE980033ADA3 /* Activities */,
 				9624A4581F83555A00CAE056 /* CAD */,
 				192F679820A2CDDB00015E86 /* Displayable */,
@@ -5162,6 +5186,7 @@
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
 				9609402520B77BD700177E1F /* CADStateManagerBase.swift in Sources */,
 				2744E3A42051DD8500561A8F /* CADBookOnRequestCore.swift in Sources */,
+				AABE49772106B7B300680FD5 /* SemanticVersion.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
 				9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */,
@@ -5690,6 +5715,7 @@
 				EA42F8E41F95910400C5C38E /* PredicateSpecificationTests.swift in Sources */,
 				EA0540081F94950A00F6E63C /* OptionGroupFormItemTests.swift in Sources */,
 				EAF76C711F90640300405DC9 /* FromRequiredTests.swift in Sources */,
+				AA1F649420F583830097A378 /* SemanticVersionTest.swift in Sources */,
 				193ED08D1FDE9AD7002F2837 /* PluginTests.swift in Sources */,
 				19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */,
 				12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */,
