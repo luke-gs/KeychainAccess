@@ -21,12 +21,22 @@ public class LandingPresenter: AppGroupLandingPresenter {
     public var searchViewController: SearchViewController!
     private var tasksProxyViewController: AppProxyViewController!
 
-    override public var termsAndConditionsVersion: String {
-        return TermsAndConditionsVersion
+    override public var termsAndConditionsVersion: SemanticVersion {
+        let version = SemanticVersion(TermsAndConditionsVersion)
+
+        if version == nil {
+            assertionFailure("termsAndConditionsVersion is not a valid semanticVersion")
+        }
+        return version!
     }
 
-    override public var whatsNewVersion: String {
-        return WhatsNewVersion
+    override public var whatsNewVersion: SemanticVersion {
+        let version = SemanticVersion(WhatsNewVersion)
+
+        if version == nil {
+            assertionFailure("whatsNewVersion is not a valid semanticVersion")
+        }
+        return version!
     }
 
     override public var appWindow: UIWindow {
@@ -70,7 +80,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
             tsAndCsVC.delegate = self
             let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
-            navController.modalPresentationStyle = .formSheet
+            navController.modalPresentationStyle = .pageSheet
 
             return navController
 

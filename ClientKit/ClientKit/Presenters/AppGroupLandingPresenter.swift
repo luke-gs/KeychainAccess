@@ -73,11 +73,21 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         MPLRequiresConcreteImplementation()
     }
 
-    open var termsAndConditionsVersion: String {
+    open var appVersion: SemanticVersion {
+        let bundleVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        let version = SemanticVersion(bundleVersion)
+
+        if version == nil {
+            assertionFailure("appVersion is not a valid semanticVersion")
+        }
+        return version!
+    }
+
+    open var termsAndConditionsVersion: SemanticVersion {
         MPLRequiresConcreteImplementation()
     }
 
-    open var whatsNewVersion: String {
+    open var whatsNewVersion: SemanticVersion {
         MPLRequiresConcreteImplementation()
     }
 
@@ -96,11 +106,20 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     /// Return what the current screen should be given the user session state
     private func screenForUserSession() -> LandingScreen {
         if let user = UserSession.current.user, UserSession.current.isActive {
-            if user.areTermsAndConditionsAccepted(version: termsAndConditionsVersion) {
-                if user.whatsNewShownVersion != whatsNewVersion {
-                    return .whatsNew
-                } else {
+
+            let usedVersion = SemanticVersion(user.lastUsedAppVersion)
+            if usedVersion == nil || usedVersion! < appVersion {
+                user.lastUsedAppVersion = appVersion.rawVersion
+                user.whatsNewShownVersion = nil
+                user.termsAndConditionsVersionAccepted = nil
+            }
+
+            if let acceptedVersion = SemanticVersion(user.termsAndConditionsVersionAccepted), acceptedVersion >= termsAndConditionsVersion {
+
+                if  let shownVersion = SemanticVersion(user.whatsNewShownVersion), shownVersion >= whatsNewVersion {
                     return .landing
+                } else {
+                    return .whatsNew
                 }
             } else {
                 return .termsAndConditions
@@ -281,7 +300,7 @@ extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
             guard let `self` = self else { return }
 
             if accept {
-                UserSession.current.user?.termsAndConditionsVersionAccepted = self.termsAndConditionsVersion
+                UserSession.current.user?.termsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
             } else {
                 UserSession.current.endSession()
             }
@@ -293,7 +312,7 @@ extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
 extension AppGroupLandingPresenter: WhatsNewViewControllerDelegate {
 
     open func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
-        UserSession.current.user?.whatsNewShownVersion = whatsNewVersion
+        UserSession.current.user?.whatsNewShownVersion = whatsNewVersion.rawVersion
     }
 
     open func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
