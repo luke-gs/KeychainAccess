@@ -47,7 +47,7 @@ open class TrafficInfringementOffencesViewController: FormBuilderViewController,
         NSLayoutConstraint.activate([
             totalsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             totalsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            totalsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            totalsView.bottomAnchor.constraint(equalTo: safeAreaOrLayoutGuideBottomAnchor),
             (collectionView?.topAnchor.constraint(equalTo: view.topAnchor))!,
             (collectionView?.leadingAnchor.constraint(equalTo: view.leadingAnchor))!,
             (collectionView?.trailingAnchor.constraint(equalTo: view.trailingAnchor))!, 
