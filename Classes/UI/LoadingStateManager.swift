@@ -276,13 +276,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     }
 
     private func updateViewState() {
-        // Update loading indicator
-        if state == .loading {
-            loadingView.loadingIndicatorView.play()
-        } else if loadingViewLoaded {
-            loadingView.loadingIndicatorView.stop()
-        }
-        
         // If we have now loaded content, remove all container UI. Otherwise we re-use what
         // has already been created but swap out the container for current state
         if state == .loaded {

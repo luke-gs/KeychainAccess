@@ -36,6 +36,15 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
         loadingIndicatorView.color = theme.color(forKey: .tint)
     }
     
+    override open func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        if newSuperview == nil {
+            loadingIndicatorView.stop()
+        } else {
+            loadingIndicatorView.play()
+        }
+    }
+    
     // MARK: - Private
 
     private func commonInit() {
