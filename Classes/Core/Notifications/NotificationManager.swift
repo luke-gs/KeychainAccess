@@ -42,6 +42,8 @@ open class NotificationManager: NSObject {
     /// The current Apple issued push token
     open private(set) var pushToken: String?
     
+    private var didRegisterDevice: Bool = false
+    
     /// The current AES key for push notification payload decryption. This is generated on device to allow server
     /// to securely communicate to this device over APNS. The key is cycled whenever the user session changes.
     open var pushKey: Data {
@@ -50,12 +52,13 @@ open class NotificationManager: NSObject {
                 let cipher = AESBlockCipher.AES_256
                 let pushKey = CryptoUtils.generateKey(for: cipher) ?? Data(repeating: 0, count: cipher.keySize)
                 try? keychain.set(pushKey, key: PushKeyKeychainKey)
+                self.didRegisterDevice = false
                 return pushKey
             }
             return key
         }
     }
-
+    
     // MARK: - Setup
     
     public init(keychain: Keychain = SharedKeychainCapability.defaultKeychain) {
@@ -72,9 +75,14 @@ open class NotificationManager: NSObject {
     @objc private func userSessionStarted() {
         // Note: we don't cycle the key when starting sessions, as that happens often when switching between apps
         // and we don't want key changing while logged in as an inflight notification will not be able to be decrypted
-
-        // Register the current push token and key for the user if available
-        registerPushToken()
+        
+        // Ensure didRegisterDevice initialized correctly
+        _ = pushKey
+        
+        if !didRegisterDevice {
+            // Register the current push token and key for the user if available
+            registerPushToken()
+        }
     }
 
     @objc private func userSessionEnded() {
@@ -146,6 +154,7 @@ open class NotificationManager: NSObject {
 
     /// Update current push token and register it if user logged in
     open func updatePushToken(_ deviceToken: Data) {
+        didRegisterDevice = false
         // Convert data token to a string
         let token = deviceToken.hexString()
         print("Push token: \(token)")
@@ -158,7 +167,7 @@ open class NotificationManager: NSObject {
     /// Register push token if it has been issued and a user is logged in
     open func registerPushToken() {
         guard let handler = handler, let pushToken = pushToken, UserSession.current.isActive else { return }
-
+        
         let request = RegisterDeviceRequest()
         request.pushToken = pushToken
 
@@ -177,9 +186,11 @@ open class NotificationManager: NSObject {
 
         // Configure app specific properties
         handler.configureNotificationRegistrationRequest(request: request)
-
+        
+        didRegisterDevice = true
         // Try to register the device, pass any errors to the app specific handler
         APIManager.shared.registerDevice(with: request).catch { error in
+            self.didRegisterDevice = false
             handler.handleRegistrationError(error)
         }
     }

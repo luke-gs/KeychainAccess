@@ -168,9 +168,10 @@ final public class LoginViewController: UIViewController {
     }
 
     private func setupViews() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
+        scrollView.frame = view.bounds
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
 
@@ -189,15 +190,12 @@ final public class LoginViewController: UIViewController {
         }
 
         var constraints = [
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.topAnchor.constraint(greaterThanOrEqualTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
+
+            contentView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).withPriority(.defaultLow),
 
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ]
@@ -222,7 +220,7 @@ final public class LoginViewController: UIViewController {
 
     private func setupStackView() {
         credentialsStackView.alignment = .fill
-        credentialsStackView.distribution = .fillEqually
+        credentialsStackView.distribution = .fillProportionally
         credentialsStackView.axis = .vertical
     }
 

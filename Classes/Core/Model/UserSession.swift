@@ -45,7 +45,9 @@ public class UserSession: UserSessionable {
     public private(set) var recentIdsListMap: [String: [String]] = [:]
 
     public var isActive: Bool {
-        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
+        // Note: during login we will briefly have a session ID without a started session.
+        // If you need to know if session is started, check for a current user or token
+        return sessionID != nil
     }
 
     public private(set) var sessionID: String? {
@@ -65,11 +67,18 @@ public class UserSession: UserSessionable {
         notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyViewed)
     }
 
-    public static func startSession(user: User, token: OAuthAccessToken) {
+    /// Prepare for a new session, setup any required headers for authentication
+    public static func prepareForSession() {
         let sessionID = UUID().uuidString
+        UserSession.current.sessionID = sessionID
+    }
+
+    public static func startSession(user: User, token: OAuthAccessToken) {
+        // Should already have a session ID by this point, but use fallback for older clients
+        let sessionID = UserSession.current.sessionID ?? UUID().uuidString
+        UserSession.current.sessionID = sessionID
 
         UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: sessionID)
-        UserSession.current.sessionID = sessionID
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlySearched = []
@@ -93,19 +102,22 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
-        UserSession.userDefaults.removeObject(forKey: UserSession.latestSessionKey)
-
-        user = nil
-        token = nil
-        recentlySearched = []
-        recentlyViewed.removeAll()
-        recentIdsListMap = [:]
-        userStorage = nil
-        directoryManager.write(nil, toKeyChain: "token")
+        // Clear session ID
         sessionID = nil
 
-        try! directoryManager.remove(at: paths.session)
-        NotificationCenter.default.post(name: .userSessionEnded, object: nil)
+        // Perform further cleanup if session was actually started
+        if paths != nil {
+            user = nil
+            token = nil
+            recentlySearched = []
+            recentlyViewed.removeAll()
+            recentIdsListMap = [:]
+            userStorage = nil
+            directoryManager.write(nil, toKeyChain: "token")
+
+            try! directoryManager.remove(at: paths.session)
+            NotificationCenter.default.post(name: .userSessionEnded, object: nil)
+        }
     }
 
     public func isTokenValid() -> Bool {
@@ -126,8 +138,10 @@ public class UserSession: UserSessionable {
 
         let directoryManager = self.directoryManager
 
-        let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
-
+        guard let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper else {
+            UserSession.current.endSession()
+            return
+        }
 
         // Currently, these 2 are sessions based only. So when they fail to deserialise
         // which most of the cases are just due to not migrating data, it'll just empty it out instead
@@ -154,14 +168,9 @@ public class UserSession: UserSessionable {
             self.token = token
         }
 
-        guard userWrapper != nil else {
-            UserSession.current.endSession()
-            return
-        }
-
         //Documents directory will change so can't rely on absolute path
-        let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
-        let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
+        let first = (userWrapper.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
+        let second = (userWrapper.symbolicLinkDestinationURL?.lastPathComponent)!
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
 
         self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)

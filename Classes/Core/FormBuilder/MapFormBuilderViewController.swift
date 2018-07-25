@@ -24,7 +24,7 @@ open class MapFormBuilderViewController: FormBuilderViewController {
     // MARK: - Public properties
 
     /// The layout object, or `nil`.
-    public let layout: MapFormBuilderViewLayout?
+    public internal(set) var layout: MapFormBuilderViewLayout?
 
 
     /// The map view.

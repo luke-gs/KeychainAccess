@@ -37,21 +37,22 @@ open class LabeledTextField: UIView {
         separator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
         addSubview(separator)
 
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: textField.leadingAnchor),
-            label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            label.heightAnchor.constraint(equalToConstant: 19),
+        label.setContentHuggingPriority(.required, for: .horizontal)
 
-            textField.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            textField.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            textField.heightAnchor.constraint(equalToConstant: 19),
-            
+        layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+
+        let views = ["label": label, "textField": textField, "separator": separator]
+
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[label]-[textField]-|", options: [.alignAllFirstBaseline], metrics: nil, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[label]-|", options: [], metrics: nil, views: views)
+        constraints += [
             separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.0 / traitCollection.currentDisplayScale),
             separator.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        ]
+
+        NSLayoutConstraint.activate(constraints)
     }
 
     required public init?(coder aDecoder: NSCoder) {
