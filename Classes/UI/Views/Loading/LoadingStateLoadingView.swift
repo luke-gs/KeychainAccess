@@ -27,6 +27,16 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
         super.init(coder: coder)
         commonInit()
     }
+    
+    // MARK: - Overrides
+    
+    override open func interfaceStyleDidChange() {
+        super.interfaceStyleDidChange()
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
+        loadingIndicatorView.color = theme.color(forKey: .tint)
+    }
+    
+    // MARK: - Private
 
     private func commonInit() {
         // Set default loading text

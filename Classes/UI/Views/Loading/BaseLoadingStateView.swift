@@ -38,6 +38,13 @@ open class BaseLoadingStateView: UIStackView {
 
     /// The action button.
     public let actionButton = RoundedRectButton(frame: .zero)
+    
+    /// The user interface style.
+    public var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            self.interfaceStyleDidChange()
+        }
+    }
 
     /// The spacer used to separate the image and title label.
     ///
@@ -68,6 +75,8 @@ open class BaseLoadingStateView: UIStackView {
     }
 
     private func commonInit() {
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+        
         let theme = ThemeManager.shared.theme(for: .current)
 
         imageContainerView.isHidden = true
@@ -130,6 +139,8 @@ open class BaseLoadingStateView: UIStackView {
     }
 
     deinit {
+        NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+        
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
         subtitleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
@@ -143,6 +154,14 @@ open class BaseLoadingStateView: UIStackView {
 
         imageContainerView.removeObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
+    }
+    
+    // MARK: - InterfaceDidChange
+    
+    @objc open func interfaceStyleDidChange() {
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
+        titleLabel.textColor = theme.color(forKey: .primaryText)
+        subtitleLabel.textColor = theme.color(forKey: .secondaryText)
     }
 
     // MARK: - Overrides
