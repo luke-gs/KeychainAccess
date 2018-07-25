@@ -45,15 +45,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         case error
     }
     
-    public init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
-    }
-    
-    
     // MARK: - Public properties
 
     /// Optional delegate for observing state changes
@@ -424,20 +415,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     fileprivate func traitCollectionTracker(_ tracker: TraitCollectionTracker, traitCollectionDidChange previousTraitCollection: UITraitCollection?) {
         containerWidthConstraint?.isActive = baseView?.traitCollection.horizontalSizeClass ?? .regular == .regular
-    }
-
-    @objc private func applyTheme() {
-        let theme = ThemeManager.shared.theme(for: .current)
-
-        loadingView.loadingIndicatorView.color = theme.color(forKey: .tint)
-        loadingView.titleLabel.textColor = titleColor
-        loadingView.subtitleLabel.textColor = subtitleColor
-
-        noContentView.titleLabel.textColor = theme.color(forKey: .primaryText)
-        noContentView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
-
-        errorView.titleLabel.textColor = theme.color(forKey: .primaryText)
-        errorView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
     }
 }
 
