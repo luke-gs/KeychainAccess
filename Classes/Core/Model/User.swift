@@ -120,16 +120,13 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
 // MARK: - Convenience methods for common app settings
 extension User {
 
-    public func areTermsAndConditionsAccepted(version: String) -> Bool {
-        // Return true if any mpol based app has accepted the requested version
-        for (_, settings) in appSettings {
-            if let acceptedVersion = settings[.termsAndConditionsVersionAccepted] as? String {
-                if acceptedVersion == version {
-                    return true
-                }
-            }
+    public var lastUsedAppVersion: String? {
+        get {
+            return appSettingValue(forKey: .lastUsedAppVersion) as? String
         }
-        return false
+        set {
+            setAppSettingValue(newValue as AnyObject, forKey: .lastUsedAppVersion)
+        }
     }
 
     public var termsAndConditionsVersionAccepted: String? {

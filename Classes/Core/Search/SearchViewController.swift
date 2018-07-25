@@ -57,11 +57,17 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
     // MARK: - Private methods
 
     private lazy var mapResultsViewController: SearchResultMapViewController = { [unowned self] in
-        let resultsController = SearchResultMapViewController()
+        correctMapResultsViewController()
+    }()
+
+    private func correctMapResultsViewController() -> SearchResultMapViewController {
+
+        let layout = viewModel.locationSearchResultMapLayout(for: traitCollection.horizontalSizeClass)
+        let resultsController = SearchResultMapViewController(layout: layout)
         resultsController.delegate = self
         resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         return resultsController
-    }()
+    }
 
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
@@ -211,6 +217,13 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
         searchPreferredHeight = preferredContentHeight
         view.setNeedsLayout()
         view.layoutIfNeeded()
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if currentResultsViewController is SearchResultMapViewController {
+            clearResults(animated: true)
+            mapResultsViewController = correctMapResultsViewController()
+        }
     }
     
     public func set(leftBarButtonItem button: UIBarButtonItem) {

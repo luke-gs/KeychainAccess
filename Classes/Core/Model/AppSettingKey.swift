@@ -12,6 +12,9 @@ import Foundation
 /// Implemented the same way swift imports NS_TYPED_EXTENSIBLE_ENUMs from obj-c
 public struct AppSettingKey: RawRepresentable, Equatable, Hashable {
 
+    /// The appVersion at the last user login
+    public static let lastUsedAppVersion = AppSettingKey("lastUsedAppVersion")
+
     /// The last terms and conditions version that was accepted
     public static let termsAndConditionsVersionAccepted = AppSettingKey("termsAndConditionsVersionAccepted")
 

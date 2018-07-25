@@ -50,6 +50,16 @@ public protocol SearchViewModel {
     /// The data sources to be used
     var dataSources: [SearchDataSource] { get }
 
+    // CollectionViewMapLayout for LocationSearchResultMapViewController
+    func locationSearchResultMapLayout(for horizontalSizeClass: UIUserInterfaceSizeClass) -> MapFormBuilderViewLayout & LocationSearchCollectionViewDelegate
+
+}
+
+extension SearchViewModel {
+    // default layouts for horizontalSizeClass, this function can be overrided to allow client apps to provide different layouts
+    public func locationSearchResultMapLayout(for horizontalSizeClass: UIUserInterfaceSizeClass) -> MapFormBuilderViewLayout & LocationSearchCollectionViewDelegate {
+        return horizontalSizeClass == .compact ? MapFormBuilderCollectionViewDraggableCardLayout() : MapFormBuilderCollectionViewSideBarLayout()
+    }
 }
 
 public protocol SearchDelegate: class {

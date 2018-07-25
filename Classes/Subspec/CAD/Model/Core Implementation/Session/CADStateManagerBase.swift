@@ -241,10 +241,10 @@ open class CADStateManagerBase: CADStateManagerType {
             return self.pendingSync!.done(on: self.syncQueue, { [unowned self] in
                 // No longer performing sync operation
                 self.pendingSync = nil
-            }).recover { error in
+            }).recover(on: self.syncQueue, { error in
                 self.pendingSync = nil
                 throw error
-            }
+            })
         })
     }
 
