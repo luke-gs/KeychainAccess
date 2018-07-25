@@ -44,22 +44,20 @@ public final class LoginHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi(48)]-[hl]->=0@500-|",
+        let views = ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel]
+
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi(48)]-[hl]->=0-|",
                                                          options: [],
                                                          metrics: nil,
-                                                         views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi]-[sl]->=0@500-|",
+                                                         views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi(48)]->=0-|",
                                                       options: [],
                                                       metrics: nil,
-                                                      views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi(48)]->=0@500-|",
-                                                      options: [],
+                                                      views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hl][sl]->=0-|",
+                                                      options: [.alignAllLeading, .alignAllTrailing],
                                                       metrics: nil,
-                                                      views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hl][sl]->=0@500-|",
-                                                      options: [],
-                                                      metrics: nil,
-                                                      views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
+                                                      views: views)
         NSLayoutConstraint.activate(constraints)
     }
     
