@@ -116,7 +116,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open private(set) lazy var loadingView: LoadingStateLoadingView = { [unowned self] in
         self.loadingViewLoaded = true
         return LoadingStateLoadingView(frame: .zero)
-        }()
+    }()
 
     /// The no content view.
     ///
@@ -125,7 +125,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open private(set) lazy var noContentView: LoadingStateNoContentView = { [unowned self] in
         self.noContentViewLoaded = true
         return LoadingStateNoContentView(frame: .zero)
-        }()
+    }()
 
     /// The no content view.
     ///
@@ -134,7 +134,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open private(set) lazy var errorView: LoadingStateErrorView = { [unowned self] in
         self.errorViewLoaded = true
         return LoadingStateErrorView(frame: .zero)
-        }()
+    }()
 
     /// The color for both title and subtitle labels.
     open var noContentColor: UIColor! = .secondaryGray {
