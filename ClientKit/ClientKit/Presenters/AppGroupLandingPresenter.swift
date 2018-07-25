@@ -239,28 +239,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             throw error
         }.done {
             UserSession.startSession(user: User(username: username), token: lToken!)
-
-            // Prepopulate if DEBUG (Convenience)
-            // or External (Requirements)
-            #if DEBUG || EXTERNAL
-            if let recentlySearchedPath = Bundle.main.path(forResource: "RecentlySearch", ofType: "json", inDirectory: "DemoPrepopulate") {
-
-                let url = URL(fileURLWithPath: recentlySearchedPath)
-
-                if let recentlySearchedData = try? Data(contentsOf: url), let recentlySearched = try? JSONDecoder().decode([Searchable].self, from: recentlySearchedData) {
-                    UserSession.current.recentlySearched = recentlySearched
-                }
-            }
-
-            if let recentlyViewedPath = Bundle.main.path(forResource: "RecentlyViewed", ofType: nil, inDirectory: "DemoPrepopulate") {
-
-                let url = URL(fileURLWithPath: recentlyViewedPath)
-                if let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(withFile: url.path) as? [MPOLKitEntity] {
-                    UserSession.current.recentlyViewed.add(recentlyViewed)
-                }
-            }
-            #endif
-
             self.updateInterfaceForUserSession(animated: true)
         }.then { [unowned self] () -> Promise<Void> in
             return self.postAuthenticateChain()
