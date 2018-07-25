@@ -81,15 +81,3 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var searchStrategy: LocationSearchModelStrategy { get }
 
 }
-
-extension MapResultViewModelable {
-    /// Default implementation of SearchOrigin that places
-    /// a default blue pin
-    public var searchOriginAnnotation: MKPointAnnotation? {
-        let originAnnotation = ColoredPinAnnotation()
-        originAnnotation.pinTintColor = .brightBlue
-        return originAnnotation
-    }
-}
-
-

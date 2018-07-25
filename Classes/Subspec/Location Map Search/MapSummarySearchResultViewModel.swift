@@ -49,6 +49,12 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     }
 
     public private(set) var resultAnnotations: [MKAnnotation]?
+    
+    public var searchOriginAnnotation: MKPointAnnotation? {
+        let originAnnotation = ColoredPinAnnotation()
+        originAnnotation.pinTintColor = .brightBlue
+        return originAnnotation
+    }
 
     private var itemsMap: [MPOLKitEntity: FormItem] = [:]
 
