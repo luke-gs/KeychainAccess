@@ -266,8 +266,8 @@ open class CADStateManagerBase: CADStateManagerType {
 
     open func processSyncResponse(_ response: CADSyncResponseType) {
         self.lastSync = response
-        self.lastSyncTime = Date()
         self.processSyncItems()
+        self.lastSyncTime = Date()
         NotificationCenter.default.post(name: .CADSyncChanged, object: self)
     }
 
