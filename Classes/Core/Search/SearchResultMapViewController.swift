@@ -397,9 +397,8 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         /// Remove all the existing annotations, except current user location
         clusterManager.removeAll()
         /// Due to us reloading the viewmodel each time, we can't use removeAnnotation(searchOriginAnnotation)
-        /// as it creates a new annotation each time so remove all that aren't the user instead
-        if let nonUserAnnotations = mapView?.annotations.filter({type(of: $0) != MKUserLocation.self}) {
-            mapView?.removeAnnotations(nonUserAnnotations)
+        if let searchOriginAnnotations = mapView?.annotations.compactMap({$0 as? SearchOriginAnnotation}) {
+            mapView?.removeAnnotations(searchOriginAnnotations)
         }
 
         if let annotations = viewModel?.resultAnnotations {
@@ -503,6 +502,6 @@ extension SearchResultMapViewController: MapSettingsViewModelDelegate {
 
 }
 
-public class ColoredPinAnnotation: MKPointAnnotation {
+public class ColoredPinAnnotation: SearchOriginAnnotation {
     var pinTintColor: UIColor?
 }

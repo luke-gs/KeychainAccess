@@ -50,7 +50,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public private(set) var resultAnnotations: [MKAnnotation]?
     
-    public var searchOriginAnnotation: MKPointAnnotation? {
+    public var searchOriginAnnotation: SearchOriginAnnotation? {
         let originAnnotation = ColoredPinAnnotation()
         originAnnotation.pinTintColor = .brightBlue
         return originAnnotation

@@ -64,7 +64,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     
     /// Annotation to represent the center of the search radius
     /// When nil it is not shown.
-    var searchOriginAnnotation: MKPointAnnotation? { get }
+    var searchOriginAnnotation: SearchOriginAnnotation? { get }
 
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
 
@@ -81,3 +81,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var searchStrategy: LocationSearchModelStrategy { get }
 
 }
+
+// Helper subclass to allow implementors to easy discern which
+// annotation is the origin of the search.
+public class SearchOriginAnnotation: MKPointAnnotation {}
