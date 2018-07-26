@@ -80,7 +80,7 @@ public struct ManifestFetchRequest: Parameterisable {
             break
         case .partial(let collections):
             let categories = collections.map { $0.rawValue }
-            parameters = ["categories": categories]
+            parameters["categories"] = categories
         }
 
         self.path = fetchType.path
