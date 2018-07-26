@@ -19,6 +19,9 @@ open class RoundedRectButton: UIButton {
         case side
     }
     
+    /// Style to round the corners with, defaults to .corner
+    /// value can be changed at any time and the relevant radius
+    /// will be applied on next layout.
     public var style: RoundingStyle = .corner
 
     public static let defaultInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 20.0)
