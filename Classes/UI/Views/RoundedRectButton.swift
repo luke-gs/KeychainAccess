@@ -15,14 +15,14 @@ import UIKit
 open class RoundedRectButton: UIButton {
     
     public enum RoundingStyle {
-        case corner
+        case corner(CGFloat)
         case side
     }
     
     /// Style to round the corners with, defaults to .corner
     /// value can be changed at any time and the relevant radius
     /// will be applied on next layout.
-    public var style: RoundingStyle = .corner
+    public var style: RoundingStyle = .corner(6.0)
 
     public static let defaultInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 20.0)
     
@@ -55,8 +55,8 @@ open class RoundedRectButton: UIButton {
         switch style {
         case .side:
             layer.cornerRadius = bounds.height / 2
-        case .corner:
-            layer.cornerRadius = 6.0
+        case .corner(let cornerRadius):
+            layer.cornerRadius = min(cornerRadius, bounds.height / 2)
         }
     }
     
