@@ -16,7 +16,7 @@ open class RoundedRectButton: UIButton {
     
     public enum RoundingStyle {
         case corner(CGFloat)
-        case side
+        case max
     }
     
     /// Style to round the corners with, defaults to .corner
@@ -53,7 +53,7 @@ open class RoundedRectButton: UIButton {
     open override func layoutSubviews() {
         super.layoutSubviews()
         switch style {
-        case .side:
+        case .max:
             layer.cornerRadius = bounds.height / 2
         case .corner(let cornerRadius):
             layer.cornerRadius = min(cornerRadius, bounds.height / 2)
