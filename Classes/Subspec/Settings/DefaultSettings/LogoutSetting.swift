@@ -31,9 +31,9 @@ public extension Settings {
     public static let logOut = Setting(title: "Log Off This Device",
                                        subtitle: nil,
                                        image: nil,
-                                       type: .button(logOff))
+                                       type: .button(action: logOff))
 
-    private static func logOff(_ viewController: UIViewController) {
+    private static func logOff(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
         viewController.dismiss(animated: true) {
             let window = UIApplication.shared.keyWindow
             let target = window?.target(forAction: #selector(Logoutable.logOut), withSender: nil)

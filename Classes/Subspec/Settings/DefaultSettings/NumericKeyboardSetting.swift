@@ -12,7 +12,7 @@ public extension Settings {
                                                 subtitle: nil,
                                                 image: AssetManager.shared.image(forKey: .keyboard),
                                                 type: .switch(isOn: isOn,
-                                                              action: { isOn in
+                                                              action: { isOn, _ in
                                                                 KeyboardInputManager.shared.isNumberBarEnabled = isOn
                                                 }))
     private static func isOn() -> Bool {
