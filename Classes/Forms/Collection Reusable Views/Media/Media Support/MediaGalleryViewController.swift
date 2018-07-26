@@ -387,7 +387,6 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         let backgroundColor = theme.color(forKey: .background)
         let secondaryTextColor = theme.color(forKey: .secondaryText)
 
-        loadingManager.noContentColor = secondaryTextColor ?? .gray
         view.backgroundColor = backgroundColor
 
         collectionView.backgroundColor = backgroundColor

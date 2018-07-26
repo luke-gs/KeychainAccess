@@ -274,9 +274,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         placeholderTextColor = theme.color(forKey: .placeholderText)
         disclosureColor      = theme.color(forKey: .disclosure)
         validationErrorColor = theme.color(forKey: .validationError)
-        
-        loadingManager.noContentColor = secondaryTextColor ?? .gray
-        
+    
         setNeedsStatusBarAppearanceUpdate()
         
         guard let view = self.viewIfLoaded, let collectionView = self.collectionView else { return }

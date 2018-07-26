@@ -136,27 +136,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         return LoadingStateErrorView(frame: .zero)
     }()
 
-    /// The color for both title and subtitle labels.
-    open var noContentColor: UIColor! = .secondaryGray {
-        didSet {
-            if noContentColor == nil {
-                noContentColor = .secondaryGray
-            }
-        }
-    }
-
-    open var titleColor: UIColor? {
-        didSet {
-            updateLabelColors()
-        }
-    }
-
-    open var subtitleColor: UIColor? {
-        didSet {
-            updateLabelColors()
-        }
-    }
-
     // Refresh control
     
     public var onRefreshControlCreated: ((_ refreshControl: UIRefreshControl) -> Void)?
@@ -336,24 +315,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         updateContentInsets()
 
         NSLayoutConstraint.activate(constraints)
-    }
-    
-    /// Updates label colors depending on state
-    private func updateLabelColors() {
-        if loadingViewLoaded {
-            loadingView.titleLabel.textColor = titleColor
-            loadingView.subtitleLabel.textColor = subtitleColor
-        }
-        
-        if noContentViewLoaded {
-            noContentView.titleLabel.textColor = noContentColor
-            noContentView.subtitleLabel.textColor = noContentColor
-        }
-        
-        if errorViewLoaded {
-            errorView.titleLabel.textColor = titleColor
-            errorView.subtitleLabel.textColor = subtitleColor
-        }
     }
     
     private func switchBaseViews(from fromView: UIView?, to newView: UIView?) {

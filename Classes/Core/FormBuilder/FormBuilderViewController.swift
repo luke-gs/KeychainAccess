@@ -351,9 +351,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     open func apply(_ theme: Theme) {
         backgroundColor = theme.color(forKey: .background)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
-
-        loadingManager.noContentColor = secondaryTextColor ?? .gray
 
         setNeedsStatusBarAppearanceUpdate()
 
