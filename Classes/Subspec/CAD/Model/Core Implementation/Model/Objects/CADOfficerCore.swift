@@ -90,8 +90,8 @@ open class CADOfficerCore: Codable, CADOfficerType {
     enum CodingKeys: String, CodingKey {
         case capabilities = "capabilities"
         case contactNumber = "contactNumber"
-        case firstName = "firstName"
-        case lastName = "lastName"
+        case firstName = "givenName"
+        case lastName = "familyName"
         case licenceTypeId = "licenceTypeId"
         case middleName = "middleName"
         case patrolGroup = "patrolGroup"

@@ -37,7 +37,15 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         guard let resource = model as? CADResourceType else { return }
         self.resource = resource
         (mapViewModel as? ResourceOverviewMapViewModel)?.reloadFromModel(resource)
-        
+
+        // Load text from manifest
+        var vehicleCategoryText: String? = nil
+        if let vehicleCategoryId = resource.vehicleCategoryId {
+            if let entry = Manifest.shared.entry(withID: vehicleCategoryId) {
+                vehicleCategoryText = entry.rawValue
+            }
+        }
+
         sections = [
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
                                               items: [
@@ -69,7 +77,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
-                                                                              value: resource.vehicleCategory,
+                                                                              value: vehicleCategoryText,
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
