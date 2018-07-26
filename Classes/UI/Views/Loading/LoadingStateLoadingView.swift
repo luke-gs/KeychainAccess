@@ -27,6 +27,25 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
         super.init(coder: coder)
         commonInit()
     }
+    
+    // MARK: - Overrides
+    
+    override open func interfaceStyleDidChange() {
+        super.interfaceStyleDidChange()
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
+        loadingIndicatorView.color = theme.color(forKey: .tint)
+    }
+    
+    override open func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        if newSuperview == nil {
+            loadingIndicatorView.stop()
+        } else {
+            loadingIndicatorView.play()
+        }
+    }
+    
+    // MARK: - Private
 
     private func commonInit() {
         // Set default loading text
@@ -36,8 +55,8 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
         let theme = ThemeManager.shared.theme(for: .current)
         loadingIndicatorView = MPOLSpinnerView(style: .large, color: theme.color(forKey: .tint))
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(loadingIndicatorView)
-        containerView.isHidden = false
+        imageContainerView.addSubview(loadingIndicatorView)
+        imageContainerView.isHidden = false
         
         actionButton.tintColor = .clear
         actionButton.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .medium)
@@ -46,24 +65,11 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
         actionButton.layer.borderWidth = 1
 
         NSLayoutConstraint.activate([
-            loadingIndicatorView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            loadingIndicatorView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            loadingIndicatorView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            loadingIndicatorView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            ])
-    }
-
-    public override func applyTheme(theme: Theme) {
-        super.applyTheme(theme: theme)
-        loadingIndicatorView.color = theme.color(forKey: .tint)
-    }
-
-    public override func appeared() {
-        loadingIndicatorView.play()
-    }
-
-    public override func disappeared() {
-        loadingIndicatorView.stop()
+            loadingIndicatorView.topAnchor.constraint(equalTo: imageContainerView.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
+        ])
     }
 }
 

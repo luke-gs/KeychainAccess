@@ -337,7 +337,6 @@
 		37D718FE20BBB2F1004C3F0B /* Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D718FD20BBB2F1004C3F0B /* Summarisable.swift */; };
 		37D7190420BBB8B5004C3F0B /* EventSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D7190320BBB8B5004C3F0B /* EventSummaryViewModel.swift */; };
 		37E86AA920D8D253004D1C7A /* ThemedNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E86AA820D8D253004D1C7A /* ThemedNavigationController.swift */; };
-		37F4233120CF69050051D853 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F4233020CF69050051D853 /* LoadingState.swift */; };
 		44020FD61FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44020FD51FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift */; };
 		4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4420D27F1F66428D00E20304 /* Sequence+Nils.swift */; };
 		4426162A1FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */; };
@@ -559,8 +558,8 @@
 		AA1CFA9C20AA67990032A30E /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9B20AA67990032A30E /* ServiceType.swift */; };
 		AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */; };
 		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
-		AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */; };
 		AA1F649420F583830097A378 /* SemanticVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1F649320F583830097A378 /* SemanticVersionTest.swift */; };
+		AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */; };
 		AA440BE420E2187F009BAF98 /* OutlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */; };
 		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
@@ -1490,8 +1489,8 @@
 		AA1CFA9B20AA67990032A30E /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
 		AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemFormItem.swift; sourceTree = "<group>"; };
 		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
-		AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewDraggableCardLayout.swift; sourceTree = "<group>"; };
 		AA1F649320F583830097A378 /* SemanticVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersionTest.swift; sourceTree = "<group>"; };
+		AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewDraggableCardLayout.swift; sourceTree = "<group>"; };
 		AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedLabel.swift; sourceTree = "<group>"; };
 		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
@@ -5172,7 +5171,6 @@
 				196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */,
 				46F77072200D688600BA6614 /* PixelWidthSelectionViewController.swift in Sources */,
 				19B025642074B91A00B7529F /* AnyActivityLauncher.swift in Sources */,
-				37F4233120CF69050051D853 /* LoadingState.swift in Sources */,
 				12353410207F167A008256AA /* DefaultEventDateTimeViewController.swift in Sources */,
 				96C51C901FD9EB35002C4640 /* CallsignStatusViewController.swift in Sources */,
 				465A944C2002D9B900C1749F /* LocationErrorManager.swift in Sources */,

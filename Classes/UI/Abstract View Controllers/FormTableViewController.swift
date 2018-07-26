@@ -294,9 +294,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         primaryTextColor     = theme.color(forKey: .primaryText)
         secondaryTextColor   = theme.color(forKey: .secondaryText)
         placeholderTextColor = theme.color(forKey: .placeholderText)
-        
-        loadingManager.noContentColor = secondaryTextColor ?? .gray
-        
+    
         setNeedsStatusBarAppearanceUpdate()
         
         guard let tableView = self.tableView else { return }
