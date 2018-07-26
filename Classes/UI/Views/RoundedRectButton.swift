@@ -22,7 +22,7 @@ open class RoundedRectButton: UIButton {
     /// Style to round the corners with, defaults to .corner
     /// value can be changed at any time and the relevant radius
     /// will be applied on next layout.
-    public var style: RoundingStyle = .corner(6.0)
+    public var roundingStyle: RoundingStyle = .corner(6.0)
 
     public static let defaultInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 20.0)
     
@@ -52,7 +52,7 @@ open class RoundedRectButton: UIButton {
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        switch style {
+        switch roundingStyle {
         case .max:
             layer.cornerRadius = bounds.height / 2
         case .corner(let cornerRadius):
