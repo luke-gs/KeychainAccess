@@ -22,7 +22,7 @@ public protocol CADResourceType: class, Codable, CADTaskListItemModelType {
     var equipment: [CADEquipmentType] { get set }
     var lastUpdated : Date? { get set }
     var location: CADLocationType? { get set }
-    var odometer: Int? { get set }
+    var odometer: String? { get set }
     var patrolGroup: String? { get set }
     var payrollIds: [String] { get set }
     var remarks : String? { get set }
@@ -32,7 +32,7 @@ public protocol CADResourceType: class, Codable, CADTaskListItemModelType {
     var station: String? { get set }
     var status: CADResourceStatusType { get set }
     var type: CADResourceUnitType { get set }
-    var vehicleCategory: String? { get set }
+    var vehicleCategoryId: String? { get set }
 
     // MARK: - Generated
     var coordinate: CLLocationCoordinate2D? { get }

@@ -17,8 +17,8 @@ open class OfficerDetailsViewModel {
     /// The form content
     public var content: BookOnDetailsFormContentOfficerViewModel
 
-    open var licenceOptions: [String] {
-        return CADStateManager.shared.manifestEntries(for: .officerLicenceType).rawValues()
+    open var licenceOptions: [PickableManifestEntry] {
+        return CADStateManager.shared.manifestEntries(for: .officerLicenceType).pickableList()
     }
 
     open var capabilitiesOptions: [String] {
