@@ -15,9 +15,9 @@ public extension Settings {
     public static let termsAndConditions = Setting(title: "Terms and Conditions",
                                                    subtitle: nil,
                                                    image: nil,
-                                                   type: .button(Settings.presentVC))
+                                                   type: .button(action: presentVC))
 
-    private static func presentVC(_ viewController: UIViewController) {
+    private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
         let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions",
                                                                                withExtension: "html")!)
         tsAndCsVC.title = "Terms and Conditions"
