@@ -404,16 +404,11 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         if let annotations = viewModel?.resultAnnotations {
             clusterManager.add(annotations)
         }
-    
-        if let searchType = viewModel?.searchType {
-            switch searchType {
-            case .radius(coordinate: let coordinate, radius: _):
-                if let originAnnotation = viewModel?.searchOriginAnnotation {
-                    originAnnotation.coordinate = coordinate
-                    mapView?.addAnnotation(originAnnotation)
-                }
-            }
-            
+        
+        if let searchType = viewModel?.searchType,
+            let originAnnotation = viewModel?.searchOriginAnnotation {
+            originAnnotation.coordinate = searchType.coordinate
+            mapView?.addAnnotation(originAnnotation)
         }
 
         if let mapView = mapView {
