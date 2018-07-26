@@ -58,13 +58,13 @@ final public class SettingsViewController: FormTableViewController {
             case .button(let action):
                 let buttonAction = DialogAction(title: setting.title,
                                                 style: DialogActionStyle.default) { [unowned self] buttonAction in
-                                                    action(self)
+                                                    action(self, nil)
                 }
                 return buttonAction
             case .switch(let (isOn, action)):
                 let buttonAction = DialogAction(title: setting.title,
                                                 style: DialogActionStyle.default) { buttonAction in
-                                                    action(!isOn())
+                                                    action(!isOn(), nil)
                 }
                 return buttonAction
             }
@@ -117,6 +117,8 @@ final public class SettingsViewController: FormTableViewController {
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let setting = sections[indexPath.section].settings[indexPath.row]
         var cell: UITableViewCell!
+
+        setting.onLoad?()
 
         switch setting.type {
         case .plain:
@@ -172,7 +174,9 @@ final public class SettingsViewController: FormTableViewController {
 
         switch setting.type {
         case .button(let action):
-            action(self)
+            action(self) {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
         case .switch, .plain:
             break
         }
@@ -188,7 +192,9 @@ final public class SettingsViewController: FormTableViewController {
 
         switch setting.type {
         case .switch(let (_, action)):
-            action(control.isOn)
+            action(control.isOn) {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
         case .button, .plain:
             break
         }
@@ -198,16 +204,6 @@ final public class SettingsViewController: FormTableViewController {
         super.apply(theme)
         buttonsView?.backgroundColor = theme.color(forKey: .groupedTableCellBackground)
         view?.backgroundColor = theme.color(forKey: .background)
-
-        // Update Dark mode switch state if it exists
-        // TODO: Find a way to decouple DarkMode from settings
-        let settings = sections.flatMap{$0.settings}
-        if settings.contains(where: {$0 == Settings.darkMode}) {
-            let sectionIndex = sections.index(where: {$0.settings.contains(where: {$0 == Settings.darkMode})})
-            let section = sections[sectionIndex!]
-            let rowIndex = section.settings.index(of: Settings.darkMode)
-
-            tableView?.reloadRows(at: [IndexPath(row: rowIndex!, section: sectionIndex!)], with: .automatic)
-        }
+        tableView?.reloadData()
     }
 }

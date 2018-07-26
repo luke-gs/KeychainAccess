@@ -162,8 +162,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
         (detailVC as? TasksSplitViewControllerDelegate)?.didChangeSplitWidth(from: oldWidth, to: width)
     }
 
-    private func performInitialSync() {
+    @objc private func performInitialSync() {
         tasksListContainer?.loadingManager.state = .loading
+        tasksListContainer?.loadingManager.loadingView.userInterfaceStyle = .dark
 
         // Sync data needed for displaying main UI, making master VC full width until loaded
         setMasterWidth(view.bounds.width, animated: false)
@@ -202,7 +203,10 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         }.catch { [weak self] error in
             self?.tasksListContainer?.loadingManager.state = .error
+            self?.tasksListContainer?.loadingManager.errorView.userInterfaceStyle = .dark
             self?.tasksListContainer?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            self?.tasksListContainer?.loadingManager.errorView.actionButton.setTitle(NSLocalizedString("Try Again", comment: ""), for: .normal)
+            self?.tasksListContainer?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.performInitialSync), for: .touchUpInside)
             print("Failed to sync: \(error)")
 
             // Enable navigation bar items, for logout

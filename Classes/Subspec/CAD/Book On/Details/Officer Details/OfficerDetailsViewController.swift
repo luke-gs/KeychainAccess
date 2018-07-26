@@ -62,15 +62,15 @@ open class OfficerDetailsViewController: FormBuilderViewController {
 
         
         builder += HeaderFormItem(text: NSLocalizedString("OFFICER DETAILS", comment: ""), style: .plain)
-        
+
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             .options(viewModel.licenceOptions)
             .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(1))
-            .selectedValue([viewModel.content.licenceTypeId].removeNils())
+            .selectedValue([viewModel.content.licenceTypeEntry].removeNils())
             .onValueChanged {
-                self.viewModel.content.licenceTypeId = $0?.first
+                self.viewModel.content.licenceTypeId = $0?.first?.entry.id
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)

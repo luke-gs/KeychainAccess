@@ -1,8 +1,15 @@
+# Context
+
+Please quckly describe the context of this PR.
+Why was it created?
+
+eg. Due to the changes in creative, we now need to include a button in the navigation bar that closes the Terms and Conditions screen
+
+eg. Gavin now wants a way to search by Identification Marks like tattoos and birthmarks.
+
 # Description
 
 Please include a summary of the changes.
-
-Please also include relevant motivation and context. 
 
 List any dependencies that are required for this change.
 
