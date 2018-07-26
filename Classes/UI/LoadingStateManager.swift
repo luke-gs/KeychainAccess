@@ -114,7 +114,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
     open private(set) lazy var loadingView: LoadingStateLoadingView = { [unowned self] in
-        self.loadingViewLoaded = true
         return LoadingStateLoadingView(frame: .zero)
     }()
 
@@ -123,7 +122,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
     open private(set) lazy var noContentView: LoadingStateNoContentView = { [unowned self] in
-        self.noContentViewLoaded = true
         return LoadingStateNoContentView(frame: .zero)
     }()
 
@@ -132,7 +130,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
     open private(set) lazy var errorView: LoadingStateErrorView = { [unowned self] in
-        self.errorViewLoaded = true
         return LoadingStateErrorView(frame: .zero)
     }()
 
@@ -167,11 +164,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     private var contentInsetTopConstraint: NSLayoutConstraint?
     
     private var contentInsetBottomConstraint: NSLayoutConstraint?
-    
-    private var loadingViewLoaded: Bool = false
-    private var noContentViewLoaded: Bool = false
-    private var errorViewLoaded: Bool = false
-
     
     // MARK: - Private methods
 
@@ -289,9 +281,6 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         let containerView: UIView! = containerViewForState(state)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containerView)
-
-        // Override default title and subtitle colors on the container if set
-        updateLabelColors()
 
         var constraints: [NSLayoutConstraint] = []
         constraints += [
