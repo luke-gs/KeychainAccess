@@ -13,6 +13,13 @@ import UIKit
 /// A standard MPOL Rounded Rect button that uses its tint color
 /// as the background color.
 open class RoundedRectButton: UIButton {
+    
+    public enum RoundingStyle {
+        case corner
+        case side
+    }
+    
+    public var style: RoundingStyle = .corner
 
     public static let defaultInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 20.0)
     
@@ -33,12 +40,21 @@ open class RoundedRectButton: UIButton {
         setTitleColor(.white, for: .normal)
         setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
         backgroundColor = tintColor
-        layer.cornerRadius = 6.0
         layer.shouldRasterize = true
         layer.rasterizationScale = traitCollection.currentDisplayScale
         tintAdjustmentMode = .normal
         
         contentEdgeInsets = RoundedRectButton.defaultInsets
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        switch style {
+        case .side:
+            layer.cornerRadius = bounds.height / 2
+        case .corner:
+            layer.cornerRadius = 6.0
+        }
     }
     
     
