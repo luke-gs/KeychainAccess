@@ -826,15 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
 			name = "Copy Demo only files";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Remove the files first\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/DemoPrepopulate\"\n\nif [ \"${CONFIGURATION}\" = \"Debug\" ] || [ \"${CONFIGURATION}\" = \"External-Debug\" ] || [ \"${CONFIGURATION}\" = \"External-Release\" ]; then\ncp -r \"${PROJECT_DIR}/DemoPrepopulate\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/DemoPrepopulate\"\nfi\n";
