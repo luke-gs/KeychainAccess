@@ -26,7 +26,7 @@ open class TaskAnnotation: NSObject, MKAnnotation {
     }
     
     override open func isEqual(_ object: Any?) -> Bool {
-        return identifier == (object as? TaskAnnotation)?.identifier
+        return identifier == (object as? TaskAnnotation)?.identifier && coordinate == (object as? TaskAnnotation)?.coordinate
     }
 
     /// Dequeue or create an appropriate annotation view for this annotation

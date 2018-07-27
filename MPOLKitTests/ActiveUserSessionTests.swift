@@ -70,14 +70,14 @@ class ActiveUserSessionTests: XCTestCase {
     }
 
     func testUserUpdateTC() {
-        UserSession.current.user?.termsAndConditionsVersionAccepted = "1234"
+        UserSession.current.user?.setAppSettingValue("1234" as AnyObject, forKey: .termsAndConditionsVersionAccepted)
         UserSession.current.updateUser()
-        XCTAssertEqual("1234", UserSession.current.user?.termsAndConditionsVersionAccepted)
+        XCTAssertEqual("1234", UserSession.current.user?.appSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String)
     }
 
     func testUserUpdateWhatsNew() {
-        UserSession.current.user?.whatsNewShownVersion = "1234"
+        UserSession.current.user?.setAppSettingValue("1234" as AnyObject, forKey: .whatsNewShownVersion)
         UserSession.current.updateUser()
-        XCTAssertEqual("1234", UserSession.current.user?.whatsNewShownVersion)
+        XCTAssertEqual("1234", UserSession.current.user?.appSettingValue(forKey: .whatsNewShownVersion) as? String)
     }
 }

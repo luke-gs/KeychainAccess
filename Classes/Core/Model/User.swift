@@ -14,6 +14,8 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     // The application specific key for app settings. Required to be set if accessing appSettings
     public static var applicationKey: String!
 
+    public static let appGroupKey: String = "PSCore"
+
     /// The username, fixed across apps and required after init completes
     public var username: String!
 
@@ -96,6 +98,17 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         appSettings[User.applicationKey] = settings
     }
 
+    public func appGroupSettingValue(forKey settingKey: AppSettingKey) -> AnyObject? {
+        return appSettings[User.appGroupKey]?[settingKey]
+    }
+
+    public func setAppGroupSettingValue(_ newValue: AnyObject?, forKey settingKey: AppSettingKey) {
+        // Update setting and trigger didSet on appSettings
+        var settings = appSettings[User.appGroupKey] ?? [:]
+        settings[settingKey] = newValue
+        appSettings[User.appGroupKey] = settings
+    }
+
     // MARK: - ModelVersionable
     public static var modelVersion: Int {
         return 2
@@ -115,38 +128,6 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         case username = "username"
         case appSettings = "appSettings"
     }
-}
-
-// MARK: - Convenience methods for common app settings
-extension User {
-
-    public var lastUsedAppVersion: String? {
-        get {
-            return appSettingValue(forKey: .lastUsedAppVersion) as? String
-        }
-        set {
-            setAppSettingValue(newValue as AnyObject, forKey: .lastUsedAppVersion)
-        }
-    }
-
-    public var termsAndConditionsVersionAccepted: String? {
-        get {
-            return appSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String
-        }
-        set {
-            setAppSettingValue(newValue as AnyObject, forKey: .termsAndConditionsVersionAccepted)
-        }
-    }
-
-    public var whatsNewShownVersion: String? {
-        get {
-            return appSettingValue(forKey: .whatsNewShownVersion) as? String
-        }
-        set {
-            setAppSettingValue(newValue as AnyObject, forKey: .whatsNewShownVersion)
-        }
-    }
-
 }
 
 extension Dictionary {
