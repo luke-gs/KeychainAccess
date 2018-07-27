@@ -53,7 +53,7 @@ public final class Manifest: NSObject {
     private static var storageDirectory: URL = {
         let fileManager = FileManager.default
         
-        let directoryURL = try! fileManager.url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Manifest", isDirectory: true)
+        let directoryURL = AppGroupCapability.appBaseFilePath.appendingPathComponent("Manifest")
         if fileManager.fileExists(at: directoryURL) == false {
             try! fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true)
             UserDefaults.standard.setValue(nil, forKey: manifestLastUpdateKey)
