@@ -26,6 +26,6 @@ SHARED_KEYCHAIN_ACCESS_GROUP=enterprise.gridstone.pscore.shared
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\"" CAD_URL_TYPE_SCHEME="@\"$(CAD_URL_TYPE_SCHEME)\"" CONFIG_HOCKEY_APP_IDENTIFIER="@\"$(HOCKEY_APP_IDENTIFIER)\"" CONFIG_HOCKEY_SECRET="@\"$(HOCKEY_SECRET)\""
 
-OTHER_SWIFT_FLAGS = $(inherited)
+OTHER_SWIFT_FLAGS = $(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100
 
 ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-Dev

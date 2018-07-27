@@ -46,6 +46,8 @@
 		12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6634208D7D2F00739924 /* EventEntityDetailViewModel.swift */; };
 		12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6635208D7D2F00739924 /* EventEntityDetailReport.swift */; };
 		12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */; };
+		1900374521081DC80030B15C /* DemoPrepopulate in Resources */ = {isa = PBXBuildFile; fileRef = 1900374421081DC80030B15C /* DemoPrepopulate */; };
+		19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */; };
 		192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988306E20BB79DA006FE165 /* APIURLManager.swift */; };
@@ -188,6 +190,8 @@
 		12EF6634208D7D2F00739924 /* EventEntityDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDetailViewModel.swift; sourceTree = "<group>"; };
 		12EF6635208D7D2F00739924 /* EventEntityDetailReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDetailReport.swift; sourceTree = "<group>"; };
 		12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionReport.swift; sourceTree = "<group>"; };
+		1900374421081DC80030B15C /* DemoPrepopulate */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DemoPrepopulate; sourceTree = "<group>"; };
+		19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+RecentlyDataPrepopulation.swift"; sourceTree = "<group>"; };
 		192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMatchMakingInjectionPlugin.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		1988306B20BB77B5006FE165 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -594,6 +598,7 @@
 				81566B659C78AD148E9B8520 /* Frameworks */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
 				3C534FA68E46E1F1622CC13C /* Pods */,
+				1900374421081DC80030B15C /* DemoPrepopulate */,
 				96BE10E820803F4B005D4BAA /* Recovered References */,
 			);
 			sourceTree = "<group>";
@@ -614,6 +619,7 @@
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
+				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				12EB8099202AAC0000405F5C /* Events */,
 				12EF65C12086D52200739924 /* Incidents */,
@@ -710,6 +716,7 @@
 				D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */,
 				3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */,
 				96728C2D20D0B25600B82A53 /* Embed App Extensions */,
+				19003741210818160030B15C /* Copy Demo only files */,
 			);
 			buildRules = (
 			);
@@ -798,6 +805,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
+				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
 				1988307020BB82FE006FE165 /* Settings.bundle in Resources */,
 				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
@@ -813,6 +821,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		19003741210818160030B15C /* Copy Demo only files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Demo only files";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Remove the files first\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/DemoPrepopulate\"\n\nif [ \"${CONFIGURATION}\" = \"Debug\" ] || [ \"${CONFIGURATION}\" = \"External-Debug\" ] || [ \"${CONFIGURATION}\" = \"External-Release\" ]; then\ncp -r \"${PROJECT_DIR}/DemoPrepopulate\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/DemoPrepopulate\"\nfi\n";
+		};
 		3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -898,7 +924,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"Internal-Debug\" ]; then\n    if hash tailor 2>/dev/null; then\n        tailor\n    else\n        echo \"warning: Please install Tailor from https://tailor.sh\"\n    fi\nfi";
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Internal-Debug\" ]; then\n    if hash tailor 2>/dev/null; then\n        tailor\n    else\n        echo \"warning: Please install Tailor from https://tailor.sh\"\n    fi\nfi\n";
 		};
 		F69783374302E47A5348358A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1012,6 +1038,7 @@
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
+				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
 				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
 				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
@@ -1357,7 +1384,6 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "c5690383-8418-4fbd-898f-81d078ecbf85";
 				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore Search Dev";
@@ -1660,7 +1686,6 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "edd5ccbc-49cb-46ef-98a4-4afa1d666ec7";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Dev Debug";
