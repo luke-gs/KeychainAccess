@@ -271,7 +271,7 @@ public final class Manifest: NSObject {
     ///     - checkAtDate: the time/date the manifest was retrieved
     /// - Return: A promise that returns the successful result once complete
     ///
-    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
+    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, removePrevious: Bool = false) -> Promise<Void> {
         return Promise<Void> { seal in
             objc_sync_enter(self)
             defer { objc_sync_exit(self) }
@@ -287,6 +287,18 @@ public final class Manifest: NSObject {
                     seal.fulfill(())
                     self.isSaving = false
                     return
+                }
+
+                if let entityName = ManifestEntry.entity().name, removePrevious {
+                    // Cleanup any old data in database for manifest items, before adding new data
+                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    do {
+                        try context.execute(deleteRequest)
+                    } catch let error {
+                        seal.reject(error)
+                        self.isSaving = false
+                    }
                 }
                 
                 for entryDict in manifestItems {
