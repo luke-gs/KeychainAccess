@@ -25,7 +25,8 @@ extension Manifest {
             manifestRequest = ManifestFetchRequest(date: date,
                                                    fetchType: .full)
         }
-        return update(request: manifestRequest)
+        // Update manifest, removing old entries if syncing everything
+        return update(request: manifestRequest, removePrevious: date == nil)
     }
 
     /// Uses the APIManager to connect and retrive the latest manifest with your specific fetch request
@@ -35,7 +36,7 @@ extension Manifest {
     ///
     /// - Parameter request: the manifest fetch request
     /// - Returns: a void promise defining whether the fetch was successful or not
-    public func update(request: ManifestFetchRequest? = nil) -> Promise<Void> {
+    public func update(request: ManifestFetchRequest? = nil, removePrevious: Bool = false) -> Promise<Void> {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         let checkedAtDate = Date()
@@ -48,7 +49,7 @@ extension Manifest {
                 return Promise<Void>.value(())
             }
 
-            return self.saveManifest(with: result, at:checkedAtDate)
+            return self.saveManifest(with: result, at: checkedAtDate, removePrevious: removePrevious)
         }
         return newPromise
     }
