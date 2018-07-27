@@ -39,6 +39,9 @@ open class BaseLoadingStateView: UIStackView {
     /// The action button.
     public let actionButton = RoundedRectButton(frame: .zero)
     
+    /// The secondaryAction button.
+    public let secondaryActionButton = UIButton(frame: .zero)
+    
     /// The user interface style.
     public var userInterfaceStyle: UserInterfaceStyle = .current {
         didSet {
@@ -83,6 +86,7 @@ open class BaseLoadingStateView: UIStackView {
         titleLabel.isHidden = true
         subtitleLabel.isHidden = true
         actionButton.isHidden = true
+        secondaryActionButton.isHidden = true
 
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -94,18 +98,21 @@ open class BaseLoadingStateView: UIStackView {
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.font = .systemFont(ofSize: 17, weight: .regular)
-        subtitleLabel.textColor = .secondaryGray
+        subtitleLabel.textColor = theme.color(forKey: .primaryText)
         subtitleLabel.textAlignment = .center
         subtitleLabel.numberOfLines = 0
 
         actionButton.layer.cornerRadius = 4
-        actionButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        actionButton.roundingStyle = .max
+        actionButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 48, bottom: 6, right: 48)
-
+        
+        secondaryActionButton.backgroundColor = .clear
+        secondaryActionButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
+        secondaryActionButton.setTitleColor(.brightBlue, for: .normal)
+        
         actionButton.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([actionButton.heightAnchor.constraint(equalToConstant: 44)])
-
+        secondaryActionButton.translatesAutoresizingMaskIntoConstraints = false
 
         alignment = .center
         axis = .vertical
@@ -115,6 +122,11 @@ open class BaseLoadingStateView: UIStackView {
         addArrangedSubview(titleLabel)
         addArrangedSubview(subtitleLabel)
         addArrangedSubview(actionButton)
+        addArrangedSubview(secondaryActionButton)
+        
+        NSLayoutConstraint.activate([actionButton.heightAnchor.constraint(equalToConstant: 44)])
+        NSLayoutConstraint.activate([actionButton.widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: 0.5)])
+        NSLayoutConstraint.activate([secondaryActionButton.heightAnchor.constraint(equalToConstant: 44)])
 
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
@@ -122,6 +134,8 @@ open class BaseLoadingStateView: UIStackView {
         subtitleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
         actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.text), context: &contentContext)
         actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
+        secondaryActionButton.addObserver(self, forKeyPath: #keyPath(UIButton.titleLabel.text), context: &contentContext)
+        secondaryActionButton.addObserver(self, forKeyPath: #keyPath(UIButton.titleLabel.attributedText), context: &contentContext)
 
         if #available(iOS 11, *) {
             setCustomSpacing(16, after: imageSpacer)
@@ -136,6 +150,7 @@ open class BaseLoadingStateView: UIStackView {
 
         imageContainerView.addObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.addObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
+        secondaryActionButton.addObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
     }
 
     deinit {
@@ -147,6 +162,8 @@ open class BaseLoadingStateView: UIStackView {
         subtitleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.text), context: &contentContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
+        secondaryActionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.titleLabel.text), context: &contentContext)
+        secondaryActionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.titleLabel.attributedText), context: &contentContext)
 
         if #available(iOS 11, *) {
             return
@@ -154,6 +171,7 @@ open class BaseLoadingStateView: UIStackView {
 
         imageContainerView.removeObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
+        secondaryActionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
     }
     
     // MARK: - InterfaceDidChange
@@ -161,7 +179,7 @@ open class BaseLoadingStateView: UIStackView {
     @objc open func interfaceStyleDidChange() {
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         titleLabel.textColor = theme.color(forKey: .primaryText)
-        subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+        subtitleLabel.textColor = theme.color(forKey: .primaryText)
     }
 
     // MARK: - Overrides
@@ -171,14 +189,14 @@ open class BaseLoadingStateView: UIStackView {
             switch object {
             case let label as UILabel:
                 label.isHidden = label.text?.isEmpty ?? true
-            case let button as RoundedRectButton:
+            case let button as UIButton:
                 button.isHidden = button.titleLabel?.text?.isEmpty ?? true
             default:
                 break
             }
         } else if context == &hiddenContext {
             switch object {
-            case let button as RoundedRectButton:
+            case let button as UIButton:
                 buttonSpacer.isHidden = button.isHidden
             case let imageContainerView as UIView:
                 imageSpacer.isHidden = imageContainerView.isHidden
