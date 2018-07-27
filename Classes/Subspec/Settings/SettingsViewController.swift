@@ -13,26 +13,24 @@ private let plainCellID = "PlainCell"
 
 final public class SettingsViewController: FormTableViewController {
 
-    // MARK: Start public interfaces
+    // MARK:- Public
 
     /// The sections of the table
     public let sections: [SettingSection]
 
     /// The sections pinned to the bottom of the screen
-    public private(set) var pinnedSection: [SettingSection]
+    public private(set) var pinnedSettings: [Setting]
 
     /// Initiaise the SettingsViewController with sections
     ///
     /// - Parameter settingSections: the sections
-    public init(settingSections: [SettingSection]) {
+    public required init(settingSections: [SettingSection]) {
         self.sections = settingSections.filter{$0.type != .pinned}
-        self.pinnedSection = settingSections.filter{$0.type == .pinned}
+        self.pinnedSettings = settingSections.filter{$0.type == .pinned}.flatMap{$0.settings}
         super.init(style: .grouped)
-        createButtonViewIfNecessary()
     }
 
-    // MARK: End public interfaces
-
+    // MARK:- Private
     private var buttonsView: DialogActionButtonsView?
 
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
@@ -44,12 +42,15 @@ final public class SettingsViewController: FormTableViewController {
         tableView?.delegate = self
         tableView?.dataSource = self
         tableView?.rowHeight = 64
+        
+        createButtonViewIfNecessary()
+        createConstraints()
     }
 
     private func createButtonViewIfNecessary() {
-        guard pinnedSection.count > 0 else { return }
+        guard pinnedSettings.count > 0 else { return }
 
-        let actions: [DialogAction] = pinnedSection.flatMap{$0.settings}.compactMap { setting in
+        let actions: [DialogAction] = pinnedSettings.compactMap { setting in
             switch setting.type {
             case .plain:
                 let buttonAction = DialogAction(title: setting.title,
@@ -71,27 +72,42 @@ final public class SettingsViewController: FormTableViewController {
         }
 
         buttonsView = DialogActionButtonsView(actions: actions, layoutStyle: .vertical)
-        buttonsView!.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(buttonsView!)
+    }
 
-        tableView?.translatesAutoresizingMaskIntoConstraints = false
+    private func createConstraints() {
+        var constraints = [NSLayoutConstraint]()
+        var bottomConstraint: NSLayoutConstraint?
 
-        // Make space for button view and position it below form
         if let tableView = tableView {
-            NSLayoutConstraint.activate([
+            tableView.translatesAutoresizingMaskIntoConstraints = false
+            bottomConstraint = tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+
+            constraints += [
                 tableView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 tableView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            ]
 
-                buttonsView!.topAnchor.constraint(equalTo: tableView.bottomAnchor),
-                buttonsView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                buttonsView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                buttonsView!.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-                ])
+            // Add bottom buttons view constraints
+            if let buttonsView = buttonsView {
+                buttonsView.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(buttonsView)
+                bottomConstraint = buttonsView.topAnchor.constraint(equalTo: tableView.bottomAnchor)
+
+                constraints += [
+                    buttonsView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                    buttonsView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                    buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                ]
+            }
+
+            constraints.append(bottomConstraint!)
         }
+
+        NSLayoutConstraint.activate(constraints)
     }
 
-    // MARK: - UITableViewDataSource methods
+    // MARK: - UITableViewDataSource
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -167,7 +183,7 @@ final public class SettingsViewController: FormTableViewController {
         }
     }
 
-    // MARK: - UITableViewDelegate methods
+    // MARK: - UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let setting = sections[indexPath.section].settings[indexPath.row]
@@ -199,6 +215,8 @@ final public class SettingsViewController: FormTableViewController {
             break
         }
     }
+
+    // MARK:- Theming
 
     public override func apply(_ theme: Theme) {
         super.apply(theme)
