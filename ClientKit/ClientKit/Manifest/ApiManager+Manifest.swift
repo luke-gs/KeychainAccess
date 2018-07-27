@@ -17,6 +17,7 @@ extension Manifest {
     ///   - date: the date from which to fetch manifest since
     /// - Returns: a void promise defining whether the fetch was successful or not
     open func fetchManifest(collections: [ManifestCollection]? = nil, sinceDate date: Date? = Manifest.shared.lastUpdateDate) -> Promise<Void> {
+        var removePrevious = false
         let manifestRequest: ManifestFetchRequest
         if let collections = collections {
             manifestRequest = ManifestFetchRequest(date: date,
@@ -24,9 +25,11 @@ extension Manifest {
         } else {
             manifestRequest = ManifestFetchRequest(date: date,
                                                    fetchType: .full)
+
+            // Removing old manifest entries if syncing everything from beginning of time
+            removePrevious = (date == nil)
         }
-        // Update manifest, removing old entries if syncing everything
-        return update(request: manifestRequest, removePrevious: date == nil)
+        return update(request: manifestRequest, removePrevious: removePrevious)
     }
 
     /// Uses the APIManager to connect and retrive the latest manifest with your specific fetch request
