@@ -289,7 +289,7 @@ public final class Manifest: NSObject {
                     return
                 }
 
-                if let entityName = ManifestEntry.entity().name, removePrevious {
+                if removePrevious, let entityName = ManifestEntry.entity().name {
                     // Cleanup any old data in database for manifest items, before adding new data
                     let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
                     let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
@@ -306,8 +306,9 @@ public final class Manifest: NSObject {
                     
                     autoreleasepool {
                         let entry: ManifestEntry
-                        
-                        if let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
+
+                        // Lookup existing entry by ID, don't bother if we just deleted all
+                        if !removePrevious, let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
                             entry = foundEntry
                         } else {
                             entry = ManifestEntry(context: context)
