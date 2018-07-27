@@ -148,12 +148,9 @@ final public class LoginContainerViewController: UIViewController {
 
             contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).withPriority(.required),
             contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.required),
-            contentView.widthAnchor.constraint(lessThanOrEqualToConstant: 420).withPriority(.defaultHigh),
-
+            contentView.widthAnchor.constraint(lessThanOrEqualToConstant: 420).withPriority(.almostRequired),
             contentView.leadingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor),
-            contentView.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
-            contentView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).withPriority(.defaultLow),
-            contentView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).withPriority(.defaultLow)
+            contentView.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
 
@@ -169,7 +166,6 @@ final public class LoginContainerViewController: UIViewController {
 
         views.forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
-            subView.setContentHuggingPriority(.required, for: .vertical)
             view.addSubview(subView)
         }
 
