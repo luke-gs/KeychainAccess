@@ -110,13 +110,13 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             let usedVersion = SemanticVersion(user.lastUsedAppVersion)
             if usedVersion == nil || usedVersion! < appVersion {
                 user.lastUsedAppVersion = appVersion.rawVersion
-                user.whatsNewShownVersion = nil
-                user.termsAndConditionsVersionAccepted = nil
+                user.lastWhatsNewShownVersion = nil
+                user.lastTermsAndConditionsVersionAccepted = nil
             }
 
-            if let acceptedVersion = SemanticVersion(user.termsAndConditionsVersionAccepted), acceptedVersion >= termsAndConditionsVersion {
+            if let acceptedVersion = SemanticVersion(user.lastTermsAndConditionsVersionAccepted), acceptedVersion >= termsAndConditionsVersion {
 
-                if  let shownVersion = SemanticVersion(user.whatsNewShownVersion), shownVersion >= whatsNewVersion {
+                if  let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
                     return .landing
                 } else {
                     return .whatsNew
@@ -304,7 +304,7 @@ extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
             guard let `self` = self else { return }
 
             if accept {
-                UserSession.current.user?.termsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
+                UserSession.current.user?.lastTermsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
             } else {
                 UserSession.current.endSession()
             }
@@ -316,7 +316,7 @@ extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
 extension AppGroupLandingPresenter: WhatsNewViewControllerDelegate {
 
     open func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
-        UserSession.current.user?.whatsNewShownVersion = whatsNewVersion.rawVersion
+        UserSession.current.user?.lastWhatsNewShownVersion = whatsNewVersion.rawVersion
     }
 
     open func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
