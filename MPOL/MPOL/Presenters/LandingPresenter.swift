@@ -201,16 +201,16 @@ public class LandingPresenter: AppGroupLandingPresenter {
     /// Custom post authentication logic that must be executed as part of authentication chain
     override open func postAuthenticateChain() -> Promise<Void> {
         return firstly {
-            // Sync manifest items used in search app
-            return Manifest.shared.fetchManifest(collections: ManifestCollection.searchCollections)
-            }.then { _ in
-                // Fetch the current officer details
-                return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
-                                                                    with: CurrentOfficerDetailsFetchRequest())
-            }.done { officer in
-                try! UserSession.current.userStorage?.add(object: officer,
-                                                          key: UserSession.currentOfficerKey,
-                                                          flag: UserStorageFlag.session)
+            // Sync all manifest items
+            return Manifest.shared.fetchManifest(collections: nil)
+        }.then { _ in
+            // Fetch the current officer details
+            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
+                                                                with: CurrentOfficerDetailsFetchRequest())
+        }.done { officer in
+            try! UserSession.current.userStorage?.add(object: officer,
+                                                      key: UserSession.currentOfficerKey,
+                                                      flag: UserStorageFlag.session)
         }
     }
     
