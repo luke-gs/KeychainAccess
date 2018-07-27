@@ -10,8 +10,6 @@ import ClientKit
 
 public class SearchNoContentView: LoadingStateNoContentView {
 
-    public var tasksButton = UIButton(frame: .zero)
-
     override public init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -22,11 +20,11 @@ public class SearchNoContentView: LoadingStateNoContentView {
         var greetingText: String
 
         if hours >= 0 && hours < 12 {
-            greetingText = "Good Morning"
+            greetingText = NSLocalizedString("Good Morning", comment: "")
         } else if hours >= 12 && hours < 17 {
-            greetingText = "Good Afternoon"
+            greetingText = NSLocalizedString("Good Afternoon", comment: "")
         } else {
-            greetingText = "Good Evening"
+            greetingText = NSLocalizedString("Good Evening", comment: "")
         }
 
         if let officerFirstName = officer?.givenName {
@@ -36,16 +34,22 @@ public class SearchNoContentView: LoadingStateNoContentView {
         }
 
         titleLabel.text = greetingText
-        subtitleLabel.text = "Looks like it's a new day for you. We don't have any Recently Viewed Entities or Recent Searches to show you right now."
-        actionButton.setTitle("New Search", for: .normal)
-
-        tasksButton.setTitle("View My Tasks", for: .normal)
-        tasksButton.setTitleColor(tintColor, for: .normal)
-
-        addArrangedSubview(tasksButton)
+        
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
+        subtitleLabel.textColor = theme.color(forKey: .primaryText)
+        subtitleLabel.text = NSLocalizedString("Looks like it's a new day for you. We don't have any Recently Viewed Entities or Recent Searches to show you right now.", comment: "")
+        actionButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
+        actionButton.roundingStyle = .max
+        NSLayoutConstraint.activate([actionButton.widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: 0.5)])
+    }
+    
+    @objc override public func interfaceStyleDidChange() {
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
+        titleLabel.textColor = theme.color(forKey: .primaryText)
+        subtitleLabel.textColor = theme.color(forKey: .primaryText)
     }
 
     required public init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 }
