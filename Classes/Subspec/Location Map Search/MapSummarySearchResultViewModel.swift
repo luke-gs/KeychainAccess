@@ -37,7 +37,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     public var results: [SearchResultSection]  = [] {
         didSet {
             var itemsMap = [MPOLKitEntity: FormItem]()
-            allAnnotations = results.flatMap({ section -> [MKAnnotation] in
+            resultAnnotations = results.flatMap({ section -> [MKAnnotation] in
                 for (entity, item) in zip(section.entities, self.summaryItemsForSection(section)) {
                     itemsMap[entity] = item
                 }
@@ -48,7 +48,13 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         }
     }
 
-    public private(set) var allAnnotations: [MKAnnotation]?
+    public private(set) var resultAnnotations: [MKAnnotation]?
+    
+    public var searchOriginAnnotation: SearchOriginAnnotation? {
+        let originAnnotation = ColoredPinAnnotation()
+        originAnnotation.pinTintColor = .brightBlue
+        return originAnnotation
+    }
 
     private var itemsMap: [MPOLKitEntity: FormItem] = [:]
 
@@ -116,6 +122,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 pinView.borderColor = displayable.borderColor ?? .gray
             }
 
+            return pinView
+        } else if let annotation = annotation as? ColoredPinAnnotation {
+            let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: MapSummaryAnnotationViewIdentifier.single.rawValue)
+            pinView.pinTintColor = annotation.pinTintColor
             return pinView
         }
 
