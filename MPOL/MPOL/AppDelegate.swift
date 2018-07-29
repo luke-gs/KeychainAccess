@@ -95,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #endif
 
         setupNavigator()
+        startPrepopulationProcessIfNecessary()
 
         return true
     }

@@ -154,7 +154,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchViewController = SearchViewController(viewModel: viewModel)
             // Define a SearchNoContentView and add target to the tasksButton so that it opens CAD
             let searchNoContentView = SearchNoContentView()
-            searchNoContentView.tasksButton.addTarget(self, action: #selector(openTasks), for: .touchUpInside)
             searchViewController.recentsViewController.viewModel.customNoContentView = searchNoContentView
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
@@ -259,11 +258,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
         settingsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: settingsVC, action: #selector(UIViewController.dismissAnimated))
 
         tabBarController?.show(settingsNavController, sender: self)
-    }
-
-    @objc private func openTasks() {
-        guard let controller = tabBarController else { return }
-        _ = controller.delegate?.tabBarController?(controller, shouldSelect: tasksProxyViewController)
     }
 }
 

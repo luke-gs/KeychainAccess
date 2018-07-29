@@ -75,6 +75,7 @@ public class EntityPresenter: Presenter {
                 let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.pscore,
                                                               dataSources: dataSources,
                                                               andMatchMaker: nil)
+                viewModel.recentlyViewed = UserSession.current.recentlyViewed
                 let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
                 entityDetailViewController.delegate = self
                 return entityDetailViewController
