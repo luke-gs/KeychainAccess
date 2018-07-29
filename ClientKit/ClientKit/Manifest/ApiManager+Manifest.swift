@@ -17,7 +17,6 @@ extension Manifest {
     ///   - date: the date from which to fetch manifest since
     /// - Returns: a void promise defining whether the fetch was successful or not
     open func fetchManifest(collections: [ManifestCollection]? = nil, sinceDate date: Date? = Manifest.shared.lastUpdateDate) -> Promise<Void> {
-        var removePrevious = false
         let manifestRequest: ManifestFetchRequest
         if let collections = collections {
             manifestRequest = ManifestFetchRequest(date: date,
@@ -26,10 +25,14 @@ extension Manifest {
             manifestRequest = ManifestFetchRequest(date: date,
                                                    fetchType: .full)
 
-            // Removing old manifest entries if syncing everything from beginning of time
-            removePrevious = (date == nil)
+            // Removing old manifest entries first if syncing everything from beginning of time
+            if date == nil {
+                return self.clearManifest().then { [unowned self] in
+                    return self.update(request: manifestRequest)
+                }
+            }
         }
-        return update(request: manifestRequest, removePrevious: removePrevious)
+        return update(request: manifestRequest)
     }
 
     /// Uses the APIManager to connect and retrive the latest manifest with your specific fetch request
@@ -39,7 +42,7 @@ extension Manifest {
     ///
     /// - Parameter request: the manifest fetch request
     /// - Returns: a void promise defining whether the fetch was successful or not
-    public func update(request: ManifestFetchRequest? = nil, removePrevious: Bool = false) -> Promise<Void> {
+    public func update(request: ManifestFetchRequest? = nil) -> Promise<Void> {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         let checkedAtDate = Date()
@@ -52,7 +55,7 @@ extension Manifest {
                 return Promise<Void>.value(())
             }
 
-            return self.saveManifest(with: result, at: checkedAtDate, removePrevious: removePrevious)
+            return self.saveManifest(with: result, at: checkedAtDate)
         }
         return newPromise
     }
