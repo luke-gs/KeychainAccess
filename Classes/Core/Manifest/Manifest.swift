@@ -238,8 +238,15 @@ public final class Manifest: NSObject {
         
         return result?.first
     }
-    
-    
+
+    /// Create a new child background thread context that uses the view context as it's parent
+    public func createChildBackgroundContext() -> NSManagedObjectContext {
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        managedObjectContext.parent = viewContext
+        return managedObjectContext
+    }
+
+
     // MARK: - Notification support
     
     /// Managed object save notification handler. This method should only be called by the default `NotificationCenter`,
@@ -262,6 +269,32 @@ public final class Manifest: NSObject {
         }
     }
 
+    // MARK: - Clear manifest
+
+    public func clearManifest() -> Promise<Void> {
+        guard let entityName = ManifestEntry.entity().name else { fatalError("No name for core data entity") }
+
+        let (promise, seal) = Promise<Void>.pending()
+        let context = createChildBackgroundContext()
+
+        // Clear any existing manifest data in database, in single batch request
+        // Note: batch deletes run faster than deleting individual entities as they operate at the SQL level. However,
+        // due to this they can't be used within a single transaction with other updates for atomic safety. Here be dragons!
+        context.perform { [weak context] in
+            guard let context = context else { fatalError("Core data context is nil") }
+
+            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+            do {
+                try context.execute(deleteRequest)
+                seal.fulfill(())
+            } catch let error {
+                seal.reject(error)
+            }
+        }
+        return promise
+    }
+
     // MARK: - Save manifest
     
     /// Save dictionary of manifest items to the coredata table
@@ -271,7 +304,7 @@ public final class Manifest: NSObject {
     ///     - checkAtDate: the time/date the manifest was retrieved
     /// - Return: A promise that returns the successful result once complete
     ///
-    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, removePrevious: Bool = false) -> Promise<Void> {
+    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
         return Promise<Void> { seal in
             objc_sync_enter(self)
             defer { objc_sync_exit(self) }
@@ -280,35 +313,20 @@ public final class Manifest: NSObject {
                 return
             }
             isSaving = true
-            let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            managedObjectContext.parent = viewContext
-            managedObjectContext.perform { [weak managedObjectContext] in
-                guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
-                    seal.fulfill(())
-                    self.isSaving = false
-                    return
-                }
+            let context = createChildBackgroundContext()
+            context.perform { [weak context] in
+                guard let context = context else { fatalError("Core data context is nil") }
 
-                if removePrevious, let entityName = ManifestEntry.entity().name {
-                    // Cleanup any old data in database for manifest items, before adding new data
-                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-                    do {
-                        try context.execute(deleteRequest)
-                    } catch let error {
-                        seal.reject(error)
-                        self.isSaving = false
-                    }
-                }
-                
+                let previousCount = (try? context.count(for: ManifestEntry.fetchRequest())) ?? 0
+
                 for entryDict in manifestItems {
                     guard let id = entryDict["id"] as? String else { continue }
                     
                     autoreleasepool {
                         let entry: ManifestEntry
 
-                        // Lookup existing entry by ID, don't bother if we just deleted all
-                        if !removePrevious, let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
+                        // Lookup existing entry by ID, don't bother if database was empty before save
+                        if previousCount > 0, let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
                             entry = foundEntry
                         } else {
                             entry = ManifestEntry(context: context)
@@ -368,7 +386,10 @@ public final class Manifest: NSObject {
                 }
                 
                 do {
-                    try context.save()
+                    // Save changes, if any, and update last updated time
+                    if context.hasChanges {
+                        try context.save()
+                    }
                     self.lastUpdateDate = checkedAtDate
                     seal.fulfill(())
                     self.isSaving = false
