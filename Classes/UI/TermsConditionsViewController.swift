@@ -12,29 +12,34 @@ public final class TermsConditionsViewController: UIViewController {
     
     // MARK: - Properties
     
-    public weak var delegate: TermsConditionsViewControllerDelegate?
-    
     private var textView: UITextView?
     
     private var textViewInsetManager: ScrollViewInsetManager?
-
-    private var buttonsView: DialogActionButtonsView!
     
     public let fileURL: URL
+
+    private let buttonsView: DialogActionButtonsView?
     
     // MARK: - Initializers
     
     public init(fileURL: URL,
-                acceptText: String? = NSLocalizedString("Accept", bundle: .mpolKit, comment: "T&C - Accept"),
-                declineText: String? = NSLocalizedString("Decline", bundle: .mpolKit, comment: "T&C - Decline")) {
+                actions: [DialogAction]?) {
         self.fileURL = fileURL
+        self.buttonsView = actions != nil ? DialogActionButtonsView(actions: actions!) : nil
 
         super.init(nibName: nil, bundle: nil)
 
         title = NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: "Title")
 
         automaticallyAdjustsScrollViewInsets = false
+
+        NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
     }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+    }
+
     
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
@@ -61,36 +66,44 @@ public final class TermsConditionsViewController: UIViewController {
         guard let text = try? NSAttributedString(url: self.fileURL, options: [:], documentAttributes: nil) else {
             return
         }
-        
+
+        var constraints: [NSLayoutConstraint] = []
+        let textViewBottomConstraint: NSLayoutConstraint?
+
+        if let buttonsView = buttonsView {
+
+            buttonsView.backgroundColor = .clear
+
+            buttonsView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(buttonsView)
+
+            constraints += [
+                buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                buttonsView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            ]
+
+            textViewBottomConstraint = textView!.bottomAnchor.constraint(equalTo: buttonsView.topAnchor)
+
+        } else {
+            textViewBottomConstraint = textView!.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+        }
+
+        textView!.backgroundColor = .clear
         textView!.attributedText = text
-
-        let declineAction = DialogAction(title: "Decline") { _ in
-            self.declineButtonDidSelect()
-        }
-        let acceptAction = DialogAction(title: "Accept") { _ in
-            self.acceptButtonDidSelect()
-        }
-        buttonsView = DialogActionButtonsView(actions: [declineAction, acceptAction])
-        buttonsView.backgroundColor = .white
-        buttonsView.layer.cornerRadius = 0
-
         textView!.translatesAutoresizingMaskIntoConstraints = false
-        buttonsView.translatesAutoresizingMaskIntoConstraints = false
-
         view.addSubview(textView!)
-        view.addSubview(buttonsView)
 
-        NSLayoutConstraint.activate([
 
-            textView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textView!.topAnchor.constraint(equalTo: view.topAnchor),
-            textView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        constraints += [
+            textView!.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            textView!.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            textView!.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            textViewBottomConstraint!
+        ]
+        NSLayoutConstraint.activate(constraints)
 
-            buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            buttonsView.topAnchor.constraint(equalTo: textView!.bottomAnchor),
-            buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            buttonsView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
+        applyTheme()
     }
     
     public override func viewDidLayoutSubviews() {
@@ -105,20 +118,12 @@ public final class TermsConditionsViewController: UIViewController {
         textViewInsetManager?.standardIndicatorInset = insets
     }
 
-    // MARK: - Action methods
-    
-    private func declineButtonDidSelect() {
-        delegate?.termsConditionsController(self, didFinishAcceptingConditions: false)
-    }
-    
-    private func acceptButtonDidSelect() {
-        delegate?.termsConditionsController(self, didFinishAcceptingConditions: true)
-    }
-}
+    // MARK: - Themeing
 
+    @objc public func applyTheme() {
+        let theme = ThemeManager.shared.theme(for: .current)
 
-public protocol TermsConditionsViewControllerDelegate : class {
-    
-    func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool)
-    
+        view.backgroundColor = theme.color(forKey: Theme.ColorKey.background)
+        textView?.textColor = theme.color(forKey: Theme.ColorKey.primaryText)
+    }
 }

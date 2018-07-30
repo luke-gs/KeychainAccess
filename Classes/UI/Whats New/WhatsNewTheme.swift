@@ -12,32 +12,53 @@ import UIKit
 /// relevant properties, and set the `theme` property of your `WhatsNewViewController` to an
 /// instance of your subclass.
 open class WhatsNewTheme {
+
+    open var backgroundColor: UIColor?
+    open var backgroundImage: UIImage?
+
+    open var buttonFont: UIFont
+    open var buttonSkipTextColor: UIColor?
+    open var buttonSkipBackgroundColor: UIColor?
+    open var buttonSkipBorderColor: UIColor?
+    open var buttonSkipText: String
+    open var buttonDoneTextColor: UIColor?
+    open var buttonDoneBackgroundColor: UIColor?
+    open var buttonDoneBorderColor: UIColor?
+    open var buttonDoneText: String
+
+    open var pageControlCurrentTintColor: UIColor?
+    open var pageControlTintColor: UIColor?
+
+    open var titleTextColor: UIColor
+    open var titleFont: UIFont
+
+    open var detailTextColor: UIColor
+    open var detailFont: UIFont
     
-    public init() {}
-    
-    // TODO: Make some optionals where relevant
-    
-    open var backgroundColor: UIColor?              { return UIColor(hexString: "#FFFFFF") }
-    
-    // backgroundColor will be ignored if backgroundImage is not nil
-    open var backgroundImage: UIImage?              { return nil }
-    
-    open var buttonFont: UIFont                     { return .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold) }
-    open var buttonSkipTextColor: UIColor?          { return UIColor(hexString: "#75828D") }
-    open var buttonSkipBackgroundColor: UIColor?    { return UIColor(hexString: "#FFFFFF") }
-    open var buttonSkipBorderColor: UIColor?        { return UIColor(hexString: "#75828D") }
-    open var buttonSkipText: String                 { return "Skip" }
-    open var buttonDoneTextColor: UIColor?          { return UIColor(hexString: "#FFFFFF") }
-    open var buttonDoneBackgroundColor: UIColor?    { return UIColor(hexString: "#2B7DF6") }
-    open var buttonDoneBorderColor: UIColor?        { return nil }
-    open var buttonDoneText: String                 { return "Continue" }
-    
-    open var pageControlCurrentTintColor: UIColor?  { return UIColor(hexString: "#2B7DF6") }
-    open var pageControlTintColor: UIColor?         { return UIColor(hexString: "#EEEEEE") }
-    
-    open var titleTextColor: UIColor                { return UIColor(hexString: "#565861")! }
-    open var titleFont: UIFont                      { return .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold) }
-    
-    open var detailTextColor: UIColor               { return UIColor(hexString: "#77828B")! }
-    open var detailFont: UIFont                     { return .systemFont(ofSize: 17.0, weight: UIFont.Weight.regular) }
+    public init(theme: Theme) {
+
+        backgroundColor = theme.color(forKey: .background)
+
+        // backgroundColor will be ignored if backgroundImage is not nil
+        backgroundImage = nil
+
+        buttonFont = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
+        buttonSkipTextColor = UIColor(hexString: "#75828D")
+        buttonSkipBackgroundColor = UIColor(hexString: "#FFFFFF")
+        buttonSkipBorderColor = UIColor(hexString: "#75828D")
+        buttonSkipText = "Skip"
+        buttonDoneTextColor = UIColor(hexString: "#FFFFFF")
+        buttonDoneBackgroundColor = UIColor(hexString: "#2B7DF6")
+        buttonDoneBorderColor = nil
+        buttonDoneText = "Continue"
+
+        pageControlCurrentTintColor = UIColor(hexString: "#2B7DF6")
+        pageControlTintColor = UIColor(hexString: "#EEEEEE")
+
+        titleTextColor = theme.color(forKey: .primaryText)!
+        titleFont = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
+
+        detailTextColor = theme.color(forKey: .secondaryText)!
+        detailFont = .systemFont(ofSize: 17.0, weight: UIFont.Weight.regular)
+    }
 }
