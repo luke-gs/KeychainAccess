@@ -1,5 +1,10 @@
 [
     {
+        "type": "Location",
+        "text": "6 BUNDALOHN COURT ST KILDA 3182 VICTORIA AUSTRALIA",
+        "imageKey": "iconSystemLocation"
+    },
+    {
         "type": "Person",
         "text": "Doe",
         "imageKey": "iconEntityPerson"
@@ -32,10 +37,5 @@
         "type": "Vehicle",
         "imageKey": "iconEntityAutomotiveCar",
         "text": "ABC*"
-    },
-    {
-        "type": "Location",
-        "text": "6 BUNDALOHN COURT ST KILDA 3182 VICTORIA AUSTRALIA",
-        "imageKey": "iconSystemLocation"
     }
 ]
