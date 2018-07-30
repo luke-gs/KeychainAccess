@@ -24,6 +24,13 @@ extension Manifest {
         } else {
             manifestRequest = ManifestFetchRequest(date: date,
                                                    fetchType: .full)
+
+            // Removing old manifest entries first if syncing everything from beginning of time
+            if date == nil {
+                return self.clearManifest().then { [unowned self] in
+                    return self.update(request: manifestRequest)
+                }
+            }
         }
         return update(request: manifestRequest)
     }
@@ -48,7 +55,7 @@ extension Manifest {
                 return Promise<Void>.value(())
             }
 
-            return self.saveManifest(with: result, at:checkedAtDate)
+            return self.saveManifest(with: result, at: checkedAtDate)
         }
         return newPromise
     }
