@@ -95,7 +95,7 @@ open class MPOLMarkerAnnotationView: MKAnnotationView {
     public init(annotation: MKAnnotation?, reuseIdentifier: String?, size: Size) {
         self.size = size
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        centerOffset = CGPoint(x: 0.0, y: 4.0)
+        centerOffset = CGPoint(x: 0.0, y: size.frameSize.height / 2)
         layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         
         imageView.image = AssetManager.shared.image(forKey: .pinCluster)
@@ -112,7 +112,7 @@ open class MPOLMarkerAnnotationView: MKAnnotationView {
         addSubview(glyphImageView)
         
         titleLabel.text = annotation?.title ?? "" // WTF Swift
-        titleLabel.frame = CGRect(origin: CGPoint(x: 0, y: glyphImageView.frame.maxY + titleSpacing), size: .zero)
+        titleLabel.frame = CGRect(origin: CGPoint(x: 0, y: glyphImageView.frame.maxY + centerOffset.y + titleSpacing), size: .zero)
         titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         titleLabel.layer.shadowColor = UIColor.white.cgColor
         titleLabel.layer.shadowOffset = .zero
@@ -120,7 +120,7 @@ open class MPOLMarkerAnnotationView: MKAnnotationView {
         titleLabel.layer.shadowOpacity = 1
         titleLabel.layer.shouldRasterize = true
         titleLabel.layer.rasterizationScale = UIScreen.main.scale
-
+        
         addSubview(titleLabel)
         updateTitleHidden()
     }
@@ -142,7 +142,7 @@ open class MPOLMarkerAnnotationView: MKAnnotationView {
         
         // Layout views for frame
         imageView.center.x = frame.width / 2
-        glyphImageView.center = CGPoint(x: imageView.frame.midX, y: imageView.frame.midY - centerOffset.y)
+        glyphImageView.center = CGPoint(x: imageView.frame.midX, y: imageView.frame.midY - 4)
         titleLabel.frame.size = CGSize(width: titleWidth, height: titleHeight)
     }
     
