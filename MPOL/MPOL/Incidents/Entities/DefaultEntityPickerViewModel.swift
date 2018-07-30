@@ -22,6 +22,8 @@ class DefaultEntityPickerViewModel: EntityPickerViewModel {
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("No Displayable for Entity Type")
         }
