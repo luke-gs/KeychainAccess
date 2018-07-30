@@ -18,12 +18,10 @@ public extension Settings {
                                                    type: .button(action: presentVC))
 
     private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
-        let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions",
-                                                                               withExtension: "html")!)
+        let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!,
+                                                      actions: nil)
         tsAndCsVC.title = "Terms and Conditions"
-        tsAndCsVC.navigationItem.rightBarButtonItem = nil
-        tsAndCsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                                     target: tsAndCsVC,
+        tsAndCsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: tsAndCsVC,
                                                                      action: #selector(UIViewController.dismissAnimated))
         let navVC = ThemedNavigationController(rootViewController: tsAndCsVC)
         navVC.modalPresentationStyle = .pageSheet
