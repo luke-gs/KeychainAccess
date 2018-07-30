@@ -104,10 +104,6 @@ open class MapFormBuilderCollectionViewSideBarLayout: MapFormBuilderViewLayout {
         closeGesture.direction = .left
         view.addGestureRecognizer(closeGesture)
 
-        let openGesture = UISwipeGestureRecognizer(target: self, action: #selector(showSidebar))
-        openGesture.direction = .right
-        view.addGestureRecognizer(openGesture)
-
         sidebarMinimumWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(greaterThanOrEqualToConstant: minimumSidebarWidth)
         sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriority.defaultHigh)
         
@@ -149,10 +145,12 @@ extension MapFormBuilderCollectionViewSideBarLayout: LocationSearchCollectionVie
     }
 
     @objc public func hideSidebar() {
-        sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth + 16.0
+        sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth
+        sidebarshadowView?.isHidden = true
     }
 
     @objc public func showSidebar() {
         sidebarLayoutGuideLeadingConstraint?.constant = 16.0
+        sidebarshadowView?.isHidden = false
     }
 }
