@@ -56,14 +56,12 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let imageName: String
 
-        switch size {
-        case .small:
-            imageName = "iconEntityAutomotiveCar"
-        case .medium:
-            imageName = "iconEntityAutomotiveCar48"
-        case .large:
-            imageName = "iconEntityAutomotiveCar96"
-        }
+        let vehicleType = VehicleType(optionalValue: vehicle.vehicleType)
+
+        let vehicleString: String = vehicleType.imageAssetString
+        let sizeString: String = size.imageSizeString
+
+        imageName = vehicleString + sizeString
 
         if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
             return ImageSizing(image: image, size: image.size, contentMode: .center)
@@ -129,5 +127,53 @@ public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         return summaryDisplayable.thumbnail(ofSize: size)
+    }
+}
+
+fileprivate enum VehicleType: String {
+    case car
+    case motorcycle
+    case truck
+    case van
+    case trailer
+    case vessel
+
+    init(optionalValue: String?, fallbackValue: VehicleType = .car) {
+        guard let value = optionalValue else {
+            self = fallbackValue
+            return
+        }
+
+        self = VehicleType(rawValue: value.lowercased()) ?? fallbackValue
+    }
+
+    var imageAssetString: String {
+        switch self {
+        case .car:
+            return "iconEntityAutomotiveCar"
+        case .motorcycle:
+            return "iconEntityVehicleMotorcycle"
+        case .truck:
+            return "iconEntityVehicleTruck"
+        case .van:
+            return "iconEntityVehicleVan"
+        case .trailer:
+            return"iconEntityAutomotiveTrailer"
+        case .vessel:
+            return "iconEntityAutomotiveWater"
+        }
+    }
+}
+
+extension EntityThumbnailView.ThumbnailSize {
+    public var imageSizeString: String {
+        switch self {
+        case .small:
+            return "Small"
+        case .medium:
+            return "Medium"
+        case .large:
+            return "Large"
+        }
     }
 }
