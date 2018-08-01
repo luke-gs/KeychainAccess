@@ -194,31 +194,47 @@ extension AssetManager {
         public static let entityPerson   = ImageKey("iconEntityPerson")
         public static let entityBuilding = ImageKey("iconEntityBuilding")
         public static let entityCar      = ImageKey("iconEntityAutomotiveCar")
-        public static let entityTruck    = ImageKey("iconEntityAutomotiveTruck")
+        public static let entityTruck    = ImageKey("iconEntityVehicleTruck")
         public static let entityBoat     = ImageKey("iconEntityAutomotiveWater")
 
         public static let entityPersonMedium = ImageKey("iconEntityPerson32")
 
-        public static let entityCarSmall = ImageKey("iconEntityAutomotiveCar")
-        public static let entityCarMedium = ImageKey("iconEntityAutomotiveCar48")
-        public static let entityCarLarge = ImageKey("iconEntityAutomotiveCar96")
+        public static let entityCarSmall = ImageKey("iconEntityAutomotiveCarSmall")
+        public static let entityCarMedium = ImageKey("iconEntityAutomotiveCarMedium")
+        public static let entityCarLarge = ImageKey("iconEntityAutomotiveCarLarge")
 
-        public static let entityMotorbikeSmall = ImageKey("iconEntityAutomotiveMotorbike")
-        public static let entityMotorbikeMedium = ImageKey("iconEntityAutomotiveMotorbike48")
-        public static let entityMotorbikeLarge = ImageKey("iconEntityAutomotiveMotorbike96")
+        public static let entityMotorbikeSmall = ImageKey("iconEntityAutomotiveMotorbikeSmall")
+        public static let entityMotorbikeMedium = ImageKey("iconEntityAutomotiveMotorbikeMedium")
+        public static let entityMotorbikeLarge = ImageKey("iconEntityAutomotiveMotorbikeLarge")
 
-        public static let entityTruckSmall = ImageKey("iconEntityAutomotiveTruck")
-        public static let entityTruckMedium = ImageKey("iconEntityAutomotiveTruck48")
-        public static let entityTruckLarge = ImageKey("iconEntityAutomotiveTruck96")
+        public static let entityTruckSmall = ImageKey("iconEntityVehicleTruckSmall")
+        public static let entityTruckMedium = ImageKey("iconÍEntityVehicleTruckMedium")
+        public static let entityTruckLarge = ImageKey("iconEntityVehicleTruckLarge")
 
-        public static let entityTrailerSmall = ImageKey("iconEntityAutomotiveTrailer")
-        public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailer48")
-        public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailer96")
+        public static let entityTrailerSmall = ImageKey("iconEntityAutomotiveTrailerSmall")
+        public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailerMedium")
+        public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailerLarge")
+
+        public static let entityTrailer2Small = ImageKey("iconEntityAutomotiveTrailer2Small")
+        public static let entityTrailer2Medium = ImageKey("iconEntityAutomotiveTrailer2Medium")
+        public static let entityTrailer2Large = ImageKey("iconEntityAutomotiveTrailer2Large")
 
         @available(iOS, deprecated, message: "EntityThumbnail now uses themed coloured backgrounds")
         public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
 
         public static let iconEntityVehicleMotorcycle = ImageKey("iconEntityVehicleMotorcycle")
+
+        public static let entityMotorcycleSmall = ImageKey("iconEntityVehicleMotorcycleSmall")
+        public static let entityMotorcycleMedium = ImageKey("iconEntityVehicleMotorcycleMedium")
+        public static let entityMotorcycleLarge = ImageKey("iconEntityVehicleMotorcycleLarge")
+
+        public static let entityVanSmall = ImageKey("iconEntityVehicleVanSmall")
+        public static let entityVanMedium = ImageKey("iconEntityVehicleVanMedium")
+        public static let entityVanLarge = ImageKey("iconEntityVehicleVanLarge")
+
+        public static let entityBoatSmall = ImageKey("iconEntityAutomotiveWaterSmall")
+        public static let entityBoatMedium = ImageKey("iconEntityAutomotiveWaterMedium")
+        public static let entityBoatLarge = ImageKey("iconEntityAutomotiveWaterLarge")
 
         // Resource
         public static let resourceGeneral       = ImageKey("iconResourceGeneral")

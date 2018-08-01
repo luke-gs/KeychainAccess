@@ -16,7 +16,10 @@ public class EntityThumbnailView: UIControl {
         case small
         case medium
         case large
+
     }
+
+
     
     public let backgroundView = UIView(frame: .zero)
     
