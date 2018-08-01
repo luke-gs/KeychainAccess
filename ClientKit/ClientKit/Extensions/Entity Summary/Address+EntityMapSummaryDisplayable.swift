@@ -26,10 +26,8 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
     }
     
     public var detail1: String? {
-        guard let coordinate = coordinate else {
-            return nil
-        }
-        return "\(coordinate.latitude), \(coordinate.longitude)"
+        let values: [String?] = [address.suburb?.capitalized, address.state?.uppercased(), address.postcode]
+        return values.joined(separator: " ")
     }
     
     public var detail2: String? {
