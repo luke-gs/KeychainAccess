@@ -40,7 +40,7 @@ final public class LoginViewController: UIViewController {
     public var credentials: [LoginCredential]? {
         didSet {
             // Check if there are old credentials
-            // Ensure that the observations (added by `setupCredentialActions` are removed.
+            // Ensure that the observations (added by `setupCredentialActions`) are removed.
             removeObservers(from: oldValue)
 
             credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
