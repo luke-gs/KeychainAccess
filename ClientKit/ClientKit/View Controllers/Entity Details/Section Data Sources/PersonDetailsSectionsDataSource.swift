@@ -81,11 +81,12 @@ public class PersonRDADetailsSectionsDataSource: EntityDetailSectionsDataSource 
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
-                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                       EntityDetailFormViewController(viewModel: PersonTrafficHistoryViewModel())
-                                    ]
+        self.detailViewControllers = [
+            EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
+            EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+            PersonTrafficHistoryViewController(viewModel: PersonTrafficHistoryViewModel())
+        ]
     }
 
 }

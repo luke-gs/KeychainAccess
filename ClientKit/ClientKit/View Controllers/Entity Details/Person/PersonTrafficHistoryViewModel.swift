@@ -52,32 +52,28 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 
         if !trafficHistory.isEmpty {
 
-            builder += HeaderFormItem(text: NSLocalizedString("Overview", comment: ""), style: .collapsible)
-
-            let trafficHistoryOverview = TrafficHistoryOverviewDisplay(trafficHistory)
-
-            if viewController.isCompact() {
-                for item in TrafficHistoryOverviewItem.allCases {
-                    let title = trafficHistoryOverview.title(for: item).sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 13))
-                    let subtitleText = trafficHistoryOverview.value(for: item)
-                    let attributedText = NSAttributedString(string: subtitleText, attributes: [ .foregroundColor : UIColor.black ])
-                    builder += SubtitleFormItem(title: title, subtitle: attributedText.sizing(defaultNumberOfLines: 0, defaultFont: UIFont.systemFont(ofSize: 13)), image: nil, style: .value)
-                }
-            } else {
-                var cellItems: [TrafficHistoryCollectionViewCell.Item] = []
-                for item in TrafficHistoryOverviewItem.allCases {
-                    cellItems.append(TrafficHistoryCollectionViewCell.Item(number: trafficHistoryOverview.value(for: item), title: trafficHistoryOverview.title(for: item)))
-                }
-                builder += TrafficHistoryOverviewFormItem(text: nil, items: cellItems)
-            }
-
-            builder += HeaderFormItem(text: headerTitle, style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: headerTitle)
+                .separatorColor(.clear)
             for trafficHistory in filteredTrafficHistory {
                 builder += TrafficHistoryDisplay(trafficHistory).formItem()
             }
         }
 
         delegate?.updateLoadingState(filteredTrafficHistory.isEmpty ? .noContent : .loaded)
+    }
+
+    open var trafficHistoryOverviewItems: [NumericValuesView.Item] {
+        let trafficHistoryOverview = TrafficHistoryOverviewDisplay(trafficHistory)
+
+        var items: [NumericValuesView.Item] = []
+        TrafficHistoryOverviewItem.allCases.forEach {
+
+            let title = trafficHistoryOverview.title(for: $0)
+            let value = trafficHistoryOverview.value(for: $0)
+            let itemStyle = trafficHistoryOverview.style(for: value)
+            items.append(NumericValuesView.Item(title: title, value: value, style: itemStyle))
+        }
+        return items
     }
 
     // MARK: - Filtering & Sorting
@@ -246,16 +242,16 @@ public struct TrafficHistoryOverviewDisplay {
         self.licenceSurrenderedCount = licenceSurrenderedCount
     }
 
-    public func value(for item: TrafficHistoryOverviewItem) -> String {
+    public func value(for item: TrafficHistoryOverviewItem) -> Int {
         switch item {
         case .demeritPoints:
-            return String(finalisedDemeritPoints)
+            return finalisedDemeritPoints
         case .licenceSurrendered:
-            return String(licenceSurrenderedCount)
+            return licenceSurrenderedCount
         case .licenceCancelled:
-            return String(licenceCancelledCount)
+            return licenceCancelledCount
         case .licenceRefused:
-            return "0"
+            return 0
         }
     }
 
@@ -271,6 +267,13 @@ public struct TrafficHistoryOverviewDisplay {
         case .licenceRefused:
             return NSLocalizedString("Times Licence Refused", comment: "")
         }
+    }
+
+    public func style(for value: Int) -> NumericValuesView.Style {
+        if value <= 0 {
+            return .subtle
+        }
+        return .normal
     }
 
 }

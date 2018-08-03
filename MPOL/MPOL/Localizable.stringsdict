@@ -320,7 +320,7 @@
 			<string>No Charges</string>
 		</dict>
 	</dict>
-	<key>%d records(s)</key>
+	<key>%d record(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@records@</string>
