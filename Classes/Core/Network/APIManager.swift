@@ -72,6 +72,19 @@ open class APIManager {
         return try! performRequest(networkRequest)
 
     }
+    
+    /// performs a network request to revoke a refresh token
+    /// typically done on logout
+    ///
+    /// - Parameter token: token to be revoked
+    /// - Parameter path: defaults to "logoff" but can be changed
+    /// - Returns: A promise with the request
+    open func revokeRefreshToken(_ token: String, at path: String = "logoff") -> Promise<(Data, HTTPURLResponse?)> {
+        let parameters =  ["refreshToken": token]
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
+        
+        return try! performRequest(networkRequest)
+    }
 
     /// Search for entity using specified request.
     ///

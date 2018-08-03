@@ -117,9 +117,13 @@ public class SummaryListFormItem: BaseFormItem {
         cell.sourceLabel.borderColor = secondaryTextColor
         cell.sourceLabel.backgroundColor = .clear
         
-        if imageTintColor == nil {
-            cell.thumbnailView.apply(theme: theme)
+        if let imageTintColor = imageTintColor {
+            cell.thumbnailView.imageView.tintColor = imageTintColor
+        } else {
+            cell.thumbnailView.imageView.tintColor = theme.color(forKey: .entityImageTint)
         }
+
+        cell.thumbnailView.backgroundView.backgroundColor = theme.color(forKey: .entityThumbnailBackground)
     }
     
     private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {

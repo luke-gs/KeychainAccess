@@ -62,7 +62,8 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     
     // MARK: - Lifecycle
     
-    public required init(items: [WhatsNewDetailItem], theme: WhatsNewTheme = WhatsNewTheme()) {
+    public required init(items: [WhatsNewDetailItem],
+                         theme: WhatsNewTheme = WhatsNewTheme(theme: ThemeManager.shared.theme(for: UserInterfaceStyle.current))) {
         var viewControllers: [WhatsNewDetailViewController] = []
         for item in items {
             viewControllers.append(WhatsNewDetailViewController(item: item, theme: theme))
@@ -70,15 +71,24 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
         self.viewControllers = NSOrderedSet(array: viewControllers)
         self.theme = theme
         super.init(nibName: nil, bundle: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
     
     /// Initialize with custom view controllers.
     /// - Important: Make sure you test that the content inside the view controllers 
     ///              don't overlap with the page view controllers buttons and page control.
-    public required init(viewControllers: [UIViewController], theme: WhatsNewTheme = WhatsNewTheme()) {
+    public required init(viewControllers: [UIViewController],
+                         theme: WhatsNewTheme = WhatsNewTheme(theme: ThemeManager.shared.theme(for: UserInterfaceStyle.current))) {
         self.viewControllers = NSOrderedSet(array: viewControllers)
         self.theme = theme
         super.init(nibName: nil, bundle: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -201,6 +211,7 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     }
     
     private func applyTheme() {
+
         view.backgroundColor = theme.backgroundColor
         
         if let backgroundImage = theme.backgroundImage {
@@ -219,6 +230,11 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
                 viewController.theme = theme
             }
         }
+    }
+
+    @objc func interfaceStyleDidChange() {
+        theme = WhatsNewTheme(theme: ThemeManager.shared.theme(for: UserInterfaceStyle.current))
+        applyTheme()
     }
     
     private var currentViewController: UIViewController? {

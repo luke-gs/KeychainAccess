@@ -107,6 +107,22 @@ final public class SettingsViewController: FormTableViewController {
         NSLayoutConstraint.activate(constraints)
     }
 
+    @objc private func switchControlValueDidChange(_ control: UISwitch) {
+        guard let tableView = self.tableView,
+            let indexPath = tableView.indexPathForRow(at: tableView.convert(control.bounds.origin, from: control)) else { return }
+
+        let setting = sections[indexPath.section].settings[indexPath.row]
+
+        switch setting.type {
+        case .switch(let (_, action)):
+            action(control.isOn) {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        case .button, .plain:
+            break
+        }
+    }
+
     // MARK: - UITableViewDataSource
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -198,22 +214,6 @@ final public class SettingsViewController: FormTableViewController {
         }
 
         tableView.deselectRow(at: indexPath, animated: false)
-    }
-
-    @objc private func switchControlValueDidChange(_ control: UISwitch) {
-        guard let tableView = self.tableView,
-            let indexPath = tableView.indexPathForRow(at: tableView.convert(control.bounds.origin, from: control)) else { return }
-
-        let setting = sections[indexPath.section].settings[indexPath.row]
-
-        switch setting.type {
-        case .switch(let (_, action)):
-            action(control.isOn) {
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        case .button, .plain:
-            break
-        }
     }
 
     // MARK:- Theming

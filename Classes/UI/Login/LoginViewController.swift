@@ -39,6 +39,10 @@ final public class LoginViewController: UIViewController {
     /// An array of credentials to use
     public var credentials: [LoginCredential]? {
         didSet {
+            // Check if there are old credentials
+            // Ensure that the observations (added by `setupCredentialActions`) are removed.
+            removeObservers(from: oldValue)
+
             credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
             credentials?.forEach { credential in
                 credentialsStackView.addArrangedSubview(credential.inputField)
@@ -59,6 +63,10 @@ final public class LoginViewController: UIViewController {
     public init(mode: LoginMode) {
         self.loginMode = mode
         super.init(nibName: nil, bundle: nil)
+    }
+
+    deinit {
+        removeObservers(from: credentials)
     }
 
     /// Set the loading state of the view controller
@@ -236,6 +244,12 @@ final public class LoginViewController: UIViewController {
             credential.inputField.textField.delegate = self
             credential.inputField.textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
             credential.inputField.textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        }
+    }
+
+    private func removeObservers(from credentials: [LoginCredential]?) {
+        credentials?.forEach {
+            $0.inputField.textField.removeObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
         }
     }
 

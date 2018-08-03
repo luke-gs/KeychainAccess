@@ -5,13 +5,6 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-//
-//  Settings+Logout.swift
-//  ClientKit
-//
-//  Copyright © 2018 Gridstone. All rights reserved.
-//
-
 /// Protocol to handle logout
 /// Can be used via responder chain
 ///

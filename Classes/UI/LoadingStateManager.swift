@@ -165,6 +165,9 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private var contentInsetBottomConstraint: NSLayoutConstraint?
     
+    // Init on a base class is implicitly internal
+    public init() {}
+    
     // MARK: - Private methods
 
     /// Return the container view for the given state
