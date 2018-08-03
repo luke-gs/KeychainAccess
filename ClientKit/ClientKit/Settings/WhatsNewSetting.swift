@@ -31,7 +31,7 @@ public extension Settings {
 
         let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
         whatsNewVC.isSkippable = true
-        whatsNewVC.title = "What's new"
+        whatsNewVC.title = "What's New"
 
         whatsNewVC.navigationItem.rightBarButtonItem = nil
         whatsNewVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain,
