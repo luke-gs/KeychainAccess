@@ -17,7 +17,7 @@ public class SubItemFormItem: BaseFormItem {
 
     public var detailColorKey: Theme.ColorKey?
 
-    public var imageTintColor: UIColor?
+    public var imageTintColorKey: Theme.ColorKey?
 
     public var image: UIImage?
 
@@ -64,12 +64,19 @@ public class SubItemFormItem: BaseFormItem {
         let tintColor = theme.color(forKey: .tint)
 
         let cell = cell as! SubItemCollectionViewCell
-        cell.titleLabel.textColor = UIColor.black
+
+        cell.borderView.backgroundColor = theme.color(forKey: .contentBackgroundGray)
+
+        cell.titleLabel.textColor = theme.color(forKey: .primaryText)
         cell.detailLabel.textColor = theme.color(forKey: detailColorKey ?? .secondaryText)
 
         cell.actionButton?.setTitleColor(tintColor, for: .normal)
         cell.actionButton?.setTitleColor(tintColor?.withAlphaComponent(0.5), for: .highlighted)
-        cell.imageView.tintColor = self.imageTintColor ?? tintColor
+        if let imageTintColorKey = imageTintColorKey {
+            cell.imageView.tintColor = theme.color(forKey: imageTintColorKey)
+        } else {
+            cell.imageView.tintColor = tintColor
+        }
     }
 
     private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {
@@ -116,8 +123,8 @@ extension SubItemFormItem {
     }
 
     @discardableResult
-    public func imageTintColor(_ imageTintColor: UIColor?) -> Self {
-        self.imageTintColor = imageTintColor
+    public func imageTintColorKey(_ imageTintColorKey: Theme.ColorKey?) -> Self {
+        self.imageTintColorKey = imageTintColorKey
         return self
     }
 

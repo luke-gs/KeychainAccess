@@ -34,6 +34,16 @@ public class ThemedNavigationController: UINavigationController {
         }
     }
 
+    /// An optional dismiss handler.
+    ///
+    /// The themed navigation controller fires this when it is about to dismiss after
+    /// being presented, and passes a boolean parameter, indicating whether the dismiss
+    /// will be animated.
+    ///
+    /// You should use this method to avoid assigning yourself as the popover presentation controller's
+    /// delegate, as this will interfere with the adaptive appearance APIs.
+    open var dismissHandler: ((Bool) -> Void)?
+
     /// Return the theme to use, based on current interface style
     open var theme: Theme {
         return ThemeManager.shared.theme(for: userInterfaceStyle)
@@ -48,6 +58,14 @@ public class ThemedNavigationController: UINavigationController {
         }
 
         apply(ThemeManager.shared.theme(for: .current))
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isBeingDismissed {
+            dismissHandler?(animated)
+        }
     }
 
     @objc private func interfaceStyleDidChange() {
