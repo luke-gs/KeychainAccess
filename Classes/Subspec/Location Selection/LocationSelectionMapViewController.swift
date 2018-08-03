@@ -79,7 +79,9 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
                 updatePin(coordinate: coordinate)
             }
             // Trigger reverse geocode if address missing
-            viewModel.reverseGeocode(from: coordinate).cauterize()
+            viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
+                self?.updateFormState()
+            }.cauterize()
         } else {
             updateRegion(for: mapView.userLocation.coordinate)
         }
@@ -104,19 +106,24 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
         self.locationAnnotation?.coordinate = coordinate
     }
 
+    private func updateFormState() {
+        self.navigationItem.rightBarButtonItem?.isEnabled = self.viewModel.isValid
+        self.reloadForm()
+    }
+
     @objc private func performLocationSearch(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
+                // Move pin to new location
+                updatePin(coordinate: coordinate)
+
                 // Reset address string so lookup occurs
                 viewModel.location?.addressString = nil
 
-                // Perform lookup and update map and form when done
+                // Perform lookup and update form when done
                 viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
-                    guard let `self` = self else { return }
-                    self.updatePin(coordinate: coordinate)
-                    self.navigationItem.rightBarButtonItem?.isEnabled = self.viewModel.isValid
-                    self.reloadForm()
+                    self?.updateFormState()
                 }.cauterize()
             }
         }
