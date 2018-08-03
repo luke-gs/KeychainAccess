@@ -8,11 +8,15 @@
 import MPOLKit
 import ClientKit
 
+/// This EntityPickerViewModel suppports `Person` and `Vehicle`.
 class DefaultEntityPickerViewModel: EntityPickerViewModel {
 
     var entities: [MPOLKitEntity] {
-        return UserSession.current.recentlyViewed.entities
+        return UserSession.current.recentlyViewed.entities.filter {
+            return $0 is Person || $0 is Vehicle
+        }
     }
+
     weak var delegate: EntityPickerDelegate?
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {

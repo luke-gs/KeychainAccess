@@ -74,8 +74,10 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     }
 
     open var appVersion: SemanticVersion {
-        let bundleVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        let version = SemanticVersion(bundleVersion)
+
+        //TODO: use bundle version number once version is set up
+        let bundleBuild = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+        let version = SemanticVersion(bundleBuild)
 
         if version == nil {
             assertionFailure("appVersion is not a valid semanticVersion")
@@ -295,19 +297,21 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             controller.present(alertController, animated: true)
         }
     }
-}
 
-extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
-
-    open func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
-        controller.dismiss(animated: true) { [weak self] in
+    open func didAcceptConditions(_ dialogAction: DialogAction) {
+        currentViewController?.dismiss(animated: true) { [weak self] in
             guard let `self` = self else { return }
 
-            if accept {
-                UserSession.current.user?.lastTermsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
-            } else {
-                UserSession.current.endSession()
-            }
+            UserSession.current.user?.lastTermsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
+            self.updateInterfaceForUserSession(animated: true)
+        }
+    }
+
+    open func didDeclineConditions(_ dialogAction: DialogAction) {
+        currentViewController?.dismiss(animated: true) { [weak self] in
+            guard let `self` = self else { return }
+
+            UserSession.current.endSession()
             self.updateInterfaceForUserSession(animated: true)
         }
     }

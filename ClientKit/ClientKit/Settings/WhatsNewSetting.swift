@@ -31,12 +31,11 @@ public extension Settings {
 
         let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
         whatsNewVC.isSkippable = true
-        whatsNewVC.title = "What's new"
+        whatsNewVC.title = "What's New"
 
         whatsNewVC.navigationItem.rightBarButtonItem = nil
-        whatsNewVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                                      target: whatsNewVC,
-                                                                      action: #selector(UIViewController.dismissAnimated))
+        whatsNewVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain,
+                                                                      target: whatsNewVC, action: #selector(UIViewController.dismissAnimated))
         let navVC = ThemedNavigationController(rootViewController: whatsNewVC)
         navVC.modalPresentationStyle = .pageSheet
 
