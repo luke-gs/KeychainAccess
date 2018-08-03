@@ -66,7 +66,7 @@ public class TrafficHistoryCollectionViewCell: CollectionViewFormCell {
             label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             label.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor),
             label.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor)
-            ])
+        ])
     }
     
     required public init?(coder aDecoder: NSCoder) {
