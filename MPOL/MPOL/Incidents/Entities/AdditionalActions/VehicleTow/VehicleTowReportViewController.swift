@@ -38,8 +38,8 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .separatorColor(.clear)
 
         // locationPickerformitem
-        let locationViewModel = LocationSelectionViewModel(location: self.viewModel.report.location,
-                                                           typeManifestCollection: ManifestCollection.eventLocationInvolvementType)
+        let locationViewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.location,
+                                                           typeCollection: ManifestCollection.eventLocationInvolvementType)
 
         builder += PickerFormItem(pickerAction: LocationAction(viewModel: locationViewModel))
             .required()
