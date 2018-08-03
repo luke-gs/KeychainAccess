@@ -17,7 +17,7 @@ public protocol LocationSelectionMapViewModelDelegate: class {
 /// View model for generic location selection
 open class LocationSelectionMapViewModel {
 
-    /// Delegate for selection changes
+    /// Delegate for location changes
     public weak var delegate: LocationSelectionMapViewModelDelegate?
 
     /// The currently selection location
@@ -52,7 +52,7 @@ open class LocationSelectionMapViewModel {
 
     /// Whether the current selection is valid
     public var isValid: Bool {
-        return location != nil && location?.addressString?.ifNotEmpty() != nil
+        return location != nil && locationType != nil
     }
 
     // Text to use in form
@@ -70,21 +70,21 @@ open class LocationSelectionMapViewModel {
 
     /// Reverse geocode the given coordinates to get a placemark address string
     open func reverseGeocode(from coords: CLLocationCoordinate2D) -> Promise<Void> {
-        guard self.location?.addressString != nil else { return Promise() }
+        guard self.location?.addressString == nil else { return Promise() }
 
         let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude)
         return LocationManager.shared.requestPlacemark(from: location).done { [weak self] (placemark) -> Void in
             self?.updateLocation(from: placemark)
         }.recover { _ in
-            // Ignore
+            // Ignore errors looking up address
         }
     }
 
     /// Update the current location with a given placemark
     open func updateLocation(from placemark: CLPlacemark) {
-        guard let coords = placemark.location?.coordinate else { return }
+        guard let coordinate = placemark.location?.coordinate else { return }
         guard let formattedAddress = placemark.addressDictionary?["FormattedAddressLines"] as? [String] else { return }
         let fullAddress = formattedAddress.joined(separator: " ")
-        location = LocationSelection(location: coords, addressString: fullAddress)
+        location = LocationSelection(coordinate: coordinate, addressString: fullAddress)
     }
 }

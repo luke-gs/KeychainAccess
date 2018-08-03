@@ -15,7 +15,7 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
     let viewModel: LocationSelectionMapViewModel
 
     /// Closure called when a location selection is completed
-    public var selectionHandler: ((LocationSelection?) -> ())?
+    public var selectionHandler: ((LocationSelection) -> ())?
 
     /// Closure called when the selection is cancelled
     public var cancelHandler: (() -> ())?
@@ -151,7 +151,7 @@ extension LocationSelectionMapViewController: MKMapViewDelegate {
     }
 
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        // Luke: This is the only solution that seemed to work. 
+        // Luke: This is the only solution that seemed to work.
         userLocation.title = ""
     }
 }

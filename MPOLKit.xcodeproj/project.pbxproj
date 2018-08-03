@@ -36,8 +36,8 @@
 		12ABD563207F194C004D0C9F /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */; };
 		12ABD564207F194C004D0C9F /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD560207F194C004D0C9F /* EventsManager.swift */; };
 		12ABD565207F194C004D0C9F /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD561207F194C004D0C9F /* EventSplitViewController.swift */; };
-		12ABD56A207F1967004D0C9F /* LocationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */; };
-		12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */; };
+		12ABD56A207F1967004D0C9F /* EventLocationSelectionMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD567207F1966004D0C9F /* EventLocationSelectionMapViewModel.swift */; };
+		12ABD56B207F1967004D0C9F /* EventLocationSelectionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* EventLocationSelectionMapViewController.swift */; };
 		12ABD56C207F1967004D0C9F /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
 		12B556BC20D9FEB80001FFD6 /* HighlightingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B556BB20D9FEB80001FFD6 /* HighlightingTextView.swift */; };
@@ -961,8 +961,8 @@
 		12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
 		12ABD560207F194C004D0C9F /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		12ABD561207F194C004D0C9F /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
-		12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionViewModel.swift; sourceTree = "<group>"; };
-		12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
+		12ABD567207F1966004D0C9F /* EventLocationSelectionMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSelectionMapViewModel.swift; sourceTree = "<group>"; };
+		12ABD568207F1966004D0C9F /* EventLocationSelectionMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSelectionMapViewController.swift; sourceTree = "<group>"; };
 		12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
 		12B556BB20D9FEB80001FFD6 /* HighlightingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightingTextView.swift; sourceTree = "<group>"; };
@@ -1946,8 +1946,8 @@
 			isa = PBXGroup;
 			children = (
 				12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */,
-				12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */,
-				12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */,
+				12ABD568207F1966004D0C9F /* EventLocationSelectionMapViewController.swift */,
+				12ABD567207F1966004D0C9F /* EventLocationSelectionMapViewModel.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -5308,7 +5308,7 @@
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
 				125E2A0820F84F7E00942B29 /* Settings.swift in Sources */,
 				9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */,
-				12ABD56A207F1967004D0C9F /* LocationSelectionViewModel.swift in Sources */,
+				12ABD56A207F1967004D0C9F /* EventLocationSelectionMapViewModel.swift in Sources */,
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
@@ -5640,7 +5640,7 @@
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
-				12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */,
+				12ABD56B207F1967004D0C9F /* EventLocationSelectionMapViewController.swift in Sources */,
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,

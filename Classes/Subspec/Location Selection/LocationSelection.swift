@@ -13,9 +13,9 @@ public class LocationSelection: NSObject, NSSecureCoding {
     public var longitude: CLLocationDegrees
     public var addressString: String?
 
-    required public init(location: CLLocationCoordinate2D, addressString: String?) {
-        self.latitude = location.latitude
-        self.longitude = location.longitude
+    required public init(coordinate: CLLocationCoordinate2D, addressString: String?) {
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
         self.addressString = addressString
     }
 
