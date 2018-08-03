@@ -19,14 +19,15 @@ open class EventLocationSelectionMapViewController: LocationSelectionMapViewCont
         eventViewModel.evaluator.addObserver(self)
 
         // Events LocationAction does not use closures for action value changes,
-        // so forward selection to delegate and handle dismissal
+        // so forward cancel/selection to delegate and handle dismissal
+
         self.cancelHandler = { [weak self] in
-            viewModel.location = nil
             self?.navigationController?.popViewController(animated: true )
         }
 
         self.selectionHandler = { [weak self] _ in
             if let coordinate = viewModel.coordinate, let addressString = viewModel.location?.addressString {
+                // Convert to event location object
                 let eventLocation = EventLocation(coordinate: coordinate, addressString: addressString)
                 self?.eventViewModel.eventDelegate?.didSelectLocation(eventLocation)
                 self?.dismiss(animated: true)
