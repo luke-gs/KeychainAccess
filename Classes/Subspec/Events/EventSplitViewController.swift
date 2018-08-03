@@ -12,7 +12,7 @@ public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
 }
 
-public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EvaluationObserverable, EventSummaryViewControllerDelegate {
+public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EvaluationObserverable, EventSummaryViewControllerDelegate, EventSubmitter {
 
     public let viewModel: EventDetailViewModelType
     public var delegate: EventsSubmissionDelegate?
@@ -22,6 +22,12 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
     public required init(viewModel: EventDetailViewModelType) {
         self.viewModel = viewModel
         super.init(detailViewControllers: viewModel.viewControllers ?? [])
+
+        detailViewControllers.forEach { (vc) in
+            if let vc = vc as? DefaultEventNotesMediaViewController {
+                vc.delegate = self
+            }
+        }
         
         self.title = viewModel.title
         regularSidebarViewController.headerView = viewModel.headerView
@@ -57,9 +63,10 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         regularSidebarViewController.navigationItem.rightBarButtonItem?.isEnabled = true
         #endif
     }
-    
+
+    // TODO: Fix the EventSubmitter protocol and make this private again.
     @objc
-    private func presentEventSummary() {
+    public func presentEventSummary() {
         let summaryController = EventSummaryViewController(viewModel: EventSummaryViewModel(event: viewModel.event), submitButtonIsEnabled: viewModel.evaluator.isComplete)
         summaryController.delegate = self
         let popoverController = PopoverNavigationController(rootViewController: summaryController)

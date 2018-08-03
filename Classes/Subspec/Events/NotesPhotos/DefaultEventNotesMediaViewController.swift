@@ -11,6 +11,7 @@ import UIKit
 open class DefaultEventNotesMediaViewController: FormBuilderViewController, EvaluationObserverable {
     
     var viewModel: DefaultEventNotesMediaViewModel
+    weak var delegate: EventSubmitter?
     
     public init(viewModel: DefaultEventNotesMediaViewModel) {
         self.viewModel = viewModel
@@ -23,6 +24,15 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.horizontalSizeClass != .regular {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(submitEvent))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
@@ -31,6 +41,12 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.report?.viewed = true
+        /// Need to put this here because the right bar button items get set back to nil elsewhere (in the MPOLSplitViewController)
+        if traitCollection.horizontalSizeClass != .regular {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(submitEvent))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
     }
     
     override open func construct(builder: FormBuilder) {
@@ -76,4 +92,14 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
+
+    @objc func submitEvent() {
+        delegate?.presentEventSummary()
+    }
+}
+
+/// Can submit the event
+// TODO: Fix this cause wow this is bad and I'm sorry I even wrote this.
+public protocol EventSubmitter: class {
+    func presentEventSummary()
 }
