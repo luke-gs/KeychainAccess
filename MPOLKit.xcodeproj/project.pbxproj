@@ -507,6 +507,9 @@
 		9689CA6B20364C3E0001D993 /* CADEquipmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA6A20364C3E0001D993 /* CADEquipmentType.swift */; };
 		9689CA6D20364CE80001D993 /* CADOfficerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA6C20364CE80001D993 /* CADOfficerType.swift */; };
 		969959661FC2334300CB51EB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959651FC2334300CB51EB /* ColorPalette.swift */; };
+		96A19A412114041E00049CAD /* LocationSelectionMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */; };
+		96A19A422114041E00049CAD /* LocationSelectionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */; };
+		96A19A442114063C00049CAD /* LocationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A432114063C00049CAD /* LocationSelection.swift */; };
 		96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AADABC20081D24003E215E /* BookOnScreen.swift */; };
 		96B58FA92043C305001A8DF4 /* TaskItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
@@ -1437,6 +1440,9 @@
 		9689CA6C20364CE80001D993 /* CADOfficerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADOfficerType.swift; sourceTree = "<group>"; };
 		969959651FC2334300CB51EB /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		969DC68C1FBBAC8400010212 /* MPOLKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPOLKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewModel.swift; sourceTree = "<group>"; };
+		96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewController.swift; sourceTree = "<group>"; };
+		96A19A432114063C00049CAD /* LocationSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelection.swift; sourceTree = "<group>"; };
 		96AADABC20081D24003E215E /* BookOnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnScreen.swift; sourceTree = "<group>"; };
 		96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemScreen.swift; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
@@ -3300,6 +3306,16 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		96A19A3E2114038D00049CAD /* Location Selection */ = {
+			isa = PBXGroup;
+			children = (
+				96A19A432114063C00049CAD /* LocationSelection.swift */,
+				96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */,
+				96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */,
+			);
+			path = "Location Selection";
+			sourceTree = "<group>";
+		};
 		96B9183C1F9D6819005DEB1A /* Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -4587,6 +4603,7 @@
 				19D8D7941FB520140002332D /* ExternalAuthenticator */,
 				12D445062047BAFB00A4D4C1 /* Incidents */,
 				4634B43B1FBD6FA200D71E7F /* Location Map Search */,
+				96A19A3E2114038D00049CAD /* Location Selection */,
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
 				AA7F795020AABC3100985705 /* RelationshipManager */,
@@ -4987,6 +5004,7 @@
 				9689CA0C2032646C0001D993 /* CADClientModelTypes.swift in Sources */,
 				37D718FC20B7CA15004C3F0B /* EventSummaryViewController.swift in Sources */,
 				2744E39E2051DD8500561A8F /* CADBroadcastCore.swift in Sources */,
+				96A19A442114063C00049CAD /* LocationSelection.swift in Sources */,
 				96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */,
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
 				19A6A82520732BD7008EAC95 /* ActivityHandler.swift in Sources */,
@@ -5207,6 +5225,7 @@
 				37E86AA920D8D253004D1C7A /* ThemedNavigationController.swift in Sources */,
 				EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */,
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
+				96A19A422114041E00049CAD /* LocationSelectionMapViewController.swift in Sources */,
 				96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */,
 				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
 				125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */,
@@ -5373,6 +5392,7 @@
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */,
 				2753292420338B4B00CFA97B /* TasksListBasicSummaryView.swift in Sources */,
+				96A19A412114041E00049CAD /* LocationSelectionMapViewModel.swift in Sources */,
 				19F2CF6220A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift in Sources */,
 				DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
