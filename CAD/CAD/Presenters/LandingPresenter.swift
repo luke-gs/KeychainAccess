@@ -78,7 +78,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
             let callsignViewController = CompactCallsignContainerViewController()
-            callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+            callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .resourceCarLarge), selectedImage: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADBookOnChanged, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
 
@@ -172,7 +172,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 tabBarItem.image = resource.status.icon
             } else {
                 tabBarItem.title = NSLocalizedString("Call Sign", comment: "")
-                tabBarItem.image = AssetManager.shared.image(forKey: .entityCar)
+                tabBarItem.image = AssetManager.shared.image(forKey: .resourceCarLarge)
             }
             tabBarItem.selectedImage = tabBarItem.image
         }
