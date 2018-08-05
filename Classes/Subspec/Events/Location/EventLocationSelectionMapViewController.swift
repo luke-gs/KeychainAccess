@@ -16,20 +16,22 @@ open class EventLocationSelectionMapViewController: LocationSelectionMapViewCont
 
     public override init(viewModel: LocationSelectionMapViewModel, layout: MapFormBuilderViewLayout? = StackMapLayout()) {
         super.init(viewModel: viewModel, layout: layout)
+
         eventViewModel.evaluator.addObserver(self)
 
         // Events LocationAction does not use closures for action value changes,
         // so forward cancel/selection to delegate and handle dismissal
 
         self.cancelHandler = { [weak self] in
+            // Revert any changes made during display, as the viewModel is re-used in Events
+            viewModel.location = self?.eventViewModel.savedLocation
             self?.navigationController?.popViewController(animated: true )
         }
 
         self.selectionHandler = { [weak self] _ in
-            if let coordinate = viewModel.coordinate, let addressString = viewModel.location?.addressString {
-                // Convert to event location object
-                let eventLocation = EventLocation(coordinate: coordinate, addressString: addressString)
-                self?.eventViewModel.eventDelegate?.didSelectLocation(eventLocation)
+            if let eventLocation = self?.eventViewModel.eventLocation {
+                self?.eventViewModel.savedLocation = eventLocation
+                self?.viewModel.delegate?.didCompleteWithLocation(eventLocation)
                 self?.dismiss(animated: true)
             }
         }

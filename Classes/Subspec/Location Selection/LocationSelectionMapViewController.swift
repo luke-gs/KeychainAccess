@@ -71,17 +71,13 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
     /// Perform the initial setup of map
     open func initialLoad() {
         guard let mapView = self.mapView else { return }
-        if let coordinate = viewModel.coordinate {
+        if let coordinate = viewModel.location?.coordinate {
             updateRegion(for: coordinate)
 
             // Drop an initial pin at the location if enabled
             if viewModel.dropsPinAutomatically {
-                updatePin(coordinate: coordinate)
+                dropPin(at: coordinate)
             }
-            // Trigger reverse geocode if address missing
-            viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
-                self?.updateFormState()
-            }.cauterize()
         } else {
             updateRegion(for: mapView.userLocation.coordinate)
         }
@@ -102,38 +98,35 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
         mapView?.setRegion(region, animated: true)
     }
 
-    private func updatePin(coordinate: CLLocationCoordinate2D) {
+    private func dropPin(at coordinate: CLLocationCoordinate2D) {
         self.locationAnnotation?.coordinate = coordinate
-    }
-
-    private func updateFormState() {
-        self.navigationItem.rightBarButtonItem?.isEnabled = self.viewModel.isValid
-        self.reloadForm()
+        viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
+            guard let `self` = self else { return }
+            self.navigationItem.rightBarButtonItem?.isEnabled = self.viewModel.isValid
+            self.reloadForm()
+        }.cauterize()
     }
 
     @objc private func performLocationSearch(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
-                // Move pin to new location
-                updatePin(coordinate: coordinate)
-
                 // Reset address string so lookup occurs
                 viewModel.location?.addressString = nil
 
-                // Perform lookup and update form when done
-                viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
-                    self?.updateFormState()
-                }.cauterize()
+                // Drop pin at new location and reverse geocode address
+                dropPin(at: coordinate)
             }
         }
     }
     
     @objc private func didTapCancelButton(sender: UIBarButtonItem) {
+        viewModel.completeWithSelection()
         cancelHandler?()
     }
     
     @objc private func didTapDoneButton(sender: UIBarButtonItem) {
+        viewModel.completeWithSelection()
         if let location = viewModel.location {
             selectionHandler?(location)
         }
@@ -158,7 +151,7 @@ extension LocationSelectionMapViewController: MKMapViewDelegate {
     }
 
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        // Luke: This is the only solution that seemed to work.
+        // Remove title popout from user location annotation
         userLocation.title = ""
     }
 }

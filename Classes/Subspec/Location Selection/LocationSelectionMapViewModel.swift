@@ -11,7 +11,9 @@ import PromiseKit
 
 /// Delegate for generic location selection view model
 public protocol LocationSelectionMapViewModelDelegate: class {
-    func didUpdateLocation(_ location: LocationSelection?)
+
+    /// Called when the selection is completed
+    func didCompleteWithLocation(_ location: LocationSelection?)
 }
 
 /// View model for generic location selection
@@ -20,22 +22,10 @@ open class LocationSelectionMapViewModel {
     /// Delegate for location changes
     public weak var delegate: LocationSelectionMapViewModelDelegate?
 
-    /// The currently selection location
-    public var location: LocationSelection? {
-        didSet {
-            delegate?.didUpdateLocation(location)
-        }
-    }
+    /// The currently selected location
+    public var location: LocationSelection?
 
-    /// Convenience accessor for location coordinate
-    public var coordinate: CLLocationCoordinate2D? {
-        if let lat = location?.latitude, let lon = location?.longitude  {
-            return CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        }
-        return nil
-    }
-
-    /// Whether to reverse geolocate initial location coordinates
+    /// Whether to drop pin and reverse geolocate location when first showing screen
     public var dropsPinAutomatically: Bool = false
 
     /// The manifest collection to use for location type options
@@ -45,13 +35,13 @@ open class LocationSelectionMapViewModel {
     public var locationType: PickableManifestEntry?
 
     /// The available location types
-    public var locationTypeOptions: [PickableManifestEntry] {
+    open var locationTypeOptions: [PickableManifestEntry] {
         guard let collection = locationTypeManifestCollection else { return [] }
         return Manifest.shared.entries(for: collection)?.pickableList() ?? []
     }
 
     /// Whether the current selection is valid
-    public var isValid: Bool {
+    open var isValid: Bool {
         return location != nil && locationType != nil
     }
 
@@ -87,4 +77,10 @@ open class LocationSelectionMapViewModel {
         let fullAddress = formattedAddress.joined(separator: " ")
         location = LocationSelection(coordinate: coordinate, addressString: fullAddress)
     }
+
+    /// Complete the selection with the current location
+    open func completeWithSelection() {
+        delegate?.didCompleteWithLocation(location)
+    }
+
 }

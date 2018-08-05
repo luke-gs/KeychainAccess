@@ -19,6 +19,11 @@ public class LocationSelection: NSObject, NSSecureCoding {
         self.addressString = addressString
     }
 
+    /// Convenience accessor for location coordinate
+    public var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
     // Coding
 
     public static var supportsSecureCoding: Bool = true
