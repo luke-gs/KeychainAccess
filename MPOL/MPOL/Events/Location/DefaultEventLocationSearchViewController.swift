@@ -82,12 +82,15 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventS
     func didSelectOption(_ option: EventLocationSearchOption) {
         // TODO: - Implement the manual selection later once
         // creative has been updated
-        guard let location = locationManager.location, option != .manual else { return }
 
-        if option == .current {
-            selectionViewModel.dropsPinAutomatically = true
+        // Set current location if available and user selected
+        if let location = locationManager.location, option == .current {
             selectionViewModel.location = EventLocation(coordinate: location.coordinate, addressString: nil)
         }
+
+        // Drop pin if we have a location (current or saved)
+        selectionViewModel.dropsPinAutomatically = selectionViewModel.location != nil
+
         let viewController = EventLocationSelectionMapViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
     }

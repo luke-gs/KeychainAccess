@@ -15,6 +15,7 @@ class LocationAction<T: EventLocation>: ValueSelectionAction<T>, LocationSelecti
         self.viewModel = viewModel
         super.init()
         viewModel.delegate = self
+        viewModel.savedLocation = viewModel.eventLocation
     }
 
     public override func viewController() -> UIViewController {
@@ -30,8 +31,6 @@ class LocationAction<T: EventLocation>: ValueSelectionAction<T>, LocationSelecti
     }
 
     // MARK: - LocationSelectionMapViewModelDelegate
-    func didUpdateLocation(_ location: LocationSelection?) {}
-
     func didCompleteWithLocation(_ location: LocationSelection?) {
         if let location = location as? T {
             self.selectedValue = location
