@@ -36,8 +36,8 @@
 		12ABD563207F194C004D0C9F /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */; };
 		12ABD564207F194C004D0C9F /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD560207F194C004D0C9F /* EventsManager.swift */; };
 		12ABD565207F194C004D0C9F /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD561207F194C004D0C9F /* EventSplitViewController.swift */; };
-		12ABD56A207F1967004D0C9F /* LocationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */; };
-		12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */; };
+		12ABD56A207F1967004D0C9F /* EventLocationSelectionMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD567207F1966004D0C9F /* EventLocationSelectionMapViewModel.swift */; };
+		12ABD56B207F1967004D0C9F /* EventLocationSelectionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* EventLocationSelectionMapViewController.swift */; };
 		12ABD56C207F1967004D0C9F /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
 		12B556BC20D9FEB80001FFD6 /* HighlightingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B556BB20D9FEB80001FFD6 /* HighlightingTextView.swift */; };
@@ -507,6 +507,10 @@
 		9689CA6B20364C3E0001D993 /* CADEquipmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA6A20364C3E0001D993 /* CADEquipmentType.swift */; };
 		9689CA6D20364CE80001D993 /* CADOfficerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA6C20364CE80001D993 /* CADOfficerType.swift */; };
 		969959661FC2334300CB51EB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959651FC2334300CB51EB /* ColorPalette.swift */; };
+		96A19A412114041E00049CAD /* LocationSelectionMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */; };
+		96A19A422114041E00049CAD /* LocationSelectionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */; };
+		96A19A442114063C00049CAD /* LocationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A432114063C00049CAD /* LocationSelection.swift */; };
+		96A19A462117BB4E00049CAD /* LocationSelectionFormAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A452117BB4E00049CAD /* LocationSelectionFormAction.swift */; };
 		96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AADABC20081D24003E215E /* BookOnScreen.swift */; };
 		96B58FA92043C305001A8DF4 /* TaskItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
@@ -961,8 +965,8 @@
 		12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
 		12ABD560207F194C004D0C9F /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		12ABD561207F194C004D0C9F /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
-		12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionViewModel.swift; sourceTree = "<group>"; };
-		12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
+		12ABD567207F1966004D0C9F /* EventLocationSelectionMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSelectionMapViewModel.swift; sourceTree = "<group>"; };
+		12ABD568207F1966004D0C9F /* EventLocationSelectionMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSelectionMapViewController.swift; sourceTree = "<group>"; };
 		12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
 		12B556BB20D9FEB80001FFD6 /* HighlightingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightingTextView.swift; sourceTree = "<group>"; };
@@ -1440,6 +1444,10 @@
 		9689CA6C20364CE80001D993 /* CADOfficerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADOfficerType.swift; sourceTree = "<group>"; };
 		969959651FC2334300CB51EB /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		969DC68C1FBBAC8400010212 /* MPOLKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPOLKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewModel.swift; sourceTree = "<group>"; };
+		96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewController.swift; sourceTree = "<group>"; };
+		96A19A432114063C00049CAD /* LocationSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelection.swift; sourceTree = "<group>"; };
+		96A19A452117BB4E00049CAD /* LocationSelectionFormAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionFormAction.swift; sourceTree = "<group>"; };
 		96AADABC20081D24003E215E /* BookOnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnScreen.swift; sourceTree = "<group>"; };
 		96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemScreen.swift; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
@@ -1946,8 +1954,8 @@
 			isa = PBXGroup;
 			children = (
 				12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */,
-				12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */,
-				12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */,
+				12ABD568207F1966004D0C9F /* EventLocationSelectionMapViewController.swift */,
+				12ABD567207F1966004D0C9F /* EventLocationSelectionMapViewModel.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -3297,6 +3305,17 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		96A19A3E2114038D00049CAD /* Location Selection */ = {
+			isa = PBXGroup;
+			children = (
+				96A19A432114063C00049CAD /* LocationSelection.swift */,
+				96A19A452117BB4E00049CAD /* LocationSelectionFormAction.swift */,
+				96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */,
+				96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */,
+			);
+			path = "Location Selection";
+			sourceTree = "<group>";
+		};
 		96B9183C1F9D6819005DEB1A /* Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -4588,6 +4607,7 @@
 				19D8D7941FB520140002332D /* ExternalAuthenticator */,
 				12D445062047BAFB00A4D4C1 /* Incidents */,
 				4634B43B1FBD6FA200D71E7F /* Location Map Search */,
+				96A19A3E2114038D00049CAD /* Location Selection */,
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
 				AA7F795020AABC3100985705 /* RelationshipManager */,
@@ -4987,6 +5007,7 @@
 				9689CA0C2032646C0001D993 /* CADClientModelTypes.swift in Sources */,
 				37D718FC20B7CA15004C3F0B /* EventSummaryViewController.swift in Sources */,
 				2744E39E2051DD8500561A8F /* CADBroadcastCore.swift in Sources */,
+				96A19A442114063C00049CAD /* LocationSelection.swift in Sources */,
 				96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */,
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
 				19A6A82520732BD7008EAC95 /* ActivityHandler.swift in Sources */,
@@ -5021,6 +5042,7 @@
 				2744E3A12051DD8500561A8F /* CADBookOffRequestCore.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
 				463BDD1B20BF67700074B99C /* Conceal.swift in Sources */,
+				96A19A462117BB4E00049CAD /* LocationSelectionFormAction.swift in Sources */,
 				962F177C2089512600156247 /* CADEnumIntType.swift in Sources */,
 				9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
@@ -5207,6 +5229,7 @@
 				37E86AA920D8D253004D1C7A /* ThemedNavigationController.swift in Sources */,
 				EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */,
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
+				96A19A422114041E00049CAD /* LocationSelectionMapViewController.swift in Sources */,
 				96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */,
 				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
 				125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */,
@@ -5289,7 +5312,7 @@
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
 				125E2A0820F84F7E00942B29 /* Settings.swift in Sources */,
 				9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */,
-				12ABD56A207F1967004D0C9F /* LocationSelectionViewModel.swift in Sources */,
+				12ABD56A207F1967004D0C9F /* EventLocationSelectionMapViewModel.swift in Sources */,
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
@@ -5373,6 +5396,7 @@
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */,
 				2753292420338B4B00CFA97B /* TasksListBasicSummaryView.swift in Sources */,
+				96A19A412114041E00049CAD /* LocationSelectionMapViewModel.swift in Sources */,
 				19F2CF6220A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift in Sources */,
 				DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
@@ -5622,7 +5646,7 @@
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
-				12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */,
+				12ABD56B207F1967004D0C9F /* EventLocationSelectionMapViewController.swift in Sources */,
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,

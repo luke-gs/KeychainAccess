@@ -9,10 +9,11 @@ import UIKit
 
 public class StackMapLayout: MapFormBuilderViewLayout {
 
-    let percentage: CGFloat
+    /// Optional fixed height of map
+    private var mapPercentage: CGFloat?
     
-    public init(mapPercentage: CGFloat = 40) {
-        self.percentage = mapPercentage
+    public init(mapPercentage: CGFloat? = 40) {
+        self.mapPercentage = mapPercentage
         super.init()
     }
 
@@ -31,12 +32,23 @@ public class StackMapLayout: MapFormBuilderViewLayout {
             mapView.leadingAnchor.constraint(equalTo: controller.view.safeAreaOrFallbackLeadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: controller.view.safeAreaOrFallbackTrailingAnchor),
             mapView.topAnchor.constraint(equalTo: controller.view.safeAreaOrFallbackTopAnchor),
-            mapView.heightAnchor.constraint(equalToConstant: controller.view.frame.height * (percentage / 100)),
 
-            collectionView.topAnchor.constraint(equalTo: mapView.safeAreaOrFallbackBottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: mapView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: controller.safeAreaOrLayoutGuideBottomAnchor),
         ])
+
+        // Set the height of the map if a percentage is set
+        if let mapPercentage = mapPercentage {
+            NSLayoutConstraint.activate([
+                mapView.heightAnchor.constraint(equalTo: controller.view.heightAnchor, multiplier: mapPercentage / 100)
+            ])
+        }
+    }
+
+    public override func collectionViewClass() -> UICollectionView.Type {
+        /// Use instrinsic height collection view so form gets intrinsic height if no explicit map height
+        return IntrinsicHeightCollectionView.self
     }
 }
