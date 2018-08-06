@@ -49,8 +49,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.forceLinearLayout = true
 
-        let viewModel = LocationSelectionViewModel(location: self.viewModel.report.eventLocation,
-                                                   typeManifestCollection: ManifestCollection.eventLocationInvolvementType)
+        let viewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.eventLocation,
+                                                   typeCollection: ManifestCollection.eventLocationInvolvementType)
 
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)

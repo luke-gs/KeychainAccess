@@ -25,9 +25,9 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventS
 
     let viewModel: EventLocationSearchViewModel<EventLocationSearchViewController>
     let locationManager: CLLocationManager = CLLocationManager()
-    let selectionViewModel: LocationSelectionViewModel
+    let selectionViewModel: EventLocationSelectionMapViewModel
 
-    init(viewModel: EventLocationSearchViewModel<EventLocationSearchViewController>, selectionViewModel: LocationSelectionViewModel) {
+    init(viewModel: EventLocationSearchViewModel<EventLocationSearchViewController>, selectionViewModel: EventLocationSelectionMapViewModel) {
         self.viewModel = viewModel
         self.selectionViewModel = selectionViewModel
         super.init()
@@ -73,22 +73,25 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventS
     }
 
     func didSelectSearchable(_ searchable: LookupAddress) {
-        selectionViewModel.location = EventLocation(location: searchable.coordinate, addressString: searchable.fullAddress)
+        selectionViewModel.location = EventLocation(coordinate: searchable.coordinate, addressString: searchable.fullAddress)
         selectionViewModel.dropsPinAutomatically = true
-        let viewController = LocationMapSelectionViewController(viewModel: selectionViewModel)
+        let viewController = EventLocationSelectionMapViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     func didSelectOption(_ option: EventLocationSearchOption) {
         // TODO: - Implement the manual selection later once
         // creative has been updated
-        guard let location = locationManager.location, option != .manual else { return }
 
-        if option == .current {
-            selectionViewModel.dropsPinAutomatically = true
-            selectionViewModel.location = EventLocation(location: location.coordinate, addressString: nil)
+        // Set current location if available and user selected
+        if let location = locationManager.location, option == .current {
+            selectionViewModel.location = EventLocation(coordinate: location.coordinate, addressString: nil)
         }
-        let viewController = LocationMapSelectionViewController(viewModel: selectionViewModel)
+
+        // Drop pin if we have a location (current or saved)
+        selectionViewModel.dropsPinAutomatically = selectionViewModel.location != nil
+
+        let viewController = EventLocationSelectionMapViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
