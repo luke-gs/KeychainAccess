@@ -11,8 +11,10 @@ import MapKit
 /// View controller for a generic map location selection
 open class LocationSelectionMapViewController: MapFormBuilderViewController, CLLocationManagerDelegate {
 
+    // MARK: - PUBLIC
+
     /// The view model
-    let viewModel: LocationSelectionMapViewModel
+    public let viewModel: LocationSelectionMapViewModel
 
     /// Closure called when a location selection is completed
     public var selectionHandler: ((LocationSelection) -> ())?
@@ -20,6 +22,7 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
     /// Closure called when the selection is cancelled
     public var cancelHandler: (() -> ())?
 
+    /// Init
     public init(viewModel: LocationSelectionMapViewModel, layout: MapFormBuilderViewLayout? = StackMapLayout(mapPercentage: nil)) {
         self.viewModel = viewModel
         super.init(layout: layout)
@@ -61,16 +64,16 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
                 .options(viewModel.locationTypeOptions)
                 .selectedValue([viewModel.locationType].removeNils())
                 .allowsMultipleSelection(false)
+                .required()
                 .onValueChanged { [weak self] values in
                     self?.viewModel.locationType = values?.first
                 }
-                .required()
         }
         builder += ValueFormItem(title: viewModel.addressTitle, value: nil, image: nil)
             .value(viewModel.location?.addressString)
     }
 
-    /// Perform the initial setup of map
+    /// Perform the initial setup of map, separated out from viewDidLoad to allow override
     open func initialLoad() {
         guard let mapView = self.mapView else { return }
         if let coordinate = viewModel.location?.coordinate {
@@ -83,6 +86,16 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
         } else {
             updateRegion(for: mapView.userLocation.coordinate)
         }
+    }
+
+    /// Drop a pin on the map and reverse geocode the address string
+    open func dropPin(at coordinate: CLLocationCoordinate2D) {
+        self.locationAnnotation?.coordinate = coordinate
+        viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
+            guard let `self` = self else { return }
+            self.navigationItem.rightBarButtonItem?.isEnabled = self.viewModel.isValid
+            self.reloadForm()
+        }.cauterize()
     }
 
     // MARK: - PRIVATE
@@ -98,15 +111,6 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
         let span = MKCoordinateSpanMake(0.005, 0.005)
         let region = MKCoordinateRegionMake(coordinate, span)
         mapView?.setRegion(region, animated: true)
-    }
-
-    private func dropPin(at coordinate: CLLocationCoordinate2D) {
-        self.locationAnnotation?.coordinate = coordinate
-        viewModel.reverseGeocode(from: coordinate).ensure { [weak self] in
-            guard let `self` = self else { return }
-            self.navigationItem.rightBarButtonItem?.isEnabled = self.viewModel.isValid
-            self.reloadForm()
-        }.cauterize()
     }
 
     @objc private func performLocationSearch(gesture: UILongPressGestureRecognizer) {
@@ -135,6 +139,7 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
     }
 }
 
+// MARK: - MKMapViewDelegate
 extension LocationSelectionMapViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

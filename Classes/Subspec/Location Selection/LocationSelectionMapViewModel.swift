@@ -19,6 +19,8 @@ public protocol LocationSelectionMapViewModelDelegate: class {
 /// View model for generic location selection
 open class LocationSelectionMapViewModel {
 
+    // MARK: - PUBLIC
+
     /// Delegate for location changes
     public weak var delegate: LocationSelectionMapViewModelDelegate?
 
@@ -51,7 +53,7 @@ open class LocationSelectionMapViewModel {
     public var locationTypeTitle: String? = NSLocalizedString("Type", comment: "")
     public var addressTitle: String? = NSLocalizedString("Address", comment: "")
 
-    /// Constructor
+    /// Init
     public init(location: LocationSelection? = nil, typeCollection: ManifestCollection? = nil) {
         self.location = location
         self.locationTypeManifestCollection = typeCollection

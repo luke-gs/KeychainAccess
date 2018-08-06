@@ -8,7 +8,11 @@
 import UIKit
 import MapKit
 
+/// Data model for a generic location selection including lat/lon and an address string
 public class LocationSelection: NSObject, NSSecureCoding {
+
+    // MARK: - PUBLIC
+
     public var latitude: CLLocationDegrees
     public var longitude: CLLocationDegrees
     public var addressString: String?
@@ -19,6 +23,7 @@ public class LocationSelection: NSObject, NSSecureCoding {
         self.addressString = addressString
     }
 
+    /// Convenience init for a placemark
     public init?(placemark: CLPlacemark) {
         guard let coordinate = placemark.location?.coordinate else { return nil }
 
@@ -35,7 +40,7 @@ public class LocationSelection: NSObject, NSSecureCoding {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
-    // Coding
+    // MARK: - NSSecureCoding
 
     public static var supportsSecureCoding: Bool = true
     private enum Coding: String {
@@ -43,7 +48,6 @@ public class LocationSelection: NSObject, NSSecureCoding {
         case longitude
         case addressString
     }
-
 
     public required init?(coder aDecoder: NSCoder) {
         latitude = aDecoder.decodeDouble(forKey: Coding.latitude.rawValue)
@@ -58,7 +62,7 @@ public class LocationSelection: NSObject, NSSecureCoding {
         aCoder.encode(addressString, forKey: Coding.addressString.rawValue)
     }
 
-    // Equality
+    // MARK: - Equality
 
     public static func ==(lhs: LocationSelection, rhs: LocationSelection) -> Bool {
         return lhs.latitude == rhs.latitude

@@ -10,12 +10,9 @@ import UIKit
 /// Form item action for selecting a location
 open class LocationSelectionFormAction: ValueSelectionAction<LocationSelection> {
 
-    private var viewModel: LocationSelectionMapViewModel
+    // MARK: - PUBLIC
 
-    /// The required presentation style
-    private var modalPresentationStyle: UIModalPresentationStyle
-
-    init(viewModel: LocationSelectionMapViewModel, modalPresentationStyle: UIModalPresentationStyle = .formSheet) {
+    public init(viewModel: LocationSelectionMapViewModel, modalPresentationStyle: UIModalPresentationStyle = .formSheet) {
         self.viewModel = viewModel
         self.modalPresentationStyle = modalPresentationStyle
         super.init()
@@ -45,8 +42,12 @@ open class LocationSelectionFormAction: ValueSelectionAction<LocationSelection> 
         return navigationController
     }
 
+    override open func displayText() -> String? {
+        return selectedValue?.addressString
+    }
+
     /// Dismiss the presented view controller
-    private func dismiss(viewController: UIViewController?) {
+    open func dismiss(viewController: UIViewController?) {
         if modalPresentationStyle == .none {
             viewController?.navigationController?.popViewController(animated: true)
         } else {
@@ -54,8 +55,11 @@ open class LocationSelectionFormAction: ValueSelectionAction<LocationSelection> 
         }
     }
 
-    override open func displayText() -> String? {
-        return selectedValue?.addressString
-    }
+    // MARK: - PRIVATE
+
+    private let viewModel: LocationSelectionMapViewModel
+
+    /// The required modal presentation style for view controller, use .none for push
+    private var modalPresentationStyle: UIModalPresentationStyle
 
 }
