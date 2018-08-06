@@ -83,7 +83,7 @@ open class TasksListInfoRowStackView: UIView {
             }
         }
         
-        for (index, viewModel) in viewModels[0..<viewModels.count].enumerated() {
+        for (index, viewModel) in viewModels[0..<min(viewModels.count, infoRowViews.count)].enumerated() {
             let infoRow = infoRowViews[index]
             infoRow.decorate(with: viewModel)
         }
