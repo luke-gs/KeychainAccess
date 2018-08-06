@@ -20,7 +20,7 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
     /// Closure called when the selection is cancelled
     public var cancelHandler: (() -> ())?
 
-    public init(viewModel: LocationSelectionMapViewModel, layout: MapFormBuilderViewLayout? = StackMapLayout()) {
+    public init(viewModel: LocationSelectionMapViewModel, layout: MapFormBuilderViewLayout? = StackMapLayout(mapPercentage: nil)) {
         self.viewModel = viewModel
         super.init(layout: layout)
         
@@ -56,14 +56,16 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
         builder.forceLinearLayout = true
 
         builder += HeaderFormItem(text: viewModel.headerTitle)
-        builder += DropDownFormItem(title: viewModel.locationTypeTitle)
-            .options(viewModel.locationTypeOptions)
-            .selectedValue([viewModel.locationType].removeNils())
-            .allowsMultipleSelection(false)
-            .onValueChanged { [weak self] values in
-                self?.viewModel.locationType = values?.first
-            }
-            .required()
+        if !viewModel.locationTypeOptions.isEmpty {
+            builder += DropDownFormItem(title: viewModel.locationTypeTitle)
+                .options(viewModel.locationTypeOptions)
+                .selectedValue([viewModel.locationType].removeNils())
+                .allowsMultipleSelection(false)
+                .onValueChanged { [weak self] values in
+                    self?.viewModel.locationType = values?.first
+                }
+                .required()
+        }
         builder += ValueFormItem(title: viewModel.addressTitle, value: nil, image: nil)
             .value(viewModel.location?.addressString)
     }

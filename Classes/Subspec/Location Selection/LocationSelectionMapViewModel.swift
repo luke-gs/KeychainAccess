@@ -42,7 +42,7 @@ open class LocationSelectionMapViewModel {
 
     /// Whether the current selection is valid
     open var isValid: Bool {
-        return location != nil && locationType != nil
+        return location != nil && (locationTypeOptions.isEmpty || locationType != nil)
     }
 
     // Text to use in form
