@@ -33,17 +33,21 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
-    
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
+
+    /// Update the title state when required field changes or dialog transitions
+    open func updateTitleState() {
+        self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
     }
     
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateTitleState()
+    }
+
     override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { (context) in
-            self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
+            self.updateTitleState()
         }, completion: nil)
     }
     
@@ -69,8 +73,9 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .allowsMultipleSelection(false)
             .width(.column(1))
             .selectedValue([viewModel.content.licenceTypeEntry].removeNils())
-            .onValueChanged {
-                self.viewModel.content.licenceTypeId = $0?.first?.entry.id
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.licenceTypeId = $0?.first?.entry.id
+                self?.updateTitleState()
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
@@ -80,15 +85,15 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
                             message: OfficerDetailsViewController.contactPhoneValidation.message)
-            .onValueChanged {
-                self.viewModel.content.contactNumber = $0
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.contactNumber = $0
         }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Radio ID", comment: ""), text: nil)
             .width(.column(2))
             .text(viewModel.content.radioId)
-            .onValueChanged {
-                self.viewModel.content.radioId = $0
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.radioId = $0
         }
 
         builder += DropDownFormItem(title: NSLocalizedString("Capabilities", comment: ""))
@@ -96,23 +101,23 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .width(.column(1))
             .selectedValue(viewModel.content.capabilities)
             .allowsMultipleSelection(true)
-            .onValueChanged {
-                self.viewModel.content.capabilities = $0 ?? []
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.capabilities = $0 ?? []
         }
 
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))
             .text(viewModel.content.remarks)
-            .onValueChanged {
-                self.viewModel.content.remarks = $0
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.remarks = $0
             }
         
         builder += OptionFormItem(title: NSLocalizedString("This officer is the driver", comment: ""))
             .width(.column(1))
             .isChecked(viewModel.content.isDriver.isTrue)
-            .onValueChanged {
-                self.viewModel.content.isDriver = $0
-                self.reloadForm()
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.isDriver = $0
+                self?.reloadForm()
             }
     }
     
