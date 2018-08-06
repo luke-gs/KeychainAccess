@@ -23,7 +23,7 @@ let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.1"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, Logoutable {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
@@ -124,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if let url = try? APIURLManager.serverURL.asURL(), let currentURL = try? APIManager.shared.configuration.url.asURL(),
             url != currentURL {
             if UserSession.current.isActive {
-                logOut()
+                LogOffManager.shared.requestLogOff()
             }
             APIManager.shared = apiManager(with: url)
         }
@@ -217,15 +217,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         return promise
-    }
-
-    // TEMP
-    @objc func logOut() {
-        UserSession.current.endSession()
-        APIManager.shared.setAuthenticationPlugin(nil)
-        landingPresenter.updateInterfaceForUserSession(animated: false)
-
-        removeShortcuts(from: UIApplication.shared)
     }
 
     @objc private func interfaceStyleDidChange() {

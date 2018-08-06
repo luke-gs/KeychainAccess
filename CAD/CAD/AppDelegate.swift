@@ -20,7 +20,7 @@ let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, Logoutable {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
@@ -119,18 +119,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, Logoutable {
         }
 
         // Update screen if necessary
-        landingPresenter.updateInterfaceForUserSession(animated: false)
-    }
-
-    func logOut() {
-        if CADStateManager.shared.lastBookOn != nil {
-            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
-                                             message: NSLocalizedString("You must book off before logging out.", comment: ""))
-            return
-        }
-        UserSession.current.endSession()
-        APIManager.shared.setAuthenticationPlugin(nil)
-        NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 

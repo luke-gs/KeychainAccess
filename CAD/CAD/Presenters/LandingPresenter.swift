@@ -118,6 +118,20 @@ public class LandingPresenter: AppGroupLandingPresenter {
     public var wantsForgotPassword: Bool {
         return false
     }
+    
+    override public func logOff() {
+        if CADStateManager.shared.lastBookOn != nil {
+            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
+                                             message: NSLocalizedString("You must book off before logging out.", comment: ""))
+            return
+        }
+        super.logOff()
+    }
+    
+    override public func onRemoteLogOffCompleted() {
+        super.onRemoteLogOffCompleted()
+        NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
+    }
 
     // MARK: - Private
 
@@ -138,7 +152,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             Settings.whatsNew
             ])
         let pinnedSection: SettingSection = SettingSection(type: .pinned, settings: [
-            Settings.logOut
+            Settings.logOff
             ])
 
         let settingsVC = SettingsViewController(settingSections: [

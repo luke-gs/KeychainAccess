@@ -198,7 +198,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             return tabBarController
         }
     }
-
     /// Custom post authentication logic that must be executed as part of authentication chain
     override open func postAuthenticateChain() -> Promise<Void> {
         return firstly {
@@ -213,6 +212,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
         }
+    }
+    
+    override public func onRemoteLogOffCompleted() {
+        super.onRemoteLogOffCompleted()
+        (UIApplication.shared.delegate as? AppDelegate)?.removeShortcuts()
     }
     
     func switchTo(_ screen: Screen) {
@@ -245,7 +249,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             Settings.whatsNew
             ])
         let pinnedSection: SettingSection = SettingSection(type: .pinned, settings: [
-            Settings.logOut
+            Settings.logOff
             ])
 
         let settingsVC = SettingsViewController(settingSections: [

@@ -32,6 +32,16 @@ public enum LandingScreen: Presentable {
 
 /// Presenter for a standard MPOL app that shares the app group settings of the user session
 open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
+    
+    
+    public override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(logOff), name: LogOffManager.logOffWasRequestedNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     public var wantsBiometricAuthentication = true
 
@@ -255,6 +265,27 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             controller.present(SystemScreen.serverError(title: title, message: message))
         }
 
+    }
+    
+    @objc open func logOff() {
+        
+        // If we have no token we dont need to revoke it
+        guard let refreshToken = UserSession.current.token?.refreshToken else {
+            onRemoteLogOffCompleted()
+            return
+        }
+        
+        // To stop users getting stuck unable to logoff when the request fails
+        // we invoke the completion regardless of result.
+        _ = APIManager.shared.revokeRefreshToken(refreshToken).ensure(onRemoteLogOffCompleted)
+    }
+    
+    /// Called upon completion of the log out async request, or called immediately if
+    /// the refresh token is nil
+    open func onRemoteLogOffCompleted() {
+        UserSession.current.endSession()
+        APIManager.shared.setAuthenticationPlugin(nil)
+        self.updateInterfaceForUserSession(animated: false)
     }
 
     /// Custom post authentication logic that must be executed as part of authentication chain
