@@ -22,7 +22,7 @@
 		125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0920F84FA600942B29 /* SettingsViewController.swift */; };
 		125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0C20F8511200942B29 /* DarkModeSetting.swift */; };
 		125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0E20F854D700942B29 /* SignatureSetting.swift */; };
-		125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1920F89C5100942B29 /* LogoutSetting.swift */; };
+		125E2A1A20F89C5100942B29 /* LogOffSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1920F89C5100942B29 /* LogOffSetting.swift */; };
 		125E2A2020FB7ED200942B29 /* NumericKeyboardSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */; };
 		125E2A2220FB820400942B29 /* BiometricIDSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2120FB820400942B29 /* BiometricIDSetting.swift */; };
 		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
@@ -562,6 +562,7 @@
 		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
 		AA1F649420F583830097A378 /* SemanticVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1F649320F583830097A378 /* SemanticVersionTest.swift */; };
 		AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */; };
+		AA4378E72111669E004D6666 /* LogOffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4378E62111669E004D6666 /* LogOffManager.swift */; };
 		AA440BE420E2187F009BAF98 /* OutlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */; };
 		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
@@ -946,7 +947,7 @@
 		125E2A0920F84FA600942B29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		125E2A0C20F8511200942B29 /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
 		125E2A0E20F854D700942B29 /* SignatureSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSetting.swift; sourceTree = "<group>"; };
-		125E2A1920F89C5100942B29 /* LogoutSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutSetting.swift; sourceTree = "<group>"; };
+		125E2A1920F89C5100942B29 /* LogOffSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOffSetting.swift; sourceTree = "<group>"; };
 		125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericKeyboardSetting.swift; sourceTree = "<group>"; };
 		125E2A2120FB820400942B29 /* BiometricIDSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDSetting.swift; sourceTree = "<group>"; };
 		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
@@ -1495,6 +1496,7 @@
 		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		AA1F649320F583830097A378 /* SemanticVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersionTest.swift; sourceTree = "<group>"; };
 		AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewDraggableCardLayout.swift; sourceTree = "<group>"; };
+		AA4378E62111669E004D6666 /* LogOffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOffManager.swift; sourceTree = "<group>"; };
 		AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedLabel.swift; sourceTree = "<group>"; };
 		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
@@ -1914,7 +1916,7 @@
 			children = (
 				125E2A2120FB820400942B29 /* BiometricIDSetting.swift */,
 				125E2A0C20F8511200942B29 /* DarkModeSetting.swift */,
-				125E2A1920F89C5100942B29 /* LogoutSetting.swift */,
+				125E2A1920F89C5100942B29 /* LogOffSetting.swift */,
 				125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */,
 				125E2A0E20F854D700942B29 /* SignatureSetting.swift */,
 			);
@@ -4180,6 +4182,7 @@
 				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 				96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */,
 				46A0A2AC20BD2751007AAAA8 /* Weak.swift */,
+				AA4378E62111669E004D6666 /* LogOffManager.swift */,
 			);
 			name = Utility;
 			path = Classes/Core/Utility;
@@ -5086,7 +5089,7 @@
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
-				125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */,
+				125E2A1A20F89C5100942B29 /* LogOffSetting.swift in Sources */,
 				27C9C7671F95737C00799855 /* BookOnLandingItemViewModel.swift in Sources */,
 				463694E9200ED8D000C51BB4 /* ColorPickable.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
@@ -5599,6 +5602,7 @@
 				EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */,
 				460B5BC22007186D00AB7D12 /* PathBuilder.swift in Sources */,
 				AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */,
+				AA4378E72111669E004D6666 /* LogOffManager.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
 				12C64A8820C52CDA005AB996 /* Reportable.swift in Sources */,
