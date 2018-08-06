@@ -14,7 +14,7 @@ open class EventLocationSelectionMapViewController: LocationSelectionMapViewCont
         return viewModel as! EventLocationSelectionMapViewModel
     }
 
-    public override init(viewModel: LocationSelectionMapViewModel, layout: MapFormBuilderViewLayout? = StackMapLayout()) {
+    public override init(viewModel: LocationSelectionMapViewModel, layout: MapFormBuilderViewLayout? = StackMapLayout(mapPercentage: nil)) {
         super.init(viewModel: viewModel, layout: layout)
 
         eventViewModel.evaluator.addObserver(self)

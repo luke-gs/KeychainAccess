@@ -95,6 +95,11 @@ open class MapFormBuilderViewController: FormBuilderViewController {
         super.viewDidLoad()
     }
     
+    open override func viewWillAppear(_ animated: Bool) {
+        layout?.viewWillAppear(animated)
+        super.viewWillAppear(animated)
+    }
+
     open override func viewDidAppear(_ animated: Bool) {
         layout?.viewDidAppear(animated)
         super.viewDidAppear(animated)
@@ -187,6 +192,10 @@ open class MapFormBuilderViewLayout: NSObject {
     open func viewDidDisappear(_ animated: Bool) {
     }
     
+    /// A callback that the view will appear
+    open func viewWillAppear(_ animated: Bool) {
+    }
+
     /// A callback that the view appeared
     open func viewDidAppear(_ animated: Bool) {
     }
