@@ -38,16 +38,11 @@ public class StackMapLayout: MapFormBuilderViewLayout {
             collectionView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: controller.safeAreaOrLayoutGuideBottomAnchor),
         ])
-    }
-
-    override public func viewWillAppear(_ animated: Bool) {
-        guard let controller = controller, let mapView = controller.mapView else { return }
 
         // Set the height of the map if a percentage is set
-        // Note: we defer this to here as the controller height is not set in viewDidLoad
         if let mapPercentage = mapPercentage {
             NSLayoutConstraint.activate([
-                mapView.heightAnchor.constraint(equalToConstant: controller.view.frame.height * (mapPercentage / 100))
+                mapView.heightAnchor.constraint(equalTo: controller.view.heightAnchor, multiplier: mapPercentage / 100)
             ])
         }
     }
