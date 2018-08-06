@@ -50,6 +50,8 @@
 	<string>Capturing photos requires access to your Camera in order to work.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Login using FaceID</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
