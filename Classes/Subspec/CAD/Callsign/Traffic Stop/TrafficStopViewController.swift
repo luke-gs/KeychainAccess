@@ -32,7 +32,13 @@ open class TrafficStopViewController: FormBuilderViewController {
         LocationManager.shared.requestPlacemark().done { [weak self] (placemark) in
             self?.viewModel.location = LocationSelection(placemark: placemark)
             self?.reloadForm()
-        }.cauterize()
+        }.recover { [weak self] _ in
+            // Fallback to using last location, if known
+            if let location = LocationManager.shared.lastLocation {
+                self?.viewModel.location = LocationSelection(coordinate: location.coordinate, addressString: nil)
+                self?.reloadForm()
+            }
+        }
     }
     
     open func setupNavigationBarButtons() {
@@ -70,7 +76,12 @@ open class TrafficStopViewController: FormBuilderViewController {
         
         builder += HeaderFormItem(text: "STOP DETAILS")
 
-        let locationSelectionViewModel = LocationSelectionMapViewModel(location: nil, typeCollection: nil)
+        let locationSelectionViewModel = LocationSelectionMapViewModel()
+        if let location = viewModel.location {
+            locationSelectionViewModel.location = location
+            locationSelectionViewModel.dropsPinAutomatically = (location.addressString != nil)
+        }
+
         builder += PickerFormItem(pickerAction: LocationSelectionFormAction(viewModel: locationSelectionViewModel, modalPresentationStyle: .none))
             .title(NSLocalizedString("Location", comment: ""))
             .width(.column(1))
