@@ -209,7 +209,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             self?.tasksListContainer?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.performInitialSync), for: .touchUpInside)
             print("Failed to sync: \(error)")
 
-            // Enable navigation bar items, for logout
+            // Enable navigation bar items, for logoff
             barButtonItems.forEach { $0.isEnabled = true }
         }
     }

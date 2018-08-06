@@ -22,7 +22,7 @@
 		125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0920F84FA600942B29 /* SettingsViewController.swift */; };
 		125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0C20F8511200942B29 /* DarkModeSetting.swift */; };
 		125E2A0F20F854D700942B29 /* SignatureSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0E20F854D700942B29 /* SignatureSetting.swift */; };
-		125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1920F89C5100942B29 /* LogoutSetting.swift */; };
+		125E2A1A20F89C5100942B29 /* LogOffSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1920F89C5100942B29 /* LogOffSetting.swift */; };
 		125E2A2020FB7ED200942B29 /* NumericKeyboardSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */; };
 		125E2A2220FB820400942B29 /* BiometricIDSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2120FB820400942B29 /* BiometricIDSetting.swift */; };
 		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
@@ -551,6 +551,8 @@
 		AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1578BF20D9D85A0007EDFD /* DetailLinkFormItem.swift */; };
 		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
 		AA16412B20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */; };
+		AA1578C220DA0DA00007EDFD /* NumericValuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1578C120DA0DA00007EDFD /* NumericValuesView.swift */; };
+		AA15F2AE20DC729000E734BC /* TableViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15F2AD20DC729000E734BC /* TableViewStyle.swift */; };
 		AA19D88120BE08880082E326 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19D88020BE08880082E326 /* AdditionalActionManager.swift */; };
 		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
@@ -560,6 +562,7 @@
 		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
 		AA1F649420F583830097A378 /* SemanticVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1F649320F583830097A378 /* SemanticVersionTest.swift */; };
 		AA1FC00420FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */; };
+		AA4378E72111669E004D6666 /* LogOffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4378E62111669E004D6666 /* LogOffManager.swift */; };
 		AA440BE420E2187F009BAF98 /* OutlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */; };
 		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
@@ -944,7 +947,7 @@
 		125E2A0920F84FA600942B29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		125E2A0C20F8511200942B29 /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
 		125E2A0E20F854D700942B29 /* SignatureSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSetting.swift; sourceTree = "<group>"; };
-		125E2A1920F89C5100942B29 /* LogoutSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutSetting.swift; sourceTree = "<group>"; };
+		125E2A1920F89C5100942B29 /* LogOffSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOffSetting.swift; sourceTree = "<group>"; };
 		125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericKeyboardSetting.swift; sourceTree = "<group>"; };
 		125E2A2120FB820400942B29 /* BiometricIDSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDSetting.swift; sourceTree = "<group>"; };
 		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
@@ -1482,6 +1485,8 @@
 		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
 		AA16412A20F301460027F947 /* EntitySummarySearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModelTests.swift; sourceTree = "<group>"; };
 		AA18995C20F48E4E001E4CBC /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
+		AA1578C120DA0DA00007EDFD /* NumericValuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericValuesView.swift; sourceTree = "<group>"; };
+		AA15F2AD20DC729000E734BC /* TableViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewStyle.swift; sourceTree = "<group>"; };
 		AA19D88020BE08880082E326 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
@@ -1491,6 +1496,7 @@
 		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		AA1F649320F583830097A378 /* SemanticVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersionTest.swift; sourceTree = "<group>"; };
 		AA1FC00320FC1581004AAEC4 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFormBuilderCollectionViewDraggableCardLayout.swift; sourceTree = "<group>"; };
+		AA4378E62111669E004D6666 /* LogOffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOffManager.swift; sourceTree = "<group>"; };
 		AA440BE320E2187F009BAF98 /* OutlinedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedLabel.swift; sourceTree = "<group>"; };
 		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
@@ -1910,7 +1916,7 @@
 			children = (
 				125E2A2120FB820400942B29 /* BiometricIDSetting.swift */,
 				125E2A0C20F8511200942B29 /* DarkModeSetting.swift */,
-				125E2A1920F89C5100942B29 /* LogoutSetting.swift */,
+				125E2A1920F89C5100942B29 /* LogOffSetting.swift */,
 				125E2A1F20FB7ED200942B29 /* NumericKeyboardSetting.swift */,
 				125E2A0E20F854D700942B29 /* SignatureSetting.swift */,
 			);
@@ -2193,15 +2199,6 @@
 				19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */,
 			);
 			path = LookupAddressTests;
-			sourceTree = "<group>";
-		};
-		19F2CF5E20A959FD006E6253 /* TrafficHistory */ = {
-			isa = PBXGroup;
-			children = (
-				19F2CF5F20A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift */,
-				19F2CF6020A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift */,
-			);
-			path = TrafficHistory;
 			sourceTree = "<group>";
 		};
 		19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */ = {
@@ -3689,6 +3686,8 @@
 			children = (
 				EA2F1A611FA6D570001F7812 /* Media */,
 				EA7C50A11FA05C7D004930BF /* CollectionViewFormMediaCell.swift */,
+				19F2CF5F20A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift */,
+				AA1578C120DA0DA00007EDFD /* NumericValuesView.swift */,
 				BC9C7D531F0DED6600DFFE83 /* CollectionViewFormCell.swift */,
 				BC9C7D541F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift */,
 				BC9C7D551F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift */,
@@ -4183,6 +4182,7 @@
 				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 				96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */,
 				46A0A2AC20BD2751007AAAA8 /* Weak.swift */,
+				AA4378E62111669E004D6666 /* LogOffManager.swift */,
 			);
 			name = Utility;
 			path = Classes/Core/Utility;
@@ -4542,6 +4542,7 @@
 		EA8904B31F6A2FD00050DB84 /* FormItems */ = {
 			isa = PBXGroup;
 			children = (
+				19F2CF6020A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift */,
 				274F8AAA20DC71E00034B947 /* DurationFormItem.swift */,
 				EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */,
 				EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */,
@@ -4594,7 +4595,6 @@
 				125E2A0620F84F6600942B29 /* Settings */,
 				37D718FF20BBB379004C3F0B /* Summary */,
 				EA85BFE81F678945002EEB49 /* ThemeGesture */,
-				19F2CF5E20A959FD006E6253 /* TrafficHistory */,
 				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
 			);
 			path = Subspec;
@@ -5089,7 +5089,7 @@
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				AA1578C020D9D85A0007EDFD /* DetailLinkFormItem.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
-				125E2A1A20F89C5100942B29 /* LogoutSetting.swift in Sources */,
+				125E2A1A20F89C5100942B29 /* LogOffSetting.swift in Sources */,
 				27C9C7671F95737C00799855 /* BookOnLandingItemViewModel.swift in Sources */,
 				463694E9200ED8D000C51BB4 /* ColorPickable.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
@@ -5537,6 +5537,7 @@
 				27094CC21FAFFBDA00D4C3D4 /* TaskItemSidebarSplitViewController.swift in Sources */,
 				27094CC81FAFFBDA00D4C3D4 /* OfficerCell.swift in Sources */,
 				EA2189ED1F5FAF110057048E /* SearchResultModelable.swift in Sources */,
+				AA1578C220DA0DA00007EDFD /* NumericValuesView.swift in Sources */,
 				19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */,
 				9689CA512036492F0001D993 /* CADIncidentType.swift in Sources */,
 				EA3BA38A1F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift in Sources */,
@@ -5601,6 +5602,7 @@
 				EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */,
 				460B5BC22007186D00AB7D12 /* PathBuilder.swift in Sources */,
 				AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */,
+				AA4378E72111669E004D6666 /* LogOffManager.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
 				12C64A8820C52CDA005AB996 /* Reportable.swift in Sources */,

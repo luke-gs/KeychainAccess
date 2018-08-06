@@ -25,6 +25,7 @@ open class ColorPalette: NSObject {
     open var secondaryGray     = #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5764705882, alpha: 1)
     open var selectedGray      = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
     open var disabledGray      = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
+    open var softGray          = #colorLiteral(red: 0.930967629, green: 0.9309893847, blue: 0.9309776425, alpha: 1)
     open var sidebarBlack      = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
     open var sidebarGray       = #colorLiteral(red: 0.1642476916, green: 0.1795658767, blue: 0.2130921185, alpha: 1)
     
@@ -46,6 +47,7 @@ extension UIColor {
     public static var secondaryGray     = ColorPalette.shared.secondaryGray
     public static var selectedGray      = ColorPalette.shared.selectedGray
     public static var disabledGray      = ColorPalette.shared.disabledGray
+    public static var softGray          = ColorPalette.shared.softGray
     public static var sidebarBlack      = ColorPalette.shared.sidebarBlack
     public static var sidebarGray       = ColorPalette.shared.sidebarGray
     
