@@ -254,7 +254,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             if let error = error {
                 self.errorMessage = error.localizedDescription
             } else {
-                let search = Searchable(text: text, options: options?.state(), type: VehicleSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityCar)
+                let search = Searchable(text: text, options: options?.state(), type: VehicleSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityCarSmall)
                 updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: resultModel)
             }
         }
