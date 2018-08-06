@@ -64,18 +64,10 @@ open class LocationSelectionMapViewModel {
 
         let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude)
         return LocationManager.shared.requestPlacemark(from: location).done { [weak self] (placemark) -> Void in
-            self?.updateLocation(from: placemark)
+            self?.location = LocationSelection(placemark: placemark)
         }.recover { _ in
             // Ignore errors looking up address
         }
-    }
-
-    /// Update the current location with a given placemark
-    open func updateLocation(from placemark: CLPlacemark) {
-        guard let coordinate = placemark.location?.coordinate else { return }
-        guard let formattedAddress = placemark.addressDictionary?["FormattedAddressLines"] as? [String] else { return }
-        let fullAddress = formattedAddress.joined(separator: " ")
-        location = LocationSelection(coordinate: coordinate, addressString: fullAddress)
     }
 
     /// Complete the selection with the current location

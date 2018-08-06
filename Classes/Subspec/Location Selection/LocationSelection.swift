@@ -19,6 +19,17 @@ public class LocationSelection: NSObject, NSSecureCoding {
         self.addressString = addressString
     }
 
+    public init?(placemark: CLPlacemark) {
+        guard let coordinate = placemark.location?.coordinate else { return nil }
+
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
+
+        if let formattedAddress = placemark.addressDictionary?["FormattedAddressLines"] as? [String] {
+            self.addressString = formattedAddress.joined(separator: " ")
+        }
+    }
+
     /// Convenience accessor for location coordinate
     public var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
