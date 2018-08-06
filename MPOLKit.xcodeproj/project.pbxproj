@@ -510,6 +510,7 @@
 		96A19A412114041E00049CAD /* LocationSelectionMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */; };
 		96A19A422114041E00049CAD /* LocationSelectionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */; };
 		96A19A442114063C00049CAD /* LocationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A432114063C00049CAD /* LocationSelection.swift */; };
+		96A19A462117BB4E00049CAD /* LocationSelectionFormAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A19A452117BB4E00049CAD /* LocationSelectionFormAction.swift */; };
 		96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AADABC20081D24003E215E /* BookOnScreen.swift */; };
 		96B58FA92043C305001A8DF4 /* TaskItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
@@ -1443,6 +1444,7 @@
 		96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewModel.swift; sourceTree = "<group>"; };
 		96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewController.swift; sourceTree = "<group>"; };
 		96A19A432114063C00049CAD /* LocationSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelection.swift; sourceTree = "<group>"; };
+		96A19A452117BB4E00049CAD /* LocationSelectionFormAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionFormAction.swift; sourceTree = "<group>"; };
 		96AADABC20081D24003E215E /* BookOnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnScreen.swift; sourceTree = "<group>"; };
 		96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemScreen.swift; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
@@ -3310,6 +3312,7 @@
 			isa = PBXGroup;
 			children = (
 				96A19A432114063C00049CAD /* LocationSelection.swift */,
+				96A19A452117BB4E00049CAD /* LocationSelectionFormAction.swift */,
 				96A19A402114041E00049CAD /* LocationSelectionMapViewController.swift */,
 				96A19A3F2114041E00049CAD /* LocationSelectionMapViewModel.swift */,
 			);
@@ -5039,6 +5042,7 @@
 				2744E3A12051DD8500561A8F /* CADBookOffRequestCore.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
 				463BDD1B20BF67700074B99C /* Conceal.swift in Sources */,
+				96A19A462117BB4E00049CAD /* LocationSelectionFormAction.swift in Sources */,
 				962F177C2089512600156247 /* CADEnumIntType.swift in Sources */,
 				9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
