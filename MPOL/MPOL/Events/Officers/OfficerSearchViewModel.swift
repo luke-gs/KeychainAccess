@@ -22,8 +22,25 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     public private(set) var items: [Object]
     var searchText: String?
 
-    public init(items: [Object] = []) {
-        self.items = items
+    public init(items: [Object]? = nil) {
+
+        if let items = items {
+            self.items = items
+        } else {
+            #if DEBUG || EXTERNAL
+            // Fake officers used for the purposes of demos.
+            let fakeOfficerOne = Officer()
+            fakeOfficerOne.familyName = "Smith"
+            fakeOfficerOne.givenName = "Jackson"
+            fakeOfficerOne.employeeNumber = "#GS007"
+            let fakeOfficerTwo = Officer()
+            fakeOfficerTwo.familyName = "Johnson"
+            fakeOfficerTwo.givenName = "Carl"
+            fakeOfficerTwo.employeeNumber = "#GS008"
+            self.items = [fakeOfficerOne, fakeOfficerTwo]
+            #endif
+        }
+
     }
 
     func numberOfSections() -> Int {

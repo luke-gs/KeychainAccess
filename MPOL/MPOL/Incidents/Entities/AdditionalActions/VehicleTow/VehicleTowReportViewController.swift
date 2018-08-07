@@ -63,8 +63,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .onValueChanged({ values in
                 self.viewModel.report.towReason = values?.first
             })
-
-        // officerPickerFormItems
+        
         builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel()))
             .width(.column(2))
             .title("Officer Authorising Tow")

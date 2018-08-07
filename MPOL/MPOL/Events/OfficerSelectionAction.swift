@@ -10,14 +10,19 @@ import MPOLKit
 import ClientKit
 
 class OfficerSelectionAction: ValueSelectionAction<Officer> {
+
     let viewModel: OfficerSearchViewModel
     init(viewModel: OfficerSearchViewModel) {
         self.viewModel = viewModel
     }
 
     public override func viewController() -> UIViewController {
+
         let officerSearchController = SearchDisplayableViewController<OfficerSelectionAction, OfficerSearchViewModel>(viewModel: viewModel)
         officerSearchController.delegate = self
+        officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",                     style: .plain, target: officerSearchController,
+            action: #selector(UIViewController.dismissAnimated))
+
         let navigationController = PopoverNavigationController(rootViewController: officerSearchController)
         navigationController.modalPresentationStyle = .formSheet
         return navigationController

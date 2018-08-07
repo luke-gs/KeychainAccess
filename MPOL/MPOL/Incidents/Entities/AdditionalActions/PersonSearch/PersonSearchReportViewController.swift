@@ -194,7 +194,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismiss))
         officerSearchController.delegate = self
 
-        let navController = UINavigationController(rootViewController: officerSearchController)
+        let navController = ThemedNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
         present(navController, animated: true, completion: nil)
 
