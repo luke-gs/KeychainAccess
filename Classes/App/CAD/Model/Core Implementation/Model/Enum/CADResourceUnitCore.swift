@@ -72,7 +72,7 @@ public enum CADResourceUnitCore: String, Codable, CADResourceUnitType {
         case .policeOfficer:
             return .resourceBeat
         case .vehicle:
-            return .resourceCarLarge
+            return .resourceCar
         }
     }
 }

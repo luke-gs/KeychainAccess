@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
         UserSession.current.recentlySearched = [
             Searchable(text: "Jeff Kiedir", options: nil, type: "Person", imageKey: AssetManager.ImageKey.entityPerson),
             Searchable(text: "Scott Hocker", options: nil, type: "Person", imageKey: AssetManager.ImageKey.entityPerson),
-            Searchable(text: "milah Ilreh", options: nil, type: "Vehicle", imageKey: AssetManager.ImageKey.entityCar),
+            Searchable(text: "milah Ilreh", options: nil, type: "Vehicle", imageKey: AssetManager.ImageKey.entityCarSmall),
             Searchable(text: "Jeff", options: nil, type: "Organisation", imageKey: AssetManager.ImageKey.entityBuilding),
             Searchable(text: "Heartsland Blvd", options: nil, type: "Location", imageKey: AssetManager.ImageKey.location)
         ]

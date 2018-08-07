@@ -50,6 +50,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             let image = AssetManager.shared.image(forKey: .penStub)
             let accessory = CustomItemAccessory(onCreate: { UIImageView(image: AssetManager.shared.image(forKey: .edit)) }, size: image?.size ?? .zero)
             builder += viewModel.displayable(for: entity).summaryListFormItem()
+                        .separatorColor(.clear)
                         .subtitle(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
                         .accessory(nil)
                         .badgeColor(nil)
@@ -67,12 +68,13 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
                 builder += SubItemFormItem()
+                    .separatorColor(.clear)
                     .title(action.additionalActionType.rawValue)
                     .detail(action.evaluator.isComplete ? "Complete" : "Incomplete")
                     .detailFont(UIFont.systemFont(ofSize: 13, weight: .semibold))
                     .detailColorKey(action.evaluator.isComplete ? .secondaryText : .redText)
                     .image(AssetManager.shared.image(forKey: .documentFilled))
-                    .imageTintColor(UIColor.black)
+                    .imageTintColorKey(.primaryText)
                     .selectionStyle(.none)
                     .actionButton(title: "Open", handler: { (sender) in
                         self.presentAdditionalAction(reports: action.reports)
@@ -118,7 +120,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         guard let viewController = self.viewModel.screenBuilding.viewControllers(for: reports).first else {
             return
         }
-        let navController = PopoverNavigationController(rootViewController: viewController)
+        let navController = ThemedNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .pageSheet
         navController.dismissHandler = { animated in
             self.reloadForm()

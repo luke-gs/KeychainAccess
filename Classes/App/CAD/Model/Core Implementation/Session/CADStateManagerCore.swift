@@ -33,6 +33,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         return apiManager.cadBookOn(with: request).done { [unowned self] in
 
             // Update book on and notify observers
+            self.lastSyncTime = Date()
             self.lastBookOn = request
 
             // Store recent IDs
@@ -95,7 +96,9 @@ open class CADStateManagerCore: CADStateManagerBase {
             // Clear incident if changing to non incident status
             if (self.currentResource?.status.isChangingToGeneralStatus(newStatus)).isTrue {
                 // Clear the current incident
-                self.clearIncident()
+                if let incident = self.currentIncident, let resource = self.currentResource {
+                    self.clearIncident(incidentNumber: incident.incidentNumber, from: resource)
+                }
                 newIncident = nil
             }
 
@@ -131,20 +134,35 @@ open class CADStateManagerCore: CADStateManagerBase {
 
     /// Clears current incident and sets status to on air
     private func finaliseIncident() {
+        // TODO: remove this when we have a real CAD system
         currentResource?.status = CADResourceStatusCore.onAir
-        clearIncident()
+        if let syncDetails = lastSync as? CADSyncResponseCore, let incidentNumber = currentIncident?.incidentNumber {
+            
+            // Remove incident from any assigned resource
+            let resources = resourcesForIncident(incidentNumber: incidentNumber)
+            for resource in resources {
+                clearIncident(incidentNumber: incidentNumber, from: resource)
+            }
+
+            // Remove incident from incident list
+            syncDetails.incidents = syncDetails.incidents.filter { $0.incidentNumber != incidentNumber }
+            incidentsById.removeValue(forKey: incidentNumber)
+
+            // Trigger UI update like sync has occurred
+            lastSyncTime = Date()
+            NotificationCenter.default.post(name: .CADSyncChanged, object: self)
+        }
     }
 
     /// Un-assigns the current incident for the booked on resource
-    private func clearIncident() {
-        if let incident = currentIncident, let resource = currentResource {
-
-            // Remove incident from being assigned to resource
-            var assignedIncidents = resource.assignedIncidents
-            if let index = assignedIncidents.index(of: incident.incidentNumber) {
-                assignedIncidents.remove(at: index)
-                resource.assignedIncidents = assignedIncidents
-            }
+    private func clearIncident(incidentNumber: String, from resource: CADResourceType) {
+        // Remove incident from being assigned to resource
+        var assignedIncidents = resource.assignedIncidents
+        if let index = assignedIncidents.index(of: incidentNumber) {
+            assignedIncidents.remove(at: index)
+            resource.assignedIncidents = assignedIncidents
+        }
+        if resource.currentIncident == incidentNumber {
             resource.currentIncident = nil
         }
     }
