@@ -28,16 +28,18 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             self.items = items
         } else {
             #if DEBUG || EXTERNAL
-            // Fake officers used for the purposes of demos.
-            let fakeOfficerOne = Officer()
-            fakeOfficerOne.familyName = "Smith"
-            fakeOfficerOne.givenName = "Jackson"
-            fakeOfficerOne.employeeNumber = "#GS007"
-            let fakeOfficerTwo = Officer()
-            fakeOfficerTwo.familyName = "Johnson"
-            fakeOfficerTwo.givenName = "Carl"
-            fakeOfficerTwo.employeeNumber = "#GS008"
-            self.items = [fakeOfficerOne, fakeOfficerTwo]
+                // Fake officers used for the purposes of demos.
+                let fakeOfficerOne = Officer()
+                fakeOfficerOne.familyName = "Smith"
+                fakeOfficerOne.givenName = "Jackson"
+                fakeOfficerOne.employeeNumber = "#GS007"
+                let fakeOfficerTwo = Officer()
+                fakeOfficerTwo.familyName = "Johnson"
+                fakeOfficerTwo.givenName = "Carl"
+                fakeOfficerTwo.employeeNumber = "#GS008"
+                self.items = [fakeOfficerOne, fakeOfficerTwo]
+            #else
+                self.items = []
             #endif
         }
 
