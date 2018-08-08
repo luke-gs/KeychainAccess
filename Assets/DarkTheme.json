@@ -22,7 +22,8 @@
         "headerSubtitleText":             "#8A919E",
         "redText":                        "#FF3B30",
         "entityThumbnailBackgroundColor": "#FFFFFF14",
-        "entityImageTint":                "#8E8E93"
+        "entityImageTint":                "#8E8E93",
+        "contentBackgroundGray":          "#2A2E36"
     },
     "images": {
         "navigationBar": "NavigationBarDark",

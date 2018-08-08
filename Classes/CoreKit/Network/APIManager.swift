@@ -74,7 +74,7 @@ open class APIManager {
     }
     
     /// performs a network request to revoke a refresh token
-    /// typically done on logout
+    /// typically done on logoff
     ///
     /// - Parameter token: token to be revoked
     /// - Parameter path: defaults to "logoff" but can be changed

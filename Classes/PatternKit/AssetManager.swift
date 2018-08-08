@@ -193,7 +193,6 @@ extension AssetManager {
         public static let entityOfficer  = ImageKey("iconEntityOfficer")
         public static let entityPerson   = ImageKey("iconEntityPerson")
         public static let entityBuilding = ImageKey("iconEntityBuilding")
-        public static let entityCar      = ImageKey("iconEntityAutomotiveCar")
         public static let entityTruck    = ImageKey("iconEntityVehicleTruck")
         public static let entityBoat     = ImageKey("iconEntityAutomotiveWater")
 

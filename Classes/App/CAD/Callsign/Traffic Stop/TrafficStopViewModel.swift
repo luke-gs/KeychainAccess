@@ -22,7 +22,7 @@ open class TrafficStopViewModel {
 
     // Model representing UI
     open var entities: [SelectStoppedEntityItemViewModel] = []
-    open var location: CLPlacemark?
+    open var location: LocationSelection?
     open var createIncident: Bool = false
     open var priority: CADIncidentGradeType?
     open var primaryCode: String?
@@ -66,17 +66,6 @@ open class TrafficStopViewModel {
     /// Title for VC
     open func navTitle() -> String {
         return NSLocalizedString("Traffic Stop", comment: "Traffic Stop title")
-    }
-    
-    /// The formatted title for the location
-    open func formattedLocation() -> String {
-        if let location = location {
-            return (location.addressDictionary?["FormattedAddressLines"] as? [String])?
-                .joined(separator: ", ")
-                .ifNotEmpty() ?? "Unknown Location"
-        } else {
-            return "Required"
-        }
     }
     
     /// MARK: - Actions

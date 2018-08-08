@@ -29,10 +29,15 @@ open class TrafficStopViewController: FormBuilderViewController {
     }
     
     open func fetchLocation() {
-
         LocationManager.shared.requestPlacemark().done { [weak self] (placemark) in
-            self?.viewModel.location = placemark
+            self?.viewModel.location = LocationSelection(placemark: placemark)
             self?.reloadForm()
+        }.recover { [weak self] _ in
+            // Fallback to using last location, if known
+            if let location = LocationManager.shared.lastLocation {
+                self?.viewModel.location = LocationSelection(coordinate: location.coordinate, addressString: nil)
+                self?.reloadForm()
+            }
         }
     }
     
@@ -70,11 +75,22 @@ open class TrafficStopViewController: FormBuilderViewController {
         }
         
         builder += HeaderFormItem(text: "STOP DETAILS")
-        builder += ValueFormItem()  // TODO: Implement selecting location
-            .title("Location")
-            .value(viewModel.formattedLocation())
-            .accessory(FormAccessoryView(style: .pencil))
+
+        let locationSelectionViewModel = LocationSelectionMapViewModel()
+        if let location = viewModel.location {
+            locationSelectionViewModel.location = location
+            locationSelectionViewModel.dropsPinAutomatically = (location.addressString != nil)
+        }
+
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(viewModel: locationSelectionViewModel, modalPresentationStyle: .none))
+            .title(NSLocalizedString("Location", comment: ""))
             .width(.column(1))
+            .required("Location is required.")
+            .selectedValue(viewModel.location)
+            .onValueChanged({ [unowned self] (location) in
+                self.viewModel.location = location
+            })
+
         builder += OptionFormItem()
             .title("Create an incident".sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 15, weight: .semibold)))
             .isChecked(viewModel.createIncident)

@@ -61,7 +61,6 @@ open class SubItemCollectionViewCell: CollectionViewFormCell {
     override open func commonInit() {
         super.commonInit()
 
-        borderView.backgroundColor = #colorLiteral(red: 0.9527931809, green: 0.9657652974, blue: 0.9751361012, alpha: 1)
         borderView.layer.cornerRadius = 15
         borderView.layer.masksToBounds = true
 
