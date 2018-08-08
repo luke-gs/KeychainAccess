@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 import Unbox
 
-class ResultsViewController: FormBuilderViewController {
+class ResultsViewController: FormBuilderViewController, DrawerDraggableViewControllerDelegate {
 
     override init() {
         super.init()
@@ -139,6 +139,19 @@ class ResultsViewController: FormBuilderViewController {
         viewController.modalPresentationStyle = .formSheet
 
         self.present(viewController, animated: true, completion: nil)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let bottom = drawerViewController?.drawerSafeAreaInsets.bottom {
+            userInterfaceStyle = .dark
+            collectionView?.indicatorStyle = .white
+
+            if #available(iOS 11.0, *) {} else {
+                collectionView?.contentInset.bottom = bottom
+            }
+        }
     }
 
 }
