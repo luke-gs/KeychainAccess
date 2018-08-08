@@ -1038,7 +1038,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1103,7 +1103,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1158,7 +1158,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1223,7 +1223,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1270,7 +1270,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1325,7 +1325,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1380,7 +1380,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1456,7 +1456,7 @@
       "equipment": [
         {
           "count": 4, 
-          "name": "Shotgun"
+          "id": "ad1ae7af-865d-4ecb-985d-38582ad47618"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
