@@ -15,37 +15,37 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
 
     public var count: Int
 
-    public var description: String
+    public var id: String
 
     // MARK: - Init
 
-    public required init(count: Int, description: String) {
+    public required init(id: String, count: Int) {
+        self.id = id
         self.count = count
-        self.description = description
     }
 
     /// Copy constructor
     public required init(equipment: CADEquipmentType) {
+        self.id = equipment.id
         self.count = equipment.count
-        self.description = equipment.description
     }
     
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
+        case id = "id"
         case count = "count"
-        case description = "name"
     }
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        count = try values.decodeIfPresent(Int.self, forKey: .count) ?? 0
-        description = try values.decodeIfPresent(String.self, forKey: .description) ?? ""
+        id = try values.decode(String.self, forKey: .id)
+        count = try values.decode(Int.self, forKey: .count)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
         try container.encode(count, forKey: .count)
-        try container.encode(description, forKey: .description)
     }
 }
