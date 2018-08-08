@@ -63,12 +63,12 @@ extension Array where Element == ManifestEntry {
         return self.compactMap { return $0.rawValue }
     }
 
-    // Get all manifest entries keyed by their unique rawValue, for fast lookup
-    public func rawValueDict() -> [String: ManifestEntry] {
+    // Get all manifest entries keyed by their unique id, for fast lookup
+    public func keyedById() -> [String: ManifestEntry] {
         var result: [String: ManifestEntry] = [:]
         for item in self {
-            if let value = item.rawValue {
-                result[value] = item
+            if let id = item.id {
+                result[id] = item
             }
         }
         return result

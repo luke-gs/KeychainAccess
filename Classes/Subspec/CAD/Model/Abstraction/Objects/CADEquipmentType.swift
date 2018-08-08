@@ -13,12 +13,12 @@ public protocol CADEquipmentType: class {
 
     // MARK: - Network
     var count: Int { get set }
-    var description: String { get set }
+    var id: String { get set }
 
     // MARK: - Init
 
     /// Default constructor
-    init(count: Int, description: String)
+    init(id: String, count: Int)
 
     /// Copy constructor
     init(equipment: CADEquipmentType)
