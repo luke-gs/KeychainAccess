@@ -8,34 +8,33 @@
 import Foundation
 import MPOLKit
 
-// MARK: - Convenience methods for common app settings
 extension User {
 
+    /// Convenience methods for common app settings
     public var lastUsedAppVersion: String? {
         get {
-            return appGroupSettingValue(forKey: .lastUsedAppVersion) as? String
+            return appSettingValue(forKey: .lastUsedAppVersion) as? String
         }
         set {
-            setAppGroupSettingValue(newValue as AnyObject, forKey: .lastUsedAppVersion)
+            setAppSettingValue(newValue as AnyObject, forKey: .lastUsedAppVersion)
         }
     }
 
     public var lastTermsAndConditionsVersionAccepted: String? {
         get {
-            return appGroupSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String
+            return appSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String
         }
         set {
-            setAppGroupSettingValue(newValue as AnyObject, forKey: .termsAndConditionsVersionAccepted)
+            setAppSettingValue(newValue as AnyObject, forKey: .termsAndConditionsVersionAccepted)
         }
     }
 
     public var lastWhatsNewShownVersion: String? {
         get {
-            return appGroupSettingValue(forKey: .whatsNewShownVersion) as? String
+            return appSettingValue(forKey: .whatsNewShownVersion) as? String
         }
         set {
-            setAppGroupSettingValue(newValue as AnyObject, forKey: .whatsNewShownVersion)
+            setAppSettingValue(newValue as AnyObject, forKey: .whatsNewShownVersion)
         }
     }
-
 }

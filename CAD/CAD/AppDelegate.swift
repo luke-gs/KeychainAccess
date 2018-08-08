@@ -16,9 +16,6 @@ import Alamofire
 import HockeySDK
 #endif
 
-let TermsAndConditionsVersion = "1.0"
-let WhatsNewVersion = "1.0"
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

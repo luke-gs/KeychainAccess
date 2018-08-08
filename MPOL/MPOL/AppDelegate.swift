@@ -19,8 +19,6 @@ import Alamofire
 #endif
 
 private let host = APP_HOST_URL
-let TermsAndConditionsVersion = "1.0"
-let WhatsNewVersion = "1.1"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
