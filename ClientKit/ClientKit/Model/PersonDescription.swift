@@ -149,49 +149,52 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public func formatted() -> String? {
-        var formattedComponents: [String] = []
+        var primaryComponents: [String] = []
+        var secondaryComponents: [String] = []
 
         if let height = height {
-            formattedComponents.append("\(height) cm")
+            primaryComponents.append("\(height) cm")
         }
 
         if let weight = weight?.ifNotEmpty() {
-            formattedComponents.append("\(weight) kg")
+            primaryComponents.append("\(weight) kg")
         }
 
         if let ethnicity = ethnicity?.ifNotEmpty() {
-            formattedComponents.append("\(ethnicity)")
+            primaryComponents.append("\(ethnicity.localizedCapitalized) speaking")
         }
 
         if let race = race?.ifNotEmpty() {
-            formattedComponents.append("\(race)")
+            primaryComponents.append("\(race.localizedCapitalized) appearance")
         }
 
         if let build = build?.ifNotEmpty() {
-            formattedComponents.append("\(build)" + " build")
+            primaryComponents.append("\(build.localizedLowercase)" + " build")
         }
 
         if let hairColour = hairColour?.ifNotEmpty()?.localizedLowercase {
-            formattedComponents.append("\(hairColour) hair")
+            primaryComponents.append("\(hairColour.localizedLowercase) hair")
         }
 
         if let eyeColour = eyeColour?.ifNotEmpty() {
-            formattedComponents.append(eyeColour.localizedLowercase + " eyes")
+            primaryComponents.append(eyeColour.localizedLowercase + " eyes")
         }
 
         if let marks = marks {
-            formattedComponents.append(marks.joined(separator: ", "))
+            secondaryComponents.append(marks.joined(separator: ", "))
         }
 
         if let remarks = remarks?.ifNotEmpty() {
-            formattedComponents.append(remarks.localizedLowercase)
+            secondaryComponents.append(String(remarks.first!).uppercased() + String(remarks.dropFirst()))
         }
         
-        if formattedComponents.isEmpty {
+        if primaryComponents.isEmpty && secondaryComponents.isEmpty {
             return nil
         }
+        
         let locationString = jurisdiction != nil ? " (\(jurisdiction!))" : ""
-        return formattedComponents.joined(separator: ", ") + locationString
+
+        return primaryComponents.joined(separator: ", ") + (!primaryComponents.isEmpty ? ". " : "") + secondaryComponents.joined(separator: ", ") + locationString + (!secondaryComponents.isEmpty || !locationString.isEmpty ? "." : "")
     }
 
     private enum CodingKey: String {
