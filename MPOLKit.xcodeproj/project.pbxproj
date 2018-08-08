@@ -693,7 +693,7 @@
 		BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB51F0DED6600DFFE83 /* SourceBar.swift */; };
 		BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB61F0DED6600DFFE83 /* SourceBarCell.swift */; };
 		BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB71F0DED6600DFFE83 /* SourceItem.swift */; };
-		BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */; };
+		BC9C7E4A1F0DED6600DFFE83 /* HTMLPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB81F0DED6600DFFE83 /* HTMLPresenterViewController.swift */; };
 		BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB91F0DED6600DFFE83 /* Theme.swift */; };
 		BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DBA1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift */; };
 		BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */; };
@@ -1632,7 +1632,7 @@
 		BC9C7DB51F0DED6600DFFE83 /* SourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBar.swift; sourceTree = "<group>"; };
 		BC9C7DB61F0DED6600DFFE83 /* SourceBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBarCell.swift; sourceTree = "<group>"; };
 		BC9C7DB71F0DED6600DFFE83 /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItem.swift; sourceTree = "<group>"; };
-		BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsConditionsViewController.swift; sourceTree = "<group>"; };
+		BC9C7DB81F0DED6600DFFE83 /* HTMLPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLPresenterViewController.swift; sourceTree = "<group>"; };
 		BC9C7DB91F0DED6600DFFE83 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BC9C7DBA1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerAnimationOptionTransition.swift; sourceTree = "<group>"; };
 		BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertIndicatorView.swift; sourceTree = "<group>"; };
@@ -3815,7 +3815,7 @@
 				BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */,
 				2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */,
 				BC9C7DAE1F0DED6600DFFE83 /* ScrollViewInsetManager.swift */,
-				BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */,
+				BC9C7DB81F0DED6600DFFE83 /* HTMLPresenterViewController.swift */,
 				BC9C7DB91F0DED6600DFFE83 /* Theme.swift */,
 				BC2C97471F31FEF7006A0727 /* ThemeManager.swift */,
 				960CBB431FEA191E00A33E95 /* ThemeConstants.swift */,
@@ -5393,7 +5393,7 @@
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
 				27CBC7591F8B27AA00E387C3 /* ActivityLogViewController.swift in Sources */,
-				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
+				BC9C7E4A1F0DED6600DFFE83 /* HTMLPresenterViewController.swift in Sources */,
 				DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */,
 				276C21061F60C2100003B860 /* MapViewController.swift in Sources */,
 				EA1B3C9A1F721A5F00574A41 /* CustomFormItem.swift in Sources */,
