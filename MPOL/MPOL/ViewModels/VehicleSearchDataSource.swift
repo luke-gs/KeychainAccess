@@ -52,6 +52,10 @@ fileprivate enum VehicleType: String, Pickable {
     case allVehicleTypes = ""
     case car = "Car"
     case motorcycle = "Motorcycle"
+    case van = "Van"
+    case truck = "Truck"
+    case trailer = "Trailer"
+    case vessel = "Vessel"
 
     var title: String? {
         if self == .allVehicleTypes {
@@ -64,15 +68,7 @@ fileprivate enum VehicleType: String, Pickable {
         return nil
     }
 
-    static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle]
-
-    var placeholderText: String {
-        switch self {
-        case .car: return ""
-        case .motorcycle: return ""
-        case .allVehicleTypes: return ""
-        }
-    }
+    static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle, .van, .truck, .trailer, .vessel]
 }
 
 fileprivate class VehicleSearchOptions: SearchOptions {
