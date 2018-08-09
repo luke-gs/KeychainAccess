@@ -11,18 +11,18 @@ import MPOLKit
 import ClientKit
 
 fileprivate enum FilterItem: Int {
-    case type
+    case vehicleIdentifier
 
     static let count = 1
 
     var title: String {
         switch self {
-        case .type: return NSLocalizedString("Search Type", comment: "")
+        case .vehicleIdentifier: return NSLocalizedString("Search Type", comment: "")
         }
     }
 }
 
-fileprivate enum SearchType: String, Pickable {
+fileprivate enum VehicleIdentifierType: String, Pickable {
     case registration = "Registration"
     case vin          = "VIN"
     case engineNumber = "Engine number"
@@ -35,7 +35,7 @@ fileprivate enum SearchType: String, Pickable {
         return nil
     }
 
-    static var all: [SearchType] = [.registration, .vin, .engineNumber]
+    static var all: [VehicleIdentifierType] = [.registration, .vin, .engineNumber]
 
     var placeholderText: String {
         switch self {
@@ -47,7 +47,7 @@ fileprivate enum SearchType: String, Pickable {
 }
 
 fileprivate class VehicleSearchOptions: SearchOptions {
-    var type: SearchType = .registration
+    var type: VehicleIdentifierType = .registration
 
     // MARK: - Filters
 
@@ -63,7 +63,7 @@ fileprivate class VehicleSearchOptions: SearchOptions {
         guard let filterItem = FilterItem(rawValue: index) else { return nil }
 
         switch filterItem {
-        case .type:
+        case .vehicleIdentifier:
             return type.title
         }
     }
@@ -162,8 +162,8 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         guard let options = options as? VehicleSearchOptions else { return .none }
 
         switch item {
-        case .type:
-            let searchTypes = SearchType.all
+        case .vehicleIdentifier:
+            let searchTypes = VehicleIdentifierType.all
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
                                           selectedIndexes: searchTypes.indexes { $0 == options.type },
@@ -180,7 +180,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     // MARK: - Private
 
-    private func parser(forType type: SearchType, text: String) -> QueryParser {
+    private func parser(forType type: VehicleIdentifierType, text: String) -> QueryParser {
         let containsWildcard = text.contains("*")
         switch type {
         case .registration:
@@ -268,7 +268,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             if let options = searchable.options {
                 let vehicleOptions = self.options as! VehicleSearchOptions
-                vehicleOptions.type = SearchType(rawValue: options[FilterItem.type.rawValue] ?? "") ?? .registration
+                vehicleOptions.type = VehicleIdentifierType(rawValue: options[FilterItem.vehicleIdentifier.rawValue] ?? "") ?? .registration
             }
 
             return true
