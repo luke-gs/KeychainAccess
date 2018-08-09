@@ -8,6 +8,8 @@
 
 import UIKit
 
+// Remove this file!
+
 // Safe way to remove nils from collection
 // https://stackoverflow.com/questions/28190631/creating-an-extension-to-filter-nils-from-an-array-in-swift/38548106#38548106
 

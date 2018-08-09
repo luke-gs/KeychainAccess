@@ -2,7 +2,7 @@
 //  PopoverPresenter.swift
 //  MPOLKit
 //
-//  Created by Trent Fitzgibbon on 11/10/17.
+//  Proudly Created by Trent Fitzgibbon on 11/10/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
