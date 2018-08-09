@@ -11,15 +11,17 @@ import MPOLKit
 import ClientKit
 
 fileprivate enum FilterItem: Int {
-    case vehicleIdentifier
+    case state
     case vehicleType
+    case vehicleIdentifier
 
-    static let count = 2
+    static let count = 3
 
     var title: String {
         switch self {
         case .vehicleIdentifier: return NSLocalizedString("Search Type", comment: "")
         case .vehicleType: return NSLocalizedString("Vehicle Type", comment: "")
+        case .state: return NSLocalizedString("State", comment: "")
         }
     }
 }
@@ -71,9 +73,35 @@ fileprivate enum VehicleType: String, Pickable {
     static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle, .van, .truck, .trailer, .vessel]
 }
 
+fileprivate enum State: String, Pickable {
+    case allStates = ""
+    case act = "ACT"
+    case qld = "QLD"
+    case nsw = "NSW"
+    case nt = "NT"
+    case sa = "SA"
+    case tas = "TAS"
+    case vic = "VIC"
+    case wa = "WA"
+
+    var title: String? {
+        if self == .allStates {
+            return "All"
+        }
+        return self.rawValue
+    }
+
+    var subtitle: String? {
+        return nil
+    }
+
+    static var all: [State] = [.allStates, .act, .qld, .nsw, .nt, .sa, .tas, .vic, .wa]
+}
+
 fileprivate class VehicleSearchOptions: SearchOptions {
     var vehicleIdentifier: VehicleIdentifier = .registration
     var vehicleType: VehicleType = .allVehicleTypes
+    var state: State = .allStates
 
     // MARK: - Filters
 
@@ -93,6 +121,8 @@ fileprivate class VehicleSearchOptions: SearchOptions {
             return vehicleIdentifier.title
         case .vehicleType:
             return vehicleType.title
+        case .state:
+            return state.title
         }
     }
 
@@ -211,6 +241,19 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                                           onSelect: { [weak self] (_, selectedIndexes) in
                                             guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
                                             options.vehicleType = searchTypes[selectedTypeIndex]
+
+                                            self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
+            })
+
+            return .options(controller: picker)
+        case .state:
+            let searchTypes = State.all
+            let picker = pickerController(forFilterAt: index,
+                                          items: searchTypes,
+                                          selectedIndexes: searchTypes.indexes { $0 == options.state },
+                                          onSelect: { [weak self] (_, selectedIndexes) in
+                                            guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
+                                            options.state = searchTypes[selectedTypeIndex]
 
                                             self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
             })
