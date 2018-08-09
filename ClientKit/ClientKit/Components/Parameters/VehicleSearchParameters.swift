@@ -13,10 +13,13 @@ import Wrap
 
 public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
     
-    public init(registration: String, vehicleType: String) {
+    public init(registration: String, vehicleType: String, state: String) {
         var parameters: [String : Any] = ["plateNumber": registration]
         if !vehicleType.isEmpty {
             parameters["vehicleType"] = vehicleType
+        }
+        if !state.isEmpty {
+            parameters["state"] = state
         }
         super.init(parameters: parameters)
     }

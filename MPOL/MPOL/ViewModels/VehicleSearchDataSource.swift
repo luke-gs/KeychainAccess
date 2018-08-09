@@ -291,7 +291,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         do {
-            guard let searchTerm = text, let vehicleIdentifier = (options as? VehicleSearchOptions)?.vehicleIdentifier, let vehicleType = (options as? VehicleSearchOptions)?.vehicleType else {
+            guard let searchTerm = text, let vehicleIdentifier = (options as? VehicleSearchOptions)?.vehicleIdentifier, let vehicleType = (options as? VehicleSearchOptions)?.vehicleType, let state = (options as? VehicleSearchOptions)?.state else {
                 throw NSError(domain: "MPOL.VehicleSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
             }
 
@@ -304,7 +304,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             switch parserDefinition {
             case is RegistrationDefinitionType:
-                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.rawValue)
+                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
             case is VINDefinitionType:
                 searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.rawValue)
             case is EngineNumberDefinitionType:
