@@ -49,11 +49,14 @@ fileprivate enum VehicleIdentifier: String, Pickable {
 }
 
 fileprivate enum VehicleType: String, Pickable {
-    case allVehicleTypes = "All"
+    case allVehicleTypes = ""
     case car = "Car"
     case motorcycle = "Motorcycle"
 
     var title: String? {
+        if self == .allVehicleTypes {
+            return "All"
+        }
         return self.rawValue
     }
 
@@ -249,11 +252,11 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         do {
-            guard let searchTerm = text, let type = (options as? VehicleSearchOptions)?.vehicleIdentifier else {
+            guard let searchTerm = text, let vehicleIdentifier = (options as? VehicleSearchOptions)?.vehicleIdentifier, let vehicleType = (options as? VehicleSearchOptions)?.vehicleType else {
                 throw NSError(domain: "MPOL.VehicleSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
             }
 
-            let queryParser = parser(forType: type, text: searchTerm)
+            let queryParser = parser(forType: vehicleIdentifier, text: searchTerm)
             let parserResults = try queryParser.parseString(query: searchTerm)
 
             var searchParameters: EntitySearchRequest<Vehicle>?
@@ -262,17 +265,18 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             switch parserDefinition {
             case is RegistrationDefinitionType:
-                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!)
+                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.rawValue)
             case is VINDefinitionType:
-                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!)
+                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.rawValue)
             case is EngineNumberDefinitionType:
-                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!)
+                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!, vehicleType: vehicleType.rawValue)
             default:
                 #if DEBUG
                 fatalError("No parser definition found. Ensure that all combinations are covered.")
                 #endif
                 break
             }
+
 
             if let searchParameters = searchParameters {
                 // Note: generate as many requests as required
