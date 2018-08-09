@@ -12,17 +12,19 @@ import ClientKit
 
 fileprivate enum FilterItem: Int {
     case vehicleIdentifier
+    case vehicleType
 
-    static let count = 1
+    static let count = 2
 
     var title: String {
         switch self {
         case .vehicleIdentifier: return NSLocalizedString("Search Type", comment: "")
+        case .vehicleType: return NSLocalizedString("Vehicle Type", comment: "")
         }
     }
 }
 
-fileprivate enum VehicleIdentifierType: String, Pickable {
+fileprivate enum VehicleIdentifier: String, Pickable {
     case registration = "Registration"
     case vin          = "VIN"
     case engineNumber = "Engine number"
@@ -35,7 +37,7 @@ fileprivate enum VehicleIdentifierType: String, Pickable {
         return nil
     }
 
-    static var all: [VehicleIdentifierType] = [.registration, .vin, .engineNumber]
+    static var all: [VehicleIdentifier] = [.registration, .vin, .engineNumber]
 
     var placeholderText: String {
         switch self {
@@ -46,8 +48,33 @@ fileprivate enum VehicleIdentifierType: String, Pickable {
     }
 }
 
+fileprivate enum VehicleType: String, Pickable {
+    case allVehicleTypes = "All"
+    case car = "Car"
+    case motorcycle = "Motorcycle"
+
+    var title: String? {
+        return self.rawValue
+    }
+
+    var subtitle: String? {
+        return nil
+    }
+
+    static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle]
+
+    var placeholderText: String {
+        switch self {
+        case .car: return ""
+        case .motorcycle: return ""
+        case .allVehicleTypes: return ""
+        }
+    }
+}
+
 fileprivate class VehicleSearchOptions: SearchOptions {
-    var type: VehicleIdentifierType = .registration
+    var vehicleIdentifier: VehicleIdentifier = .registration
+    var vehicleType: VehicleType = .allVehicleTypes
 
     // MARK: - Filters
 
@@ -64,7 +91,9 @@ fileprivate class VehicleSearchOptions: SearchOptions {
 
         switch filterItem {
         case .vehicleIdentifier:
-            return type.title
+            return vehicleIdentifier.title
+        case .vehicleType:
+            return vehicleType.title
         }
     }
 
@@ -121,7 +150,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         return .search(configure: { [weak self] (textField) in
             guard let `self` = self else { return nil }
 
-            let text = (self.options as! VehicleSearchOptions).type.placeholderText
+            let text = (self.options as! VehicleSearchOptions).vehicleIdentifier.placeholderText
             let placeholder = NSAttributedString(string: text, attributes: [
                 NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
                 NSAttributedStringKey.foregroundColor: UIColor.lightGray
@@ -163,14 +192,27 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
         switch item {
         case .vehicleIdentifier:
-            let searchTypes = VehicleIdentifierType.all
+            let searchTypes = VehicleIdentifier.all
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
-                                          selectedIndexes: searchTypes.indexes { $0 == options.type },
+                                          selectedIndexes: searchTypes.indexes { $0 == options.vehicleIdentifier },
                                           onSelect: { [weak self] (_, selectedIndexes) in
                                             guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
-                                            options.type = searchTypes[selectedTypeIndex]
+                                            options.vehicleIdentifier = searchTypes[selectedTypeIndex]
                                             
+                                            self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
+            })
+
+            return .options(controller: picker)
+        case .vehicleType:
+            let searchTypes = VehicleType.all
+            let picker = pickerController(forFilterAt: index,
+                                          items: searchTypes,
+                                          selectedIndexes: searchTypes.indexes { $0 == options.vehicleType },
+                                          onSelect: { [weak self] (_, selectedIndexes) in
+                                            guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
+                                            options.vehicleType = searchTypes[selectedTypeIndex]
+
                                             self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
             })
 
@@ -180,7 +222,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     // MARK: - Private
 
-    private func parser(forType type: VehicleIdentifierType, text: String) -> QueryParser {
+    private func parser(forType type: VehicleIdentifier, text: String) -> QueryParser {
         let containsWildcard = text.contains("*")
         switch type {
         case .registration:
@@ -207,7 +249,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         do {
-            guard let searchTerm = text, let type = (options as? VehicleSearchOptions)?.type else {
+            guard let searchTerm = text, let type = (options as? VehicleSearchOptions)?.vehicleIdentifier else {
                 throw NSError(domain: "MPOL.VehicleSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
             }
 
@@ -268,7 +310,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             if let options = searchable.options {
                 let vehicleOptions = self.options as! VehicleSearchOptions
-                vehicleOptions.type = VehicleIdentifierType(rawValue: options[FilterItem.vehicleIdentifier.rawValue] ?? "") ?? .registration
+                vehicleOptions.vehicleIdentifier = VehicleIdentifier(rawValue: options[FilterItem.vehicleIdentifier.rawValue] ?? "") ?? .registration
             }
 
             return true
