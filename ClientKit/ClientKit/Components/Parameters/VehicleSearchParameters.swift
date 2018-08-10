@@ -15,35 +15,29 @@ public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
     
     public init(registration: String, vehicleType: String, state: String) {
         var parameters: [String : Any] = ["plateNumber": registration]
-        if !vehicleType.isEmpty {
-            parameters["vehicleType"] = vehicleType
-        }
-        if !state.isEmpty {
-            parameters["state"] = state
-        }
+        VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
         super.init(parameters: parameters)
     }
     
     public init(vin: String, vehicleType: String, state: String) {
         var parameters: [String : Any] = ["vin": vin]
-        if !vehicleType.isEmpty {
-            parameters["vehicleType"] = vehicleType
-        }
-        if !state.isEmpty {
-            parameters["state"] = state
-        }
+        VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
         super.init(parameters: parameters)
     }
 
     public init(engineNumber: String, vehicleType: String, state: String) {
         var parameters: [String : Any] = ["engineNumber": engineNumber]
+        VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
+        super.init(parameters: parameters)
+    }
+
+    private static func appendAdditionalParameters(to currentParameters: inout [String: Any], vehicleType: String, state: String) {
         if !vehicleType.isEmpty {
-            parameters["vehicleType"] = vehicleType
+            currentParameters["vehicleType"] = vehicleType
         }
         if !state.isEmpty {
-            parameters["state"] = state
+            currentParameters["state"] = state
         }
-        super.init(parameters: parameters)
     }
 }
 
