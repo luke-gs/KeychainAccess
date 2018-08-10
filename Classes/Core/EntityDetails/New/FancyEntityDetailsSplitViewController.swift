@@ -52,7 +52,7 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
                     let entityState = states.first!
                     switch entityState {
                     case .summary(let entity):
-                        //TODO: Something
+                        //TODO: Something?
                         break
                     case .detail(let entity):
                         let displayable = Details(entity)

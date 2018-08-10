@@ -50,16 +50,43 @@ open class FancyEntityDetailsDatasourceViewModel {
     public func retrieve(for entity: MPOLKitEntity) {
         state = .loading
         delegate?.fancyEntityDetailsDatasourceViewModelDidBeginFetch(self)
+        self.updateViewControllers()
 
         strategy.retrieveUsingReferenceEntity(entity)?
             .done { [weak self] states in
                 guard let `self` = self else { return }
                 self.state = .result(states)
+                self.updateViewControllers()
                 self.delegate?.fancyEntityDetailsDatasourceViewModel(self, didEndFetchWith: .result(states))
             }.catch { [weak self] error in
                 guard let `self` = self else { return }
                 self.state = .error(error)
+                self.updateViewControllers()
                 self.delegate?.fancyEntityDetailsDatasourceViewModel(self, didEndFetchWith: .error(error))
+        }
+    }
+
+    private func updateViewControllers() {
+        let viewControllersToUpdate: [EntityDetailSectionUpdatable] = datasource.viewControllers.compactMap{$0 as? EntityDetailSectionUpdatable}
+
+        switch state {
+        case .empty:
+            viewControllersToUpdate.forEach{$0.loadingManager.state = .noContent}
+        case .loading:
+            viewControllersToUpdate.forEach{$0.loadingManager.state = .loading}
+        case .result(let states):
+            if states.count == 1 {
+                let entityState = states.first!
+                switch entityState {
+                case .summary(let entity), .detail(let entity):
+                    viewControllersToUpdate.forEach{$0.genericEntity = entity}
+                    viewControllersToUpdate.forEach{$0.loadingManager.state = .loaded}
+                }
+            } else {
+                viewControllersToUpdate.forEach{$0.loadingManager.state = .noContent}
+            }
+        case .error:
+            viewControllersToUpdate.forEach{$0.loadingManager.state = .error}
         }
     }
 }
