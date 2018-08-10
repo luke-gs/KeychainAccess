@@ -9,79 +9,48 @@
 import Foundation
 import MPOLKit
 
-public class PersonPSCoreDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class PersonPSCoreDetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
-    public var source: EntitySource = MPOLSource.pscore
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let source: EntitySource = MPOLSource.pscore
+    public let viewControllers: [UIViewController]
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("Person", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
-        return EntityDetailFetch<Person>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: false)),
-                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                       EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
-                                       EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
-                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel()),
-                                       ]
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
+            EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: false)),
+            EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+            EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
+            EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
+            EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel()),
+        ]
     }
 }
 
-public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class PersonNATDetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
     public var source: EntitySource = MPOLSource.nat
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let viewControllers: [UIViewController]
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("NAT Person", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
-        return EntityDetailFetch<Person>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: false)),
-                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                       EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
-                                       EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
-                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
-                                    ]
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
+            EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: false)),
+            EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+            EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
+            EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
+            EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
+        ]
     }
 
 }
 
-public class PersonRDADetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class PersonRDADetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
     public var source: EntitySource = MPOLSource.rda
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let viewControllers: [UIViewController]
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("RDA Person", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
-        return EntityDetailFetch<Person>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers = [
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
             EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
             EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
             EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),

@@ -9,76 +9,46 @@
 import Foundation
 import MPOLKit
 
-public class VehiclePSCoreDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehiclePSCoreDetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
-    public var source: EntitySource = MPOLSource.pscore
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let source: EntitySource = MPOLSource.pscore
+    public let viewControllers: [UIViewController]
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("Vehicle", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
-        return EntityDetailFetch<Vehicle>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: false)),
-                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
+            EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: false)),
+            EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+            EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
 
         ]
     }
 }
 
-public class VehicleNATDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehicleNATDetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
-    public var source: EntitySource = MPOLSource.nat
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let source: EntitySource = MPOLSource.nat
+    public let viewControllers: [UIViewController]
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("Vehicle", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
-        return EntityDetailFetch<Vehicle>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: false)),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
+            EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: false)),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
         ]
     }
 
 }
 
-public class VehicleRDADetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehicleRDADetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
-    public var source: EntitySource = MPOLSource.rda
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let source: EntitySource = MPOLSource.rda
+    public let viewControllers: [UIViewController]
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("Vehicle", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
-        return EntityDetailFetch<Vehicle>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: true)),
-                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
+            EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: true)),
+            EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
         ]
     }
 
