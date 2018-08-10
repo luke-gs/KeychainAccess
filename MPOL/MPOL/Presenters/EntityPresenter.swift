@@ -56,12 +56,21 @@ public class EntityPresenter: Presenter {
 //
 //                entityDetailViewController.delegate = self
 
-                let ds = TestFancyEntityDetailsDataSource(source: entity.source!)
-                let viewModels: [FancyEntityDetailsDatasourceViewModel] = [
-                    FancyEntityDetailsDatasourceViewModel(datasource: ds, strategy: TestPersonStrategy())
-                ]
+                let ds1 = TestFancyEntityDetailsDataSource(source: MPOLSource.pscore)
+                let ds2 = TestFancyEntityDetailsDataSource(source: MPOLSource.nat)
+                let ds3 = TestFancyEntityDetailsDataSource(source: MPOLSource.rda)
+
+                let vm1 = FancyEntityDetailsDatasourceViewModel(datasource: ds1,
+                                                                strategy: PersonRetrieveStrategy(source: MPOLSource.pscore))
+                let vm2 = FancyEntityDetailsDatasourceViewModel(datasource: ds2,
+                                                                strategy: PersonRetrieveStrategy(source: MPOLSource.nat))
+                let vm3 = FancyEntityDetailsDatasourceViewModel(datasource: ds3,
+                                                                strategy: PersonRetrieveStrategy(source: MPOLSource.rda))
+
+                let viewModels: [FancyEntityDetailsDatasourceViewModel] = [vm1, vm2, vm3]
+
                 let viewModel = FancyEntityDetailsViewModel(datasourceViewModels: viewModels,
-                                                            initialSource: ds.source,
+                                                            initialSource: entity.source!,
                                                             referenceEntity: entity)
 
                 let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
