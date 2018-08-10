@@ -238,11 +238,9 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
                                           selectedIndexes: searchTypes.indexes { $0 == options.vehicleType },
-                                          onSelect: { [weak self] (_, selectedIndexes) in
-                                            guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
+                                          onSelect: { (_, selectedIndexes) in
+                                            guard let selectedTypeIndex = selectedIndexes.first else { return }
                                             options.vehicleType = searchTypes[selectedTypeIndex]
-
-                                            self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
             })
 
             return .options(controller: picker)
@@ -251,11 +249,9 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
                                           selectedIndexes: searchTypes.indexes { $0 == options.state },
-                                          onSelect: { [weak self] (_, selectedIndexes) in
-                                            guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
+                                          onSelect: { (_, selectedIndexes) in
+                                            guard let selectedTypeIndex = selectedIndexes.first else { return }
                                             options.state = searchTypes[selectedTypeIndex]
-
-                                            self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
             })
 
             return .options(controller: picker)
