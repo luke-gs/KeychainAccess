@@ -11,17 +11,17 @@ import MPOLKit
 import ClientKit
 
 fileprivate enum FilterItem: Int {
-    case state
-    case vehicleType
-    case vehicleIdentifier
+    case stateFilter
+    case vehicleTypeFilter
+    case vehicleIdentifierFilter
 
     static let count = 3
 
     var title: String {
         switch self {
-        case .vehicleIdentifier: return NSLocalizedString("Search Type", comment: "")
-        case .vehicleType: return NSLocalizedString("Vehicle Type", comment: "")
-        case .state: return NSLocalizedString("State", comment: "")
+        case .vehicleIdentifierFilter: return NSLocalizedString("Search Type", comment: "")
+        case .vehicleTypeFilter: return NSLocalizedString("Vehicle Type", comment: "")
+        case .stateFilter: return NSLocalizedString("State", comment: "")
         }
     }
 }
@@ -133,11 +133,11 @@ fileprivate class VehicleSearchOptions: SearchOptions {
         guard let filterItem = FilterItem(rawValue: index) else { return nil }
 
         switch filterItem {
-        case .vehicleIdentifier:
+        case .vehicleIdentifierFilter:
             return vehicleIdentifier.title
-        case .vehicleType:
+        case .vehicleTypeFilter:
             return vehicleType.title
-        case .state:
+        case .stateFilter:
             return state.title
         }
     }
@@ -236,7 +236,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         guard let options = options as? VehicleSearchOptions else { return .none }
 
         switch item {
-        case .vehicleIdentifier:
+        case .vehicleIdentifierFilter:
             let searchTypes = VehicleIdentifier.all
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
@@ -249,7 +249,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             })
 
             return .options(controller: picker)
-        case .vehicleType:
+        case .vehicleTypeFilter:
             let searchTypes = VehicleType.all
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
@@ -260,7 +260,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             })
 
             return .options(controller: picker)
-        case .state:
+        case .stateFilter:
             let searchTypes = State.all
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
@@ -365,12 +365,11 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             if let options = searchable.options {
                 let vehicleOptions = self.options as! VehicleSearchOptions
-                vehicleOptions.vehicleIdentifier = VehicleIdentifier(rawValue: options[FilterItem.vehicleIdentifier.rawValue] ?? "") ?? .registration
+                vehicleOptions.vehicleIdentifier = VehicleIdentifier(rawValue: options[FilterItem.vehicleIdentifierFilter.rawValue] ?? "") ?? .registration
             }
 
             return true
         }
-
         return false
     }
 
