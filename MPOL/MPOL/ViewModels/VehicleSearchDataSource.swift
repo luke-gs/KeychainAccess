@@ -73,6 +73,13 @@ fileprivate enum VehicleType: String, Pickable {
         return nil
     }
 
+    var searchQuery: String? {
+        if self == .allVehicleTypes {
+            return nil
+        }
+        return rawValue
+    }
+
     static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle, .van, .truck, .trailer, .vessel]
 }
 
@@ -112,6 +119,13 @@ fileprivate enum State: String, Pickable {
 
     var subtitle: String? {
         return nil
+    }
+
+    var searchQuery: String? {
+        if self == .allStates {
+            return nil
+        }
+        return rawValue
     }
 
     static var all: [State] = [.allStates, .act, .qld, .nsw, .nt, .sa, .tas, .vic, .wa]
@@ -319,11 +333,12 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             switch parserDefinition {
             case is RegistrationDefinitionType:
-                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
+
+                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.searchQuery, state: state.searchQuery)
             case is VINDefinitionType:
-                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
+                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.searchQuery, state: state.searchQuery)
             case is EngineNumberDefinitionType:
-                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
+                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!, vehicleType: vehicleType.searchQuery, state: state.searchQuery)
             default:
                 #if DEBUG
                 fatalError("No parser definition found. Ensure that all combinations are covered.")
