@@ -8,6 +8,16 @@
 import UIKit
 import PromiseKit
 
+public struct EntityDetailMatch {
+    public var sourceToMatch: EntitySource
+    public var shouldMatchAutomatically: Bool
+
+    public init(sourceToMatch: EntitySource, shouldMatchAutomatically: Bool = true) {
+        self.sourceToMatch = sourceToMatch
+        self.shouldMatchAutomatically = shouldMatchAutomatically
+    }
+}
+
 public protocol FancyEntityDetailsDatasourceViewModelDelegate: class {
     func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: FancyEntityDetailsDatasourceViewModel)
     func fancyEntityDetailsDatasourceViewModel(_ viewmodel: FancyEntityDetailsDatasourceViewModel, didEndFetchWith state: FancyEntityDetailsDatasourceViewModel.State)
@@ -17,19 +27,33 @@ public protocol EntityRetrieveStrategy {
     func retrieveUsingReferenceEntity(_ entity: MPOLKitEntity) -> Promise<[EntityState]>?
 }
 
-public enum EntityState {
+public enum EntityState: Equatable {
     case summary(MPOLKitEntity)
     case detail(MPOLKitEntity)
+}
+
+public func == (lhs: EntityState, rhs: EntityState) -> Bool {
+    switch (lhs, rhs) {
+    case (.summary(let lhsEntity), .detail(let rhsEntity)):
+        return lhsEntity == rhsEntity
+    case (.detail(let lhsEntity), .summary(let rhsEntity)):
+        return lhsEntity == rhsEntity
+    case (.detail(let lhsEntity), .detail(let rhsEntity)):
+        return lhsEntity == rhsEntity
+    case (.summary(let lhsEntity), .summary(let rhsEntity)):
+        return lhsEntity == rhsEntity
+    }
 }
 
 public protocol FancyEntityDetailsDataSource {
     var viewControllers: [UIViewController] { get }
     var source: EntitySource { get }
+    var subsequentMatches: [EntityDetailMatch] { get }
 }
 
 open class FancyEntityDetailsDatasourceViewModel {
 
-    public enum State {
+    public enum State: Equatable {
         case empty
         case loading
         case result([EntityState])
@@ -50,7 +74,7 @@ open class FancyEntityDetailsDatasourceViewModel {
     public func retrieve(for entity: MPOLKitEntity) {
         state = .loading
         delegate?.fancyEntityDetailsDatasourceViewModelDidBeginFetch(self)
-        self.updateViewControllers()
+        updateViewControllers()
 
         strategy.retrieveUsingReferenceEntity(entity)?
             .done { [weak self] states in
@@ -91,4 +115,12 @@ open class FancyEntityDetailsDatasourceViewModel {
     }
 }
 
+public func == (lhs: FancyEntityDetailsDatasourceViewModel.State, rhs: FancyEntityDetailsDatasourceViewModel.State) -> Bool {
+    switch (lhs, rhs) {
+    case (.result(let lhsStates), .result(let rhsStates)):
+        return lhsStates == rhsStates
+    default:
+        return true
+    }
+}
 

@@ -18,7 +18,9 @@ open class FancyEntityDetailsViewModel {
 
     private var selectedSource: EntitySource
 
-    public init(datasourceViewModels: [FancyEntityDetailsDatasourceViewModel], initialSource: EntitySource, referenceEntity: MPOLKitEntity) {
+    public init(datasourceViewModels: [FancyEntityDetailsDatasourceViewModel],
+                initialSource: EntitySource,
+                referenceEntity: MPOLKitEntity) {
         self.datasourceViewModels = datasourceViewModels
         self.selectedSource = initialSource
         self.referenceEntity = referenceEntity

@@ -33,6 +33,37 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
         viewModel.selectedDatasourceViewModel.retrieve(for: viewModel.referenceEntity)
     }
 
+    // MARK:- Private
+
+    private func fetchSubsequent() {
+        let sourcesToMatch = viewModel.selectedDatasourceViewModel.datasource.matches
+            .filter{$0.shouldMatchAutomatically == true}
+            .map{$0.sourceToMatch}
+
+        let datasources = sourcesToMatch.flatMap { source in
+            viewModel.datasourceViewModels.filter { viewModel in
+                if case .result = viewModel.state {
+                    return false
+                }
+                return viewModel.datasource.source == source
+            }
+        }
+
+        datasources.forEach {
+            if case .result(let states) = viewModel.selectedDatasourceViewModel.state {
+                if states.count == 1 {
+                    let entityState = states.first!
+                    switch entityState {
+                    case .summary:
+                        break
+                    case .detail(let entity):
+                        $0.retrieve(for: entity)
+                    }
+                }
+            }
+        }
+    }
+
     private func updateSourceItems() {
         let states = viewModel.datasourceViewModels
 
@@ -61,7 +92,6 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
                 } else {
                     itemState = .multipleResults
                 }
-
             case .error:
                 itemState = .notLoaded
             }
@@ -103,10 +133,11 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
     // MARK:- FancyEntityDetailsDatasourceViewModelDelegate
 
     public func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: FancyEntityDetailsDatasourceViewModel) {
-       updateSourceItems()
+        updateSourceItems()
     }
 
     public func fancyEntityDetailsDatasourceViewModel(_ viewmodel: FancyEntityDetailsDatasourceViewModel, didEndFetchWith state: FancyEntityDetailsDatasourceViewModel.State) {
         updateSourceItems()
+        fetchSubsequent()
     }
 }
