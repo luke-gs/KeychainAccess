@@ -53,7 +53,7 @@ public class OfficerListReport: EventReportable {
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
                 })
-                && self.officers.flatMap{$0.involvements}.contains(where: {$0.lowercased() == "reporting officer"})
+                && self.officers.flatMap{$0.involvements}.contains(where: {$0.caseInsensitiveCompare("reporting officer") == .orderedSame})
         }
     }
 
