@@ -63,22 +63,10 @@ fileprivate enum VehicleType: String, Pickable {
     case vessel = "Vessel"
 
     var title: String? {
-        switch self {
-        case .allVehicleTypes:
+        if self == .allVehicleTypes {
             return "All"
-        case .car:
-            return "Cars"
-        case .motorcycle:
-            return "Motorcycles"
-        case .van:
-            return "Vans"
-        case .truck:
-            return "Trucks"
-        case .trailer:
-            return "Trailers"
-        case .vessel:
-            return "Vessels"
         }
+        return rawValue
     }
 
     var subtitle: String? {
