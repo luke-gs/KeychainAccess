@@ -13,7 +13,7 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
 
     public var image: ImageSizing?
 
-    public init(_ entity: MPOLKitEntity) {
+    public required init(_ entity: MPOLKitEntity) {
         officer = entity as! Officer
     }
 

@@ -39,20 +39,33 @@ public class EntityPresenter: Presenter {
             switch entity {
             case is Person:
                 // FIXME: Refactor all of these data sources set up.
-                dataSources = [
-                    PersonPSCoreDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    PersonNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    PersonRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+//                dataSources = [
+//                    PersonPSCoreDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+//                    PersonNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+//                    PersonRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+//                ]
+//
+//                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
+//                                                              dataSources: dataSources,
+//                                                              andMatchMaker: PersonMatchMaker())
+//                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
+//                viewModel.recentlyViewed = UserSession.current.recentlyViewed
+
+//                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+//
+//
+//                entityDetailViewController.delegate = self
+
+                let ds = TestFancyEntityDetailsDataSource(source: entity.source!)
+                let viewModels: [FancyEntityDetailsDatasourceViewModel] = [
+                    FancyEntityDetailsDatasourceViewModel(datasource: ds, strategy: TestPersonStrategy())
                 ]
+                let viewModel = FancyEntityDetailsViewModel(datasourceViewModels: viewModels,
+                                                            initialSource: ds.source,
+                                                            referenceEntity: entity)
 
-                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
-                                                              dataSources: dataSources,
-                                                              andMatchMaker: PersonMatchMaker())
-                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
-                viewModel.recentlyViewed = UserSession.current.recentlyViewed
+                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
 
-                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
-                entityDetailViewController.delegate = self
                 return entityDetailViewController
             case is Vehicle:
                 dataSources = [
