@@ -23,7 +23,7 @@ public enum EntityState {
 }
 
 public protocol FancyEntityDetailsDataSource {
-    var viewControllers: [UIViewController] { get set }
+    var viewControllers: [UIViewController] { get }
     var source: EntitySource { get }
 }
 
