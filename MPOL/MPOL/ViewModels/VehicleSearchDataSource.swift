@@ -318,9 +318,9 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             case is RegistrationDefinitionType:
                 searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
             case is VINDefinitionType:
-                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.rawValue)
+                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
             case is EngineNumberDefinitionType:
-                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!, vehicleType: vehicleType.rawValue)
+                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!, vehicleType: vehicleType.rawValue, state: state.rawValue)
             default:
                 #if DEBUG
                 fatalError("No parser definition found. Ensure that all combinations are covered.")

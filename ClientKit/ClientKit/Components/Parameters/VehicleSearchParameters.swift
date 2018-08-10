@@ -24,18 +24,24 @@ public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
         super.init(parameters: parameters)
     }
     
-    public init(vin: String, vehicleType: String) {
+    public init(vin: String, vehicleType: String, state: String) {
         var parameters: [String : Any] = ["vin": vin]
         if !vehicleType.isEmpty {
             parameters["vehicleType"] = vehicleType
         }
+        if !state.isEmpty {
+            parameters["state"] = state
+        }
         super.init(parameters: parameters)
     }
 
-    public init(engineNumber: String, vehicleType: String) {
+    public init(engineNumber: String, vehicleType: String, state: String) {
         var parameters: [String : Any] = ["engineNumber": engineNumber]
         if !vehicleType.isEmpty {
             parameters["vehicleType"] = vehicleType
+        }
+        if !state.isEmpty {
+            parameters["state"] = state
         }
         super.init(parameters: parameters)
     }
