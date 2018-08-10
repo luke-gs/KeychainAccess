@@ -13,7 +13,7 @@ public class LocationMPOLDetailsSectionsDataSource: FancyEntityDetailsDataSource
 
     public let source: EntitySource = MPOLSource.pscore
     public let viewControllers: [UIViewController]
-    public var matches: [EntityDetailMatch] = []
+    public var subsequentMatches: [EntityDetailMatch] = []
 
     public init(delegate: SearchDelegate?) {
         self.viewControllers = [

@@ -13,7 +13,7 @@ public class PersonPSCoreDetailsSectionsDataSource: FancyEntityDetailsDataSource
 
     public let source: EntitySource = MPOLSource.pscore
     public let viewControllers: [UIViewController]
-    public var matches: [EntityDetailMatch] = [
+    public var subsequentMatches: [EntityDetailMatch] = [
         EntityDetailMatch(sourceToMatch: MPOLSource.nat),
         EntityDetailMatch(sourceToMatch: MPOLSource.rda)
     ]
@@ -34,7 +34,7 @@ public class PersonNATDetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
     public var source: EntitySource = MPOLSource.nat
     public let viewControllers: [UIViewController]
-    public var matches: [EntityDetailMatch] = [
+    public var subsequentMatches: [EntityDetailMatch] = [
         EntityDetailMatch(sourceToMatch: MPOLSource.pscore),
         EntityDetailMatch(sourceToMatch: MPOLSource.rda)
     ]
@@ -49,14 +49,13 @@ public class PersonNATDetailsSectionsDataSource: FancyEntityDetailsDataSource {
             EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
         ]
     }
-
 }
 
 public class PersonRDADetailsSectionsDataSource: FancyEntityDetailsDataSource {
 
     public var source: EntitySource = MPOLSource.rda
     public let viewControllers: [UIViewController]
-    public var matches: [EntityDetailMatch] = [
+    public var subsequentMatches: [EntityDetailMatch] = [
         EntityDetailMatch(sourceToMatch: MPOLSource.pscore),
         EntityDetailMatch(sourceToMatch: MPOLSource.nat)
     ]
@@ -69,5 +68,4 @@ public class PersonRDADetailsSectionsDataSource: FancyEntityDetailsDataSource {
             PersonTrafficHistoryViewController(viewModel: PersonTrafficHistoryViewModel())
         ]
     }
-
 }
