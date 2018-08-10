@@ -11,7 +11,6 @@ import ClientKit
 import PromiseKit
 
 class PersonRetrieveStrategy: EntityRetrieveStrategy {
-
     let source: MPOLSource
 
     init(source: MPOLSource) {
