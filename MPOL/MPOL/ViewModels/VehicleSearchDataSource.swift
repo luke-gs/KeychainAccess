@@ -85,10 +85,26 @@ fileprivate enum State: String, Pickable {
     case wa = "WA"
 
     var title: String? {
-        if self == .allStates {
+        switch self {
+        case .allStates:
             return "All"
+        case .act:
+            return "Australian Capital Territory"
+        case .qld:
+            return "Queensland"
+        case .nsw:
+            return "New South Wales"
+        case .nt:
+            return "Northern Territory"
+        case .sa:
+            return "South Australia"
+        case .tas:
+            return "Tasmania"
+        case .vic:
+            return "Victoria"
+        case .wa:
+            return "Western Australia"
         }
-        return self.rawValue
     }
 
     var subtitle: String? {
