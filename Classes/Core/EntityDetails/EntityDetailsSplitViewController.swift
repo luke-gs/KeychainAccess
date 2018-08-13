@@ -42,37 +42,8 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         let viewModels = viewModel.datasourceViewModels
 
         let items: [SourceItem] = viewModels.map { viewModel in
-            var itemState: SourceItem.State = .notLoaded
-            let state = viewModel.state
-
-            switch state {
-            case .empty:
-                itemState = .notLoaded
-
-            case .loading:
-                itemState = .loading
-
-            case .result(let states):
-                if states.count == 0 {
-                    itemState = .notAvailable
-                } else if states.count == 1 {
-                    let entityState = states.first!
-                    switch entityState {
-                    case .summary:
-                        itemState = .notLoaded
-                    case .detail(let entity):
-                        let displayable = Details(entity)
-                        itemState = .loaded(count: displayable.alertBadgeCount,
-                                            color: displayable.alertBadgeColor ?? .lightGray)
-                    }
-                } else {
-                    itemState = .multipleResults
-                }
-            case .error:
-                itemState = .notAvailable
-            }
-
-            return SourceItem(title: viewModel.datasource.source.localizedBarTitle, state: itemState)
+            return SourceItem(title: viewModel.datasource.source.localizedBarTitle,
+                              state: viewModel.sourceItemState())
         }
 
         let index = viewModel.datasourceViewModels.index(where: {$0.datasource.source == viewModel.selectedDatasourceViewModel.datasource.source})
@@ -111,18 +82,12 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
     }
 
     // MARK:- SidebarDelegate
+
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let datasource = viewModel.datasourceViewModels[index].datasource
         guard !(datasource.source == viewModel.selectedDatasourceViewModel.datasource.source) else { return }
-
-        viewModel.selectedSource = datasource.source
-
-        if viewModel.shouldPresentEntityPicker() {
-            viewModel.presentEntitySelection(from: controller)
-        } else {
-            viewModel.currentSource = datasource.source
-            updateViewControllers()
-        }
+        viewModel.didSelectSourceAt(index, from: controller)
+        updateViewControllers()
     }
 
     open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {

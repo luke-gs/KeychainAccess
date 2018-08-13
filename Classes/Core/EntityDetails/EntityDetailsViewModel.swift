@@ -32,7 +32,6 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         datasourceViewModels.forEach{$0.pickerDelegate = self}
     }
 
-
     public func fetchSubsequent() {
 
         // Get all the sources that want to be matched automatically
@@ -99,8 +98,19 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         viewModel.presentEntitySelection(from: context)
     }
 
-    //MARK:- EntityDetailsPickerDelegate
+    public func didSelectSourceAt(_ index: Int, from controller: UIViewController) {
+        let datasource = datasourceViewModels[index].datasource
+        selectedSource = datasource.source
 
+        if shouldPresentEntityPicker() {
+            presentEntitySelection(from: controller)
+        } else {
+            currentSource = datasource.source
+        }
+    }
+
+    //MARK:- EntityDetailsPickerDelegate
+    
     public func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didPickEntity entity: MPOLKitEntity) where U : EntityDetailDisplayable {
         currentSource = selectedSource
         selectedDatasourceViewModel.retrieve(for: entity)
