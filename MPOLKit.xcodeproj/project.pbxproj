@@ -697,7 +697,7 @@
 		BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB51F0DED6600DFFE83 /* SourceBar.swift */; };
 		BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB61F0DED6600DFFE83 /* SourceBarCell.swift */; };
 		BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB71F0DED6600DFFE83 /* SourceItem.swift */; };
-		BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */; };
+		BC9C7E4A1F0DED6600DFFE83 /* HTMLPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB81F0DED6600DFFE83 /* HTMLPresenterViewController.swift */; };
 		BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB91F0DED6600DFFE83 /* Theme.swift */; };
 		BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DBA1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift */; };
 		BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */; };
@@ -802,6 +802,7 @@
 		EA2189ED1F5FAF110057048E /* SearchResultModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */; };
 		EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */; };
 		EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F11F5FE8B50057048E /* Presenter.swift */; };
+		EA263C4C2119214C0008987D /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA263C4B2119214C0008987D /* DrawerViewController.swift */; };
 		EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */; };
 		EA2F1A6F1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */; };
 		EA32A8531FBD1A7900CC37FB /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */; };
@@ -1635,7 +1636,7 @@
 		BC9C7DB51F0DED6600DFFE83 /* SourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBar.swift; sourceTree = "<group>"; };
 		BC9C7DB61F0DED6600DFFE83 /* SourceBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBarCell.swift; sourceTree = "<group>"; };
 		BC9C7DB71F0DED6600DFFE83 /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItem.swift; sourceTree = "<group>"; };
-		BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsConditionsViewController.swift; sourceTree = "<group>"; };
+		BC9C7DB81F0DED6600DFFE83 /* HTMLPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLPresenterViewController.swift; sourceTree = "<group>"; };
 		BC9C7DB91F0DED6600DFFE83 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BC9C7DBA1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerAnimationOptionTransition.swift; sourceTree = "<group>"; };
 		BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertIndicatorView.swift; sourceTree = "<group>"; };
@@ -1744,6 +1745,7 @@
 		EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModelable.swift; sourceTree = "<group>"; };
 		EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapResultViewModelable.swift; sourceTree = "<group>"; };
 		EA2189F11F5FE8B50057048E /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
+		EA263C4B2119214C0008987D /* DrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewableCell.swift; sourceTree = "<group>"; };
 		EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGalleryViewModelable.swift; sourceTree = "<group>"; };
 		EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
@@ -3812,7 +3814,7 @@
 				BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */,
 				2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */,
 				BC9C7DAE1F0DED6600DFFE83 /* ScrollViewInsetManager.swift */,
-				BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */,
+				BC9C7DB81F0DED6600DFFE83 /* HTMLPresenterViewController.swift */,
 				BC9C7DB91F0DED6600DFFE83 /* Theme.swift */,
 				BC2C97471F31FEF7006A0727 /* ThemeManager.swift */,
 				960CBB431FEA191E00A33E95 /* ThemeConstants.swift */,
@@ -4337,6 +4339,14 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		EA263C4A2119214C0008987D /* Drawer */ = {
+			isa = PBXGroup;
+			children = (
+				EA263C4B2119214C0008987D /* DrawerViewController.swift */,
+			);
+			path = Drawer;
+			sourceTree = "<group>";
+		};
 		EA2F1A611FA6D570001F7812 /* Media */ = {
 			isa = PBXGroup;
 			children = (
@@ -4596,6 +4606,7 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				EA263C4A2119214C0008987D /* Drawer */,
 				AABE49752106B77400680FD5 /* Versioning */,
 				19A2E1252075FE980033ADA3 /* Activities */,
 				9624A4581F83555A00CAE056 /* CAD */,
@@ -5382,7 +5393,7 @@
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
 				27CBC7591F8B27AA00E387C3 /* ActivityLogViewController.swift in Sources */,
-				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
+				BC9C7E4A1F0DED6600DFFE83 /* HTMLPresenterViewController.swift in Sources */,
 				DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */,
 				276C21061F60C2100003B860 /* MapViewController.swift in Sources */,
 				EA1B3C9A1F721A5F00574A41 /* CustomFormItem.swift in Sources */,
@@ -5653,6 +5664,7 @@
 				372A21E420D35896002F024B /* RoundedLabelAccessory.swift in Sources */,
 				19B025622074B8E900B7529F /* BaseActivityLauncher.swift in Sources */,
 				27E81E5C2034E724000D5D1C /* TaskDetailsOverviewItemViewModel.swift in Sources */,
+				EA263C4C2119214C0008987D /* DrawerViewController.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,

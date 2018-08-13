@@ -56,18 +56,18 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
         case let .person(initials, thumbnailUrl):
             return CADPersonImageSizing(initials: initials, thumbnailUrl: thumbnailUrl)
         case .vehicle:
-            let imageName: String
+            let imageKey: AssetManager.ImageKey
             
             switch size {
             case .small:
-                imageName = "iconEntityAutomotiveCar"
+                imageKey = .entityCarSmall
             case .medium:
-                imageName = "iconEntityAutomotiveCar48"
+                imageKey = .entityCarMedium
             case .large:
-                imageName = "iconEntityAutomotiveCar96"
+                imageKey = .entityCarLarge
             }
-            
-            thumbnailImage = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
+
+            thumbnailImage = AssetManager.shared.image(forKey: imageKey)
             contentMode = .center
         }
         
