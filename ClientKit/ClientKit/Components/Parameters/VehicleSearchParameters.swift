@@ -19,13 +19,13 @@ public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
         super.init(parameters: parameters)
     }
     
-    public init(vin: String, vehicleType: String?, state: String?) {
+    public init(vin: String, vehicleType: String? = nil, state: String? = nil) {
         var parameters: [String: Any] = ["vin": vin]
         VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
         super.init(parameters: parameters)
     }
 
-    public init(engineNumber: String, vehicleType: String?, state: String?) {
+    public init(engineNumber: String, vehicleType: String? = nil, state: String? = nil) {
         var parameters: [String: Any] = ["engineNumber": engineNumber]
         VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
         super.init(parameters: parameters)

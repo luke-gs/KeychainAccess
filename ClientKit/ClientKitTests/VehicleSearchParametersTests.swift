@@ -16,7 +16,7 @@ class VehicleSearchParametersTests: XCTestCase {
         let registration = "PAVEL01"
         
         // When
-        let search = VehicleSearchParameters(registration: registration, vehicleType: "", state: "")
+        let search = VehicleSearchParameters(registration: registration)
         
         // Then
         let expectedResult = "PAVEL01"
@@ -30,7 +30,7 @@ class VehicleSearchParametersTests: XCTestCase {
         let vin = "CALLMEMAYBEBUTDONTCALLMENOW"
         
         // When
-        let search = VehicleSearchParameters(vin: vin, vehicleType: "", state: "")
+        let search = VehicleSearchParameters(vin: vin)
         
         // Then
         let expectedResult = "CALLMEMAYBEBUTDONTCALLMENOW"
@@ -44,7 +44,7 @@ class VehicleSearchParametersTests: XCTestCase {
         let engineNumber = "TOYSTORY3HALIMEDITION"
         
         // When
-        let search = VehicleSearchParameters(engineNumber: engineNumber, vehicleType: "", state: "")
+        let search = VehicleSearchParameters(engineNumber: engineNumber)
         
         // Then
         let expectedResult = "TOYSTORY3HALIMEDITION"
