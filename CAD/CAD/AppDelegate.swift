@@ -42,8 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         plugins.append(NetworkLoggingPlugin().allowAll())
         #endif
 
-        LogOffManager.shared.requestLogOff()
-
         // Set the application key for app specific user settings
         User.applicationKey = "CAD"
 
