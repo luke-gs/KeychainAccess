@@ -8,7 +8,7 @@
 import PromiseKit
 import MPOLKit
 
-public class LocationRetrieveStrategy: EntityRetrieveStrategy {
+public class LocationRetrieveStrategy: EntityRetrievalStrategy {
 
     public let source: MPOLSource
 

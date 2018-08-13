@@ -8,7 +8,7 @@
 import PromiseKit
 import MPOLKit
 
-public class PersonRetrieveStrategy: EntityRetrieveStrategy {
+public class PersonRetrieveStrategy: EntityRetrievalStrategy {
     public let source: MPOLSource
 
     public init(source: MPOLSource) {

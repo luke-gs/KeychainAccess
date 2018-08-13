@@ -8,7 +8,7 @@
 import PromiseKit
 import MPOLKit
 
-public class VehicleRetrieveStrategy: EntityRetrieveStrategy {
+public class VehicleRetrieveStrategy: EntityRetrievalStrategy {
 
     public let source: MPOLSource
 

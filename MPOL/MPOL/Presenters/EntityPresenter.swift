@@ -50,7 +50,7 @@ public class EntityPresenter: Presenter {
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
 
                 return entityDetailViewController
             case is Vehicle:
@@ -71,7 +71,7 @@ public class EntityPresenter: Presenter {
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
 
                 return entityDetailViewController
             case is Address:
@@ -85,7 +85,8 @@ public class EntityPresenter: Presenter {
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
+                
                 return entityDetailViewController
             default:
                 break

@@ -34,7 +34,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
     open private(set) var cardBottomConstraint: NSLayoutConstraint?
     open private(set) var mapCenterYConstraint: NSLayoutConstraint?
 
-    public var genericEntity: MPOLKitEntity? {
+    public var entity: MPOLKitEntity? {
         get {
             return viewModel.entity
         }
