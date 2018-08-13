@@ -91,17 +91,7 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
     }
 
     open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
-        let newViewModel = viewModel.datasourceViewModels[index]
-
-        if case .result(let results) = viewModel.selectedDatasourceViewModel.state {
-            if results.count == 1, let result = results.first {
-                if case .detail(let entity) = result {
-                    newViewModel.retrieve(for: entity)
-                }
-            }
-        }
-
-        viewModel.currentSource = newViewModel.datasource.source
+        viewModel.didRequestToLoadSourceAt(index, from: controller)
         sidebarViewController(controller, didSelectSourceAt: index)
     }
 

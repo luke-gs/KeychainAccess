@@ -12,14 +12,13 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
     public let referenceEntity: MPOLKitEntity
     public let datasourceViewModels: [EntityDetailsDatasourceViewModel<Details>]
 
+    public weak var pickerDelegate: EntityDetailsPickerDelegate?
     public var selectedDatasourceViewModel: EntityDetailsDatasourceViewModel<Details> {
         return datasourceViewModels.first(where: {$0.datasource.source == currentSource})!
     }
 
-    public var currentSource: EntitySource
-    public var selectedSource: EntitySource
-
-    public weak var pickerDelegate: EntityDetailsPickerDelegate?
+    private var currentSource: EntitySource
+    private var selectedSource: EntitySource
 
     public init(datasourceViewModels: [EntityDetailsDatasourceViewModel<Details>],
                 initialSource: EntitySource,
@@ -40,6 +39,7 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
             .map{$0.sourceToMatch}
 
         // Filter out the datasources that have already been fetched
+        // Only filters out full results ie. .detail
         let datasourceViewModels = sourcesToMatch.flatMap { source in
             self.datasourceViewModels.filter { viewModel in
                 if case .result(let states) = viewModel.state {
@@ -53,49 +53,23 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
             }
         }
 
-        // Fetch
+        // Fetch for the relevant entity
         datasourceViewModels.forEach { viewModel in
-            var entityStates: [EntityResultState] = []
-
-            func fetch() {
-                if entityStates.count == 1 {
-                    let entityState = entityStates.first!
-                    switch entityState {
-                    case .summary(let entity):
-                        viewModel.retrieve(for: entity)
-                    case .detail(let entity):
-                        viewModel.retrieve(for: entity)
-                    }
-                }
-            }
-
             switch viewModel.state {
             case .loading:
                 break
             case .result(let states):
-                entityStates = states
-                fetch()
+                if states.count == 1, case .summary(let entity) = states.first! {
+                    viewModel.retrieve(for: entity)
+                }
             case .empty, .error:
-                if case .result(let states) = selectedDatasourceViewModel.state {
-                    entityStates = states
-                    fetch()
+                if case .result(let states) = selectedDatasourceViewModel.state, case .detail(let entity) = states.first!  {
+                    viewModel.retrieve(for: entity)
+                } else {
+                    viewModel.retrieve(for: referenceEntity)
                 }
             }
         }
-    }
-
-    public func shouldPresentEntityPicker() -> Bool {
-        if let viewModel = datasourceViewModels.first(where: {$0.datasource.source == selectedSource}) {
-            if case .result(let results) = viewModel.state, results.count > 1 {
-                return true
-            }
-        }
-        return false
-    }
-
-    public func presentEntitySelection(from context: UIViewController) {
-        guard let viewModel = datasourceViewModels.first(where: {$0.datasource.source == selectedSource}) else { return }
-        viewModel.presentEntitySelection(from: context)
     }
 
     public func didSelectSourceAt(_ index: Int, from controller: UIViewController) {
@@ -109,8 +83,38 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         }
     }
 
+    public func didRequestToLoadSourceAt(_ index: Int, from controller: UIViewController) {
+        let newViewModel = datasourceViewModels[index]
+
+        if case .result(let results) = selectedDatasourceViewModel.state {
+            if results.count == 1, let result = results.first {
+                if case .detail(let entity) = result {
+                    newViewModel.retrieve(for: entity)
+                }
+            }
+        }
+
+        currentSource = newViewModel.datasource.source
+    }
+
+    //MARK:- Private
+
+    private func presentEntitySelection(from context: UIViewController) {
+        guard let viewModel = datasourceViewModels.first(where: {$0.datasource.source == selectedSource}) else { return }
+        viewModel.presentEntitySelection(from: context)
+    }
+
+    private func shouldPresentEntityPicker() -> Bool {
+        if let viewModel = datasourceViewModels.first(where: {$0.datasource.source == selectedSource}) {
+            if case .result(let results) = viewModel.state, results.count > 1 {
+                return true
+            }
+        }
+        return false
+    }
+
     //MARK:- EntityDetailsPickerDelegate
-    
+
     public func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didPickEntity entity: MPOLKitEntity) where U : EntityDetailDisplayable {
         currentSource = selectedSource
         selectedDatasourceViewModel.retrieve(for: entity)

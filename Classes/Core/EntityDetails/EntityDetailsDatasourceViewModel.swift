@@ -62,10 +62,6 @@ open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: E
         self.strategy = strategy
     }
 
-    public func force(_ state: EntityDetailState) {
-        self.state = state
-    }
-
     public func retrieve(for entity: MPOLKitEntity) {
         state = .loading
         delegate?.entityDetailsDatasourceViewModelDidBeginFetch(self)

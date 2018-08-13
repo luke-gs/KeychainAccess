@@ -194,7 +194,7 @@ internal class SourceBarCell: UIControl {
             imageView.isHidden = false
             imageView.image = AssetManager.shared.image(forKey: .sourceBarMultiple)
 
-            highlightedTintColor = SourceBarCell.disabledColor
+            highlightedTintColor = .white
             normalTintColor = SourceBarCell.disabledColor
 
             _loadingIndicator?.stopAnimating()
