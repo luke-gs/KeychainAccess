@@ -52,4 +52,20 @@ class VehicleSearchParametersTests: XCTestCase {
         
         XCTAssertEqual(actualResult, expectedResult)
     }
+
+    func testThatItCreatesSearchParametersWithExtraParametersSuccessfully() {
+        // Given
+        let registration = "PAVEL01"
+        let vehicleType = "Car"
+        let state = "VIC"
+
+        // When
+        let search = VehicleSearchParameters(registration: registration, vehicleType: vehicleType, state: state)
+
+        // Then
+        let expectedResult = "PAVEL01CarVIC"
+        let actualResult = (search.parameters["plateNumber"] as! String) + (search.parameters["vehicleType"] as! String) + (search.parameters["state"] as! String)
+
+        XCTAssertEqual(actualResult, expectedResult)
+    }
 }
