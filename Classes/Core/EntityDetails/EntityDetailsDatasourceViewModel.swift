@@ -25,7 +25,7 @@ public struct EntityDetailMatch {
 
 public protocol EntityDetailsDatasourceViewModelDelegate: class {
     func entityDetailsDatasourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>)
-    func entityDetailsDatasourceViewModel<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState)
+    func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState)
 }
 
 public protocol EntityRetrieveStrategy {

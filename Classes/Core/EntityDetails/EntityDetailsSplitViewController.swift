@@ -102,10 +102,10 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         updateViewControllers()
     }
 
-    public func entityDetailsDatasourceViewModel<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState) where U : EntityDetailDisplayable {
+    public func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState) where U : EntityDetailDisplayable {
         updateSourceItems()
         updateViewControllers()
-        viewModel.fetchSubsequent()
+        self.viewModel.fetchSubsequent()
     }
 
     //MARK:- EntityDetailsPickerDelegate

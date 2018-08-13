@@ -17,9 +17,9 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         return datasourceViewModels.first(where: {$0.datasource.source == currentSource})!
     }
 
-    private var currentSource: EntitySource
     private var selectedSource: EntitySource
-
+    private var currentSource: EntitySource
+    
     public init(datasourceViewModels: [EntityDetailsDatasourceViewModel<Details>],
                 initialSource: EntitySource,
                 referenceEntity: MPOLKitEntity) {
@@ -79,6 +79,7 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         if shouldPresentEntityPicker() {
             presentEntitySelection(from: controller)
         } else {
+            updateRecentlyViewed()
             currentSource = datasource.source
         }
     }
@@ -95,6 +96,17 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         }
 
         currentSource = newViewModel.datasource.source
+    }
+
+    public func updateRecentlyViewed() {
+        switch selectedDatasourceViewModel.state {
+        case .result(let states):
+            if states.count == 1, case .detail(let entity) = states.first! {
+                UserSession.current.recentlyViewed.add(entity)
+            }
+        default:
+            break
+        }
     }
 
     //MARK:- Private
