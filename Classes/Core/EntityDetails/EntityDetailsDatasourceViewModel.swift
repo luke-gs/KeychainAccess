@@ -8,14 +8,8 @@
 import UIKit
 import PromiseKit
 
-/// Defines an object that has an Entity and LoadingStateManager so it could be notified about the update status
-/// of the new data.
 public protocol EntityDetailSectionUpdatable: class {
-
-    /// The entity
     var genericEntity: MPOLKitEntity? { get set }
-
-    /// The loading manager
     var loadingManager: LoadingStateManager { get }
 }
 
@@ -30,65 +24,51 @@ public struct EntityDetailMatch {
 }
 
 public protocol EntityDetailsDatasourceViewModelDelegate: class {
-    func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: EntityDetailsDatasourceViewModel)
-    func fancyEntityDetailsDatasourceViewModel(_ viewmodel: EntityDetailsDatasourceViewModel, didEndFetchWith state: EntityDetailsDatasourceViewModel.State)
+    func entityDetailsDatasourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>)
+    func entityDetailsDatasourceViewModel<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState)
 }
 
 public protocol EntityRetrieveStrategy {
-    func retrieveUsingReferenceEntity(_ entity: MPOLKitEntity) -> Promise<[EntityState]>?
+    func retrieveUsingReferenceEntity(_ entity: MPOLKitEntity) -> Promise<[EntityResultState]>?
 }
 
-public enum EntityState: Equatable {
-    case summary(MPOLKitEntity)
-    case detail(MPOLKitEntity)
-}
-
-public func == (lhs: EntityState, rhs: EntityState) -> Bool {
-    switch (lhs, rhs) {
-    case (.summary(let lhsEntity), .detail(let rhsEntity)):
-        return lhsEntity == rhsEntity
-    case (.detail(let lhsEntity), .summary(let rhsEntity)):
-        return lhsEntity == rhsEntity
-    case (.detail(let lhsEntity), .detail(let rhsEntity)):
-        return lhsEntity == rhsEntity
-    case (.summary(let lhsEntity), .summary(let rhsEntity)):
-        return lhsEntity == rhsEntity
-    }
-}
-
-public protocol EntityDetailsDataSource {
+public protocol EntityDetailsDataSource: class {
     var viewControllers: [UIViewController] { get }
     var source: EntitySource { get }
     var subsequentMatches: [EntityDetailMatch] { get }
 }
 
-open class EntityDetailsDatasourceViewModel {
+public protocol EntityDetailsPickerDelegate: class {
+    func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didPickEntity entity: MPOLKitEntity)
+    func entityDetailsDatasourceViewModelDidCancelPickingEntity<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>)
+}
 
-    public enum State: Equatable {
-        case empty
-        case loading
-        case result([EntityState])
-        case error(Error)
-    }
+open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: EntityPickerDelegate {
 
-    public var datasource: EntityDetailsDataSource
-    public weak var delegate: EntityDetailsDatasourceViewModelDelegate?
-
-    private(set) var state: State = .empty
+    public let datasource: EntityDetailsDataSource
+    public let pickerViewModel: EntityPickerViewModel?
     private let strategy: EntityRetrieveStrategy
+    var state: EntityDetailState = .empty
 
-    public init(datasource: EntityDetailsDataSource, strategy: EntityRetrieveStrategy) {
+    public weak var delegate: EntityDetailsDatasourceViewModelDelegate?
+    public weak var pickerDelegate: EntityDetailsPickerDelegate?
+
+    public init(datasource: EntityDetailsDataSource,
+                strategy: EntityRetrieveStrategy,
+                entityPickerViewModel: EntityPickerViewModel? = nil)
+    {
+        self.pickerViewModel = entityPickerViewModel
         self.datasource = datasource
         self.strategy = strategy
     }
 
-    public func force(_ state: State) {
+    public func force(_ state: EntityDetailState) {
         self.state = state
     }
 
     public func retrieve(for entity: MPOLKitEntity) {
         state = .loading
-        delegate?.fancyEntityDetailsDatasourceViewModelDidBeginFetch(self)
+        delegate?.entityDetailsDatasourceViewModelDidBeginFetch(self)
         updateViewControllers()
 
         strategy.retrieveUsingReferenceEntity(entity)?
@@ -96,14 +76,69 @@ open class EntityDetailsDatasourceViewModel {
                 guard let `self` = self else { return }
                 self.state = .result(states)
                 self.updateViewControllers()
-                self.delegate?.fancyEntityDetailsDatasourceViewModel(self, didEndFetchWith: .result(states))
+                self.delegate?.entityDetailsDatasourceViewModel(self, didEndFetchWith: .result(states))
             }.catch { [weak self] error in
                 guard let `self` = self else { return }
                 self.state = .error(error)
                 self.updateViewControllers()
-                self.delegate?.fancyEntityDetailsDatasourceViewModel(self, didEndFetchWith: .error(error))
+                self.delegate?.entityDetailsDatasourceViewModel(self, didEndFetchWith: .error(error))
         }
     }
+
+    public func presentEntitySelection(from context: UIViewController) {
+        guard let pickerViewModel = pickerViewModel else { return }
+
+        if case .result(let results) = state, results.count > 1 {
+            let entities = results.compactMap { state -> MPOLKitEntity in
+                switch state {
+                case .detail(let entity):
+                    return entity
+                case .summary(let entity):
+                    return entity
+                }
+            }
+
+            pickerViewModel.entities = entities
+            pickerViewModel.headerTitle = String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), entities.count)
+
+            let entityPickerVC = EntityPickerViewController(viewModel: pickerViewModel)
+            entityPickerVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dimissPicker))
+            pickerViewModel.delegate = self
+
+            context.presentFormSheet(entityPickerVC, animated: true)
+        }
+    }
+
+    public func sourceItemState() -> SourceItem.State {
+        switch state {
+        case .empty:
+            return .notLoaded
+
+        case .loading:
+            return .loading
+
+        case .result(let states):
+            if states.count == 0 {
+                return .notAvailable
+            } else if states.count == 1 {
+                let entityState = states.first!
+                switch entityState {
+                case .summary:
+                    return .notLoaded
+                case .detail(let entity):
+                    let displayable = Details(entity)
+                    return .loaded(count: displayable.alertBadgeCount,
+                                   color: displayable.alertBadgeColor ?? .lightGray)
+                }
+            } else {
+                return .multipleResults
+            }
+        case .error:
+            return .notAvailable
+        }
+    }
+
+    //MARK:- Private
 
     private func updateViewControllers() {
         let viewControllersToUpdate: [EntityDetailSectionUpdatable] = datasource.viewControllers.compactMap{$0 as? EntityDetailSectionUpdatable}
@@ -128,14 +163,16 @@ open class EntityDetailsDatasourceViewModel {
             viewControllersToUpdate.forEach{$0.loadingManager.state = .error}
         }
     }
-}
 
-public func == (lhs: EntityDetailsDatasourceViewModel.State, rhs: EntityDetailsDatasourceViewModel.State) -> Bool {
-    switch (lhs, rhs) {
-    case (.result(let lhsStates), .result(let rhsStates)):
-        return lhsStates == rhsStates
-    default:
-        return true
+    //MARK: EntityPickerDelegate
+
+    public func finishedPicking(_ entity: MPOLKitEntity) {
+        pickerDelegate?.entityDetailsDatasourceViewModel(self, didPickEntity: entity)
+    }
+
+    @objc public func dimissPicker() {
+        pickerDelegate?.entityDetailsDatasourceViewModelDidCancelPickingEntity(self)
     }
 }
+
 

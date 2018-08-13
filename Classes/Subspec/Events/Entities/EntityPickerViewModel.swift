@@ -11,7 +11,7 @@ public protocol EntityPickerDelegate: class {
     func finishedPicking(_ entity: MPOLKitEntity)
 }
 
-public protocol EntityPickerViewModel {
+public protocol EntityPickerViewModel: class {
     var entities: [MPOLKitEntity] { get set }
     var delegate: EntityPickerDelegate? { get set }
     var currentLoadingManagerState: LoadingStateManager.State { get }

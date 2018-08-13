@@ -7,14 +7,14 @@
 
 import UIKit
 
-open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDatasourceViewModelDelegate, EntityPickerDelegate {
+open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDatasourceViewModelDelegate, EntityDetailsPickerDelegate {
 
     private let headerView = SidebarHeaderView(frame: .zero)
-    let viewModel: EntityDetailsViewModel
+    let viewModel: EntityDetailsViewModel<Details>
     var pickerViewModel: EntityPickerViewModel
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    required public init(viewModel: EntityDetailsViewModel, pickerViewModel: EntityPickerViewModel) {
+    required public init(viewModel: EntityDetailsViewModel<Details>, pickerViewModel: EntityPickerViewModel) {
         self.viewModel = viewModel
         self.pickerViewModel = pickerViewModel
         let viewControllers = viewModel.selectedDatasourceViewModel.datasource.viewControllers
@@ -24,7 +24,7 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         regularSidebarViewController.headerView = headerView
 
         viewModel.datasourceViewModels.forEach{$0.delegate = self}
-        self.pickerViewModel.delegate = self
+        viewModel.pickerDelegate = self
     }
 
     open override func viewDidLoad() {
@@ -37,58 +37,6 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
     }
 
     // MARK:- Private
-
-    private func fetchSubsequent() {
-
-        // Get all the sources that want to be matched automatically
-        let sourcesToMatch = viewModel.selectedDatasourceViewModel.datasource.subsequentMatches
-            .filter{$0.shouldMatchAutomatically == true}
-            .map{$0.sourceToMatch}
-
-        // Filter out the datasources that have already been fetched
-        let datasourceViewModels = sourcesToMatch.flatMap { source in
-            viewModel.datasourceViewModels.filter { viewModel in
-                if case .result(let states) = viewModel.state {
-                    if states.count == 1, case .summary = states.first! {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-                return viewModel.datasource.source == source
-            }
-        }
-
-        // Fetch
-        datasourceViewModels.forEach { viewModel in
-            var entityStates: [EntityState] = []
-
-            func fetch() {
-                if entityStates.count == 1 {
-                    let entityState = entityStates.first!
-                    switch entityState {
-                    case .summary(let entity):
-                        viewModel.retrieve(for: entity)
-                    case .detail(let entity):
-                        viewModel.retrieve(for: entity)
-                    }
-                }
-            }
-
-            switch viewModel.state {
-            case .loading:
-                break
-            case .result(let states):
-                entityStates = states
-                fetch()
-            case .empty, .error:
-                if case .result(let states) = self.viewModel.selectedDatasourceViewModel.state {
-                    entityStates = states
-                    fetch()
-                }
-            }
-        }
-    }
 
     private func updateSourceItems() {
         let viewModels = viewModel.datasourceViewModels
@@ -162,52 +110,15 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         selectedViewController = detailViewControllers.first
     }
 
-    private func presentEntitySelection(with results: [EntityState]) {
-        let entities = results.compactMap { state -> MPOLKitEntity in
-            switch state {
-            case .detail(let entity):
-                return entity
-            case .summary(let entity):
-                return entity
-            }
-        }
-        pickerViewModel.entities = entities
-        pickerViewModel.headerTitle = String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), entities.count)
-        let entityPickerVC = EntityPickerViewController(viewModel: pickerViewModel)
-        entityPickerVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dimissPicker))
-
-        presentFormSheet(entityPickerVC, animated: true)
-    }
-
-    @objc private func dimissPicker() {
-        dismiss(animated: true, completion: nil)
-        viewModel.selectedSource = viewModel.currentSource
-        updateSourceItems()
-        updateViewControllers()
-    }
-
-    // MARK:- EntityDetailsDatasourceViewModelDelegate
-
-    public func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: EntityDetailsDatasourceViewModel) {
-        updateSourceItems()
-        updateViewControllers()
-    }
-
-    public func fancyEntityDetailsDatasourceViewModel(_ viewmodel: EntityDetailsDatasourceViewModel, didEndFetchWith state: EntityDetailsDatasourceViewModel.State) {
-        updateSourceItems()
-        updateViewControllers()
-        fetchSubsequent()
-    }
-
-    // MARK: - SideBar Delegate
-
+    // MARK:- SidebarDelegate
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let datasource = viewModel.datasourceViewModels[index].datasource
         guard !(datasource.source == viewModel.selectedDatasourceViewModel.datasource.source) else { return }
 
-        if case .result(let results) = viewModel.datasourceViewModels[index].state, results.count > 1 {
-            viewModel.selectedSource = datasource.source
-            presentEntitySelection(with: results)
+        viewModel.selectedSource = datasource.source
+
+        if viewModel.shouldPresentEntityPicker() {
+            viewModel.presentEntitySelection(from: controller)
         } else {
             viewModel.currentSource = datasource.source
             updateViewControllers()
@@ -229,10 +140,31 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         sidebarViewController(controller, didSelectSourceAt: index)
     }
 
-    // MARK: EntityPickerDelegate
-    public func finishedPicking(_ entity: MPOLKitEntity) {
-        viewModel.currentSource = viewModel.selectedSource
-        viewModel.selectedDatasourceViewModel.retrieve(for: entity)
-        dismissAnimated()
+    // MARK:- EntityDetailsDatasourceViewModelDelegate
+
+    public func entityDetailsDatasourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>) where U : EntityDetailDisplayable {
+        updateSourceItems()
+        updateViewControllers()
+    }
+
+    public func entityDetailsDatasourceViewModel<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState) where U : EntityDetailDisplayable {
+        updateSourceItems()
+        updateViewControllers()
+        viewModel.fetchSubsequent()
+    }
+
+    //MARK:- EntityDetailsPickerDelegate
+
+    public func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didPickEntity entity: MPOLKitEntity) where U : EntityDetailDisplayable {
+        dismiss(animated: true, completion: nil)
+        updateSourceItems()
+        updateViewControllers()
+    }
+
+    public func entityDetailsDatasourceViewModelDidCancelPickingEntity<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>) where U : EntityDetailDisplayable {
+        dismiss(animated: true, completion: nil)
+        updateSourceItems()
+        updateViewControllers()
     }
 }
+

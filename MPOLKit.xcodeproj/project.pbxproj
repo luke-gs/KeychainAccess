@@ -16,6 +16,7 @@
 		122C1D7821214ECD003388A5 /* EntityDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D7421214ECC003388A5 /* EntityDetailsViewModel.swift */; };
 		122C1D7921214ECD003388A5 /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D7521214ECD003388A5 /* EntityDetailsSplitViewController.swift */; };
 		122C1D7A21214ECD003388A5 /* EntityDetailsDatasourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D7621214ECD003388A5 /* EntityDetailsDatasourceViewModel.swift */; };
+		122C1D7C21215539003388A5 /* EntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D7B21215539003388A5 /* EntityState.swift */; };
 		12353410207F167A008256AA /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */; };
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
 		12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353413207F16C4008256AA /* DefaultDateTimeReport.swift */; };
@@ -942,6 +943,7 @@
 		122C1D7421214ECC003388A5 /* EntityDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsViewModel.swift; sourceTree = "<group>"; };
 		122C1D7521214ECD003388A5 /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
 		122C1D7621214ECD003388A5 /* EntityDetailsDatasourceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsDatasourceViewModel.swift; sourceTree = "<group>"; };
+		122C1D7B21215539003388A5 /* EntityState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityState.swift; sourceTree = "<group>"; };
 		1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
 		12353413207F16C4008256AA /* DefaultDateTimeReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDateTimeReport.swift; sourceTree = "<group>"; };
@@ -4255,6 +4257,7 @@
 				122C1D7521214ECD003388A5 /* EntityDetailsSplitViewController.swift */,
 				122C1D7421214ECC003388A5 /* EntityDetailsViewModel.swift */,
 				DBE24C371F593AB30088D19B /* EntityDetailDisplayable.swift */,
+				122C1D7B21215539003388A5 /* EntityState.swift */,
 			);
 			path = EntityDetails;
 			sourceTree = "<group>";
@@ -5040,6 +5043,7 @@
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				AA7B25CA20B27491005A23F0 /* EntityPickerViewController.swift in Sources */,
+				122C1D7C21215539003388A5 /* EntityState.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */,
 				27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */,
