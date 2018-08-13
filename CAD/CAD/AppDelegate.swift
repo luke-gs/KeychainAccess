@@ -30,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MPOLKitInitialize()
 
-        //////
-
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
             }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
