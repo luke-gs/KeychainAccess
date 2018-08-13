@@ -61,7 +61,7 @@ public class PersonRDADetailsSectionsDataSource: FancyEntityDetailsDataSource {
     ]
 
     public init(delegate: SearchDelegate?) {
-        self.viewControllers = [
+            self.viewControllers = [
             EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
             EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
             EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
