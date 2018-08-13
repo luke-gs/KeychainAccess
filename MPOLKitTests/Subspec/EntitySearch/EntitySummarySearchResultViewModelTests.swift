@@ -14,7 +14,7 @@ class EntitySummarySearchResultViewModelTests: XCTestCase {
         let model = EntitySummarySearchResultViewModel.dummyModel()
         model.setStyleIfAllowed(.list)
         model.allowedStyles = [.list]
-        XCTAssertEqual(SearchResultStyle.list, model.style)
+        XCTAssertEqual(EntityDisplayStyle.list, model.style)
         let result = model.setStyleIfAllowed(.grid)
         XCTAssertFalse(result)
         XCTAssert(model.style == .list)
@@ -22,10 +22,10 @@ class EntitySummarySearchResultViewModelTests: XCTestCase {
     
     func testUpdatesStyleWhenAllowedStylesChange() {
         let model = EntitySummarySearchResultViewModel.dummyModel()
-        model.allowedStyles = SearchResultStyle.all
+        model.allowedStyles = EntityDisplayStyle.all
         XCTAssert(model.setStyleIfAllowed(.grid))
         model.allowedStyles = [.list]
-        XCTAssertEqual(SearchResultStyle.list, model.style)
+        XCTAssertEqual(EntityDisplayStyle.list, model.style)
     }
 }
 
