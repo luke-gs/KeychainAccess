@@ -71,6 +71,10 @@ open class FancyEntityDetailsDatasourceViewModel {
         self.strategy = strategy
     }
 
+    public func force(_ state: State) {
+        self.state = state
+    }
+
     public func retrieve(for entity: MPOLKitEntity) {
         state = .loading
         delegate?.fancyEntityDetailsDatasourceViewModelDidBeginFetch(self)

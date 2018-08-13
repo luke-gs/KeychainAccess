@@ -78,11 +78,11 @@ open class EntityPickerViewController: FormBuilderViewController {
 
         let entities = viewModel.entities
 
-        builder += HeaderFormItem(text: "Recently Viewed")
+        builder += HeaderFormItem(text: viewModel.headerTitle)
 
         builder += entities.map { entity in
-            return viewModel.displayable(for: entity)
-                .summaryListFormItem()
+            let displayable = viewModel.displayable(for: entity)
+            return displayable.summaryListFormItem()
                 .badgeColor(nil)
                 .badge(0)
                 .accessory(nil)

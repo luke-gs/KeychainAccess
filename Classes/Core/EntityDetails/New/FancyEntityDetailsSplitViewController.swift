@@ -7,14 +7,16 @@
 
 import UIKit
 
-open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, FancyEntityDetailsDatasourceViewModelDelegate {
+open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, FancyEntityDetailsDatasourceViewModelDelegate, EntityPickerDelegate {
 
     private let headerView = SidebarHeaderView(frame: .zero)
-    private let viewModel: FancyEntityDetailsViewModel
+    let viewModel: FancyEntityDetailsViewModel
+    var pickerViewModel: EntityPickerViewModel
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    required public init(viewModel: FancyEntityDetailsViewModel) {
+    required public init(viewModel: FancyEntityDetailsViewModel, pickerViewModel: EntityPickerViewModel) {
         self.viewModel = viewModel
+        self.pickerViewModel = pickerViewModel
         let viewControllers = viewModel.selectedDatasourceViewModel.datasource.viewControllers
         super.init(detailViewControllers: viewControllers)
 
@@ -22,6 +24,7 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
         regularSidebarViewController.headerView = headerView
 
         viewModel.datasourceViewModels.forEach{$0.delegate = self}
+        self.pickerViewModel.delegate = self
     }
 
     open override func viewDidLoad() {
@@ -159,6 +162,30 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
         selectedViewController = detailViewControllers.first
     }
 
+    private func presentEntitySelection(with results: [EntityState]) {
+        let entities = results.compactMap { state -> MPOLKitEntity in
+            switch state {
+            case .detail(let entity):
+                return entity
+            case .summary(let entity):
+                return entity
+            }
+        }
+        pickerViewModel.entities = entities
+        pickerViewModel.headerTitle = String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), entities.count)
+        let entityPickerVC = EntityPickerViewController(viewModel: pickerViewModel)
+        entityPickerVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dimissPicker))
+
+        presentFormSheet(entityPickerVC, animated: true)
+    }
+
+    @objc private func dimissPicker() {
+        dismiss(animated: true, completion: nil)
+        viewModel.selectedSource = viewModel.currentSource
+        updateSourceItems()
+        updateViewControllers()
+    }
+
     // MARK:- FancyEntityDetailsDatasourceViewModelDelegate
 
     public func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: FancyEntityDetailsDatasourceViewModel) {
@@ -177,8 +204,14 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let datasource = viewModel.datasourceViewModels[index].datasource
         guard !(datasource.source == viewModel.selectedDatasourceViewModel.datasource.source) else { return }
-        viewModel.selectedSource = datasource.source
-        updateViewControllers()
+
+        if case .result(let results) = viewModel.datasourceViewModels[index].state, results.count > 1 {
+            viewModel.selectedSource = datasource.source
+            presentEntitySelection(with: results)
+        } else {
+            viewModel.currentSource = datasource.source
+            updateViewControllers()
+        }
     }
 
     open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
@@ -192,7 +225,14 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
             }
         }
 
-        viewModel.selectedSource = newViewModel.datasource.source
+        viewModel.currentSource = newViewModel.datasource.source
         sidebarViewController(controller, didSelectSourceAt: index)
+    }
+
+    // MARK: EntityPickerDelegate
+    public func finishedPicking(_ entity: MPOLKitEntity) {
+        viewModel.currentSource = viewModel.selectedSource
+        viewModel.selectedDatasourceViewModel.retrieve(for: entity)
+        dismissAnimated()
     }
 }

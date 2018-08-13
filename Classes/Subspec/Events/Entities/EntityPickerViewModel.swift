@@ -13,12 +13,10 @@ public protocol EntityPickerDelegate: class {
 
 public protocol EntityPickerViewModel {
 
-    var entities: [MPOLKitEntity]{ get }
-
+    var entities: [MPOLKitEntity] { get set }
     var delegate: EntityPickerDelegate? { get set }
-
     var currentLoadingManagerState: LoadingStateManager.State { get }
-
+    var headerTitle: String { get set }
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable
 }
 
