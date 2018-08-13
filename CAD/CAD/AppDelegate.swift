@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll(), SessionPlugin().allowAll(), GeolocationPlugin().allowAll()]
 
         #if DEBUG
-        plugins.append(NetworkLoggingPlugin().allowAll())
+            plugins.append(NetworkLoggingPlugin().allowAll())
         #endif
 
         // Set the application key for app specific user settings
