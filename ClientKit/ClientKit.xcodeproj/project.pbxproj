@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		122C1D6E21214E2F003388A5 /* PersonRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D6D21214E2F003388A5 /* PersonRetrieveStrategy.swift */; };
+		122C1D7021214E60003388A5 /* VehicleRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D6F21214E60003388A5 /* VehicleRetrieveStrategy.swift */; };
+		122C1D7221214E79003388A5 /* LocationRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122C1D7121214E79003388A5 /* LocationRetrieveStrategy.swift */; };
 		125E2A1E20FB371B00942B29 /* ManifestSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A1D20FB371B00942B29 /* ManifestSetting.swift */; };
 		125E2A2620FB9B7B00942B29 /* SupportSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2520FB9B7B00942B29 /* SupportSetting.swift */; };
 		125E2A2820FB9F7900942B29 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A2720FB9F7900942B29 /* TermsAndConditionSetting.swift */; };
@@ -30,8 +33,6 @@
 		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
 		19EC766D20A939D0001965FF /* PersonSearchDateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC766C20A939D0001965FF /* PersonSearchDateParser.swift */; };
 		19F2CF6420A967F8006E6253 /* TrafficHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2CF6320A967F8006E6253 /* TrafficHistory.swift */; };
-		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
-		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
 		1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */; };
 		1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */; };
@@ -66,9 +67,9 @@
 		968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */; };
 		AA0290602109934800E3C4FF /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02905F2109934800E3C4FF /* User+VersionAccessors.swift */; };
 		AA16412D20F476970027F947 /* AssociationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412C20F476970027F947 /* AssociationReason.swift */; };
+		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
 		AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DC27520E4AE6700154571 /* AddressFormatter.swift */; };
 		AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */; };
-		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -127,8 +128,9 @@
 
 /* Begin PBXFileReference section */
 		0EEA13744A9245F633EE23BB /* Pods-ClientKit.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-release.xcconfig"; sourceTree = "<group>"; };
-		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
-		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
+		122C1D6D21214E2F003388A5 /* PersonRetrieveStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonRetrieveStrategy.swift; sourceTree = "<group>"; };
+		122C1D6F21214E60003388A5 /* VehicleRetrieveStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRetrieveStrategy.swift; sourceTree = "<group>"; };
+		122C1D7121214E79003388A5 /* LocationRetrieveStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRetrieveStrategy.swift; sourceTree = "<group>"; };
 		125E2A1D20FB371B00942B29 /* ManifestSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestSetting.swift; sourceTree = "<group>"; };
 		125E2A2520FB9B7B00942B29 /* SupportSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportSetting.swift; sourceTree = "<group>"; };
 		125E2A2720FB9F7900942B29 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
@@ -194,9 +196,9 @@
 		968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupLandingPresenter.swift; sourceTree = "<group>"; };
 		AA02905F2109934800E3C4FF /* User+VersionAccessors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
 		AA16412C20F476970027F947 /* AssociationReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationReason.swift; sourceTree = "<group>"; };
+		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
 		AA2DC27520E4AE6700154571 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
 		AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
-		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClientKit.h; sourceTree = "<group>"; };
 		BC12DC901F023EF0001A5BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -270,13 +272,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		12048FC91F788EB70014748E /* Matches */ = {
+		122C1D6C21214E0A003388A5 /* RetrievalStrategies */ = {
 			isa = PBXGroup;
 			children = (
-				12048FCA1F788EC20014748E /* MatchMakers.swift */,
-				12048FCC1F788ECA0014748E /* Matches.swift */,
+				122C1D6D21214E2F003388A5 /* PersonRetrieveStrategy.swift */,
+				122C1D6F21214E60003388A5 /* VehicleRetrieveStrategy.swift */,
+				122C1D7121214E79003388A5 /* LocationRetrieveStrategy.swift */,
 			);
-			path = Matches;
+			path = RetrievalStrategies;
 			sourceTree = "<group>";
 		};
 		125E2A2420FB9B6300942B29 /* Settings */ = {
@@ -552,7 +555,7 @@
 		EA8B66501F381B8700F09716 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				12048FC91F788EB70014748E /* Matches */,
+				122C1D6C21214E0A003388A5 /* RetrievalStrategies */,
 				EA8B665C1F382CEE00F09716 /* Parameters */,
 				EA8B66511F381B8D00F09716 /* Requests */,
 			);
@@ -827,7 +830,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
-				19FA22B01F86041800BE0E03 /* Matches.swift in Sources */,
 				125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
 				125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */,
@@ -847,7 +849,6 @@
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
 				125E2A2820FB9F7900942B29 /* TermsAndConditionSetting.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
-				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
 				46E0B8BA2033AAE600B40DF2 /* OfficerSearchRequest.swift in Sources */,
 				12B556C420DA07620001FFD6 /* LoginStyleSetup.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
@@ -862,6 +863,7 @@
 				198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */,
 				1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
+				122C1D6E21214E2F003388A5 /* PersonRetrieveStrategy.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,
 				1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */,
@@ -896,6 +898,7 @@
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */,
+				122C1D7021214E60003388A5 /* VehicleRetrieveStrategy.swift in Sources */,
 				125E2A2620FB9B7B00942B29 /* SupportSetting.swift in Sources */,
 				19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */,
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
@@ -911,6 +914,7 @@
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,
 				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
+				122C1D7221214E79003388A5 /* LocationRetrieveStrategy.swift in Sources */,
 				194E00A120C4DA0D00F5571A /* RangeParserDefinition.swift in Sources */,
 				194E009D20C4C79B00F5571A /* VehicleParserDefinition.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,

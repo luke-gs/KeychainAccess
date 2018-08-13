@@ -50,15 +50,15 @@ public class EntityPresenter: Presenter {
                 let strat2 = PersonRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = PersonRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = FancyEntityDetailsDatasourceViewModel(datasource: ds1, strategy: strat1)
-                let vm2 = FancyEntityDetailsDatasourceViewModel(datasource: ds2, strategy: strat2)
-                let vm3 = FancyEntityDetailsDatasourceViewModel(datasource: ds3, strategy: strat3)
+                let vm1 = EntityDetailsDatasourceViewModel(datasource: ds1, strategy: strat1)
+                let vm2 = EntityDetailsDatasourceViewModel(datasource: ds2, strategy: strat2)
+                let vm3 = EntityDetailsDatasourceViewModel(datasource: ds3, strategy: strat3)
 
-                let viewModel = FancyEntityDetailsViewModel(datasourceViewModels: [vm1, vm2, vm3],
+                let viewModel = EntityDetailsViewModel(datasourceViewModels: [vm1, vm2, vm3],
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
 
                 return entityDetailViewController
             case is Vehicle:
@@ -77,15 +77,15 @@ public class EntityPresenter: Presenter {
                 let strat2 = VehicleRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = VehicleRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = FancyEntityDetailsDatasourceViewModel(datasource: ds1, strategy: strat1)
-                let vm2 = FancyEntityDetailsDatasourceViewModel(datasource: ds2, strategy: strat2)
-                let vm3 = FancyEntityDetailsDatasourceViewModel(datasource: ds3, strategy: strat3)
+                let vm1 = EntityDetailsDatasourceViewModel(datasource: ds1, strategy: strat1)
+                let vm2 = EntityDetailsDatasourceViewModel(datasource: ds2, strategy: strat2)
+                let vm3 = EntityDetailsDatasourceViewModel(datasource: ds3, strategy: strat3)
 
-                let viewModel = FancyEntityDetailsViewModel(datasourceViewModels: [vm1, vm2, vm3],
+                let viewModel = EntityDetailsViewModel(datasourceViewModels: [vm1, vm2, vm3],
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
 
                 return entityDetailViewController
             case is Address:
@@ -96,13 +96,13 @@ public class EntityPresenter: Presenter {
 
                 let ds1 = LocationMPOLDetailsSectionsDataSource(delegate: delegate)
                 let strat1 = LocationRetrieveStrategy(source: MPOLSource.pscore)
-                let vm1 = FancyEntityDetailsDatasourceViewModel(datasource: ds1, strategy: strat1)
+                let vm1 = EntityDetailsDatasourceViewModel(datasource: ds1, strategy: strat1)
 
-                let viewModel = FancyEntityDetailsViewModel(datasourceViewModels: [vm1],
+                let viewModel = EntityDetailsViewModel(datasourceViewModels: [vm1],
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
                 return entityDetailViewController
             default:
                 break
@@ -166,10 +166,4 @@ public class EntityPresenter: Presenter {
         return presentableType is EntityScreen.Type
     }
 
-}
-
-extension EntityPresenter: EntityDetailSplitViewControllerDelegate {
-
-    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity) {
-    }
 }

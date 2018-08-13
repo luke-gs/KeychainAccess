@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class LocationMPOLDetailsSectionsDataSource: FancyEntityDetailsDataSource {
+public class LocationMPOLDetailsSectionsDataSource: EntityDetailsDataSource {
 
     public let source: EntitySource = MPOLSource.pscore
     public let viewControllers: [UIViewController]

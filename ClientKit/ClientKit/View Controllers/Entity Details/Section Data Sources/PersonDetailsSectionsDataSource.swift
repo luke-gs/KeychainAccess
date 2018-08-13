@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class PersonPSCoreDetailsSectionsDataSource: FancyEntityDetailsDataSource {
+public class PersonPSCoreDetailsSectionsDataSource: EntityDetailsDataSource {
 
     public let source: EntitySource = MPOLSource.pscore
     public let viewControllers: [UIViewController]
@@ -30,7 +30,7 @@ public class PersonPSCoreDetailsSectionsDataSource: FancyEntityDetailsDataSource
     }
 }
 
-public class PersonNATDetailsSectionsDataSource: FancyEntityDetailsDataSource {
+public class PersonNATDetailsSectionsDataSource: EntityDetailsDataSource {
 
     public var source: EntitySource = MPOLSource.nat
     public let viewControllers: [UIViewController]
@@ -51,7 +51,7 @@ public class PersonNATDetailsSectionsDataSource: FancyEntityDetailsDataSource {
     }
 }
 
-public class PersonRDADetailsSectionsDataSource: FancyEntityDetailsDataSource {
+public class PersonRDADetailsSectionsDataSource: EntityDetailsDataSource {
 
     public var source: EntitySource = MPOLSource.rda
     public let viewControllers: [UIViewController]
