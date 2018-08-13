@@ -16,7 +16,7 @@ open class FancyEntityDetailsViewModel {
         return datasourceViewModels.first(where: {$0.datasource.source == selectedSource})!
     }
 
-    private var selectedSource: EntitySource
+    public var selectedSource: EntitySource
 
     public init(datasourceViewModels: [FancyEntityDetailsDatasourceViewModel],
                 initialSource: EntitySource,

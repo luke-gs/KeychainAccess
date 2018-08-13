@@ -131,7 +131,7 @@ internal class SourceBarCell: UIControl {
             accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
             accessibilityValue = "Not yet loaded."
         case .notAvailable:
-            isEnabled = true
+            isEnabled = false
             
             let imageView = self.imageView()
             imageView.isHidden = false
