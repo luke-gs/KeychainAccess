@@ -81,7 +81,7 @@ fileprivate enum VehicleType: String, Pickable {
 }
 
 fileprivate enum State: String, Pickable {
-    case allStates = ""
+    case allStates = "All"
     case act = "ACT"
     case qld = "QLD"
     case nsw = "NSW"
@@ -94,7 +94,7 @@ fileprivate enum State: String, Pickable {
     var title: String? {
         switch self {
         case .allStates:
-            return "All"
+            return rawValue
         case .act:
             return "Australian Capital Territory"
         case .qld:
