@@ -21,6 +21,7 @@
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
 		12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353413207F16C4008256AA /* DefaultDateTimeReport.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
+		125923182121A6B7004EB9BC /* EntityDetailMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125923172121A6B7004EB9BC /* EntityDetailMatch.swift */; };
 		125E2A0820F84F7E00942B29 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0720F84F7E00942B29 /* Settings.swift */; };
 		125E2A0A20F84FA600942B29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0920F84FA600942B29 /* SettingsViewController.swift */; };
 		125E2A0D20F8511200942B29 /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E2A0C20F8511200942B29 /* DarkModeSetting.swift */; };
@@ -948,6 +949,7 @@
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
 		12353413207F16C4008256AA /* DefaultDateTimeReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDateTimeReport.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
+		125923172121A6B7004EB9BC /* EntityDetailMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailMatch.swift; sourceTree = "<group>"; };
 		125E2A0720F84F7E00942B29 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		125E2A0920F84FA600942B29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		125E2A0C20F8511200942B29 /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
@@ -4258,6 +4260,7 @@
 				122C1D7421214ECC003388A5 /* EntityDetailsViewModel.swift */,
 				DBE24C371F593AB30088D19B /* EntityDetailDisplayable.swift */,
 				122C1D7B21215539003388A5 /* EntityState.swift */,
+				125923172121A6B7004EB9BC /* EntityDetailMatch.swift */,
 			);
 			path = EntityDetails;
 			sourceTree = "<group>";
@@ -5017,6 +5020,7 @@
 				BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */,
 				2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */,
 				19A6A82120730CE5008EAC95 /* SearchActivity.swift in Sources */,
+				125923182121A6B7004EB9BC /* EntityDetailMatch.swift in Sources */,
 				DB88BCE21F42D0110056FD69 /* SearchResultErrorCell.swift in Sources */,
 				AA7B25CB20B27491005A23F0 /* EntitiesListViewModel.swift in Sources */,
 				275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */,

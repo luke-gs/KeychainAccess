@@ -7,16 +7,19 @@
 
 import UIKit
 
+/// The entity details split view controller
 open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDatasourceViewModelDelegate, EntityDetailsPickerDelegate {
 
+    // MARK:- Public
+
+    /// The viewModel for the entity details view controller
+    public let viewModel: EntityDetailsViewModel<Details>
+
     private let headerView = SidebarHeaderView(frame: .zero)
-    let viewModel: EntityDetailsViewModel<Details>
-    var pickerViewModel: EntityPickerViewModel
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    required public init(viewModel: EntityDetailsViewModel<Details>, pickerViewModel: EntityPickerViewModel) {
+    required public init(viewModel: EntityDetailsViewModel<Details>) {
         self.viewModel = viewModel
-        self.pickerViewModel = pickerViewModel
         let viewControllers = viewModel.selectedDatasourceViewModel.datasource.viewControllers
         super.init(detailViewControllers: viewControllers)
 

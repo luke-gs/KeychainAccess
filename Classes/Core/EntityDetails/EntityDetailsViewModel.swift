@@ -7,12 +7,21 @@
 
 import UIKit
 
+/// The view model for the entities detail
 open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetailsPickerDelegate {
 
+    // MARK: Public
+
+    /// The reference entity that the view model was initialised with
     public let referenceEntity: MPOLKitEntity
+
+    /// The viewModels for all the data sources
     public let datasourceViewModels: [EntityDetailsDatasourceViewModel<Details>]
 
+    /// The picker delegate
     public weak var pickerDelegate: EntityDetailsPickerDelegate?
+
+    /// The currently selected data source view model
     public var selectedDatasourceViewModel: EntityDetailsDatasourceViewModel<Details> {
         return datasourceViewModels.first(where: {$0.datasource.source == currentSource})!
     }
@@ -20,7 +29,14 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
     private let recentlyViewed = UserSession.current.recentlyViewed
     private var selectedSource: EntitySource
     private var currentSource: EntitySource
-    
+
+
+    /// Intialise the view model
+    ///
+    /// - Parameters:
+    ///   - datasourceViewModels: the datasources
+    ///   - initialSource: the initial source to select
+    ///   - referenceEntity: the intial entity to use as a reference
     public init(datasourceViewModels: [EntityDetailsDatasourceViewModel<Details>],
                 initialSource: EntitySource,
                 referenceEntity: MPOLKitEntity) {
@@ -32,6 +48,7 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         datasourceViewModels.forEach{$0.pickerDelegate = self}
     }
 
+    /// Fetch all subsequent data sources
     public func fetchSubsequent() {
 
         // Get all the sources that want to be matched automatically
@@ -57,7 +74,7 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         // Fetch for the relevant entity
         datasourceViewModels.forEach { viewModel in
             switch viewModel.state {
-            case .loading:
+            case .fetching:
                 break
             case .result(let states):
                 if states.count == 1, case .summary(let entity) = states.first! {
@@ -73,6 +90,14 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         }
     }
 
+    /// A source was selected by the entity details VC
+    ///
+    /// There is business logic here that determines whether to update the recently viewed
+    /// or to present multiple entities list for selection
+    ///
+    /// - Parameters:
+    ///   - index: the data source index
+    ///   - controller: the controller to present from
     public func didSelectSourceAt(_ index: Int, from controller: UIViewController) {
         let datasource = datasourceViewModels[index].datasource
         selectedSource = datasource.source
@@ -85,6 +110,11 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         }
     }
 
+    /// A source was request to fetch details from
+    ///
+    /// - Parameters:
+    ///   - index: the data source index
+    ///   - controller: the controller that requested the fetch
     public func didRequestToLoadSourceAt(_ index: Int, from controller: UIViewController) {
         let newViewModel = datasourceViewModels[index]
 
@@ -99,7 +129,9 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         currentSource = newViewModel.datasource.source
     }
 
-    public func updateRecentlyViewed() {
+    //MARK:- Private
+
+    private func updateRecentlyViewed() {
         switch selectedDatasourceViewModel.state {
         case .result(let states):
             if states.count == 1, case .detail(let entity) = states.first! {
@@ -112,8 +144,6 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
             break
         }
     }
-
-    //MARK:- Private
 
     private func presentEntitySelection(from context: UIViewController) {
         guard let viewModel = datasourceViewModels.first(where: {$0.datasource.source == selectedSource}) else { return }
