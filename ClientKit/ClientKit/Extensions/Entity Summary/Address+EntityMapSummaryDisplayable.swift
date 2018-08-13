@@ -43,9 +43,7 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
     }
 
     public var iconColor: UIColor? {
-        // Return .black because the current implementation use `tintColor`.
-        // nil means use system's.
-        return address.alertLevel?.color ?? .black
+        return address.alertLevel?.color
     }
     
     public var badge: UInt {

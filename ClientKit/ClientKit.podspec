@@ -22,7 +22,7 @@ s.source           = { :git => 'https://github.com/Gridstone/mPol-iOS/ClientKit'
 s.ios.deployment_target = '10.0'
 
 s.source_files = 'ClientKit/**/*.swift'
-# s.resources = 'Assets/*'
+s.resources = 'ClientKit/Resources/*'
 
 s.dependency 'MPOLKit'
 

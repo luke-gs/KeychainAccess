@@ -17,7 +17,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     var tasksNavController: UINavigationController!
 
     override public var termsAndConditionsVersion: SemanticVersion {
-        let version = SemanticVersion(TermsAndConditionsVersion)
+        let version = SemanticVersion(TermsAndConditions.version)
 
         if version == nil {
             assertionFailure("termsAndConditionsVersion is not a valid semanticVersion")
@@ -26,7 +26,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     }
 
     override public var whatsNewVersion: SemanticVersion {
-        let version = SemanticVersion(WhatsNewVersion)
+        let version = SemanticVersion(WhatsNew.version)
 
         if version == nil {
             assertionFailure("whatsNewVersion is not a valid semanticVersion")
@@ -56,17 +56,22 @@ public class LandingPresenter: AppGroupLandingPresenter {
         case .termsAndConditions:
             let acceptAction = DialogAction(title: NSLocalizedString("Accept", bundle: .mpolKit, comment: "T&C - Accept"), handler: didAcceptConditions(_ :))
             let declineAction = DialogAction(title: NSLocalizedString("Decline", bundle: .mpolKit, comment: "T&C - Decline"), handler: didDeclineConditions(_ :))
-            let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!, actions: [declineAction, acceptAction])
 
-            let navController = ThemedNavigationController(rootViewController: tsAndCsVC)
-            navController.modalPresentationStyle = .pageSheet
+            do {
+                let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: "Title"),
+                                                                htmlURL: TermsAndConditions.url,
+                                                                actions: [declineAction, acceptAction])
+                tsAndCsVC.title = "Terms and Conditions"
 
-            return navController
+                let navController = ThemedNavigationController(rootViewController: tsAndCsVC)
+                navController.modalPresentationStyle = .pageSheet
+                return navController
+            } catch {
+                fatalError(error.localizedDescription)
+            }
 
         case .whatsNew:
-            let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New", detail: "Swipe through and discover the new features and updates that have been included in this release. Refer to the release summary for full update notes.")
-
-            let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
+            let whatsNewVC = WhatsNewViewController(items: WhatsNew.detailItems)
             whatsNewVC.delegate = self
 
             return whatsNewVC
