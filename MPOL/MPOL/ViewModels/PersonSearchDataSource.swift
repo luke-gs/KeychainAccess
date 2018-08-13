@@ -132,7 +132,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                         let rdaRequest = PersonSearchRequest(source: .rda, request: searchParameters)
 
                         let resultModel = EntitySummaryAlertsSearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
-                        resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [SearchResultStyle.grid: 4, SearchResultStyle.list: 3])
+                        resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                         resultModel.additionalBarButtonItems = [UIBarButtonItem(image: AssetManager.shared.image(forKey: .add), style: .plain, target: self, action: #selector(handleAddButtonTapped(_:)))]
                         
                         completion(resultModel, nil)

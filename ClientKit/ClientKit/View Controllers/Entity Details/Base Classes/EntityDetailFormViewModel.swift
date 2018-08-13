@@ -49,11 +49,15 @@ open class EntityDetailFormViewModel {
     /// The entity to display.
     open var entity: Entity? {
         didSet {
-            delegate?.updateLoadingState(entity == nil ? .noContent : .loaded)
-            delegate?.updateSidebarItemCount(sidebarCount)
-            delegate?.updateNoContentDetails()
-            delegate?.reloadData()
+            didSetEntity()
         }
+    }
+
+    func didSetEntity() {
+        delegate?.updateLoadingState(entity == nil ? .noContent : .loaded)
+        delegate?.updateSidebarItemCount(sidebarCount)
+        delegate?.updateNoContentDetails()
+        delegate?.reloadData()
     }
     
     /// The view controllers title.
