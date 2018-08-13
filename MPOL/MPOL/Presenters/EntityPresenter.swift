@@ -34,14 +34,6 @@ public class EntityPresenter: Presenter {
         case .entityDetails(let entity, let delegate):
             switch entity {
             case is Person:
-                //                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
-                //                viewModel.recentlyViewed = UserSession.current.recentlyViewed
-
-                //                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
-                //
-                //
-                //                entityDetailViewController.delegate = self
-
                 let ds1 = PersonPSCoreDetailsSectionsDataSource(delegate: delegate)
                 let ds2 = PersonNATDetailsSectionsDataSource(delegate: delegate)
                 let ds3 = PersonRDADetailsSectionsDataSource(delegate: delegate)
@@ -63,12 +55,6 @@ public class EntityPresenter: Presenter {
                 return entityDetailViewController
             case is Vehicle:
 
-                //                viewModel.recentlyViewed = UserSession.current.recentlyViewed
-                //                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
-                //
-                //                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
-                //                 entityDetailViewController.delegate = self
-
                 let ds1 = VehiclePSCoreDetailsSectionsDataSource(delegate: delegate)
                 let ds2 = VehicleNATDetailsSectionsDataSource(delegate: delegate)
                 let ds3 = VehicleRDADetailsSectionsDataSource(delegate: delegate)
@@ -89,10 +75,6 @@ public class EntityPresenter: Presenter {
 
                 return entityDetailViewController
             case is Address:
-
-//                viewModel.recentlyViewed = UserSession.current.recentlyViewed
-//                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
-//                entityDetailViewController.delegate = self
 
                 let ds1 = LocationMPOLDetailsSectionsDataSource(delegate: delegate)
                 let strat1 = LocationRetrieveStrategy(source: MPOLSource.pscore)
@@ -161,9 +143,7 @@ public class EntityPresenter: Presenter {
         }
     }
 
-
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is EntityScreen.Type
     }
-
 }

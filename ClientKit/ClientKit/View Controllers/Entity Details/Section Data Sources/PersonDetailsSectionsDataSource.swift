@@ -25,7 +25,7 @@ public class PersonPSCoreDetailsSectionsDataSource: EntityDetailsDataSource {
             EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
             EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
             EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
-            EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel()),
+            EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
         ]
     }
 }
