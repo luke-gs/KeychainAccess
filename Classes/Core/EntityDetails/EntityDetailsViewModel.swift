@@ -17,6 +17,7 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         return datasourceViewModels.first(where: {$0.datasource.source == currentSource})!
     }
 
+    private let recentlyViewed = UserSession.current.recentlyViewed
     private var selectedSource: EntitySource
     private var currentSource: EntitySource
     
@@ -102,7 +103,10 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         switch selectedDatasourceViewModel.state {
         case .result(let states):
             if states.count == 1, case .detail(let entity) = states.first! {
-                UserSession.current.recentlyViewed.add(entity)
+                if recentlyViewed.contains(entity) {
+                    recentlyViewed.remove(entity)
+                }
+                recentlyViewed.add(entity)
             }
         default:
             break
