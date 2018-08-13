@@ -12,7 +12,6 @@ public protocol EntityPickerDelegate: class {
 }
 
 public protocol EntityPickerViewModel {
-
     var entities: [MPOLKitEntity] { get set }
     var delegate: EntityPickerDelegate? { get set }
     var currentLoadingManagerState: LoadingStateManager.State { get }
@@ -21,7 +20,6 @@ public protocol EntityPickerViewModel {
 }
 
 public extension EntityPickerViewModel {
-
     var currentLoadingManagerState: LoadingStateManager.State {
         return entities.isEmpty ? .noContent : .loaded
     }

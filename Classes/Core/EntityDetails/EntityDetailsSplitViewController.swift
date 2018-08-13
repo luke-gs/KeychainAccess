@@ -1,5 +1,5 @@
 //
-//  FancyEntityDetailSplitViewController.swift
+//  EntityDetailsSplitViewController.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, FancyEntityDetailsDatasourceViewModelDelegate, EntityPickerDelegate {
+open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDatasourceViewModelDelegate, EntityPickerDelegate {
 
     private let headerView = SidebarHeaderView(frame: .zero)
-    let viewModel: FancyEntityDetailsViewModel
+    let viewModel: EntityDetailsViewModel
     var pickerViewModel: EntityPickerViewModel
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    required public init(viewModel: FancyEntityDetailsViewModel, pickerViewModel: EntityPickerViewModel) {
+    required public init(viewModel: EntityDetailsViewModel, pickerViewModel: EntityPickerViewModel) {
         self.viewModel = viewModel
         self.pickerViewModel = pickerViewModel
         let viewControllers = viewModel.selectedDatasourceViewModel.datasource.viewControllers
@@ -174,7 +174,7 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
         pickerViewModel.entities = entities
         pickerViewModel.headerTitle = String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), entities.count)
         let entityPickerVC = EntityPickerViewController(viewModel: pickerViewModel)
-        entityPickerVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dimissPicker))
+        entityPickerVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dimissPicker))
 
         presentFormSheet(entityPickerVC, animated: true)
     }
@@ -186,14 +186,14 @@ open class FancyEntityDetailsSplitViewController<Details: EntityDetailDisplayabl
         updateViewControllers()
     }
 
-    // MARK:- FancyEntityDetailsDatasourceViewModelDelegate
+    // MARK:- EntityDetailsDatasourceViewModelDelegate
 
-    public func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: FancyEntityDetailsDatasourceViewModel) {
+    public func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: EntityDetailsDatasourceViewModel) {
         updateSourceItems()
         updateViewControllers()
     }
 
-    public func fancyEntityDetailsDatasourceViewModel(_ viewmodel: FancyEntityDetailsDatasourceViewModel, didEndFetchWith state: FancyEntityDetailsDatasourceViewModel.State) {
+    public func fancyEntityDetailsDatasourceViewModel(_ viewmodel: EntityDetailsDatasourceViewModel, didEndFetchWith state: EntityDetailsDatasourceViewModel.State) {
         updateSourceItems()
         updateViewControllers()
         fetchSubsequent()

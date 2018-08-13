@@ -7,19 +7,19 @@
 
 import UIKit
 
-open class FancyEntityDetailsViewModel {
+open class EntityDetailsViewModel {
 
     public let referenceEntity: MPOLKitEntity
-    public let datasourceViewModels: [FancyEntityDetailsDatasourceViewModel]
+    public let datasourceViewModels: [EntityDetailsDatasourceViewModel]
 
-    public var selectedDatasourceViewModel: FancyEntityDetailsDatasourceViewModel {
+    public var selectedDatasourceViewModel: EntityDetailsDatasourceViewModel {
         return datasourceViewModels.first(where: {$0.datasource.source == currentSource})!
     }
 
     public var currentSource: EntitySource
     public var selectedSource: EntitySource
 
-    public init(datasourceViewModels: [FancyEntityDetailsDatasourceViewModel],
+    public init(datasourceViewModels: [EntityDetailsDatasourceViewModel],
                 initialSource: EntitySource,
                 referenceEntity: MPOLKitEntity) {
         self.datasourceViewModels = datasourceViewModels

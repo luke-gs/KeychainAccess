@@ -1,5 +1,5 @@
 //
-//  FancyEntityDatasourceViewModel.swift
+//  EntityDatasourceViewModel.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,6 +7,17 @@
 
 import UIKit
 import PromiseKit
+
+/// Defines an object that has an Entity and LoadingStateManager so it could be notified about the update status
+/// of the new data.
+public protocol EntityDetailSectionUpdatable: class {
+
+    /// The entity
+    var genericEntity: MPOLKitEntity? { get set }
+
+    /// The loading manager
+    var loadingManager: LoadingStateManager { get }
+}
 
 public struct EntityDetailMatch {
     public var sourceToMatch: EntitySource
@@ -18,9 +29,9 @@ public struct EntityDetailMatch {
     }
 }
 
-public protocol FancyEntityDetailsDatasourceViewModelDelegate: class {
-    func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: FancyEntityDetailsDatasourceViewModel)
-    func fancyEntityDetailsDatasourceViewModel(_ viewmodel: FancyEntityDetailsDatasourceViewModel, didEndFetchWith state: FancyEntityDetailsDatasourceViewModel.State)
+public protocol EntityDetailsDatasourceViewModelDelegate: class {
+    func fancyEntityDetailsDatasourceViewModelDidBeginFetch(_ viewModel: EntityDetailsDatasourceViewModel)
+    func fancyEntityDetailsDatasourceViewModel(_ viewmodel: EntityDetailsDatasourceViewModel, didEndFetchWith state: EntityDetailsDatasourceViewModel.State)
 }
 
 public protocol EntityRetrieveStrategy {
@@ -45,13 +56,13 @@ public func == (lhs: EntityState, rhs: EntityState) -> Bool {
     }
 }
 
-public protocol FancyEntityDetailsDataSource {
+public protocol EntityDetailsDataSource {
     var viewControllers: [UIViewController] { get }
     var source: EntitySource { get }
     var subsequentMatches: [EntityDetailMatch] { get }
 }
 
-open class FancyEntityDetailsDatasourceViewModel {
+open class EntityDetailsDatasourceViewModel {
 
     public enum State: Equatable {
         case empty
@@ -60,13 +71,13 @@ open class FancyEntityDetailsDatasourceViewModel {
         case error(Error)
     }
 
-    public var datasource: FancyEntityDetailsDataSource
-    public weak var delegate: FancyEntityDetailsDatasourceViewModelDelegate?
+    public var datasource: EntityDetailsDataSource
+    public weak var delegate: EntityDetailsDatasourceViewModelDelegate?
 
     private(set) var state: State = .empty
     private let strategy: EntityRetrieveStrategy
 
-    public init(datasource: FancyEntityDetailsDataSource, strategy: EntityRetrieveStrategy) {
+    public init(datasource: EntityDetailsDataSource, strategy: EntityRetrieveStrategy) {
         self.datasource = datasource
         self.strategy = strategy
     }
@@ -119,7 +130,7 @@ open class FancyEntityDetailsDatasourceViewModel {
     }
 }
 
-public func == (lhs: FancyEntityDetailsDatasourceViewModel.State, rhs: FancyEntityDetailsDatasourceViewModel.State) -> Bool {
+public func == (lhs: EntityDetailsDatasourceViewModel.State, rhs: EntityDetailsDatasourceViewModel.State) -> Bool {
     switch (lhs, rhs) {
     case (.result(let lhsStates), .result(let rhsStates)):
         return lhsStates == rhsStates
