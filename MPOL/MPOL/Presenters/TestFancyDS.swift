@@ -37,11 +37,11 @@ class PersonRetrieveStrategy: EntityRetrieveStrategy {
         } else {
             // Reference entity has no specialId, perform a regular search instead
             let request = PersonSearchParameters(familyName: entity.familyName!,
-                                                 givenName: entity.givenName,
-                                                 middleNames: entity.middleNames,
-                                                 gender: entity.gender?.rawValue,
+                                                 givenName: nil,
+                                                 middleNames: nil,
+                                                 gender: nil,
                                                  dateOfBirth: nil,
-                                                 age: entity.dateOfBirth?.dobAge() != nil ? "\(entity.dateOfBirth!.dobAge())" : nil)
+                                                 age: nil)
             return APIManager.shared.searchEntity(in: source, with: request)
                 .then { result -> Promise<[EntityState]> in
                     let people = result.results

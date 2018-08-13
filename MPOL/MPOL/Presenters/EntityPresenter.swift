@@ -58,7 +58,7 @@ public class EntityPresenter: Presenter {
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
 
                 return entityDetailViewController
             case is Vehicle:
@@ -85,7 +85,7 @@ public class EntityPresenter: Presenter {
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
 
                 return entityDetailViewController
             case is Address:
@@ -102,7 +102,7 @@ public class EntityPresenter: Presenter {
                                                             initialSource: entity.source!,
                                                             referenceEntity: entity)
 
-                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = FancyEntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel, pickerViewModel: DefaultEntityPickerViewModel())
                 return entityDetailViewController
             default:
                 break
