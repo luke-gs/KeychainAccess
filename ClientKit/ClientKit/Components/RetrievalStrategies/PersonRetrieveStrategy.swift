@@ -35,7 +35,7 @@ public class PersonRetrieveStrategy: EntityRetrieveStrategy {
         } else {
             // Reference entity has no specialId, perform a regular search instead
             let request = PersonSearchParameters(familyName: entity.familyName!,
-                                                 givenName: nil,
+                                                 givenName: entity.givenName,
                                                  middleNames: nil,
                                                  gender: nil,
                                                  dateOfBirth: nil,
