@@ -17,18 +17,6 @@ open class CADStateManagerBase: CADStateManagerType {
 
     public init(apiManager: CADAPIManagerType) {
         self.apiManager = apiManager
-
-        // Register concrete classes for protocols
-        CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
-        CADClientModelTypes.officerDetails = CADOfficerCore.self
-        CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
-        CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
-        CADClientModelTypes.resourceUnit = CADResourceUnitCore.self
-        CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
-        CADClientModelTypes.incidentStatus = CADIncidentStatusCore.self
-        CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
-        CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
-        CADClientModelTypes.alertLevel = CADAlertLevelCore.self
     }
 
     // MARK: - CADStateManagerType Properties

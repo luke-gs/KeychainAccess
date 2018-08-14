@@ -15,6 +15,18 @@ open class CADStateManagerCore: CADStateManagerBase {
     public override init(apiManager: CADAPIManagerType) {
         super.init(apiManager: apiManager)
 
+        // Register concrete classes for protocols
+        CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
+        CADClientModelTypes.officerDetails = CADOfficerCore.self
+        CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
+        CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
+        CADClientModelTypes.resourceUnit = CADResourceUnitCore.self
+        CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
+        CADClientModelTypes.incidentStatus = CADIncidentStatusCore.self
+        CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
+        CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
+        CADClientModelTypes.alertLevel = CADAlertLevelCore.self
+
         // Default patrol group for demo data
         patrolGroup = "Collingwood"
     }
