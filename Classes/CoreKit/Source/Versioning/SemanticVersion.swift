@@ -15,24 +15,24 @@ import Foundation
 
 public class SemanticVersion: Comparable {
 
-    public private(set) var rawVersion: String
+    public let rawVersion: String
 
     // major version must be incremented if any non-backwards compatible changes are introduced to the public API. It MAY include minor and patch level changes. Patch and minor version MUST be reset to 0 when major version is incremented.
-    public private(set) var major: String
+    public let major: String
 
     // minor must be incremented if new, backwards compatible functionality is introduced to the public API. It MUST be incremented if any public API functionality is marked as deprecated. It MAY be incremented if substantial new functionality or improvements are introduced within the private code. It MAY include patch level changes. Patch version MUST be reset to 0 when minor version is incremented.
-    public private(set) var minor: String
+    public let minor: String
 
     // patch must be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
-    public private(set) var patch: String
+    public let patch: String
 
     // pre-release version may be denoted by appending a hyphen and a series of dot separated identifiers immediately following the patch version. Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-].
-    public private(set) var prerelease: String?
+    public let prerelease: String?
 
     // build metadata may be denoted by appending a plus sign and a series of dot separated identifiers immediately following the patch or pre-release version. Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-]. Build metadata SHOULD be ignored when determining version precedence. Thus two versions that differ only in the build metadata, have the same precedence
-    public private(set) var build: String?
+    public let build: String?
 
-    public init?(_ rawVersion: String?) {
+    public init?(_ rawVersion: String) {
 
         let numberPattern = "0|[1-9][0-9]*"
         let alphaOrNumeric = "[0-9|A-Za-z]+"
@@ -40,22 +40,28 @@ public class SemanticVersion: Comparable {
         let preReleasePattern = "(-(" + alphaOrNumeric + "))?(\\.(" + alphaOrNumeric + "))?(\\.(" + alphaOrNumeric + "))?"
         let buildPattern = "(\\+([0-9A-Za-z-]+))?"
         let fullPattern = "^" + versionPattern + preReleasePattern + buildPattern + "$"
-        let versionRegex = RegularExpressionSpecification(pattern: fullPattern)
+        let versionRegex = try! NSRegularExpression(pattern: fullPattern, options: [])
 
-        if !versionRegex.isSatisfiedBy(rawVersion) {
+        let matches = versionRegex.matches(in: rawVersion, options: [], range: NSMakeRange(0, (rawVersion as NSString).length))
+
+        if matches.count == 0 {
             return nil
         }
 
-        self.rawVersion = rawVersion!
+        self.rawVersion = rawVersion
 
-        let buildSplitVersion = rawVersion!.split(separator: "+")
+        let buildSplitVersion = rawVersion.split(separator: "+")
         if buildSplitVersion.count > 1 {
             build = String(buildSplitVersion[1])
+        } else {
+            build = nil
         }
 
         let prereleaseSplitVersion = buildSplitVersion[0].split(separator: "-")
         if prereleaseSplitVersion.count > 1 {
             prerelease = String(prereleaseSplitVersion[1])
+        } else {
+            prerelease = nil
         }
 
         let splitVersion = prereleaseSplitVersion[0].split(separator: ".")

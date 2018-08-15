@@ -7,6 +7,14 @@
 //
 
 import Foundation
+import Wrap
+
+private var dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = .autoupdatingCurrent
+    formatter.setLocalizedDateFormatFromTemplate("MMM-d-H:mm:ss.SSSSSSSSS-a-yyyy")
+    return formatter
+}()
 
 public enum LogFilePolicy {
     case multiple
@@ -15,7 +23,7 @@ public enum LogFilePolicy {
     func fileName() -> String {
         switch self {
         case .multiple: return "networkLogs.txt"
-        case .single: return Date().wrap(dateFormatter: DateFormatter.accurateDate) + ".txt"
+        case .single: return Date().wrap(dateFormatter: dateFormatter) + ".txt"
         }
     }
 }
