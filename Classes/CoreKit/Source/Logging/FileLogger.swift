@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Wrap
 
 private var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
@@ -23,7 +22,7 @@ public enum LogFilePolicy {
     func fileName() -> String {
         switch self {
         case .multiple: return "networkLogs.txt"
-        case .single: return Date().wrap(dateFormatter: dateFormatter) + ".txt"
+        case .single: return dateFormatter.string(from: Date()) + ".txt"
         }
     }
 }

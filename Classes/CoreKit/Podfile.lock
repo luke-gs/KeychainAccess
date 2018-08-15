@@ -14,7 +14,6 @@ PODS:
   - PromiseKit/UIKit (6.3.4):
     - PromiseKit/CorePromise
   - Unbox (2.5.0)
-  - Wrap (2.1.1)
 
 DEPENDENCIES:
   - Alamofire (= 4.5.1)
@@ -23,7 +22,6 @@ DEPENDENCIES:
   - PromiseKit (~> 6.0)
   - PromiseKit/CoreLocation
   - Unbox (= 2.5.0)
-  - Wrap (= 2.1.1)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -32,7 +30,6 @@ SPEC REPOS:
     - KeychainAccess
     - PromiseKit
     - Unbox
-    - Wrap
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -40,8 +37,7 @@ SPEC CHECKSUMS:
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
-  Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: f8f5c71bade4858562b1f92dd5c97aa9ed8ef823
+PODFILE CHECKSUM: 52c189c16fd3ee23ec43f7c82a8803f00da192ca
 
 COCOAPODS: 1.5.0

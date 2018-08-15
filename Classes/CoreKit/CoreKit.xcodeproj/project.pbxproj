@@ -315,30 +315,30 @@
 		199820CF2123A86C002D5F03 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				199821AD2123AD3B002D5F03 /* MPOLAssert.swift */,
-				199820D02123A86C002D5F03 /* Evaluator */,
-				199820D62123A86C002D5F03 /* SortDescriptor */,
-				199820D82123A86C002D5F03 /* Sequence+Nils.swift */,
-				199820D92123A86C002D5F03 /* Security */,
-				199820DE2123A86C002D5F03 /* ExternalAuthenticator */,
-				199820E42123A86C002D5F03 /* Presenter */,
-				199820E62123A86C002D5F03 /* Network */,
-				1998210B2123A86C002D5F03 /* Location Manager */,
-				1998210E2123A86C002D5F03 /* AppURLRouter */,
-				199821152123A86C002D5F03 /* Extensions */,
-				199821202123A86C002D5F03 /* FilterDescriptor */,
-				199821242123A86C002D5F03 /* Transformers */,
 				199821292123A86C002D5F03 /* CodableRequestParameters.swift */,
-				1998212A2123A86C002D5F03 /* ImageDownloader */,
-				1998212F2123A86C002D5F03 /* UIFont+Digits.swift */,
-				199821302123A86C002D5F03 /* Templates */,
-				199821362123A86C002D5F03 /* QueryParser.swift */,
 				199821372123A86C002D5F03 /* Conceal.swift */,
-				199821382123A86C002D5F03 /* Versioning */,
+				199821AD2123AD3B002D5F03 /* MPOLAssert.swift */,
+				199821362123A86C002D5F03 /* QueryParser.swift */,
+				199820D82123A86C002D5F03 /* Sequence+Nils.swift */,
+				1998212F2123A86C002D5F03 /* UIFont+Digits.swift */,
+				1998210E2123A86C002D5F03 /* AppURLRouter */,
+				199820D02123A86C002D5F03 /* Evaluator */,
+				199821152123A86C002D5F03 /* Extensions */,
+				199820DE2123A86C002D5F03 /* ExternalAuthenticator */,
+				199821202123A86C002D5F03 /* FilterDescriptor */,
+				1998212A2123A86C002D5F03 /* ImageDownloader */,
+				1998210B2123A86C002D5F03 /* Location Manager */,
+				199821412123A86C002D5F03 /* Logging */,
+				199820E62123A86C002D5F03 /* Network */,
+				199820E42123A86C002D5F03 /* Presenter */,
 				1998213A2123A86C002D5F03 /* PromiseCancel */,
 				1998213C2123A86C002D5F03 /* Protocols */,
-				199821412123A86C002D5F03 /* Logging */,
+				199820D92123A86C002D5F03 /* Security */,
 				1998214A2123A86C002D5F03 /* Session */,
+				199820D62123A86C002D5F03 /* SortDescriptor */,
+				199821302123A86C002D5F03 /* Templates */,
+				199821242123A86C002D5F03 /* Transformers */,
+				199821382123A86C002D5F03 /* Versioning */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -752,7 +752,6 @@
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
-				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -761,7 +760,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1063,7 +1061,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.CoreKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1085,7 +1087,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.CoreKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1102,7 +1108,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				INFOPLIST_FILE = CoreKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.CoreKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1118,7 +1128,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				INFOPLIST_FILE = CoreKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.CoreKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
