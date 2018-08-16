@@ -8,7 +8,7 @@
 import UIKit
 
 /// The entity details split view controller
-open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDatasourceViewModelDelegate, EntityDetailsPickerDelegate {
+open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDataSourceViewModelDelegate, EntityDetailsPickerDelegate {
 
     // MARK:- Public
 
@@ -20,13 +20,13 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     required public init(viewModel: EntityDetailsViewModel<Details>) {
         self.viewModel = viewModel
-        let viewControllers = viewModel.selectedDatasourceViewModel.datasource.viewControllers
+        let viewControllers = viewModel.selectedDataSourceViewModel.dataSource.viewControllers
         super.init(detailViewControllers: viewControllers)
 
         regularSidebarViewController.title = title
         regularSidebarViewController.headerView = headerView
 
-        viewModel.datasourceViewModels.forEach{$0.delegate = self}
+        viewModel.dataSourceViewModels.forEach{$0.delegate = self}
         viewModel.pickerDelegate = self
     }
 
@@ -36,20 +36,20 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         updateHeader(with: viewModel.referenceEntity)
         updateSourceItems()
 
-        viewModel.selectedDatasourceViewModel.retrieve(for: viewModel.referenceEntity)
+        viewModel.selectedDataSourceViewModel.retrieve(for: viewModel.referenceEntity)
     }
 
     // MARK:- Private
 
     private func updateSourceItems() {
-        let viewModels = viewModel.datasourceViewModels
+        let viewModels = viewModel.dataSourceViewModels
 
         let items: [SourceItem] = viewModels.map { viewModel in
-            return SourceItem(title: viewModel.datasource.source.localizedBarTitle,
+            return SourceItem(title: viewModel.dataSource.source.localizedBarTitle,
                               state: viewModel.sourceItemState())
         }
 
-        let index = viewModel.datasourceViewModels.index(where: {$0.datasource.source == viewModel.selectedDatasourceViewModel.datasource.source})
+        let index = viewModel.dataSourceViewModels.index(where: {$0.dataSource.source == viewModel.selectedDataSourceViewModel.dataSource.source})
 
         regularSidebarViewController.sourceItems =  items
         regularSidebarViewController.selectedSourceIndex = index
@@ -80,15 +80,15 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
     }
 
     private func updateViewControllers() {
-        detailViewControllers = viewModel.selectedDatasourceViewModel.datasource.viewControllers
+        detailViewControllers = viewModel.selectedDataSourceViewModel.dataSource.viewControllers
         selectedViewController = detailViewControllers.first
     }
 
     // MARK:- SidebarDelegate
 
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
-        let datasource = viewModel.datasourceViewModels[index].datasource
-        guard !(datasource.source == viewModel.selectedDatasourceViewModel.datasource.source) else { return }
+        let dataSource = viewModel.dataSourceViewModels[index].dataSource
+        guard !(dataSource.source == viewModel.selectedDataSourceViewModel.dataSource.source) else { return }
         viewModel.didSelectSourceAt(index, from: controller)
         updateViewControllers()
     }
@@ -98,14 +98,14 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
         sidebarViewController(controller, didSelectSourceAt: index)
     }
 
-    // MARK:- EntityDetailsDatasourceViewModelDelegate
+    // MARK:- EntityDetailsDataSourceViewModelDelegate
 
-    public func entityDetailsDatasourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>) where U : EntityDetailDisplayable {
+    public func entityDetailsDataSourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>) where U : EntityDetailDisplayable {
         updateSourceItems()
         updateViewControllers()
     }
 
-    public func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState) where U : EntityDetailDisplayable {
+    public func entityDetailsDataSourceViewModel<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>, didEndFetchWith state: EntityDetailState) where U : EntityDetailDisplayable {
         updateSourceItems()
         updateViewControllers()
         self.viewModel.fetchSubsequent()
@@ -113,13 +113,13 @@ open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Su
 
     //MARK:- EntityDetailsPickerDelegate
 
-    public func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didPickEntity entity: MPOLKitEntity) where U : EntityDetailDisplayable {
+    public func entityDetailsDataSourceViewModel<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>, didPickEntity entity: MPOLKitEntity) where U : EntityDetailDisplayable {
         dismiss(animated: true, completion: nil)
         updateSourceItems()
         updateViewControllers()
     }
 
-    public func entityDetailsDatasourceViewModelDidCancelPickingEntity<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>) where U : EntityDetailDisplayable {
+    public func entityDetailsDataSourceViewModelDidCancelPickingEntity<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>) where U : EntityDetailDisplayable {
         dismiss(animated: true, completion: nil)
         updateSourceItems()
         updateViewControllers()

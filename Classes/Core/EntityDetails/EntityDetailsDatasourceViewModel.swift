@@ -1,5 +1,5 @@
 //
-//  EntityDatasourceViewModel.swift
+//  EntityDataSourceViewModel.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -8,12 +8,12 @@
 import UIKit
 import PromiseKit
 
-open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: EntityPickerDelegate {
+open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: EntityPickerDelegate {
 
     // MARK:- Public
 
     /// The data source
-    public let datasource: EntityDetailsDataSource
+    public let dataSource: EntityDetailsDataSource
 
     /// The entity picker view model
     ///
@@ -28,23 +28,23 @@ open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: E
     public var state: EntityDetailState = .empty
 
     /// The viewModel delegate responsible for handling the fetch results
-    public weak var delegate: EntityDetailsDatasourceViewModelDelegate?
+    public weak var delegate: EntityDetailsDataSourceViewModelDelegate?
 
     /// The picked delegate responsible for handling the entity picking results
     public weak var pickerDelegate: EntityDetailsPickerDelegate?
 
-    /// Initialise the viewmodel
+    /// Initialise the viewModel
     ///
     /// - Parameters:
-    ///   - datasource: the datasource
+    ///   - dataSource: the data source
     ///   - strategy: the retrieval strategy
-    ///   - entityPickerViewModel: the pickerviewmodel
-    public init(datasource: EntityDetailsDataSource,
+    ///   - entityPickerViewModel: the pickerviewModel
+    public init(dataSource: EntityDetailsDataSource,
                 strategy: EntityRetrievalStrategy,
                 entityPickerViewModel: EntityPickerViewModel? = nil)
     {
         self.pickerViewModel = entityPickerViewModel
-        self.datasource = datasource
+        self.dataSource = dataSource
         self.strategy = strategy
     }
 
@@ -53,7 +53,7 @@ open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: E
     /// - Parameter entity: the entity to use to retrieve details for
     public func retrieve(for entity: MPOLKitEntity) {
         state = .fetching
-        delegate?.entityDetailsDatasourceViewModelDidBeginFetch(self)
+        delegate?.entityDetailsDataSourceViewModelDidBeginFetch(self)
         updateViewControllers()
 
         strategy.retrieveUsingReferenceEntity(entity)?
@@ -61,12 +61,12 @@ open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: E
                 guard let `self` = self else { return }
                 self.state = .result(states)
                 self.updateViewControllers()
-                self.delegate?.entityDetailsDatasourceViewModel(self, didEndFetchWith: .result(states))
+                self.delegate?.entityDetailsDataSourceViewModel(self, didEndFetchWith: .result(states))
             }.catch { [weak self] error in
                 guard let `self` = self else { return }
                 self.state = .error(error)
                 self.updateViewControllers()
-                self.delegate?.entityDetailsDatasourceViewModel(self, didEndFetchWith: .error(error))
+                self.delegate?.entityDetailsDataSourceViewModel(self, didEndFetchWith: .error(error))
         }
     }
 
@@ -132,7 +132,7 @@ open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: E
     //MARK:- Private
 
     private func updateViewControllers() {
-        let viewControllersToUpdate: [EntityDetailSectionUpdatable] = datasource.viewControllers.compactMap{$0 as? EntityDetailSectionUpdatable}
+        let viewControllersToUpdate: [EntityDetailSectionUpdatable] = dataSource.viewControllers.compactMap{$0 as? EntityDetailSectionUpdatable}
 
         switch state {
         case .empty:
@@ -158,11 +158,11 @@ open class EntityDetailsDatasourceViewModel<Details: EntityDetailDisplayable>: E
     //MARK:- EntityPickerDelegate
 
     public func finishedPicking(_ entity: MPOLKitEntity) {
-        pickerDelegate?.entityDetailsDatasourceViewModel(self, didPickEntity: entity)
+        pickerDelegate?.entityDetailsDataSourceViewModel(self, didPickEntity: entity)
     }
 
     @objc public func dimissPicker() {
-        pickerDelegate?.entityDetailsDatasourceViewModelDidCancelPickingEntity(self)
+        pickerDelegate?.entityDetailsDataSourceViewModelDidCancelPickingEntity(self)
     }
 }
 
@@ -176,48 +176,48 @@ public protocol EntityDetailSectionUpdatable: class {
     var loadingManager: LoadingStateManager { get }
 }
 
-/// Gets called when the something happens on the entity details entity picker `EntityDetailsDatasourceViewModel`
+/// Gets called when the something happens on the entity details entity picker `EntityDetailsDataSourceViewModel`
 public protocol EntityDetailsPickerDelegate: class {
 
     /// Called when the user has picked an entity from the entity list
     ///
     /// - Parameters:
-    ///   - viewModel: the viewmodel that the entity was picked for
+    ///   - viewModel: the viewModel that the entity was picked for
     ///   - entity: the entity
-    func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didPickEntity entity: MPOLKitEntity)
+    func entityDetailsDataSourceViewModel<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>, didPickEntity entity: MPOLKitEntity)
 
     /// Called when the user cancelled out of picking an entity
     ///
-    /// - Parameter viewmodel: the viewmodel that he entity wasn't picked for
-    func entityDetailsDatasourceViewModelDidCancelPickingEntity<U>(_ viewmodel: EntityDetailsDatasourceViewModel<U>)
+    /// - Parameter viewModel: the viewModel that he entity wasn't picked for
+    func entityDetailsDataSourceViewModelDidCancelPickingEntity<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>)
 }
 
-/// Gets called when the `EntityDetailsDatasourceViewModel` began and ended fetching in entity details
-public protocol EntityDetailsDatasourceViewModelDelegate: class {
+/// Gets called when the `EntityDetailsDataSourceViewModel` began and ended fetching in entity details
+public protocol EntityDetailsDataSourceViewModelDelegate: class {
 
-    /// Called when the viewmodel did begin fetching entity details
+    /// Called when the viewModel did begin fetching entity details
     ///
-    /// - Parameter viewModel: the viewmodel that began fetching details
-    func entityDetailsDatasourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>)
+    /// - Parameter viewModel: the viewModel that began fetching details
+    func entityDetailsDataSourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>)
 
-    /// Called when the viewmodel finished fetching entity details
+    /// Called when the viewModel finished fetching entity details
     ///
     /// - Parameters:
-    ///   - viewModel: the viewmodel that finished fetching
+    ///   - viewModel: the viewModel that finished fetching
     ///   - state: the entity detail state of the result
-    func entityDetailsDatasourceViewModel<U>(_ viewModel: EntityDetailsDatasourceViewModel<U>, didEndFetchWith state: EntityDetailState)
+    func entityDetailsDataSourceViewModel<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>, didEndFetchWith state: EntityDetailState)
 }
 
-/// The datasource used for the entity details section
+/// The dataSource used for the entity details section
 public protocol EntityDetailsDataSource: class {
 
     /// The viewControllers to display as sections
     var viewControllers: [UIViewController] { get }
 
-    /// The source of the datasource
+    /// The source of the dataSource
     var source: EntitySource { get }
 
-    /// The subsequent matches to fetch when that datasource is loaded
+    /// The subsequent matches to fetch when that dataSource is loaded
     var subsequentMatches: [EntityDetailMatch] { get }
 }
 

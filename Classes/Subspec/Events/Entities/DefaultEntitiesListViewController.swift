@@ -156,8 +156,8 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
     public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
 
         let definition = viewModel.definition(for: type, from: self, with: entity)
-        let datasource = definition.datasource
-        let viewController = CustomPickerController(datasource: datasource)
+        let dataSource = definition.dataSource
+        let viewController = CustomPickerController(dataSource: dataSource)
 
         viewController.finishUpdateHandler = definition.completion
 

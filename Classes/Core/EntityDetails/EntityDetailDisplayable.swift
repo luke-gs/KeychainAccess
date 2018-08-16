@@ -1,6 +1,6 @@
 //
 //  EntityDetailDisplayable.swift
-//  ClientKit
+//  MPOLKit
 //
 //  Created by Bryan Hathaway on 6/9/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -19,10 +19,10 @@ public protocol EntityDetailDisplayable {
     /// Entity display name used in the header
     var entityDisplayName: String? { get }
 
-    /// Used on the details datasource sideabar count
+    /// Used on the details dataSource sideabar count
     var alertBadgeCount: UInt? { get }
 
-    /// Used on the details datasource sideabar colour
+    /// Used on the details dataSource sideabar colour
     var alertBadgeColor: UIColor? { get }
 
     /// Used in the header somewhere

@@ -77,7 +77,7 @@ public protocol IncidentListViewModelType {
     /// The incident manager
     var incidentsManager: IncidentsManager { get }
 
-    /// Initialise the viewmodel with an incident manager
+    /// Initialise the viewModel with an incident manager
     ///
     /// - Parameters:
     ///   - report: the report for the incident view model
