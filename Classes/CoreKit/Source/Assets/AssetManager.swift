@@ -64,8 +64,10 @@ public final class AssetManager {
             let asset = UIImage(named: fileLocation.name, in: fileLocation.bundle, compatibleWith: traitCollection) {
             return asset
         }
-        
-        return UIImage(named: key.rawValue, in: .mpolKit, compatibleWith: traitCollection)
+
+        // TODO: refactor to allow bundle registration
+        let assetKit = Bundle(for: type(of: self))
+        return UIImage(named: key.rawValue, in: assetKit, compatibleWith: traitCollection)
     }
     
 }
