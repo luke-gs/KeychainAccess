@@ -26,7 +26,7 @@ public class PersonRetrieveStrategy: EntityRetrievalStrategy {
                     return Promise.value([EntityResultState.detail(person)])
             }
         } else if let externalId = entity.externalIdentifiers?[source] {
-            // Reference entity is not the same datasource as this strategy, retreive using its special id
+            // Reference entity is not the same dataSource as this strategy, retreive using its special id
             let request = EntityFetchRequest<Person>(id: externalId)
             return APIManager.shared.fetchEntityDetails(in: source, with: request)
                 .then { person -> Promise<[EntityResultState]> in

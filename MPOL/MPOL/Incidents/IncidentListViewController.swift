@@ -124,7 +124,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
         let actionDefinition = viewModel.definition(for: actionType, from: self)
 
-        let viewController = CustomPickerController(datasource: actionDefinition.datasource)
+        let viewController = CustomPickerController(dataSource: actionDefinition.dataSource)
 
         viewController.allowsMultipleSelection = actionDefinition.canSelectMultiple
 

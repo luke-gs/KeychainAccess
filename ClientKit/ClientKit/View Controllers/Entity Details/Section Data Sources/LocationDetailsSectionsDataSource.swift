@@ -1,5 +1,5 @@
 //
-//  LocationDetailsSectionsDatasource.swift
+//  LocationDetailsSectionsDataSource.swift
 //  ClientKit
 //
 //  Created by QHMW64 on 13/11/17.

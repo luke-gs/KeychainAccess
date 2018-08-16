@@ -21,8 +21,8 @@ protocol IncidentActionDefiniton {
     /// The instance of the IncidentListViewController that requires this action. Required for initiating content reloads etc.
     var context: IncidentListViewController? {get set}
 
-    /// The datasource to be used when presenting the CustomPickerController.
-    var datasource: CustomSearchPickerDatasource {get}
+    /// The dataSource to be used when presenting the CustomPickerController.
+    var dataSource: CustomSearchPickerDataSource {get}
 
     /// The completionHandler to be executed when the user has selected their required item(s) and selected "Done".
     var completion: ((CustomPickerController, IndexSet) -> Void)? {get}
@@ -40,7 +40,7 @@ struct AddIncidentDefinition : IncidentActionDefiniton {
         self.context = context
     }
 
-    var datasource: CustomSearchPickerDatasource {
+    var dataSource: CustomSearchPickerDataSource {
         if let context = context {
             let headerConfig = SearchHeaderConfiguration(title: context.viewModel.searchHeaderTitle(),
                                                          subtitle: "",
@@ -51,12 +51,12 @@ struct AddIncidentDefinition : IncidentActionDefiniton {
                                                                                                 padding: .zero)),
                                                          imageStyle: .circle)
 
-            let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map { $0.rawValue },
+            let dataSource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map { $0.rawValue },
                                                       configuration: headerConfig)
 
-            datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+            dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
-            return datasource
+            return dataSource
         } else {
             fatalError("Context was not found")
         }
@@ -89,14 +89,14 @@ struct ChoosePrimaryIncidentDefinition : IncidentActionDefiniton {
         self.context = context
     }
 
-    var datasource: CustomSearchPickerDatasource {
+    var dataSource: CustomSearchPickerDataSource {
         if let context = context {
             
-            let datasource = DefaultSearchDatasource(objects: context.viewModel.incidentList.map {$0.title!},
+            let dataSource = DefaultSearchDataSource(objects: context.viewModel.incidentList.map {$0.title!},
                                                      selectedObjects: [(context.viewModel.primaryIncident?.title!)!],
                                                      title: "Select Primary Incident")
-            datasource.header = CustomisableSearchHeaderView()
-            return datasource
+            dataSource.header = CustomisableSearchHeaderView()
+            return dataSource
         } else {
             fatalError("Context was not found")
         }
@@ -138,13 +138,13 @@ struct DeletePrimaryIncidentDefinition : IncidentActionDefiniton {
         self.context = context
     }
 
-    var datasource: CustomSearchPickerDatasource {
+    var dataSource: CustomSearchPickerDataSource {
         if let context = context {
-            let datasource = DefaultSearchDatasource(objects: context.viewModel.additionalIncidents!.map {$0.title!},
+            let dataSource = DefaultSearchDataSource(objects: context.viewModel.additionalIncidents!.map {$0.title!},
                                                      title: "Select New Primary Incident")
-            datasource.header = CustomisableSearchHeaderView()
+            dataSource.header = CustomisableSearchHeaderView()
 
-            return datasource
+            return dataSource
         } else {
             fatalError("Context was not found")
         }

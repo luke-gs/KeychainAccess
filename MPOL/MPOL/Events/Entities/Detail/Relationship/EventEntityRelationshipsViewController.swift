@@ -42,9 +42,9 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
     }
 
     override func construct(builder: FormBuilder) {
-        viewModel.dataSources.forEach { datasource in
-            builder += HeaderFormItem(text: datasource.header)
-            builder += datasource.entities.map { entity in
+        viewModel.dataSources.forEach { dataSource in
+            builder += HeaderFormItem(text: dataSource.header)
+            builder += dataSource.entities.map { entity in
                 return viewModel.displayable(for: entity)
                     .summaryListFormItem()
                     .badgeColor(nil)
@@ -66,12 +66,12 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
         let objects: [PickableManifestEntry] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
 
         let selectedObjects: [Pickable]? = viewModel.relationshipWith(relatedEntity: entity)?.reasons
-        let datasource = RelationshipSearchDatasource(objects: objects,
+        let dataSource = RelationshipSearchDataSource(objects: objects,
                                                      selectedObjects: selectedObjects,
                                                      title: "Relationships")
 
-        datasource.header = CustomisableSearchHeaderView()
-        let viewController = CustomPickerController(datasource: datasource)
+        dataSource.header = CustomisableSearchHeaderView()
+        let viewController = CustomPickerController(dataSource: dataSource)
 
         viewController.navigationItem.rightBarButtonItem?.isEnabled = true
 

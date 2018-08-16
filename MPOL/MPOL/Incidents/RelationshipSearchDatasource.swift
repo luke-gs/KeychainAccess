@@ -1,5 +1,5 @@
 //
-//  RelationshipSearchDatasource.swift
+//  RelationshipSearchDataSource.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,7 +9,7 @@ import Foundation
 
 import MPOLKit
 
-public class RelationshipSearchDatasource: CustomSearchPickerDatasource {
+public class RelationshipSearchDataSource: CustomSearchPickerDataSource {
 
     public var objects: [Pickable] = []
     public var selectedObjects: [Pickable]?
