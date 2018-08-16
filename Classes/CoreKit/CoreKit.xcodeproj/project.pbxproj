@@ -124,6 +124,8 @@
 		96BE67A32124E6D500F57FF0 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE67862124E6D500F57FF0 /* NSArchiver+SecureArchiver.swift */; };
 		96BE67A42124E6D500F57FF0 /* UIEdgeInsets+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE67872124E6D500F57FF0 /* UIEdgeInsets+Convenience.swift */; };
 		96BE67A52124E6D500F57FF0 /* UIFont+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE67882124E6D500F57FF0 /* UIFont+Convenience.swift */; };
+		96BE6ED52125054900F57FF0 /* MKMapView+BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE6ED42125054900F57FF0 /* MKMapView+BoundingBox.swift */; };
+		96BE76062125080C00F57FF0 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE76052125080C00F57FF0 /* CLLocationCoordinate2D+Equatable.swift */; };
 		B4FFB9B54B43A22E7DF04610 /* Pods_CoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19281277714D4EB4FDCA44 /* Pods_CoreKitTests.framework */; };
 		C323150F78C07442EF9A2657 /* Pods_CoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60BA27AA1DD500AD95A5530C /* Pods_CoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -262,6 +264,8 @@
 		96BE67862124E6D500F57FF0 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
 		96BE67872124E6D500F57FF0 /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
 		96BE67882124E6D500F57FF0 /* UIFont+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Convenience.swift"; sourceTree = "<group>"; };
+		96BE6ED42125054900F57FF0 /* MKMapView+BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+BoundingBox.swift"; sourceTree = "<group>"; };
+		96BE76052125080C00F57FF0 /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		9D3D4C78208DDBD0303F2C00 /* Pods-CoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoreKit/Pods-CoreKit.debug.xcconfig"; sourceTree = "<group>"; };
 		E0BED45D7BBCCA4AA8DA1989 /* Pods-CoreKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoreKitTests/Pods-CoreKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E87AF9EB92A0673DAB58C873 /* Pods-CoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoreKit/Pods-CoreKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -667,10 +671,12 @@
 			isa = PBXGroup;
 			children = (
 				96BE67742124E6D500F57FF0 /* Array+IfExists.swift */,
+				96BE76052125080C00F57FF0 /* CLLocationCoordinate2D+Equatable.swift */,
 				96BE67732124E6D500F57FF0 /* CoreGraphics+Convenience.swift */,
 				96BE677D2124E6D500F57FF0 /* CoreGraphics+Rounding.swift */,
 				96BE676E2124E6D500F57FF0 /* Date+Extension.swift */,
 				96BE67832124E6D500F57FF0 /* FloatingPoint+Comparison.swift */,
+				96BE6ED42125054900F57FF0 /* MKMapView+BoundingBox.swift */,
 				96BE67862124E6D500F57FF0 /* NSArchiver+SecureArchiver.swift */,
 				96BE67842124E6D500F57FF0 /* NSLayoutConstraint+Conveniences.swift */,
 				96BE67712124E6D500F57FF0 /* NSMutableAttributedString+Append.swift */,
@@ -922,6 +928,7 @@
 				96BE678F2124E6D500F57FF0 /* UIImage+RoundedRects.swift in Sources */,
 				199821512123A86C002D5F03 /* SortDescriptor.swift in Sources */,
 				199821AE2123AD3B002D5F03 /* MPOLAssert.swift in Sources */,
+				96BE76062125080C00F57FF0 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				96BE679F2124E6D500F57FF0 /* String+EmptyFiltering.swift in Sources */,
 				1998216B2123A86C002D5F03 /* MappedError.swift in Sources */,
 				199821652123A86C002D5F03 /* APIManager.swift in Sources */,
@@ -991,6 +998,7 @@
 				199821542123A86C002D5F03 /* CryptoUtils.swift in Sources */,
 				199821762123A86C002D5F03 /* OAuthAccessToken.swift in Sources */,
 				1998217D2123A86C002D5F03 /* BaseActivityLauncher.swift in Sources */,
+				96BE6ED52125054900F57FF0 /* MKMapView+BoundingBox.swift in Sources */,
 				96BE67942124E6D500F57FF0 /* UIViewController+ParentSearching.swift in Sources */,
 				199821A52123A86C002D5F03 /* Logger.swift in Sources */,
 				199821562123A86C002D5F03 /* OAuth2Error.swift in Sources */,

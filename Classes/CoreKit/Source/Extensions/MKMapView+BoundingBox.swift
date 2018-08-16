@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 extension MKMapView {
 
@@ -20,6 +21,10 @@ extension MKMapView {
 
         public var southEastLocation: CLLocation {
             return CLLocation(latitude: southEast.latitude, longitude: southEast.longitude)
+        }
+
+        public static func == (lhs: MKMapView.BoundingBox, rhs: MKMapView.BoundingBox) -> Bool {
+            return lhs.northWest == rhs.northWest && lhs.southEast == rhs.southEast
         }
     }
 
