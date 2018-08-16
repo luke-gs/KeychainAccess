@@ -358,9 +358,9 @@
 			children = (
 				1983D3972123A4F80015D6E4 /* CoreKit */,
 				1983D3A22123A4F90015D6E4 /* CoreKitTests */,
-				1983D3962123A4F80015D6E4 /* Products */,
-				027082585628FCA889B23FC3 /* Pods */,
 				B24CFBE61B2F360CEE020A74 /* Frameworks */,
+				027082585628FCA889B23FC3 /* Pods */,
+				1983D3962123A4F80015D6E4 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -376,8 +376,8 @@
 		1983D3972123A4F80015D6E4 /* CoreKit */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79732126317E00F57FF0 /* Source */,
 				199820CE2123A828002D5F03 /* Resources */,
+				96BE79732126317E00F57FF0 /* Source */,
 			);
 			name = CoreKit;
 			sourceTree = "<group>";
@@ -436,11 +436,11 @@
 		96BE79742126317E00F57FF0 /* Evaluator */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79752126317E00F57FF0 /* Evaluator.swift */,
 				96BE79762126317E00F57FF0 /* Evaluatable.swift */,
-				96BE79772126317E00F57FF0 /* EvaluatorKey.swift */,
-				96BE79782126317E00F57FF0 /* EvaluationObserverable.swift */,
 				96BE79792126317E00F57FF0 /* EvaluationError.swift */,
+				96BE79782126317E00F57FF0 /* EvaluationObserverable.swift */,
+				96BE79752126317E00F57FF0 /* Evaluator.swift */,
+				96BE79772126317E00F57FF0 /* EvaluatorKey.swift */,
 			);
 			path = Evaluator;
 			sourceTree = "<group>";
@@ -484,8 +484,8 @@
 			isa = PBXGroup;
 			children = (
 				96BE79842126317E00F57FF0 /* AESBlockCipher.swift */,
-				96BE79852126317E00F57FF0 /* CryptoUtils.swift */,
 				96BE79862126317E00F57FF0 /* BlockCipherType.swift */,
+				96BE79852126317E00F57FF0 /* CryptoUtils.swift */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -493,11 +493,11 @@
 		96BE79892126317E00F57FF0 /* External Authenticator */ = {
 			isa = PBXGroup;
 			children = (
-				96BE798A2126317E00F57FF0 /* OAuth2Error.swift */,
-				96BE798B2126317E00F57FF0 /* ExternalAuthenticator.swift */,
-				96BE798C2126317E00F57FF0 /* OAuth2.swift */,
 				96BE798D2126317E00F57FF0 /* AuthenticationProvider.swift */,
 				96BE798E2126317E00F57FF0 /* Bundle+URLSchemeVerifier.swift */,
+				96BE798B2126317E00F57FF0 /* ExternalAuthenticator.swift */,
+				96BE798C2126317E00F57FF0 /* OAuth2.swift */,
+				96BE798A2126317E00F57FF0 /* OAuth2Error.swift */,
 			);
 			path = "External Authenticator";
 			sourceTree = "<group>";
@@ -513,24 +513,24 @@
 		96BE79912126317E00F57FF0 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79922126317E00F57FF0 /* DataResponse+MPLConversion.swift */,
-				96BE79932126317E00F57FF0 /* ParseError.swift */,
-				96BE79942126317E00F57FF0 /* URLQueryBuilder+Parameterisable.swift */,
-				96BE79952126317E00F57FF0 /* Plugin */,
-				96BE799B2126317E00F57FF0 /* OAuthAuthorizationGrant.swift */,
-				96BE799C2126317E00F57FF0 /* APIManager.swift */,
-				96BE799D2126317E00F57FF0 /* ResponseSerializing */,
+				96BE79B32126317E00F57FF0 /* Authentication */,
 				96BE79A12126317E00F57FF0 /* ErrorMapping */,
+				96BE79952126317E00F57FF0 /* Plugin */,
+				96BE79AC2126317E00F57FF0 /* Resource */,
+				96BE799D2126317E00F57FF0 /* ResponseSerializing */,
+				96BE799C2126317E00F57FF0 /* APIManager.swift */,
+				96BE79B72126317E00F57FF0 /* APIManagerConfigurable.swift */,
+				96BE79AA2126317E00F57FF0 /* APIManagerError.swift */,
 				96BE79A82126317E00F57FF0 /* AuthenticationPlugin.swift */,
 				96BE79A92126317E00F57FF0 /* CodableRequestParameters.swift */,
-				96BE79AA2126317E00F57FF0 /* APIManagerError.swift */,
-				96BE79AB2126317E00F57FF0 /* NetworkRequestType.swift */,
-				96BE79AC2126317E00F57FF0 /* Resource */,
-				96BE79B12126317E00F57FF0 /* URLQueryBuilder.swift */,
+				96BE79922126317E00F57FF0 /* DataResponse+MPLConversion.swift */,
 				96BE79B22126317E00F57FF0 /* NetworkRequest.swift */,
-				96BE79B32126317E00F57FF0 /* Authentication */,
+				96BE79AB2126317E00F57FF0 /* NetworkRequestType.swift */,
+				96BE799B2126317E00F57FF0 /* OAuthAuthorizationGrant.swift */,
 				96BE79B62126317E00F57FF0 /* Parameterisable.swift */,
-				96BE79B72126317E00F57FF0 /* APIManagerConfigurable.swift */,
+				96BE79932126317E00F57FF0 /* ParseError.swift */,
+				96BE79942126317E00F57FF0 /* URLQueryBuilder+Parameterisable.swift */,
+				96BE79B12126317E00F57FF0 /* URLQueryBuilder.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -538,11 +538,11 @@
 		96BE79952126317E00F57FF0 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				96BE79982126317E00F57FF0 /* PatternMatchRules.swift */,
+				96BE799A2126317E00F57FF0 /* Plugin.swift */,
+				96BE79992126317E00F57FF0 /* PluginFilterRules.swift */,
 				96BE79962126317E00F57FF0 /* PluginType.swift */,
 				96BE79972126317E00F57FF0 /* URLRulesMatch.swift */,
-				96BE79982126317E00F57FF0 /* PatternMatchRules.swift */,
-				96BE79992126317E00F57FF0 /* PluginFilterRules.swift */,
-				96BE799A2126317E00F57FF0 /* Plugin.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -560,10 +560,10 @@
 		96BE79A12126317E00F57FF0 /* ErrorMapping */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79A22126317E00F57FF0 /* ErrorMapperDefinition.swift */,
-				96BE79A32126317E00F57FF0 /* ErrorMapper.swift */,
-				96BE79A42126317E00F57FF0 /* MappedError.swift */,
 				96BE79A52126317E00F57FF0 /* Definitions */,
+				96BE79A32126317E00F57FF0 /* ErrorMapper.swift */,
+				96BE79A22126317E00F57FF0 /* ErrorMapperDefinition.swift */,
+				96BE79A42126317E00F57FF0 /* MappedError.swift */,
 			);
 			path = ErrorMapping;
 			sourceTree = "<group>";
@@ -571,8 +571,8 @@
 		96BE79A52126317E00F57FF0 /* Definitions */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79A62126317E00F57FF0 /* NetworkErrorDefinition.swift */,
 				96BE79A72126317E00F57FF0 /* LocationErrorDefinition.swift */,
+				96BE79A62126317E00F57FF0 /* NetworkErrorDefinition.swift */,
 			);
 			path = Definitions;
 			sourceTree = "<group>";
@@ -581,9 +581,9 @@
 			isa = PBXGroup;
 			children = (
 				96BE79AD2126317E00F57FF0 /* RemoteResourceDescribing.swift */,
+				96BE79B02126317E00F57FF0 /* RemoteResourceDownloader.swift */,
 				96BE79AE2126317E00F57FF0 /* ResourceDownloadTicket.swift */,
 				96BE79AF2126317E00F57FF0 /* ResourceError.swift */,
-				96BE79B02126317E00F57FF0 /* RemoteResourceDownloader.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -591,8 +591,8 @@
 		96BE79B32126317E00F57FF0 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79B42126317E00F57FF0 /* OAuthAccessToken.swift */,
 				96BE79B52126317E00F57FF0 /* HTTPAuthenticationMode.swift */,
+				96BE79B42126317E00F57FF0 /* OAuthAccessToken.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -609,9 +609,9 @@
 		96BE79BB2126317E00F57FF0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79BC2126317E00F57FF0 /* TestingDirective.swift */,
 				96BE79BD2126317E00F57FF0 /* ObjC.h */,
 				96BE79BE2126317E00F57FF0 /* ObjC.m */,
+				96BE79BC2126317E00F57FF0 /* TestingDirective.swift */,
 				96BE79BF2126317E00F57FF0 /* Weak.swift */,
 			);
 			path = Utils;
@@ -629,10 +629,10 @@
 		96BE79C12126317E00F57FF0 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79C22126317E00F57FF0 /* ActivityType.swift */,
-				96BE79C32126317E00F57FF0 /* BaseActivityLauncher.swift */,
 				96BE79C42126317E00F57FF0 /* ActivityHandler.swift */,
+				96BE79C22126317E00F57FF0 /* ActivityType.swift */,
 				96BE79C52126317E00F57FF0 /* AnyActivityLauncher.swift */,
+				96BE79C32126317E00F57FF0 /* BaseActivityLauncher.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -648,16 +648,16 @@
 		96BE79C92126317E00F57FF0 /* Specification */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79CA2126317E00F57FF0 /* EmailSpecification.swift */,
-				96BE79CB2126317E00F57FF0 /* RegularExpressionSpecification.swift */,
-				96BE79CC2126317E00F57FF0 /* AustralianPhoneSpecification.swift */,
-				96BE79CD2126317E00F57FF0 /* PredicateSpecification.swift */,
-				96BE79CE2126317E00F57FF0 /* SpecificationOperator.swift */,
 				96BE79CF2126317E00F57FF0 /* Delimited String */,
-				96BE79D32126317E00F57FF0 /* NotNilSpecification.swift */,
-				96BE79D42126317E00F57FF0 /* CountSpecification.swift */,
-				96BE79D52126317E00F57FF0 /* Specification.swift */,
+				96BE79CC2126317E00F57FF0 /* AustralianPhoneSpecification.swift */,
 				96BE79D62126317E00F57FF0 /* CharacterSetSpecification.swift */,
+				96BE79D42126317E00F57FF0 /* CountSpecification.swift */,
+				96BE79CA2126317E00F57FF0 /* EmailSpecification.swift */,
+				96BE79D32126317E00F57FF0 /* NotNilSpecification.swift */,
+				96BE79CD2126317E00F57FF0 /* PredicateSpecification.swift */,
+				96BE79CB2126317E00F57FF0 /* RegularExpressionSpecification.swift */,
+				96BE79D52126317E00F57FF0 /* Specification.swift */,
+				96BE79CE2126317E00F57FF0 /* SpecificationOperator.swift */,
 			);
 			path = Specification;
 			sourceTree = "<group>";
@@ -675,38 +675,38 @@
 		96BE79D72126317E00F57FF0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79D82126317E00F57FF0 /* UIViewAnimationCurve+OptionConversion.swift */,
-				96BE79D92126317E00F57FF0 /* CLLocationCoordinate2D+Equatable.swift */,
-				96BE79DA2126317E00F57FF0 /* Sequence+Nils.swift */,
-				96BE79DB2126317E00F57FF0 /* Date+Extension.swift */,
-				96BE79DC2126317E00F57FF0 /* MKMapView+BoundingBox.swift */,
-				96BE79DD2126317E00F57FF0 /* Optional+Extension.swift */,
-				96BE79DE2126317E00F57FF0 /* UIColor+Hex.swift */,
-				96BE79DF2126317E00F57FF0 /* NSMutableAttributedString+Append.swift */,
-				96BE79E02126317E00F57FF0 /* UIImage+RoundedRects.swift */,
-				96BE79E12126317E00F57FF0 /* CoreGraphics+Convenience.swift */,
 				96BE79E22126317E00F57FF0 /* Array+IfExists.swift */,
-				96BE79E32126317E00F57FF0 /* UIStackView+RemoveArrangedSubviews.swift */,
-				96BE79E42126317E00F57FF0 /* UIViewController+ChildViewController.swift */,
-				96BE79E52126317F00F57FF0 /* UIViewController+ParentSearching.swift */,
-				96BE79E62126317F00F57FF0 /* UIColor+Brightness.swift */,
-				96BE79E72126317F00F57FF0 /* UIView+AnimationPromiseChain.swift */,
-				96BE79E82126317F00F57FF0 /* UIViewController+Compact.swift */,
-				96BE79E92126317F00F57FF0 /* UIView+SafeArea.swift */,
-				96BE79EA2126317F00F57FF0 /* UIViewController+SafeArea.swift */,
+				96BE79D92126317E00F57FF0 /* CLLocationCoordinate2D+Equatable.swift */,
+				96BE79E12126317E00F57FF0 /* CoreGraphics+Convenience.swift */,
 				96BE79EB2126317F00F57FF0 /* CoreGraphics+Rounding.swift */,
-				96BE79EC2126317F00F57FF0 /* UIImage+Resizing.swift */,
-				96BE79ED2126317F00F57FF0 /* UILayoutPriority+Math.swift */,
-				96BE79EE2126317F00F57FF0 /* UIView+Convenience.swift */,
+				96BE79DB2126317E00F57FF0 /* Date+Extension.swift */,
 				96BE79EF2126317F00F57FF0 /* FileManager+URL.swift */,
-				96BE79F02126317F00F57FF0 /* UIFont+Digits.swift */,
-				96BE79F12126317F00F57FF0 /* String+EmptyFiltering.swift */,
 				96BE79F22126317F00F57FF0 /* FloatingPoint+Comparison.swift */,
-				96BE79F32126317F00F57FF0 /* NSLayoutConstraint+Conveniences.swift */,
-				96BE79F42126317F00F57FF0 /* UITraitCollection+CurrentDisplayScale.swift */,
+				96BE79DC2126317E00F57FF0 /* MKMapView+BoundingBox.swift */,
 				96BE79F52126317F00F57FF0 /* NSArchiver+SecureArchiver.swift */,
+				96BE79F32126317F00F57FF0 /* NSLayoutConstraint+Conveniences.swift */,
+				96BE79DF2126317E00F57FF0 /* NSMutableAttributedString+Append.swift */,
+				96BE79DD2126317E00F57FF0 /* Optional+Extension.swift */,
+				96BE79DA2126317E00F57FF0 /* Sequence+Nils.swift */,
+				96BE79F12126317F00F57FF0 /* String+EmptyFiltering.swift */,
+				96BE79E62126317F00F57FF0 /* UIColor+Brightness.swift */,
+				96BE79DE2126317E00F57FF0 /* UIColor+Hex.swift */,
 				96BE79F62126317F00F57FF0 /* UIEdgeInsets+Convenience.swift */,
 				96BE79F72126317F00F57FF0 /* UIFont+Convenience.swift */,
+				96BE79F02126317F00F57FF0 /* UIFont+Digits.swift */,
+				96BE79EC2126317F00F57FF0 /* UIImage+Resizing.swift */,
+				96BE79E02126317E00F57FF0 /* UIImage+RoundedRects.swift */,
+				96BE79ED2126317F00F57FF0 /* UILayoutPriority+Math.swift */,
+				96BE79E32126317E00F57FF0 /* UIStackView+RemoveArrangedSubviews.swift */,
+				96BE79F42126317F00F57FF0 /* UITraitCollection+CurrentDisplayScale.swift */,
+				96BE79E72126317F00F57FF0 /* UIView+AnimationPromiseChain.swift */,
+				96BE79EE2126317F00F57FF0 /* UIView+Convenience.swift */,
+				96BE79E92126317F00F57FF0 /* UIView+SafeArea.swift */,
+				96BE79D82126317E00F57FF0 /* UIViewAnimationCurve+OptionConversion.swift */,
+				96BE79E42126317E00F57FF0 /* UIViewController+ChildViewController.swift */,
+				96BE79E82126317F00F57FF0 /* UIViewController+Compact.swift */,
+				96BE79E52126317F00F57FF0 /* UIViewController+ParentSearching.swift */,
+				96BE79EA2126317F00F57FF0 /* UIViewController+SafeArea.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -722,8 +722,8 @@
 		96BE79FA2126317F00F57FF0 /* Filter Descriptor */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79FB2126317F00F57FF0 /* FilterRangeDescriptor.swift */,
 				96BE79FC2126317F00F57FF0 /* FilterDescriptor.swift */,
+				96BE79FB2126317F00F57FF0 /* FilterRangeDescriptor.swift */,
 				96BE79FD2126317F00F57FF0 /* FilterValueDescriptor.swift */,
 			);
 			path = "Filter Descriptor";
@@ -732,10 +732,10 @@
 		96BE79FE2126317F00F57FF0 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79FF2126317F00F57FF0 /* ISO8601DateTransformer.swift */,
-				96BE7A002126317F00F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift */,
-				96BE7A012126317F00F57FF0 /* EpochDateTransformer.swift */,
 				96BE7A022126317F00F57FF0 /* EpochDateTransformer+UnboxFormatter.swift */,
+				96BE7A012126317F00F57FF0 /* EpochDateTransformer.swift */,
+				96BE7A002126317F00F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift */,
+				96BE79FF2126317F00F57FF0 /* ISO8601DateTransformer.swift */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -743,10 +743,10 @@
 		96BE7A032126317F00F57FF0 /* Image Downloader */ = {
 			isa = PBXGroup;
 			children = (
-				96BE7A042126317F00F57FF0 /* ImageDownloader.swift */,
-				96BE7A052126317F00F57FF0 /* ImageError.swift */,
 				96BE7A062126317F00F57FF0 /* CodableResponseSerializing.swift */,
 				96BE7A072126317F00F57FF0 /* ImageAlamofireResponseSerializer.swift */,
+				96BE7A042126317F00F57FF0 /* ImageDownloader.swift */,
+				96BE7A052126317F00F57FF0 /* ImageError.swift */,
 			);
 			path = "Image Downloader";
 			sourceTree = "<group>";
@@ -755,10 +755,10 @@
 			isa = PBXGroup;
 			children = (
 				96BE7A092126317F00F57FF0 /* Template.swift */,
-				96BE7A0A2126317F00F57FF0 /* UserDefaultsDataSource.swift */,
-				96BE7A0B2126317F00F57FF0 /* TextTemplate.swift */,
-				96BE7A0C2126317F00F57FF0 /* TemplateHandler.swift */,
 				96BE7A0D2126317F00F57FF0 /* TemplateDataSource.swift */,
+				96BE7A0C2126317F00F57FF0 /* TemplateHandler.swift */,
+				96BE7A0B2126317F00F57FF0 /* TextTemplate.swift */,
+				96BE7A0A2126317F00F57FF0 /* UserDefaultsDataSource.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -790,10 +790,10 @@
 		96BE7A142126317F00F57FF0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				96BE7A152126317F00F57FF0 /* Transformer.swift */,
 				96BE7A162126317F00F57FF0 /* DefaultCustomStringConvertible.swift */,
 				96BE7A172126317F00F57FF0 /* DefaultNSCopying.swift */,
 				96BE7A182126317F00F57FF0 /* ModelVersionable.swift */,
+				96BE7A152126317F00F57FF0 /* Transformer.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -801,11 +801,11 @@
 		96BE7A192126317F00F57FF0 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				96BE7A1E2126317F00F57FF0 /* ConsoleLogger.swift */,
+				96BE7A1C2126317F00F57FF0 /* FileLogger.swift */,
 				96BE7A1A2126317F00F57FF0 /* Logger.swift */,
 				96BE7A1B2126317F00F57FF0 /* LogUtils.swift */,
-				96BE7A1C2126317F00F57FF0 /* FileLogger.swift */,
 				96BE7A1D2126317F00F57FF0 /* NetworkLoggingPlugin.swift */,
-				96BE7A1E2126317F00F57FF0 /* ConsoleLogger.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -813,9 +813,9 @@
 		96BE7A1F2126317F00F57FF0 /* Validation */ = {
 			isa = PBXGroup;
 			children = (
-				96BE7A202126317F00F57FF0 /* Validator.swift */,
-				96BE7A212126317F00F57FF0 /* ValidationRules.swift */,
 				96BE7A222126317F00F57FF0 /* ValidationResults.swift */,
+				96BE7A212126317F00F57FF0 /* ValidationRules.swift */,
+				96BE7A202126317F00F57FF0 /* Validator.swift */,
 			);
 			path = Validation;
 			sourceTree = "<group>";
@@ -844,8 +844,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96BE7A5D2126317F00F57FF0 /* ObjC.h in Headers */,
 				1983D3A62123A4F90015D6E4 /* CoreKit.h in Headers */,
+				96BE7A5D2126317F00F57FF0 /* ObjC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1014,146 +1014,146 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96BE7A542126317F00F57FF0 /* URLQueryBuilder.swift in Sources */,
-				96BE7A852126317F00F57FF0 /* CoreGraphics+Rounding.swift in Sources */,
-				96BE7A6C2126317F00F57FF0 /* DelimitedStringCharacterCountSpecification.swift in Sources */,
-				96BE7A732126317F00F57FF0 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
-				96BE7A912126317F00F57FF0 /* UIFont+Convenience.swift in Sources */,
-				96BE7A742126317F00F57FF0 /* Sequence+Nils.swift in Sources */,
-				96BE7A582126317F00F57FF0 /* Parameterisable.swift in Sources */,
-				96BE7A842126317F00F57FF0 /* UIViewController+SafeArea.swift in Sources */,
-				96BE7A752126317F00F57FF0 /* Date+Extension.swift in Sources */,
-				96BE7A462126317F00F57FF0 /* ResponseSerializing.swift in Sources */,
-				96BE7A2F2126317F00F57FF0 /* AESBlockCipher.swift in Sources */,
-				96BE7A4F2126317F00F57FF0 /* NetworkRequestType.swift in Sources */,
-				96BE7A932126317F00F57FF0 /* FilterRangeDescriptor.swift in Sources */,
-				96BE7A3F2126317F00F57FF0 /* PatternMatchRules.swift in Sources */,
-				96BE7A3E2126317F00F57FF0 /* URLRulesMatch.swift in Sources */,
-				96BE7AA82126317F00F57FF0 /* DefaultNSCopying.swift in Sources */,
-				96BE7A2E2126317F00F57FF0 /* Concealer.swift in Sources */,
-				96BE7A832126317F00F57FF0 /* UIView+SafeArea.swift in Sources */,
-				96BE7AB22126317F00F57FF0 /* LogOffManager.swift in Sources */,
-				96BE7A302126317F00F57FF0 /* CryptoUtils.swift in Sources */,
-				96BE7A862126317F00F57FF0 /* UIImage+Resizing.swift in Sources */,
-				96BE7AA62126317F00F57FF0 /* Transformer.swift in Sources */,
-				96BE7A8A2126317F00F57FF0 /* UIFont+Digits.swift in Sources */,
-				96BE7A6B2126317F00F57FF0 /* BaseDelimitedStringCountSpecification.swift in Sources */,
-				96BE7A322126317F00F57FF0 /* AppGroup.swift in Sources */,
-				96BE7A312126317F00F57FF0 /* BlockCipherType.swift in Sources */,
-				96BE7A682126317F00F57FF0 /* AustralianPhoneSpecification.swift in Sources */,
-				96BE7A952126317F00F57FF0 /* FilterValueDescriptor.swift in Sources */,
-				96BE7A602126317F00F57FF0 /* ActivityType.swift in Sources */,
-				96BE7AAF2126317F00F57FF0 /* Validator.swift in Sources */,
-				96BE7AA72126317F00F57FF0 /* DefaultCustomStringConvertible.swift in Sources */,
-				96BE7A8D2126317F00F57FF0 /* NSLayoutConstraint+Conveniences.swift in Sources */,
-				96BE7A5E2126317F00F57FF0 /* ObjC.m in Sources */,
-				96BE7A2B2126317F00F57FF0 /* DefaultReusable.swift in Sources */,
-				96BE7AA92126317F00F57FF0 /* ModelVersionable.swift in Sources */,
-				96BE7A822126317F00F57FF0 /* UIViewController+Compact.swift in Sources */,
-				96BE7AA12126317F00F57FF0 /* TemplateHandler.swift in Sources */,
-				96BE7AA02126317F00F57FF0 /* TextTemplate.swift in Sources */,
-				96BE7A422126317F00F57FF0 /* OAuthAuthorizationGrant.swift in Sources */,
-				96BE7A332126317F00F57FF0 /* SharedKeychainCapability.swift in Sources */,
-				96BE7A6D2126317F00F57FF0 /* DelimitedStringItemsCountSpecification.swift in Sources */,
-				96BE7A9C2126317F00F57FF0 /* CodableResponseSerializing.swift in Sources */,
-				96BE7A262126317F00F57FF0 /* Evaluatable.swift in Sources */,
-				96BE7A892126317F00F57FF0 /* FileManager+URL.swift in Sources */,
-				96BE7A702126317F00F57FF0 /* Specification.swift in Sources */,
-				96BE7A982126317F00F57FF0 /* EpochDateTransformer.swift in Sources */,
-				96BE7AA52126317F00F57FF0 /* AssetManager.swift in Sources */,
-				96BE7A5A2126317F00F57FF0 /* LocationErrorManager.swift in Sources */,
-				96BE7A9B2126317F00F57FF0 /* ImageError.swift in Sources */,
-				96BE7A402126317F00F57FF0 /* PluginFilterRules.swift in Sources */,
-				96BE7A6F2126317F00F57FF0 /* CountSpecification.swift in Sources */,
-				96BE7A3A2126317F00F57FF0 /* DataResponse+MPLConversion.swift in Sources */,
-				96BE7A512126317F00F57FF0 /* ResourceDownloadTicket.swift in Sources */,
-				96BE7A502126317F00F57FF0 /* RemoteResourceDescribing.swift in Sources */,
-				96BE7A7D2126317F00F57FF0 /* UIStackView+RemoveArrangedSubviews.swift in Sources */,
-				96BE7AAE2126317F00F57FF0 /* ConsoleLogger.swift in Sources */,
-				96BE7A722126317F00F57FF0 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
-				96BE7A272126317F00F57FF0 /* EvaluatorKey.swift in Sources */,
-				96BE7A342126317F00F57FF0 /* OAuth2Error.swift in Sources */,
-				96BE7A532126317F00F57FF0 /* RemoteResourceDownloader.swift in Sources */,
-				96BE7A552126317F00F57FF0 /* NetworkRequest.swift in Sources */,
-				96BE7A8C2126317F00F57FF0 /* FloatingPoint+Comparison.swift in Sources */,
-				96BE7A3C2126317F00F57FF0 /* URLQueryBuilder+Parameterisable.swift in Sources */,
-				96BE7A4A2126317F00F57FF0 /* NetworkErrorDefinition.swift in Sources */,
-				96BE7A2A2126317F00F57FF0 /* SortDescriptor.swift in Sources */,
-				96BE7A642126317F00F57FF0 /* AppURLNavigator.swift in Sources */,
-				96BE7A6A2126317F00F57FF0 /* SpecificationOperator.swift in Sources */,
-				96BE7AA32126317F00F57FF0 /* SemanticVersion.swift in Sources */,
-				96BE7A942126317F00F57FF0 /* FilterDescriptor.swift in Sources */,
-				96BE7A4C2126317F00F57FF0 /* AuthenticationPlugin.swift in Sources */,
-				96BE7A662126317F00F57FF0 /* EmailSpecification.swift in Sources */,
-				96BE7A562126317F00F57FF0 /* OAuthAccessToken.swift in Sources */,
-				96BE7A8B2126317F00F57FF0 /* String+EmptyFiltering.swift in Sources */,
-				96BE7A5C2126317F00F57FF0 /* TestingDirective.swift in Sources */,
-				96BE7A812126317F00F57FF0 /* UIView+AnimationPromiseChain.swift in Sources */,
-				96BE7A362126317F00F57FF0 /* OAuth2.swift in Sources */,
-				96BE7A8F2126317F00F57FF0 /* NSArchiver+SecureArchiver.swift in Sources */,
-				96BE7A492126317F00F57FF0 /* MappedError.swift in Sources */,
-				96BE7A902126317F00F57FF0 /* UIEdgeInsets+Convenience.swift in Sources */,
-				96BE7A592126317F00F57FF0 /* APIManagerConfigurable.swift in Sources */,
-				96BE7AAC2126317F00F57FF0 /* FileLogger.swift in Sources */,
-				96BE7A802126317F00F57FF0 /* UIColor+Brightness.swift in Sources */,
-				96BE7A522126317F00F57FF0 /* ResourceError.swift in Sources */,
-				96BE7A352126317F00F57FF0 /* ExternalAuthenticator.swift in Sources */,
-				96BE7A9E2126317F00F57FF0 /* Template.swift in Sources */,
-				96BE7A382126317F00F57FF0 /* Bundle+URLSchemeVerifier.swift in Sources */,
-				96BE7A3B2126317F00F57FF0 /* ParseError.swift in Sources */,
-				96BE7A482126317F00F57FF0 /* ErrorMapper.swift in Sources */,
-				96BE7AB02126317F00F57FF0 /* ValidationRules.swift in Sources */,
-				96BE7A6E2126317F00F57FF0 /* NotNilSpecification.swift in Sources */,
-				96BE7A9D2126317F00F57FF0 /* ImageAlamofireResponseSerializer.swift in Sources */,
-				96BE7A4B2126317F00F57FF0 /* LocationErrorDefinition.swift in Sources */,
-				96BE7A392126317F00F57FF0 /* Presenter.swift in Sources */,
-				96BE7A252126317F00F57FF0 /* Evaluator.swift in Sources */,
-				96BE7A5F2126317F00F57FF0 /* Weak.swift in Sources */,
-				96BE7A772126317F00F57FF0 /* Optional+Extension.swift in Sources */,
-				96BE7AAB2126317F00F57FF0 /* LogUtils.swift in Sources */,
-				96BE7A7C2126317F00F57FF0 /* Array+IfExists.swift in Sources */,
-				96BE7A3D2126317F00F57FF0 /* PluginType.swift in Sources */,
-				96BE7A7E2126317F00F57FF0 /* UIViewController+ChildViewController.swift in Sources */,
-				96BE7AAA2126317F00F57FF0 /* Logger.swift in Sources */,
-				96BE7A652126317F00F57FF0 /* QueryParser.swift in Sources */,
-				96BE7A372126317F00F57FF0 /* AuthenticationProvider.swift in Sources */,
-				96BE7A632126317F00F57FF0 /* AnyActivityLauncher.swift in Sources */,
-				96BE7AAD2126317F00F57FF0 /* NetworkLoggingPlugin.swift in Sources */,
-				96BE7A292126317F00F57FF0 /* EvaluationError.swift in Sources */,
-				96BE7A4E2126317F00F57FF0 /* APIManagerError.swift in Sources */,
-				96BE7A962126317F00F57FF0 /* ISO8601DateTransformer.swift in Sources */,
-				96BE7A442126317F00F57FF0 /* ImageCodeableResponseSerializer.swift in Sources */,
-				96BE7A282126317F00F57FF0 /* EvaluationObserverable.swift in Sources */,
-				96BE7A5B2126317F00F57FF0 /* LocationManager.swift in Sources */,
-				96BE7A762126317F00F57FF0 /* MKMapView+BoundingBox.swift in Sources */,
-				96BE7A792126317F00F57FF0 /* NSMutableAttributedString+Append.swift in Sources */,
-				96BE7A712126317F00F57FF0 /* CharacterSetSpecification.swift in Sources */,
-				96BE7A992126317F00F57FF0 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				96BE7A622126317F00F57FF0 /* ActivityHandler.swift in Sources */,
-				96BE7A7B2126317F00F57FF0 /* CoreGraphics+Convenience.swift in Sources */,
-				96BE7AA42126317F00F57FF0 /* PromiseCancellationToken.swift in Sources */,
-				96BE7A8E2126317F00F57FF0 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
-				96BE7AB12126317F00F57FF0 /* ValidationResults.swift in Sources */,
-				96BE7A9F2126317F00F57FF0 /* UserDefaultsDataSource.swift in Sources */,
-				96BE7A7F2126317F00F57FF0 /* UIViewController+ParentSearching.swift in Sources */,
-				96BE7A412126317F00F57FF0 /* Plugin.swift in Sources */,
-				96BE7A7A2126317F00F57FF0 /* UIImage+RoundedRects.swift in Sources */,
+				96BE7A602126317F00F57FF0 /* ActivityType.swift in Sources */,
+				96BE7A2F2126317F00F57FF0 /* AESBlockCipher.swift in Sources */,
+				96BE7A632126317F00F57FF0 /* AnyActivityLauncher.swift in Sources */,
 				96BE7A432126317F00F57FF0 /* APIManager.swift in Sources */,
-				96BE7A572126317F00F57FF0 /* HTTPAuthenticationMode.swift in Sources */,
-				96BE7A972126317F00F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
-				96BE7AA22126317F00F57FF0 /* TemplateDataSource.swift in Sources */,
-				96BE7A872126317F00F57FF0 /* UILayoutPriority+Math.swift in Sources */,
-				96BE7A9A2126317F00F57FF0 /* ImageDownloader.swift in Sources */,
-				96BE7A672126317F00F57FF0 /* RegularExpressionSpecification.swift in Sources */,
+				96BE7A592126317F00F57FF0 /* APIManagerConfigurable.swift in Sources */,
+				96BE7A4E2126317F00F57FF0 /* APIManagerError.swift in Sources */,
+				96BE7A322126317F00F57FF0 /* AppGroup.swift in Sources */,
+				96BE7A642126317F00F57FF0 /* AppURLNavigator.swift in Sources */,
+				96BE7A7C2126317F00F57FF0 /* Array+IfExists.swift in Sources */,
+				96BE7AA52126317F00F57FF0 /* AssetManager.swift in Sources */,
+				96BE7A682126317F00F57FF0 /* AustralianPhoneSpecification.swift in Sources */,
+				96BE7A4C2126317F00F57FF0 /* AuthenticationPlugin.swift in Sources */,
+				96BE7A372126317F00F57FF0 /* AuthenticationProvider.swift in Sources */,
 				96BE7A612126317F00F57FF0 /* BaseActivityLauncher.swift in Sources */,
-				96BE7A472126317F00F57FF0 /* ErrorMapperDefinition.swift in Sources */,
+				96BE7A6B2126317F00F57FF0 /* BaseDelimitedStringCountSpecification.swift in Sources */,
+				96BE7A312126317F00F57FF0 /* BlockCipherType.swift in Sources */,
+				96BE7A382126317F00F57FF0 /* Bundle+URLSchemeVerifier.swift in Sources */,
+				96BE7A712126317F00F57FF0 /* CharacterSetSpecification.swift in Sources */,
+				96BE7A732126317F00F57FF0 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				96BE7A4D2126317F00F57FF0 /* CodableRequestParameters.swift in Sources */,
-				96BE7A922126317F00F57FF0 /* MPOLAssert.swift in Sources */,
-				96BE7A692126317F00F57FF0 /* PredicateSpecification.swift in Sources */,
-				96BE7A882126317F00F57FF0 /* UIView+Convenience.swift in Sources */,
-				96BE7A2C2126317F00F57FF0 /* UICollectionView+DefaultReuse.swift in Sources */,
+				96BE7A9C2126317F00F57FF0 /* CodableResponseSerializing.swift in Sources */,
+				96BE7A2E2126317F00F57FF0 /* Concealer.swift in Sources */,
+				96BE7AAE2126317F00F57FF0 /* ConsoleLogger.swift in Sources */,
+				96BE7A7B2126317F00F57FF0 /* CoreGraphics+Convenience.swift in Sources */,
+				96BE7A852126317F00F57FF0 /* CoreGraphics+Rounding.swift in Sources */,
+				96BE7A6F2126317F00F57FF0 /* CountSpecification.swift in Sources */,
+				96BE7A302126317F00F57FF0 /* CryptoUtils.swift in Sources */,
+				96BE7A3A2126317F00F57FF0 /* DataResponse+MPLConversion.swift in Sources */,
+				96BE7A752126317F00F57FF0 /* Date+Extension.swift in Sources */,
+				96BE7AA72126317F00F57FF0 /* DefaultCustomStringConvertible.swift in Sources */,
+				96BE7AA82126317F00F57FF0 /* DefaultNSCopying.swift in Sources */,
+				96BE7A2B2126317F00F57FF0 /* DefaultReusable.swift in Sources */,
+				96BE7A6C2126317F00F57FF0 /* DelimitedStringCharacterCountSpecification.swift in Sources */,
+				96BE7A6D2126317F00F57FF0 /* DelimitedStringItemsCountSpecification.swift in Sources */,
+				96BE7A662126317F00F57FF0 /* EmailSpecification.swift in Sources */,
+				96BE7A992126317F00F57FF0 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
+				96BE7A982126317F00F57FF0 /* EpochDateTransformer.swift in Sources */,
+				96BE7A482126317F00F57FF0 /* ErrorMapper.swift in Sources */,
+				96BE7A472126317F00F57FF0 /* ErrorMapperDefinition.swift in Sources */,
+				96BE7A262126317F00F57FF0 /* Evaluatable.swift in Sources */,
+				96BE7A292126317F00F57FF0 /* EvaluationError.swift in Sources */,
+				96BE7A282126317F00F57FF0 /* EvaluationObserverable.swift in Sources */,
+				96BE7A252126317F00F57FF0 /* Evaluator.swift in Sources */,
+				96BE7A272126317F00F57FF0 /* EvaluatorKey.swift in Sources */,
+				96BE7A352126317F00F57FF0 /* ExternalAuthenticator.swift in Sources */,
+				96BE7AAC2126317F00F57FF0 /* FileLogger.swift in Sources */,
+				96BE7A892126317F00F57FF0 /* FileManager+URL.swift in Sources */,
+				96BE7A942126317F00F57FF0 /* FilterDescriptor.swift in Sources */,
+				96BE7A932126317F00F57FF0 /* FilterRangeDescriptor.swift in Sources */,
+				96BE7A952126317F00F57FF0 /* FilterValueDescriptor.swift in Sources */,
+				96BE7A8C2126317F00F57FF0 /* FloatingPoint+Comparison.swift in Sources */,
+				96BE7A572126317F00F57FF0 /* HTTPAuthenticationMode.swift in Sources */,
+				96BE7A9D2126317F00F57FF0 /* ImageAlamofireResponseSerializer.swift in Sources */,
+				96BE7A442126317F00F57FF0 /* ImageCodeableResponseSerializer.swift in Sources */,
+				96BE7A9A2126317F00F57FF0 /* ImageDownloader.swift in Sources */,
+				96BE7A9B2126317F00F57FF0 /* ImageError.swift in Sources */,
 				96BE7A452126317F00F57FF0 /* ImageResponseSerializer.swift in Sources */,
+				96BE7A972126317F00F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
+				96BE7A962126317F00F57FF0 /* ISO8601DateTransformer.swift in Sources */,
+				96BE7A4B2126317F00F57FF0 /* LocationErrorDefinition.swift in Sources */,
+				96BE7A5A2126317F00F57FF0 /* LocationErrorManager.swift in Sources */,
+				96BE7A5B2126317F00F57FF0 /* LocationManager.swift in Sources */,
+				96BE7AAA2126317F00F57FF0 /* Logger.swift in Sources */,
+				96BE7AB22126317F00F57FF0 /* LogOffManager.swift in Sources */,
+				96BE7AAB2126317F00F57FF0 /* LogUtils.swift in Sources */,
+				96BE7A492126317F00F57FF0 /* MappedError.swift in Sources */,
+				96BE7A762126317F00F57FF0 /* MKMapView+BoundingBox.swift in Sources */,
+				96BE7AA92126317F00F57FF0 /* ModelVersionable.swift in Sources */,
+				96BE7A922126317F00F57FF0 /* MPOLAssert.swift in Sources */,
+				96BE7A4A2126317F00F57FF0 /* NetworkErrorDefinition.swift in Sources */,
+				96BE7AAD2126317F00F57FF0 /* NetworkLoggingPlugin.swift in Sources */,
+				96BE7A552126317F00F57FF0 /* NetworkRequest.swift in Sources */,
+				96BE7A4F2126317F00F57FF0 /* NetworkRequestType.swift in Sources */,
+				96BE7A6E2126317F00F57FF0 /* NotNilSpecification.swift in Sources */,
+				96BE7A8F2126317F00F57FF0 /* NSArchiver+SecureArchiver.swift in Sources */,
+				96BE7A8D2126317F00F57FF0 /* NSLayoutConstraint+Conveniences.swift in Sources */,
+				96BE7A792126317F00F57FF0 /* NSMutableAttributedString+Append.swift in Sources */,
+				96BE7A362126317F00F57FF0 /* OAuth2.swift in Sources */,
+				96BE7A342126317F00F57FF0 /* OAuth2Error.swift in Sources */,
+				96BE7A562126317F00F57FF0 /* OAuthAccessToken.swift in Sources */,
+				96BE7A422126317F00F57FF0 /* OAuthAuthorizationGrant.swift in Sources */,
+				96BE7A5E2126317F00F57FF0 /* ObjC.m in Sources */,
+				96BE7A772126317F00F57FF0 /* Optional+Extension.swift in Sources */,
+				96BE7A582126317F00F57FF0 /* Parameterisable.swift in Sources */,
+				96BE7A3B2126317F00F57FF0 /* ParseError.swift in Sources */,
+				96BE7A3F2126317F00F57FF0 /* PatternMatchRules.swift in Sources */,
+				96BE7A412126317F00F57FF0 /* Plugin.swift in Sources */,
+				96BE7A402126317F00F57FF0 /* PluginFilterRules.swift in Sources */,
+				96BE7A3D2126317F00F57FF0 /* PluginType.swift in Sources */,
+				96BE7A692126317F00F57FF0 /* PredicateSpecification.swift in Sources */,
+				96BE7A392126317F00F57FF0 /* Presenter.swift in Sources */,
+				96BE7AA42126317F00F57FF0 /* PromiseCancellationToken.swift in Sources */,
+				96BE7A652126317F00F57FF0 /* QueryParser.swift in Sources */,
+				96BE7A672126317F00F57FF0 /* RegularExpressionSpecification.swift in Sources */,
+				96BE7A502126317F00F57FF0 /* RemoteResourceDescribing.swift in Sources */,
+				96BE7A532126317F00F57FF0 /* RemoteResourceDownloader.swift in Sources */,
+				96BE7A512126317F00F57FF0 /* ResourceDownloadTicket.swift in Sources */,
+				96BE7A522126317F00F57FF0 /* ResourceError.swift in Sources */,
+				96BE7A462126317F00F57FF0 /* ResponseSerializing.swift in Sources */,
+				96BE7AA32126317F00F57FF0 /* SemanticVersion.swift in Sources */,
+				96BE7A742126317F00F57FF0 /* Sequence+Nils.swift in Sources */,
+				96BE7A332126317F00F57FF0 /* SharedKeychainCapability.swift in Sources */,
+				96BE7A2A2126317F00F57FF0 /* SortDescriptor.swift in Sources */,
+				96BE7A702126317F00F57FF0 /* Specification.swift in Sources */,
+				96BE7A6A2126317F00F57FF0 /* SpecificationOperator.swift in Sources */,
+				96BE7A8B2126317F00F57FF0 /* String+EmptyFiltering.swift in Sources */,
+				96BE7A9E2126317F00F57FF0 /* Template.swift in Sources */,
+				96BE7AA22126317F00F57FF0 /* TemplateDataSource.swift in Sources */,
+				96BE7AA12126317F00F57FF0 /* TemplateHandler.swift in Sources */,
+				96BE7A5C2126317F00F57FF0 /* TestingDirective.swift in Sources */,
+				96BE7AA02126317F00F57FF0 /* TextTemplate.swift in Sources */,
+				96BE7AA62126317F00F57FF0 /* Transformer.swift in Sources */,
+				96BE7A2C2126317F00F57FF0 /* UICollectionView+DefaultReuse.swift in Sources */,
+				96BE7A802126317F00F57FF0 /* UIColor+Brightness.swift in Sources */,
 				96BE7A782126317F00F57FF0 /* UIColor+Hex.swift in Sources */,
+				96BE7A902126317F00F57FF0 /* UIEdgeInsets+Convenience.swift in Sources */,
+				96BE7A912126317F00F57FF0 /* UIFont+Convenience.swift in Sources */,
+				96BE7A8A2126317F00F57FF0 /* UIFont+Digits.swift in Sources */,
+				96BE7A862126317F00F57FF0 /* UIImage+Resizing.swift in Sources */,
+				96BE7A7A2126317F00F57FF0 /* UIImage+RoundedRects.swift in Sources */,
+				96BE7A872126317F00F57FF0 /* UILayoutPriority+Math.swift in Sources */,
+				96BE7A7D2126317F00F57FF0 /* UIStackView+RemoveArrangedSubviews.swift in Sources */,
+				96BE7A8E2126317F00F57FF0 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
+				96BE7A812126317F00F57FF0 /* UIView+AnimationPromiseChain.swift in Sources */,
+				96BE7A882126317F00F57FF0 /* UIView+Convenience.swift in Sources */,
+				96BE7A832126317F00F57FF0 /* UIView+SafeArea.swift in Sources */,
+				96BE7A722126317F00F57FF0 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
+				96BE7A7E2126317F00F57FF0 /* UIViewController+ChildViewController.swift in Sources */,
+				96BE7A822126317F00F57FF0 /* UIViewController+Compact.swift in Sources */,
+				96BE7A7F2126317F00F57FF0 /* UIViewController+ParentSearching.swift in Sources */,
+				96BE7A842126317F00F57FF0 /* UIViewController+SafeArea.swift in Sources */,
+				96BE7A3C2126317F00F57FF0 /* URLQueryBuilder+Parameterisable.swift in Sources */,
+				96BE7A542126317F00F57FF0 /* URLQueryBuilder.swift in Sources */,
+				96BE7A3E2126317F00F57FF0 /* URLRulesMatch.swift in Sources */,
+				96BE7A9F2126317F00F57FF0 /* UserDefaultsDataSource.swift in Sources */,
+				96BE7AB12126317F00F57FF0 /* ValidationResults.swift in Sources */,
+				96BE7AB02126317F00F57FF0 /* ValidationRules.swift in Sources */,
+				96BE7AAF2126317F00F57FF0 /* Validator.swift in Sources */,
+				96BE7A5F2126317F00F57FF0 /* Weak.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
