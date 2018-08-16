@@ -8,7 +8,7 @@
 import UIKit
 
 /// The entity details split view controller
-open class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDataSourceViewModelDelegate, EntityDetailsPickerDelegate {
+public class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController, EntityDetailsDataSourceViewModelDelegate, EntityDetailsPickerDelegate {
 
     // MARK:- Public
 

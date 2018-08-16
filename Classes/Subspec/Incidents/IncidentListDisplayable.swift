@@ -80,19 +80,19 @@ public protocol IncidentListViewModelType {
     /// Initialise the viewModel with an incident manager
     ///
     /// - Parameters:
-    ///   - report: the report for the incident view model
-    ///   - incidentManager: the incident manager
+    ///   - report: The report for the incident view model
+    ///   - incidentManager: The incident manager
     init(report: EventReportable, incidentsManager: IncidentsManager)
 
     /// Gets an incident for a particular displayable
     ///
-    /// - Parameter displayable: the incident displayable to fetch the incident for
-    /// - Returns: the incident object
+    /// - Parameter displayable: The incident displayable to fetch the incident for
+    /// - Returns: The incident object
     func incident(for displayable: IncidentListDisplayable) -> Incident?
 
     /// Provide the detailViewModel for an event
     ///
-    /// - Returns: the detail view model
+    /// - Returns: The detail view model
     func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType
 }
 
@@ -122,8 +122,8 @@ public protocol IncidentDetailViewModelType: Evaluatable {
     /// Initialiser
     ///
     /// - Parameters:
-    ///   - event: the incident object
-    ///   - builder: the screen builder
+    ///   - event: The incident object
+    ///   - builder: The screen builder
     init(incident: Incident, builder: IncidentScreenBuilding)
 }
 

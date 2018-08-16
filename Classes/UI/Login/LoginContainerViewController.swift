@@ -59,7 +59,7 @@ final public class LoginContainerViewController: UIViewController {
     /// Add the content view controller
     /// This function will automatically do all viewController containment for you
     ///
-    /// - Parameter contentViewController: your content view controller
+    /// - Parameter contentViewController: Your content view controller
     public func addContentViewController(_ contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         self.contentView = contentViewController.view
@@ -72,8 +72,8 @@ final public class LoginContainerViewController: UIViewController {
     /// note: the maximum height of the header is 60.
     ///
     /// - Parameters:
-    ///   - view: the view to set the header to
-    ///   - position: which position to set the header to
+    ///   - view: The view to set the header to
+    ///   - position: Which position to set the header to
     public func setHeaderView(_ view: UIView, at position: LoginViewPosition) {
         switch position {
         case .left:
@@ -90,8 +90,8 @@ final public class LoginContainerViewController: UIViewController {
     /// note: the maximum height of the footer is 60.
     ///
     /// - Parameters:
-    ///   - view: the view to set the footer to
-    ///   - position: which position to set the footer to
+    ///   - view: The view to set the footer to
+    ///   - position: Which position to set the footer to
     public func setFooterView(_ view: UIView, at position: LoginViewPosition) {
         switch position {
         case .left:
@@ -198,9 +198,9 @@ final public class LoginContainerViewController: UIViewController {
 
 /// The position of the headers and footer of the login container
 ///
-/// - left: left view
-/// - center: center view
-/// - right: right view
+/// - left: Left view
+/// - center: Center view
+/// - right: Right view
 public enum LoginViewPosition {
     case left
     case center

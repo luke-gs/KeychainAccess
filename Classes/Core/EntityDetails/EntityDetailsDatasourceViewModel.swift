@@ -36,9 +36,9 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
     /// Initialise the viewModel
     ///
     /// - Parameters:
-    ///   - dataSource: the data source
-    ///   - strategy: the retrieval strategy
-    ///   - entityPickerViewModel: the pickerviewModel
+    ///   - dataSource: The data source
+    ///   - strategy: The retrieval strategy
+    ///   - entityPickerViewModel: The pickerviewModel
     public init(dataSource: EntityDetailsDataSource,
                 strategy: EntityRetrievalStrategy,
                 entityPickerViewModel: EntityPickerViewModel? = nil)
@@ -50,7 +50,7 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
 
     /// Retrieve details using the entity
     ///
-    /// - Parameter entity: the entity to use to retrieve details for
+    /// - Parameter entity: The entity to use to retrieve details for
     public func retrieve(for entity: MPOLKitEntity) {
         state = .fetching
         delegate?.entityDetailsDataSourceViewModelDidBeginFetch(self)
@@ -72,7 +72,7 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
 
     /// Present the entity selection screen
     ///
-    /// - Parameter context: the context to present from
+    /// - Parameter context: The context to present from
     public func presentEntitySelection(from context: UIViewController) {
         guard let pickerViewModel = pickerViewModel else { return }
 
@@ -155,14 +155,14 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
         }
     }
 
+    @objc private func dimissPicker() {
+        pickerDelegate?.entityDetailsDataSourceViewModelDidCancelPickingEntity(self)
+    }
+
     //MARK:- EntityPickerDelegate
 
     public func finishedPicking(_ entity: MPOLKitEntity) {
         pickerDelegate?.entityDetailsDataSourceViewModel(self, didPickEntity: entity)
-    }
-
-    @objc public func dimissPicker() {
-        pickerDelegate?.entityDetailsDataSourceViewModelDidCancelPickingEntity(self)
     }
 }
 
@@ -188,7 +188,7 @@ public protocol EntityDetailsPickerDelegate: class {
 
     /// Called when the user cancelled out of picking an entity
     ///
-    /// - Parameter viewModel: the viewModel that he entity wasn't picked for
+    /// - Parameter viewModel: The viewModel that he entity wasn't picked for
     func entityDetailsDataSourceViewModelDidCancelPickingEntity<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>)
 }
 
@@ -197,14 +197,14 @@ public protocol EntityDetailsDataSourceViewModelDelegate: class {
 
     /// Called when the viewModel did begin fetching entity details
     ///
-    /// - Parameter viewModel: the viewModel that began fetching details
+    /// - Parameter viewModel: The viewModel that began fetching details
     func entityDetailsDataSourceViewModelDidBeginFetch<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>)
 
     /// Called when the viewModel finished fetching entity details
     ///
     /// - Parameters:
-    ///   - viewModel: the viewModel that finished fetching
-    ///   - state: the entity detail state of the result
+    ///   - viewModel: The viewModel that finished fetching
+    ///   - state: The entity detail state of the result
     func entityDetailsDataSourceViewModel<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>, didEndFetchWith state: EntityDetailState)
 }
 

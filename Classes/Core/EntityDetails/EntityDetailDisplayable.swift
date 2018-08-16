@@ -13,7 +13,7 @@ public protocol EntityDetailDisplayable {
 
     /// Intialise it with an entity
     ///
-    /// - Parameter entity: the entity
+    /// - Parameter entity: The entity
     init(_ entity: MPOLKitEntity)
 
     /// Entity display name used in the header

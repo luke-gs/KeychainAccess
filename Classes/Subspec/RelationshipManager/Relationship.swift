@@ -22,9 +22,9 @@ public class Relationship<Base: Equatable, Related: Equatable>: Equatable {
     /// Create a new relationship between objects
     ///
     /// - Parameters:
-    ///   - baseObject: the base object of the relationship
-    ///   - relatedObject: the object that is related to the baseObject
-    ///   - reasons: the reasons how the objects are related
+    ///   - baseObject: The base object of the relationship
+    ///   - relatedObject: The object that is related to the baseObject
+    ///   - reasons: The reasons how the objects are related
     public init(baseObject: Base, relatedObject: Related, reasons: [String]? = nil) {
         self.baseObject = baseObject
         self.relatedObject = relatedObject

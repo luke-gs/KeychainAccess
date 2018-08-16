@@ -111,8 +111,8 @@ public protocol SearchDisplayableDelegate {
     /// Called when a row of the collection view is tapped
     ///
     /// - Parameters:
-    ///   - viewController: the view controller that the tap came form
-    ///   - indexPath: the indexPath that was tapped
-    ///   - withSearchable: teh searchable object for that indexPath
+    ///   - viewController: The view controller that the tap came form
+    ///   - indexPath: The indexPath that was tapped
+    ///   - withSearchable: The searchable object for that indexPath
     func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Object)
 }

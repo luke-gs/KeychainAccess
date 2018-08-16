@@ -21,7 +21,7 @@ public protocol AuthenticationProvider {
     /// Whether the provider could handle given callback
     ///
     /// - Parameter url: The callback URL that's triggered.
-    /// - Returns: true if it's supported URL.
+    /// - Returns: `true` if it's supported URL.
     func canHandleURL(_ url: URL) -> Bool
     
     /// The result of the authentication.

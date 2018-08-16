@@ -8,7 +8,7 @@
 import UIKit
 import PromiseKit
 
-/// Default implementation of the generic search view model
+/// Default implementation of The generic search view model
 /// Allows for basic customisation
 open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
     public typealias Object = CustomSearchDisplayable
@@ -153,90 +153,90 @@ public protocol SearchDisplayableViewModel {
 
     associatedtype Object
 
-    /// The title of the form
+    /// The title of The form
     var title: String { get set }
 
-    /// Whether the collectionView should be seperated by sections
+    /// Whether The collectionView should be seperated by sections
     var hasSections: Bool { get set }
 
     /// Number of sections
     ///
-    /// - Returns: the number of sections
+    /// - Returns: The number of sections
     func numberOfSections() -> Int
 
     /// Number of rows for a particular sections
     ///
-    /// - Parameter section: the section index
-    /// - Returns: the number of rows for the section
+    /// - Parameter section: The section index
+    /// - Returns: The number of rows for The section
     func numberOfRows(in section: Int) -> Int
 
     /// Should section be hidden
     ///
-    /// - Parameter section: the section index
+    /// - Parameter section: The section index
     /// - Returns: true if section should be hidden
     func isSectionHidden(_ section: Int) -> Bool
 
     /// Title for section header
     ///
-    /// - Parameter section: the section index
-    /// - Returns: the title of the section
+    /// - Parameter section: The section index
+    /// - Returns: The title of The section
     func title(for section: Int) -> String
 
-    /// Title for the row at a specific indexPath
+    /// Title for The row at a specific indexPath
     ///
-    /// - Parameter indexPath: the indexPath
-    /// - Returns: the title for the row
+    /// - Parameter indexPath: The indexPath
+    /// - Returns: The title for The row
     func title(for indexPath: IndexPath) -> String?
 
-    /// Description for the row at a specific indexPath
+    /// Description for The row at a specific indexPath
     ///
-    /// - Parameter indexPath: the indexPath
-    /// - Returns: the description for the row
+    /// - Parameter indexPath: The indexPath
+    /// - Returns: The description for The row
     func description(for indexPath: IndexPath) -> String?
 
-    /// Image for the row at indexPath
+    /// Image for The row at indexPath
     ///
-    /// - Parameter indexPath: the indexPath
-    /// - Returns: the image for the row
+    /// - Parameter indexPath: The indexPath
+    /// - Returns: The image for The row
     func image(for indexPath: IndexPath) -> UIImage?
     
-    /// Accessory for the searchable's row.
+    /// Accessory for The searchable's row.
     /// To be overriden by subclass for custom dynamic accessories.
     ///
-    /// - Parameter searchable: the searchable
-    /// - Returns: the accessory for the searchable's row
+    /// - Parameter searchable: The searchable
+    /// - Returns: The accessory for The searchable's row
     func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable?
 
     /// The `GenericSearchable` object for a particular indexPath
     ///
-    /// - Parameter indexPath: the indexPath
-    /// - Returns: the `GenericSearchable` for the row
+    /// - Parameter indexPath: The indexPath
+    /// - Returns: The `GenericSearchable` for The row
     func object(for indexPath: IndexPath) -> Object
 
-    /// Returns the searchable representation of an object
+    /// Returns The searchable representation of an object
     ///
     /// - Parameter object: The object to convert to generic searchable
     /// - Returns: The generic searchable to display
     func searchable(for object: Object) -> CustomSearchDisplayable
 
-    /// Called when the search text is changed
+    /// Called when The search text is changed
     ///
-    /// - Parameter searchString: the searchString
+    /// - Parameter searchString: The searchString
     func searchTextChanged(to searchString: String)
 
-    /// Called when the search button is selected
-    /// Returns an optional promise that can be used to reload the form
+    /// Called when The search button is selected
+    /// Returns an optional promise that can be used to reload The form
     /// after recieving data
     func searchAction() -> Promise<Void>?
 
-    /// The text for the loading state
+    /// The text for The loading state
     ///
-    /// - Returns: the loading state text
+    /// - Returns: The loading state text
     func loadingStateText() -> String?
 
-    /// The text for the empty state
+    /// The text for The empty state
     ///
-    /// - Returns: the empty state text
+    /// - Returns: The empty state text
     func emptyStateText() -> String?
 }
 

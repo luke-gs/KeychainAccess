@@ -14,8 +14,8 @@ public protocol TravelEstimationPlugable: class {
     /// Calculate the lateral distance between two locations
     ///
     /// - Parameters:
-    ///   - location: current user location
-    ///   - destination: destination location
+    ///   - location: Current user location
+    ///   - destination: Destination location
     /// - Returns: Returns the lateral distance between two locations.
     @discardableResult
     func calculateDistance(from location: CLLocation, to destination: CLLocation) -> Promise<String>
@@ -23,9 +23,9 @@ public protocol TravelEstimationPlugable: class {
     /// Calculate the estimated time arrival between two locations
     ///
     /// - Parameters:
-    ///   - location: current user location
-    ///   - destination: destination location
-    ///   - transportType: transport type
+    ///   - location: Current user location
+    ///   - destination: Destination location
+    ///   - transportType: Transport type
     ///   - completion: Returns the lateral ETA between two locations
     @discardableResult
     func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType) -> Promise<String?>

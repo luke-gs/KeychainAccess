@@ -12,15 +12,15 @@ public protocol EntityRetrievalStrategy {
 
     /// Fetch the entity details
     ///
-    /// - Parameter entity: the entity to use as a reference for the fetch
-    /// - Returns: a promise of an array of results
+    /// - Parameter entity: The entity to use as a reference for the fetch
+    /// - Returns: A promise of an array of results
     func retrieveUsingReferenceEntity(_ entity: MPOLKitEntity) -> Promise<[EntityResultState]>?
 }
 
 /// The entity result state
 ///
-/// - summary: a partial summary of the entity
-/// - detail: a full detail of the entity
+/// - summary: A partial summary of the entity
+/// - detail: A full detail of the entity
 public enum EntityResultState: Equatable {
     case summary(MPOLKitEntity)
     case detail(MPOLKitEntity)
@@ -28,10 +28,10 @@ public enum EntityResultState: Equatable {
 
 /// The entity details fetch state
 ///
-/// - empty: no fetch has been performed
-/// - fetching: currently fetching
-/// - result: a fetch yielded a result
-/// - error: an error occured
+/// - empty: No fetch has been performed
+/// - fetching: Currently fetching
+/// - result: A fetch yielded a result
+/// - error: An error occured
 public enum EntityDetailState: Equatable {
     case empty
     case fetching

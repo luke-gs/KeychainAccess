@@ -34,9 +34,9 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
     /// Intialise the view model
     ///
     /// - Parameters:
-    ///   - dataSourceViewModels: the dataSources
-    ///   - initialSource: the initial source to select
-    ///   - referenceEntity: the intial entity to use as a reference
+    ///   - dataSourceViewModels: The dataSources
+    ///   - initialSource: The initial source to select
+    ///   - referenceEntity: The intial entity to use as a reference
     public init(dataSourceViewModels: [EntityDetailsDataSourceViewModel<Details>],
                 initialSource: EntitySource,
                 referenceEntity: MPOLKitEntity) {
@@ -96,8 +96,8 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
     /// or to present multiple entities list for selection
     ///
     /// - Parameters:
-    ///   - index: the data source index
-    ///   - controller: the controller to present from
+    ///   - index: The data source index
+    ///   - controller: The controller to present from
     public func didSelectSourceAt(_ index: Int, from controller: UIViewController) {
         let dataSource = dataSourceViewModels[index].dataSource
         selectedSource = dataSource.source
@@ -113,8 +113,8 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
     /// A source was request to fetch details from
     ///
     /// - Parameters:
-    ///   - index: the data source index
-    ///   - controller: the controller that requested the fetch
+    ///   - index: The data source index
+    ///   - controller: The controller that requested the fetch
     public func didRequestToLoadSourceAt(_ index: Int, from controller: UIViewController) {
         let newViewModel = dataSourceViewModels[index]
 

@@ -59,7 +59,7 @@ final public class LoginViewController: UIViewController {
 
     /// Inititalise the view controller with a login mode
     ///
-    /// - Parameter mode: the login mode to use
+    /// - Parameter mode: The login mode to use
     public init(mode: LoginMode) {
         self.loginMode = mode
         super.init(nibName: nil, bundle: nil)
@@ -72,8 +72,8 @@ final public class LoginViewController: UIViewController {
     /// Set the loading state of the view controller
     ///
     /// - Parameters:
-    ///   - loading: true if loading is required
-    ///   - animated: true if animation is required
+    ///   - loading: `true` if loading is required
+    ///   - animated: `true` if animation is required
     public func setLoading(_ loading: Bool, animated: Bool) {
         if loading == isLoading { return }
         self.isLoading = loading
