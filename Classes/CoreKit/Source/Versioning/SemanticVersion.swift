@@ -32,7 +32,8 @@ public class SemanticVersion: Comparable {
     // build metadata may be denoted by appending a plus sign and a series of dot separated identifiers immediately following the patch or pre-release version. Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-]. Build metadata SHOULD be ignored when determining version precedence. Thus two versions that differ only in the build metadata, have the same precedence
     public let build: String?
 
-    public init?(_ rawVersion: String) {
+    public init?(_ rawVersion: String?) {
+        guard let rawVersion = rawVersion else { return nil }
 
         let numberPattern = "0|[1-9][0-9]*"
         let alphaOrNumeric = "[0-9|A-Za-z]+"

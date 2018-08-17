@@ -23,10 +23,10 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 s.ios.deployment_target = '10.0'
 
 # Export the CommonCrypto module to app using the kit
-s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/CommonCrypto' }
-s.preserve_paths = 'CommonCrypto/module.modulemap'
+s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/Classes/CoreKit/CommonCrypto' }
+s.preserve_paths = 'Classes/CoreKit/CommonCrypto/module.modulemap'
   
-s.source_files = 'Classes/CoreKit/Security/Crypto/**/*','**/SharedKeychainCapability.swift','**/TestingDirective.swift'
+s.source_files = 'Classes/CoreKit/Source/App Group/**/*', 'Classes/CoreKit/Source/Crypto/**/*'
 
 s.dependency 'KeychainAccess', '~> 3.1.1'
 

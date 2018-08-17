@@ -403,8 +403,10 @@
 		96BE79732126317E00F57FF0 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				96BE79822126317E00F57FF0 /* App Group */,
 				96BE79C02126317E00F57FF0 /* AppURLRouter */,
 				96BE7A122126317F00F57FF0 /* Assets */,
+				96BE79832126317E00F57FF0 /* Crypto */,
 				96BE797C2126317E00F57FF0 /* Default Reuse */,
 				96BE79742126317E00F57FF0 /* Evaluator */,
 				96BE79D72126317E00F57FF0 /* Extensions */,
@@ -419,7 +421,6 @@
 				96BE79802126317E00F57FF0 /* Privacy */,
 				96BE7A102126317F00F57FF0 /* Promise Cancel */,
 				96BE7A142126317F00F57FF0 /* Protocols */,
-				96BE79822126317E00F57FF0 /* Security */,
 				96BE7A232126317F00F57FF0 /* Session */,
 				96BE797A2126317E00F57FF0 /* Sort Descriptor */,
 				96BE79C92126317E00F57FF0 /* Specification */,
@@ -470,14 +471,13 @@
 			path = Privacy;
 			sourceTree = "<group>";
 		};
-		96BE79822126317E00F57FF0 /* Security */ = {
+		96BE79822126317E00F57FF0 /* App Group */ = {
 			isa = PBXGroup;
 			children = (
-				96BE79832126317E00F57FF0 /* Crypto */,
 				96BE79872126317E00F57FF0 /* AppGroup.swift */,
 				96BE79882126317E00F57FF0 /* SharedKeychainCapability.swift */,
 			);
-			path = Security;
+			path = "App Group";
 			sourceTree = "<group>";
 		};
 		96BE79832126317E00F57FF0 /* Crypto */ = {

@@ -26,7 +26,7 @@ public struct SharedKeychainCapability {
     public static var defaultKeychain: Keychain = {
         let accessGroup: String
         // Create a mock keychain if testing.
-        if TestingDirective.isTesting {
+        if ProcessInfo.processInfo.environment["TEST"] == "1" {
             accessGroup = "pscore.testing.keychain"
         } else {
             accessGroup = SharedKeychainCapability.defaultSharedKeychainAccessGroup
