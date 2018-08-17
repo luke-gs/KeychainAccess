@@ -15,8 +15,8 @@ def mpol_kit
 end
 
 def mpol_kit_crypto
-    #pod 'MPOLKitCrypto', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    pod 'MPOLKitCrypto', :path => '../../mPolKit-iOS'
+    #pod 'CoreKitAppExtension', :git=> 'https://github.com/Gridstone/mPolKit-iOS/CoreKit', :branch => 'development'
+    pod 'CoreKitAppExtension', :path => '../../mPolKit-iOS/CoreKit'
 end
 
 target 'ClientKit' do

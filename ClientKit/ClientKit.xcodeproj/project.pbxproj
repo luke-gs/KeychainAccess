@@ -66,9 +66,9 @@
 		968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */; };
 		AA0290602109934800E3C4FF /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02905F2109934800E3C4FF /* User+VersionAccessors.swift */; };
 		AA16412D20F476970027F947 /* AssociationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412C20F476970027F947 /* AssociationReason.swift */; };
+		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
 		AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DC27520E4AE6700154571 /* AddressFormatter.swift */; };
 		AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */; };
-		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -194,9 +194,9 @@
 		968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupLandingPresenter.swift; sourceTree = "<group>"; };
 		AA02905F2109934800E3C4FF /* User+VersionAccessors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
 		AA16412C20F476970027F947 /* AssociationReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationReason.swift; sourceTree = "<group>"; };
+		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
 		AA2DC27520E4AE6700154571 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
 		AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
-		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClientKit.h; sourceTree = "<group>"; };
 		BC12DC901F023EF0001A5BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };

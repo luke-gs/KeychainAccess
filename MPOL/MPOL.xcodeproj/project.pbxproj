@@ -901,7 +901,7 @@
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 				"${BUILT_PRODUCTS_DIR}/HyperioniOS/HyperioniOS.framework",
-				"${BUILT_PRODUCTS_DIR}/MPOLKitCrypto/MPOLKitCrypto.framework",
+				"${BUILT_PRODUCTS_DIR}/CoreKitAppExtension/CoreKitAppExtension.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -915,7 +915,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyperioniOS.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKitCrypto.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKitAppExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
