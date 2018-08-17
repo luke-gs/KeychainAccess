@@ -63,7 +63,7 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
 
         imageName = vehicleString + sizeString
 
-        if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
+        if let image = UIImage(named: imageName, in: .patternKit, compatibleWith: nil) {
             return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
 

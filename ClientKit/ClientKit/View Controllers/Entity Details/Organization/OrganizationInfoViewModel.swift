@@ -17,15 +17,15 @@ open class OrganizationInfoViewModel: EntityDetailFormViewModel {
     }
     
     open override var title: String? {
-        return NSLocalizedString("Information", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("Information", comment: "")
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Organization Found", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("No Organization Found", comment: "")
     }
     
     open override var noContentSubtitle: String? {
-        return NSLocalizedString("There are no details for this organization", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("There are no details for this organization", comment: "")
     }
     
     open override var sidebarImage: UIImage? {

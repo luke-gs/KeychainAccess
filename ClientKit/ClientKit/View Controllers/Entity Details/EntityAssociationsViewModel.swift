@@ -95,7 +95,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var title: String? {
-        return NSLocalizedString("Associations", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("Associations", comment: "")
     }
     
     open override var noContentTitle: String? {
@@ -107,9 +107,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         if let entity = entity {
             name = type(of: entity).localizedDisplayName.localizedLowercase
         } else {
-            name = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+            name = NSLocalizedString("entity", comment: "")
         }
-        return String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), name)
+        return String(format: NSLocalizedString("This %@ has no associations", comment: ""), name)
     }
     
     open override var sidebarImage: UIImage? {

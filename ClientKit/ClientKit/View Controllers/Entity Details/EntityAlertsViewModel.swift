@@ -55,11 +55,11 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var title: String? {
-        return NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("Alerts", comment: "")
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("No Alerts Found", comment: "")
     }
     
     open override var noContentSubtitle: String? {
@@ -68,10 +68,10 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
             if let entity = entity {
                 name = type(of: entity).localizedDisplayName.localizedLowercase
             } else {
-                name = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+                name = NSLocalizedString("entity", comment: "")
             }
             
-            return String(format: NSLocalizedString("This %@ has no alerts", bundle: .mpolKit, comment: ""), name)
+            return String(format: NSLocalizedString("This %@ has no alerts", comment: ""), name)
         } else {
             return NSLocalizedString("This filter has no matching alerts", comment: "")
         }
@@ -186,9 +186,9 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         if let date = alert.effectiveDate {
             
             let locationString = alert.jurisdiction != nil ? " (\(alert.jurisdiction!))": ""
-            return NSLocalizedString("Issued on ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
+            return NSLocalizedString("Issued on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
         } else {
-            return NSLocalizedString("Issued date unknown", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("Issued date unknown", comment: "")
         }
     }
     
@@ -211,7 +211,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     private var expandedAlerts: Set<Alert> = []
     
     private func detail(for alert: Alert) -> StringSizable? {
-        let details = alert.details ?? NSLocalizedString("No Description", bundle: .mpolKit, comment: "")
+        let details = alert.details ?? NSLocalizedString("No Description", comment: "")
         let numberOfLines = expandedAlerts.contains(alert) ? 0 : 2
         return details.sizing(withNumberOfLines: numberOfLines)
     }
