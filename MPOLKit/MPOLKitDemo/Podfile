@@ -8,7 +8,7 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 project 'MPOLKitDemo.xcodeproj'
 
 target 'MPOLKitDemo' do
-    pod 'MPOLKit', :path => '../'
+    pod 'MPOLKit', :path => '../..'
     pod 'HyperioniOS'
 end
 

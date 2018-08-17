@@ -16,19 +16,19 @@ TODO: Add long description of the pod here.
 DESC
 
 s.homepage         = 'https://github.com/Gridstone/mPolKit-iOS'
-s.license          = { :type => 'MIT', :file => 'LICENSE' }
+s.license          = { :type => 'MIT', :file => 'MPOLKit/LICENSE' }
 s.author           = { 'val@gridstone.com.au' => 'val@gridstone.com.au' }
 s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :tag => s.version.to_s }
 
 s.ios.deployment_target = '10.0'
 
 # Export the CommonCrypto module to app using the kit
-s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/Classes/CoreKit/CommonCrypto' }
-s.preserve_paths = 'Classes/CoreKit/CommonCrypto/module.modulemap'
+s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/CoreKit/CommonCrypto' }
+s.preserve_paths = 'CoreKit/CommonCrypto/module.modulemap'
   
-s.source_files = 'Classes/CoreKit/CommonCrypto/**/*', 'Classes/CoreKit/Source/**/*', 'Classes/DemoAppKit/**/*', 'Classes/DemoAppKit/**/*', 'Classes/PatternKit/**/*', 'Classes/PublicSafetyKit/**/*', 'Classes/SketchKit/**/*'
-s.exclude_files = ''
-s.resources = 'Assets/*'
+s.source_files = '**/Classes/**/*', '**/MPOLKit.h'
+s.exclude_files = '**/Pods/**/*'
+s.resources = '**/PatternKit/Resources/**/*', '**/PublicSafetyKit/Resources/**/*'
 
 s.dependency 'Alamofire', '4.5.1'
 s.dependency 'Unbox', '2.5.0'
