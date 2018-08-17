@@ -25,7 +25,7 @@ open class SearchResultMessageViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         
-        let closeText = NSLocalizedString("Close", bundle: .mpolKit, comment: "BarButton - Close")
+        let closeText = NSLocalizedString("Close", comment: "BarButton - Close")
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: closeText, style: .plain, target: self, action: #selector(closeButtonDidSelect))
     }
     

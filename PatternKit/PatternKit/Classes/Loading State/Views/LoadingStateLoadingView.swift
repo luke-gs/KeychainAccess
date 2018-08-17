@@ -49,7 +49,7 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
 
     private func commonInit() {
         // Set default loading text
-        titleLabel.text = NSLocalizedString("Loading", bundle: .mpolKit, comment: "Default loading title")
+        titleLabel.text = NSLocalizedString("Loading", comment: "Default loading title")
 
         // Add loading indicator to image container and always show
         let theme = ThemeManager.shared.theme(for: .current)

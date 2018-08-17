@@ -28,7 +28,7 @@ public extension LOTAnimationView {
     static func loadMPOLAnimation(fileURL: URL) -> LOTComposition? {
         let data = try! Data(contentsOf: fileURL)
         if let json = try! JSONSerialization.jsonObject(with: data) as? [AnyHashable: Any] {
-            let composition = LOTComposition(json: json, withAssetBundle: Bundle.mpolKit)
+            let composition = LOTComposition(json: json, withAssetBundle: Bundle.patternKit)
             DispatchQueue.main.async {
                 LOTAnimationCache.shared().addAnimation(composition, forKey: fileURL.absoluteString)
             }

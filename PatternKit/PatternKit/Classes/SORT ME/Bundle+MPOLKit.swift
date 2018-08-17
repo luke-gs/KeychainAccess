@@ -14,6 +14,9 @@ extension Bundle {
     /// The bundle containing MPOLKit and its assets.
     ///
     /// TODO: Restrict access to internal.
-    public static let mpolKit = Bundle(for: FormCollectionViewController.self)
-    
+    // public static let mpolKit = Bundle(for: FormCollectionViewController.self)
+
+    /// The bundle containing PatternKit and its assets.
+    public static let patternKit = Bundle(for: FormCollectionViewController.self)
+
 }

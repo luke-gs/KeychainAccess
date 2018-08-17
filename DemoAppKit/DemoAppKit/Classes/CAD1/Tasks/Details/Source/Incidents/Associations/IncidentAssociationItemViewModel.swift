@@ -67,7 +67,7 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
                 imageName = "iconEntityAutomotiveCar96"
             }
             
-            thumbnailImage = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
+            thumbnailImage = UIImage(named: imageName, in: .patternKit, compatibleWith: nil)
             contentMode = .center
         }
         

@@ -29,7 +29,7 @@ public final class TermsConditionsViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        title = NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: "Title")
+        title = NSLocalizedString("Terms and Conditions", comment: "Title")
 
         automaticallyAdjustsScrollViewInsets = false
 

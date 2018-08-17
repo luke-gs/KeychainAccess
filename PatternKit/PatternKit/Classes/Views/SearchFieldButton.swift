@@ -109,8 +109,8 @@ open class SearchFieldButton: UIButton {
             titleLabel.textAlignment = .natural
             titleLabel.lineBreakMode = .byTruncatingTail
         }
-        
-        setImage(UIImage(named: "iconSystemSearchField", in: .mpolKit, compatibleWith: nil), for: .normal)
+
+        setImage(AssetManager.shared.image(forKey: .searchField), for: .normal)
         
         updateTextAndColor()
         

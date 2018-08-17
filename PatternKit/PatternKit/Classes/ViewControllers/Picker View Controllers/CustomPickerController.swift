@@ -303,12 +303,12 @@ public class CustomPickerController: FormTableViewController {
         } else {
             if allowsMultipleSelection {
                 if selectedIndexes.count < datasource.objects.count {
-                    cell.textLabel?.text = NSLocalizedString("Select All", bundle: .mpolKit, comment: "")
+                    cell.textLabel?.text = NSLocalizedString("Select All", comment: "")
                 } else {
-                    cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
+                    cell.textLabel?.text = NSLocalizedString("Deselect All", comment: "")
                 }
             } else {
-                cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
+                cell.textLabel?.text = NSLocalizedString("Deselect All", comment: "")
             }
             cell.detailTextLabel?.text = nil
             isSelected = false

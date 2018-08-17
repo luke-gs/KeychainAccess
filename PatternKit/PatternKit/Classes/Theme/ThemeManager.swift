@@ -98,9 +98,9 @@ public class ThemeManager: NSObject {
     
     // MARK: - Private properties
 
-    private lazy var lightTheme = Theme(name: "LightTheme", in: .mpolKit)!
+    private lazy var lightTheme = Theme(name: "LightTheme", in: .patternKit)!
     
-    private lazy var darkTheme = Theme(name: "DarkTheme", in: .mpolKit)!
+    private lazy var darkTheme = Theme(name: "DarkTheme", in: .patternKit)!
     
     
     // MARK: - Theme access and registration
@@ -121,8 +121,8 @@ public class ThemeManager: NSObject {
     ///   - userInterfaceStyle: The interface style to register for. `.current` is ignored.
     public func register(_ theme: Theme?, for userInterfaceStyle: UserInterfaceStyle) {
         switch userInterfaceStyle {
-        case .light: lightTheme = theme ?? Theme(name: "LightTheme", in: .mpolKit)!
-        case .dark:  darkTheme = theme ?? Theme(name: "DarkTheme", in: .mpolKit)!
+        case .light: lightTheme = theme ?? Theme(name: "LightTheme", in: .patternKit)!
+        case .dark:  darkTheme = theme ?? Theme(name: "DarkTheme", in: .patternKit)!
         case .current: break
         }
     }

@@ -26,7 +26,7 @@ public enum MPOLSpinnerStyle {
 
 public class MPOLSpinnerView: LOTAnimationView {
 
-    static var fileURL: URL = Bundle.mpolKit.url(forResource: "spinner", withExtension: LottieType, subdirectory: LottieDirectory)!
+    static var fileURL: URL = Bundle.patternKit.url(forResource: "spinner", withExtension: LottieType, subdirectory: LottieDirectory)!
 
     public let style: MPOLSpinnerStyle
 
@@ -52,7 +52,7 @@ public class MPOLSpinnerView: LOTAnimationView {
         if model == nil {
             model = LOTAnimationView.loadMPOLAnimation(fileURL: MPOLSpinnerView.fileURL)
         }
-        super.init(model: model, in: Bundle.mpolKit)
+        super.init(model: model, in: Bundle.patternKit)
 
         loopAnimation = true
         frame = CGRect(origin: .zero, size: style.size)

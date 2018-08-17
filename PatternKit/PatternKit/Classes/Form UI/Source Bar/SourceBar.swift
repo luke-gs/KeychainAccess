@@ -124,7 +124,7 @@ public class SourceBar: UIScrollView {
     
     private func commonInit() {
         isAccessibilityElement = false
-        accessibilityLabel = NSLocalizedString("Source Bar", bundle: .mpolKit, comment: "Localized Source Bar Component name")
+        accessibilityLabel = NSLocalizedString("Source Bar", comment: "Localized Source Bar Component name")
         accessibilityTraits = UIAccessibilityTraitTabBar
         
         updateContentSizePriorities()

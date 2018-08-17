@@ -282,12 +282,12 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
         } else {
             if allowsMultipleSelection {
                 if selectedIndexes.count < items.count {
-                    cell.textLabel?.text = NSLocalizedString("Select All", bundle: .mpolKit, comment: "")
+                    cell.textLabel?.text = NSLocalizedString("Select All", comment: "")
                 } else {
-                    cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
+                    cell.textLabel?.text = NSLocalizedString("Deselect All", comment: "")
                 }
             } else {
-                cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
+                cell.textLabel?.text = NSLocalizedString("Deselect All", comment: "")
             }
             cell.detailTextLabel?.text = nil
             isSelected = false

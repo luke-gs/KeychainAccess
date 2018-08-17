@@ -104,9 +104,9 @@ public class FilterBarButtonItem: UIBarButtonItem {
             super.image = AssetManager.shared.image(forKey: isActive ? .filterFilled : .filter )
             
             if isActive {
-                self.accessibilityValue = NSLocalizedString("Active", bundle: .mpolKit, comment: "Bar Button Item Accessibility.")
+                self.accessibilityValue = NSLocalizedString("Active", comment: "Bar Button Item Accessibility.")
             } else {
-                self.accessibilityValue = NSLocalizedString("Inactive", bundle: .mpolKit, comment: "Bar Button Item Accessibility.")
+                self.accessibilityValue = NSLocalizedString("Inactive", comment: "Bar Button Item Accessibility.")
             }
             
         }
@@ -122,8 +122,8 @@ public class FilterBarButtonItem: UIBarButtonItem {
         super.image = AssetManager.shared.image(forKey: .filter)
         self.target = target
         self.action = action
-        self.accessibilityLabel = NSLocalizedString("Filter", bundle: .mpolKit, comment: "Bar Button Item Accessibility.")
-        self.accessibilityValue = NSLocalizedString("Inactive", bundle: .mpolKit, comment: "Bar Button Item Accessibility.")
+        self.accessibilityLabel = NSLocalizedString("Filter", comment: "Bar Button Item Accessibility.")
+        self.accessibilityValue = NSLocalizedString("Inactive", comment: "Bar Button Item Accessibility.")
     }
     
     /// FilterBarButtonItem does not support NSCoding
