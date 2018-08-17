@@ -53,7 +53,6 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             return self.readyToSubmit
         }
 
-
         readyToSubmit = event.evaluator.isComplete
 
         if readyToSubmit {
