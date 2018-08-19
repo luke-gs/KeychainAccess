@@ -663,20 +663,20 @@
 			isa = PBXGroup;
 			children = (
 				968A155F21267CCE006634DC /* Dates */,
-				968A156121267CCE006634DC /* Scroll View Insets */,
 				968A156421267CCE006634DC /* Form Builder */,
-				968A15A221267CCE006634DC /* Image */,
-				968A15A721267CCE006634DC /* Night Mode */,
-				968A15AA21267CCE006634DC /* ViewControllers */,
 				968A161C21267CCE006634DC /* Form UI */,
-				968A168821267CCE006634DC /* Theme */,
-				968A168C21267CCE006634DC /* MPOLKitInitialize.swift */,
+				968A15A221267CCE006634DC /* Image */,
+				968A16B521267CCE006634DC /* Keyboard Input */,
 				968A168D21267CCE006634DC /* Loading State */,
 				968A169421267CCE006634DC /* Lottie */,
-				968A169721267CCE006634DC /* Views */,
-				968A16B521267CCE006634DC /* Keyboard Input */,
+				968A15A721267CCE006634DC /* Night Mode */,
+				968A156121267CCE006634DC /* Scroll View Insets */,
 				968A16B821267CCE006634DC /* SORT ME */,
 				968A16BC21267CCE006634DC /* Text View Editing */,
+				968A168821267CCE006634DC /* Theme */,
+				968A15AA21267CCE006634DC /* ViewControllers */,
+				968A169721267CCE006634DC /* Views */,
+				968A168C21267CCE006634DC /* MPOLKitInitialize.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -692,8 +692,8 @@
 		968A156121267CCE006634DC /* Scroll View Insets */ = {
 			isa = PBXGroup;
 			children = (
-				968A156221267CCE006634DC /* ScrollViewInsetManager.swift */,
 				968A156321267CCE006634DC /* KeyboardAnimationDetails.swift */,
+				968A156221267CCE006634DC /* ScrollViewInsetManager.swift */,
 			);
 			path = "Scroll View Insets";
 			sourceTree = "<group>";
@@ -701,19 +701,19 @@
 		968A156421267CCE006634DC /* Form Builder */ = {
 			isa = PBXGroup;
 			children = (
-				968A156521267CCE006634DC /* Visitors */,
-				968A156921267CCE006634DC /* FormBuilder.swift */,
-				968A156A21267CCE006634DC /* FormBuilderViewController.swift */,
-				968A156B21267CCE006634DC /* FormCollectionViewHandler.swift */,
-				968A156C21267CCE006634DC /* Extensions */,
-				968A156E21267CCE006634DC /* ViewControllers */,
-				968A157221267CCE006634DC /* Layouts */,
 				968A157421267CCE006634DC /* Actions */,
+				968A156C21267CCE006634DC /* Extensions */,
 				968A157621267CCE006634DC /* FormAccessories */,
 				968A157B21267CCE006634DC /* FormItems */,
-				968A159B21267CCE006634DC /* FormSection.swift */,
+				968A157221267CCE006634DC /* Layouts */,
 				968A159C21267CCE006634DC /* Protocols */,
+				968A156E21267CCE006634DC /* ViewControllers */,
+				968A156521267CCE006634DC /* Visitors */,
+				968A156921267CCE006634DC /* FormBuilder.swift */,
 				968A15A121267CCE006634DC /* FormBuilderSearchViewController.swift */,
+				968A156A21267CCE006634DC /* FormBuilderViewController.swift */,
+				968A156B21267CCE006634DC /* FormCollectionViewHandler.swift */,
+				968A159B21267CCE006634DC /* FormSection.swift */,
 			);
 			path = "Form Builder";
 			sourceTree = "<group>";
@@ -766,9 +766,9 @@
 			isa = PBXGroup;
 			children = (
 				968A157721267CCE006634DC /* CustomItemAccessory.swift */,
-				968A157821267CCE006634DC /* RoundedLabelAccessory.swift */,
-				968A157921267CCE006634DC /* LabeledItemAccessory.swift */,
 				968A157A21267CCE006634DC /* ItemAccessory.swift */,
+				968A157921267CCE006634DC /* LabeledItemAccessory.swift */,
+				968A157821267CCE006634DC /* RoundedLabelAccessory.swift */,
 			);
 			path = FormAccessories;
 			sourceTree = "<group>";
@@ -776,37 +776,37 @@
 		968A157B21267CCE006634DC /* FormItems */ = {
 			isa = PBXGroup;
 			children = (
-				968A157C21267CCE006634DC /* DetailLinkFormItem.swift */,
-				968A157D21267CCE006634DC /* LargeTextHeaderFormItem.swift */,
-				968A157E21267CCE006634DC /* HeaderFormItem.swift */,
-				968A157F21267CCE006634DC /* FooterFormItem.swift */,
-				968A158021267CCE006634DC /* OptionDisplayableFormItem.swift */,
-				968A158121267CCE006634DC /* RoundedRectButtonFormItem.swift */,
-				968A158221267CCE006634DC /* ValueFormItem.swift */,
-				968A158321267CCE006634DC /* OptionGroupFormItem.swift */,
-				968A158421267CCE006634DC /* SubItemFormItem.swift */,
 				968A158521267CCE006634DC /* BaseFormItem.swift */,
-				968A158621267CCE006634DC /* DurationFormItem.swift */,
-				968A158721267CCE006634DC /* TextViewFormItem.swift */,
-				968A158821267CCE006634DC /* RangeFormItem.swift */,
-				968A158921267CCE006634DC /* OptionFormItem.swift */,
-				968A158A21267CCE006634DC /* CustomFormItem.swift */,
-				968A158B21267CCE006634DC /* SummaryThumbnailFormItem.swift */,
-				968A158C21267CCE006634DC /* SummaryListFormItem.swift */,
-				968A158D21267CCE006634DC /* DropDownFormItem.swift */,
-				968A158E21267CCE006634DC /* StepperFormItem.swift */,
-				968A158F21267CCE006634DC /* DetailFormItem.swift */,
-				968A159021267CCE006634DC /* PickerFormItem.swift */,
-				968A159121267CCE006634DC /* MediaFormItem.swift */,
-				968A159221267CCE006634DC /* SummaryDetailFormItem.swift */,
-				968A159321267CCE006634DC /* RowDetailFormItem.swift */,
-				968A159421267CCE006634DC /* DateFormItem.swift */,
-				968A159521267CCE006634DC /* ProgressFormItem.swift */,
-				968A159621267CCE006634DC /* TextFieldFormItem.swift */,
-				968A159721267CCE006634DC /* QuantityPickerFormItem.swift */,
 				968A159821267CCE006634DC /* BaseSupplementaryFormItem.swift */,
+				968A158A21267CCE006634DC /* CustomFormItem.swift */,
+				968A159421267CCE006634DC /* DateFormItem.swift */,
+				968A158F21267CCE006634DC /* DetailFormItem.swift */,
+				968A157C21267CCE006634DC /* DetailLinkFormItem.swift */,
+				968A158D21267CCE006634DC /* DropDownFormItem.swift */,
+				968A158621267CCE006634DC /* DurationFormItem.swift */,
+				968A157F21267CCE006634DC /* FooterFormItem.swift */,
+				968A157E21267CCE006634DC /* HeaderFormItem.swift */,
 				968A159921267CCE006634DC /* LabelFormItem.swift */,
+				968A157D21267CCE006634DC /* LargeTextHeaderFormItem.swift */,
+				968A159121267CCE006634DC /* MediaFormItem.swift */,
+				968A158021267CCE006634DC /* OptionDisplayableFormItem.swift */,
+				968A158921267CCE006634DC /* OptionFormItem.swift */,
+				968A158321267CCE006634DC /* OptionGroupFormItem.swift */,
+				968A159021267CCE006634DC /* PickerFormItem.swift */,
+				968A159521267CCE006634DC /* ProgressFormItem.swift */,
+				968A159721267CCE006634DC /* QuantityPickerFormItem.swift */,
+				968A158821267CCE006634DC /* RangeFormItem.swift */,
+				968A158121267CCE006634DC /* RoundedRectButtonFormItem.swift */,
+				968A159321267CCE006634DC /* RowDetailFormItem.swift */,
+				968A158E21267CCE006634DC /* StepperFormItem.swift */,
+				968A158421267CCE006634DC /* SubItemFormItem.swift */,
 				968A159A21267CCE006634DC /* SubtitleFormItem.swift */,
+				968A159221267CCE006634DC /* SummaryDetailFormItem.swift */,
+				968A158C21267CCE006634DC /* SummaryListFormItem.swift */,
+				968A158B21267CCE006634DC /* SummaryThumbnailFormItem.swift */,
+				968A159621267CCE006634DC /* TextFieldFormItem.swift */,
+				968A158721267CCE006634DC /* TextViewFormItem.swift */,
+				968A158221267CCE006634DC /* ValueFormItem.swift */,
 			);
 			path = FormItems;
 			sourceTree = "<group>";
@@ -814,10 +814,10 @@
 		968A159C21267CCE006634DC /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				968A159D21267CCE006634DC /* ItemAccessorisable.swift */,
 				968A159E21267CCE006634DC /* FormValidator.swift */,
-				968A159F21267CCE006634DC /* ImageSizing.swift */,
 				968A15A021267CCE006634DC /* ImageLoadable.swift */,
+				968A159F21267CCE006634DC /* ImageSizing.swift */,
+				968A159D21267CCE006634DC /* ItemAccessorisable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -825,10 +825,10 @@
 		968A15A221267CCE006634DC /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				968A15A621267CCE006634DC /* AsynchronousImageSizing.swift */,
 				968A15A321267CCE006634DC /* UIImage+Initials.swift */,
 				968A15A421267CCE006634DC /* UIImage+StatusDot.swift */,
 				968A15A521267CCE006634DC /* UIImageView+ImageLoadable.swift */,
-				968A15A621267CCE006634DC /* AsynchronousImageSizing.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -836,8 +836,8 @@
 		968A15A721267CCE006634DC /* Night Mode */ = {
 			isa = PBXGroup;
 			children = (
-				968A15A821267CCE006634DC /* MKMapView+MKMapView_NightMode.m */,
 				968A15A921267CCE006634DC /* MKMapView+MKMapView_NightMode.h */,
+				968A15A821267CCE006634DC /* MKMapView+MKMapView_NightMode.m */,
 			);
 			path = "Night Mode";
 			sourceTree = "<group>";
@@ -845,25 +845,25 @@
 		968A15AA21267CCE006634DC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				968A15AB21267CCE006634DC /* Sidebar */,
-				968A15B621267CCE006634DC /* Legacy Forms */,
-				968A15BA21267CCE006634DC /* Map Filter */,
-				968A15C421267CCE006634DC /* Signature */,
-				968A15C721267CCE006634DC /* Container View Controllers */,
 				968A15CF21267CCE006634DC /* Action Sheet */,
-				968A15D121267CCE006634DC /* Giant Alert */,
-				968A15D621267CCE006634DC /* Map Form */,
-				968A15DD21267CCE006634DC /* Map */,
-				968A15EA21267CCE006634DC /* Whats New */,
-				968A15EE21267CCE006634DC /* Table View Margins */,
-				968A15F121267CCE006634DC /* Search Help */,
-				968A15F721267CCE006634DC /* TitleView */,
-				968A15FA21267CCE006634DC /* Searchable List */,
 				968A15FD21267CCE006634DC /* Alert Queue */,
-				968A15FF21267CCE006634DC /* Timeline */,
-				968A160321267CCE006634DC /* Popover & Form Sheet */,
+				968A15C721267CCE006634DC /* Container View Controllers */,
+				968A15D121267CCE006634DC /* Giant Alert */,
+				968A15B621267CCE006634DC /* Legacy Forms */,
 				968A160A21267CCE006634DC /* Login */,
+				968A15DD21267CCE006634DC /* Map */,
+				968A15BA21267CCE006634DC /* Map Filter */,
+				968A15D621267CCE006634DC /* Map Form */,
 				968A161121267CCE006634DC /* Picker View Controllers */,
+				968A160321267CCE006634DC /* Popover & Form Sheet */,
+				968A15F121267CCE006634DC /* Search Help */,
+				968A15FA21267CCE006634DC /* Searchable List */,
+				968A15AB21267CCE006634DC /* Sidebar */,
+				968A15C421267CCE006634DC /* Signature */,
+				968A15EE21267CCE006634DC /* Table View Margins */,
+				968A15FF21267CCE006634DC /* Timeline */,
+				968A15F721267CCE006634DC /* TitleView */,
+				968A15EA21267CCE006634DC /* Whats New */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -871,16 +871,16 @@
 		968A15AB21267CCE006634DC /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				968A15AC21267CCE006634DC /* SidebarItem.swift */,
-				968A15AD21267CCE006634DC /* RegularSidebarViewController.swift */,
-				968A15AE21267CCE006634DC /* CompactSidebarSourceCell.swift */,
-				968A15AF21267CCE006634DC /* SidebarSplitViewController.swift */,
-				968A15B021267CCE006634DC /* CompactSidebarViewController.swift */,
-				968A15B121267CCE006634DC /* CompactSidebarSourceViewController.swift */,
-				968A15B221267CCE006634DC /* RegularSidebarTableViewCell.swift */,
-				968A15B321267CCE006634DC /* SidebarDelegate.swift */,
-				968A15B421267CCE006634DC /* ScrollAwarePageViewController.swift */,
 				968A15B521267CCE006634DC /* CompactSidebarItemView.swift */,
+				968A15AE21267CCE006634DC /* CompactSidebarSourceCell.swift */,
+				968A15B121267CCE006634DC /* CompactSidebarSourceViewController.swift */,
+				968A15B021267CCE006634DC /* CompactSidebarViewController.swift */,
+				968A15B221267CCE006634DC /* RegularSidebarTableViewCell.swift */,
+				968A15AD21267CCE006634DC /* RegularSidebarViewController.swift */,
+				968A15B421267CCE006634DC /* ScrollAwarePageViewController.swift */,
+				968A15B321267CCE006634DC /* SidebarDelegate.swift */,
+				968A15AC21267CCE006634DC /* SidebarItem.swift */,
+				968A15AF21267CCE006634DC /* SidebarSplitViewController.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -888,9 +888,9 @@
 		968A15B621267CCE006634DC /* Legacy Forms */ = {
 			isa = PBXGroup;
 			children = (
-				968A15B721267CCE006634DC /* FormTableViewController.swift */,
 				968A15B821267CCE006634DC /* FormCollectionViewController.swift */,
 				968A15B921267CCE006634DC /* FormSearchTableViewController.swift */,
+				968A15B721267CCE006634DC /* FormTableViewController.swift */,
 			);
 			path = "Legacy Forms";
 			sourceTree = "<group>";
@@ -898,11 +898,11 @@
 		968A15BA21267CCE006634DC /* Map Filter */ = {
 			isa = PBXGroup;
 			children = (
-				968A15BB21267CCE006634DC /* MapFilterViewModel.swift */,
-				968A15BC21267CCE006634DC /* MapFilterViewController.swift */,
 				968A15BD21267CCE006634DC /* Model */,
 				968A15C221267CCE006634DC /* MapFilterSectionView.swift */,
 				968A15C321267CCE006634DC /* MapFilterToggleRowView.swift */,
+				968A15BC21267CCE006634DC /* MapFilterViewController.swift */,
+				968A15BB21267CCE006634DC /* MapFilterViewModel.swift */,
 			);
 			path = "Map Filter";
 			sourceTree = "<group>";
@@ -910,10 +910,10 @@
 		968A15BD21267CCE006634DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				968A15BE21267CCE006634DC /* MapFilterToggleRow.swift */,
-				968A15BF21267CCE006634DC /* MapFilterSection.swift */,
-				968A15C021267CCE006634DC /* MapFilterOption.swift */,
 				968A15C121267CCE006634DC /* Collection+MapFilterSectionCopy.swift */,
+				968A15C021267CCE006634DC /* MapFilterOption.swift */,
+				968A15BF21267CCE006634DC /* MapFilterSection.swift */,
+				968A15BE21267CCE006634DC /* MapFilterToggleRow.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -932,11 +932,11 @@
 			children = (
 				968A15C821267CCE006634DC /* ContainerWithHeaderViewController.swift */,
 				968A15C921267CCE006634DC /* InteractivePopRecognizerDelegate.swift */,
-				968A15CA21267CCE006634DC /* ViewControllerAnimationOptionTransition.swift */,
-				968A15CB21267CCE006634DC /* PushableSplitViewController.swift */,
-				968A15CC21267CCE006634DC /* PopToRootable.swift */,
-				968A15CD21267CCE006634DC /* StatusTabBarController.swift */,
 				968A15CE21267CCE006634DC /* MPOLSplitViewController.swift */,
+				968A15CC21267CCE006634DC /* PopToRootable.swift */,
+				968A15CB21267CCE006634DC /* PushableSplitViewController.swift */,
+				968A15CD21267CCE006634DC /* StatusTabBarController.swift */,
+				968A15CA21267CCE006634DC /* ViewControllerAnimationOptionTransition.swift */,
 			);
 			path = "Container View Controllers";
 			sourceTree = "<group>";
@@ -952,10 +952,10 @@
 		968A15D121267CCE006634DC /* Giant Alert */ = {
 			isa = PBXGroup;
 			children = (
-				968A15D221267CCE006634DC /* DialogActionView.swift */,
 				968A15D321267CCE006634DC /* DialogAction.swift */,
-				968A15D421267CCE006634DC /* PSCAlertView.swift */,
+				968A15D221267CCE006634DC /* DialogActionView.swift */,
 				968A15D521267CCE006634DC /* PSCAlertController.swift */,
+				968A15D421267CCE006634DC /* PSCAlertView.swift */,
 			);
 			path = "Giant Alert";
 			sourceTree = "<group>";
@@ -963,12 +963,12 @@
 		968A15D621267CCE006634DC /* Map Form */ = {
 			isa = PBXGroup;
 			children = (
-				968A15D721267CCE006634DC /* MapCollectionViewSidebarLayout.swift */,
-				968A15D821267CCE006634DC /* MapFormBuilderCollectionViewDraggableCardLayout.swift */,
-				968A15D921267CCE006634DC /* MapFormBuilderCollectionViewSideBarLayout.swift */,
 				968A15DA21267CCE006634DC /* MapCollectionViewController.swift */,
 				968A15DB21267CCE006634DC /* MapCollectionViewHeaderLayout.swift */,
 				968A15DC21267CCE006634DC /* MapCollectionViewLayout.swift */,
+				968A15D721267CCE006634DC /* MapCollectionViewSidebarLayout.swift */,
+				968A15D821267CCE006634DC /* MapFormBuilderCollectionViewDraggableCardLayout.swift */,
+				968A15D921267CCE006634DC /* MapFormBuilderCollectionViewSideBarLayout.swift */,
 			);
 			path = "Map Form";
 			sourceTree = "<group>";
@@ -976,11 +976,11 @@
 		968A15DD21267CCE006634DC /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				968A15DE21267CCE006634DC /* Settings */,
-				968A15E121267CCE006634DC /* MapViewController.swift */,
 				968A15E221267CCE006634DC /* Annotations */,
+				968A15DE21267CCE006634DC /* Settings */,
 				968A15E821267CCE006634DC /* AutoLayoutAnnotationView.swift */,
 				968A15E921267CCE006634DC /* MapOverlayImageButton.swift */,
+				968A15E121267CCE006634DC /* MapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -997,11 +997,11 @@
 		968A15E221267CCE006634DC /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
-				968A15E321267CCE006634DC /* PinAnnotationView.swift */,
-				968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */,
 				968A15E521267CCE006634DC /* BubbleAnnotationView.swift */,
-				968A15E621267CCE006634DC /* LocationAnnotationView.swift */,
 				968A15E721267CCE006634DC /* ClusterAnnotationView.swift */,
+				968A15E621267CCE006634DC /* LocationAnnotationView.swift */,
+				968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */,
+				968A15E321267CCE006634DC /* PinAnnotationView.swift */,
 			);
 			path = Annotations;
 			sourceTree = "<group>";
@@ -1010,8 +1010,8 @@
 			isa = PBXGroup;
 			children = (
 				968A15EB21267CCE006634DC /* WhatsNewDetailViewController.swift */,
-				968A15EC21267CCE006634DC /* WhatsNewViewController.swift */,
 				968A15ED21267CCE006634DC /* WhatsNewTheme.swift */,
+				968A15EC21267CCE006634DC /* WhatsNewViewController.swift */,
 			);
 			path = "Whats New";
 			sourceTree = "<group>";
@@ -1019,8 +1019,8 @@
 		968A15EE21267CCE006634DC /* Table View Margins */ = {
 			isa = PBXGroup;
 			children = (
-				968A15EF21267CCE006634DC /* UITableViewCell+LayoutMargins.swift */,
 				968A15F021267CCE006634DC /* UITableView+DefaultReuse.swift */,
+				968A15EF21267CCE006634DC /* UITableViewCell+LayoutMargins.swift */,
 			);
 			path = "Table View Margins";
 			sourceTree = "<group>";
@@ -1028,11 +1028,11 @@
 		968A15F121267CCE006634DC /* Search Help */ = {
 			isa = PBXGroup;
 			children = (
+				968A15F621267CCE006634DC /* HelpContent.swift */,
 				968A15F221267CCE006634DC /* HelpViewController.swift */,
+				968A15F521267CCE006634DC /* LeftAlignedCollectionViewFlowLayout.swift */,
 				968A15F321267CCE006634DC /* TagCollectionView.swift */,
 				968A15F421267CCE006634DC /* TagCollectionViewCell.swift */,
-				968A15F521267CCE006634DC /* LeftAlignedCollectionViewFlowLayout.swift */,
-				968A15F621267CCE006634DC /* HelpContent.swift */,
 			);
 			path = "Search Help";
 			sourceTree = "<group>";
@@ -1076,12 +1076,12 @@
 		968A160321267CCE006634DC /* Popover & Form Sheet */ = {
 			isa = PBXGroup;
 			children = (
-				968A160421267CCE006634DC /* ThemedPopoverViewController.swift */,
+				968A160721267CCE006634DC /* CompactFormSheetNavigationController.swift */,
 				968A160521267CCE006634DC /* ForcedPopoverPresentationControllerDelegate.swift */,
 				968A160621267CCE006634DC /* PopoverNavigationController.swift */,
-				968A160721267CCE006634DC /* CompactFormSheetNavigationController.swift */,
-				968A160821267CCE006634DC /* PopoverViewController.swift */,
 				968A160921267CCE006634DC /* PopoverSheetPresentationController.swift */,
+				968A160821267CCE006634DC /* PopoverViewController.swift */,
+				968A160421267CCE006634DC /* ThemedPopoverViewController.swift */,
 			);
 			path = "Popover & Form Sheet";
 			sourceTree = "<group>";
@@ -1089,12 +1089,12 @@
 		968A160A21267CCE006634DC /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				968A160B21267CCE006634DC /* LoginContainerViewController.swift */,
-				968A160C21267CCE006634DC /* HighlightingTextView.swift */,
-				968A160D21267CCE006634DC /* LoginHeaderView.swift */,
 				968A160E21267CCE006634DC /* BiometricUserHandler.swift */,
-				968A160F21267CCE006634DC /* LoginViewController.swift */,
+				968A160C21267CCE006634DC /* HighlightingTextView.swift */,
+				968A160B21267CCE006634DC /* LoginContainerViewController.swift */,
+				968A160D21267CCE006634DC /* LoginHeaderView.swift */,
 				968A161021267CCE006634DC /* LoginProtocols.swift */,
+				968A160F21267CCE006634DC /* LoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1102,15 +1102,15 @@
 		968A161121267CCE006634DC /* Picker View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				968A161421267CCE006634DC /* Pickable */,
+				968A161A21267CCE006634DC /* CustomPickerController.swift */,
+				968A161621267CCE006634DC /* DefaultPickableSearchDatasource.swift */,
+				968A161821267CCE006634DC /* DefaultSearchPickerDatasource.swift */,
+				968A161B21267CCE006634DC /* FilterViewController.swift */,
+				968A161721267CCE006634DC /* PickerTableViewController.swift */,
+				968A161921267CCE006634DC /* PopoverDatePickerViewController.swift */,
 				968A161221267CCE006634DC /* QuantityPickerViewController.swift */,
 				968A161321267CCE006634DC /* QuantityPickerViewModel.swift */,
-				968A161421267CCE006634DC /* Pickable */,
-				968A161621267CCE006634DC /* DefaultPickableSearchDatasource.swift */,
-				968A161721267CCE006634DC /* PickerTableViewController.swift */,
-				968A161821267CCE006634DC /* DefaultSearchPickerDatasource.swift */,
-				968A161921267CCE006634DC /* PopoverDatePickerViewController.swift */,
-				968A161A21267CCE006634DC /* CustomPickerController.swift */,
-				968A161B21267CCE006634DC /* FilterViewController.swift */,
 			);
 			path = "Picker View Controllers";
 			sourceTree = "<group>";
@@ -1126,16 +1126,16 @@
 		968A161C21267CCE006634DC /* Form UI */ = {
 			isa = PBXGroup;
 			children = (
-				968A161D21267CCE006634DC /* Cells */,
-				968A162621267CCE006634DC /* Source Bar */,
-				968A162A21267CCE006634DC /* Layout */,
-				968A162D21267CCE006634DC /* Collection Reusable Views */,
-				968A166921267CCE006634DC /* Table View Cells */,
-				968A167021267CCE006634DC /* StringSizing.swift */,
 				968A167121267CCE006634DC /* Cell Animations */,
+				968A161D21267CCE006634DC /* Cells */,
+				968A162D21267CCE006634DC /* Collection Reusable Views */,
+				968A168521267CCE006634DC /* Displayable */,
+				968A162A21267CCE006634DC /* Layout */,
+				968A162621267CCE006634DC /* Source Bar */,
+				968A166921267CCE006634DC /* Table View Cells */,
 				968A167721267CCE006634DC /* Views */,
 				968A168421267CCE006634DC /* FormDefines.swift */,
-				968A168521267CCE006634DC /* Displayable */,
+				968A167021267CCE006634DC /* StringSizing.swift */,
 			);
 			path = "Form UI";
 			sourceTree = "<group>";
@@ -1143,14 +1143,14 @@
 		968A161D21267CCE006634DC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				968A161E21267CCE006634DC /* EntityCollectionViewCell.swift */,
-				968A161F21267CCE006634DC /* SubItemCollectionViewCell.swift */,
-				968A162021267CCE006634DC /* EntityListCollectionViewCell.swift */,
-				968A162121267CCE006634DC /* StatsOverviewCollectionViewCell.swift */,
-				968A162221267CCE006634DC /* LocationMapDirectionCollectionViewCell.swift */,
-				968A162321267CCE006634DC /* GalleryCollectionViewCell.swift */,
-				968A162421267CCE006634DC /* EntityDetailCollectionViewCell.swift */,
 				968A162521267CCE006634DC /* CollectionViewFormProgressCell.swift */,
+				968A161E21267CCE006634DC /* EntityCollectionViewCell.swift */,
+				968A162421267CCE006634DC /* EntityDetailCollectionViewCell.swift */,
+				968A162021267CCE006634DC /* EntityListCollectionViewCell.swift */,
+				968A162321267CCE006634DC /* GalleryCollectionViewCell.swift */,
+				968A162221267CCE006634DC /* LocationMapDirectionCollectionViewCell.swift */,
+				968A162121267CCE006634DC /* StatsOverviewCollectionViewCell.swift */,
+				968A161F21267CCE006634DC /* SubItemCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1158,9 +1158,9 @@
 		968A162621267CCE006634DC /* Source Bar */ = {
 			isa = PBXGroup;
 			children = (
+				968A162921267CCE006634DC /* SourceBar.swift */,
 				968A162721267CCE006634DC /* SourceBarCell.swift */,
 				968A162821267CCE006634DC /* SourceItem.swift */,
-				968A162921267CCE006634DC /* SourceBar.swift */,
 			);
 			path = "Source Bar";
 			sourceTree = "<group>";
@@ -1168,8 +1168,8 @@
 		968A162A21267CCE006634DC /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				968A162B21267CCE006634DC /* CollectionViewFormLayoutAttributes.swift */,
 				968A162C21267CCE006634DC /* CollectionViewFormLayout.swift */,
+				968A162B21267CCE006634DC /* CollectionViewFormLayoutAttributes.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1177,25 +1177,25 @@
 		968A162D21267CCE006634DC /* Collection Reusable Views */ = {
 			isa = PBXGroup;
 			children = (
-				968A162E21267CCE006634DC /* CollectionViewFormStepperCell.swift */,
-				968A162F21267CCE006634DC /* CollectionViewFormLabelCell.swift */,
-				968A163021267CCE006634DC /* CollectionViewFormValueFieldCell.swift */,
-				968A163121267CCE006634DC /* CollectionViewFormOptionStackViewCell.swift */,
-				968A163221267CCE006634DC /* NumericValuesView.swift */,
-				968A163321267CCE006634DC /* CollectionViewFormTextViewCell.swift */,
-				968A163421267CCE006634DC /* CollectionViewFormDetailCell.swift */,
-				968A163521267CCE006634DC /* CollectionViewFormFooterView.swift */,
-				968A163621267CCE006634DC /* CollectionViewFormEditAction.swift */,
-				968A163721267CCE006634DC /* CollectionViewFormRoundedRectButtonCell.swift */,
+				968A164021267CCE006634DC /* Media */,
 				968A163821267CCE006634DC /* CollectionViewFormCell.swift */,
 				968A163921267CCE006634DC /* CollectionViewFormCellActionView.swift */,
+				968A163421267CCE006634DC /* CollectionViewFormDetailCell.swift */,
+				968A163621267CCE006634DC /* CollectionViewFormEditAction.swift */,
+				968A163521267CCE006634DC /* CollectionViewFormFooterView.swift */,
+				968A163D21267CCE006634DC /* CollectionViewFormHeaderView.swift */,
+				968A162F21267CCE006634DC /* CollectionViewFormLabelCell.swift */,
+				968A163E21267CCE006634DC /* CollectionViewFormLargeTextLabelCell.swift */,
+				968A163C21267CCE006634DC /* CollectionViewFormMediaCell.swift */,
+				968A163F21267CCE006634DC /* CollectionViewFormOptionCell.swift */,
+				968A163121267CCE006634DC /* CollectionViewFormOptionStackViewCell.swift */,
+				968A163721267CCE006634DC /* CollectionViewFormRoundedRectButtonCell.swift */,
+				968A162E21267CCE006634DC /* CollectionViewFormStepperCell.swift */,
 				968A163A21267CCE006634DC /* CollectionViewFormSubtitleCell.swift */,
 				968A163B21267CCE006634DC /* CollectionViewFormTextFieldCell.swift */,
-				968A163C21267CCE006634DC /* CollectionViewFormMediaCell.swift */,
-				968A163D21267CCE006634DC /* CollectionViewFormHeaderView.swift */,
-				968A163E21267CCE006634DC /* CollectionViewFormLargeTextLabelCell.swift */,
-				968A163F21267CCE006634DC /* CollectionViewFormOptionCell.swift */,
-				968A164021267CCE006634DC /* Media */,
+				968A163321267CCE006634DC /* CollectionViewFormTextViewCell.swift */,
+				968A163021267CCE006634DC /* CollectionViewFormValueFieldCell.swift */,
+				968A163221267CCE006634DC /* NumericValuesView.swift */,
 			);
 			path = "Collection Reusable Views";
 			sourceTree = "<group>";
@@ -1203,18 +1203,18 @@
 		968A164021267CCE006634DC /* Media */ = {
 			isa = PBXGroup;
 			children = (
-				968A164121267CCE006634DC /* MediaAsset.swift */,
-				968A164221267CCE006634DC /* DataCoordinator */,
-				968A164621267CCE006634DC /* Video */,
-				968A164821267CCE006634DC /* MediaGalleryViewModelable.swift */,
-				968A164921267CCE006634DC /* MediaGalleryDelegate.swift */,
-				968A164A21267CCE006634DC /* MediaPreviewableCell.swift */,
 				968A164B21267CCE006634DC /* Audio */,
-				968A165421267CCE006634DC /* AVMediaViewController.swift */,
-				968A165521267CCE006634DC /* CollectionViewFormRowDetailCell.swift */,
-				968A165621267CCE006634DC /* MediaViewController.swift */,
+				968A164221267CCE006634DC /* DataCoordinator */,
 				968A165721267CCE006634DC /* Media Support */,
 				968A166721267CCE006634DC /* Photo */,
+				968A164621267CCE006634DC /* Video */,
+				968A165421267CCE006634DC /* AVMediaViewController.swift */,
+				968A165521267CCE006634DC /* CollectionViewFormRowDetailCell.swift */,
+				968A164121267CCE006634DC /* MediaAsset.swift */,
+				968A164921267CCE006634DC /* MediaGalleryDelegate.swift */,
+				968A164821267CCE006634DC /* MediaGalleryViewModelable.swift */,
+				968A164A21267CCE006634DC /* MediaPreviewableCell.swift */,
+				968A165621267CCE006634DC /* MediaViewController.swift */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -1240,13 +1240,13 @@
 		968A164B21267CCE006634DC /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				968A164C21267CCE006634DC /* WaveformView.swift */,
-				968A164D21267CCE006634DC /* AudioRecordingViewController.swift */,
 				968A164E21267CCE006634DC /* Image Output */,
 				968A165021267CCE006634DC /* AudioOutputFormatter.swift */,
-				968A165121267CCE006634DC /* AudioSessionConfigurer.swift */,
 				968A165221267CCE006634DC /* AudioPreview.swift */,
+				968A164D21267CCE006634DC /* AudioRecordingViewController.swift */,
+				968A165121267CCE006634DC /* AudioSessionConfigurer.swift */,
 				968A165321267CCE006634DC /* RecordButton.swift */,
+				968A164C21267CCE006634DC /* WaveformView.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -1262,21 +1262,21 @@
 		968A165721267CCE006634DC /* Media Support */ = {
 			isa = PBXGroup;
 			children = (
-				968A165821267CCE006634DC /* MediaCell.swift */,
-				968A165921267CCE006634DC /* MediaPreviewHandler.swift */,
-				968A165A21267CCE006634DC /* MediaThumbnailSlideshowViewController.swift */,
-				968A165B21267CCE006634DC /* MediaDataStore.swift */,
-				968A165C21267CCE006634DC /* MediaGalleryCell.swift */,
-				968A165D21267CCE006634DC /* MediaPickerSource.swift */,
-				968A165E21267CCE006634DC /* MediaGalleryTransitionAnimator.swift */,
-				968A165F21267CCE006634DC /* MediaPreviewViewController.swift */,
-				968A166021267CCE006634DC /* MediaStateCell.swift */,
 				968A166121267CCE006634DC /* MediaAssetCache.swift */,
-				968A166221267CCE006634DC /* MediaSlideShowViewController.swift */,
-				968A166321267CCE006634DC /* MediaSlideShowOverlayView.swift */,
-				968A166421267CCE006634DC /* MediaGalleryViewController.swift */,
+				968A165821267CCE006634DC /* MediaCell.swift */,
+				968A165B21267CCE006634DC /* MediaDataStore.swift */,
 				968A166521267CCE006634DC /* MediaDetailViewController.swift */,
 				968A166621267CCE006634DC /* MediaFileManager.swift */,
+				968A165C21267CCE006634DC /* MediaGalleryCell.swift */,
+				968A165E21267CCE006634DC /* MediaGalleryTransitionAnimator.swift */,
+				968A166421267CCE006634DC /* MediaGalleryViewController.swift */,
+				968A165D21267CCE006634DC /* MediaPickerSource.swift */,
+				968A165921267CCE006634DC /* MediaPreviewHandler.swift */,
+				968A165F21267CCE006634DC /* MediaPreviewViewController.swift */,
+				968A166321267CCE006634DC /* MediaSlideShowOverlayView.swift */,
+				968A166221267CCE006634DC /* MediaSlideShowViewController.swift */,
+				968A166021267CCE006634DC /* MediaStateCell.swift */,
+				968A165A21267CCE006634DC /* MediaThumbnailSlideshowViewController.swift */,
 			);
 			path = "Media Support";
 			sourceTree = "<group>";
@@ -1292,10 +1292,10 @@
 		968A166921267CCE006634DC /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
-				968A166A21267CCE006634DC /* TableViewFormSubtitleCell.swift */,
 				968A166B21267CCE006634DC /* TableViewFormCell.swift */,
-				968A166C21267CCE006634DC /* TableViewFormExpandingHeaderCell.swift */,
 				968A166D21267CCE006634DC /* TableViewFormCheckboxCell.swift */,
+				968A166C21267CCE006634DC /* TableViewFormExpandingHeaderCell.swift */,
+				968A166A21267CCE006634DC /* TableViewFormSubtitleCell.swift */,
 				968A166E21267CCE006634DC /* TableViewFormTextFieldCell.swift */,
 				968A166F21267CCE006634DC /* TableViewFormTextViewCell.swift */,
 			);
@@ -1305,10 +1305,10 @@
 		968A167121267CCE006634DC /* Cell Animations */ = {
 			isa = PBXGroup;
 			children = (
-				968A167221267CCE006634DC /* EnlargeStyle.swift */,
-				968A167321267CCE006634DC /* TableViewStyle.swift */,
 				968A167421267CCE006634DC /* AnimationStyle.swift */,
+				968A167221267CCE006634DC /* EnlargeStyle.swift */,
 				968A167521267CCE006634DC /* FadeStyle.swift */,
+				968A167321267CCE006634DC /* TableViewStyle.swift */,
 				968A167621267CCE006634DC /* UnderlineStyle.swift */,
 			);
 			path = "Cell Animations";
@@ -1317,18 +1317,18 @@
 		968A167721267CCE006634DC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				968A167821267CCE006634DC /* SelectableButton.swift */,
-				968A167921267CCE006634DC /* LabeledAccessoryView.swift */,
-				968A167A21267CCE006634DC /* FormTextField.swift */,
-				968A167B21267CCE006634DC /* FormDisclosureView.swift */,
-				968A167C21267CCE006634DC /* ImageAccessoryItem.swift */,
-				968A167D21267CCE006634DC /* RadioButton.swift */,
-				968A167E21267CCE006634DC /* FormAccessoryImageView.swift */,
-				968A167F21267CCE006634DC /* FormTextView.swift */,
 				968A168021267CCE006634DC /* CheckBox.swift */,
-				968A168121267CCE006634DC /* LabeledSwitch.swift */,
 				968A168221267CCE006634DC /* FormAccessoryCheckmark.swift */,
+				968A167E21267CCE006634DC /* FormAccessoryImageView.swift */,
 				968A168321267CCE006634DC /* FormAccessoryView.swift */,
+				968A167B21267CCE006634DC /* FormDisclosureView.swift */,
+				968A167A21267CCE006634DC /* FormTextField.swift */,
+				968A167F21267CCE006634DC /* FormTextView.swift */,
+				968A167C21267CCE006634DC /* ImageAccessoryItem.swift */,
+				968A167921267CCE006634DC /* LabeledAccessoryView.swift */,
+				968A168121267CCE006634DC /* LabeledSwitch.swift */,
+				968A167D21267CCE006634DC /* RadioButton.swift */,
+				968A167821267CCE006634DC /* SelectableButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1345,9 +1345,9 @@
 		968A168821267CCE006634DC /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				968A168921267CCE006634DC /* ThemeManager.swift */,
-				968A168A21267CCE006634DC /* ThemedNavigationController.swift */,
 				968A168B21267CCE006634DC /* Theme.swift */,
+				968A168A21267CCE006634DC /* ThemedNavigationController.swift */,
+				968A168921267CCE006634DC /* ThemeManager.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -1355,8 +1355,8 @@
 		968A168D21267CCE006634DC /* Loading State */ = {
 			isa = PBXGroup;
 			children = (
-				968A168E21267CCE006634DC /* LoadingStateManager.swift */,
 				968A168F21267CCE006634DC /* Views */,
+				968A168E21267CCE006634DC /* LoadingStateManager.swift */,
 			);
 			path = "Loading State";
 			sourceTree = "<group>";
@@ -1365,9 +1365,9 @@
 			isa = PBXGroup;
 			children = (
 				968A169021267CCE006634DC /* BaseLoadingStateView.swift */,
-				968A169121267CCE006634DC /* LoadingStateNoContentView.swift */,
-				968A169221267CCE006634DC /* LoadingStateLoadingView.swift */,
 				968A169321267CCE006634DC /* LoadingStateErrorView.swift */,
+				968A169221267CCE006634DC /* LoadingStateLoadingView.swift */,
+				968A169121267CCE006634DC /* LoadingStateNoContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1384,35 +1384,35 @@
 		968A169721267CCE006634DC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				968A169821267CCE006634DC /* MPOLBarButtonItems.swift */,
-				968A169921267CCE006634DC /* SidebarHeaderView.swift */,
-				968A169A21267CCE006634DC /* NavigationTitleView.swift */,
-				968A169B21267CCE006634DC /* ButtonStackView.swift */,
+				968A16AC21267CCE006634DC /* AlertIndicatorView.swift */,
 				968A169C21267CCE006634DC /* BadgeView.swift */,
-				968A169D21267CCE006634DC /* MapControlView.swift */,
-				968A169E21267CCE006634DC /* IntrinsicHeightCollectionView.swift */,
-				968A169F21267CCE006634DC /* StandardSearchBarView.swift */,
-				968A16A021267CCE006634DC /* RoundedRectButton.swift */,
-				968A16A121267CCE006634DC /* GalleryButton.swift */,
-				968A16A221267CCE006634DC /* CustomSubtitleButton.swift */,
-				968A16A321267CCE006634DC /* TabStripView.swift */,
-				968A16A421267CCE006634DC /* EntityThumbnailView.swift */,
+				968A169B21267CCE006634DC /* ButtonStackView.swift */,
 				968A16A521267CCE006634DC /* CircleIconView.swift */,
-				968A16A621267CCE006634DC /* SearchFieldButton.swift */,
+				968A16B421267CCE006634DC /* CustomisableSearchHeaderView.swift */,
+				968A16A221267CCE006634DC /* CustomSubtitleButton.swift */,
+				968A16AB21267CCE006634DC /* DefaultSearchHeaderDetailView.swift */,
+				968A16AF21267CCE006634DC /* DialogActionButtonsView.swift */,
 				968A16A721267CCE006634DC /* DisableableButton.swift */,
 				968A16A821267CCE006634DC /* DraggableCardView.swift */,
-				968A16A921267CCE006634DC /* SearchHeaderView.swift */,
-				968A16AA21267CCE006634DC /* SpacerView.swift */,
-				968A16AB21267CCE006634DC /* DefaultSearchHeaderDetailView.swift */,
-				968A16AC21267CCE006634DC /* AlertIndicatorView.swift */,
-				968A16AD21267CCE006634DC /* OutlinedLabel.swift */,
-				968A16AE21267CCE006634DC /* GradientView.swift */,
-				968A16AF21267CCE006634DC /* DialogActionButtonsView.swift */,
-				968A16B021267CCE006634DC /* NavigationBarExtension.swift */,
-				968A16B121267CCE006634DC /* LabeledTextField.swift */,
+				968A16A421267CCE006634DC /* EntityThumbnailView.swift */,
+				968A16A121267CCE006634DC /* GalleryButton.swift */,
 				968A16B221267CCE006634DC /* GlassBarView.swift */,
+				968A16AE21267CCE006634DC /* GradientView.swift */,
+				968A169E21267CCE006634DC /* IntrinsicHeightCollectionView.swift */,
+				968A16B121267CCE006634DC /* LabeledTextField.swift */,
+				968A169D21267CCE006634DC /* MapControlView.swift */,
+				968A169821267CCE006634DC /* MPOLBarButtonItems.swift */,
+				968A16B021267CCE006634DC /* NavigationBarExtension.swift */,
+				968A169A21267CCE006634DC /* NavigationTitleView.swift */,
+				968A16AD21267CCE006634DC /* OutlinedLabel.swift */,
+				968A16A021267CCE006634DC /* RoundedRectButton.swift */,
 				968A16B321267CCE006634DC /* RoundedRectLabel.swift */,
-				968A16B421267CCE006634DC /* CustomisableSearchHeaderView.swift */,
+				968A16A621267CCE006634DC /* SearchFieldButton.swift */,
+				968A16A921267CCE006634DC /* SearchHeaderView.swift */,
+				968A169921267CCE006634DC /* SidebarHeaderView.swift */,
+				968A16AA21267CCE006634DC /* SpacerView.swift */,
+				968A169F21267CCE006634DC /* StandardSearchBarView.swift */,
+				968A16A321267CCE006634DC /* TabStripView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1429,9 +1429,9 @@
 		968A16B821267CCE006634DC /* SORT ME */ = {
 			isa = PBXGroup;
 			children = (
+				968A16BB21267CCE006634DC /* Bundle+MPOLKit.swift */,
 				968A16B921267CCE006634DC /* PopoverPresenter.swift */,
 				968A16BA21267CCE006634DC /* UITableView+SectionHeaderFooterFetch.swift */,
-				968A16BB21267CCE006634DC /* Bundle+MPOLKit.swift */,
 			);
 			path = "SORT ME";
 			sourceTree = "<group>";
@@ -1448,9 +1448,9 @@
 		968A17E221267CE2006634DC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				968A17E321267CE2006634DC /* Icons.xcassets */,
-				968A17E421267CE2006634DC /* Theme */,
 				968A17E721267CE2006634DC /* Lottie */,
+				968A17E421267CE2006634DC /* Theme */,
+				968A17E321267CE2006634DC /* Icons.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1458,8 +1458,8 @@
 		968A17E421267CE2006634DC /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				968A17E521267CE2006634DC /* LightTheme.json */,
 				968A17E621267CE2006634DC /* DarkTheme.json */,
+				968A17E521267CE2006634DC /* LightTheme.json */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -1475,11 +1475,11 @@
 		96BE87F12126548000F57FF0 = {
 			isa = PBXGroup;
 			children = (
+				029216E93392BF27FFCC9085 /* Frameworks */,
 				96BE87FD2126548000F57FF0 /* PatternKit */,
 				96BE88082126548000F57FF0 /* PatternKitTests */,
-				96BE87FC2126548000F57FF0 /* Products */,
 				FA7090DF85C3F27304930155 /* Pods */,
-				029216E93392BF27FFCC9085 /* Frameworks */,
+				96BE87FC2126548000F57FF0 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1497,8 +1497,8 @@
 			children = (
 				968A155E21267CCE006634DC /* Classes */,
 				968A17E221267CE2006634DC /* Resources */,
-				96BE87FE2126548000F57FF0 /* PatternKit.h */,
 				96BE87FF2126548000F57FF0 /* Info.plist */,
+				96BE87FE2126548000F57FF0 /* PatternKit.h */,
 			);
 			path = PatternKit;
 			sourceTree = "<group>";
@@ -1506,8 +1506,8 @@
 		96BE88082126548000F57FF0 /* PatternKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88092126548000F57FF0 /* PatternKitTests.swift */,
 				96BE880B2126548000F57FF0 /* Info.plist */,
+				96BE88092126548000F57FF0 /* PatternKitTests.swift */,
 			);
 			path = PatternKitTests;
 			sourceTree = "<group>";
@@ -1530,9 +1530,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				968A17E021267CCF006634DC /* UITextView+NotificationWorkaround.h in Headers */,
 				968A16FC21267CCE006634DC /* MKMapView+MKMapView_NightMode.h in Headers */,
 				96BE880C2126548000F57FF0 /* PatternKit.h in Headers */,
+				968A17E021267CCF006634DC /* UITextView+NotificationWorkaround.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1619,9 +1619,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				968A17EA21267CE3006634DC /* LightTheme.json in Resources */,
-				968A17E921267CE3006634DC /* Icons.xcassets in Resources */,
 				968A17EB21267CE3006634DC /* DarkTheme.json in Resources */,
+				968A17E921267CE3006634DC /* Icons.xcassets in Resources */,
+				968A17EA21267CE3006634DC /* LightTheme.json in Resources */,
 				968A17EC21267CE3006634DC /* spinner.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1711,295 +1711,295 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				968A179221267CCF006634DC /* MediaSlideShowViewController.swift in Sources */,
-				968A174021267CCE006634DC /* TimelineFormCollectionViewController.swift in Sources */,
-				968A172721267CCE006634DC /* MapSettingsViewModel.swift in Sources */,
-				968A177421267CCE006634DC /* CollectionViewFormLargeTextLabelCell.swift in Sources */,
-				968A171821267CCE006634DC /* PopToRootable.swift in Sources */,
-				968A176421267CCE006634DC /* CollectionViewFormStepperCell.swift in Sources */,
-				968A17B721267CCF006634DC /* LoadingStateManager.swift in Sources */,
-				968A172E21267CCE006634DC /* AutoLayoutAnnotationView.swift in Sources */,
-				968A173221267CCE006634DC /* WhatsNewTheme.swift in Sources */,
-				968A17C321267CCF006634DC /* MapControlView.swift in Sources */,
-				968A16DA21267CCE006634DC /* SubItemFormItem.swift in Sources */,
-				968A16D721267CCE006634DC /* RoundedRectButtonFormItem.swift in Sources */,
-				968A17A621267CCF006634DC /* FormTextField.swift in Sources */,
-				968A172F21267CCE006634DC /* MapOverlayImageButton.swift in Sources */,
-				968A17D021267CCF006634DC /* SpacerView.swift in Sources */,
-				968A16F321267CCE006634DC /* FormValidator.swift in Sources */,
-				968A17C521267CCF006634DC /* StandardSearchBarView.swift in Sources */,
-				968A17A221267CCF006634DC /* FadeStyle.swift in Sources */,
-				968A16E421267CCE006634DC /* StepperFormItem.swift in Sources */,
-				968A17BF21267CCF006634DC /* SidebarHeaderView.swift in Sources */,
-				968A178921267CCF006634DC /* MediaPreviewHandler.swift in Sources */,
-				968A176721267CCE006634DC /* CollectionViewFormOptionStackViewCell.swift in Sources */,
-				968A16C921267CCE006634DC /* IntrinsicHeightFormBuilderViewController.swift in Sources */,
-				968A174D21267CCE006634DC /* LoginProtocols.swift in Sources */,
-				968A16D821267CCE006634DC /* ValueFormItem.swift in Sources */,
-				968A16D421267CCE006634DC /* HeaderFormItem.swift in Sources */,
-				968A17D921267CCF006634DC /* RoundedRectLabel.swift in Sources */,
-				968A170521267CCE006634DC /* ScrollAwarePageViewController.swift in Sources */,
-				968A177B21267CCF006634DC /* MediaGalleryViewModelable.swift in Sources */,
-				968A16FD21267CCE006634DC /* SidebarItem.swift in Sources */,
-				968A172B21267CCE006634DC /* BubbleAnnotationView.swift in Sources */,
-				968A17D121267CCF006634DC /* DefaultSearchHeaderDetailView.swift in Sources */,
-				968A172021267CCE006634DC /* MapCollectionViewSidebarLayout.swift in Sources */,
-				968A170921267CCE006634DC /* FormSearchTableViewController.swift in Sources */,
-				968A177D21267CCF006634DC /* MediaPreviewableCell.swift in Sources */,
-				968A176C21267CCE006634DC /* CollectionViewFormEditAction.swift in Sources */,
-				968A173321267CCE006634DC /* UITableViewCell+LayoutMargins.swift in Sources */,
-				968A172821267CCE006634DC /* MapViewController.swift in Sources */,
-				968A16EA21267CCE006634DC /* DateFormItem.swift in Sources */,
-				968A16CA21267CCE006634DC /* KeyboardAccommodatingStackMapLayout.swift in Sources */,
-				968A175121267CCE006634DC /* DefaultPickableSearchDatasource.swift in Sources */,
-				968A177221267CCE006634DC /* CollectionViewFormMediaCell.swift in Sources */,
-				968A17BE21267CCF006634DC /* MPOLBarButtonItems.swift in Sources */,
-				968A171D21267CCE006634DC /* DialogAction.swift in Sources */,
-				968A175621267CCE006634DC /* FilterViewController.swift in Sources */,
-				968A174221267CCE006634DC /* ThemedPopoverViewController.swift in Sources */,
-				968A17CF21267CCF006634DC /* SearchHeaderView.swift in Sources */,
-				968A16BF21267CCE006634DC /* DateFormatter+Static.swift in Sources */,
-				968A16EF21267CCE006634DC /* LabelFormItem.swift in Sources */,
-				968A16CC21267CCE006634DC /* StackMapLayout.swift in Sources */,
-				968A176921267CCE006634DC /* CollectionViewFormTextViewCell.swift in Sources */,
-				968A178221267CCF006634DC /* AudioSessionConfigurer.swift in Sources */,
-				968A16C521267CCE006634DC /* FormBuilder.swift in Sources */,
-				968A172A21267CCE006634DC /* MPOLMarkerAnnotationView.swift in Sources */,
-				968A17C721267CCF006634DC /* GalleryButton.swift in Sources */,
-				968A17A821267CCF006634DC /* ImageAccessoryItem.swift in Sources */,
-				968A172321267CCE006634DC /* MapCollectionViewController.swift in Sources */,
-				968A17C221267CCF006634DC /* BadgeView.swift in Sources */,
-				968A179B21267CCF006634DC /* TableViewFormCheckboxCell.swift in Sources */,
-				968A17C821267CCF006634DC /* CustomSubtitleButton.swift in Sources */,
-				968A17D721267CCF006634DC /* LabeledTextField.swift in Sources */,
-				968A173C21267CCE006634DC /* GenericSearchDefaultViewModel.swift in Sources */,
-				968A174821267CCE006634DC /* LoginContainerViewController.swift in Sources */,
-				968A176621267CCE006634DC /* CollectionViewFormValueFieldCell.swift in Sources */,
-				968A175021267CCE006634DC /* Pickable.swift in Sources */,
-				968A179621267CCF006634DC /* MediaFileManager.swift in Sources */,
-				968A17C421267CCF006634DC /* IntrinsicHeightCollectionView.swift in Sources */,
-				968A177821267CCE006634DC /* LocalStore.swift in Sources */,
-				968A177621267CCE006634DC /* MediaAsset.swift in Sources */,
-				968A17BD21267CCF006634DC /* MPOLSpinnerView.swift in Sources */,
-				968A170421267CCE006634DC /* SidebarDelegate.swift in Sources */,
-				968A179C21267CCF006634DC /* TableViewFormTextFieldCell.swift in Sources */,
-				968A171721267CCE006634DC /* PushableSplitViewController.swift in Sources */,
-				968A17B621267CCF006634DC /* MPOLKitInitialize.swift in Sources */,
-				968A16E821267CCE006634DC /* SummaryDetailFormItem.swift in Sources */,
-				968A179021267CCF006634DC /* MediaStateCell.swift in Sources */,
-				968A171E21267CCE006634DC /* PSCAlertView.swift in Sources */,
-				968A17A121267CCF006634DC /* AnimationStyle.swift in Sources */,
-				968A17B021267CCF006634DC /* FormDefines.swift in Sources */,
-				968A174A21267CCE006634DC /* LoginHeaderView.swift in Sources */,
-				968A17D521267CCF006634DC /* DialogActionButtonsView.swift in Sources */,
-				968A170121267CCE006634DC /* CompactSidebarViewController.swift in Sources */,
-				968A16D021267CCE006634DC /* LabeledItemAccessory.swift in Sources */,
-				968A170721267CCE006634DC /* FormTableViewController.swift in Sources */,
-				968A171421267CCE006634DC /* ContainerWithHeaderViewController.swift in Sources */,
-				968A179E21267CCF006634DC /* StringSizing.swift in Sources */,
-				968A17CD21267CCF006634DC /* DisableableButton.swift in Sources */,
-				968A178321267CCF006634DC /* AudioPreview.swift in Sources */,
-				968A178821267CCF006634DC /* MediaCell.swift in Sources */,
-				968A170321267CCE006634DC /* RegularSidebarTableViewCell.swift in Sources */,
-				968A173E21267CCE006634DC /* AlertQueue.swift in Sources */,
-				968A16E721267CCE006634DC /* MediaFormItem.swift in Sources */,
-				968A170021267CCE006634DC /* SidebarSplitViewController.swift in Sources */,
-				968A179D21267CCF006634DC /* TableViewFormTextViewCell.swift in Sources */,
-				968A171521267CCE006634DC /* InteractivePopRecognizerDelegate.swift in Sources */,
-				968A16E321267CCE006634DC /* DropDownFormItem.swift in Sources */,
-				968A16F821267CCE006634DC /* UIImage+StatusDot.swift in Sources */,
-				968A171221267CCE006634DC /* SignatureView.swift in Sources */,
-				968A17BB21267CCF006634DC /* LoadingStateErrorView.swift in Sources */,
-				968A175721267CCE006634DC /* EntityCollectionViewCell.swift in Sources */,
-				968A16F021267CCE006634DC /* SubtitleFormItem.swift in Sources */,
-				968A179721267CCF006634DC /* PhotoPreview.swift in Sources */,
-				968A173021267CCE006634DC /* WhatsNewDetailViewController.swift in Sources */,
-				968A170F21267CCE006634DC /* Collection+MapFilterSectionCopy.swift in Sources */,
-				968A16F121267CCE006634DC /* FormSection.swift in Sources */,
-				968A17A021267CCF006634DC /* TableViewStyle.swift in Sources */,
-				968A177921267CCF006634DC /* ReadableDataStore.swift in Sources */,
-				968A173F21267CCE006634DC /* TimelineCollectionViewFormLayout.swift in Sources */,
-				968A17CA21267CCF006634DC /* EntityThumbnailView.swift in Sources */,
-				968A17E121267CCF006634DC /* UITextView+NotificationWorkaround.m in Sources */,
-				968A176221267CCE006634DC /* CollectionViewFormLayoutAttributes.swift in Sources */,
-				968A16C321267CCE006634DC /* ReloadValidationStateVisitor.swift in Sources */,
-				968A178C21267CCF006634DC /* MediaGalleryCell.swift in Sources */,
-				968A174321267CCE006634DC /* ForcedPopoverPresentationControllerDelegate.swift in Sources */,
-				968A172521267CCE006634DC /* MapCollectionViewLayout.swift in Sources */,
-				968A17AB21267CCF006634DC /* FormTextView.swift in Sources */,
-				968A17D221267CCF006634DC /* AlertIndicatorView.swift in Sources */,
-				968A174521267CCE006634DC /* CompactFormSheetNavigationController.swift in Sources */,
-				968A177721267CCE006634DC /* DataStoreCoordinator.swift in Sources */,
-				968A16C021267CCE006634DC /* ScrollViewInsetManager.swift in Sources */,
-				968A17A321267CCF006634DC /* UnderlineStyle.swift in Sources */,
-				968A178D21267CCF006634DC /* MediaPickerSource.swift in Sources */,
-				968A16D921267CCE006634DC /* OptionGroupFormItem.swift in Sources */,
-				968A176B21267CCE006634DC /* CollectionViewFormFooterView.swift in Sources */,
-				968A174E21267CCE006634DC /* QuantityPickerViewController.swift in Sources */,
-				968A16FA21267CCE006634DC /* AsynchronousImageSizing.swift in Sources */,
-				968A16DD21267CCE006634DC /* TextViewFormItem.swift in Sources */,
-				968A177C21267CCF006634DC /* MediaGalleryDelegate.swift in Sources */,
-				968A176121267CCE006634DC /* SourceBar.swift in Sources */,
-				968A16C621267CCE006634DC /* FormBuilderViewController.swift in Sources */,
-				968A17BC21267CCF006634DC /* Lottie+MPOLAnimationStyle.swift in Sources */,
-				968A178B21267CCF006634DC /* MediaDataStore.swift in Sources */,
-				968A16C221267CCE006634DC /* DebugDumpVisitor.swift in Sources */,
-				968A16EB21267CCE006634DC /* ProgressFormItem.swift in Sources */,
-				968A175921267CCE006634DC /* EntityListCollectionViewCell.swift in Sources */,
-				968A170621267CCE006634DC /* CompactSidebarItemView.swift in Sources */,
-				968A174921267CCE006634DC /* HighlightingTextView.swift in Sources */,
-				968A173721267CCE006634DC /* TagCollectionViewCell.swift in Sources */,
-				968A179321267CCF006634DC /* MediaSlideShowOverlayView.swift in Sources */,
-				968A16CF21267CCE006634DC /* RoundedLabelAccessory.swift in Sources */,
-				968A16D521267CCE006634DC /* FooterFormItem.swift in Sources */,
-				968A17C021267CCF006634DC /* NavigationTitleView.swift in Sources */,
-				968A16CD21267CCE006634DC /* SelectionAction.swift in Sources */,
-				968A16DC21267CCE006634DC /* DurationFormItem.swift in Sources */,
-				968A17B821267CCF006634DC /* BaseLoadingStateView.swift in Sources */,
-				968A175521267CCE006634DC /* CustomPickerController.swift in Sources */,
-				968A17DB21267CCF006634DC /* KeyboardInputManager.swift in Sources */,
-				968A178F21267CCF006634DC /* MediaPreviewViewController.swift in Sources */,
-				968A16E121267CCE006634DC /* SummaryThumbnailFormItem.swift in Sources */,
-				968A178121267CCF006634DC /* AudioOutputFormatter.swift in Sources */,
-				968A175221267CCE006634DC /* PickerTableViewController.swift in Sources */,
-				968A178A21267CCF006634DC /* MediaThumbnailSlideshowViewController.swift in Sources */,
-				968A178021267CCF006634DC /* AudioSampler.swift in Sources */,
-				968A170E21267CCE006634DC /* MapFilterOption.swift in Sources */,
-				968A172621267CCE006634DC /* MapSettingsViewController.swift in Sources */,
-				968A16D121267CCE006634DC /* ItemAccessory.swift in Sources */,
-				968A17A721267CCF006634DC /* FormDisclosureView.swift in Sources */,
-				968A16E521267CCE006634DC /* DetailFormItem.swift in Sources */,
-				968A171F21267CCE006634DC /* PSCAlertController.swift in Sources */,
-				968A173521267CCE006634DC /* HelpViewController.swift in Sources */,
-				968A17BA21267CCF006634DC /* LoadingStateLoadingView.swift in Sources */,
-				968A177121267CCE006634DC /* CollectionViewFormTextFieldCell.swift in Sources */,
-				968A175A21267CCE006634DC /* StatsOverviewCollectionViewCell.swift in Sources */,
-				968A170C21267CCE006634DC /* MapFilterToggleRow.swift in Sources */,
-				968A17D621267CCF006634DC /* NavigationBarExtension.swift in Sources */,
-				968A17C121267CCF006634DC /* ButtonStackView.swift in Sources */,
-				968A176E21267CCE006634DC /* CollectionViewFormCell.swift in Sources */,
-				968A176821267CCE006634DC /* NumericValuesView.swift in Sources */,
-				968A17B121267CCF006634DC /* DetailDisplayable.swift in Sources */,
-				968A179521267CCF006634DC /* MediaDetailViewController.swift in Sources */,
-				968A16F421267CCE006634DC /* ImageSizing.swift in Sources */,
-				968A175321267CCE006634DC /* DefaultSearchPickerDatasource.swift in Sources */,
-				968A176521267CCE006634DC /* CollectionViewFormLabelCell.swift in Sources */,
-				968A16CE21267CCE006634DC /* CustomItemAccessory.swift in Sources */,
-				968A16FE21267CCE006634DC /* RegularSidebarViewController.swift in Sources */,
-				968A171121267CCE006634DC /* MapFilterToggleRowView.swift in Sources */,
-				968A170A21267CCE006634DC /* MapFilterViewModel.swift in Sources */,
-				968A16D621267CCE006634DC /* OptionDisplayableFormItem.swift in Sources */,
-				968A170821267CCE006634DC /* FormCollectionViewController.swift in Sources */,
-				968A176D21267CCE006634DC /* CollectionViewFormRoundedRectButtonCell.swift in Sources */,
-				968A174C21267CCE006634DC /* LoginViewController.swift in Sources */,
-				968A175E21267CCE006634DC /* CollectionViewFormProgressCell.swift in Sources */,
-				968A176321267CCE006634DC /* CollectionViewFormLayout.swift in Sources */,
-				968A16E021267CCE006634DC /* CustomFormItem.swift in Sources */,
-				968A174B21267CCE006634DC /* BiometricUserHandler.swift in Sources */,
-				968A16D321267CCE006634DC /* LargeTextHeaderFormItem.swift in Sources */,
-				968A17AA21267CCF006634DC /* FormAccessoryImageView.swift in Sources */,
-				968A173D21267CCE006634DC /* GenericSearchViewController.swift in Sources */,
-				968A17DE21267CCF006634DC /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
-				968A17B521267CCF006634DC /* Theme.swift in Sources */,
-				968A178721267CCF006634DC /* MediaViewController.swift in Sources */,
-				968A172121267CCE006634DC /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */,
-				968A16EE21267CCE006634DC /* BaseSupplementaryFormItem.swift in Sources */,
-				968A170D21267CCE006634DC /* MapFilterSection.swift in Sources */,
-				968A173921267CCE006634DC /* HelpContent.swift in Sources */,
-				968A16FF21267CCE006634DC /* CompactSidebarSourceCell.swift in Sources */,
-				968A16FB21267CCE006634DC /* MKMapView+MKMapView_NightMode.m in Sources */,
-				968A170B21267CCE006634DC /* MapFilterViewController.swift in Sources */,
-				968A17DC21267CCF006634DC /* KeyboardNumberBar.swift in Sources */,
-				968A17B321267CCF006634DC /* ThemeManager.swift in Sources */,
-				968A17AE21267CCF006634DC /* FormAccessoryCheckmark.swift in Sources */,
-				968A175C21267CCE006634DC /* GalleryCollectionViewCell.swift in Sources */,
-				968A16F221267CCE006634DC /* ItemAccessorisable.swift in Sources */,
-				968A173421267CCE006634DC /* UITableView+DefaultReuse.swift in Sources */,
-				968A171021267CCE006634DC /* MapFilterSectionView.swift in Sources */,
-				968A176021267CCE006634DC /* SourceItem.swift in Sources */,
-				968A174621267CCE006634DC /* PopoverViewController.swift in Sources */,
-				968A17B421267CCF006634DC /* ThemedNavigationController.swift in Sources */,
-				968A175F21267CCE006634DC /* SourceBarCell.swift in Sources */,
-				968A17C921267CCF006634DC /* TabStripView.swift in Sources */,
-				968A175B21267CCE006634DC /* LocationMapDirectionCollectionViewCell.swift in Sources */,
-				968A16F621267CCE006634DC /* FormBuilderSearchViewController.swift in Sources */,
-				968A16C721267CCE006634DC /* FormCollectionViewHandler.swift in Sources */,
-				968A16D221267CCE006634DC /* DetailLinkFormItem.swift in Sources */,
-				968A173821267CCE006634DC /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
-				968A172921267CCE006634DC /* PinAnnotationView.swift in Sources */,
-				968A171921267CCE006634DC /* StatusTabBarController.swift in Sources */,
-				968A175421267CCE006634DC /* PopoverDatePickerViewController.swift in Sources */,
-				968A178E21267CCF006634DC /* MediaGalleryTransitionAnimator.swift in Sources */,
-				968A179821267CCF006634DC /* TableViewFormSubtitleCell.swift in Sources */,
-				968A16C121267CCE006634DC /* KeyboardAnimationDetails.swift in Sources */,
-				968A172221267CCE006634DC /* MapFormBuilderCollectionViewSideBarLayout.swift in Sources */,
-				968A172C21267CCE006634DC /* LocationAnnotationView.swift in Sources */,
-				968A177521267CCE006634DC /* CollectionViewFormOptionCell.swift in Sources */,
-				968A174121267CCE006634DC /* TimelineView.swift in Sources */,
-				968A179121267CCF006634DC /* MediaAssetCache.swift in Sources */,
-				968A17CB21267CCF006634DC /* CircleIconView.swift in Sources */,
-				968A17DA21267CCF006634DC /* CustomisableSearchHeaderView.swift in Sources */,
-				968A17AC21267CCF006634DC /* CheckBox.swift in Sources */,
-				968A179921267CCF006634DC /* TableViewFormCell.swift in Sources */,
-				968A176A21267CCE006634DC /* CollectionViewFormDetailCell.swift in Sources */,
-				968A173121267CCE006634DC /* WhatsNewViewController.swift in Sources */,
-				968A17A921267CCF006634DC /* RadioButton.swift in Sources */,
-				968A171A21267CCE006634DC /* MPOLSplitViewController.swift in Sources */,
-				968A16E621267CCE006634DC /* PickerFormItem.swift in Sources */,
-				968A17B921267CCF006634DC /* LoadingStateNoContentView.swift in Sources */,
-				968A16E921267CCE006634DC /* RowDetailFormItem.swift in Sources */,
-				968A16EC21267CCE006634DC /* TextFieldFormItem.swift in Sources */,
-				968A176F21267CCE006634DC /* CollectionViewFormCellActionView.swift in Sources */,
-				968A174421267CCE006634DC /* PopoverNavigationController.swift in Sources */,
-				968A179F21267CCF006634DC /* EnlargeStyle.swift in Sources */,
-				968A16E221267CCE006634DC /* SummaryListFormItem.swift in Sources */,
-				968A175D21267CCE006634DC /* EntityDetailCollectionViewCell.swift in Sources */,
-				968A17D321267CCF006634DC /* OutlinedLabel.swift in Sources */,
-				968A16ED21267CCE006634DC /* QuantityPickerFormItem.swift in Sources */,
-				968A177321267CCE006634DC /* CollectionViewFormHeaderView.swift in Sources */,
-				968A16C821267CCE006634DC /* StringSizable+Label.swift in Sources */,
-				968A17C621267CCF006634DC /* RoundedRectButton.swift in Sources */,
-				968A178421267CCF006634DC /* RecordButton.swift in Sources */,
-				968A17A521267CCF006634DC /* LabeledAccessoryView.swift in Sources */,
-				968A173B21267CCE006634DC /* UIViewController+Subtitle.swift in Sources */,
-				968A171C21267CCE006634DC /* DialogActionView.swift in Sources */,
-				968A179421267CCF006634DC /* MediaGalleryViewController.swift in Sources */,
-				968A178521267CCF006634DC /* AVMediaViewController.swift in Sources */,
-				968A17B221267CCF006634DC /* FormItemable.swift in Sources */,
-				968A175821267CCE006634DC /* SubItemCollectionViewCell.swift in Sources */,
-				968A17DD21267CCF006634DC /* PopoverPresenter.swift in Sources */,
-				968A17CC21267CCF006634DC /* SearchFieldButton.swift in Sources */,
-				968A16F721267CCE006634DC /* UIImage+Initials.swift in Sources */,
-				968A16C421267CCE006634DC /* SubmissionValidationVisitor.swift in Sources */,
-				968A170221267CCE006634DC /* CompactSidebarSourceViewController.swift in Sources */,
-				968A174F21267CCE006634DC /* QuantityPickerViewModel.swift in Sources */,
-				968A17A421267CCF006634DC /* SelectableButton.swift in Sources */,
-				968A177E21267CCF006634DC /* WaveformView.swift in Sources */,
-				968A16DF21267CCE006634DC /* OptionFormItem.swift in Sources */,
 				968A171B21267CCE006634DC /* ActionSheetViewController.swift in Sources */,
-				968A17AF21267CCF006634DC /* FormAccessoryView.swift in Sources */,
-				968A17CE21267CCF006634DC /* DraggableCardView.swift in Sources */,
-				968A173621267CCE006634DC /* TagCollectionView.swift in Sources */,
-				968A16DB21267CCE006634DC /* BaseFormItem.swift in Sources */,
-				968A172D21267CCE006634DC /* ClusterAnnotationView.swift in Sources */,
-				968A16F921267CCE006634DC /* UIImageView+ImageLoadable.swift in Sources */,
-				968A172421267CCE006634DC /* MapCollectionViewHeaderLayout.swift in Sources */,
-				968A17D821267CCF006634DC /* GlassBarView.swift in Sources */,
-				968A173A21267CCE006634DC /* SubmissionFormBuilderViewController.swift in Sources */,
+				968A17D221267CCF006634DC /* AlertIndicatorView.swift in Sources */,
+				968A173E21267CCE006634DC /* AlertQueue.swift in Sources */,
+				968A17A121267CCF006634DC /* AnimationStyle.swift in Sources */,
+				968A16FA21267CCE006634DC /* AsynchronousImageSizing.swift in Sources */,
+				968A178121267CCF006634DC /* AudioOutputFormatter.swift in Sources */,
+				968A178321267CCF006634DC /* AudioPreview.swift in Sources */,
 				968A177F21267CCF006634DC /* AudioRecordingViewController.swift in Sources */,
-				968A179A21267CCF006634DC /* TableViewFormExpandingHeaderCell.swift in Sources */,
+				968A178021267CCF006634DC /* AudioSampler.swift in Sources */,
+				968A178221267CCF006634DC /* AudioSessionConfigurer.swift in Sources */,
+				968A172E21267CCE006634DC /* AutoLayoutAnnotationView.swift in Sources */,
+				968A178521267CCF006634DC /* AVMediaViewController.swift in Sources */,
+				968A17C221267CCF006634DC /* BadgeView.swift in Sources */,
+				968A16DB21267CCE006634DC /* BaseFormItem.swift in Sources */,
+				968A17B821267CCF006634DC /* BaseLoadingStateView.swift in Sources */,
+				968A16EE21267CCE006634DC /* BaseSupplementaryFormItem.swift in Sources */,
+				968A174B21267CCE006634DC /* BiometricUserHandler.swift in Sources */,
+				968A172B21267CCE006634DC /* BubbleAnnotationView.swift in Sources */,
 				968A17DF21267CCF006634DC /* Bundle+MPOLKit.swift in Sources */,
-				968A16F521267CCE006634DC /* ImageLoadable.swift in Sources */,
-				968A171321267CCE006634DC /* SignatureViewController.swift in Sources */,
+				968A17C121267CCF006634DC /* ButtonStackView.swift in Sources */,
+				968A17AC21267CCF006634DC /* CheckBox.swift in Sources */,
+				968A17CB21267CCF006634DC /* CircleIconView.swift in Sources */,
+				968A172D21267CCE006634DC /* ClusterAnnotationView.swift in Sources */,
+				968A170F21267CCE006634DC /* Collection+MapFilterSectionCopy.swift in Sources */,
+				968A176E21267CCE006634DC /* CollectionViewFormCell.swift in Sources */,
+				968A176F21267CCE006634DC /* CollectionViewFormCellActionView.swift in Sources */,
+				968A176A21267CCE006634DC /* CollectionViewFormDetailCell.swift in Sources */,
+				968A176C21267CCE006634DC /* CollectionViewFormEditAction.swift in Sources */,
+				968A176B21267CCE006634DC /* CollectionViewFormFooterView.swift in Sources */,
+				968A177321267CCE006634DC /* CollectionViewFormHeaderView.swift in Sources */,
+				968A176521267CCE006634DC /* CollectionViewFormLabelCell.swift in Sources */,
+				968A177421267CCE006634DC /* CollectionViewFormLargeTextLabelCell.swift in Sources */,
+				968A176321267CCE006634DC /* CollectionViewFormLayout.swift in Sources */,
+				968A176221267CCE006634DC /* CollectionViewFormLayoutAttributes.swift in Sources */,
+				968A177221267CCE006634DC /* CollectionViewFormMediaCell.swift in Sources */,
+				968A177521267CCE006634DC /* CollectionViewFormOptionCell.swift in Sources */,
+				968A176721267CCE006634DC /* CollectionViewFormOptionStackViewCell.swift in Sources */,
+				968A175E21267CCE006634DC /* CollectionViewFormProgressCell.swift in Sources */,
+				968A176D21267CCE006634DC /* CollectionViewFormRoundedRectButtonCell.swift in Sources */,
 				968A178621267CCF006634DC /* CollectionViewFormRowDetailCell.swift in Sources */,
-				968A17D421267CCF006634DC /* GradientView.swift in Sources */,
-				968A17AD21267CCF006634DC /* LabeledSwitch.swift in Sources */,
+				968A176421267CCE006634DC /* CollectionViewFormStepperCell.swift in Sources */,
 				968A177021267CCE006634DC /* CollectionViewFormSubtitleCell.swift in Sources */,
-				968A16DE21267CCE006634DC /* RangeFormItem.swift in Sources */,
+				968A177121267CCE006634DC /* CollectionViewFormTextFieldCell.swift in Sources */,
+				968A176921267CCE006634DC /* CollectionViewFormTextViewCell.swift in Sources */,
+				968A176621267CCE006634DC /* CollectionViewFormValueFieldCell.swift in Sources */,
+				968A174521267CCE006634DC /* CompactFormSheetNavigationController.swift in Sources */,
+				968A170621267CCE006634DC /* CompactSidebarItemView.swift in Sources */,
+				968A16FF21267CCE006634DC /* CompactSidebarSourceCell.swift in Sources */,
+				968A170221267CCE006634DC /* CompactSidebarSourceViewController.swift in Sources */,
+				968A170121267CCE006634DC /* CompactSidebarViewController.swift in Sources */,
+				968A171421267CCE006634DC /* ContainerWithHeaderViewController.swift in Sources */,
+				968A16E021267CCE006634DC /* CustomFormItem.swift in Sources */,
+				968A17DA21267CCF006634DC /* CustomisableSearchHeaderView.swift in Sources */,
+				968A16CE21267CCE006634DC /* CustomItemAccessory.swift in Sources */,
+				968A175521267CCE006634DC /* CustomPickerController.swift in Sources */,
+				968A17C821267CCF006634DC /* CustomSubtitleButton.swift in Sources */,
+				968A177721267CCE006634DC /* DataStoreCoordinator.swift in Sources */,
+				968A16BF21267CCE006634DC /* DateFormatter+Static.swift in Sources */,
+				968A16EA21267CCE006634DC /* DateFormItem.swift in Sources */,
+				968A16C221267CCE006634DC /* DebugDumpVisitor.swift in Sources */,
+				968A175121267CCE006634DC /* DefaultPickableSearchDatasource.swift in Sources */,
+				968A17D121267CCF006634DC /* DefaultSearchHeaderDetailView.swift in Sources */,
+				968A175321267CCE006634DC /* DefaultSearchPickerDatasource.swift in Sources */,
+				968A17B121267CCF006634DC /* DetailDisplayable.swift in Sources */,
+				968A16E521267CCE006634DC /* DetailFormItem.swift in Sources */,
+				968A16D221267CCE006634DC /* DetailLinkFormItem.swift in Sources */,
+				968A171D21267CCE006634DC /* DialogAction.swift in Sources */,
+				968A17D521267CCF006634DC /* DialogActionButtonsView.swift in Sources */,
+				968A171C21267CCE006634DC /* DialogActionView.swift in Sources */,
+				968A17CD21267CCF006634DC /* DisableableButton.swift in Sources */,
+				968A17CE21267CCF006634DC /* DraggableCardView.swift in Sources */,
+				968A16E321267CCE006634DC /* DropDownFormItem.swift in Sources */,
+				968A16DC21267CCE006634DC /* DurationFormItem.swift in Sources */,
+				968A179F21267CCF006634DC /* EnlargeStyle.swift in Sources */,
+				968A175721267CCE006634DC /* EntityCollectionViewCell.swift in Sources */,
+				968A175D21267CCE006634DC /* EntityDetailCollectionViewCell.swift in Sources */,
+				968A175921267CCE006634DC /* EntityListCollectionViewCell.swift in Sources */,
+				968A17CA21267CCF006634DC /* EntityThumbnailView.swift in Sources */,
+				968A17A221267CCF006634DC /* FadeStyle.swift in Sources */,
+				968A175621267CCE006634DC /* FilterViewController.swift in Sources */,
+				968A16D521267CCE006634DC /* FooterFormItem.swift in Sources */,
+				968A174321267CCE006634DC /* ForcedPopoverPresentationControllerDelegate.swift in Sources */,
+				968A17AE21267CCF006634DC /* FormAccessoryCheckmark.swift in Sources */,
+				968A17AA21267CCF006634DC /* FormAccessoryImageView.swift in Sources */,
+				968A17AF21267CCF006634DC /* FormAccessoryView.swift in Sources */,
+				968A16C521267CCE006634DC /* FormBuilder.swift in Sources */,
+				968A16F621267CCE006634DC /* FormBuilderSearchViewController.swift in Sources */,
+				968A16C621267CCE006634DC /* FormBuilderViewController.swift in Sources */,
+				968A170821267CCE006634DC /* FormCollectionViewController.swift in Sources */,
+				968A16C721267CCE006634DC /* FormCollectionViewHandler.swift in Sources */,
+				968A17B021267CCF006634DC /* FormDefines.swift in Sources */,
+				968A17A721267CCF006634DC /* FormDisclosureView.swift in Sources */,
+				968A17B221267CCF006634DC /* FormItemable.swift in Sources */,
+				968A170921267CCE006634DC /* FormSearchTableViewController.swift in Sources */,
+				968A16F121267CCE006634DC /* FormSection.swift in Sources */,
+				968A170721267CCE006634DC /* FormTableViewController.swift in Sources */,
+				968A17A621267CCF006634DC /* FormTextField.swift in Sources */,
+				968A17AB21267CCF006634DC /* FormTextView.swift in Sources */,
+				968A16F321267CCE006634DC /* FormValidator.swift in Sources */,
+				968A17C721267CCF006634DC /* GalleryButton.swift in Sources */,
+				968A175C21267CCE006634DC /* GalleryCollectionViewCell.swift in Sources */,
+				968A173C21267CCE006634DC /* GenericSearchDefaultViewModel.swift in Sources */,
+				968A173D21267CCE006634DC /* GenericSearchViewController.swift in Sources */,
+				968A17D821267CCF006634DC /* GlassBarView.swift in Sources */,
+				968A17D421267CCF006634DC /* GradientView.swift in Sources */,
+				968A16D421267CCE006634DC /* HeaderFormItem.swift in Sources */,
+				968A173921267CCE006634DC /* HelpContent.swift in Sources */,
+				968A173521267CCE006634DC /* HelpViewController.swift in Sources */,
+				968A174921267CCE006634DC /* HighlightingTextView.swift in Sources */,
+				968A17A821267CCF006634DC /* ImageAccessoryItem.swift in Sources */,
+				968A16F521267CCE006634DC /* ImageLoadable.swift in Sources */,
+				968A16F421267CCE006634DC /* ImageSizing.swift in Sources */,
+				968A171521267CCE006634DC /* InteractivePopRecognizerDelegate.swift in Sources */,
+				968A17C421267CCF006634DC /* IntrinsicHeightCollectionView.swift in Sources */,
+				968A16C921267CCE006634DC /* IntrinsicHeightFormBuilderViewController.swift in Sources */,
+				968A16F221267CCE006634DC /* ItemAccessorisable.swift in Sources */,
+				968A16D121267CCE006634DC /* ItemAccessory.swift in Sources */,
+				968A16CA21267CCE006634DC /* KeyboardAccommodatingStackMapLayout.swift in Sources */,
+				968A16C121267CCE006634DC /* KeyboardAnimationDetails.swift in Sources */,
+				968A17DB21267CCF006634DC /* KeyboardInputManager.swift in Sources */,
+				968A17DC21267CCF006634DC /* KeyboardNumberBar.swift in Sources */,
+				968A17A521267CCF006634DC /* LabeledAccessoryView.swift in Sources */,
+				968A16D021267CCE006634DC /* LabeledItemAccessory.swift in Sources */,
+				968A17AD21267CCF006634DC /* LabeledSwitch.swift in Sources */,
+				968A17D721267CCF006634DC /* LabeledTextField.swift in Sources */,
+				968A16EF21267CCE006634DC /* LabelFormItem.swift in Sources */,
+				968A16D321267CCE006634DC /* LargeTextHeaderFormItem.swift in Sources */,
+				968A173821267CCE006634DC /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				968A17BB21267CCF006634DC /* LoadingStateErrorView.swift in Sources */,
+				968A17BA21267CCF006634DC /* LoadingStateLoadingView.swift in Sources */,
+				968A17B721267CCF006634DC /* LoadingStateManager.swift in Sources */,
+				968A17B921267CCF006634DC /* LoadingStateNoContentView.swift in Sources */,
+				968A177821267CCE006634DC /* LocalStore.swift in Sources */,
+				968A172C21267CCE006634DC /* LocationAnnotationView.swift in Sources */,
+				968A175B21267CCE006634DC /* LocationMapDirectionCollectionViewCell.swift in Sources */,
+				968A174821267CCE006634DC /* LoginContainerViewController.swift in Sources */,
+				968A174A21267CCE006634DC /* LoginHeaderView.swift in Sources */,
+				968A174D21267CCE006634DC /* LoginProtocols.swift in Sources */,
+				968A174C21267CCE006634DC /* LoginViewController.swift in Sources */,
+				968A17BC21267CCF006634DC /* Lottie+MPOLAnimationStyle.swift in Sources */,
+				968A172321267CCE006634DC /* MapCollectionViewController.swift in Sources */,
+				968A172421267CCE006634DC /* MapCollectionViewHeaderLayout.swift in Sources */,
+				968A172521267CCE006634DC /* MapCollectionViewLayout.swift in Sources */,
+				968A172021267CCE006634DC /* MapCollectionViewSidebarLayout.swift in Sources */,
+				968A17C321267CCF006634DC /* MapControlView.swift in Sources */,
+				968A170E21267CCE006634DC /* MapFilterOption.swift in Sources */,
+				968A170D21267CCE006634DC /* MapFilterSection.swift in Sources */,
+				968A171021267CCE006634DC /* MapFilterSectionView.swift in Sources */,
+				968A170C21267CCE006634DC /* MapFilterToggleRow.swift in Sources */,
+				968A171121267CCE006634DC /* MapFilterToggleRowView.swift in Sources */,
+				968A170B21267CCE006634DC /* MapFilterViewController.swift in Sources */,
+				968A170A21267CCE006634DC /* MapFilterViewModel.swift in Sources */,
+				968A172121267CCE006634DC /* MapFormBuilderCollectionViewDraggableCardLayout.swift in Sources */,
+				968A172221267CCE006634DC /* MapFormBuilderCollectionViewSideBarLayout.swift in Sources */,
 				968A16CB21267CCE006634DC /* MapFormBuilderViewController.swift in Sources */,
+				968A172F21267CCE006634DC /* MapOverlayImageButton.swift in Sources */,
+				968A172621267CCE006634DC /* MapSettingsViewController.swift in Sources */,
+				968A172721267CCE006634DC /* MapSettingsViewModel.swift in Sources */,
+				968A172821267CCE006634DC /* MapViewController.swift in Sources */,
+				968A177621267CCE006634DC /* MediaAsset.swift in Sources */,
+				968A179121267CCF006634DC /* MediaAssetCache.swift in Sources */,
+				968A178821267CCF006634DC /* MediaCell.swift in Sources */,
+				968A178B21267CCF006634DC /* MediaDataStore.swift in Sources */,
+				968A179521267CCF006634DC /* MediaDetailViewController.swift in Sources */,
+				968A179621267CCF006634DC /* MediaFileManager.swift in Sources */,
+				968A16E721267CCE006634DC /* MediaFormItem.swift in Sources */,
+				968A178C21267CCF006634DC /* MediaGalleryCell.swift in Sources */,
+				968A177C21267CCF006634DC /* MediaGalleryDelegate.swift in Sources */,
+				968A178E21267CCF006634DC /* MediaGalleryTransitionAnimator.swift in Sources */,
+				968A179421267CCF006634DC /* MediaGalleryViewController.swift in Sources */,
+				968A177B21267CCF006634DC /* MediaGalleryViewModelable.swift in Sources */,
+				968A178D21267CCF006634DC /* MediaPickerSource.swift in Sources */,
+				968A177D21267CCF006634DC /* MediaPreviewableCell.swift in Sources */,
+				968A178921267CCF006634DC /* MediaPreviewHandler.swift in Sources */,
+				968A178F21267CCF006634DC /* MediaPreviewViewController.swift in Sources */,
+				968A179321267CCF006634DC /* MediaSlideShowOverlayView.swift in Sources */,
+				968A179221267CCF006634DC /* MediaSlideShowViewController.swift in Sources */,
+				968A179021267CCF006634DC /* MediaStateCell.swift in Sources */,
+				968A178A21267CCF006634DC /* MediaThumbnailSlideshowViewController.swift in Sources */,
+				968A178721267CCF006634DC /* MediaViewController.swift in Sources */,
+				968A16FB21267CCE006634DC /* MKMapView+MKMapView_NightMode.m in Sources */,
+				968A17BE21267CCF006634DC /* MPOLBarButtonItems.swift in Sources */,
+				968A17B621267CCF006634DC /* MPOLKitInitialize.swift in Sources */,
+				968A172A21267CCE006634DC /* MPOLMarkerAnnotationView.swift in Sources */,
+				968A17BD21267CCF006634DC /* MPOLSpinnerView.swift in Sources */,
+				968A171A21267CCE006634DC /* MPOLSplitViewController.swift in Sources */,
+				968A17D621267CCF006634DC /* NavigationBarExtension.swift in Sources */,
+				968A17C021267CCF006634DC /* NavigationTitleView.swift in Sources */,
+				968A176821267CCE006634DC /* NumericValuesView.swift in Sources */,
+				968A16D621267CCE006634DC /* OptionDisplayableFormItem.swift in Sources */,
+				968A16DF21267CCE006634DC /* OptionFormItem.swift in Sources */,
+				968A16D921267CCE006634DC /* OptionGroupFormItem.swift in Sources */,
+				968A17D321267CCF006634DC /* OutlinedLabel.swift in Sources */,
+				968A179721267CCF006634DC /* PhotoPreview.swift in Sources */,
+				968A175021267CCE006634DC /* Pickable.swift in Sources */,
+				968A16E621267CCE006634DC /* PickerFormItem.swift in Sources */,
+				968A175221267CCE006634DC /* PickerTableViewController.swift in Sources */,
+				968A172921267CCE006634DC /* PinAnnotationView.swift in Sources */,
+				968A175421267CCE006634DC /* PopoverDatePickerViewController.swift in Sources */,
+				968A174421267CCE006634DC /* PopoverNavigationController.swift in Sources */,
+				968A17DD21267CCF006634DC /* PopoverPresenter.swift in Sources */,
+				968A174721267CCE006634DC /* PopoverSheetPresentationController.swift in Sources */,
+				968A174621267CCE006634DC /* PopoverViewController.swift in Sources */,
+				968A171821267CCE006634DC /* PopToRootable.swift in Sources */,
+				968A16EB21267CCE006634DC /* ProgressFormItem.swift in Sources */,
+				968A171F21267CCE006634DC /* PSCAlertController.swift in Sources */,
+				968A171E21267CCE006634DC /* PSCAlertView.swift in Sources */,
+				968A171721267CCE006634DC /* PushableSplitViewController.swift in Sources */,
+				968A16ED21267CCE006634DC /* QuantityPickerFormItem.swift in Sources */,
+				968A174E21267CCE006634DC /* QuantityPickerViewController.swift in Sources */,
+				968A174F21267CCE006634DC /* QuantityPickerViewModel.swift in Sources */,
+				968A17A921267CCF006634DC /* RadioButton.swift in Sources */,
+				968A16DE21267CCE006634DC /* RangeFormItem.swift in Sources */,
+				968A177921267CCF006634DC /* ReadableDataStore.swift in Sources */,
+				968A178421267CCF006634DC /* RecordButton.swift in Sources */,
+				968A170321267CCE006634DC /* RegularSidebarTableViewCell.swift in Sources */,
+				968A16FE21267CCE006634DC /* RegularSidebarViewController.swift in Sources */,
+				968A16C321267CCE006634DC /* ReloadValidationStateVisitor.swift in Sources */,
+				968A16CF21267CCE006634DC /* RoundedLabelAccessory.swift in Sources */,
+				968A17C621267CCF006634DC /* RoundedRectButton.swift in Sources */,
+				968A16D721267CCE006634DC /* RoundedRectButtonFormItem.swift in Sources */,
+				968A17D921267CCF006634DC /* RoundedRectLabel.swift in Sources */,
+				968A16E921267CCE006634DC /* RowDetailFormItem.swift in Sources */,
+				968A170521267CCE006634DC /* ScrollAwarePageViewController.swift in Sources */,
+				968A16C021267CCE006634DC /* ScrollViewInsetManager.swift in Sources */,
+				968A17CC21267CCF006634DC /* SearchFieldButton.swift in Sources */,
+				968A17CF21267CCF006634DC /* SearchHeaderView.swift in Sources */,
+				968A17A421267CCF006634DC /* SelectableButton.swift in Sources */,
+				968A16CD21267CCE006634DC /* SelectionAction.swift in Sources */,
+				968A170421267CCE006634DC /* SidebarDelegate.swift in Sources */,
+				968A17BF21267CCF006634DC /* SidebarHeaderView.swift in Sources */,
+				968A16FD21267CCE006634DC /* SidebarItem.swift in Sources */,
+				968A170021267CCE006634DC /* SidebarSplitViewController.swift in Sources */,
+				968A171221267CCE006634DC /* SignatureView.swift in Sources */,
+				968A171321267CCE006634DC /* SignatureViewController.swift in Sources */,
+				968A176121267CCE006634DC /* SourceBar.swift in Sources */,
+				968A175F21267CCE006634DC /* SourceBarCell.swift in Sources */,
+				968A176021267CCE006634DC /* SourceItem.swift in Sources */,
+				968A17D021267CCF006634DC /* SpacerView.swift in Sources */,
+				968A16CC21267CCE006634DC /* StackMapLayout.swift in Sources */,
+				968A17C521267CCF006634DC /* StandardSearchBarView.swift in Sources */,
+				968A175A21267CCE006634DC /* StatsOverviewCollectionViewCell.swift in Sources */,
+				968A171921267CCE006634DC /* StatusTabBarController.swift in Sources */,
+				968A16E421267CCE006634DC /* StepperFormItem.swift in Sources */,
+				968A16C821267CCE006634DC /* StringSizable+Label.swift in Sources */,
+				968A179E21267CCF006634DC /* StringSizing.swift in Sources */,
+				968A175821267CCE006634DC /* SubItemCollectionViewCell.swift in Sources */,
+				968A16DA21267CCE006634DC /* SubItemFormItem.swift in Sources */,
+				968A173A21267CCE006634DC /* SubmissionFormBuilderViewController.swift in Sources */,
+				968A16C421267CCE006634DC /* SubmissionValidationVisitor.swift in Sources */,
+				968A16F021267CCE006634DC /* SubtitleFormItem.swift in Sources */,
+				968A16E821267CCE006634DC /* SummaryDetailFormItem.swift in Sources */,
+				968A16E221267CCE006634DC /* SummaryListFormItem.swift in Sources */,
+				968A16E121267CCE006634DC /* SummaryThumbnailFormItem.swift in Sources */,
+				968A179921267CCF006634DC /* TableViewFormCell.swift in Sources */,
+				968A179B21267CCF006634DC /* TableViewFormCheckboxCell.swift in Sources */,
+				968A179A21267CCF006634DC /* TableViewFormExpandingHeaderCell.swift in Sources */,
+				968A179821267CCF006634DC /* TableViewFormSubtitleCell.swift in Sources */,
+				968A179C21267CCF006634DC /* TableViewFormTextFieldCell.swift in Sources */,
+				968A179D21267CCF006634DC /* TableViewFormTextViewCell.swift in Sources */,
+				968A17A021267CCF006634DC /* TableViewStyle.swift in Sources */,
+				968A17C921267CCF006634DC /* TabStripView.swift in Sources */,
+				968A173621267CCE006634DC /* TagCollectionView.swift in Sources */,
+				968A173721267CCE006634DC /* TagCollectionViewCell.swift in Sources */,
+				968A16EC21267CCE006634DC /* TextFieldFormItem.swift in Sources */,
+				968A16DD21267CCE006634DC /* TextViewFormItem.swift in Sources */,
+				968A17B521267CCF006634DC /* Theme.swift in Sources */,
+				968A17B421267CCF006634DC /* ThemedNavigationController.swift in Sources */,
+				968A174221267CCE006634DC /* ThemedPopoverViewController.swift in Sources */,
+				968A17B321267CCF006634DC /* ThemeManager.swift in Sources */,
+				968A173F21267CCE006634DC /* TimelineCollectionViewFormLayout.swift in Sources */,
+				968A174021267CCE006634DC /* TimelineFormCollectionViewController.swift in Sources */,
+				968A174121267CCE006634DC /* TimelineView.swift in Sources */,
+				968A16F721267CCE006634DC /* UIImage+Initials.swift in Sources */,
+				968A16F821267CCE006634DC /* UIImage+StatusDot.swift in Sources */,
+				968A16F921267CCE006634DC /* UIImageView+ImageLoadable.swift in Sources */,
+				968A173421267CCE006634DC /* UITableView+DefaultReuse.swift in Sources */,
+				968A17DE21267CCF006634DC /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
+				968A173321267CCE006634DC /* UITableViewCell+LayoutMargins.swift in Sources */,
+				968A17E121267CCF006634DC /* UITextView+NotificationWorkaround.m in Sources */,
+				968A173B21267CCE006634DC /* UIViewController+Subtitle.swift in Sources */,
+				968A17A321267CCF006634DC /* UnderlineStyle.swift in Sources */,
+				968A16D821267CCE006634DC /* ValueFormItem.swift in Sources */,
 				968A177A21267CCF006634DC /* VideoPreview.swift in Sources */,
 				968A171621267CCE006634DC /* ViewControllerAnimationOptionTransition.swift in Sources */,
-				968A174721267CCE006634DC /* PopoverSheetPresentationController.swift in Sources */,
+				968A177E21267CCF006634DC /* WaveformView.swift in Sources */,
+				968A173021267CCE006634DC /* WhatsNewDetailViewController.swift in Sources */,
+				968A173221267CCE006634DC /* WhatsNewTheme.swift in Sources */,
+				968A173121267CCE006634DC /* WhatsNewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
