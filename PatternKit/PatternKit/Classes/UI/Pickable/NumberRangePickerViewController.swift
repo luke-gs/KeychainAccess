@@ -1,5 +1,5 @@
 //
-//  SearchNumberRangePickerViewController.swift
+//  NumberRangePickerViewController.swift
 //  MPOL
 //
 //  Created by Valery Shorinov on 11/4/17.

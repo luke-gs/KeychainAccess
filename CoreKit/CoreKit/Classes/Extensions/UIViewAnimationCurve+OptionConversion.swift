@@ -11,7 +11,7 @@ import UIKit
 extension UIViewAnimationCurve {
     
     /// An animation option translation of a UIViewAnimationCurve
-    var animationOption: UIViewAnimationOptions {
+    public var animationOption: UIViewAnimationOptions {
         return UIViewAnimationOptions(rawValue: UInt(self.rawValue << 16))
     }
     

@@ -191,7 +191,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     private var tabBarLeadingConstraint: NSLayoutConstraint?
     
     private var tabBarLeadingOffset: CGFloat {
-        return isCompact() || SystemVersion.isLessThanIOS11() ? 0 : -30
+        return isCompact() || isLessThanIOS11() ? 0 : -30
     }
     
     // MARK: - Initializers
@@ -365,6 +365,16 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     // MARK: - Private methods
     
+    /// Convenience method for checking system version, since `if !#available` isn't a thing.
+    private func isLessThanIOS11() -> Bool {
+        // Have to hard-code as variable doesn't work
+        if #available(iOS 11, *) {
+            return false
+        } else {
+            return true
+        }
+    }
+
     private func updateBarConstraints() {
         if isViewLoaded == false { return }
         
@@ -392,7 +402,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         } else {
             let width: CGFloat
             
-            if isCompact() || SystemVersion.isLessThanIOS11() {
+            if isCompact() || isLessThanIOS11() {
                 width = 108
             } else {
                 width = 158

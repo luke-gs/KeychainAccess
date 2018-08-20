@@ -32,7 +32,7 @@ extension UIViewController {
 
     /// Convenience method for positioning a UI control above the safe area if additional safe area insets are used
     /// that take into account the control. Eg. Navigation Bar extension
-    func constraintAboveSafeAreaOrBelowTopLayout(_ viewToPosition: UIView) -> NSLayoutConstraint {
+    public func constraintAboveSafeAreaOrBelowTopLayout(_ viewToPosition: UIView) -> NSLayoutConstraint {
         if #available(iOS 11, *) {
             return viewToPosition.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         } else {
@@ -42,7 +42,7 @@ extension UIViewController {
 
     /// Convenience method for positioning a UI control below the safe area if additional safe area insets are used
     /// that take into account the control. Eg. StatusTabBarController
-    func constraintBelowSafeAreaOrAboveBottomLayout(_ viewToPosition: UIView) -> NSLayoutConstraint {
+    public func constraintBelowSafeAreaOrAboveBottomLayout(_ viewToPosition: UIView) -> NSLayoutConstraint {
         if #available(iOS 11, *) {
             return viewToPosition.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         } else {

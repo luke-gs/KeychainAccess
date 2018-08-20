@@ -9,6 +9,9 @@
 import Foundation
 import Lottie
 
+// Make life easier for everyone by importing CoreKit
+@_exported import CoreKit
+
 // Temporary: Performs default setup for MPOLKit applications
 public func MPOLKitInitialize() {
     

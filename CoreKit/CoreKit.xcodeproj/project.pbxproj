@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F931D82E5569D1976AFA7C2 /* Pods_CoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA6CD0E2C1BD0CF693CAD58 /* Pods_CoreKitTests.framework */; };
+		968723CD212A57880061FF72 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723CC212A57880061FF72 /* Array+Searching.swift */; };
 		96BE8895212659C300F57FF0 /* CoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE888B212659C300F57FF0 /* CoreKit.framework */; };
 		96BE889A212659C300F57FF0 /* CoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE8899212659C300F57FF0 /* CoreKitTests.swift */; };
 		96BE889C212659C300F57FF0 /* CoreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE888E212659C300F57FF0 /* CoreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -171,6 +172,7 @@
 		707D627B14DC00C68E483590 /* Pods-CoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoreKit/Pods-CoreKit.release.xcconfig"; sourceTree = "<group>"; };
 		8828933F8C25D51C2B5E7C0E /* Pods_CoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA6CD0E2C1BD0CF693CAD58 /* Pods_CoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		968723CC212A57880061FF72 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
 		96BE888B212659C300F57FF0 /* CoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE888E212659C300F57FF0 /* CoreKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreKit.h; sourceTree = "<group>"; };
 		96BE888F212659C300F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 		96BE890721265BD800F57FF0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				968723CC212A57880061FF72 /* Array+Searching.swift */,
 				96BE890821265BD800F57FF0 /* UIViewAnimationCurve+OptionConversion.swift */,
 				96BE890921265BD800F57FF0 /* CLLocationCoordinate2D+Equatable.swift */,
 				96BE890A21265BD800F57FF0 /* Sequence+Nils.swift */,
@@ -1054,6 +1057,7 @@
 				96BE89CC21265BD800F57FF0 /* ImageError.swift in Sources */,
 				96BE89CA21265BD800F57FF0 /* TemplateDataSource.swift in Sources */,
 				96BE895E21265BD800F57FF0 /* PromiseCancellationToken.swift in Sources */,
+				968723CD212A57880061FF72 /* Array+Searching.swift in Sources */,
 				96BE897E21265BD800F57FF0 /* RemoteResourceDescribing.swift in Sources */,
 				96BE89D921265BD800F57FF0 /* FileLogger.swift in Sources */,
 				96BE89AA21265BD800F57FF0 /* CoreGraphics+Convenience.swift in Sources */,

@@ -40,7 +40,7 @@ extension CGRect {
         return UIEdgeInsetsInsetRect(self, edgeInsets)
     }
     
-    func rtlFlipped(forWidth width: CGFloat) -> CGRect {
+    public func rtlFlipped(forWidth width: CGFloat) -> CGRect {
         var rect = self
         rect.origin.x = width - maxX
         return rect
