@@ -25,5 +25,9 @@ s.source_files = 'PatternKit/Classes/**/*'
 s.resources = 'Assets/**/*'
 
 s.dependency 'CoreKit'
+s.dependency 'SketchKit'
+s.dependency 'lottie-ios', '2.1.3'
+s.dependency 'Cluster', '2.1.1'
+
 
 end

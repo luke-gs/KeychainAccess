@@ -163,12 +163,12 @@ open class BaseFormItem: NSObject, FormItem {
 
     // MARK: - Collection View Related methods. These methods are called by the form system.
 
-    func cell(forItemAt indexPath: IndexPath, inCollectionView collectionView: UICollectionView) -> CollectionViewFormCell {
+    public func cell(forItemAt indexPath: IndexPath, inCollectionView collectionView: UICollectionView) -> CollectionViewFormCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewFormCell
         return cell
     }
 
-    func minimumContentHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
+    public func minimumContentHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
 
         switch height {
         case .intrinsic:
@@ -181,7 +181,7 @@ open class BaseFormItem: NSObject, FormItem {
         }
     }
 
-    func minimumContentWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
+    public func minimumContentWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
 
         switch width {
         case .intrinsic:
@@ -196,11 +196,11 @@ open class BaseFormItem: NSObject, FormItem {
         }
     }
 
-    func heightForValidationAccessory(givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
+    public func heightForValidationAccessory(givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         return cellType.heightForValidationAccessory(withText: focusedText ?? "", contentWidth: contentWidth, compatibleWith: traitCollection)
     }
 
-    func decorate(_ cell: CollectionViewFormCell, withTheme theme: Theme) {
+    public func decorate(_ cell: CollectionViewFormCell, withTheme theme: Theme) {
         let separatorColor =  self.separatorColor ?? theme.color(forKey: .separator)
         let focusColor = self.focusColor ?? theme.color(forKey: .validationError)
 
@@ -215,7 +215,7 @@ open class BaseFormItem: NSObject, FormItem {
         onThemeChanged?(cell, theme)
     }
 
-    func reload(_ cell: CollectionViewFormCell) {
+    public func reload(_ cell: CollectionViewFormCell) {
         cell.contentMode = contentMode
 
         // Apply style

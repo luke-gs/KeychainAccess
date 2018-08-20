@@ -45,28 +45,31 @@ public enum PointLocation: Int {
 /// ******************************************************************************
 public class PathBuilder {
 
-    var lastPoint: CGPoint?
-    var pathLength: CGFloat = 0.0
-    var minimumDrawDistance: CGFloat = 25.0
-    var maximumPathLength: CGFloat = 150.0
+    public var lastPoint: CGPoint?
+    public var pathLength: CGFloat = 0.0
+    public var minimumDrawDistance: CGFloat = 25.0
+    public var maximumPathLength: CGFloat = 150.0
 
-    var exceedsMaxPathLength: Bool {
+    public var exceedsMaxPathLength: Bool {
         return pathLength > maximumPathLength
     }
 
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return lastPoint == nil
     }
 
-    var controlPoint: Int = 0
+    public var controlPoint: Int = 0
 
-    private(set) var leading: CGPoint = .zero
-    private(set) var leadingControl: CGPoint = .zero
-    private(set) var middle: CGPoint = .zero
-    private(set) var trailingControl: CGPoint = .zero
-    private(set) var trailing: CGPoint = .zero
+    public init() {
+    }
 
-    func setPoint(_ location: PointLocation, to newValue: CGPoint) {
+    public private(set) var leading: CGPoint = .zero
+    public private(set) var leadingControl: CGPoint = .zero
+    public private(set) var middle: CGPoint = .zero
+    public private(set) var trailingControl: CGPoint = .zero
+    public private(set) var trailing: CGPoint = .zero
+
+    public func setPoint(_ location: PointLocation, to newValue: CGPoint) {
         switch location {
         case .leading: leading = newValue
         case .leadingControl: leadingControl = newValue
@@ -77,19 +80,19 @@ public class PathBuilder {
         }
     }
 
-    var isAtLastPoint: Bool {
+    public var isAtLastPoint: Bool {
         return controlPoint == PointLocation.trailing.rawValue
     }
 
-    var isAtFirstPoint: Bool {
+    public var isAtFirstPoint: Bool {
         return controlPoint == PointLocation.leadingControl.rawValue && pathLength == 0.0
     }
 
-    var calculatedCenterPoint: CGPoint {
+    public var calculatedCenterPoint: CGPoint {
         return CGPoint(x: (middle.x + trailing.x) * 0.5, y: (middle.y + trailing.y) * 0.5)
     }
 
-    func distance(to point: CGPoint) -> CGFloat {
+    public func distance(to point: CGPoint) -> CGFloat {
         if let lastPoint = lastPoint {
             let dx = Double(point.x - lastPoint.x)
             let dy = Double(point.y - lastPoint.y)
@@ -99,7 +102,7 @@ public class PathBuilder {
         return 0.0
     }
 
-    func shouldDraw(to currentPoint: CGPoint) -> Bool {
+    public func shouldDraw(to currentPoint: CGPoint) -> Bool {
         guard let previousPoint = lastPoint else {
             return true
         }

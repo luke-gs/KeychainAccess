@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SketchKit
 
 public protocol SignatureViewResponder: class {
     func didStartSigning()

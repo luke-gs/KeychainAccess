@@ -103,14 +103,12 @@
 		968A172321267CCE006634DC /* MapCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15DA21267CCE006634DC /* MapCollectionViewController.swift */; };
 		968A172421267CCE006634DC /* MapCollectionViewHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15DB21267CCE006634DC /* MapCollectionViewHeaderLayout.swift */; };
 		968A172521267CCE006634DC /* MapCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15DC21267CCE006634DC /* MapCollectionViewLayout.swift */; };
-		968A172821267CCE006634DC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E121267CCE006634DC /* MapViewController.swift */; };
 		968A172921267CCE006634DC /* PinAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E321267CCE006634DC /* PinAnnotationView.swift */; };
 		968A172A21267CCE006634DC /* MPOLMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */; };
 		968A172B21267CCE006634DC /* BubbleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E521267CCE006634DC /* BubbleAnnotationView.swift */; };
 		968A172C21267CCE006634DC /* LocationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E621267CCE006634DC /* LocationAnnotationView.swift */; };
 		968A172D21267CCE006634DC /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E721267CCE006634DC /* ClusterAnnotationView.swift */; };
 		968A172E21267CCE006634DC /* AutoLayoutAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E821267CCE006634DC /* AutoLayoutAnnotationView.swift */; };
-		968A172F21267CCE006634DC /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E921267CCE006634DC /* MapOverlayImageButton.swift */; };
 		968A173321267CCE006634DC /* UITableViewCell+LayoutMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15EF21267CCE006634DC /* UITableViewCell+LayoutMargins.swift */; };
 		968A173421267CCE006634DC /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15F021267CCE006634DC /* UITableView+DefaultReuse.swift */; };
 		968A173521267CCE006634DC /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15F221267CCE006634DC /* HelpViewController.swift */; };
@@ -257,7 +255,6 @@
 		968A17C921267CCF006634DC /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A321267CCE006634DC /* TabStripView.swift */; };
 		968A17CA21267CCF006634DC /* EntityThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A421267CCE006634DC /* EntityThumbnailView.swift */; };
 		968A17CB21267CCF006634DC /* CircleIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A521267CCE006634DC /* CircleIconView.swift */; };
-		968A17CC21267CCF006634DC /* SearchFieldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A621267CCE006634DC /* SearchFieldButton.swift */; };
 		968A17CD21267CCF006634DC /* DisableableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A721267CCE006634DC /* DisableableButton.swift */; };
 		968A17CE21267CCF006634DC /* DraggableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A821267CCE006634DC /* DraggableCardView.swift */; };
 		968A17CF21267CCF006634DC /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A16A921267CCE006634DC /* SearchHeaderView.swift */; };
@@ -400,14 +397,12 @@
 		968A15DA21267CCE006634DC /* MapCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewController.swift; sourceTree = "<group>"; };
 		968A15DB21267CCE006634DC /* MapCollectionViewHeaderLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewHeaderLayout.swift; sourceTree = "<group>"; };
 		968A15DC21267CCE006634DC /* MapCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewLayout.swift; sourceTree = "<group>"; };
-		968A15E121267CCE006634DC /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		968A15E321267CCE006634DC /* PinAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E521267CCE006634DC /* BubbleAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E621267CCE006634DC /* LocationAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E721267CCE006634DC /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E821267CCE006634DC /* AutoLayoutAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLayoutAnnotationView.swift; sourceTree = "<group>"; };
-		968A15E921267CCE006634DC /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		968A15EF21267CCE006634DC /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
 		968A15F021267CCE006634DC /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		968A15F221267CCE006634DC /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
@@ -554,7 +549,6 @@
 		968A16A321267CCE006634DC /* TabStripView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
 		968A16A421267CCE006634DC /* EntityThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityThumbnailView.swift; sourceTree = "<group>"; };
 		968A16A521267CCE006634DC /* CircleIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleIconView.swift; sourceTree = "<group>"; };
-		968A16A621267CCE006634DC /* SearchFieldButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldButton.swift; sourceTree = "<group>"; };
 		968A16A721267CCE006634DC /* DisableableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisableableButton.swift; sourceTree = "<group>"; };
 		968A16A821267CCE006634DC /* DraggableCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableCardView.swift; sourceTree = "<group>"; };
 		968A16A921267CCE006634DC /* SearchHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
@@ -958,8 +952,6 @@
 			children = (
 				968A15E221267CCE006634DC /* Annotations */,
 				968A15D621267CCE006634DC /* Form */,
-				968A15E921267CCE006634DC /* MapOverlayImageButton.swift */,
-				968A15E121267CCE006634DC /* MapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1331,7 +1323,6 @@
 				968A16AD21267CCE006634DC /* OutlinedLabel.swift */,
 				968A16A021267CCE006634DC /* RoundedRectButton.swift */,
 				968A16B321267CCE006634DC /* RoundedRectLabel.swift */,
-				968A16A621267CCE006634DC /* SearchFieldButton.swift */,
 				968A16AA21267CCE006634DC /* SpacerView.swift */,
 				968A16A321267CCE006634DC /* TabStripView.swift */,
 			);
@@ -1763,8 +1754,6 @@
 				968A172021267CCE006634DC /* MapCollectionViewSidebarLayout.swift in Sources */,
 				968A17C321267CCF006634DC /* MapControlView.swift in Sources */,
 				968A16CB21267CCE006634DC /* MapFormBuilderViewController.swift in Sources */,
-				968A172F21267CCE006634DC /* MapOverlayImageButton.swift in Sources */,
-				968A172821267CCE006634DC /* MapViewController.swift in Sources */,
 				968A177621267CCE006634DC /* MediaAsset.swift in Sources */,
 				968A179121267CCF006634DC /* MediaAssetCache.swift in Sources */,
 				968A178821267CCF006634DC /* MediaCell.swift in Sources */,
@@ -1833,7 +1822,6 @@
 				968A16E921267CCE006634DC /* RowDetailFormItem.swift in Sources */,
 				968A170521267CCE006634DC /* ScrollAwarePageViewController.swift in Sources */,
 				968A16C021267CCE006634DC /* ScrollViewInsetManager.swift in Sources */,
-				968A17CC21267CCF006634DC /* SearchFieldButton.swift in Sources */,
 				968A17CF21267CCF006634DC /* SearchHeaderView.swift in Sources */,
 				968A17A421267CCF006634DC /* SelectableButton.swift in Sources */,
 				968A16CD21267CCE006634DC /* SelectionAction.swift in Sources */,
