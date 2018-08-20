@@ -1,5 +1,5 @@
 //
-//  ClusterAnnotationView.swift
+//  MPOLClusterAnnotationView.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 25/1/18.
@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import Cluster
 
-open class ClusterAnnotationView: MKAnnotationView, DefaultReusable {
+open class MPOLClusterAnnotationView: MKAnnotationView, DefaultReusable {
 
     public let label = UILabel()
 

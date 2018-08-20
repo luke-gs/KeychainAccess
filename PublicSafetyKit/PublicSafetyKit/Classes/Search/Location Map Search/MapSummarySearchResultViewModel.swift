@@ -87,13 +87,13 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
         if let annotation = annotation as? ClusterAnnotation {
-            let pinView: PatternKit.ClusterAnnotationView
+            let pinView: MPOLClusterAnnotationView
             let identifier = MapSummaryAnnotationViewIdentifier.cluster.rawValue
-            if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PatternKit.ClusterAnnotationView {
+            if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MPOLClusterAnnotationView {
                 dequeueView.annotation = annotation
                 pinView = dequeueView
             } else {
-                pinView = PatternKit.ClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = MPOLClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
             let summaries = annotation.annotations.compactMap { annotation -> EntitySummaryDisplayable? in

@@ -85,11 +85,11 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? ClusterAnnotation {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ClusterAnnotationView.defaultReuseIdentifier) as? ClusterAnnotationView
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier) as? MPOLClusterAnnotationView
             annotationView?.annotation =  annotation
             
             if annotationView == nil {
-                annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: ClusterAnnotationView.defaultReuseIdentifier)
+                annotationView = MPOLClusterAnnotationView(annotation: annotation, reuseIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier)
             }
 
             let priorities = annotation.annotations.map { ($0 as? IncidentAnnotation)?.priority }.removeNils()
@@ -108,7 +108,7 @@ open class TasksMapViewController: MapViewController {
     }
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let clusterView = view as? ClusterAnnotationView {
+        if let clusterView = view as? MPOLClusterAnnotationView {
             present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: clusterDelegate ?? self))
             return
         }

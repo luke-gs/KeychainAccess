@@ -11,7 +11,7 @@ import Cluster
 
 open class ClusterTasksViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
-    public init(annotationView: ClusterAnnotationView) {
+    public init(annotationView: MPOLClusterAnnotationView) {
         super.init()
 
         // Convert all the annotations to TasksListItemViewModels

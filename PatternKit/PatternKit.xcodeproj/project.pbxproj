@@ -107,7 +107,7 @@
 		968A172A21267CCE006634DC /* MPOLMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */; };
 		968A172B21267CCE006634DC /* BubbleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E521267CCE006634DC /* BubbleAnnotationView.swift */; };
 		968A172C21267CCE006634DC /* LocationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E621267CCE006634DC /* LocationAnnotationView.swift */; };
-		968A172D21267CCE006634DC /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E721267CCE006634DC /* ClusterAnnotationView.swift */; };
+		968A172D21267CCE006634DC /* MPOLClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E721267CCE006634DC /* MPOLClusterAnnotationView.swift */; };
 		968A172E21267CCE006634DC /* AutoLayoutAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15E821267CCE006634DC /* AutoLayoutAnnotationView.swift */; };
 		968A173321267CCE006634DC /* UITableViewCell+LayoutMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15EF21267CCE006634DC /* UITableViewCell+LayoutMargins.swift */; };
 		968A173421267CCE006634DC /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15F021267CCE006634DC /* UITableView+DefaultReuse.swift */; };
@@ -401,7 +401,7 @@
 		968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E521267CCE006634DC /* BubbleAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E621267CCE006634DC /* LocationAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAnnotationView.swift; sourceTree = "<group>"; };
-		968A15E721267CCE006634DC /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
+		968A15E721267CCE006634DC /* MPOLClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLClusterAnnotationView.swift; sourceTree = "<group>"; };
 		968A15E821267CCE006634DC /* AutoLayoutAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLayoutAnnotationView.swift; sourceTree = "<group>"; };
 		968A15EF21267CCE006634DC /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
 		968A15F021267CCE006634DC /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
@@ -961,8 +961,8 @@
 			children = (
 				968A15E821267CCE006634DC /* AutoLayoutAnnotationView.swift */,
 				968A15E521267CCE006634DC /* BubbleAnnotationView.swift */,
-				968A15E721267CCE006634DC /* ClusterAnnotationView.swift */,
 				968A15E621267CCE006634DC /* LocationAnnotationView.swift */,
+				968A15E721267CCE006634DC /* MPOLClusterAnnotationView.swift */,
 				968A15E421267CCE006634DC /* MPOLMarkerAnnotationView.swift */,
 				968A15E321267CCE006634DC /* PinAnnotationView.swift */,
 			);
@@ -1636,7 +1636,7 @@
 				968A17C121267CCF006634DC /* ButtonStackView.swift in Sources */,
 				968A17AC21267CCF006634DC /* CheckBox.swift in Sources */,
 				968A17CB21267CCF006634DC /* CircleIconView.swift in Sources */,
-				968A172D21267CCE006634DC /* ClusterAnnotationView.swift in Sources */,
+				968A172D21267CCE006634DC /* MPOLClusterAnnotationView.swift in Sources */,
 				968A176E21267CCE006634DC /* CollectionViewFormCell.swift in Sources */,
 				968A176F21267CCE006634DC /* CollectionViewFormCellActionView.swift in Sources */,
 				968A176A21267CCE006634DC /* CollectionViewFormDetailCell.swift in Sources */,
