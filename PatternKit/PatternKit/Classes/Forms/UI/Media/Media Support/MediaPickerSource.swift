@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SketchKit
 
 /// A protocol that defines an input source for choosing an image
 public protocol MediaPickerSource: class {

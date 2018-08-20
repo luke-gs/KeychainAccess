@@ -71,7 +71,7 @@
 		968A16F921267CCE006634DC /* UIImageView+ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15A521267CCE006634DC /* UIImageView+ImageLoadable.swift */; };
 		968A16FA21267CCE006634DC /* AsynchronousImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15A621267CCE006634DC /* AsynchronousImageSizing.swift */; };
 		968A16FB21267CCE006634DC /* MKMapView+MKMapView_NightMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 968A15A821267CCE006634DC /* MKMapView+MKMapView_NightMode.m */; };
-		968A16FC21267CCE006634DC /* MKMapView+MKMapView_NightMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 968A15A921267CCE006634DC /* MKMapView+MKMapView_NightMode.h */; };
+		968A16FC21267CCE006634DC /* MKMapView+MKMapView_NightMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 968A15A921267CCE006634DC /* MKMapView+MKMapView_NightMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		968A16FD21267CCE006634DC /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15AC21267CCE006634DC /* SidebarItem.swift */; };
 		968A16FE21267CCE006634DC /* RegularSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15AD21267CCE006634DC /* RegularSidebarViewController.swift */; };
 		968A16FF21267CCE006634DC /* CompactSidebarSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A15AE21267CCE006634DC /* CompactSidebarSourceCell.swift */; };
@@ -1578,6 +1578,7 @@
 				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SketchKit/SketchKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
@@ -1589,6 +1590,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SketchKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);

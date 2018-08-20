@@ -11,6 +11,8 @@ import Foundation
 /// Check if an object is not nil
 public class NotNilSpecification: Specification {
 
+    public init() {
+    }
 
     /// Check if the object is not nil
     ///
