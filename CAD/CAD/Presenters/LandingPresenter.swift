@@ -54,8 +54,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             return loginContainer
         case .termsAndConditions:
-            let acceptAction = DialogAction(title: NSLocalizedString("Accept", bundle: .mpolKit, comment: "T&C - Accept"), handler: didAcceptConditions(_ :))
-            let declineAction = DialogAction(title: NSLocalizedString("Decline", bundle: .mpolKit, comment: "T&C - Decline"), handler: didDeclineConditions(_ :))
+            let acceptAction = DialogAction(title: NSLocalizedString("Accept", comment: "T&C - Accept"), handler: didAcceptConditions(_ :))
+            let declineAction = DialogAction(title: NSLocalizedString("Decline", comment: "T&C - Decline"), handler: didDeclineConditions(_ :))
             let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!, actions: [declineAction, acceptAction])
 
             let navController = ThemedNavigationController(rootViewController: tsAndCsVC)
