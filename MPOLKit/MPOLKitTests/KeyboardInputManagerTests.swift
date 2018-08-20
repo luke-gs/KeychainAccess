@@ -25,13 +25,13 @@ class KeyboardInputManagerTests: XCTestCase {
     }
 
     func testIsNumberBarDisabledByDefault() {
-        let defaultValue = UserDefaults.mpol.bool(forKey: "isNumberBarEnabled")
+        let defaultValue = KeyboardInputManager.userDefaults.bool(forKey: "isNumberBarEnabled")
         XCTAssertEqual(defaultValue, KeyboardInputManager.shared.isNumberBarEnabled)
     }
 
     func testIsNumberBarEnabled() {
         KeyboardInputManager.shared.isNumberBarEnabled = true
-        let defaultValue = UserDefaults.mpol.bool(forKey: "isNumberBarEnabled")
+        let defaultValue = KeyboardInputManager.userDefaults.bool(forKey: "isNumberBarEnabled")
         XCTAssertEqual(defaultValue, KeyboardInputManager.shared.isNumberBarEnabled)
     }
 }

@@ -11,6 +11,6 @@ import Foundation
 extension UserDefaults {
     
     /// The MPOL User Defaults
-    public static let mpol = UserDefaults(suiteName: "group.com.gridstone.mpol")! // TODO: Need to get the suite name from the client.
+    // public static let mpol = UserDefaults(suiteName: "group.com.gridstone.mpol")! // TODO: Need to get the suite name from the client.
     
 }
