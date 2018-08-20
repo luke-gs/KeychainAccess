@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreKit
 
 /// Basic implementation of a control panel that allows the user to
 /// change pen mode, the size of the pen and choose from a selection of

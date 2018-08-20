@@ -7,9 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B8A2613A71533942DE7389E /* Pods_SketchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66E26557DB5CB12BD86D115 /* Pods_SketchKit.framework */; };
+		968723E9212A64B40061FF72 /* SketchPen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D2212A64B40061FF72 /* SketchPen.swift */; };
+		968723EA212A64B40061FF72 /* SketchEraser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D3212A64B40061FF72 /* SketchEraser.swift */; };
+		968723EB212A64B40061FF72 /* TouchTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D4212A64B40061FF72 /* TouchTool.swift */; };
+		968723EC212A64B40061FF72 /* Sketchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D6212A64B40061FF72 /* Sketchable.swift */; };
+		968723ED212A64B40061FF72 /* SketchCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D7212A64B40061FF72 /* SketchCanvas.swift */; };
+		968723EE212A64B40061FF72 /* PathBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D8212A64B40061FF72 /* PathBuilder.swift */; };
+		968723EF212A64B40061FF72 /* PixelWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723DA212A64B40061FF72 /* PixelWidthView.swift */; };
+		968723F0212A64B40061FF72 /* SimpleColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723DB212A64B40061FF72 /* SimpleColorPicker.swift */; };
+		968723F1212A64B40061FF72 /* SketchControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723DC212A64B40061FF72 /* SketchControlPanel.swift */; };
+		968723F2212A64B40061FF72 /* PixelWidthSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723DD212A64B40061FF72 /* PixelWidthSelectionViewController.swift */; };
+		968723F3212A64B40061FF72 /* NibSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723DE212A64B40061FF72 /* NibSize.swift */; };
+		968723F4212A64B40061FF72 /* SketchControlPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E0212A64B40061FF72 /* SketchControlPanelDelegate.swift */; };
+		968723F5212A64B40061FF72 /* ColorPickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E1212A64B40061FF72 /* ColorPickable.swift */; };
+		968723F6212A64B40061FF72 /* SketchColorPickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E2212A64B40061FF72 /* SketchColorPickable.swift */; };
+		968723F7212A64B40061FF72 /* ControlPanelPenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E3212A64B40061FF72 /* ControlPanelPenView.swift */; };
+		968723F8212A64B40061FF72 /* SketchNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E4212A64B40061FF72 /* SketchNavigationController.swift */; };
+		968723F9212A64B40061FF72 /* SketchPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E5212A64B40061FF72 /* SketchPickerController.swift */; };
+		968723FA212A64B40061FF72 /* UIImage+CircleCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E7212A64B40061FF72 /* UIImage+CircleCreation.swift */; };
+		968723FB212A64B40061FF72 /* UIView+JiggleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723E8212A64B40061FF72 /* UIView+JiggleAnimation.swift */; };
 		96BE884D2126591B00F57FF0 /* SketchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE88432126591A00F57FF0 /* SketchKit.framework */; };
 		96BE88522126591B00F57FF0 /* SketchKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88512126591B00F57FF0 /* SketchKitTests.swift */; };
 		96BE88542126591B00F57FF0 /* SketchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE88462126591A00F57FF0 /* SketchKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF37E7870C06F768D11A2FC6 /* Pods_SketchKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECCA044F5B50FAC9B4D03678 /* Pods_SketchKitTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +44,37 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CA08B0F8236AAECB656C7B6 /* Pods-SketchKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKit/Pods-SketchKit.release.xcconfig"; sourceTree = "<group>"; };
+		6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		968723D2212A64B40061FF72 /* SketchPen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchPen.swift; sourceTree = "<group>"; };
+		968723D3212A64B40061FF72 /* SketchEraser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchEraser.swift; sourceTree = "<group>"; };
+		968723D4212A64B40061FF72 /* TouchTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchTool.swift; sourceTree = "<group>"; };
+		968723D6212A64B40061FF72 /* Sketchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sketchable.swift; sourceTree = "<group>"; };
+		968723D7212A64B40061FF72 /* SketchCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchCanvas.swift; sourceTree = "<group>"; };
+		968723D8212A64B40061FF72 /* PathBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathBuilder.swift; sourceTree = "<group>"; };
+		968723DA212A64B40061FF72 /* PixelWidthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelWidthView.swift; sourceTree = "<group>"; };
+		968723DB212A64B40061FF72 /* SimpleColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleColorPicker.swift; sourceTree = "<group>"; };
+		968723DC212A64B40061FF72 /* SketchControlPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchControlPanel.swift; sourceTree = "<group>"; };
+		968723DD212A64B40061FF72 /* PixelWidthSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelWidthSelectionViewController.swift; sourceTree = "<group>"; };
+		968723DE212A64B40061FF72 /* NibSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibSize.swift; sourceTree = "<group>"; };
+		968723E0212A64B40061FF72 /* SketchControlPanelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchControlPanelDelegate.swift; sourceTree = "<group>"; };
+		968723E1212A64B40061FF72 /* ColorPickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickable.swift; sourceTree = "<group>"; };
+		968723E2212A64B40061FF72 /* SketchColorPickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchColorPickable.swift; sourceTree = "<group>"; };
+		968723E3212A64B40061FF72 /* ControlPanelPenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlPanelPenView.swift; sourceTree = "<group>"; };
+		968723E4212A64B40061FF72 /* SketchNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchNavigationController.swift; sourceTree = "<group>"; };
+		968723E5212A64B40061FF72 /* SketchPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchPickerController.swift; sourceTree = "<group>"; };
+		968723E7212A64B40061FF72 /* UIImage+CircleCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CircleCreation.swift"; sourceTree = "<group>"; };
+		968723E8212A64B40061FF72 /* UIView+JiggleAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+JiggleAnimation.swift"; sourceTree = "<group>"; };
 		96BE88432126591A00F57FF0 /* SketchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SketchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE88462126591A00F57FF0 /* SketchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SketchKit.h; sourceTree = "<group>"; };
 		96BE88472126591A00F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96BE884C2126591B00F57FF0 /* SketchKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SketchKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE88512126591B00F57FF0 /* SketchKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchKitTests.swift; sourceTree = "<group>"; };
 		96BE88532126591B00F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A66E26557DB5CB12BD86D115 /* Pods_SketchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SketchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E60B1C12DF109D2CC6B51060 /* Pods-SketchKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKit/Pods-SketchKit.debug.xcconfig"; sourceTree = "<group>"; };
+		ECCA044F5B50FAC9B4D03678 /* Pods_SketchKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SketchKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B8A2613A71533942DE7389E /* Pods_SketchKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,18 +91,96 @@
 			buildActionMask = 2147483647;
 			files = (
 				96BE884D2126591B00F57FF0 /* SketchKit.framework in Frameworks */,
+				BF37E7870C06F768D11A2FC6 /* Pods_SketchKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D109621839F5BB907C7D4BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A66E26557DB5CB12BD86D115 /* Pods_SketchKit.framework */,
+				ECCA044F5B50FAC9B4D03678 /* Pods_SketchKitTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		968723D0212A64B40061FF72 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				968723D1212A64B40061FF72 /* Tools */,
+				968723D5212A64B40061FF72 /* Canvas */,
+				968723D9212A64B40061FF72 /* Controls */,
+				968723E4212A64B40061FF72 /* SketchNavigationController.swift */,
+				968723E5212A64B40061FF72 /* SketchPickerController.swift */,
+				968723E6212A64B40061FF72 /* Utility */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		968723D1212A64B40061FF72 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				968723D2212A64B40061FF72 /* SketchPen.swift */,
+				968723D3212A64B40061FF72 /* SketchEraser.swift */,
+				968723D4212A64B40061FF72 /* TouchTool.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		968723D5212A64B40061FF72 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				968723D6212A64B40061FF72 /* Sketchable.swift */,
+				968723D7212A64B40061FF72 /* SketchCanvas.swift */,
+				968723D8212A64B40061FF72 /* PathBuilder.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		968723D9212A64B40061FF72 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				968723DA212A64B40061FF72 /* PixelWidthView.swift */,
+				968723DB212A64B40061FF72 /* SimpleColorPicker.swift */,
+				968723DC212A64B40061FF72 /* SketchControlPanel.swift */,
+				968723DD212A64B40061FF72 /* PixelWidthSelectionViewController.swift */,
+				968723DE212A64B40061FF72 /* NibSize.swift */,
+				968723DF212A64B40061FF72 /* Protocols */,
+				968723E3212A64B40061FF72 /* ControlPanelPenView.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		968723DF212A64B40061FF72 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				968723E0212A64B40061FF72 /* SketchControlPanelDelegate.swift */,
+				968723E1212A64B40061FF72 /* ColorPickable.swift */,
+				968723E2212A64B40061FF72 /* SketchColorPickable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		968723E6212A64B40061FF72 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				968723E7212A64B40061FF72 /* UIImage+CircleCreation.swift */,
+				968723E8212A64B40061FF72 /* UIView+JiggleAnimation.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		96BE88392126591A00F57FF0 = {
 			isa = PBXGroup;
 			children = (
 				96BE88452126591A00F57FF0 /* SketchKit */,
 				96BE88502126591B00F57FF0 /* SketchKitTests */,
 				96BE88442126591A00F57FF0 /* Products */,
+				9A9C2E1442B2F3D5BC96AFCD /* Pods */,
+				3D109621839F5BB907C7D4BC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +196,7 @@
 		96BE88452126591A00F57FF0 /* SketchKit */ = {
 			isa = PBXGroup;
 			children = (
+				968723D0212A64B40061FF72 /* Classes */,
 				96BE88462126591A00F57FF0 /* SketchKit.h */,
 				96BE88472126591A00F57FF0 /* Info.plist */,
 			);
@@ -84,6 +210,17 @@
 				96BE88532126591B00F57FF0 /* Info.plist */,
 			);
 			path = SketchKitTests;
+			sourceTree = "<group>";
+		};
+		9A9C2E1442B2F3D5BC96AFCD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E60B1C12DF109D2CC6B51060 /* Pods-SketchKit.debug.xcconfig */,
+				2CA08B0F8236AAECB656C7B6 /* Pods-SketchKit.release.xcconfig */,
+				DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */,
+				6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +241,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96BE88572126591B00F57FF0 /* Build configuration list for PBXNativeTarget "SketchKit" */;
 			buildPhases = (
+				12B70FDD0E71D151A8159F79 /* [CP] Check Pods Manifest.lock */,
 				96BE883E2126591A00F57FF0 /* Sources */,
 				96BE883F2126591A00F57FF0 /* Frameworks */,
 				96BE88402126591A00F57FF0 /* Headers */,
@@ -122,9 +260,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96BE885A2126591B00F57FF0 /* Build configuration list for PBXNativeTarget "SketchKitTests" */;
 			buildPhases = (
+				89A5BAE5D7F5756AA1B73CF7 /* [CP] Check Pods Manifest.lock */,
 				96BE88482126591B00F57FF0 /* Sources */,
 				96BE88492126591B00F57FF0 /* Frameworks */,
 				96BE884A2126591B00F57FF0 /* Resources */,
+				266A9EF319F1DE51BFE5561F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -189,11 +329,97 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		12B70FDD0E71D151A8159F79 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SketchKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		266A9EF319F1DE51BFE5561F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89A5BAE5D7F5756AA1B73CF7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SketchKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		96BE883E2126591A00F57FF0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				968723EF212A64B40061FF72 /* PixelWidthView.swift in Sources */,
+				968723FB212A64B40061FF72 /* UIView+JiggleAnimation.swift in Sources */,
+				968723F0212A64B40061FF72 /* SimpleColorPicker.swift in Sources */,
+				968723F8212A64B40061FF72 /* SketchNavigationController.swift in Sources */,
+				968723EE212A64B40061FF72 /* PathBuilder.swift in Sources */,
+				968723F9212A64B40061FF72 /* SketchPickerController.swift in Sources */,
+				968723F2212A64B40061FF72 /* PixelWidthSelectionViewController.swift in Sources */,
+				968723F1212A64B40061FF72 /* SketchControlPanel.swift in Sources */,
+				968723E9212A64B40061FF72 /* SketchPen.swift in Sources */,
+				968723EC212A64B40061FF72 /* Sketchable.swift in Sources */,
+				968723F5212A64B40061FF72 /* ColorPickable.swift in Sources */,
+				968723F6212A64B40061FF72 /* SketchColorPickable.swift in Sources */,
+				968723EA212A64B40061FF72 /* SketchEraser.swift in Sources */,
+				968723F7212A64B40061FF72 /* ControlPanelPenView.swift in Sources */,
+				968723F3212A64B40061FF72 /* NibSize.swift in Sources */,
+				968723FA212A64B40061FF72 /* UIImage+CircleCreation.swift in Sources */,
+				968723ED212A64B40061FF72 /* SketchCanvas.swift in Sources */,
+				968723F4212A64B40061FF72 /* SketchControlPanelDelegate.swift in Sources */,
+				968723EB212A64B40061FF72 /* TouchTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +564,7 @@
 		};
 		96BE88582126591B00F57FF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E60B1C12DF109D2CC6B51060 /* Pods-SketchKit.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -364,6 +591,7 @@
 		};
 		96BE88592126591B00F57FF0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2CA08B0F8236AAECB656C7B6 /* Pods-SketchKit.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -390,7 +618,9 @@
 		};
 		96BE885B2126591B00F57FF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = SketchKitTests/Info.plist;
@@ -408,7 +638,9 @@
 		};
 		96BE885C2126591B00F57FF0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = SketchKitTests/Info.plist;

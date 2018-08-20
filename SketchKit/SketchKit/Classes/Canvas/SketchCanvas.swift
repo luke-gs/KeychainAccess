@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreKit
 
 public enum SketchMode: Int {
     case draw

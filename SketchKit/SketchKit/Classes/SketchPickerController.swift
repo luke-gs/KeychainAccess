@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreKit
 
 public protocol SketchPickerControllerDelegate: class {
     func sketchPickerController(_ picker: SketchPickerController, didFinishPickingSketch sketch: UIImage)
@@ -15,7 +16,7 @@ public protocol SketchPickerControllerDelegate: class {
 
 public class SketchPickerController: UIViewController, SketchControlPanelDelegate, SketchCanvasDelegate {
 
-    weak var delegate: SketchPickerControllerDelegate?
+    public weak var delegate: SketchPickerControllerDelegate?
 
     lazy var canvas: SketchCanvas = {
         let canvas = SketchCanvas()
@@ -36,7 +37,7 @@ public class SketchPickerController: UIViewController, SketchControlPanelDelegat
         return button
     }()
 
-    init() {
+    public init() {
         super.init(nibName: nil, bundle: nil)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
