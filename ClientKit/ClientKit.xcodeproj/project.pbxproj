@@ -65,6 +65,8 @@
 		AA16412D20F476970027F947 /* AssociationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412C20F476970027F947 /* AssociationReason.swift */; };
 		AA18D63D211AA278002E6227 /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18D63C211AA278002E6227 /* User+VersionAccessors.swift */; };
 		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
+		AA1B950021211207002B5590 /* OrderSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */; };
+		AA1B950221211237002B5590 /* OrderSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B950121211237002B5590 /* OrderSummaryViewController.swift */; };
 		AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DC27520E4AE6700154571 /* AddressFormatter.swift */; };
 		AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
@@ -191,6 +193,8 @@
 		AA16412C20F476970027F947 /* AssociationReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationReason.swift; sourceTree = "<group>"; };
 		AA18D63C211AA278002E6227 /* User+VersionAccessors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
 		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
+		AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewModel.swift; sourceTree = "<group>"; };
+		AA1B950121211237002B5590 /* OrderSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewController.swift; sourceTree = "<group>"; };
 		AA2DC27520E4AE6700154571 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
 		AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -348,6 +352,15 @@
 			path = Presenters;
 			sourceTree = "<group>";
 		};
+		AA1B950321211286002B5590 /* OrderSummary */ = {
+			isa = PBXGroup;
+			children = (
+				AA1B950121211237002B5590 /* OrderSummaryViewController.swift */,
+				AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */,
+			);
+			path = OrderSummary;
+			sourceTree = "<group>";
+		};
 		AA2DC27420E4AE5000154571 /* Formatters */ = {
 			isa = PBXGroup;
 			children = (
@@ -499,6 +512,7 @@
 		BCAEFE771F03150800C97F9C /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
+				AA1B950321211286002B5590 /* OrderSummary */,
 				44F1FB3C1FF5FB2800D463CA /* Section Data Sources */,
 				4429902C200554E800D2F575 /* Base Classes */,
 				1A2E8A771F3942FE0062FEA5 /* EntityAlertsViewModel.swift */,
@@ -870,6 +884,7 @@
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
 				464977C4203685E500590DC3 /* Identifiable.swift in Sources */,
+				AA1B950021211207002B5590 /* OrderSummaryViewModel.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */,
@@ -891,6 +906,7 @@
 				125E2A2620FB9B7B00942B29 /* SupportSetting.swift in Sources */,
 				19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */,
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
+				AA1B950221211237002B5590 /* OrderSummaryViewController.swift in Sources */,
 				EAE12B031FC2548800851619 /* PersonEditViewController.swift in Sources */,
 				46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */,
 				46E0B8B62033A21500B40DF2 /* OfficerSearchDisplayable.swift in Sources */,

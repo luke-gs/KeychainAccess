@@ -59,13 +59,15 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
             builder += LargeTextHeaderFormItem(text: headerTitle)
                 .separatorColor(.clear)
             for order in filteredOrders {
-                builder += DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: detail(for: order))
+                let item = DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: detail(for: order))
                     .accessory(ItemAccessory.disclosure)
-                    .onSelection({ [weak self] _ in
-                        // TODO: Present a formsheet when creatives approved
-                        self?.updateExpanded(for: order)
-                        self?.delegate?.reloadData()
-                    })
+
+                item.onSelection({ [weak self] _ in
+                    viewController.deselectItem(item)
+                    self?.presentOrderSummary(in: viewController, order: order)
+                })
+
+                builder += item
             }
         }
 
@@ -211,19 +213,17 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
         }
     }
 
-    // TODO: Remove Below code when updating cell selection to Present a formsheet 
-    private var expandedOrders: Set<Order> = []
-
     private func detail(for order: Order) -> StringSizable? {
         let details = order.orderDescription
-        let numberOfLines = expandedOrders.contains(order) ? 0 : 2
-        return details?.sizing(withNumberOfLines: numberOfLines)
+        return details?.sizing(withNumberOfLines: 2)
     }
 
-    private func updateExpanded(for order: Order) {
-        if expandedOrders.remove(order) == nil {
-            expandedOrders.insert(order)
-        }
-    }
+    private func presentOrderSummary(in viewController: UIViewController, order: Order) {
+        let viewModel = OrderSummaryViewModel(order: order)
+        let orderVC = OrderSummaryViewController(viewModel: viewModel)
 
+        let navController = ThemedNavigationController(rootViewController: orderVC)
+        navController.modalPresentationStyle = .formSheet
+        viewController.present(navController, animated: true, completion: nil)
+    }
 }
