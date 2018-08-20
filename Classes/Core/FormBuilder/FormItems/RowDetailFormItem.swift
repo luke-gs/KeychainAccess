@@ -37,6 +37,8 @@ public class RowDetailFormItem: BaseFormItem {
         cell.detailLabel.apply(sizable: detail, defaultFont: fonts.detailFont, defaultNumberOfLines: 0)
         cell.detailLabel.textAlignment = .right
         cell.imageView.image = image
+
+        cell.separatorView.backgroundColor = separatorColor ?? iOSStandardSeparatorColor
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {

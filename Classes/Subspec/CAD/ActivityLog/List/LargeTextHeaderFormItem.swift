@@ -11,6 +11,7 @@ import UIKit
 open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
 
     public var text: StringSizable?
+    public var textAlignment: NSTextAlignment?
     public var layoutMargins: UIEdgeInsets? = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
     public var separatorColor: UIColor?
     public var actionButton: UIButton?
@@ -33,7 +34,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
 
         if let text = text {
             size = text
-                .sizing(defaultNumberOfLines: 1, defaultFont: CollectionViewFormLargeTextLabelCell.defaultFont)
+                .sizing(defaultNumberOfLines: 2, defaultFont: CollectionViewFormLargeTextLabelCell.defaultFont)
                 .minimumHeight(inWidth: collectionView.bounds.width, compatibleWith: traitCollection)
         }
 
@@ -51,7 +52,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
             }
 
             if let sizing = text?.sizing(), let attributedText = sizing.attributedString {
-                cell.titleLabel.apply(sizable: attributedText, defaultFont: cell.titleLabel.font)
+                cell.titleLabel.apply(sizable: attributedText, defaultFont: cell.titleLabel.font, defaultNumberOfLines: 2)
                 cell.titleLabel.attributedText = attributedText
             } else {
                 cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
@@ -59,6 +60,10 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
 
             if sectionIsRequired {
                 cell.titleLabel.makeRequired(with: text)
+            }
+
+            if let textAlignment = textAlignment {
+                cell.titleLabel.textAlignment = textAlignment
             }
 
             cell.separatorView.backgroundColor = separatorColor ?? iOSStandardSeparatorColor
@@ -72,12 +77,15 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
         super.apply(theme: theme, toView: view)
 
         if let cell = view as? CollectionViewFormLargeTextLabelCell {
-            if text?.sizing().attributedString == nil {
-                cell.titleLabel.textColor = theme.color(forKey: .primaryText)
-            }
+            if let text = text {
+                if text.sizing().attributedString?
+                    .attribute(.foregroundColor, at: 0, effectiveRange: nil) == nil {
+                        cell.titleLabel.textColor = theme.color(forKey: .primaryText)
+                }
 
-            if sectionIsRequired {
-                cell.titleLabel.makeRequired(with: text)
+                if sectionIsRequired {
+                    cell.titleLabel.makeRequired(with: text)
+                }
             }
 
             actionButton?.setTitleColor(view.tintColor, for: .normal)
@@ -93,6 +101,12 @@ extension LargeTextHeaderFormItem {
     @discardableResult
     public func text(_ text: StringSizable?) -> Self {
         self.text = text
+        return self
+    }
+
+    @discardableResult
+    public func textAlignment(_ textAlignment: NSTextAlignment?) -> Self {
+        self.textAlignment = textAlignment
         return self
     }
 
