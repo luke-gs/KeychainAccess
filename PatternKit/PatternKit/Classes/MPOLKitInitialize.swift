@@ -9,7 +9,8 @@
 import Foundation
 import Lottie
 
-// Make life easier for everyone by importing CoreKit
+// Make life easier by importing dependent frameworks to all classes
+// TODO: remove this and add explicit imports where needed
 @_exported import CoreKit
 
 // Temporary: Performs default setup for MPOLKit applications

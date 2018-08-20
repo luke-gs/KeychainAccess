@@ -1,0 +1,26 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+inhibit_all_warnings!
+use_frameworks!
+
+def the_dependencies
+  pod 'CoreKit', :path => '../CoreKit', :inhibit_warnings => false
+  pod 'SketchKit', :path => '../SketchKit', :inhibit_warnings => false
+  pod 'PatternKit', :path => '../PatternKit', :inhibit_warnings => false
+
+  pod 'Wrap', '2.1.1'
+end
+
+target 'PublicSafetyKit' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for PublicSafetyKit
+  the_dependencies
+
+  target 'PublicSafetyKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

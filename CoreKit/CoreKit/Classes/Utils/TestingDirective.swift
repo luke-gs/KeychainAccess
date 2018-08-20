@@ -7,8 +7,8 @@
 
 import UIKit
 
-class TestingDirective {
-    static var isTesting: Bool {
+public class TestingDirective {
+    public static var isTesting: Bool {
         return ProcessInfo.processInfo.environment["TEST"] == "1"
     }
 }
