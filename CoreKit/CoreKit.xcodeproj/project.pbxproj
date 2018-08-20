@@ -358,9 +358,9 @@
 			children = (
 				96BE888D212659C300F57FF0 /* CoreKit */,
 				96BE8898212659C300F57FF0 /* CoreKitTests */,
-				96BE888C212659C300F57FF0 /* Products */,
-				D6B8F4CF8DEAC3586DCC762E /* Pods */,
 				6AF55C1C25491DFD8A6E95EF /* Frameworks */,
+				D6B8F4CF8DEAC3586DCC762E /* Pods */,
+				96BE888C212659C300F57FF0 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -429,11 +429,11 @@
 		96BE88A621265BD800F57FF0 /* Evaluator */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88A721265BD800F57FF0 /* Evaluator.swift */,
 				96BE88A821265BD800F57FF0 /* Evaluatable.swift */,
-				96BE88A921265BD800F57FF0 /* EvaluatorKey.swift */,
-				96BE88AA21265BD800F57FF0 /* EvaluationObserverable.swift */,
 				96BE88AB21265BD800F57FF0 /* EvaluationError.swift */,
+				96BE88AA21265BD800F57FF0 /* EvaluationObserverable.swift */,
+				96BE88A721265BD800F57FF0 /* Evaluator.swift */,
+				96BE88A921265BD800F57FF0 /* EvaluatorKey.swift */,
 			);
 			path = Evaluator;
 			sourceTree = "<group>";
@@ -442,8 +442,8 @@
 			isa = PBXGroup;
 			children = (
 				96BE88AD21265BD800F57FF0 /* AESBlockCipher.swift */,
-				96BE88AE21265BD800F57FF0 /* CryptoUtils.swift */,
 				96BE88AF21265BD800F57FF0 /* BlockCipherType.swift */,
+				96BE88AE21265BD800F57FF0 /* CryptoUtils.swift */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -467,11 +467,11 @@
 		96BE88B421265BD800F57FF0 /* External Authenticator */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88B521265BD800F57FF0 /* OAuth2Error.swift */,
-				96BE88B621265BD800F57FF0 /* ExternalAuthenticator.swift */,
-				96BE88B721265BD800F57FF0 /* OAuth2.swift */,
 				96BE88B821265BD800F57FF0 /* AuthenticationProvider.swift */,
 				96BE88B921265BD800F57FF0 /* Bundle+URLSchemeVerifier.swift */,
+				96BE88B621265BD800F57FF0 /* ExternalAuthenticator.swift */,
+				96BE88B721265BD800F57FF0 /* OAuth2.swift */,
+				96BE88B521265BD800F57FF0 /* OAuth2Error.swift */,
 			);
 			path = "External Authenticator";
 			sourceTree = "<group>";
@@ -496,24 +496,24 @@
 		96BE88BF21265BD800F57FF0 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88C021265BD800F57FF0 /* DataResponse+MPLConversion.swift */,
-				96BE88C121265BD800F57FF0 /* ParseError.swift */,
-				96BE88C221265BD800F57FF0 /* URLQueryBuilder+Parameterisable.swift */,
-				96BE88C321265BD800F57FF0 /* Plugin */,
-				96BE88C921265BD800F57FF0 /* OAuthAuthorizationGrant.swift */,
-				96BE88CA21265BD800F57FF0 /* APIManager.swift */,
-				96BE88CB21265BD800F57FF0 /* ResponseSerializing */,
+				96BE88E121265BD800F57FF0 /* Authentication */,
 				96BE88CF21265BD800F57FF0 /* ErrorMapping */,
+				96BE88C321265BD800F57FF0 /* Plugin */,
+				96BE88DA21265BD800F57FF0 /* Resource */,
+				96BE88CB21265BD800F57FF0 /* ResponseSerializing */,
+				96BE88CA21265BD800F57FF0 /* APIManager.swift */,
+				96BE88E521265BD800F57FF0 /* APIManagerConfigurable.swift */,
+				96BE88D821265BD800F57FF0 /* APIManagerError.swift */,
 				96BE88D621265BD800F57FF0 /* AuthenticationPlugin.swift */,
 				96BE88D721265BD800F57FF0 /* CodableRequestParameters.swift */,
-				96BE88D821265BD800F57FF0 /* APIManagerError.swift */,
-				96BE88D921265BD800F57FF0 /* NetworkRequestType.swift */,
-				96BE88DA21265BD800F57FF0 /* Resource */,
-				96BE88DF21265BD800F57FF0 /* URLQueryBuilder.swift */,
+				96BE88C021265BD800F57FF0 /* DataResponse+MPLConversion.swift */,
 				96BE88E021265BD800F57FF0 /* NetworkRequest.swift */,
-				96BE88E121265BD800F57FF0 /* Authentication */,
+				96BE88D921265BD800F57FF0 /* NetworkRequestType.swift */,
+				96BE88C921265BD800F57FF0 /* OAuthAuthorizationGrant.swift */,
 				96BE88E421265BD800F57FF0 /* Parameterisable.swift */,
-				96BE88E521265BD800F57FF0 /* APIManagerConfigurable.swift */,
+				96BE88C121265BD800F57FF0 /* ParseError.swift */,
+				96BE88C221265BD800F57FF0 /* URLQueryBuilder+Parameterisable.swift */,
+				96BE88DF21265BD800F57FF0 /* URLQueryBuilder.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -521,11 +521,11 @@
 		96BE88C321265BD800F57FF0 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				96BE88C621265BD800F57FF0 /* PatternMatchRules.swift */,
+				96BE88C821265BD800F57FF0 /* Plugin.swift */,
+				96BE88C721265BD800F57FF0 /* PluginFilterRules.swift */,
 				96BE88C421265BD800F57FF0 /* PluginType.swift */,
 				96BE88C521265BD800F57FF0 /* URLRulesMatch.swift */,
-				96BE88C621265BD800F57FF0 /* PatternMatchRules.swift */,
-				96BE88C721265BD800F57FF0 /* PluginFilterRules.swift */,
-				96BE88C821265BD800F57FF0 /* Plugin.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -543,10 +543,10 @@
 		96BE88CF21265BD800F57FF0 /* ErrorMapping */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88D021265BD800F57FF0 /* ErrorMapperDefinition.swift */,
-				96BE88D121265BD800F57FF0 /* ErrorMapper.swift */,
-				96BE88D221265BD800F57FF0 /* MappedError.swift */,
 				96BE88D321265BD800F57FF0 /* Definitions */,
+				96BE88D121265BD800F57FF0 /* ErrorMapper.swift */,
+				96BE88D021265BD800F57FF0 /* ErrorMapperDefinition.swift */,
+				96BE88D221265BD800F57FF0 /* MappedError.swift */,
 			);
 			path = ErrorMapping;
 			sourceTree = "<group>";
@@ -554,8 +554,8 @@
 		96BE88D321265BD800F57FF0 /* Definitions */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88D421265BD800F57FF0 /* NetworkErrorDefinition.swift */,
 				96BE88D521265BD800F57FF0 /* LocationErrorDefinition.swift */,
+				96BE88D421265BD800F57FF0 /* NetworkErrorDefinition.swift */,
 			);
 			path = Definitions;
 			sourceTree = "<group>";
@@ -564,9 +564,9 @@
 			isa = PBXGroup;
 			children = (
 				96BE88DB21265BD800F57FF0 /* RemoteResourceDescribing.swift */,
+				96BE88DE21265BD800F57FF0 /* RemoteResourceDownloader.swift */,
 				96BE88DC21265BD800F57FF0 /* ResourceDownloadTicket.swift */,
 				96BE88DD21265BD800F57FF0 /* ResourceError.swift */,
-				96BE88DE21265BD800F57FF0 /* RemoteResourceDownloader.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -574,8 +574,8 @@
 		96BE88E121265BD800F57FF0 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88E221265BD800F57FF0 /* OAuthAccessToken.swift */,
 				96BE88E321265BD800F57FF0 /* HTTPAuthenticationMode.swift */,
+				96BE88E221265BD800F57FF0 /* OAuthAccessToken.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -592,9 +592,9 @@
 		96BE88E921265BD800F57FF0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88EA21265BD800F57FF0 /* TestingDirective.swift */,
 				96BE88EB21265BD800F57FF0 /* ObjC.h */,
 				96BE88EC21265BD800F57FF0 /* ObjC.m */,
+				96BE88EA21265BD800F57FF0 /* TestingDirective.swift */,
 				96BE88ED21265BD800F57FF0 /* Weak.swift */,
 			);
 			path = Utils;
@@ -612,10 +612,10 @@
 		96BE88EF21265BD800F57FF0 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88F021265BD800F57FF0 /* ActivityType.swift */,
-				96BE88F121265BD800F57FF0 /* BaseActivityLauncher.swift */,
 				96BE88F221265BD800F57FF0 /* ActivityHandler.swift */,
+				96BE88F021265BD800F57FF0 /* ActivityType.swift */,
 				96BE88F321265BD800F57FF0 /* AnyActivityLauncher.swift */,
+				96BE88F121265BD800F57FF0 /* BaseActivityLauncher.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -631,16 +631,16 @@
 		96BE88F721265BD800F57FF0 /* Specification */ = {
 			isa = PBXGroup;
 			children = (
-				96BE88F821265BD800F57FF0 /* EmailSpecification.swift */,
-				96BE88F921265BD800F57FF0 /* RegularExpressionSpecification.swift */,
-				96BE88FA21265BD800F57FF0 /* AustralianPhoneSpecification.swift */,
-				96BE88FB21265BD800F57FF0 /* PredicateSpecification.swift */,
-				96BE88FC21265BD800F57FF0 /* SpecificationOperator.swift */,
 				96BE88FD21265BD800F57FF0 /* Delimited String */,
-				96BE890121265BD800F57FF0 /* NotNilSpecification.swift */,
-				96BE890221265BD800F57FF0 /* CountSpecification.swift */,
-				96BE890321265BD800F57FF0 /* Specification.swift */,
+				96BE88FA21265BD800F57FF0 /* AustralianPhoneSpecification.swift */,
 				96BE890421265BD800F57FF0 /* CharacterSetSpecification.swift */,
+				96BE890221265BD800F57FF0 /* CountSpecification.swift */,
+				96BE88F821265BD800F57FF0 /* EmailSpecification.swift */,
+				96BE890121265BD800F57FF0 /* NotNilSpecification.swift */,
+				96BE88FB21265BD800F57FF0 /* PredicateSpecification.swift */,
+				96BE88F921265BD800F57FF0 /* RegularExpressionSpecification.swift */,
+				96BE890321265BD800F57FF0 /* Specification.swift */,
+				96BE88FC21265BD800F57FF0 /* SpecificationOperator.swift */,
 			);
 			path = Specification;
 			sourceTree = "<group>";
@@ -666,39 +666,39 @@
 		96BE890721265BD800F57FF0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				968723CC212A57880061FF72 /* Array+Searching.swift */,
-				96BE890821265BD800F57FF0 /* UIViewAnimationCurve+OptionConversion.swift */,
-				96BE890921265BD800F57FF0 /* CLLocationCoordinate2D+Equatable.swift */,
-				96BE890A21265BD800F57FF0 /* Sequence+Nils.swift */,
-				96BE890B21265BD800F57FF0 /* Date+Extension.swift */,
-				96BE890C21265BD800F57FF0 /* MKMapView+BoundingBox.swift */,
-				96BE890D21265BD800F57FF0 /* Optional+Extension.swift */,
-				96BE890E21265BD800F57FF0 /* UIColor+Hex.swift */,
-				96BE890F21265BD800F57FF0 /* NSMutableAttributedString+Append.swift */,
-				96BE891021265BD800F57FF0 /* UIImage+RoundedRects.swift */,
-				96BE891121265BD800F57FF0 /* CoreGraphics+Convenience.swift */,
 				96BE891221265BD800F57FF0 /* Array+IfExists.swift */,
-				96BE891321265BD800F57FF0 /* UIStackView+RemoveArrangedSubviews.swift */,
-				96BE891421265BD800F57FF0 /* UIViewController+ChildViewController.swift */,
-				96BE891521265BD800F57FF0 /* UIViewController+ParentSearching.swift */,
-				96BE891621265BD800F57FF0 /* UIColor+Brightness.swift */,
-				96BE891721265BD800F57FF0 /* UIView+AnimationPromiseChain.swift */,
-				96BE891821265BD800F57FF0 /* UIViewController+Compact.swift */,
-				96BE891921265BD800F57FF0 /* UIView+SafeArea.swift */,
-				96BE891A21265BD800F57FF0 /* UIViewController+SafeArea.swift */,
+				968723CC212A57880061FF72 /* Array+Searching.swift */,
+				96BE890921265BD800F57FF0 /* CLLocationCoordinate2D+Equatable.swift */,
+				96BE891121265BD800F57FF0 /* CoreGraphics+Convenience.swift */,
 				96BE891B21265BD800F57FF0 /* CoreGraphics+Rounding.swift */,
-				96BE891C21265BD800F57FF0 /* UIImage+Resizing.swift */,
-				96BE891D21265BD800F57FF0 /* UILayoutPriority+Math.swift */,
-				96BE891E21265BD800F57FF0 /* UIView+Convenience.swift */,
+				96BE890B21265BD800F57FF0 /* Date+Extension.swift */,
 				96BE891F21265BD800F57FF0 /* FileManager+URL.swift */,
-				96BE892021265BD800F57FF0 /* UIFont+Digits.swift */,
-				96BE892121265BD800F57FF0 /* String+EmptyFiltering.swift */,
 				96BE892221265BD800F57FF0 /* FloatingPoint+Comparison.swift */,
-				96BE892321265BD800F57FF0 /* NSLayoutConstraint+Conveniences.swift */,
-				96BE892421265BD800F57FF0 /* UITraitCollection+CurrentDisplayScale.swift */,
+				96BE890C21265BD800F57FF0 /* MKMapView+BoundingBox.swift */,
 				96BE892521265BD800F57FF0 /* NSArchiver+SecureArchiver.swift */,
+				96BE892321265BD800F57FF0 /* NSLayoutConstraint+Conveniences.swift */,
+				96BE890F21265BD800F57FF0 /* NSMutableAttributedString+Append.swift */,
+				96BE890D21265BD800F57FF0 /* Optional+Extension.swift */,
+				96BE890A21265BD800F57FF0 /* Sequence+Nils.swift */,
+				96BE892121265BD800F57FF0 /* String+EmptyFiltering.swift */,
+				96BE891621265BD800F57FF0 /* UIColor+Brightness.swift */,
+				96BE890E21265BD800F57FF0 /* UIColor+Hex.swift */,
 				96BE892621265BD800F57FF0 /* UIEdgeInsets+Convenience.swift */,
 				96BE892721265BD800F57FF0 /* UIFont+Convenience.swift */,
+				96BE892021265BD800F57FF0 /* UIFont+Digits.swift */,
+				96BE891C21265BD800F57FF0 /* UIImage+Resizing.swift */,
+				96BE891021265BD800F57FF0 /* UIImage+RoundedRects.swift */,
+				96BE891D21265BD800F57FF0 /* UILayoutPriority+Math.swift */,
+				96BE891321265BD800F57FF0 /* UIStackView+RemoveArrangedSubviews.swift */,
+				96BE892421265BD800F57FF0 /* UITraitCollection+CurrentDisplayScale.swift */,
+				96BE891721265BD800F57FF0 /* UIView+AnimationPromiseChain.swift */,
+				96BE891E21265BD800F57FF0 /* UIView+Convenience.swift */,
+				96BE891921265BD800F57FF0 /* UIView+SafeArea.swift */,
+				96BE890821265BD800F57FF0 /* UIViewAnimationCurve+OptionConversion.swift */,
+				96BE891421265BD800F57FF0 /* UIViewController+ChildViewController.swift */,
+				96BE891821265BD800F57FF0 /* UIViewController+Compact.swift */,
+				96BE891521265BD800F57FF0 /* UIViewController+ParentSearching.swift */,
+				96BE891A21265BD800F57FF0 /* UIViewController+SafeArea.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -714,10 +714,10 @@
 		96BE892A21265BD800F57FF0 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
-				96BE892B21265BD800F57FF0 /* ISO8601DateTransformer.swift */,
-				96BE892C21265BD800F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift */,
-				96BE892D21265BD800F57FF0 /* EpochDateTransformer.swift */,
 				96BE892E21265BD800F57FF0 /* EpochDateTransformer+UnboxFormatter.swift */,
+				96BE892D21265BD800F57FF0 /* EpochDateTransformer.swift */,
+				96BE892C21265BD800F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift */,
+				96BE892B21265BD800F57FF0 /* ISO8601DateTransformer.swift */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -726,10 +726,10 @@
 			isa = PBXGroup;
 			children = (
 				96BE893021265BD800F57FF0 /* Template.swift */,
-				96BE893121265BD800F57FF0 /* UserDefaultsDataSource.swift */,
-				96BE893221265BD800F57FF0 /* TextTemplate.swift */,
-				96BE893321265BD800F57FF0 /* TemplateHandler.swift */,
 				96BE893421265BD800F57FF0 /* TemplateDataSource.swift */,
+				96BE893321265BD800F57FF0 /* TemplateHandler.swift */,
+				96BE893221265BD800F57FF0 /* TextTemplate.swift */,
+				96BE893121265BD800F57FF0 /* UserDefaultsDataSource.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -737,10 +737,10 @@
 		96BE893521265BD800F57FF0 /* Image Downloader */ = {
 			isa = PBXGroup;
 			children = (
-				96BE893621265BD800F57FF0 /* ImageDownloader.swift */,
-				96BE893721265BD800F57FF0 /* ImageError.swift */,
 				96BE893821265BD800F57FF0 /* CodableResponseSerializing.swift */,
 				96BE893921265BD800F57FF0 /* ImageAlamofireResponseSerializer.swift */,
+				96BE893621265BD800F57FF0 /* ImageDownloader.swift */,
+				96BE893721265BD800F57FF0 /* ImageError.swift */,
 			);
 			path = "Image Downloader";
 			sourceTree = "<group>";
@@ -773,10 +773,10 @@
 		96BE894121265BD800F57FF0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				96BE894221265BD800F57FF0 /* Transformer.swift */,
 				96BE894321265BD800F57FF0 /* DefaultCustomStringConvertible.swift */,
 				96BE894421265BD800F57FF0 /* DefaultNSCopying.swift */,
 				96BE894521265BD800F57FF0 /* ModelVersionable.swift */,
+				96BE894221265BD800F57FF0 /* Transformer.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -784,11 +784,11 @@
 		96BE894621265BD800F57FF0 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				96BE894B21265BD800F57FF0 /* ConsoleLogger.swift */,
+				96BE894921265BD800F57FF0 /* FileLogger.swift */,
 				96BE894721265BD800F57FF0 /* Logger.swift */,
 				96BE894821265BD800F57FF0 /* LogUtils.swift */,
-				96BE894921265BD800F57FF0 /* FileLogger.swift */,
 				96BE894A21265BD800F57FF0 /* NetworkLoggingPlugin.swift */,
-				96BE894B21265BD800F57FF0 /* ConsoleLogger.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -796,8 +796,8 @@
 		96BE894C21265BD800F57FF0 /* Filter Descriptor */ = {
 			isa = PBXGroup;
 			children = (
-				96BE894D21265BD800F57FF0 /* FilterRangeDescriptor.swift */,
 				96BE894E21265BD800F57FF0 /* FilterDescriptor.swift */,
+				96BE894D21265BD800F57FF0 /* FilterRangeDescriptor.swift */,
 				96BE894F21265BD800F57FF0 /* FilterValueDescriptor.swift */,
 			);
 			path = "Filter Descriptor";
@@ -806,9 +806,9 @@
 		96BE895021265BD800F57FF0 /* Validation */ = {
 			isa = PBXGroup;
 			children = (
-				96BE895121265BD800F57FF0 /* Validator.swift */,
-				96BE895221265BD800F57FF0 /* ValidationRules.swift */,
 				96BE895321265BD800F57FF0 /* ValidationResults.swift */,
+				96BE895221265BD800F57FF0 /* ValidationRules.swift */,
+				96BE895121265BD800F57FF0 /* Validator.swift */,
 			);
 			path = Validation;
 			sourceTree = "<group>";
@@ -839,8 +839,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96BE898B21265BD800F57FF0 /* ObjC.h in Headers */,
 				96BE889C212659C300F57FF0 /* CoreKit.h in Headers */,
+				96BE898B21265BD800F57FF0 /* ObjC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,147 +1009,147 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96BE899021265BD800F57FF0 /* ActivityHandler.swift in Sources */,
+				96BE898E21265BD800F57FF0 /* ActivityType.swift in Sources */,
+				96BE895B21265BD800F57FF0 /* AESBlockCipher.swift in Sources */,
+				96BE899121265BD800F57FF0 /* AnyActivityLauncher.swift in Sources */,
+				96BE897121265BD800F57FF0 /* APIManager.swift in Sources */,
+				96BE898721265BD800F57FF0 /* APIManagerConfigurable.swift in Sources */,
+				96BE897C21265BD800F57FF0 /* APIManagerError.swift in Sources */,
+				968723FD212A6B6E0061FF72 /* AppGroupCapability.swift in Sources */,
+				96BE899221265BD800F57FF0 /* AppURLNavigator.swift in Sources */,
+				96BE89AB21265BD800F57FF0 /* Array+IfExists.swift in Sources */,
+				968723CD212A57880061FF72 /* Array+Searching.swift in Sources */,
+				96BE89D021265BD800F57FF0 /* AssetManager.swift in Sources */,
+				96BE899621265BD800F57FF0 /* AustralianPhoneSpecification.swift in Sources */,
+				96BE897A21265BD800F57FF0 /* AuthenticationPlugin.swift in Sources */,
+				96BE896321265BD800F57FF0 /* AuthenticationProvider.swift in Sources */,
+				96BE898F21265BD800F57FF0 /* BaseActivityLauncher.swift in Sources */,
+				96BE899921265BD800F57FF0 /* BaseDelimitedStringCountSpecification.swift in Sources */,
+				96BE895D21265BD800F57FF0 /* BlockCipherType.swift in Sources */,
+				96BE896421265BD800F57FF0 /* Bundle+URLSchemeVerifier.swift in Sources */,
+				96BE899F21265BD800F57FF0 /* CharacterSetSpecification.swift in Sources */,
+				96BE89A221265BD800F57FF0 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
+				96BE897B21265BD800F57FF0 /* CodableRequestParameters.swift in Sources */,
+				96BE89CD21265BD800F57FF0 /* CodableResponseSerializing.swift in Sources */,
+				96BE895F21265BD800F57FF0 /* Concealer.swift in Sources */,
+				96BE89DB21265BD800F57FF0 /* ConsoleLogger.swift in Sources */,
+				96BE89AA21265BD800F57FF0 /* CoreGraphics+Convenience.swift in Sources */,
+				96BE89B421265BD800F57FF0 /* CoreGraphics+Rounding.swift in Sources */,
+				96BE899D21265BD800F57FF0 /* CountSpecification.swift in Sources */,
+				96BE895C21265BD800F57FF0 /* CryptoUtils.swift in Sources */,
+				96BE896821265BD800F57FF0 /* DataResponse+MPLConversion.swift in Sources */,
+				96BE89A421265BD800F57FF0 /* Date+Extension.swift in Sources */,
+				96BE89D421265BD800F57FF0 /* DefaultCustomStringConvertible.swift in Sources */,
+				96BE89D521265BD800F57FF0 /* DefaultNSCopying.swift in Sources */,
+				96BE896521265BD800F57FF0 /* DefaultReusable.swift in Sources */,
+				96BE899A21265BD800F57FF0 /* DelimitedStringCharacterCountSpecification.swift in Sources */,
+				96BE899B21265BD800F57FF0 /* DelimitedStringItemsCountSpecification.swift in Sources */,
+				96BE899421265BD800F57FF0 /* EmailSpecification.swift in Sources */,
+				96BE89C521265BD800F57FF0 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
+				96BE89C421265BD800F57FF0 /* EpochDateTransformer.swift in Sources */,
+				96BE897621265BD800F57FF0 /* ErrorMapper.swift in Sources */,
+				96BE897521265BD800F57FF0 /* ErrorMapperDefinition.swift in Sources */,
+				96BE895721265BD800F57FF0 /* Evaluatable.swift in Sources */,
+				96BE895A21265BD800F57FF0 /* EvaluationError.swift in Sources */,
+				96BE895921265BD800F57FF0 /* EvaluationObserverable.swift in Sources */,
+				96BE895621265BD800F57FF0 /* Evaluator.swift in Sources */,
+				96BE895821265BD800F57FF0 /* EvaluatorKey.swift in Sources */,
+				96BE896121265BD800F57FF0 /* ExternalAuthenticator.swift in Sources */,
+				96BE89D921265BD800F57FF0 /* FileLogger.swift in Sources */,
+				96BE89B821265BD800F57FF0 /* FileManager+URL.swift in Sources */,
+				96BE89DD21265BD800F57FF0 /* FilterDescriptor.swift in Sources */,
+				96BE89DC21265BD800F57FF0 /* FilterRangeDescriptor.swift in Sources */,
+				96BE89DE21265BD800F57FF0 /* FilterValueDescriptor.swift in Sources */,
+				96BE89BB21265BD800F57FF0 /* FloatingPoint+Comparison.swift in Sources */,
+				96BE898521265BD800F57FF0 /* HTTPAuthenticationMode.swift in Sources */,
+				96BE89CE21265BD800F57FF0 /* ImageAlamofireResponseSerializer.swift in Sources */,
+				96BE897221265BD800F57FF0 /* ImageCodeableResponseSerializer.swift in Sources */,
+				96BE89CB21265BD800F57FF0 /* ImageDownloader.swift in Sources */,
+				96BE89CC21265BD800F57FF0 /* ImageError.swift in Sources */,
+				96BE897321265BD800F57FF0 /* ImageResponseSerializer.swift in Sources */,
+				96BE89C321265BD800F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
+				96BE89C221265BD800F57FF0 /* ISO8601DateTransformer.swift in Sources */,
+				96BE897921265BD800F57FF0 /* LocationErrorDefinition.swift in Sources */,
+				96BE898821265BD800F57FF0 /* LocationErrorManager.swift in Sources */,
+				96BE898921265BD800F57FF0 /* LocationManager.swift in Sources */,
+				96BE89D721265BD800F57FF0 /* Logger.swift in Sources */,
+				96BE89E221265BD800F57FF0 /* LogOffManager.swift in Sources */,
+				96BE89D821265BD800F57FF0 /* LogUtils.swift in Sources */,
+				96BE897721265BD800F57FF0 /* MappedError.swift in Sources */,
+				96BE89A521265BD800F57FF0 /* MKMapView+BoundingBox.swift in Sources */,
+				96BE89D621265BD800F57FF0 /* ModelVersionable.swift in Sources */,
+				96BE89C121265BD800F57FF0 /* MPOLAssert.swift in Sources */,
+				96BE897821265BD800F57FF0 /* NetworkErrorDefinition.swift in Sources */,
+				96BE89DA21265BD800F57FF0 /* NetworkLoggingPlugin.swift in Sources */,
+				96BE898321265BD800F57FF0 /* NetworkRequest.swift in Sources */,
+				96BE897D21265BD800F57FF0 /* NetworkRequestType.swift in Sources */,
+				96BE899C21265BD800F57FF0 /* NotNilSpecification.swift in Sources */,
+				96BE89BE21265BD800F57FF0 /* NSArchiver+SecureArchiver.swift in Sources */,
+				96BE89BC21265BD800F57FF0 /* NSLayoutConstraint+Conveniences.swift in Sources */,
+				96BE89A821265BD800F57FF0 /* NSMutableAttributedString+Append.swift in Sources */,
+				96BE896221265BD800F57FF0 /* OAuth2.swift in Sources */,
+				96BE896021265BD800F57FF0 /* OAuth2Error.swift in Sources */,
+				96BE898421265BD800F57FF0 /* OAuthAccessToken.swift in Sources */,
+				96BE897021265BD800F57FF0 /* OAuthAuthorizationGrant.swift in Sources */,
+				96BE898C21265BD800F57FF0 /* ObjC.m in Sources */,
+				96BE89A621265BD800F57FF0 /* Optional+Extension.swift in Sources */,
+				96BE898621265BD800F57FF0 /* Parameterisable.swift in Sources */,
+				96BE896921265BD800F57FF0 /* ParseError.swift in Sources */,
+				96BE896D21265BD800F57FF0 /* PatternMatchRules.swift in Sources */,
+				96BE896F21265BD800F57FF0 /* Plugin.swift in Sources */,
+				96BE896E21265BD800F57FF0 /* PluginFilterRules.swift in Sources */,
+				96BE896B21265BD800F57FF0 /* PluginType.swift in Sources */,
+				96BE899721265BD800F57FF0 /* PredicateSpecification.swift in Sources */,
+				96BE896721265BD800F57FF0 /* Presenter.swift in Sources */,
+				96BE895E21265BD800F57FF0 /* PromiseCancellationToken.swift in Sources */,
+				96BE899321265BD800F57FF0 /* QueryParser.swift in Sources */,
+				96BE899521265BD800F57FF0 /* RegularExpressionSpecification.swift in Sources */,
+				96BE897E21265BD800F57FF0 /* RemoteResourceDescribing.swift in Sources */,
+				96BE898121265BD800F57FF0 /* RemoteResourceDownloader.swift in Sources */,
+				96BE897F21265BD800F57FF0 /* ResourceDownloadTicket.swift in Sources */,
+				96BE898021265BD800F57FF0 /* ResourceError.swift in Sources */,
+				96BE897421265BD800F57FF0 /* ResponseSerializing.swift in Sources */,
+				96BE89CF21265BD800F57FF0 /* SemanticVersion.swift in Sources */,
+				96BE89A321265BD800F57FF0 /* Sequence+Nils.swift in Sources */,
+				96BE89D221265BD800F57FF0 /* SharedKeychainCapability.swift in Sources */,
+				96BE89A021265BD800F57FF0 /* SortDescriptor.swift in Sources */,
+				96BE899E21265BD800F57FF0 /* Specification.swift in Sources */,
+				96BE899821265BD800F57FF0 /* SpecificationOperator.swift in Sources */,
+				96BE89BA21265BD800F57FF0 /* String+EmptyFiltering.swift in Sources */,
+				96BE89C621265BD800F57FF0 /* Template.swift in Sources */,
+				96BE89CA21265BD800F57FF0 /* TemplateDataSource.swift in Sources */,
+				96BE89C921265BD800F57FF0 /* TemplateHandler.swift in Sources */,
+				96BE898A21265BD800F57FF0 /* TestingDirective.swift in Sources */,
+				96BE89C821265BD800F57FF0 /* TextTemplate.swift in Sources */,
+				96BE89D321265BD800F57FF0 /* Transformer.swift in Sources */,
+				96BE896621265BD800F57FF0 /* UICollectionView+DefaultReuse.swift in Sources */,
+				96BE89AF21265BD800F57FF0 /* UIColor+Brightness.swift in Sources */,
+				96BE89A721265BD800F57FF0 /* UIColor+Hex.swift in Sources */,
+				96BE89BF21265BD800F57FF0 /* UIEdgeInsets+Convenience.swift in Sources */,
+				96BE89C021265BD800F57FF0 /* UIFont+Convenience.swift in Sources */,
+				96BE89B921265BD800F57FF0 /* UIFont+Digits.swift in Sources */,
+				96BE89B521265BD800F57FF0 /* UIImage+Resizing.swift in Sources */,
+				96BE89A921265BD800F57FF0 /* UIImage+RoundedRects.swift in Sources */,
+				96BE89B621265BD800F57FF0 /* UILayoutPriority+Math.swift in Sources */,
+				96BE89AC21265BD800F57FF0 /* UIStackView+RemoveArrangedSubviews.swift in Sources */,
+				96BE89BD21265BD800F57FF0 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
+				96BE89B021265BD800F57FF0 /* UIView+AnimationPromiseChain.swift in Sources */,
+				96BE89B721265BD800F57FF0 /* UIView+Convenience.swift in Sources */,
+				96BE89B221265BD800F57FF0 /* UIView+SafeArea.swift in Sources */,
+				96BE89A121265BD800F57FF0 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
+				96BE89AD21265BD800F57FF0 /* UIViewController+ChildViewController.swift in Sources */,
+				96BE89B121265BD800F57FF0 /* UIViewController+Compact.swift in Sources */,
+				96BE89AE21265BD800F57FF0 /* UIViewController+ParentSearching.swift in Sources */,
+				96BE89B321265BD800F57FF0 /* UIViewController+SafeArea.swift in Sources */,
+				96BE896A21265BD800F57FF0 /* URLQueryBuilder+Parameterisable.swift in Sources */,
+				96BE898221265BD800F57FF0 /* URLQueryBuilder.swift in Sources */,
+				96BE896C21265BD800F57FF0 /* URLRulesMatch.swift in Sources */,
+				96BE89C721265BD800F57FF0 /* UserDefaultsDataSource.swift in Sources */,
+				96BE89E121265BD800F57FF0 /* ValidationResults.swift in Sources */,
 				96BE89E021265BD800F57FF0 /* ValidationRules.swift in Sources */,
 				96BE89DF21265BD800F57FF0 /* Validator.swift in Sources */,
-				96BE89C821265BD800F57FF0 /* TextTemplate.swift in Sources */,
-				96BE898121265BD800F57FF0 /* RemoteResourceDownloader.swift in Sources */,
-				96BE89C421265BD800F57FF0 /* EpochDateTransformer.swift in Sources */,
-				96BE897821265BD800F57FF0 /* NetworkErrorDefinition.swift in Sources */,
-				96BE898021265BD800F57FF0 /* ResourceError.swift in Sources */,
-				96BE896721265BD800F57FF0 /* Presenter.swift in Sources */,
-				96BE89D021265BD800F57FF0 /* AssetManager.swift in Sources */,
-				96BE89C621265BD800F57FF0 /* Template.swift in Sources */,
-				96BE89C021265BD800F57FF0 /* UIFont+Convenience.swift in Sources */,
-				96BE897421265BD800F57FF0 /* ResponseSerializing.swift in Sources */,
-				96BE895F21265BD800F57FF0 /* Concealer.swift in Sources */,
-				96BE895D21265BD800F57FF0 /* BlockCipherType.swift in Sources */,
-				96BE899021265BD800F57FF0 /* ActivityHandler.swift in Sources */,
-				96BE896E21265BD800F57FF0 /* PluginFilterRules.swift in Sources */,
-				96BE899921265BD800F57FF0 /* BaseDelimitedStringCountSpecification.swift in Sources */,
-				96BE897A21265BD800F57FF0 /* AuthenticationPlugin.swift in Sources */,
-				96BE896A21265BD800F57FF0 /* URLQueryBuilder+Parameterisable.swift in Sources */,
-				96BE89B921265BD800F57FF0 /* UIFont+Digits.swift in Sources */,
-				96BE898F21265BD800F57FF0 /* BaseActivityLauncher.swift in Sources */,
-				96BE89C521265BD800F57FF0 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
-				96BE89E221265BD800F57FF0 /* LogOffManager.swift in Sources */,
-				96BE89B021265BD800F57FF0 /* UIView+AnimationPromiseChain.swift in Sources */,
-				96BE895721265BD800F57FF0 /* Evaluatable.swift in Sources */,
-				96BE899A21265BD800F57FF0 /* DelimitedStringCharacterCountSpecification.swift in Sources */,
-				96BE89B221265BD800F57FF0 /* UIView+SafeArea.swift in Sources */,
-				96BE898C21265BD800F57FF0 /* ObjC.m in Sources */,
-				96BE89A121265BD800F57FF0 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
-				96BE89A621265BD800F57FF0 /* Optional+Extension.swift in Sources */,
-				96BE89C221265BD800F57FF0 /* ISO8601DateTransformer.swift in Sources */,
-				96BE897F21265BD800F57FF0 /* ResourceDownloadTicket.swift in Sources */,
-				96BE898921265BD800F57FF0 /* LocationManager.swift in Sources */,
-				96BE89BC21265BD800F57FF0 /* NSLayoutConstraint+Conveniences.swift in Sources */,
-				96BE89C321265BD800F57FF0 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
-				96BE896921265BD800F57FF0 /* ParseError.swift in Sources */,
-				96BE895821265BD800F57FF0 /* EvaluatorKey.swift in Sources */,
-				96BE89E121265BD800F57FF0 /* ValidationResults.swift in Sources */,
-				96BE89CD21265BD800F57FF0 /* CodableResponseSerializing.swift in Sources */,
-				96BE89B321265BD800F57FF0 /* UIViewController+SafeArea.swift in Sources */,
-				96BE897321265BD800F57FF0 /* ImageResponseSerializer.swift in Sources */,
-				96BE897221265BD800F57FF0 /* ImageCodeableResponseSerializer.swift in Sources */,
-				96BE89DC21265BD800F57FF0 /* FilterRangeDescriptor.swift in Sources */,
-				96BE899321265BD800F57FF0 /* QueryParser.swift in Sources */,
-				96BE89B721265BD800F57FF0 /* UIView+Convenience.swift in Sources */,
-				96BE89CC21265BD800F57FF0 /* ImageError.swift in Sources */,
-				96BE89CA21265BD800F57FF0 /* TemplateDataSource.swift in Sources */,
-				96BE895E21265BD800F57FF0 /* PromiseCancellationToken.swift in Sources */,
-				968723CD212A57880061FF72 /* Array+Searching.swift in Sources */,
-				96BE897E21265BD800F57FF0 /* RemoteResourceDescribing.swift in Sources */,
-				96BE89D921265BD800F57FF0 /* FileLogger.swift in Sources */,
-				96BE89AA21265BD800F57FF0 /* CoreGraphics+Convenience.swift in Sources */,
-				96BE899821265BD800F57FF0 /* SpecificationOperator.swift in Sources */,
-				96BE896621265BD800F57FF0 /* UICollectionView+DefaultReuse.swift in Sources */,
-				96BE896F21265BD800F57FF0 /* Plugin.swift in Sources */,
-				96BE89C721265BD800F57FF0 /* UserDefaultsDataSource.swift in Sources */,
-				96BE89A721265BD800F57FF0 /* UIColor+Hex.swift in Sources */,
-				96BE897521265BD800F57FF0 /* ErrorMapperDefinition.swift in Sources */,
-				96BE897021265BD800F57FF0 /* OAuthAuthorizationGrant.swift in Sources */,
-				96BE898621265BD800F57FF0 /* Parameterisable.swift in Sources */,
-				96BE896821265BD800F57FF0 /* DataResponse+MPLConversion.swift in Sources */,
-				96BE895B21265BD800F57FF0 /* AESBlockCipher.swift in Sources */,
-				96BE89AC21265BD800F57FF0 /* UIStackView+RemoveArrangedSubviews.swift in Sources */,
-				96BE899F21265BD800F57FF0 /* CharacterSetSpecification.swift in Sources */,
-				96BE89BF21265BD800F57FF0 /* UIEdgeInsets+Convenience.swift in Sources */,
-				96BE89D721265BD800F57FF0 /* Logger.swift in Sources */,
 				96BE898D21265BD800F57FF0 /* Weak.swift in Sources */,
-				96BE89D821265BD800F57FF0 /* LogUtils.swift in Sources */,
-				96BE898E21265BD800F57FF0 /* ActivityType.swift in Sources */,
-				96BE89B521265BD800F57FF0 /* UIImage+Resizing.swift in Sources */,
-				96BE898A21265BD800F57FF0 /* TestingDirective.swift in Sources */,
-				96BE896C21265BD800F57FF0 /* URLRulesMatch.swift in Sources */,
-				96BE895621265BD800F57FF0 /* Evaluator.swift in Sources */,
-				96BE897B21265BD800F57FF0 /* CodableRequestParameters.swift in Sources */,
-				96BE89A421265BD800F57FF0 /* Date+Extension.swift in Sources */,
-				96BE895C21265BD800F57FF0 /* CryptoUtils.swift in Sources */,
-				96BE89DB21265BD800F57FF0 /* ConsoleLogger.swift in Sources */,
-				96BE898521265BD800F57FF0 /* HTTPAuthenticationMode.swift in Sources */,
-				96BE89AD21265BD800F57FF0 /* UIViewController+ChildViewController.swift in Sources */,
-				96BE89A521265BD800F57FF0 /* MKMapView+BoundingBox.swift in Sources */,
-				96BE89B821265BD800F57FF0 /* FileManager+URL.swift in Sources */,
-				96BE89C121265BD800F57FF0 /* MPOLAssert.swift in Sources */,
-				96BE897721265BD800F57FF0 /* MappedError.swift in Sources */,
-				96BE89DD21265BD800F57FF0 /* FilterDescriptor.swift in Sources */,
-				96BE898721265BD800F57FF0 /* APIManagerConfigurable.swift in Sources */,
-				96BE899421265BD800F57FF0 /* EmailSpecification.swift in Sources */,
-				96BE89BE21265BD800F57FF0 /* NSArchiver+SecureArchiver.swift in Sources */,
-				96BE89BD21265BD800F57FF0 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
-				96BE896521265BD800F57FF0 /* DefaultReusable.swift in Sources */,
-				96BE89CE21265BD800F57FF0 /* ImageAlamofireResponseSerializer.swift in Sources */,
-				96BE896321265BD800F57FF0 /* AuthenticationProvider.swift in Sources */,
-				96BE897C21265BD800F57FF0 /* APIManagerError.swift in Sources */,
-				96BE89AF21265BD800F57FF0 /* UIColor+Brightness.swift in Sources */,
-				96BE896D21265BD800F57FF0 /* PatternMatchRules.swift in Sources */,
-				96BE897121265BD800F57FF0 /* APIManager.swift in Sources */,
-				96BE89A321265BD800F57FF0 /* Sequence+Nils.swift in Sources */,
-				96BE89B121265BD800F57FF0 /* UIViewController+Compact.swift in Sources */,
-				96BE89DA21265BD800F57FF0 /* NetworkLoggingPlugin.swift in Sources */,
-				96BE899B21265BD800F57FF0 /* DelimitedStringItemsCountSpecification.swift in Sources */,
-				96BE89A921265BD800F57FF0 /* UIImage+RoundedRects.swift in Sources */,
-				96BE896421265BD800F57FF0 /* Bundle+URLSchemeVerifier.swift in Sources */,
-				96BE897621265BD800F57FF0 /* ErrorMapper.swift in Sources */,
-				96BE897D21265BD800F57FF0 /* NetworkRequestType.swift in Sources */,
-				96BE896121265BD800F57FF0 /* ExternalAuthenticator.swift in Sources */,
-				96BE89D621265BD800F57FF0 /* ModelVersionable.swift in Sources */,
-				96BE89C921265BD800F57FF0 /* TemplateHandler.swift in Sources */,
-				96BE89D321265BD800F57FF0 /* Transformer.swift in Sources */,
-				96BE898321265BD800F57FF0 /* NetworkRequest.swift in Sources */,
-				96BE89A821265BD800F57FF0 /* NSMutableAttributedString+Append.swift in Sources */,
-				96BE89B621265BD800F57FF0 /* UILayoutPriority+Math.swift in Sources */,
-				96BE899521265BD800F57FF0 /* RegularExpressionSpecification.swift in Sources */,
-				96BE89B421265BD800F57FF0 /* CoreGraphics+Rounding.swift in Sources */,
-				96BE89D421265BD800F57FF0 /* DefaultCustomStringConvertible.swift in Sources */,
-				96BE89A221265BD800F57FF0 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
-				96BE89AB21265BD800F57FF0 /* Array+IfExists.swift in Sources */,
-				96BE898821265BD800F57FF0 /* LocationErrorManager.swift in Sources */,
-				96BE89AE21265BD800F57FF0 /* UIViewController+ParentSearching.swift in Sources */,
-				96BE89DE21265BD800F57FF0 /* FilterValueDescriptor.swift in Sources */,
-				96BE898421265BD800F57FF0 /* OAuthAccessToken.swift in Sources */,
-				96BE899721265BD800F57FF0 /* PredicateSpecification.swift in Sources */,
-				96BE899221265BD800F57FF0 /* AppURLNavigator.swift in Sources */,
-				96BE89D521265BD800F57FF0 /* DefaultNSCopying.swift in Sources */,
-				96BE899121265BD800F57FF0 /* AnyActivityLauncher.swift in Sources */,
-				96BE895A21265BD800F57FF0 /* EvaluationError.swift in Sources */,
-				96BE898221265BD800F57FF0 /* URLQueryBuilder.swift in Sources */,
-				96BE899E21265BD800F57FF0 /* Specification.swift in Sources */,
-				96BE895921265BD800F57FF0 /* EvaluationObserverable.swift in Sources */,
-				96BE89CB21265BD800F57FF0 /* ImageDownloader.swift in Sources */,
-				96BE89BA21265BD800F57FF0 /* String+EmptyFiltering.swift in Sources */,
-				96BE897921265BD800F57FF0 /* LocationErrorDefinition.swift in Sources */,
-				96BE899621265BD800F57FF0 /* AustralianPhoneSpecification.swift in Sources */,
-				96BE89A021265BD800F57FF0 /* SortDescriptor.swift in Sources */,
-				968723FD212A6B6E0061FF72 /* AppGroupCapability.swift in Sources */,
-				96BE896021265BD800F57FF0 /* OAuth2Error.swift in Sources */,
-				96BE899C21265BD800F57FF0 /* NotNilSpecification.swift in Sources */,
-				96BE89BB21265BD800F57FF0 /* FloatingPoint+Comparison.swift in Sources */,
-				96BE899D21265BD800F57FF0 /* CountSpecification.swift in Sources */,
-				96BE896B21265BD800F57FF0 /* PluginType.swift in Sources */,
-				96BE896221265BD800F57FF0 /* OAuth2.swift in Sources */,
-				96BE89D221265BD800F57FF0 /* SharedKeychainCapability.swift in Sources */,
-				96BE89CF21265BD800F57FF0 /* SemanticVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

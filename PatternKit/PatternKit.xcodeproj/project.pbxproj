@@ -729,8 +729,8 @@
 		968A155F21267CCE006634DC /* Date Format */ = {
 			isa = PBXGroup;
 			children = (
-				968723CA212A52DE0061FF72 /* RelativeDateFormatter.swift */,
 				968A156021267CCE006634DC /* DateFormatter+Static.swift */,
+				968723CA212A52DE0061FF72 /* RelativeDateFormatter.swift */,
 			);
 			path = "Date Format";
 			sourceTree = "<group>";
@@ -1658,6 +1658,7 @@
 				968A177121267CCE006634DC /* CollectionViewFormTextFieldCell.swift in Sources */,
 				968A176921267CCE006634DC /* CollectionViewFormTextViewCell.swift in Sources */,
 				968A176621267CCE006634DC /* CollectionViewFormValueFieldCell.swift in Sources */,
+				968723C9212A52470061FF72 /* ColorPalette.swift in Sources */,
 				968A174521267CCE006634DC /* CompactFormSheetNavigationController.swift in Sources */,
 				968A170621267CCE006634DC /* CompactSidebarItemView.swift in Sources */,
 				968A16FF21267CCE006634DC /* CompactSidebarSourceCell.swift in Sources */,
@@ -1766,8 +1767,6 @@
 				968A178E21267CCF006634DC /* MediaGalleryTransitionAnimator.swift in Sources */,
 				968A179421267CCF006634DC /* MediaGalleryViewController.swift in Sources */,
 				968A177B21267CCF006634DC /* MediaGalleryViewModelable.swift in Sources */,
-				968723C9212A52470061FF72 /* ColorPalette.swift in Sources */,
-				968723CF212A59C60061FF72 /* NumberRangePickerViewController.swift in Sources */,
 				968A178D21267CCF006634DC /* MediaPickerSource.swift in Sources */,
 				968A177D21267CCF006634DC /* MediaPreviewableCell.swift in Sources */,
 				968A178921267CCF006634DC /* MediaPreviewHandler.swift in Sources */,
@@ -1785,6 +1784,7 @@
 				968A171A21267CCE006634DC /* MPOLSplitViewController.swift in Sources */,
 				968A17D621267CCF006634DC /* NavigationBarExtension.swift in Sources */,
 				968A17C021267CCF006634DC /* NavigationTitleView.swift in Sources */,
+				968723CF212A59C60061FF72 /* NumberRangePickerViewController.swift in Sources */,
 				968A176821267CCE006634DC /* NumericValuesView.swift in Sources */,
 				968A16D621267CCE006634DC /* OptionDisplayableFormItem.swift in Sources */,
 				968A16DF21267CCE006634DC /* OptionFormItem.swift in Sources */,
@@ -1814,6 +1814,7 @@
 				968A178421267CCF006634DC /* RecordButton.swift in Sources */,
 				968A170321267CCE006634DC /* RegularSidebarTableViewCell.swift in Sources */,
 				968A16FE21267CCE006634DC /* RegularSidebarViewController.swift in Sources */,
+				968723CB212A52DE0061FF72 /* RelativeDateFormatter.swift in Sources */,
 				968A16C321267CCE006634DC /* ReloadValidationStateVisitor.swift in Sources */,
 				968A16CF21267CCE006634DC /* RoundedLabelAccessory.swift in Sources */,
 				968A17C621267CCF006634DC /* RoundedRectButton.swift in Sources */,
@@ -1872,7 +1873,6 @@
 				968A16F821267CCE006634DC /* UIImage+StatusDot.swift in Sources */,
 				968A16F921267CCE006634DC /* UIImageView+ImageLoadable.swift in Sources */,
 				968A173421267CCE006634DC /* UITableView+DefaultReuse.swift in Sources */,
-				968723CB212A52DE0061FF72 /* RelativeDateFormatter.swift in Sources */,
 				968A17DE21267CCF006634DC /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
 				968A173321267CCE006634DC /* UITableViewCell+LayoutMargins.swift in Sources */,
 				968A17E121267CCF006634DC /* UITextView+NotificationWorkaround.m in Sources */,
