@@ -347,27 +347,26 @@
 		96872B39212B7BF30061FF72 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				96872C6A212B7DBA0061FF72 /* SwiftImports.swift */,
 				96872C6F212B93300061FF72 /* API */,
 				96872C70212B935A0061FF72 /* Features */,
-				96872C72212B95160061FF72 /* Local State */,
 				96872BDA212B7BF30061FF72 /* Helper */,
+				96872C6A212B7DBA0061FF72 /* SwiftImports.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		96872B3A212B7BF30061FF72 /* Settings */ = {
+		96872B3A212B7BF30061FF72 /* User Settings */ = {
 			isa = PBXGroup;
 			children = (
+				96872B3C212B7BF30061FF72 /* Items */,
 				96872BC1212B7BF30061FF72 /* AppSettingKey.swift */,
-				96872B3C212B7BF30061FF72 /* DefaultSettings */,
 				96872B3B212B7BF30061FF72 /* Settings.swift */,
 				96872B42212B7BF30061FF72 /* SettingsViewController.swift */,
 			);
-			path = Settings;
+			path = "User Settings";
 			sourceTree = "<group>";
 		};
-		96872B3C212B7BF30061FF72 /* DefaultSettings */ = {
+		96872B3C212B7BF30061FF72 /* Items */ = {
 			isa = PBXGroup;
 			children = (
 				96872B40212B7BF30061FF72 /* BiometricIDSetting.swift */,
@@ -376,7 +375,7 @@
 				96872B41212B7BF30061FF72 /* NumericKeyboardSetting.swift */,
 				96872B3F212B7BF30061FF72 /* SignatureSetting.swift */,
 			);
-			path = DefaultSettings;
+			path = Items;
 			sourceTree = "<group>";
 		};
 		96872B43212B7BF30061FF72 /* Unboxable */ = {
@@ -392,10 +391,10 @@
 		96872B4F212B7BF30061FF72 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				96872BDC212B7BF30061FF72 /* MatchMaker.swift */,
 				96872B54212B7BF30061FF72 /* EntityBucket.swift */,
 				96872B52212B7BF30061FF72 /* EntityManager.swift */,
 				96872B53212B7BF30061FF72 /* EntitySource.swift */,
+				96872BDC212B7BF30061FF72 /* MatchMaker.swift */,
 				96872B50212B7BF30061FF72 /* MPOLKitEntity.swift */,
 				96872B51212B7BF30061FF72 /* Requestable.swift */,
 				96872B47212B7BF30061FF72 /* Serialisable.swift */,
@@ -420,15 +419,10 @@
 		96872B5F212B7BF30061FF72 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				96872B94212B7BF30061FF72 /* Activities */,
-				96872B89212B7BF30061FF72 /* API */,
-				96872B68212B7BF30061FF72 /* EntityDetails */,
-				96872B9B212B7BF30061FF72 /* EntitySearch */,
+				96872C7C212BAB4F0061FF72 /* Entity Search */,
 				96872B8F212B7BF30061FF72 /* Location Map Search */,
 				96872B60212B7BF30061FF72 /* Location Search */,
 				96872B72212B7BF30061FF72 /* Search Workflow */,
-				96872B6D212B7BF30061FF72 /* Type Ahead Search */,
-				96872B71212B7BF30061FF72 /* MPOLKitProtocols.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -447,7 +441,7 @@
 			path = "Location Search";
 			sourceTree = "<group>";
 		};
-		96872B68212B7BF30061FF72 /* EntityDetails */ = {
+		96872B68212B7BF30061FF72 /* Details */ = {
 			isa = PBXGroup;
 			children = (
 				96872B69212B7BF30061FF72 /* EntityDetailDisplayable.swift */,
@@ -455,32 +449,16 @@
 				96872B6A212B7BF30061FF72 /* EntityDetailSectionsViewModel.swift */,
 				96872B6C212B7BF30061FF72 /* EntityDetailSplitViewController.swift */,
 			);
-			path = EntityDetails;
-			sourceTree = "<group>";
-		};
-		96872B6D212B7BF30061FF72 /* Type Ahead Search */ = {
-			isa = PBXGroup;
-			children = (
-				96872B6E212B7BF30061FF72 /* APIManager+LookupAddress.swift */,
-				96872B70212B7BF30061FF72 /* LookupAddress.swift */,
-				96872B6F212B7BF30061FF72 /* LookupAddressSearchRequest.swift */,
-			);
-			path = "Type Ahead Search";
+			path = Details;
 			sourceTree = "<group>";
 		};
 		96872B72212B7BF30061FF72 /* Search Workflow */ = {
 			isa = PBXGroup;
 			children = (
+				96872C7B212BAAF20061FF72 /* View Controllers */,
 				96872B7A212B7BF30061FF72 /* View Model */,
 				96872B81212B7BF30061FF72 /* Views */,
-				96872B76212B7BF30061FF72 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */,
-				96872B77212B7BF30061FF72 /* MapFormBuilderCollectionViewSideBarLayout.swift */,
-				96872B88212B7BF30061FF72 /* SearchOptionsViewController.swift */,
-				96872B73212B7BF30061FF72 /* SearchRecentsViewController.swift */,
-				96872B75212B7BF30061FF72 /* SearchResultMapViewController.swift */,
-				96872B79212B7BF30061FF72 /* SearchResultMessageViewController.swift */,
-				96872B78212B7BF30061FF72 /* SearchResultsListViewController.swift */,
-				96872B74212B7BF30061FF72 /* SearchViewController.swift */,
+				96872B71212B7BF30061FF72 /* MPOLKitProtocols.swift */,
 			);
 			path = "Search Workflow";
 			sourceTree = "<group>";
@@ -511,22 +489,9 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		96872B89212B7BF30061FF72 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				96872B8D212B7BF30061FF72 /* APIManager+NetworkRequests.swift */,
-				96872B8B212B7BF30061FF72 /* EntityDetailsFetch.swift */,
-				96872B8C212B7BF30061FF72 /* EntityDetailsFetchRequest.swift */,
-				96872B8E212B7BF30061FF72 /* EntitySearchRequest.swift */,
-				96872B8A212B7BF30061FF72 /* EntitySearchRequestable.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
 		96872B8F212B7BF30061FF72 /* Location Map Search */ = {
 			isa = PBXGroup;
 			children = (
-				96872B92212B7BF30061FF72 /* APIManager+LocationSearch.swift */,
 				96872B93212B7BF30061FF72 /* EntityMapSummaryDisplayble.swift */,
 				96872B91212B7BF30061FF72 /* MapSummarySearchResultViewModel.swift */,
 				96872B90212B7BF30061FF72 /* TravelEstimationPlugin.swift */,
@@ -534,18 +499,10 @@
 			path = "Location Map Search";
 			sourceTree = "<group>";
 		};
-		96872B94212B7BF30061FF72 /* Activities */ = {
-			isa = PBXGroup;
-			children = (
-				96872B95212B7BF30061FF72 /* App Launch */,
-				96872B97212B7BF30061FF72 /* Search */,
-			);
-			path = Activities;
-			sourceTree = "<group>";
-		};
 		96872B95212B7BF30061FF72 /* App Launch */ = {
 			isa = PBXGroup;
 			children = (
+				96872B97212B7BF30061FF72 /* Search */,
 				96872B96212B7BF30061FF72 /* AppLaunchActivity.swift */,
 			);
 			path = "App Launch";
@@ -561,7 +518,7 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		96872B9B212B7BF30061FF72 /* EntitySearch */ = {
+		96872B9B212B7BF30061FF72 /* Summary */ = {
 			isa = PBXGroup;
 			children = (
 				96872BA1212B7BF30061FF72 /* EntitySummaryDecorator.swift */,
@@ -571,7 +528,7 @@
 				96872B9F212B7BF30061FF72 /* EntitySummarySearchResultViewModel.swift */,
 				96872BA0212B7BF30061FF72 /* EntitySummarySearchViewModel.swift */,
 			);
-			path = EntitySearch;
+			path = Summary;
 			sourceTree = "<group>";
 		};
 		96872BA2212B7BF30061FF72 /* Network Plugins */ = {
@@ -706,15 +663,17 @@
 		96872C70212B935A0061FF72 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				96872B5F212B7BF30061FF72 /* Search */,
-				96872BC3212B7BF30061FF72 /* Theme Gesture */,
+				96872B95212B7BF30061FF72 /* App Launch */,
 				96872C74212B97950061FF72 /* App Proxy */,
 				96872BDF212B7BF30061FF72 /* Location Selection */,
 				96872BD1212B7BF30061FF72 /* Login */,
 				96872BA9212B7BF30061FF72 /* Map */,
 				96872BCD212B7BF30061FF72 /* Notifications */,
-				96872B3A212B7BF30061FF72 /* Settings */,
+				96872B5F212B7BF30061FF72 /* Search */,
 				96872C73212B97820061FF72 /* Terms and Conditions */,
+				96872BC3212B7BF30061FF72 /* Theme Gesture */,
+				96872B3A212B7BF30061FF72 /* User Settings */,
+				96872C72212B95160061FF72 /* User State */,
 				96872BB9212B7BF30061FF72 /* Whats New */,
 			);
 			path = Features;
@@ -723,23 +682,32 @@
 		96872C71212B94A90061FF72 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				96872BBF212B7BF30061FF72 /* SearchResult.swift */,
 				96872B4C212B7BF30061FF72 /* AggregatedSearch.swift */,
 				96872B4B212B7BF30061FF72 /* AggregatedSearchRequest.swift */,
+				96872B92212B7BF30061FF72 /* APIManager+LocationSearch.swift */,
+				96872B6E212B7BF30061FF72 /* APIManager+LookupAddress.swift */,
+				96872B8D212B7BF30061FF72 /* APIManager+NetworkRequests.swift */,
+				96872B8B212B7BF30061FF72 /* EntityDetailsFetch.swift */,
+				96872B8C212B7BF30061FF72 /* EntityDetailsFetchRequest.swift */,
+				96872B8E212B7BF30061FF72 /* EntitySearchRequest.swift */,
+				96872B8A212B7BF30061FF72 /* EntitySearchRequestable.swift */,
+				96872B70212B7BF30061FF72 /* LookupAddress.swift */,
+				96872B6F212B7BF30061FF72 /* LookupAddressSearchRequest.swift */,
+				96872BBF212B7BF30061FF72 /* SearchResult.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
 		};
-		96872C72212B95160061FF72 /* Local State */ = {
+		96872C72212B95160061FF72 /* User State */ = {
 			isa = PBXGroup;
 			children = (
-				96872BDD212B7BF30061FF72 /* DirectoryManager.swift */,
 				96872BC2212B7BF30061FF72 /* Device.swift */,
+				96872BDD212B7BF30061FF72 /* DirectoryManager.swift */,
 				96872BC0212B7BF30061FF72 /* User.swift */,
 				96872BBE212B7BF30061FF72 /* UserSession.swift */,
 				96872B49212B7BF30061FF72 /* UserStorage.swift */,
 			);
-			path = "Local State";
+			path = "User State";
 			sourceTree = "<group>";
 		};
 		96872C73212B97820061FF72 /* Terms and Conditions */ = {
@@ -764,6 +732,30 @@
 				96872BCE212B7BF30061FF72 /* RegisterDeviceRequest.swift */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		96872C7B212BAAF20061FF72 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96872B76212B7BF30061FF72 /* MapFormBuilderCollectionViewDraggableCardLayout.swift */,
+				96872B77212B7BF30061FF72 /* MapFormBuilderCollectionViewSideBarLayout.swift */,
+				96872B88212B7BF30061FF72 /* SearchOptionsViewController.swift */,
+				96872B73212B7BF30061FF72 /* SearchRecentsViewController.swift */,
+				96872B75212B7BF30061FF72 /* SearchResultMapViewController.swift */,
+				96872B79212B7BF30061FF72 /* SearchResultMessageViewController.swift */,
+				96872B78212B7BF30061FF72 /* SearchResultsListViewController.swift */,
+				96872B74212B7BF30061FF72 /* SearchViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		96872C7C212BAB4F0061FF72 /* Entity Search */ = {
+			isa = PBXGroup;
+			children = (
+				96872B68212B7BF30061FF72 /* Details */,
+				96872B9B212B7BF30061FF72 /* Summary */,
+			);
+			path = "Entity Search";
 			sourceTree = "<group>";
 		};
 		96BE88152126555800F57FF0 = {
@@ -1057,7 +1049,6 @@
 				96872BE4212B7BF30061FF72 /* Manifest.xcdatamodeld in Sources */,
 				96872BFF212B7BF30061FF72 /* ManifestCollection.swift in Sources */,
 				96872BFB212B7BF30061FF72 /* ManifestEntry+Location.swift in Sources */,
-				96872C6B212B7DBA0061FF72 /* SwiftImports.swift in Sources */,
 				96872BFD212B7BF30061FF72 /* ManifestEntry.swift in Sources */,
 				96872BFC212B7BF30061FF72 /* ManifestFetchRequest.swift in Sources */,
 				96872C44212B7BF30061FF72 /* MapFilterOption.swift in Sources */,
@@ -1111,6 +1102,7 @@
 				96872BE5212B7BF30061FF72 /* Settings.swift in Sources */,
 				96872BEB212B7BF30061FF72 /* SettingsViewController.swift in Sources */,
 				96872BE8212B7BF30061FF72 /* SignatureSetting.swift in Sources */,
+				96872C6B212B7DBA0061FF72 /* SwiftImports.swift in Sources */,
 				96872C53212B7BF30061FF72 /* TermsConditionsViewController.swift in Sources */,
 				96872C29212B7BF30061FF72 /* TravelEstimationPlugin.swift in Sources */,
 				96872C51212B7BF30061FF72 /* UINavigationController+Theme.m in Sources */,
@@ -1322,7 +1314,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC1FE1375261296100FE3994 /* Pods-PublicSafetyKitTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = PublicSafetyKitTests/Info.plist;
@@ -1342,7 +1333,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A7E021E04DFB18A24EFB6667 /* Pods-PublicSafetyKitTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = PublicSafetyKitTests/Info.plist;
