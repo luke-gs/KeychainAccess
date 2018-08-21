@@ -18,45 +18,45 @@ public class OrderSummaryViewModel {
     }
 
     var statusLabel: StringSizable {
-        return "Status".withPrefferedFont
+        return "Status".withPreferredFont
     }
 
     var statusValue: StringSizable {
         let status = order.status ?? "Unknown"
-        return status.withPrefferedFont
+        return status.withPreferredFont
     }
 
     var issuingAuthorityLabel: StringSizable {
-        return "Issuing Authority".withPrefferedFont
+        return "Issuing Authority".withPreferredFont
     }
 
     var issuingAuthorityValue: StringSizable {
         let issuingAuthority = order.issuingAuthority ?? "Unknown"
-        return issuingAuthority.withPrefferedFont
+        return issuingAuthority.withPreferredFont
     }
 
     var dateIssuedLabel: StringSizable {
-        return "Date Issued".withPrefferedFont
+        return "Date Issued".withPreferredFont
     }
 
     var dateIssuedValue: StringSizable {
         
         if let date = order.issuedDate {
             let formatedDate = DateFormatter.preferredDateStyle.string(from: date)
-            return formatedDate.withPrefferedFont
+            return formatedDate.withPreferredFont
         }
         return "Unknown".sizing()
     }
 
     var dateOfExpiryLabel: StringSizable {
-        return "Date of Expiry".withPrefferedFont
+        return "Date of Expiry".withPreferredFont
     }
 
     var dateOfExpiryValue: StringSizable {
 
         if let date = order.expiryDate {
             let formatedDate = DateFormatter.preferredDateStyle.string(from: date)
-            return formatedDate.withPrefferedFont
+            return formatedDate.withPreferredFont
         }
         return "Unknown".sizing()
     }
@@ -72,7 +72,7 @@ public class OrderSummaryViewModel {
 
 fileprivate extension String {
 
-    var withPrefferedFont: StringSizable {
+    var withPreferredFont: StringSizable {
         return NSAttributedString(string: self,
                                   attributes: [.font: UIFont.systemFont(ofSize: 17.0)])
             .sizing()

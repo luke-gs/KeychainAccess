@@ -70,6 +70,8 @@
 		AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DC27520E4AE6700154571 /* AddressFormatter.swift */; };
 		AA662E9E211ABC2600B107C8 /* AlertSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */; };
 		AA662EA0211ABC3700B107C8 /* AlertSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */; };
+		AA95FCD121240181008EBD35 /* CriminalHistorySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA95FCD021240181008EBD35 /* CriminalHistorySummaryViewController.swift */; };
+		AA95FCD321240192008EBD35 /* CriminalHistorySummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA95FCD221240192008EBD35 /* CriminalHistorySummaryViewModel.swift */; };
 		AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
@@ -200,6 +202,8 @@
 		AA2DC27520E4AE6700154571 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
 		AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewController.swift; sourceTree = "<group>"; };
 		AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewModel.swift; sourceTree = "<group>"; };
+		AA95FCD021240181008EBD35 /* CriminalHistorySummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriminalHistorySummaryViewController.swift; sourceTree = "<group>"; };
+		AA95FCD221240192008EBD35 /* CriminalHistorySummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriminalHistorySummaryViewModel.swift; sourceTree = "<group>"; };
 		AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClientKit.h; sourceTree = "<group>"; };
@@ -381,6 +385,15 @@
 			path = AlertSummary;
 			sourceTree = "<group>";
 		};
+		AA95FCCF2124013B008EBD35 /* CriminalHistorySummary */ = {
+			isa = PBXGroup;
+			children = (
+				AA95FCD021240181008EBD35 /* CriminalHistorySummaryViewController.swift */,
+				AA95FCD221240192008EBD35 /* CriminalHistorySummaryViewModel.swift */,
+			);
+			path = CriminalHistorySummary;
+			sourceTree = "<group>";
+		};
 		BC12DC821F023EF0001A5BB7 = {
 			isa = PBXGroup;
 			children = (
@@ -527,6 +540,7 @@
 				AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */,
 				AA662E9C211ABBFB00B107C8 /* AlertSummary */,
 				AA1B950321211286002B5590 /* OrderSummary */,
+				AA95FCCF2124013B008EBD35 /* CriminalHistorySummary */,
 				44F1FB3C1FF5FB2800D463CA /* Section Data Sources */,
 				4429902C200554E800D2F575 /* Base Classes */,
 				1A2E8A771F3942FE0062FEA5 /* EntityAlertsViewModel.swift */,
@@ -894,7 +908,9 @@
 				EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
 				46E0B89F202C13E200B40DF2 /* Officer.swift in Sources */,
+				AA95FCD121240181008EBD35 /* CriminalHistorySummaryViewController.swift in Sources */,
 				1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */,
+				AA95FCD321240192008EBD35 /* CriminalHistorySummaryViewModel.swift in Sources */,
 				EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
