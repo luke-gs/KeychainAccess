@@ -10,6 +10,7 @@
 		968723C9212A52470061FF72 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723C8212A52470061FF72 /* ColorPalette.swift */; };
 		968723CB212A52DE0061FF72 /* RelativeDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723CA212A52DE0061FF72 /* RelativeDateFormatter.swift */; };
 		968723CF212A59C60061FF72 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723CE212A59C50061FF72 /* NumberRangePickerViewController.swift */; };
+		96872C76212B98130061FF72 /* ThemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872C75212B98130061FF72 /* ThemeConstants.swift */; };
 		968A16BF21267CCE006634DC /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A156021267CCE006634DC /* DateFormatter+Static.swift */; };
 		968A16C021267CCE006634DC /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A156221267CCE006634DC /* ScrollViewInsetManager.swift */; };
 		968A16C121267CCE006634DC /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A156321267CCE006634DC /* KeyboardAnimationDetails.swift */; };
@@ -304,6 +305,7 @@
 		968723C8212A52470061FF72 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		968723CA212A52DE0061FF72 /* RelativeDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeDateFormatter.swift; sourceTree = "<group>"; };
 		968723CE212A59C50061FF72 /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
+		96872C75212B98130061FF72 /* ThemeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeConstants.swift; sourceTree = "<group>"; };
 		968A156021267CCE006634DC /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		968A156221267CCE006634DC /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
 		968A156321267CCE006634DC /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
@@ -925,6 +927,7 @@
 				968A15CE21267CCE006634DC /* MPOLSplitViewController.swift */,
 				968A15CB21267CCE006634DC /* PushableSplitViewController.swift */,
 				968A15CD21267CCE006634DC /* StatusTabBarController.swift */,
+				968A168A21267CCE006634DC /* ThemedNavigationController.swift */,
 			);
 			path = Containers;
 			sourceTree = "<group>";
@@ -1265,7 +1268,7 @@
 			children = (
 				968723C8212A52470061FF72 /* ColorPalette.swift */,
 				968A168B21267CCE006634DC /* Theme.swift */,
-				968A168A21267CCE006634DC /* ThemedNavigationController.swift */,
+				96872C75212B98130061FF72 /* ThemeConstants.swift */,
 				968A168921267CCE006634DC /* ThemeManager.swift */,
 			);
 			path = Theme;
@@ -1690,6 +1693,7 @@
 				968A179F21267CCF006634DC /* EnlargeStyle.swift in Sources */,
 				968A175721267CCE006634DC /* EntityCollectionViewCell.swift in Sources */,
 				968A175D21267CCE006634DC /* EntityDetailCollectionViewCell.swift in Sources */,
+				96872C76212B98130061FF72 /* ThemeConstants.swift in Sources */,
 				968A175921267CCE006634DC /* EntityListCollectionViewCell.swift in Sources */,
 				968A17CA21267CCF006634DC /* EntityThumbnailView.swift in Sources */,
 				968A17A221267CCF006634DC /* FadeStyle.swift in Sources */,

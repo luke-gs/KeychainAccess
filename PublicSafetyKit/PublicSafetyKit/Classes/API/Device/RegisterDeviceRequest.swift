@@ -44,9 +44,9 @@ open class RegisterDeviceRequest: CodableRequestParameters {
 
 // MARK: - API Manager method for sending request
 public extension APIManager {
-    public func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
-        // Send request and ignore response backend internal ID array)
-        return performRequest(request, pathTemplate: "device/register", method: .post)
+    public func registerDevice(with request: RegisterDeviceRequest, pathTemplate: String? = nil) -> Promise<Void> {
+        // Send request and ignore response (backend internal ID array)
+        return performRequest(request, pathTemplate: pathTemplate ?? "device/register", method: .post)
     }
 }
 
