@@ -35,8 +35,8 @@ open class Officer: MPOLKitEntity, Identifiable {
     // TODO: Proper Involvements
     open var involvements: [String] = []
 
-    public init() {
-        super.init()
+    public override init(id: String = UUID().uuidString) {
+        super.init(id: id)
     }
 
     public required init(unboxer: Unboxer) throws {

@@ -35,7 +35,7 @@ public class PersonSearchReport: ActionReportable {
             evaluator.updateEvaluation(for: .hasRequiredData)
         }
     }
-    public var officerDisplayables = [OfficerSummaryDisplayable]() {
+    public var officers = [Officer]() {
         didSet {
             evaluator.updateEvaluation(for: .hasRequiredData)
         }
@@ -76,7 +76,7 @@ public class PersonSearchReport: ActionReportable {
         evaluator.registerKey(.hasRequiredData) {
 
             return self.detainedStart != nil && self.searchStart != nil
-                && self.location != nil && !self.officerDisplayables.isEmpty
+                && self.location != nil && !self.officers.isEmpty
                 && self.legalPower != nil && self.searchReason != nil
                 && self.outcome != nil && self.clothingRemoved != nil
         }

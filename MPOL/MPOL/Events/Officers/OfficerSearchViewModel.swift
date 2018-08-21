@@ -29,11 +29,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         } else {
             #if DEBUG || EXTERNAL
                 // Fake officers used for the purposes of demos.
-                let fakeOfficerOne = Officer()
+                let fakeOfficerOne = Officer(id: "SmithJacksonGS007")
                 fakeOfficerOne.familyName = "Smith"
                 fakeOfficerOne.givenName = "Jackson"
                 fakeOfficerOne.employeeNumber = "#GS007"
-                let fakeOfficerTwo = Officer()
+                let fakeOfficerTwo = Officer(id: "JohnsonCarlGS008")
                 fakeOfficerTwo.familyName = "Johnson"
                 fakeOfficerTwo.givenName = "Carl"
                 fakeOfficerTwo.employeeNumber = "#GS008"
