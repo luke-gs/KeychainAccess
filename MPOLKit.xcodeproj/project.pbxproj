@@ -578,6 +578,8 @@
 		AA7B25D620B28659005A23F0 /* DefaultPickableSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */; };
 		AA7F795320AABC4A00985705 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795120AABC4A00985705 /* Relationship.swift */; };
 		AA7F795420AABC4A00985705 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795220AABC4A00985705 /* RelationshipManager.swift */; };
+		AAA87622211D6ADC00EAEBEC /* ImageDetailFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA87621211D6ADC00EAEBEC /* ImageDetailFormItem.swift */; };
+		AAA87624211D6C6500EAEBEC /* CollectionViewImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA87623211D6C6500EAEBEC /* CollectionViewImageDetailView.swift */; };
 		AABE49772106B7B300680FD5 /* SemanticVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE49762106B7B300680FD5 /* SemanticVersion.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
@@ -1516,6 +1518,8 @@
 		AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPickableSearchDatasource.swift; sourceTree = "<group>"; };
 		AA7F795120AABC4A00985705 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Relationship.swift; path = Classes/Subspec/RelationshipManager/Relationship.swift; sourceTree = SOURCE_ROOT; };
 		AA7F795220AABC4A00985705 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationshipManager.swift; path = Classes/Subspec/RelationshipManager/RelationshipManager.swift; sourceTree = SOURCE_ROOT; };
+		AAA87621211D6ADC00EAEBEC /* ImageDetailFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailFormItem.swift; sourceTree = "<group>"; };
+		AAA87623211D6C6500EAEBEC /* CollectionViewImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewImageDetailView.swift; sourceTree = "<group>"; };
 		AABE49762106B7B300680FD5 /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
@@ -3723,6 +3727,7 @@
 				EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */,
 				EA53B26E1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift */,
 				27373794208D832C00FE1050 /* CollectionViewFormRoundedRectButtonCell.swift */,
+				AAA87623211D6C6500EAEBEC /* CollectionViewImageDetailView.swift */,
 			);
 			path = "Collection Reusable Views";
 			sourceTree = "<group>";
@@ -4599,6 +4604,7 @@
 				27373796208D83F800FE1050 /* RoundedRectButtonFormItem.swift */,
 				AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */,
 				37928B3720BE5D4A008376E1 /* RowDetailFormItem.swift */,
+				AAA87621211D6ADC00EAEBEC /* ImageDetailFormItem.swift */,
 			);
 			path = FormItems;
 			sourceTree = "<group>";
@@ -5069,6 +5075,7 @@
 				463694E5200ED59100C51BB4 /* SketchColorPickable.swift in Sources */,
 				EA09A04E1F78B92100BC3C0E /* SpecificationOperator.swift in Sources */,
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
+				AAA87622211D6ADC00EAEBEC /* ImageDetailFormItem.swift in Sources */,
 				E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */,
 				270C60FD1FBA5DCB006F11AD /* TasksListIncidentCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
@@ -5385,6 +5392,7 @@
 				DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */,
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				EA7C50A21FA05C7D004930BF /* CollectionViewFormMediaCell.swift in Sources */,
+				AAA87624211D6C6500EAEBEC /* CollectionViewImageDetailView.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
 				19C9C7521FC28A6A003C8CE4 /* MapFormBuilderCollectionViewSideBarLayout.swift in Sources */,

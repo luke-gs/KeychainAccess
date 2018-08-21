@@ -158,7 +158,6 @@ extension Theme {
         
         public static let entityThumbnailBackground = ColorKey(rawValue: "entityThumbnailBackgroundColor")
         public static let entityImageTint           = ColorKey(rawValue: "entityImageTint")
-        
     }
     
     public struct ImageKey: RawRepresentable, Hashable {
