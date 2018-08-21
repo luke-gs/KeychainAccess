@@ -117,5 +117,6 @@ open class CallsignCollectionViewCell: CollectionViewFormCell {
         titleLabel.textColor = theme.color(forKey: .primaryText)
         subtitleLabel.textColor = theme.color(forKey: .secondaryText)
         captionLabel.textColor = theme.color(forKey: .secondaryText)
+        separatorColor = theme.color(forKey: .legacySeparator)
     }
 }

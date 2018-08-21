@@ -53,14 +53,14 @@ open class OfficerListViewController: SearchDisplayableViewController<OfficerLis
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
         if let cell = cell as? CollectionViewFormCell {
-            cell.separatorColor = iOSStandardSeparatorColor
+            cell.separatorColor = ThemeManager.shared.theme(for: .current).color(forKey: .legacySeparator)
         }
     }
     
     override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
         if let header = view as? CollectionViewFormHeaderView {
-            header.separatorColor = iOSStandardSeparatorColor
+            header.separatorColor = ThemeManager.shared.theme(for: .current).color(forKey: .legacySeparator)
         }
     }
     

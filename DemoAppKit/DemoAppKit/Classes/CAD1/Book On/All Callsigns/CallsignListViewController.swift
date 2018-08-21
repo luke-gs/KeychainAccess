@@ -105,7 +105,6 @@ open class CallsignListViewController: CADFormCollectionViewController<BookOnLan
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
         if let cell = cell as? CallsignCollectionViewCell {
-            cell.separatorColor = iOSStandardSeparatorColor
             cell.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
@@ -113,7 +112,7 @@ open class CallsignListViewController: CADFormCollectionViewController<BookOnLan
     override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
         if let header = view as? CollectionViewFormHeaderView {
-            header.separatorColor = iOSStandardSeparatorColor
+            header.separatorColor = ThemeManager.shared.theme(for: .current).color(forKey: .legacySeparator)
         }
     }
     

@@ -152,6 +152,9 @@ extension Theme {
         public static let searchFieldBackground = ColorKey(rawValue: "searchFieldBackground")
         public static let contentBackgroundGray = ColorKey(rawValue: "contentBackgroundGray")
         
+        /// The legacy separator color, which looks better on light glassy dialogs
+        public static let legacySeparator       = ColorKey(rawValue: "legacySeparator")
+
         // Grouped Table specific
         public static let groupedTableBackground     = ColorKey(rawValue: "groupedTableBackground")
         public static let groupedTableCellBackground = ColorKey(rawValue: "groupedTableCellBackground")
