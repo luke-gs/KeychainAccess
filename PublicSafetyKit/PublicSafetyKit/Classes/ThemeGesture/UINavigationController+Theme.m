@@ -7,7 +7,14 @@
 //
 
 #import "UINavigationController+Theme.h"
+
+// Import the theme manager from either specific or umbrella kit
+#if __has_include(<MPOLKit/MPOLKit-Swift.h>)
 #import <MPOLKit/MPOLKit-Swift.h>
+#endif
+#if __has_include(<PatternKit/PatternKit-Swift.h>)
+#import <PatternKit/PatternKit-Swift.h>
+#endif
 
 @import UIKit;
 @import ObjectiveC.runtime;

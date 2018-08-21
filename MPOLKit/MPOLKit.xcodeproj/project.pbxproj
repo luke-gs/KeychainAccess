@@ -481,7 +481,6 @@
 		96872903212A7C860061FF72 /* BubbleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727CB212A7C860061FF72 /* BubbleAnnotationView.swift */; };
 		96872904212A7C860061FF72 /* LocationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727CC212A7C860061FF72 /* LocationAnnotationView.swift */; };
 		96872905212A7C860061FF72 /* AutoLayoutAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727CD212A7C860061FF72 /* AutoLayoutAnnotationView.swift */; };
-		96872906212A7C860061FF72 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727CE212A7C860061FF72 /* ClusterAnnotationView.swift */; };
 		96872907212A7C860061FF72 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727D0212A7C860061FF72 /* NavigationTitleView.swift */; };
 		96872908212A7C860061FF72 /* UIViewController+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727D1212A7C860061FF72 /* UIViewController+Subtitle.swift */; };
 		96872909212A7C860061FF72 /* LoadingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968727D3212A7C860061FF72 /* LoadingStateManager.swift */; };
@@ -845,6 +844,7 @@
 		96872B33212A7CA10061FF72 /* SketchPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872B1F212A7CA00061FF72 /* SketchPickerController.swift */; };
 		96872B34212A7CA10061FF72 /* UIImage+CircleCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872B21212A7CA00061FF72 /* UIImage+CircleCreation.swift */; };
 		96872B35212A7CA10061FF72 /* UIView+JiggleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872B22212A7CA00061FF72 /* UIView+JiggleAnimation.swift */; };
+		96872C6E212B8F630061FF72 /* MPOLClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872C6D212B8F630061FF72 /* MPOLClusterAnnotationView.swift */; };
 		968A17EF212682C9006634DC /* MPOLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 968A17EE212682C9006634DC /* MPOLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		968A1F3E21268470006634DC /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 968A1F3C21268470006634DC /* Manifest.xcdatamodeld */; };
 		968A21B421268826006634DC /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A21AE21268826006634DC /* Icons.xcassets */; };
@@ -1417,7 +1417,6 @@
 		968727CB212A7C860061FF72 /* BubbleAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleAnnotationView.swift; sourceTree = "<group>"; };
 		968727CC212A7C860061FF72 /* LocationAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAnnotationView.swift; sourceTree = "<group>"; };
 		968727CD212A7C860061FF72 /* AutoLayoutAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLayoutAnnotationView.swift; sourceTree = "<group>"; };
-		968727CE212A7C860061FF72 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		968727D0212A7C860061FF72 /* NavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTitleView.swift; sourceTree = "<group>"; };
 		968727D1212A7C860061FF72 /* UIViewController+Subtitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subtitle.swift"; sourceTree = "<group>"; };
 		968727D3212A7C860061FF72 /* LoadingStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingStateManager.swift; sourceTree = "<group>"; };
@@ -1781,6 +1780,7 @@
 		96872B1F212A7CA00061FF72 /* SketchPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchPickerController.swift; sourceTree = "<group>"; };
 		96872B21212A7CA00061FF72 /* UIImage+CircleCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CircleCreation.swift"; sourceTree = "<group>"; };
 		96872B22212A7CA00061FF72 /* UIView+JiggleAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+JiggleAnimation.swift"; sourceTree = "<group>"; };
+		96872C6D212B8F630061FF72 /* MPOLClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLClusterAnnotationView.swift; sourceTree = "<group>"; };
 		968A17EE212682C9006634DC /* MPOLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
 		968A1F3D21268470006634DC /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		968A21AE21268826006634DC /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
@@ -3564,11 +3564,11 @@
 			isa = PBXGroup;
 			children = (
 				968727C9212A7C860061FF72 /* PinAnnotationView.swift */,
+				96872C6D212B8F630061FF72 /* MPOLClusterAnnotationView.swift */,
 				968727CA212A7C860061FF72 /* MPOLMarkerAnnotationView.swift */,
 				968727CB212A7C860061FF72 /* BubbleAnnotationView.swift */,
 				968727CC212A7C860061FF72 /* LocationAnnotationView.swift */,
 				968727CD212A7C860061FF72 /* AutoLayoutAnnotationView.swift */,
-				968727CE212A7C860061FF72 /* ClusterAnnotationView.swift */,
 			);
 			path = Annotations;
 			sourceTree = "<group>";
@@ -5672,6 +5672,7 @@
 				9687299C212A7C860061FF72 /* DetailLinkFormItem.swift in Sources */,
 				96872931212A7C860061FF72 /* PopoverViewController.swift in Sources */,
 				96872757212A7C7D0061FF72 /* ClusterTasksViewController.swift in Sources */,
+				96872C6E212B8F630061FF72 /* MPOLClusterAnnotationView.swift in Sources */,
 				968728E6212A7C860061FF72 /* SourceItem.swift in Sources */,
 				96872AF5212A7C970061FF72 /* UIColor+ActionColors.swift in Sources */,
 				96872743212A7C7D0061FF72 /* OfficerDetailsViewController.swift in Sources */,
@@ -5921,7 +5922,6 @@
 				968726A3212A7C7C0061FF72 /* ResourceAnnotationView.swift in Sources */,
 				968724DA212A7C6A0061FF72 /* AuthenticationPlugin.swift in Sources */,
 				968726DD212A7C7C0061FF72 /* EventLocationSelectionMapViewModel.swift in Sources */,
-				96872906212A7C860061FF72 /* ClusterAnnotationView.swift in Sources */,
 				968728D2212A7C860061FF72 /* CompactSidebarViewController.swift in Sources */,
 				9687252F212A7C6A0061FF72 /* ImageAlamofireResponseSerializer.swift in Sources */,
 				96872943212A7C860061FF72 /* CollectionViewFormDetailCell.swift in Sources */,
