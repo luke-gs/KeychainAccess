@@ -22,7 +22,7 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 s.ios.deployment_target = '10.0'
 
 s.source_files = 'SketchKit/Classes/**/*'
-s.resources = 'Assets/**/*'
+s.resources = 'SketchKit/Resources/**/*'
 
 s.dependency 'CoreKit'
 
