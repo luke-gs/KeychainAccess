@@ -20,7 +20,7 @@ open class StandardSearchBarView: UIView {
 
     /// Layout sizing constants
     public struct LayoutConstants {
-        static let searchBarHeight: CGFloat = 64
+        public static let searchBarHeight: CGFloat = 64
     }
 
     // Actual search bar

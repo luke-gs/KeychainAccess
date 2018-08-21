@@ -47,7 +47,7 @@ open class BubbleAnnotationView: AutoLayoutAnnotationView, DefaultReusable {
         setupConstraints()
     }
     
-    public func configure(withAnnotation annotation: MKAnnotation, usesDarkBackground: Bool) {
+    open func configure(withAnnotation annotation: MKAnnotation, usesDarkBackground: Bool) {
         self.annotation = annotation
         
         let effect = UIBlurEffect(style: usesDarkBackground ? .dark : .extraLight)

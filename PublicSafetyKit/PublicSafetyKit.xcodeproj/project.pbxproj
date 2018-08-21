@@ -136,7 +136,7 @@
 		96872C67212B7BF30061FF72 /* LocationSelectionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872BE1212B7BF30061FF72 /* LocationSelectionMapViewController.swift */; };
 		96872C68212B7BF30061FF72 /* LocationSelectionFormAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872BE2212B7BF30061FF72 /* LocationSelectionFormAction.swift */; };
 		96872C69212B7BF30061FF72 /* LocationSelectionMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872BE3212B7BF30061FF72 /* LocationSelectionMapViewModel.swift */; };
-		96872C6B212B7DBA0061FF72 /* SwiftImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872C6A212B7DBA0061FF72 /* SwiftImports.swift */; };
+		96872C6B212B7DBA0061FF72 /* PublicSafetyKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96872C6A212B7DBA0061FF72 /* PublicSafetyKitImports.swift */; };
 		96BE88292126555800F57FF0 /* PublicSafetyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE881F2126555800F57FF0 /* PublicSafetyKit.framework */; };
 		96BE882E2126555800F57FF0 /* PublicSafetyKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE882D2126555800F57FF0 /* PublicSafetyKitTests.swift */; };
 		96BE88302126555800F57FF0 /* PublicSafetyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE88222126555800F57FF0 /* PublicSafetyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -281,7 +281,7 @@
 		96872BE1212B7BF30061FF72 /* LocationSelectionMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewController.swift; sourceTree = "<group>"; };
 		96872BE2212B7BF30061FF72 /* LocationSelectionFormAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionFormAction.swift; sourceTree = "<group>"; };
 		96872BE3212B7BF30061FF72 /* LocationSelectionMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionMapViewModel.swift; sourceTree = "<group>"; };
-		96872C6A212B7DBA0061FF72 /* SwiftImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftImports.swift; sourceTree = "<group>"; };
+		96872C6A212B7DBA0061FF72 /* PublicSafetyKitImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicSafetyKitImports.swift; sourceTree = "<group>"; };
 		96BE881F2126555800F57FF0 /* PublicSafetyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PublicSafetyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE88222126555800F57FF0 /* PublicSafetyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublicSafetyKit.h; sourceTree = "<group>"; };
 		96BE88232126555800F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -350,7 +350,7 @@
 				96872C6F212B93300061FF72 /* API */,
 				96872C70212B935A0061FF72 /* Features */,
 				96872BDA212B7BF30061FF72 /* Helper */,
-				96872C6A212B7DBA0061FF72 /* SwiftImports.swift */,
+				96872C6A212B7DBA0061FF72 /* PublicSafetyKitImports.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1102,7 +1102,7 @@
 				96872BE5212B7BF30061FF72 /* Settings.swift in Sources */,
 				96872BEB212B7BF30061FF72 /* SettingsViewController.swift in Sources */,
 				96872BE8212B7BF30061FF72 /* SignatureSetting.swift in Sources */,
-				96872C6B212B7DBA0061FF72 /* SwiftImports.swift in Sources */,
+				96872C6B212B7DBA0061FF72 /* PublicSafetyKitImports.swift in Sources */,
 				96872C53212B7BF30061FF72 /* TermsConditionsViewController.swift in Sources */,
 				96872C29212B7BF30061FF72 /* TravelEstimationPlugin.swift in Sources */,
 				96872C51212B7BF30061FF72 /* UINavigationController+Theme.m in Sources */,

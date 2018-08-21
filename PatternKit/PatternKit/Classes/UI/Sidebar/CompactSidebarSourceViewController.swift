@@ -48,7 +48,7 @@ open class CompactSidebarSourceViewController: UITableViewController {
 
     // MARK: - View lifecycle
     
-    init(items: [SourceItem], selectedIndex: Int) {
+    public init(items: [SourceItem], selectedIndex: Int) {
         self.items = items
         self.selectedIndex = selectedIndex
         super.init(style: .plain)

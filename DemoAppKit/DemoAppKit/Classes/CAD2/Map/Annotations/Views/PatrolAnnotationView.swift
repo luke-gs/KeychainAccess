@@ -35,7 +35,7 @@ open class PatrolAnnotationView: BubbleAnnotationView {
         setupConstraints()
     }
     
-    public override func configure(withAnnotation annotation: MKAnnotation, usesDarkBackground: Bool) {
+    open override func configure(withAnnotation annotation: MKAnnotation, usesDarkBackground: Bool) {
         super.configure(withAnnotation: annotation, usesDarkBackground: usesDarkBackground)
         
         let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1)

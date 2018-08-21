@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SubtitleFormItem: BaseFormItem {
+open class SubtitleFormItem: BaseFormItem {
 
     public var title: StringSizable?
 
@@ -40,7 +40,7 @@ public class SubtitleFormItem: BaseFormItem {
         self.style = style
     }
 
-    public override func configure(_ cell: CollectionViewFormCell) {
+    open override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormSubtitleCell
 
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection))
@@ -56,7 +56,7 @@ public class SubtitleFormItem: BaseFormItem {
         cell.labelSeparation = labelSeparation
     }
 
-    public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
+    open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: defaultTitle(for: traitCollection),
                                                                    subtitle: defaultSubtitle(for: traitCollection),
                                                                    inWidth: contentWidth,
@@ -68,7 +68,7 @@ public class SubtitleFormItem: BaseFormItem {
                                                                    accessoryViewSize: accessory?.size ?? .zero)
     }
 
-    public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
+    open override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
         return CollectionViewFormSubtitleCell.minimumContentWidth(withTitle: defaultTitle(for: traitCollection),
                                                                   subtitle: defaultSubtitle(for: traitCollection),
                                                                   compatibleWith: traitCollection,
@@ -79,7 +79,7 @@ public class SubtitleFormItem: BaseFormItem {
                                                                   accessoryViewSize: accessory?.size ?? .zero)
     }
 
-    public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
+    open override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = theme.color(forKey: .primaryText)
         let secondaryTextColor = theme.color(forKey: .secondaryText)
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class BookOnDetailsOfficerFormItem: SubtitleFormItem {
+open class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
     public var status: String?
     public var statusLabelStyle: BookOnDetailsOfficerCell.StatusLabelStyle = .filled
@@ -28,7 +28,7 @@ public class BookOnDetailsOfficerFormItem: SubtitleFormItem {
         self.statusLabelStyle = statusLabelStyle
     }
 
-    public override func configure(_ cell: CollectionViewFormCell) {
+    open override func configure(_ cell: CollectionViewFormCell) {
         super.configure(cell)
 
         let cell = cell as! BookOnDetailsOfficerCell

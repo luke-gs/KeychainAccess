@@ -255,6 +255,7 @@
 		968735CA212BD0FA0061FF72 /* CreateIncidentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968734D3212BD0FA0061FF72 /* CreateIncidentViewModel.swift */; };
 		968735CB212BD0FB0061FF72 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968734D5212BD0FA0061FF72 /* CADStateManagerCore.swift */; };
 		968735CC212BD0FB0061FF72 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968734D6212BD0FA0061FF72 /* CADRecentlyUsedKey.swift */; };
+		968735CE212BD1910061FF72 /* DemoAppKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735CD212BD1910061FF72 /* DemoAppKitImports.swift */; };
 		96BE88712126597000F57FF0 /* DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE88672126597000F57FF0 /* DemoAppKit.framework */; };
 		96BE88762126597000F57FF0 /* DemoAppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88752126597000F57FF0 /* DemoAppKitTests.swift */; };
 		96BE88782126597000F57FF0 /* DemoAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE886A2126597000F57FF0 /* DemoAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -519,6 +520,7 @@
 		968734D3212BD0FA0061FF72 /* CreateIncidentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateIncidentViewModel.swift; sourceTree = "<group>"; };
 		968734D5212BD0FA0061FF72 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		968734D6212BD0FA0061FF72 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
+		968735CD212BD1910061FF72 /* DemoAppKitImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppKitImports.swift; sourceTree = "<group>"; };
 		96BE88672126597000F57FF0 /* DemoAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DemoAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE886A2126597000F57FF0 /* DemoAppKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoAppKit.h; sourceTree = "<group>"; };
 		96BE886B2126597000F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -559,6 +561,7 @@
 				96873383212BD0FA0061FF72 /* CAD2 */,
 				9687340D212BD0FA0061FF72 /* Device */,
 				968733CB212BD0FA0061FF72 /* Search */,
+				968735CD212BD1910061FF72 /* DemoAppKitImports.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1830,6 +1833,7 @@
 				9687355B212BD0FA0061FF72 /* BroadcastOverviewMapViewModel.swift in Sources */,
 				9687355C212BD0FA0061FF72 /* BroadcastOverviewViewModel.swift in Sources */,
 				9687355A212BD0FA0061FF72 /* BroadcastTaskItemViewModel.swift in Sources */,
+				968735CE212BD1910061FF72 /* DemoAppKitImports.swift in Sources */,
 				968735B0212BD0FA0061FF72 /* CADActivityLogItemCore.swift in Sources */,
 				96873500212BD0FA0061FF72 /* CADActivityLogItemType.swift in Sources */,
 				968735AB212BD0FA0061FF72 /* CADAlertLevelCore.swift in Sources */,

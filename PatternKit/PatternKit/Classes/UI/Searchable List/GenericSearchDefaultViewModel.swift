@@ -82,68 +82,68 @@ open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
         self.items = items
     }
 
-    public func searchable(for object: CustomSearchDisplayable) -> CustomSearchDisplayable {
+    open func searchable(for object: CustomSearchDisplayable) -> CustomSearchDisplayable {
         return object
     }
 
-    public func object(for indexPath: IndexPath) -> CustomSearchDisplayable {
+    open func object(for indexPath: IndexPath) -> CustomSearchDisplayable {
         return searchable(for: validSections[indexPath.section].items[indexPath.item])
     }
 
-    public func numberOfSections() -> Int {
+    open func numberOfSections() -> Int {
         let sections = validSections
         return sections.count
     }
 
-    public func numberOfRows(in section: Int) -> Int {
+    open func numberOfRows(in section: Int) -> Int {
         let section = validSections[section]
         return section.items.count
     }
 
-    public func title(for section: Int) -> String {
+    open func title(for section: Int) -> String {
         let section = validSections[section]
         return section.title
     }
 
-    public func isSectionHidden(_ section: Int) -> Bool {
+    open func isSectionHidden(_ section: Int) -> Bool {
         return validSections[section].isHidden
     }
 
-    public func title(for indexPath: IndexPath) -> String? {
+    open func title(for indexPath: IndexPath) -> String? {
         let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.title
     }
 
-    public func description(for indexPath: IndexPath) -> String? {
+    open func description(for indexPath: IndexPath) -> String? {
         let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.subtitle
     }
 
-    public func image(for indexPath: IndexPath) -> UIImage? {
+    open func image(for indexPath: IndexPath) -> UIImage? {
         let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.image
     }
     
-    public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
+    open func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         return ItemAccessory.disclosure
     }
 
-    public func searchTextChanged(to searchString: String) {
+    open func searchTextChanged(to searchString: String) {
         self.searchString = searchString
     }
 
-    public func searchAction() -> Promise<Void>? {
+    open func searchAction() -> Promise<Void>? {
         MPLRequiresConcreteImplementation()
     }
 
-    public func loadingStateText() -> String? {
+    open func loadingStateText() -> String? {
         return nil
     }
 
-    public func emptyStateText() -> String? {
+    open func emptyStateText() -> String? {
         return nil
     }
 }

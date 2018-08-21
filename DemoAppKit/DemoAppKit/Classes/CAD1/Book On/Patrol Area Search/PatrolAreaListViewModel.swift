@@ -68,7 +68,7 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
     }
     
-    public override func searchAction() -> Promise<Void>? {
+    open override func searchAction() -> Promise<Void>? {
         return nil
     }
     
@@ -76,7 +76,7 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
         return items.indexes(where: { $0.title == selectedPatrolArea }).first
     }
     
-    public override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
+    open override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         if let selected = selectedPatrolArea {
             return searchable.title == selected ? ItemAccessory.checkmark : nil
         }

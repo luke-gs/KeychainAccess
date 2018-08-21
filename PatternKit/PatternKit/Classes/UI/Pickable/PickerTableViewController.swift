@@ -18,12 +18,18 @@ public protocol CustomSearchPickable: Pickable {
 }
 
 public struct IconPickable: Pickable {
+
     public var title: String?
-
     public var subtitle: String?
-
     public var icon: UIImage?
     public var tintColor: UIColor?
+
+    public init(title: String?, subtitle: String?, icon: UIImage?, tintColor: UIColor?) {
+        self.title = title
+        self.subtitle = subtitle
+        self.icon = icon
+        self.tintColor = tintColor
+    }
 }
 
 extension String: CustomSearchPickable {

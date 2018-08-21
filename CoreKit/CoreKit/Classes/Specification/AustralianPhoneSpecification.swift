@@ -9,6 +9,8 @@
 import UIKit
 
 public class AustralianPhoneSpecification: Specification {
+    public init() {}
+    
     public func isSatisfiedBy(_ candidate: Any?) -> Bool {
         if let number = candidate as? String {
             return isValidAustralianPhoneNumber(number)
@@ -18,7 +20,7 @@ public class AustralianPhoneSpecification: Specification {
     }
     
     /// Checks if the string is a valid Australian phone number
-    func isValidAustralianPhoneNumber(_ number: String) -> Bool {
+    public func isValidAustralianPhoneNumber(_ number: String) -> Bool {
         let phoneRegex = "^\\+?61[0-9]{9}|^(0[0-9])?[0-9]{8}"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
 
