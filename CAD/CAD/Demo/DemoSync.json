@@ -143,7 +143,7 @@
           "id": "2ff46c89-6388-435b-8bcf-df16e0785127", 
           "middleNames": "Robert", 
           "source": "ds1",
-          "thumbnailUrl": "http://client-demo-api.pscore.mobi/pscore/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
+          "thumbnailUrl": "http://client-demo-api.pscore.mobi/ds1/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
         }, 
         {
           "dateOfBirth": "1988-02-27", 
@@ -154,7 +154,7 @@
           "id": "de123344-55b4-4a15-a318-5fdf0fb4b522", 
           "middleNames": "Kerbasi", 
           "source": "ds1",
-          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/pscore/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
+          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/ds1/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
         }, 
         {
           "dateOfBirth": "1981-09-23", 
@@ -244,7 +244,7 @@
           "id": "2ff46c89-6388-435b-8bcf-df16e0785127", 
           "middleNames": "Robert", 
           "source": "ds1",
-          "thumbnailUrl": "http://client-demo-api.pscore.mobi/pscore/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
+          "thumbnailUrl": "http://client-demo-api.pscore.mobi/ds1/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
         }, 
         {
           "dateOfBirth": "1989-02-20", 
@@ -255,7 +255,7 @@
           "id": "b01ea4ed-9acd-47d0-9163-db344dc93b8e", 
           "middleNames": "Tabatha", 
           "source": "ds1",
-          "thumbnailUrl": "http://client-demo-api.pscore.mobi/pscore/entity/media/601ac8d4-6d9d-4b10-9eb5-8a69113237bd/file"
+          "thumbnailUrl": "http://client-demo-api.pscore.mobi/ds1/entity/media/601ac8d4-6d9d-4b10-9eb5-8a69113237bd/file"
         }
       ], 
       "secondaryCode": "MP0001517", 
@@ -431,7 +431,7 @@
           "id": "de123344-55b4-4a15-a318-5fdf0fb4b522", 
           "middleNames": "Kerbasi", 
           "source": "ds1",
-          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/pscore/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
+          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/ds1/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
         }, 
         {
           "dateOfBirth": "1981-09-23", 
@@ -520,7 +520,7 @@
           "id": "de123344-55b4-4a15-a318-5fdf0fb4b522", 
           "middleNames": "Kerbasi", 
           "source": "ds1",
-          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/pscore/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
+          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/ds1/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
         }
       ], 
       "secondaryCode": "MP0001517", 
