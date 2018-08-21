@@ -59,15 +59,11 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
             builder += LargeTextHeaderFormItem(text: headerTitle)
                 .separatorColor(.clear)
             for order in filteredOrders {
-                let item = DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: detail(for: order))
+                builder += DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: detail(for: order))
                     .accessory(ItemAccessory.disclosure)
-
-                item.onSelection({ [weak self] _ in
-                    viewController.deselectItem(item)
-                    self?.presentOrderSummary(in: viewController, order: order)
-                })
-
-                builder += item
+                    .onSelection({ [weak self] _ in
+                        self?.presentOrderSummary(in: viewController, order: order)
+                    })
             }
         }
 
@@ -206,7 +202,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     private func subtitle(for order: Order) -> String? {
         if let startDate = order.issuedDate, let endDate = order.expiryDate {
 
-            let locationString = order.jurisdiction != nil ? " (\(order.jurisdiction!))": ""
+            let locationString = order.jurisdiction != nil ? " (\(order.jurisdiction!))" : ""
             return NSLocalizedString("Active from ", comment: "") + DateFormatter.preferredDateStyle.string(from: startDate) + " - " + DateFormatter.preferredDateStyle.string(from: endDate) + locationString
         } else {
             return NSLocalizedString("Active date range unknown", comment: "")

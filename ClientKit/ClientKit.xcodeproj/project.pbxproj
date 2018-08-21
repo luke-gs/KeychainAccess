@@ -68,6 +68,8 @@
 		AA1B950021211207002B5590 /* OrderSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */; };
 		AA1B950221211237002B5590 /* OrderSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B950121211237002B5590 /* OrderSummaryViewController.swift */; };
 		AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DC27520E4AE6700154571 /* AddressFormatter.swift */; };
+		AA662E9E211ABC2600B107C8 /* AlertSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */; };
+		AA662EA0211ABC3700B107C8 /* AlertSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */; };
 		AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
@@ -196,6 +198,8 @@
 		AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewModel.swift; sourceTree = "<group>"; };
 		AA1B950121211237002B5590 /* OrderSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewController.swift; sourceTree = "<group>"; };
 		AA2DC27520E4AE6700154571 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
+		AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewController.swift; sourceTree = "<group>"; };
+		AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewModel.swift; sourceTree = "<group>"; };
 		AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClientKit.h; sourceTree = "<group>"; };
@@ -319,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				4421347120030416009A931A /* EntityDetailFormViewController.swift */,
-				AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */,
 				4421347320030B99009A931A /* EntityDetailFormViewModel.swift */,
 				4421347520031575009A931A /* EntityDetailFilterableFormViewModel.swift */,
 			);
@@ -367,6 +370,15 @@
 				AA2DC27520E4AE6700154571 /* AddressFormatter.swift */,
 			);
 			path = Formatters;
+			sourceTree = "<group>";
+		};
+		AA662E9C211ABBFB00B107C8 /* AlertSummary */ = {
+			isa = PBXGroup;
+			children = (
+				AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */,
+				AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */,
+			);
+			path = AlertSummary;
 			sourceTree = "<group>";
 		};
 		BC12DC821F023EF0001A5BB7 = {
@@ -512,6 +524,8 @@
 		BCAEFE771F03150800C97F9C /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
+				AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */,
+				AA662E9C211ABBFB00B107C8 /* AlertSummary */,
 				AA1B950321211286002B5590 /* OrderSummary */,
 				44F1FB3C1FF5FB2800D463CA /* Section Data Sources */,
 				4429902C200554E800D2F575 /* Base Classes */,
@@ -841,6 +855,7 @@
 				125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */,
 				AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
+				AA662EA0211ABC3700B107C8 /* AlertSummaryViewModel.swift in Sources */,
 				4429902E2006C43D00D2F575 /* OrganizationInfoViewModel.swift in Sources */,
 				1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
@@ -885,6 +900,7 @@
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
 				464977C4203685E500590DC3 /* Identifiable.swift in Sources */,
 				AA1B950021211207002B5590 /* OrderSummaryViewModel.swift in Sources */,
+				AA662E9E211ABC2600B107C8 /* AlertSummaryViewController.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */,

@@ -40,12 +40,9 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
                         .detail(detail(for: alert))
                         .image(image(for: alert))
                         .highlightStyle(.fade)
-                        .selectionStyle(.fade)
                         .accessory(ItemAccessory.disclosure)
                         .onSelection({ [weak self] _ in
-                            // TODO: Present a formsheet when creatives approved
-                            self?.updateExpanded(for: alert)
-                            self?.delegate?.reloadData()
+                            self?.presentAlertSummary(in: viewController, alert: alert)
                         })
                 }
             }
@@ -185,7 +182,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     private func subtitle(for alert: Alert) -> String? {
         if let date = alert.effectiveDate {
             
-            let locationString = alert.jurisdiction != nil ? " (\(alert.jurisdiction!))": ""
+            let locationString = alert.jurisdiction != nil ? " (\(alert.jurisdiction!))" : ""
             return NSLocalizedString("Issued on ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
         } else {
             return NSLocalizedString("Issued date unknown", bundle: .mpolKit, comment: "")
@@ -205,21 +202,21 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         
         return nil
     }
-
-    // TODO: Remove Below code when updating cell selection to Present a formsheet
-
-    private var expandedAlerts: Set<Alert> = []
     
     private func detail(for alert: Alert) -> StringSizable? {
         let details = alert.details ?? NSLocalizedString("No Description", bundle: .mpolKit, comment: "")
-        let numberOfLines = expandedAlerts.contains(alert) ? 0 : 2
-        return details.sizing(withNumberOfLines: numberOfLines)
+        return details.sizing(withNumberOfLines: 2)
     }
 
-    private func updateExpanded(for alert: Alert) {
-        if expandedAlerts.remove(alert) == nil {
-            expandedAlerts.insert(alert)
-        }
+    private func presentAlertSummary(in viewController: UIViewController, alert: Alert) {
+        let viewModel = AlertSummaryViewModel(alert: alert)
+        let alertVC = AlertSummaryViewController(viewModel: viewModel)
+        alertVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
+
+        let navController = ThemedNavigationController(rootViewController: alertVC)
+        navController.modalPresentationStyle = .formSheet
+
+        viewController.present(navController, animated: true, completion: nil)
     }
     
 }

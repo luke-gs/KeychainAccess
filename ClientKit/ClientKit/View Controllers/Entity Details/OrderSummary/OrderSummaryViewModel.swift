@@ -74,7 +74,7 @@ fileprivate extension String {
 
     var withPrefferedFont: StringSizable {
         return NSAttributedString(string: self,
-                                  attributes: [.font: UIFont.systemFont(ofSize:17.0)])
+                                  attributes: [.font: UIFont.systemFont(ofSize: 17.0)])
             .sizing()
     }
 }
