@@ -4,10 +4,10 @@ inhibit_all_warnings!
 use_frameworks!
 
 def the_dependencies
-  pod 'CoreKit', :path => '../CoreKit', :inhibit_warnings => false
-  pod 'SketchKit', :path => '../SketchKit', :inhibit_warnings => false
-  pod 'PatternKit', :path => '../PatternKit', :inhibit_warnings => false
-  pod 'PublicSafetyKit', :path => '../PublicSafetyKit', :inhibit_warnings => false
+  pod 'CoreKit', :path => '..', :inhibit_warnings => false
+  pod 'SketchKit', :path => '..', :inhibit_warnings => false
+  pod 'PatternKit', :path => '..', :inhibit_warnings => false
+  pod 'PublicSafetyKit', :path => '..', :inhibit_warnings => false
 end
 
 target 'DemoAppKit' do

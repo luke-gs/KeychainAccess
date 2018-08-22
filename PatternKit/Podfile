@@ -4,8 +4,8 @@ inhibit_all_warnings!
 use_frameworks!
 
 def the_dependencies
-  pod 'CoreKit', :path => '../CoreKit', :inhibit_warnings => false
-  pod 'SketchKit', :path => '../SketchKit', :inhibit_warnings => false
+  pod 'CoreKit', :path => '..', :inhibit_warnings => false
+  pod 'SketchKit', :path => '..', :inhibit_warnings => false
 
   pod 'lottie-ios', '~> 2.1.3'
   pod 'Cluster', '2.1.1'

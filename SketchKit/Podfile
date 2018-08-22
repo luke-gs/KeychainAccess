@@ -4,7 +4,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 def the_dependencies
-  pod 'CoreKit', :path => '../CoreKit', :inhibit_warnings => false
+  pod 'CoreKit', :path => '..', :inhibit_warnings => false
 end
 
 target 'SketchKit' do

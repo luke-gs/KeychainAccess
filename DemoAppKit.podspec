@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint PatternKit.podspec' to ensure this is a
+# Be sure to run `pod lib lint DemoAppKit.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,12 +7,12 @@
 #
 
 Pod::Spec.new do |s|
-s.name             = 'PatternKit'
+s.name             = 'DemoAppKit'
 s.version          = '0.0.1'
-s.summary          = 'PatternKit is a Gridstone general purpose UI framework.'
+s.summary          = 'DemoAppKit is a Public Safety related iOS framework for PSCore demo apps.'
 
 s.description      = <<-DESC
-PatternKit contains UI design patterns that can be used by any Gridstone application.
+DemoAppKit contains network API, data models and UI related to Gridstone's PSCore demo apps.
 DESC
 
 s.homepage         = 'https://github.com/Gridstone/mPolKit-iOS'
@@ -21,13 +21,10 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 
 s.ios.deployment_target = '10.0'
 
-s.source_files = 'PatternKit/Classes/**/*'
-s.resources = 'PatternKit/Resources/**/*'
+s.source_files = 'DemoAppKit/DemoAppKit/Classes/**/*'
+s.resources = 'DemoAppKit/DemoAppKit/Resources/**/*'
 
-s.dependency 'CoreKit'
-s.dependency 'SketchKit'
-s.dependency 'lottie-ios', '2.1.3'
-s.dependency 'Cluster', '2.1.1'
-
+s.dependency 'PatternKit'
+s.dependency 'Wrap', '2.1.1'
 
 end

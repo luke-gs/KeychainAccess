@@ -36,10 +36,10 @@ PODS:
   - Wrap (2.1.1)
 
 DEPENDENCIES:
-  - CoreKit (from `../CoreKit`)
-  - PatternKit (from `../PatternKit`)
-  - PublicSafetyKit (from `../PublicSafetyKit`)
-  - SketchKit (from `../SketchKit`)
+  - CoreKit (from `..`)
+  - PatternKit (from `..`)
+  - PublicSafetyKit (from `..`)
+  - SketchKit (from `..`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -54,28 +54,28 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   CoreKit:
-    :path: "../CoreKit"
+    :path: ".."
   PatternKit:
-    :path: "../PatternKit"
+    :path: ".."
   PublicSafetyKit:
-    :path: "../PublicSafetyKit"
+    :path: ".."
   SketchKit:
-    :path: "../SketchKit"
+    :path: ".."
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
-  CoreKit: c5472207b4c69299861e08fa08525a2d45fc28de
+  CoreKit: 0555cc074101bd6d33817279a8afbdc574d205e3
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
-  PatternKit: 6fd22c758b89ba63928b51c06b760d31d655119b
+  PatternKit: 1ccb78b25c7372c229b1ac649b68851b8445cabf
   PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
-  PublicSafetyKit: 6b9caf8bfa82aef867345b0786f5f47d2a5873f3
-  SketchKit: 8af14e9e952ca535bfa9ce4578e8784b523897da
+  PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23
+  SketchKit: 440c6e6b6ba7c6a1a4f4a69ea9cf5f8cff981ddc
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 5c7ceebd58b4bf48161a631c09f48ead54d042ac
+PODFILE CHECKSUM: 3d46b2ace82beebcce16ddc0b06de35a2d9b399b
 
 COCOAPODS: 1.5.0

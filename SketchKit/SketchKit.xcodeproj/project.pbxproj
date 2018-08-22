@@ -620,7 +620,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = SketchKitTests/Info.plist;
@@ -640,7 +639,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = SketchKitTests/Info.plist;
