@@ -953,7 +953,7 @@
 		1908EF881F57D79A00382B1C /* testTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testTheme.json; sourceTree = "<group>"; };
 		1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputManagerTests.swift; sourceTree = "<group>"; };
 		1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersionableTests.swift; sourceTree = "<group>"; };
-		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MPOLKitPlayground.playground; path = MPOLKit/MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		193ED08C1FDE9AD7002F2837 /* PluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginTests.swift; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
@@ -996,7 +996,7 @@
 		96872B1F212A7CA00061FF72 /* SketchPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchPickerController.swift; sourceTree = "<group>"; };
 		96872B21212A7CA00061FF72 /* UIImage+CircleCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CircleCreation.swift"; sourceTree = "<group>"; };
 		96872B22212A7CA00061FF72 /* UIView+JiggleAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+JiggleAnimation.swift"; sourceTree = "<group>"; };
-		968A17EE212682C9006634DC /* MPOLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
+		968A17EE212682C9006634DC /* MPOLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPOLKit.h; path = MPOLKit/MPOLKit.h; sourceTree = "<group>"; };
 		968A1F3D21268470006634DC /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		968A21AE21268826006634DC /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		968A21B021268826006634DC /* LightTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LightTheme.json; sourceTree = "<group>"; };
@@ -1811,7 +1811,7 @@
 		C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArrayNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
-		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = MPOLKit/Info.plist; sourceTree = SOURCE_ROOT; };
 		C63F71741F3332E7004F5047 /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		C65927761F332F7300854C60 /* ModelCodingTestUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCodingTestUtility.swift; sourceTree = "<group>"; };
 		C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSArchiverTests.swift; sourceTree = "<group>"; };
@@ -1988,7 +1988,7 @@
 				96872B1F212A7CA00061FF72 /* SketchPickerController.swift */,
 			);
 			name = Classes;
-			path = ../SketchKit/SketchKit/Classes;
+			path = SketchKit/SketchKit/Classes;
 			sourceTree = "<group>";
 		};
 		96872B0B212A7CA00061FF72 /* Tools */ = {
@@ -2091,7 +2091,7 @@
 				968A1F3C21268470006634DC /* Manifest.xcdatamodeld */,
 			);
 			name = Resources;
-			path = ../PublicSafetyKit/PublicSafetyKit/Resources;
+			path = PublicSafetyKit/PublicSafetyKit/Resources;
 			sourceTree = "<group>";
 		};
 		968A1F3F212684D0006634DC /* DemoAppKit */ = {
@@ -2118,7 +2118,7 @@
 				968A21AE21268826006634DC /* Icons.xcassets */,
 			);
 			name = Resources;
-			path = ../PatternKit/PatternKit/Resources;
+			path = PatternKit/PatternKit/Resources;
 			sourceTree = "<group>";
 		};
 		968A21AF21268826006634DC /* Theme */ = {
@@ -2170,7 +2170,7 @@
 				96B808D0212D1AA5005A72A0 /* Versioning */,
 			);
 			name = Classes;
-			path = ../CoreKit/CoreKit/Classes;
+			path = CoreKit/CoreKit/Classes;
 			sourceTree = "<group>";
 		};
 		96B8083A212D1AA5005A72A0 /* Evaluator */ = {
@@ -2578,7 +2578,7 @@
 				96B8097C212D1AAD005A72A0 /* DemoAppKitImports.swift */,
 			);
 			name = Classes;
-			path = ../DemoAppKit/DemoAppKit/Classes;
+			path = DemoAppKit/DemoAppKit/Classes;
 			sourceTree = "<group>";
 		};
 		96B8097D212D1AAD005A72A0 /* Presenter */ = {
@@ -3427,7 +3427,7 @@
 				96B80CCD212D1AB5005A72A0 /* MPOLKitInitialize.swift */,
 			);
 			name = Classes;
-			path = ../PatternKit/PatternKit/Classes;
+			path = PatternKit/PatternKit/Classes;
 			sourceTree = "<group>";
 		};
 		96B80B97212D1AB5005A72A0 /* UI */ = {
@@ -4170,7 +4170,7 @@
 				96B80DF4212D1AC2005A72A0 /* PublicSafetyKitImports.swift */,
 			);
 			name = Classes;
-			path = ../PublicSafetyKit/PublicSafetyKit/Classes;
+			path = PublicSafetyKit/PublicSafetyKit/Classes;
 			sourceTree = "<group>";
 		};
 		96B80DF5212D1AC2005A72A0 /* Features */ = {
@@ -4758,7 +4758,8 @@
 				EA05400B1F95781C00F6E63C /* StringSizingTests.swift */,
 				196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */,
 			);
-			path = MPOLKitTests;
+			name = MPOLKitTests;
+			path = MPOLKit/MPOLKitTests;
 			sourceTree = "<group>";
 		};
 		C605F9E71ECCB423001194DD /* Frameworks */ = {
@@ -6182,7 +6183,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPOLKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -6190,7 +6191,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../CoreKit/CommonCrypto ${SRCROOT}/../MPOLKit/EmptyModules/**";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/CoreKit/CommonCrypto ${SRCROOT}/MPOLKit/EmptyModules/**";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -6207,14 +6208,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPOLKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../CoreKit/CommonCrypto ${SRCROOT}/../MPOLKit/EmptyModules/**";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/CoreKit/CommonCrypto ${SRCROOT}/MPOLKit/EmptyModules/**";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -6227,11 +6228,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = MPOLKitTests/Info.plist;
+				INFOPLIST_FILE = MPOLKit/MPOLKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "MPOLKitTests/MPOLKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MPOLKit/MPOLKitTests/MPOLKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -6245,11 +6246,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = MPOLKitTests/Info.plist;
+				INFOPLIST_FILE = MPOLKit/MPOLKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "MPOLKitTests/MPOLKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MPOLKit/MPOLKitTests/MPOLKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
