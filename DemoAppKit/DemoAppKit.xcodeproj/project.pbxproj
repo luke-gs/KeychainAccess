@@ -14,10 +14,6 @@
 		968734D9212BD0FA0061FF72 /* TasksListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687338A212BD0FA0061FF72 /* TasksListItemViewModel.swift */; };
 		968734DA212BD0FA0061FF72 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687338B212BD0FA0061FF72 /* CADTaskListSourceType.swift */; };
 		968734DB212BD0FA0061FF72 /* CADTaskListItemModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687338C212BD0FA0061FF72 /* CADTaskListItemModelType.swift */; };
-		968734DC212BD0FA0061FF72 /* CADFormCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687338E212BD0FA0061FF72 /* CADFormCollectionSectionViewModel.swift */; };
-		968734DD212BD0FA0061FF72 /* CADFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687338F212BD0FA0061FF72 /* CADFormCollectionViewController.swift */; };
-		968734DE212BD0FA0061FF72 /* CADFormCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873390212BD0FA0061FF72 /* CADFormCollectionViewModel.swift */; };
-		968734DF212BD0FA0061FF72 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873391212BD0FA0061FF72 /* TimelineFormCollectionViewController.swift */; };
 		968734E0212BD0FA0061FF72 /* IncidentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873394212BD0FA0061FF72 /* IncidentAnnotation.swift */; };
 		968734E1212BD0FA0061FF72 /* TaskAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873395212BD0FA0061FF72 /* TaskAnnotation.swift */; };
 		968734E2212BD0FA0061FF72 /* ResourceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873396212BD0FA0061FF72 /* ResourceAnnotation.swift */; };
@@ -57,15 +53,8 @@
 		96873504212BD0FA0061FF72 /* CADBookOnRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733BF212BD0FA0061FF72 /* CADBookOnRequestType.swift */; };
 		96873505212BD0FA0061FF72 /* CADBookOffRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C0212BD0FA0061FF72 /* CADBookOffRequestType.swift */; };
 		96873506212BD0FA0061FF72 /* CADAPIManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C1212BD0FA0061FF72 /* CADAPIManagerType.swift */; };
-		96873507212BD0FA0061FF72 /* OfficerCommunicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C3212BD0FA0061FF72 /* OfficerCommunicationsView.swift */; };
-		96873508212BD0FA0061FF72 /* OfficerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C4212BD0FA0061FF72 /* OfficerCell.swift */; };
-		96873509212BD0FA0061FF72 /* CallsignStatusFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C6212BD0FA0061FF72 /* CallsignStatusFormItem.swift */; };
-		9687350A212BD0FA0061FF72 /* CallsignStatusCollectionViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C7212BD0FA0061FF72 /* CallsignStatusCollectionViewFormCell.swift */; };
 		9687350B212BD0FA0061FF72 /* CADStateManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733C9212BD0FA0061FF72 /* CADStateManagerType.swift */; };
 		9687350C212BD0FA0061FF72 /* CADStateManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733CA212BD0FA0061FF72 /* CADStateManagerBase.swift */; };
-		9687350D212BD0FA0061FF72 /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733CD212BD0FA0061FF72 /* ObjectBucket.swift */; };
-		9687350E212BD0FA0061FF72 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733CF212BD0FA0061FF72 /* RelationshipManager.swift */; };
-		9687350F212BD0FA0061FF72 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733D0212BD0FA0061FF72 /* Relationship.swift */; };
 		96873510212BD0FA0061FF72 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733D2212BD0FA0061FF72 /* SystemPresenter.swift */; };
 		96873511212BD0FA0061FF72 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733D4212BD0FA0061FF72 /* TrafficHistoryCollectionViewCell.swift */; };
 		96873512212BD0FA0061FF72 /* TrafficHistoryOverviewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968733D5212BD0FA0061FF72 /* TrafficHistoryOverviewFormItem.swift */; };
@@ -111,8 +100,6 @@
 		9687353A212BD0FA0061FF72 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873408212BD0FA0061FF72 /* Incident.swift */; };
 		9687353B212BD0FA0061FF72 /* IncidentSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873409212BD0FA0061FF72 /* IncidentSplitViewController.swift */; };
 		9687353C212BD0FA0061FF72 /* IncidentListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687340A212BD0FA0061FF72 /* IncidentListDisplayable.swift */; };
-		9687353D212BD0FA0061FF72 /* Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687340C212BD0FA0061FF72 /* Summarisable.swift */; };
-		9687353E212BD0FA0061FF72 /* UpdateDeviceLocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687340E212BD0FA0061FF72 /* UpdateDeviceLocationRequest.swift */; };
 		9687353F212BD0FA0061FF72 /* TrafficStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873412212BD0FA0061FF72 /* TrafficStopViewModel.swift */; };
 		96873540212BD0FA0061FF72 /* SelectStoppedEntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873413212BD0FA0061FF72 /* SelectStoppedEntityViewModel.swift */; };
 		96873541212BD0FA0061FF72 /* SelectStoppedEntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873414212BD0FA0061FF72 /* SelectStoppedEntityViewController.swift */; };
@@ -154,7 +141,6 @@
 		96873565212BD0FA0061FF72 /* IncidentTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687344C212BD0FA0061FF72 /* IncidentTaskItemViewModel.swift */; };
 		96873566212BD0FA0061FF72 /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687344E212BD0FA0061FF72 /* IncidentOverviewViewModel.swift */; };
 		96873567212BD0FA0061FF72 /* IncidentOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687344F212BD0FA0061FF72 /* IncidentOverviewMapViewModel.swift */; };
-		96873568212BD0FA0061FF72 /* CommsButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873451212BD0FA0061FF72 /* CommsButtonHandler.swift */; };
 		96873569212BD0FA0061FF72 /* TaskDetailsOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873453212BD0FA0061FF72 /* TaskDetailsOverviewFormViewController.swift */; };
 		9687356A212BD0FA0061FF72 /* TaskDetailsOverviewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873454212BD0FA0061FF72 /* TaskDetailsOverviewItemViewModel.swift */; };
 		9687356B212BD0FA0061FF72 /* TaskDetailsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873455212BD0FA0061FF72 /* TaskDetailsOverviewViewModel.swift */; };
@@ -163,11 +149,6 @@
 		9687356E212BD0FA0061FF72 /* TasksListResourceSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687345B212BD0FA0061FF72 /* TasksListResourceSummaryView.swift */; };
 		9687356F212BD0FA0061FF72 /* TasksListResourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687345C212BD0FA0061FF72 /* TasksListResourceViewModel.swift */; };
 		96873570212BD0FA0061FF72 /* TasksListResourceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687345D212BD0FA0061FF72 /* TasksListResourceCollectionViewCell.swift */; };
-		96873571212BD0FA0061FF72 /* TasksListBasicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687345F212BD0FA0061FF72 /* TasksListBasicViewModel.swift */; };
-		96873572212BD0FA0061FF72 /* TasksListBasicSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873460212BD0FA0061FF72 /* TasksListBasicSummaryView.swift */; };
-		96873573212BD0FA0061FF72 /* TasksListBasicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873461212BD0FA0061FF72 /* TasksListBasicCollectionViewCell.swift */; };
-		96873574212BD0FA0061FF72 /* ColumnContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873463212BD0FA0061FF72 /* ColumnContainerView.swift */; };
-		96873575212BD0FA0061FF72 /* ColumnInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873464212BD0FA0061FF72 /* ColumnInfo.swift */; };
 		96873576212BD0FA0061FF72 /* TasksListContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873466212BD0FA0061FF72 /* TasksListContainerViewModel.swift */; };
 		96873577212BD0FA0061FF72 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873467212BD0FA0061FF72 /* TasksListHeaderViewModel.swift */; };
 		96873578212BD0FA0061FF72 /* TasksListHeaderCompactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873468212BD0FA0061FF72 /* TasksListHeaderCompactViewController.swift */; };
@@ -256,6 +237,9 @@
 		968735CB212BD0FB0061FF72 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968734D5212BD0FA0061FF72 /* CADStateManagerCore.swift */; };
 		968735CC212BD0FB0061FF72 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968734D6212BD0FA0061FF72 /* CADRecentlyUsedKey.swift */; };
 		968735CE212BD1910061FF72 /* DemoAppKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735CD212BD1910061FF72 /* DemoAppKitImports.swift */; };
+		968735DD212CE0DA0061FF72 /* TasksListBasicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735DA212CE0DA0061FF72 /* TasksListBasicViewModel.swift */; };
+		968735DE212CE0DA0061FF72 /* TasksListBasicSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735DB212CE0DA0061FF72 /* TasksListBasicSummaryView.swift */; };
+		968735DF212CE0DA0061FF72 /* TasksListBasicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735DC212CE0DA0061FF72 /* TasksListBasicCollectionViewCell.swift */; };
 		96BE88712126597000F57FF0 /* DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE88672126597000F57FF0 /* DemoAppKit.framework */; };
 		96BE88762126597000F57FF0 /* DemoAppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88752126597000F57FF0 /* DemoAppKitTests.swift */; };
 		96BE88782126597000F57FF0 /* DemoAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE886A2126597000F57FF0 /* DemoAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -279,10 +263,6 @@
 		9687338A212BD0FA0061FF72 /* TasksListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListItemViewModel.swift; sourceTree = "<group>"; };
 		9687338B212BD0FA0061FF72 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
 		9687338C212BD0FA0061FF72 /* CADTaskListItemModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListItemModelType.swift; sourceTree = "<group>"; };
-		9687338E212BD0FA0061FF72 /* CADFormCollectionSectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADFormCollectionSectionViewModel.swift; sourceTree = "<group>"; };
-		9687338F212BD0FA0061FF72 /* CADFormCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewController.swift; sourceTree = "<group>"; };
-		96873390212BD0FA0061FF72 /* CADFormCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewModel.swift; sourceTree = "<group>"; };
-		96873391212BD0FA0061FF72 /* TimelineFormCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineFormCollectionViewController.swift; sourceTree = "<group>"; };
 		96873394212BD0FA0061FF72 /* IncidentAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
 		96873395212BD0FA0061FF72 /* TaskAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
 		96873396212BD0FA0061FF72 /* ResourceAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
@@ -322,15 +302,8 @@
 		968733BF212BD0FA0061FF72 /* CADBookOnRequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOnRequestType.swift; sourceTree = "<group>"; };
 		968733C0212BD0FA0061FF72 /* CADBookOffRequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOffRequestType.swift; sourceTree = "<group>"; };
 		968733C1212BD0FA0061FF72 /* CADAPIManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAPIManagerType.swift; sourceTree = "<group>"; };
-		968733C3212BD0FA0061FF72 /* OfficerCommunicationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerCommunicationsView.swift; sourceTree = "<group>"; };
-		968733C4212BD0FA0061FF72 /* OfficerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerCell.swift; sourceTree = "<group>"; };
-		968733C6212BD0FA0061FF72 /* CallsignStatusFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusFormItem.swift; sourceTree = "<group>"; };
-		968733C7212BD0FA0061FF72 /* CallsignStatusCollectionViewFormCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusCollectionViewFormCell.swift; sourceTree = "<group>"; };
 		968733C9212BD0FA0061FF72 /* CADStateManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerType.swift; sourceTree = "<group>"; };
 		968733CA212BD0FA0061FF72 /* CADStateManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerBase.swift; sourceTree = "<group>"; };
-		968733CD212BD0FA0061FF72 /* ObjectBucket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectBucket.swift; sourceTree = "<group>"; };
-		968733CF212BD0FA0061FF72 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipManager.swift; sourceTree = "<group>"; };
-		968733D0212BD0FA0061FF72 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 		968733D2212BD0FA0061FF72 /* SystemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemPresenter.swift; sourceTree = "<group>"; };
 		968733D4212BD0FA0061FF72 /* TrafficHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		968733D5212BD0FA0061FF72 /* TrafficHistoryOverviewFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryOverviewFormItem.swift; sourceTree = "<group>"; };
@@ -376,8 +349,6 @@
 		96873408212BD0FA0061FF72 /* Incident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Incident.swift; sourceTree = "<group>"; };
 		96873409212BD0FA0061FF72 /* IncidentSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSplitViewController.swift; sourceTree = "<group>"; };
 		9687340A212BD0FA0061FF72 /* IncidentListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListDisplayable.swift; sourceTree = "<group>"; };
-		9687340C212BD0FA0061FF72 /* Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Summarisable.swift; sourceTree = "<group>"; };
-		9687340E212BD0FA0061FF72 /* UpdateDeviceLocationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateDeviceLocationRequest.swift; sourceTree = "<group>"; };
 		96873412212BD0FA0061FF72 /* TrafficStopViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewModel.swift; sourceTree = "<group>"; };
 		96873413212BD0FA0061FF72 /* SelectStoppedEntityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewModel.swift; sourceTree = "<group>"; };
 		96873414212BD0FA0061FF72 /* SelectStoppedEntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewController.swift; sourceTree = "<group>"; };
@@ -419,7 +390,6 @@
 		9687344C212BD0FA0061FF72 /* IncidentTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTaskItemViewModel.swift; sourceTree = "<group>"; };
 		9687344E212BD0FA0061FF72 /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
 		9687344F212BD0FA0061FF72 /* IncidentOverviewMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewMapViewModel.swift; sourceTree = "<group>"; };
-		96873451212BD0FA0061FF72 /* CommsButtonHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommsButtonHandler.swift; sourceTree = "<group>"; };
 		96873453212BD0FA0061FF72 /* TaskDetailsOverviewFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewFormViewController.swift; sourceTree = "<group>"; };
 		96873454212BD0FA0061FF72 /* TaskDetailsOverviewItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewItemViewModel.swift; sourceTree = "<group>"; };
 		96873455212BD0FA0061FF72 /* TaskDetailsOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewModel.swift; sourceTree = "<group>"; };
@@ -428,11 +398,6 @@
 		9687345B212BD0FA0061FF72 /* TasksListResourceSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListResourceSummaryView.swift; sourceTree = "<group>"; };
 		9687345C212BD0FA0061FF72 /* TasksListResourceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListResourceViewModel.swift; sourceTree = "<group>"; };
 		9687345D212BD0FA0061FF72 /* TasksListResourceCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListResourceCollectionViewCell.swift; sourceTree = "<group>"; };
-		9687345F212BD0FA0061FF72 /* TasksListBasicViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicViewModel.swift; sourceTree = "<group>"; };
-		96873460212BD0FA0061FF72 /* TasksListBasicSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicSummaryView.swift; sourceTree = "<group>"; };
-		96873461212BD0FA0061FF72 /* TasksListBasicCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicCollectionViewCell.swift; sourceTree = "<group>"; };
-		96873463212BD0FA0061FF72 /* ColumnContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnContainerView.swift; sourceTree = "<group>"; };
-		96873464212BD0FA0061FF72 /* ColumnInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnInfo.swift; sourceTree = "<group>"; };
 		96873466212BD0FA0061FF72 /* TasksListContainerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewModel.swift; sourceTree = "<group>"; };
 		96873467212BD0FA0061FF72 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
 		96873468212BD0FA0061FF72 /* TasksListHeaderCompactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListHeaderCompactViewController.swift; sourceTree = "<group>"; };
@@ -521,6 +486,9 @@
 		968734D5212BD0FA0061FF72 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		968734D6212BD0FA0061FF72 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
 		968735CD212BD1910061FF72 /* DemoAppKitImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppKitImports.swift; sourceTree = "<group>"; };
+		968735DA212CE0DA0061FF72 /* TasksListBasicViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicViewModel.swift; sourceTree = "<group>"; };
+		968735DB212CE0DA0061FF72 /* TasksListBasicSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicSummaryView.swift; sourceTree = "<group>"; };
+		968735DC212CE0DA0061FF72 /* TasksListBasicCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicCollectionViewCell.swift; sourceTree = "<group>"; };
 		96BE88672126597000F57FF0 /* DemoAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DemoAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE886A2126597000F57FF0 /* DemoAppKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoAppKit.h; sourceTree = "<group>"; };
 		96BE886B2126597000F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -557,128 +525,28 @@
 		96873382212BD0FA0061FF72 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9687340F212BD0FA0061FF72 /* CAD1 */,
-				96873383212BD0FA0061FF72 /* CAD2 */,
-				9687340D212BD0FA0061FF72 /* Device */,
+				968733D1212BD0FA0061FF72 /* Presenter */,
 				968733CB212BD0FA0061FF72 /* Search */,
+				9687340F212BD0FA0061FF72 /* Tasking */,
 				968735CD212BD1910061FF72 /* DemoAppKitImports.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		96873383212BD0FA0061FF72 /* CAD2 */ = {
-			isa = PBXGroup;
-			children = (
-				968733C5212BD0FA0061FF72 /* Callsign Status */,
-				9687338D212BD0FA0061FF72 /* CollectionView */,
-				96873392212BD0FA0061FF72 /* Map */,
-				968733A0212BD0FA0061FF72 /* Model */,
-				968733C2212BD0FA0061FF72 /* Officer */,
-				968733C8212BD0FA0061FF72 /* Session */,
-				96873384212BD0FA0061FF72 /* Tasks */,
-			);
-			path = CAD2;
-			sourceTree = "<group>";
-		};
-		96873384212BD0FA0061FF72 /* Tasks */ = {
-			isa = PBXGroup;
-			children = (
-				96873385212BD0FA0061FF72 /* Details */,
-				96873387212BD0FA0061FF72 /* Item */,
-				96873389212BD0FA0061FF72 /* List */,
-			);
-			path = Tasks;
-			sourceTree = "<group>";
-		};
-		96873385212BD0FA0061FF72 /* Details */ = {
-			isa = PBXGroup;
-			children = (
-				96873386212BD0FA0061FF72 /* TaskDetailsViewModel.swift */,
-			);
-			path = Details;
-			sourceTree = "<group>";
-		};
-		96873387212BD0FA0061FF72 /* Item */ = {
-			isa = PBXGroup;
-			children = (
-				96873388212BD0FA0061FF72 /* TaskItemViewModel.swift */,
-			);
-			path = Item;
-			sourceTree = "<group>";
-		};
-		96873389212BD0FA0061FF72 /* List */ = {
-			isa = PBXGroup;
-			children = (
-				9687338C212BD0FA0061FF72 /* CADTaskListItemModelType.swift */,
-				9687338B212BD0FA0061FF72 /* CADTaskListSourceType.swift */,
-				9687338A212BD0FA0061FF72 /* TasksListItemViewModel.swift */,
-			);
-			path = List;
-			sourceTree = "<group>";
-		};
-		9687338D212BD0FA0061FF72 /* CollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				9687338E212BD0FA0061FF72 /* CADFormCollectionSectionViewModel.swift */,
-				9687338F212BD0FA0061FF72 /* CADFormCollectionViewController.swift */,
-				96873390212BD0FA0061FF72 /* CADFormCollectionViewModel.swift */,
-				96873391212BD0FA0061FF72 /* TimelineFormCollectionViewController.swift */,
-			);
-			path = CollectionView;
-			sourceTree = "<group>";
-		};
-		96873392212BD0FA0061FF72 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				96873393212BD0FA0061FF72 /* Annotations */,
-				9687339E212BD0FA0061FF72 /* Filter */,
-			);
-			path = Map;
-			sourceTree = "<group>";
-		};
 		96873393212BD0FA0061FF72 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
-				96873399212BD0FA0061FF72 /* Views */,
 				96873398212BD0FA0061FF72 /* BroadcastAnnotation.swift */,
+				9687339D212BD0FA0061FF72 /* BroadcastAnnotationView.swift */,
 				96873394212BD0FA0061FF72 /* IncidentAnnotation.swift */,
+				9687339A212BD0FA0061FF72 /* IncidentAnnotationView.swift */,
 				96873397212BD0FA0061FF72 /* PatrolAnnotation.swift */,
+				9687339B212BD0FA0061FF72 /* PatrolAnnotationView.swift */,
 				96873396212BD0FA0061FF72 /* ResourceAnnotation.swift */,
+				9687339C212BD0FA0061FF72 /* ResourceAnnotationView.swift */,
 				96873395212BD0FA0061FF72 /* TaskAnnotation.swift */,
 			);
 			path = Annotations;
-			sourceTree = "<group>";
-		};
-		96873399212BD0FA0061FF72 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9687339D212BD0FA0061FF72 /* BroadcastAnnotationView.swift */,
-				9687339A212BD0FA0061FF72 /* IncidentAnnotationView.swift */,
-				9687339B212BD0FA0061FF72 /* PatrolAnnotationView.swift */,
-				9687339C212BD0FA0061FF72 /* ResourceAnnotationView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		9687339E212BD0FA0061FF72 /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-				9687339F212BD0FA0061FF72 /* TasksMapFilterViewModel.swift */,
-			);
-			path = Filter;
-			sourceTree = "<group>";
-		};
-		968733A0212BD0FA0061FF72 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				968733A2212BD0FA0061FF72 /* Enum */,
-				968733AE212BD0FA0061FF72 /* Objects */,
-				968733BC212BD0FA0061FF72 /* Requests */,
-				968733AC212BD0FA0061FF72 /* Responses */,
-				968733C1212BD0FA0061FF72 /* CADAPIManagerType.swift */,
-				968733A1212BD0FA0061FF72 /* CADClientModelTypes.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		968733A2212BD0FA0061FF72 /* Enum */ = {
@@ -736,62 +604,14 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
-		968733C2212BD0FA0061FF72 /* Officer */ = {
-			isa = PBXGroup;
-			children = (
-				968733C4212BD0FA0061FF72 /* OfficerCell.swift */,
-				968733C3212BD0FA0061FF72 /* OfficerCommunicationsView.swift */,
-			);
-			path = Officer;
-			sourceTree = "<group>";
-		};
-		968733C5212BD0FA0061FF72 /* Callsign Status */ = {
-			isa = PBXGroup;
-			children = (
-				968733C7212BD0FA0061FF72 /* CallsignStatusCollectionViewFormCell.swift */,
-				968733C6212BD0FA0061FF72 /* CallsignStatusFormItem.swift */,
-			);
-			path = "Callsign Status";
-			sourceTree = "<group>";
-		};
-		968733C8212BD0FA0061FF72 /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				968733CA212BD0FA0061FF72 /* CADStateManagerBase.swift */,
-				968733C9212BD0FA0061FF72 /* CADStateManagerType.swift */,
-			);
-			path = Session;
-			sourceTree = "<group>";
-		};
 		968733CB212BD0FA0061FF72 /* Search */ = {
 			isa = PBXGroup;
 			children = (
 				968733D6212BD0FA0061FF72 /* Events */,
 				96873406212BD0FA0061FF72 /* Incidents */,
-				968733CC212BD0FA0061FF72 /* ObjectBucket */,
-				968733D1212BD0FA0061FF72 /* Presenter */,
-				968733CE212BD0FA0061FF72 /* RelationshipManager */,
-				9687340B212BD0FA0061FF72 /* Summary */,
 				968733D3212BD0FA0061FF72 /* TrafficHistory */,
 			);
 			path = Search;
-			sourceTree = "<group>";
-		};
-		968733CC212BD0FA0061FF72 /* ObjectBucket */ = {
-			isa = PBXGroup;
-			children = (
-				968733CD212BD0FA0061FF72 /* ObjectBucket.swift */,
-			);
-			path = ObjectBucket;
-			sourceTree = "<group>";
-		};
-		968733CE212BD0FA0061FF72 /* RelationshipManager */ = {
-			isa = PBXGroup;
-			children = (
-				968733D0212BD0FA0061FF72 /* Relationship.swift */,
-				968733CF212BD0FA0061FF72 /* RelationshipManager.swift */,
-			);
-			path = RelationshipManager;
 			sourceTree = "<group>";
 		};
 		968733D1212BD0FA0061FF72 /* Presenter */ = {
@@ -939,23 +759,7 @@
 			path = Incidents;
 			sourceTree = "<group>";
 		};
-		9687340B212BD0FA0061FF72 /* Summary */ = {
-			isa = PBXGroup;
-			children = (
-				9687340C212BD0FA0061FF72 /* Summarisable.swift */,
-			);
-			path = Summary;
-			sourceTree = "<group>";
-		};
-		9687340D212BD0FA0061FF72 /* Device */ = {
-			isa = PBXGroup;
-			children = (
-				9687340E212BD0FA0061FF72 /* UpdateDeviceLocationRequest.swift */,
-			);
-			path = Device;
-			sourceTree = "<group>";
-		};
-		9687340F212BD0FA0061FF72 /* CAD1 */ = {
+		9687340F212BD0FA0061FF72 /* Tasking */ = {
 			isa = PBXGroup;
 			children = (
 				968734C5212BD0FA0061FF72 /* ActivityLog */,
@@ -970,7 +774,7 @@
 				968734A2212BD0FA0061FF72 /* Tab Bar */,
 				96873422212BD0FA0061FF72 /* Tasks */,
 			);
-			path = CAD1;
+			path = Tasking;
 			sourceTree = "<group>";
 		};
 		96873410212BD0FA0061FF72 /* Callsign */ = {
@@ -1035,10 +839,8 @@
 		96873422212BD0FA0061FF72 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
-				96873427212BD0FA0061FF72 /* Details */,
-				96873459212BD0FA0061FF72 /* List */,
-				96873423212BD0FA0061FF72 /* Split */,
-				96873426212BD0FA0061FF72 /* CADTaskListSourceCore.swift */,
+				968735D4212CDE600061FF72 /* Demo */,
+				968735D3212CDE540061FF72 /* Generic */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -1050,27 +852,6 @@
 				96873425212BD0FA0061FF72 /* TasksSplitViewModel.swift */,
 			);
 			path = Split;
-			sourceTree = "<group>";
-		};
-		96873427212BD0FA0061FF72 /* Details */ = {
-			isa = PBXGroup;
-			children = (
-				96873457212BD0FA0061FF72 /* Container */,
-				96873450212BD0FA0061FF72 /* Shared */,
-				96873428212BD0FA0061FF72 /* Source */,
-			);
-			path = Details;
-			sourceTree = "<group>";
-		};
-		96873428212BD0FA0061FF72 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				9687343B212BD0FA0061FF72 /* Broadcast */,
-				96873440212BD0FA0061FF72 /* Incidents */,
-				96873436212BD0FA0061FF72 /* Patrol */,
-				96873429212BD0FA0061FF72 /* Resources */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		96873429212BD0FA0061FF72 /* Resources */ = {
@@ -1116,37 +897,21 @@
 		96873436212BD0FA0061FF72 /* Patrol */ = {
 			isa = PBXGroup;
 			children = (
-				96873437212BD0FA0061FF72 /* Overview */,
+				96873439212BD0FA0061FF72 /* PatrolOverviewMapViewModel.swift */,
+				96873438212BD0FA0061FF72 /* PatrolOverviewViewModel.swift */,
 				9687343A212BD0FA0061FF72 /* PatrolTaskItemViewModel.swift */,
 			);
 			path = Patrol;
 			sourceTree = "<group>";
 		};
-		96873437212BD0FA0061FF72 /* Overview */ = {
-			isa = PBXGroup;
-			children = (
-				96873439212BD0FA0061FF72 /* PatrolOverviewMapViewModel.swift */,
-				96873438212BD0FA0061FF72 /* PatrolOverviewViewModel.swift */,
-			);
-			path = Overview;
-			sourceTree = "<group>";
-		};
 		9687343B212BD0FA0061FF72 /* Broadcast */ = {
-			isa = PBXGroup;
-			children = (
-				9687343D212BD0FA0061FF72 /* Overview */,
-				9687343C212BD0FA0061FF72 /* BroadcastTaskItemViewModel.swift */,
-			);
-			path = Broadcast;
-			sourceTree = "<group>";
-		};
-		9687343D212BD0FA0061FF72 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
 				9687343E212BD0FA0061FF72 /* BroadcastOverviewMapViewModel.swift */,
 				9687343F212BD0FA0061FF72 /* BroadcastOverviewViewModel.swift */,
+				9687343C212BD0FA0061FF72 /* BroadcastTaskItemViewModel.swift */,
 			);
-			path = Overview;
+			path = Broadcast;
 			sourceTree = "<group>";
 		};
 		96873440212BD0FA0061FF72 /* Incidents */ = {
@@ -1199,43 +964,13 @@
 			path = Overview;
 			sourceTree = "<group>";
 		};
-		96873450212BD0FA0061FF72 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				96873452212BD0FA0061FF72 /* Overview */,
-				96873451212BD0FA0061FF72 /* CommsButtonHandler.swift */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		96873452212BD0FA0061FF72 /* Overview */ = {
-			isa = PBXGroup;
-			children = (
-				96873453212BD0FA0061FF72 /* TaskDetailsOverviewFormViewController.swift */,
-				96873454212BD0FA0061FF72 /* TaskDetailsOverviewItemViewModel.swift */,
-				96873456212BD0FA0061FF72 /* TaskDetailsOverviewViewController.swift */,
-				96873455212BD0FA0061FF72 /* TaskDetailsOverviewViewModel.swift */,
-			);
-			path = Overview;
-			sourceTree = "<group>";
-		};
-		96873457212BD0FA0061FF72 /* Container */ = {
-			isa = PBXGroup;
-			children = (
-				96873458212BD0FA0061FF72 /* TaskItemSidebarSplitViewController.swift */,
-			);
-			path = Container;
-			sourceTree = "<group>";
-		};
 		96873459212BD0FA0061FF72 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				9687345E212BD0FA0061FF72 /* Basic */,
 				96873465212BD0FA0061FF72 /* Container */,
-				96873472212BD0FA0061FF72 /* Incidents */,
-				9687346B212BD0FA0061FF72 /* List */,
-				9687345A212BD0FA0061FF72 /* Resources */,
-				96873462212BD0FA0061FF72 /* Shared */,
+				968735D9212CE0DA0061FF72 /* Item */,
+				9687346E212BD0FA0061FF72 /* TasksListViewController.swift */,
+				9687346C212BD0FA0061FF72 /* TasksListViewModel.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1250,25 +985,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		9687345E212BD0FA0061FF72 /* Basic */ = {
-			isa = PBXGroup;
-			children = (
-				96873461212BD0FA0061FF72 /* TasksListBasicCollectionViewCell.swift */,
-				96873460212BD0FA0061FF72 /* TasksListBasicSummaryView.swift */,
-				9687345F212BD0FA0061FF72 /* TasksListBasicViewModel.swift */,
-			);
-			path = Basic;
-			sourceTree = "<group>";
-		};
-		96873462212BD0FA0061FF72 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				96873463212BD0FA0061FF72 /* ColumnContainerView.swift */,
-				96873464212BD0FA0061FF72 /* ColumnInfo.swift */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
 		96873465212BD0FA0061FF72 /* Container */ = {
 			isa = PBXGroup;
 			children = (
@@ -1279,19 +995,6 @@
 				96873467212BD0FA0061FF72 /* TasksListHeaderViewModel.swift */,
 			);
 			path = Container;
-			sourceTree = "<group>";
-		};
-		9687346B212BD0FA0061FF72 /* List */ = {
-			isa = PBXGroup;
-			children = (
-				9687346D212BD0FA0061FF72 /* TasksListDetailView.swift */,
-				96873470212BD0FA0061FF72 /* TasksListInformationRowViewModel.swift */,
-				96873471212BD0FA0061FF72 /* TasksListInfoRowStackView.swift */,
-				9687346F212BD0FA0061FF72 /* TasksListInfoRowView.swift */,
-				9687346E212BD0FA0061FF72 /* TasksListViewController.swift */,
-				9687346C212BD0FA0061FF72 /* TasksListViewModel.swift */,
-			);
-			path = List;
 			sourceTree = "<group>";
 		};
 		96873472212BD0FA0061FF72 /* Incidents */ = {
@@ -1409,6 +1112,7 @@
 		96873499212BD0FA0061FF72 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				96873393212BD0FA0061FF72 /* Annotations */,
 				9687349A212BD0FA0061FF72 /* Cluster */,
 				968734A0212BD0FA0061FF72 /* Filter */,
 				9687349F212BD0FA0061FF72 /* TasksMapViewController.swift */,
@@ -1430,6 +1134,7 @@
 		968734A0212BD0FA0061FF72 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				9687339F212BD0FA0061FF72 /* TasksMapFilterViewModel.swift */,
 				968734A1212BD0FA0061FF72 /* TasksMapFilterViewModelCore.swift */,
 			);
 			path = Filter;
@@ -1449,11 +1154,8 @@
 		968734A7212BD0FA0061FF72 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				968734A8212BD0FA0061FF72 /* Enum */,
-				968734B2212BD0FA0061FF72 /* Objects */,
-				968734BF212BD0FA0061FF72 /* Requests */,
-				968734B0212BD0FA0061FF72 /* Responses */,
-				968734C4212BD0FA0061FF72 /* APIManager+CAD.swift */,
+				968735D1212CD17D0061FF72 /* Demo */,
+				968735D0212CD1290061FF72 /* Generic */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1554,10 +1256,116 @@
 		968734D4212BD0FA0061FF72 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				968734D6212BD0FA0061FF72 /* CADRecentlyUsedKey.swift */,
-				968734D5212BD0FA0061FF72 /* CADStateManagerCore.swift */,
+				968735D2212CD2030061FF72 /* Default */,
+				968733C9212BD0FA0061FF72 /* CADStateManagerType.swift */,
 			);
 			path = Session;
+			sourceTree = "<group>";
+		};
+		968735D0212CD1290061FF72 /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				968733A2212BD0FA0061FF72 /* Enum */,
+				968733AE212BD0FA0061FF72 /* Objects */,
+				968733BC212BD0FA0061FF72 /* Requests */,
+				968733AC212BD0FA0061FF72 /* Responses */,
+				968733C1212BD0FA0061FF72 /* CADAPIManagerType.swift */,
+				968733A1212BD0FA0061FF72 /* CADClientModelTypes.swift */,
+			);
+			path = Generic;
+			sourceTree = "<group>";
+		};
+		968735D1212CD17D0061FF72 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				968734A8212BD0FA0061FF72 /* Enum */,
+				968734B2212BD0FA0061FF72 /* Objects */,
+				968734BF212BD0FA0061FF72 /* Requests */,
+				968734B0212BD0FA0061FF72 /* Responses */,
+				968734C4212BD0FA0061FF72 /* APIManager+CAD.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		968735D2212CD2030061FF72 /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				968734D6212BD0FA0061FF72 /* CADRecentlyUsedKey.swift */,
+				968733CA212BD0FA0061FF72 /* CADStateManagerBase.swift */,
+				968734D5212BD0FA0061FF72 /* CADStateManagerCore.swift */,
+			);
+			path = Default;
+			sourceTree = "<group>";
+		};
+		968735D3212CDE540061FF72 /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				968735D8212CDE8E0061FF72 /* Details */,
+				96873459212BD0FA0061FF72 /* List */,
+				96873423212BD0FA0061FF72 /* Split */,
+				9687338C212BD0FA0061FF72 /* CADTaskListItemModelType.swift */,
+				9687338B212BD0FA0061FF72 /* CADTaskListSourceType.swift */,
+			);
+			path = Generic;
+			sourceTree = "<group>";
+		};
+		968735D4212CDE600061FF72 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				968735D5212CDE780061FF72 /* Details */,
+				968735D6212CDE7F0061FF72 /* List */,
+				96873426212BD0FA0061FF72 /* CADTaskListSourceCore.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		968735D5212CDE780061FF72 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				9687343B212BD0FA0061FF72 /* Broadcast */,
+				96873440212BD0FA0061FF72 /* Incidents */,
+				96873436212BD0FA0061FF72 /* Patrol */,
+				96873429212BD0FA0061FF72 /* Resources */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		968735D6212CDE7F0061FF72 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				96873472212BD0FA0061FF72 /* Incidents */,
+				9687345A212BD0FA0061FF72 /* Resources */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		968735D8212CDE8E0061FF72 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				96873453212BD0FA0061FF72 /* TaskDetailsOverviewFormViewController.swift */,
+				96873454212BD0FA0061FF72 /* TaskDetailsOverviewItemViewModel.swift */,
+				96873456212BD0FA0061FF72 /* TaskDetailsOverviewViewController.swift */,
+				96873455212BD0FA0061FF72 /* TaskDetailsOverviewViewModel.swift */,
+				96873386212BD0FA0061FF72 /* TaskDetailsViewModel.swift */,
+				96873458212BD0FA0061FF72 /* TaskItemSidebarSplitViewController.swift */,
+				96873388212BD0FA0061FF72 /* TaskItemViewModel.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		968735D9212CE0DA0061FF72 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				968735DC212CE0DA0061FF72 /* TasksListBasicCollectionViewCell.swift */,
+				968735DB212CE0DA0061FF72 /* TasksListBasicSummaryView.swift */,
+				968735DA212CE0DA0061FF72 /* TasksListBasicViewModel.swift */,
+				9687346D212BD0FA0061FF72 /* TasksListDetailView.swift */,
+				96873470212BD0FA0061FF72 /* TasksListInformationRowViewModel.swift */,
+				96873471212BD0FA0061FF72 /* TasksListInfoRowStackView.swift */,
+				9687346F212BD0FA0061FF72 /* TasksListInfoRowView.swift */,
+				9687338A212BD0FA0061FF72 /* TasksListItemViewModel.swift */,
+			);
+			path = Item;
 			sourceTree = "<group>";
 		};
 		96BE885D2126597000F57FF0 = {
@@ -1833,7 +1641,6 @@
 				9687355B212BD0FA0061FF72 /* BroadcastOverviewMapViewModel.swift in Sources */,
 				9687355C212BD0FA0061FF72 /* BroadcastOverviewViewModel.swift in Sources */,
 				9687355A212BD0FA0061FF72 /* BroadcastTaskItemViewModel.swift in Sources */,
-				968735CE212BD1910061FF72 /* DemoAppKitImports.swift in Sources */,
 				968735B0212BD0FA0061FF72 /* CADActivityLogItemCore.swift in Sources */,
 				96873500212BD0FA0061FF72 /* CADActivityLogItemType.swift in Sources */,
 				968735AB212BD0FA0061FF72 /* CADAlertLevelCore.swift in Sources */,
@@ -1854,9 +1661,6 @@
 				968734EE212BD0FA0061FF72 /* CADEnumStringType.swift in Sources */,
 				968735B4212BD0FA0061FF72 /* CADEquipmentCore.swift in Sources */,
 				968734FC212BD0FA0061FF72 /* CADEquipmentType.swift in Sources */,
-				968734DC212BD0FA0061FF72 /* CADFormCollectionSectionViewModel.swift in Sources */,
-				968734DD212BD0FA0061FF72 /* CADFormCollectionViewController.swift in Sources */,
-				968734DE212BD0FA0061FF72 /* CADFormCollectionViewModel.swift in Sources */,
 				968735BE212BD0FA0061FF72 /* CADGetDetailsRequestCore.swift in Sources */,
 				96873502212BD0FA0061FF72 /* CADGetDetailsRequestType.swift in Sources */,
 				968734F5212BD0FA0061FF72 /* CADIncidentAssociationType.swift in Sources */,
@@ -1902,16 +1706,11 @@
 				96873593212BD0FA0061FF72 /* CallsignCollectionViewCell.swift in Sources */,
 				96873592212BD0FA0061FF72 /* CallsignListViewController.swift in Sources */,
 				96873591212BD0FA0061FF72 /* CallsignListViewModel.swift in Sources */,
-				9687350A212BD0FA0061FF72 /* CallsignStatusCollectionViewFormCell.swift in Sources */,
-				96873509212BD0FA0061FF72 /* CallsignStatusFormItem.swift in Sources */,
 				96873545212BD0FA0061FF72 /* CallsignStatusViewController.swift in Sources */,
 				96873544212BD0FA0061FF72 /* CallsignStatusViewModel.swift in Sources */,
 				9687359E212BD0FA0061FF72 /* ClusterTasksViewController.swift in Sources */,
 				9687359D212BD0FA0061FF72 /* ClusterTasksViewModel.swift in Sources */,
 				9687359F212BD0FA0061FF72 /* ClusterTasksViewModelCore.swift in Sources */,
-				96873574212BD0FA0061FF72 /* ColumnContainerView.swift in Sources */,
-				96873575212BD0FA0061FF72 /* ColumnInfo.swift in Sources */,
-				96873568212BD0FA0061FF72 /* CommsButtonHandler.swift in Sources */,
 				96873546212BD0FA0061FF72 /* CompactCallsignContainerViewController.swift in Sources */,
 				968735C6212BD0FA0061FF72 /* CreateActivityLogItemViewController.swift in Sources */,
 				968735C7212BD0FA0061FF72 /* CreateActivityLogItemViewModel.swift in Sources */,
@@ -1928,6 +1727,7 @@
 				9687352A212BD0FA0061FF72 /* DefaultEventNotesMediaViewModel.swift in Sources */,
 				96873524212BD0FA0061FF72 /* DefaultLocationReport.swift in Sources */,
 				96873529212BD0FA0061FF72 /* DefaultNotesMedaReport.swift in Sources */,
+				968735CE212BD1910061FF72 /* DemoAppKitImports.swift in Sources */,
 				96873530212BD0FA0061FF72 /* EntitiesListViewModel.swift in Sources */,
 				9687352F212BD0FA0061FF72 /* EntityPickerType.swift in Sources */,
 				96873533212BD0FA0061FF72 /* EntityPickerViewController.swift in Sources */,
@@ -1970,9 +1770,6 @@
 				96873547212BD0FA0061FF72 /* ManageCallsignStatusViewController.swift in Sources */,
 				96873548212BD0FA0061FF72 /* ManageCallsignStatusViewModel.swift in Sources */,
 				96873585212BD0FA0061FF72 /* ManifestCollection+CAD.swift in Sources */,
-				9687350D212BD0FA0061FF72 /* ObjectBucket.swift in Sources */,
-				96873508212BD0FA0061FF72 /* OfficerCell.swift in Sources */,
-				96873507212BD0FA0061FF72 /* OfficerCommunicationsView.swift in Sources */,
 				9687358A212BD0FA0061FF72 /* OfficerDetailsViewController.swift in Sources */,
 				9687358B212BD0FA0061FF72 /* OfficerDetailsViewModel.swift in Sources */,
 				96873594212BD0FA0061FF72 /* OfficerListItemViewModel.swift in Sources */,
@@ -1991,8 +1788,6 @@
 				9687351F212BD0FA0061FF72 /* PropertyDetailsViewController.swift in Sources */,
 				9687351C212BD0FA0061FF72 /* PropertyDetailsViewModel.swift in Sources */,
 				96873521212BD0FA0061FF72 /* PropertySearchDisplayableViewModel.swift in Sources */,
-				9687350F212BD0FA0061FF72 /* Relationship.swift in Sources */,
-				9687350E212BD0FA0061FF72 /* RelationshipManager.swift in Sources */,
 				96873513212BD0FA0061FF72 /* Reportable.swift in Sources */,
 				9687354F212BD0FA0061FF72 /* ResourceActivityLogViewController.swift in Sources */,
 				9687354E212BD0FA0061FF72 /* ResourceActivityLogViewModel.swift in Sources */,
@@ -2009,7 +1804,6 @@
 				96873540212BD0FA0061FF72 /* SelectStoppedEntityViewModel.swift in Sources */,
 				9687352D212BD0FA0061FF72 /* ServiceType.swift in Sources */,
 				96873543212BD0FA0061FF72 /* StatusChangeReasonViewController.swift in Sources */,
-				9687353D212BD0FA0061FF72 /* Summarisable.swift in Sources */,
 				96873510212BD0FA0061FF72 /* SystemPresenter.swift in Sources */,
 				968734E1212BD0FA0061FF72 /* TaskAnnotation.swift in Sources */,
 				96873569212BD0FA0061FF72 /* TaskDetailsOverviewFormViewController.swift in Sources */,
@@ -2021,9 +1815,9 @@
 				9687356D212BD0FA0061FF72 /* TaskItemSidebarSplitViewController.swift in Sources */,
 				968734D8212BD0FA0061FF72 /* TaskItemViewModel.swift in Sources */,
 				9687359A212BD0FA0061FF72 /* TaskListScreen.swift in Sources */,
-				96873573212BD0FA0061FF72 /* TasksListBasicCollectionViewCell.swift in Sources */,
-				96873572212BD0FA0061FF72 /* TasksListBasicSummaryView.swift in Sources */,
-				96873571212BD0FA0061FF72 /* TasksListBasicViewModel.swift in Sources */,
+				968735DF212CE0DA0061FF72 /* TasksListBasicCollectionViewCell.swift in Sources */,
+				968735DE212CE0DA0061FF72 /* TasksListBasicSummaryView.swift in Sources */,
+				968735DD212CE0DA0061FF72 /* TasksListBasicViewModel.swift in Sources */,
 				96873579212BD0FA0061FF72 /* TasksListContainerViewController.swift in Sources */,
 				96873576212BD0FA0061FF72 /* TasksListContainerViewModel.swift in Sources */,
 				9687357C212BD0FA0061FF72 /* TasksListDetailView.swift in Sources */,
@@ -2048,12 +1842,10 @@
 				968735A0212BD0FA0061FF72 /* TasksMapViewModel.swift in Sources */,
 				9687354B212BD0FA0061FF72 /* TasksSplitViewController.swift in Sources */,
 				9687354C212BD0FA0061FF72 /* TasksSplitViewModel.swift in Sources */,
-				968734DF212BD0FA0061FF72 /* TimelineFormCollectionViewController.swift in Sources */,
 				96873511212BD0FA0061FF72 /* TrafficHistoryCollectionViewCell.swift in Sources */,
 				96873512212BD0FA0061FF72 /* TrafficHistoryOverviewFormItem.swift in Sources */,
 				96873542212BD0FA0061FF72 /* TrafficStopViewController.swift in Sources */,
 				9687353F212BD0FA0061FF72 /* TrafficStopViewModel.swift in Sources */,
-				9687353E212BD0FA0061FF72 /* UpdateDeviceLocationRequest.swift in Sources */,
 				968735A3212BD0FA0061FF72 /* UserCallsignStatusView.swift in Sources */,
 				968735A4212BD0FA0061FF72 /* UserCallsignStatusViewModel.swift in Sources */,
 			);
@@ -2256,7 +2048,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 601A61BA9DC1733F92C83A83 /* Pods-DemoAppKitTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = DemoAppKitTests/Info.plist;
@@ -2276,7 +2067,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AD0A674BE9A17EA3F6EB872B /* Pods-DemoAppKitTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = DemoAppKitTests/Info.plist;

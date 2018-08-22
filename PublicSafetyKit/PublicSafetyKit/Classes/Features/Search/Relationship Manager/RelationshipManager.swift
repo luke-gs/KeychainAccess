@@ -8,6 +8,8 @@
 final public class RelationshipManager<Base: Equatable, Related: Equatable> {
     private(set) public var relationships = [Relationship<Base, Related>]()
 
+    public init() {}
+
     // MARK: Add
 
     public func add(_ relationship: Relationship<Base, Related>) {
