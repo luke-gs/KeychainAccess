@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 /// Data model for a generic location selection including lat/lon and an address string
-open class LocationSelection: NSObject, NSSecureCoding {
+public class LocationSelection: NSObject, NSSecureCoding {
 
     // MARK: - PUBLIC
 
@@ -70,7 +70,7 @@ open class LocationSelection: NSObject, NSSecureCoding {
             && lhs.addressString == rhs.addressString
     }
 
-    open override func isEqual(_ object: Any?) -> Bool {
+    public override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? LocationSelection else { return false }
         return self.latitude == object.latitude
             && self.longitude == object.longitude

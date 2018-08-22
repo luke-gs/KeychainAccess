@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 
-class BasicViewController: FormBuilderViewController {
+class BasicViewController: FormBuilderViewController, DrawerViewControllerDelegate {
 
     override func construct(builder: FormBuilder) {
 
@@ -47,6 +47,14 @@ class BasicViewController: FormBuilderViewController {
         builder += SubtitleFormItem(title: "Mariana", subtitle: "Big Boss").width(.column(1))
         builder += SubtitleFormItem(title: "James Aramroongrot", subtitle: "Mini Boss").width(.column(1))
 
+    }
+
+    func drawerViewControllerPositionDidChange(_ drawerViewController: DrawerViewController, height: CGFloat) {
+        if #available(iOS 11.0, *) {
+            collectionView?.contentInset.bottom = height - drawerViewController.drawerSafeAreaInsets.bottom
+        } else {
+            collectionView?.contentInset.bottom = height
+        }
     }
 
 }

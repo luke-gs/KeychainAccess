@@ -1,14 +1,17 @@
 //
-//  TermsConditionsViewController.swift
+//  HTMLPresenterViewController.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 29/5/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-public final class TermsConditionsViewController: UIViewController {
+public struct InvalidHTMLPathError: Error {
+    let localizedDescription: String = "invalid path extension - url does not point to html file"
+}
+
+public final class HTMLPresenterViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -22,14 +25,20 @@ public final class TermsConditionsViewController: UIViewController {
     
     // MARK: - Initializers
     
-    public init(fileURL: URL,
-                actions: [DialogAction]?) {
-        self.fileURL = fileURL
+    public init(title: String?,
+                htmlURL: URL,
+                actions: [DialogAction]?) throws {
+
+        guard htmlURL.pathExtension == "html" else {
+            throw InvalidHTMLPathError()
+        }
+
+        self.fileURL = htmlURL
         self.buttonsView = actions != nil ? DialogActionButtonsView(actions: actions!) : nil
 
         super.init(nibName: nil, bundle: nil)
 
-        title = NSLocalizedString("Terms and Conditions", comment: "Title")
+        self.title = title
 
         automaticallyAdjustsScrollViewInsets = false
 

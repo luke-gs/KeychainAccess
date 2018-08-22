@@ -169,6 +169,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         let isCompact = traitCollection.horizontalSizeClass == .compact
         let hasMoreThanOneState = viewModel.allowedStyles.count > 1
         let requiresListStateItem = hasMoreThanOneState && !isCompact
+        
         if var buttons = viewModel.additionalBarButtonItems {
             if requiresListStateItem {
                 buttons.insert(listStateItem, at: 1)

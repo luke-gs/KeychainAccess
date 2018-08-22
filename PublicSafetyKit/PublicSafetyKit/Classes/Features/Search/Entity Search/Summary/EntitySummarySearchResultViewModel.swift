@@ -18,10 +18,10 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     /// - always:   Limit the results and always show button.
     public enum ResultLimitBehaviour {
         case never
-        case minimum(counts: [SearchResultStyle: Int])
+        case minimum(counts: [EntityDisplayStyle: Int])
         case always(count: Int)
         
-        public func shouldShowButton(for entityCount: Int, with style: SearchResultStyle) -> Bool {
+        public func shouldShowButton(for entityCount: Int, with style: EntityDisplayStyle) -> Bool {
             switch self {
             case .never:
                 return false
@@ -43,7 +43,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             }
         }
         
-        public func initialCount(for style: SearchResultStyle) -> Int {
+        public func initialCount(for style: EntityDisplayStyle) -> Int {
             switch self {
             case .never:
                 return 0
@@ -72,7 +72,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         return aggregatedSearch.state
     }
     
-    public var allowedStyles: [SearchResultStyle] = SearchResultStyle.all {
+    public var allowedStyles: [EntityDisplayStyle] = EntityDisplayStyle.all {
         didSet {
             if !allowedStyles.contains(style),
             let firstStyle = allowedStyles.first {
@@ -81,7 +81,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         }
     }
     
-    public private(set) var style: SearchResultStyle = .grid
+    public private(set) var style: EntityDisplayStyle = .grid
     
     public var results: [SearchResultSection] = []
     
@@ -132,7 +132,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     }
     
     @discardableResult
-    public func setStyleIfAllowed(_ newStyle: SearchResultStyle) -> Bool {
+    public func setStyleIfAllowed(_ newStyle: EntityDisplayStyle) -> Bool {
         guard allowedStyles.contains(newStyle) else { return false }
         style = newStyle
         return true
@@ -305,7 +305,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     
     // MARK: - Private
 
-    private func entityStyle(for style: SearchResultStyle) -> EntityCollectionViewCell.Style {
+    private func entityStyle(for style: EntityDisplayStyle) -> EntityCollectionViewCell.Style {
         return style == .grid ? .hero : .detail
     }
     

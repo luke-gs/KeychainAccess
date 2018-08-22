@@ -16,7 +16,7 @@ extension APIManager {
     /// Supports implicit `NSProgress` reporting.
     /// - Parameter grant: The grant type and required field for it.
     /// - Returns: A promise for access token.
-    public func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
+    open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
 
         let path = grant.path
         let parameters = grant.parameters
@@ -33,7 +33,7 @@ extension APIManager {
     /// - Parameter token: token to be revoked
     /// - Parameter path: defaults to "logoff" but can be changed
     /// - Returns: A promise with the request
-    public func revokeRefreshToken(_ token: String, at path: String = "logoff") -> Promise<(Data, HTTPURLResponse?)> {
+    open func revokeRefreshToken(_ token: String, at path: String = "logoff") -> Promise<(Data, HTTPURLResponse?)> {
         let parameters =  ["refreshToken": token]
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
 
@@ -47,7 +47,7 @@ extension APIManager {
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
-    public func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<SearchResult<SearchRequest.ResultClass>> {
+    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<SearchResult<SearchRequest.ResultClass>> {
 
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
@@ -66,7 +66,7 @@ extension APIManager {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    public func fetchEntityDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/{id}"
 
@@ -79,8 +79,8 @@ extension APIManager {
         return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
 
-    public func submitEvent<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
-
+    open func submitEvent<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+        
         let path = "{source}/entity/{entityType}"
 
         var parameters = request.parameters
@@ -99,7 +99,7 @@ extension APIManager {
     ///   - source: The data source of officer to be fetched.
     ///   - request: The request with the parameters to fetch the officer.
     /// - Returns: A promise to return specified officer details.
-    public func fetchCurrentOfficerDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func fetchCurrentOfficerDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/current"
 

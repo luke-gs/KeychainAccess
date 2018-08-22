@@ -8,14 +8,13 @@
 
 import Foundation
 
-
 /// Style that is current supported by the Search results view controller.
-public enum SearchResultStyle {
+public enum EntityDisplayStyle {
     case grid
     case list
     
     // TODO: Replace with all cases once we hit 4.2
-    public static var all: [SearchResultStyle] {
+    public static var all: [EntityDisplayStyle] {
         return [.grid, .list]
     }
 }
@@ -95,16 +94,16 @@ public protocol ResultViewStylable {
     ///
     /// The current supported styles are grid and list styles. There may be more styles
     /// in the future. Subclass only need to handle these styles for now.
-    var style: SearchResultStyle { get }
+    var style: EntityDisplayStyle { get }
     
     /// Whitelist of styles that the model responds to
-    var allowedStyles: [SearchResultStyle] { get }
+    var allowedStyles: [EntityDisplayStyle] { get }
     
     /// A style setter that allows us to protect against setting a style that isn't defined
     /// in the allowedStyles array.
     ///
     /// - Returns: Whether the operation was successful.
     @discardableResult
-    mutating func setStyleIfAllowed(_ newStyle: SearchResultStyle) -> Bool
+    mutating func setStyleIfAllowed(_ newStyle: EntityDisplayStyle) -> Bool
 }
 

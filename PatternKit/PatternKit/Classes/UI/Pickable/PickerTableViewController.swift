@@ -217,6 +217,7 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
         super.viewDidLoad()
         tableView?.estimatedRowHeight = 44.0
         searchBar.text = searchTerm
+        tableView?.tableFooterView = UIView()
     }
     
     open override func viewWillAppear(_ animated: Bool) {

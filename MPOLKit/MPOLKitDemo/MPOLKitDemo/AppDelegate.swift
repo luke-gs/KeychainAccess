@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
                 }
             }
         }
-        
+
         let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Recents"))
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: recent),
@@ -110,7 +110,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
             UINavigationController(rootViewController: genericSearchViewController()),
             UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager(eventBuilder: DemoBuilder())))),
             UINavigationController(rootViewController: formSplitViewController),
-            UINavigationController(rootViewController: TemplateManagerViewController())
+            UINavigationController(rootViewController: TemplateManagerViewController()),
+            UINavigationController(rootViewController: {
+                let basicDrawExample = DrawerViewController(primaryViewController: PrimaryViewController(style: .plain), secondaryViewController: SecondaryViewController())
+                basicDrawExample.title = "Basic Drawer Example"
+                return basicDrawExample
+            }()),
+            UINavigationController(rootViewController: {
+                let fancyDrawExample = DrawerViewController(primaryViewController: PrimaryViewController(style: .plain), secondaryViewController: ResultsViewController())
+                fancyDrawExample.title = "Fancy Drawer Example"
+                return fancyDrawExample
+            }()),
+            UINavigationController(rootViewController: {
+                let fancyDrawExample = DrawerViewController(primaryViewController: BasicViewController(), secondaryViewController: ResultsViewController())
+                fancyDrawExample.title = "Super Fancy Drawer Example"
+                return fancyDrawExample
+            }())
         ]
 
         tabBarController.selectedIndex = 6
