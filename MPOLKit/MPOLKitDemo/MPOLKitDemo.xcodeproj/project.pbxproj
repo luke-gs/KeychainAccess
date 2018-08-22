@@ -16,7 +16,7 @@
 		461F7AA42022DE2300885E93 /* audio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 461F7AA22022DE1F00885E93 /* audio.m4a */; };
 		461F7AA52022DE2300885E93 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 461F7AA32022DE1F00885E93 /* video.mp4 */; };
 		761ABC5D3D3F8181084EB823 /* Pods_MPOLKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */; };
-		96B80F3E212D1F44005A72A0 /* PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80F3D212D1F44005A72A0 /* PrimaryViewController.swift */; };
+		96B80F41212D2052005A72A0 /* PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80F40212D2052005A72A0 /* PrimaryViewController.swift */; };
 		BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */; };
 		BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E781F0DF0E700DFFE83 /* LaunchScreen.storyboard */; };
 		BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */; };
@@ -56,7 +56,7 @@
 		456B2831B11E426CBE3F4C4C /* Pods-MPOLKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		461F7AA22022DE1F00885E93 /* audio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = audio.m4a; sourceTree = "<group>"; };
 		461F7AA32022DE1F00885E93 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
-		96B80F3D212D1F44005A72A0 /* PrimaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryViewController.swift; sourceTree = "<group>"; };
+		96B80F40212D2052005A72A0 /* PrimaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryViewController.swift; sourceTree = "<group>"; };
 		BC9C7E601F0DF0AA00DFFE83 /* MPOLKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOLKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC9C7E791F0DF0E700DFFE83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,13 +113,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		96B80F3C212D1F44005A72A0 /* Drawer */ = {
+		96B80F3F212D2052005A72A0 /* Drawer */ = {
 			isa = PBXGroup;
 			children = (
-				96B80F3D212D1F44005A72A0 /* PrimaryViewController.swift */,
+				96B80F40212D2052005A72A0 /* PrimaryViewController.swift */,
 			);
-			name = Drawer;
-			path = ../../../MPOLKitDemo/MPOLKitDemo/Drawer;
+			path = Drawer;
 			sourceTree = "<group>";
 		};
 		BC9C7E571F0DF0AA00DFFE83 = {
@@ -171,7 +170,7 @@
 		BC9C7E891F0DF40C00DFFE83 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				96B80F3C212D1F44005A72A0 /* Drawer */,
+				96B80F3F212D2052005A72A0 /* Drawer */,
 				12FB0410202172F5000C38C8 /* Models */,
 				BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */,
 				19EFD2F31F4D308600422F2A /* MPOLSource.swift */,
@@ -390,7 +389,7 @@
 				19EFD2F81F4D35FD00422F2A /* SearchNavigatorLauncherViewController.swift in Sources */,
 				19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */,
 				BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */,
-				96B80F3E212D1F44005A72A0 /* PrimaryViewController.swift in Sources */,
+				96B80F41212D2052005A72A0 /* PrimaryViewController.swift in Sources */,
 				440CFFFE1FB30594006D491F /* ProgressViewController.swift in Sources */,
 				EA445D9E1F734B7700ABF70F /* HeaderViewController.swift in Sources */,
 				EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */,
