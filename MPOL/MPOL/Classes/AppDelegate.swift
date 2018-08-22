@@ -13,6 +13,7 @@ import DemoAppKit
 import PromiseKit
 import Lottie
 import Alamofire
+import VoiceSearchManager
 
 #if INTERNAL || EXTERNAL
     import HockeySDK
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
     var navigator: AppURLNavigator!
+    let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 1.5), textResultTransformer: VehicleRegistrationResultTransformer())
 
     var plugins: [Plugin]?
 
@@ -37,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
         }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
+
+        voiceSearchManager.delegate = self
+        voiceSearchManager.start()
 
         var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll(), SessionPlugin().allowAll(), GeolocationPlugin(fetchLocationPerRequest: false).allowAll()]
 
@@ -349,6 +354,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return handled
     }
 
+}
+
+extension AppDelegate: VoiceSearchManagerDelegate {
+    
+    static var viewController: ViewController = ViewController()
+
+    func voiceSearchManagerWillStartRecognisingSpeech(_ manager: VoiceSearchManager) {
+        let vc = AppDelegate.viewController
+        vc.willStartRecognisingSpeech()
+        self.window?.rootViewController?.present(vc, animated: false, completion: nil)
+    }
+
+    func voiceSearchManager(_ manager: VoiceSearchManager, recognisedSpeechWithResult result: String) {
+        let vc = AppDelegate.viewController
+        vc.recognisedSpeechWithResult(result)
+    }
+
+    func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithFinalResult result: String?) {
+        let vc = AppDelegate.viewController
+        vc.didEndRecognisingSpeechWithFinalResult(result)
+        vc.dismiss(animated: false)
+
+        let activity = SearchActivity.searchEntity(term: Searchable(text: result, type: "Vehicle"))
+        try? searchLauncher.launch(activity, using: navigator)
+    }
+
+    func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithError error: Error) {
+        let vc = AppDelegate.viewController
+
+        vc.didEndRecognisingSpeechWithError(error)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            vc.dismiss(animated: false)
+        }
+    }
 }
 
 // MARK: - Handling Search Activity
