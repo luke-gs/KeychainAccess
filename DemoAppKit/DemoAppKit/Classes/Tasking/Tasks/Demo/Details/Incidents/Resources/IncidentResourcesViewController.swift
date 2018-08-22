@@ -44,13 +44,13 @@ open class IncidentResourcesViewController: FormBuilderViewController, TaskDetai
                         self.present(TaskItemScreen.landing(viewModel: viewModel))
                 }
                 for officer in item.officers {
-                    builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell")
+                    builder += CustomFormItem(cellType: CollectionViewFormSubtitleBadgeCell.self, reuseIdentifier: "Officer")
                         .onConfigured { cell in
-                            guard let cell = cell as? OfficerCell else { return }
+                            guard let cell = cell as? CollectionViewFormSubtitleBadgeCell else { return }
 
-                            let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
-                                                                      commsEnabled: officer.commsEnabled,
-                                                                      contactNumber: officer.contactNumber)
+                            let commsView = CommsButtonStackView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
+                                                                 commsEnabled: officer.commsEnabled,
+                                                                 contactNumber: officer.contactNumber)
                                 .onTappedCall { _ in
                                     CommsButtonHandler.didSelectCall(for: officer.contactNumber)
                                 }.onTappedMessage { _ in

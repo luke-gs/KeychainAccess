@@ -1,5 +1,5 @@
 //
-//  OfficerCommunicationsView.swift
+//  CommsButtonStackView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 13/11/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class OfficerCommunicationsView: UIView {
+open class CommsButtonStackView: UIView {
     
     private var stackView: UIStackView!
     private var contactNumber: String

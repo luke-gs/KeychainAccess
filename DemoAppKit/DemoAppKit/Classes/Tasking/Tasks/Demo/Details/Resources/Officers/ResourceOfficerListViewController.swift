@@ -31,7 +31,7 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {
-        return OfficerCell.self
+        return CollectionViewFormSubtitleBadgeCell.self
     }
 
     override open func decorate(cell: CollectionViewFormCell, with viewModel: ResourceOfficerViewModel) {
@@ -39,9 +39,9 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
         
-        let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
-                                                  commsEnabled: viewModel.commsEnabled,
-                                                  contactNumber: viewModel.contactNumber)
+        let commsView = CommsButtonStackView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
+                                             commsEnabled: viewModel.commsEnabled,
+                                             contactNumber: viewModel.contactNumber)
             .onTappedCall { _ in
                 CommsButtonHandler.didSelectCall(for: viewModel.contactNumber)
             }.onTappedMessage { _ in
@@ -57,7 +57,7 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
             cell.accessoryView = commsView
         }
         
-        if let cell = cell as? OfficerCell {
+        if let cell = cell as? CollectionViewFormSubtitleBadgeCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.badgeLabel.text = viewModel.badgeText
@@ -84,7 +84,7 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return OfficerCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return CollectionViewFormSubtitleBadgeCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
         }
         return 0
     }

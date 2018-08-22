@@ -1,5 +1,5 @@
 //
-//  OfficerCell.swift
+//  CollectionViewFormSubtitleBadgeCell.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 10/10/17.
@@ -8,11 +8,9 @@
 
 import UIKit
 
-/// Custom form cell for displaying an officer.
-///
 /// This uses the standard CollectionViewFormSubtitleCell, but adds a badge label
 /// and buttons for comms
-open class OfficerCell: CollectionViewFormSubtitleCell {
+open class CollectionViewFormSubtitleBadgeCell: CollectionViewFormSubtitleCell {
     
     private struct LayoutConstants {
         static let spacingX: CGFloat = 8

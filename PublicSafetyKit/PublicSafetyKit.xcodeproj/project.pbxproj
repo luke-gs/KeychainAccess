@@ -144,8 +144,8 @@
 		968735F4212CE24F0061FF72 /* ColumnContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735E7212CE24F0061FF72 /* ColumnContainerView.swift */; };
 		968735F5212CE24F0061FF72 /* ColumnInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735E8212CE24F0061FF72 /* ColumnInfo.swift */; };
 		968735F6212CE24F0061FF72 /* CommsButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EA212CE24F0061FF72 /* CommsButtonHandler.swift */; };
-		968735F7212CE24F0061FF72 /* OfficerCommunicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EB212CE24F0061FF72 /* OfficerCommunicationsView.swift */; };
-		968735F8212CE24F0061FF72 /* OfficerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EC212CE24F0061FF72 /* OfficerCell.swift */; };
+		968735F7212CE24F0061FF72 /* CommsButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EB212CE24F0061FF72 /* CommsButtonStackView.swift */; };
+		968735F8212CE24F0061FF72 /* CollectionViewFormSubtitleBadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EC212CE24F0061FF72 /* CollectionViewFormSubtitleBadgeCell.swift */; };
 		968735F9212CE24F0061FF72 /* CallsignStatusFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EE212CE24F0061FF72 /* CallsignStatusFormItem.swift */; };
 		968735FA212CE24F0061FF72 /* CallsignStatusCollectionViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968735EF212CE24F0061FF72 /* CallsignStatusCollectionViewFormCell.swift */; };
 		96B80131212CE36C005A72A0 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8012B212CE36C005A72A0 /* RelationshipManager.swift */; };
@@ -304,8 +304,8 @@
 		968735E7212CE24F0061FF72 /* ColumnContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnContainerView.swift; sourceTree = "<group>"; };
 		968735E8212CE24F0061FF72 /* ColumnInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnInfo.swift; sourceTree = "<group>"; };
 		968735EA212CE24F0061FF72 /* CommsButtonHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommsButtonHandler.swift; sourceTree = "<group>"; };
-		968735EB212CE24F0061FF72 /* OfficerCommunicationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerCommunicationsView.swift; sourceTree = "<group>"; };
-		968735EC212CE24F0061FF72 /* OfficerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerCell.swift; sourceTree = "<group>"; };
+		968735EB212CE24F0061FF72 /* CommsButtonStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommsButtonStackView.swift; sourceTree = "<group>"; };
+		968735EC212CE24F0061FF72 /* CollectionViewFormSubtitleBadgeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSubtitleBadgeCell.swift; sourceTree = "<group>"; };
 		968735EE212CE24F0061FF72 /* CallsignStatusFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusFormItem.swift; sourceTree = "<group>"; };
 		968735EF212CE24F0061FF72 /* CallsignStatusCollectionViewFormCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusCollectionViewFormCell.swift; sourceTree = "<group>"; };
 		96B8012B212CE36C005A72A0 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipManager.swift; sourceTree = "<group>"; };
@@ -797,8 +797,8 @@
 			children = (
 				968735ED212CE24F0061FF72 /* Callsign Status */,
 				968735E1212CE24F0061FF72 /* Collection View */,
-				968735E6212CE24F0061FF72 /* Column */,
-				968735E9212CE24F0061FF72 /* Officer */,
+				968735E6212CE24F0061FF72 /* Column View */,
+				968735E9212CE24F0061FF72 /* Comms */,
 				968735FB212CE28B0061FF72 /* Timeline */,
 			);
 			path = Tasking;
@@ -810,27 +810,27 @@
 				968735E2212CE24F0061FF72 /* CADFormCollectionSectionViewModel.swift */,
 				968735E3212CE24F0061FF72 /* CADFormCollectionViewController.swift */,
 				968735E4212CE24F0061FF72 /* CADFormCollectionViewModel.swift */,
+				968735EC212CE24F0061FF72 /* CollectionViewFormSubtitleBadgeCell.swift */,
 			);
 			path = "Collection View";
 			sourceTree = "<group>";
 		};
-		968735E6212CE24F0061FF72 /* Column */ = {
+		968735E6212CE24F0061FF72 /* Column View */ = {
 			isa = PBXGroup;
 			children = (
 				968735E7212CE24F0061FF72 /* ColumnContainerView.swift */,
 				968735E8212CE24F0061FF72 /* ColumnInfo.swift */,
 			);
-			path = Column;
+			path = "Column View";
 			sourceTree = "<group>";
 		};
-		968735E9212CE24F0061FF72 /* Officer */ = {
+		968735E9212CE24F0061FF72 /* Comms */ = {
 			isa = PBXGroup;
 			children = (
 				968735EA212CE24F0061FF72 /* CommsButtonHandler.swift */,
-				968735EC212CE24F0061FF72 /* OfficerCell.swift */,
-				968735EB212CE24F0061FF72 /* OfficerCommunicationsView.swift */,
+				968735EB212CE24F0061FF72 /* CommsButtonStackView.swift */,
 			);
-			path = Officer;
+			path = Comms;
 			sourceTree = "<group>";
 		};
 		968735ED212CE24F0061FF72 /* Callsign Status */ = {
@@ -1200,8 +1200,8 @@
 				96872C59212B7BF30061FF72 /* NotificationManager.swift in Sources */,
 				96872BEA212B7BF30061FF72 /* NumericKeyboardSetting.swift in Sources */,
 				96B80133212CE36C005A72A0 /* ObjectBucket.swift in Sources */,
-				968735F8212CE24F0061FF72 /* OfficerCell.swift in Sources */,
-				968735F7212CE24F0061FF72 /* OfficerCommunicationsView.swift in Sources */,
+				968735F8212CE24F0061FF72 /* CollectionViewFormSubtitleBadgeCell.swift in Sources */,
+				968735F7212CE24F0061FF72 /* CommsButtonStackView.swift in Sources */,
 				96872BFA212B7BF30061FF72 /* PickableManifestEntry.swift in Sources */,
 				96872C6B212B7DBA0061FF72 /* PublicSafetyKitImports.swift in Sources */,
 				96872C3B212B7BF30061FF72 /* RefreshTokenPlugin.swift in Sources */,
