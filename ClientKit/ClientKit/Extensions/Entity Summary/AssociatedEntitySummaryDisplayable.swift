@@ -21,8 +21,13 @@ public extension Entity {
 
 extension AssociatedEntitySummaryDisplayable {
     
-    public func associatedSummaryFormItem(isCompact: Bool) -> BaseFormItem {
-        return isCompact ? associatedSummaryListFormItem() : associatedSummaryFormItem(with: .detail)
+    public func associatedSummaryFormItem(style: EntityDisplayStyle) -> BaseFormItem {
+        switch style {
+            case .list:
+                return associatedSummaryListFormItem()
+            case .grid:
+                return associatedSummaryFormItem(with: .detail)
+        }
     }
     
     public func associatedSummaryListFormItem() -> SummaryListFormItem {

@@ -30,6 +30,35 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         return persons.count + vehicles.count + locations.count
     }
 
+    // return color of assossication with highest alert level
+    private var highestAssociationAlertColor: UIColor? {
+
+        let associations: [Entity] = persons.compactMap { $0 as Entity } +
+            vehicles.compactMap { $0 as Entity } +
+            locations.compactMap { $0 as Entity }
+
+        var highestAlertLevel: Alert.Level?
+
+        for association in associations {
+            // if highestAlertLevel is set, compare it to current association alertLevel
+            if var highestAlertLevel = highestAlertLevel {
+                if let associationAlertLevel = association.alertLevel, associationAlertLevel > highestAlertLevel {
+                    highestAlertLevel = associationAlertLevel
+
+                    // if highestAlertLevel is at highest posible outcome return
+                    if highestAlertLevel == .high {
+                        return highestAlertLevel.color
+                    }
+                }
+            // if highestAlertLevel not set it to current associations alert
+            } else {
+                highestAlertLevel = association.alertLevel
+            }
+        }
+
+        return highestAlertLevel?.color
+    }
+
     private weak var searchDelegate: SearchDelegate?
 
     private let summaryDisplayFormatter: EntitySummaryDisplayFormatter
@@ -52,7 +81,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             
             for person in persons {
                 let displayable = PersonSummaryDisplayable(person)
-                builder += displayable.associatedSummaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                builder += displayable.associatedSummaryFormItem(style: style(for: person))
                     .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(person) {
                             self?.searchDelegate?.handlePresentable(presentable)
@@ -67,7 +96,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             
             for vehicle in vehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
-                builder += displayable.associatedSummaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                builder += displayable.associatedSummaryFormItem(style: style(for: vehicle))
                     .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(vehicle) {
                             self?.searchDelegate?.handlePresentable(presentable)
@@ -82,7 +111,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
 
             for location in locations {
                 let displayable = AddressSummaryDisplayable(location)
-                builder += displayable.associatedSummaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                builder += displayable.associatedSummaryFormItem(style: style(for: location))
                     .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(location) {
                             self?.searchDelegate?.handlePresentable(presentable)
@@ -119,14 +148,26 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     open override var sidebarCount: UInt? {
         return UInt(count)
     }
+
+    internal override func didSetEntity() {
+        super.didSetEntity()
+        updateSidebarAlertColor()
+    }
+
+    private func updateSidebarAlertColor() {
+
+        if let color = highestAssociationAlertColor {
+            delegate?.updateSidebarAlertColor(color)
+        }
+    }
     
     open override var rightBarButtonItems: [UIBarButtonItem]? {
         filterButton.isEnabled = false
         
         var buttons: [UIBarButtonItem] = [filterButton]
         if !isCompact {
-            let image = AssetManager.shared.image(forKey: wantsThumbnails ? .navBarThumbnailSelected : .navBarThumbnail)
-            buttons.append(UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleThumbnails)))
+            let image = AssetManager.shared.image(forKey: style == .grid ? .navBarThumbnailSelected : .navBarThumbnail)
+            buttons.append(UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(updateStyle)))
         }
         return buttons
     }
@@ -149,7 +190,20 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         
     }
     
-    // MARK: - Thumbnails / List
+    // MARK: - Entity Display Style
+
+    public private(set) var style: EntityDisplayStyle = .grid {
+        didSet {
+            if style == oldValue {
+                return
+            }
+
+            if !isCompact {
+                delegate?.updateBarButtonItems()
+                delegate?.reloadData()
+            }
+        }
+    }
     
     private var traitCollection: UITraitCollection? {
         didSet {
@@ -162,20 +216,16 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         return traitCollection?.horizontalSizeClass == .compact
     }
     
-    private var wantsThumbnails: Bool = true {
-        didSet {
-            if wantsThumbnails == oldValue {
-                return
-            }
-            
-            if !isCompact {
-                delegate?.updateBarButtonItems()
-                delegate?.reloadData()
-            }
-        }
+    @objc private func updateStyle() {
+        style = style == .grid ? . list : .grid
     }
-    
-    @objc private func toggleThumbnails() {
-        wantsThumbnails = !wantsThumbnails
+
+    private func style(for entity: Entity) -> EntityDisplayStyle {
+        switch entity {
+            case is Vehicle, is Address:
+                return .list
+            default:
+                return isCompact ? .list : style
+        }
     }
 }

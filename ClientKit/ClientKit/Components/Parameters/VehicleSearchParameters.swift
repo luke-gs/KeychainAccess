@@ -13,16 +13,30 @@ import Wrap
 
 public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
     
-    public init(registration: String) {
-        super.init(parameters: ["plateNumber": registration])
+    public init(registration: String, vehicleType: String? = nil, state: String? = nil) {
+        var parameters: [String: Any] = ["plateNumber": registration]
+        VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
+        super.init(parameters: parameters)
     }
     
-    public init(vin: String) {
-        super.init(parameters: ["vin": vin])
+    public init(vin: String, vehicleType: String? = nil, state: String? = nil) {
+        var parameters: [String: Any] = ["vin": vin]
+        VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
+        super.init(parameters: parameters)
     }
 
-    public init(engineNumber: String) {
-        super.init(parameters: ["engineNumber": engineNumber])
+    public init(engineNumber: String, vehicleType: String? = nil, state: String? = nil) {
+        var parameters: [String: Any] = ["engineNumber": engineNumber]
+        VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
+        super.init(parameters: parameters)
+    }
+
+    private static func appendAdditionalParameters(to currentParameters: inout [String: Any], vehicleType: String?, state: String?) {
+        if let vehicleType = vehicleType {
+            currentParameters["vehicleType"] = vehicleType
+        }
+        if let state = state {
+            currentParameters["state"] = state
+        }
     }
 }
-

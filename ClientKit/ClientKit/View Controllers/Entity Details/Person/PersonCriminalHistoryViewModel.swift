@@ -46,6 +46,9 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
                 let display = OffenderChargeDisplay(item)
                 builder += display.formItem()
                     .highlightStyle(.fade)
+                    .onSelection({ [weak self] _ in
+                        self?.presentCriminalHistorySummary(in: viewController, criminalHistory: item)
+                    })
             }
         }
 
@@ -59,6 +62,9 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
                 let display = OffenderConvictionDisplay(item)
                 builder += display.formItem()
                     .highlightStyle(.fade)
+                    .onSelection({ [weak self] _ in
+                        self?.presentCriminalHistorySummary(in: viewController, criminalHistory: item)
+                    })
             }
         }
         
@@ -182,6 +188,15 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
             lastOccurred = NSLocalizedString("Unknown", comment: "Unknown date")
         }
         return String(format: NSLocalizedString("Last occurred: %@", comment: ""), lastOccurred)
+    }
+
+    private func presentCriminalHistorySummary(in viewController: UIViewController, criminalHistory: CriminalHistory) {
+        let viewModel = CriminalHistorySummaryViewModel(criminalHistory: criminalHistory)
+        let criminalHistoryVC = CriminalHistorySummaryViewController(viewModel: viewModel)
+
+        let navController = ThemedNavigationController(rootViewController: criminalHistoryVC)
+        navController.modalPresentationStyle = .formSheet
+        viewController.present(navController, animated: true, completion: nil)
     }
 
 }

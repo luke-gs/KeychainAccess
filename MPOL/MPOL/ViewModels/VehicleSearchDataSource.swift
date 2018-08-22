@@ -11,23 +11,30 @@ import MPOLKit
 import ClientKit
 
 fileprivate enum FilterItem: Int {
-    case type
+    case stateFilter
+    case vehicleTypeFilter
+    case vehicleSearchType
 
-    static let count = 1
+    static let count = 3
 
     var title: String {
         switch self {
-        case .type: return NSLocalizedString("Search Type", comment: "")
+        case .vehicleSearchType: return NSLocalizedString("Search Type", comment: "")
+        case .vehicleTypeFilter: return NSLocalizedString("Vehicle Type", comment: "")
+        case .stateFilter: return NSLocalizedString("State", comment: "")
         }
     }
 }
 
-fileprivate enum SearchType: String, Pickable {
+fileprivate enum VehicleSearchType: String, Pickable {
     case registration = "Registration"
     case vin          = "VIN"
     case engineNumber = "Engine number"
 
     var title: String? {
+        if self == .registration {
+            return "Vehicle Registration"
+        }
         return self.rawValue
     }
 
@@ -35,7 +42,7 @@ fileprivate enum SearchType: String, Pickable {
         return nil
     }
 
-    static var all: [SearchType] = [.registration, .vin, .engineNumber]
+    static var all: [VehicleSearchType] = [.registration, .vin, .engineNumber]
 
     var placeholderText: String {
         switch self {
@@ -46,8 +53,85 @@ fileprivate enum SearchType: String, Pickable {
     }
 }
 
+fileprivate enum VehicleType: String, Pickable {
+    case allVehicleTypes = "All"
+    case car = "Car"
+    case motorcycle = "Motorcycle"
+    case van = "Van"
+    case truck = "Truck"
+    case trailer = "Trailer"
+    case vessel = "Vessel"
+
+    var title: String? {
+        return rawValue
+    }
+
+    var subtitle: String? {
+        return nil
+    }
+
+    var searchQuery: String? {
+        if self == .allVehicleTypes {
+            return nil
+        }
+        return rawValue
+    }
+
+    static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle, .van, .truck, .trailer, .vessel]
+}
+
+fileprivate enum State: String, Pickable {
+    case allStates = "All"
+    case act = "ACT"
+    case qld = "QLD"
+    case nsw = "NSW"
+    case nt = "NT"
+    case sa = "SA"
+    case tas = "TAS"
+    case vic = "VIC"
+    case wa = "WA"
+
+    var title: String? {
+        switch self {
+        case .allStates:
+            return rawValue
+        case .act:
+            return "Australian Capital Territory"
+        case .qld:
+            return "Queensland"
+        case .nsw:
+            return "New South Wales"
+        case .nt:
+            return "Northern Territory"
+        case .sa:
+            return "South Australia"
+        case .tas:
+            return "Tasmania"
+        case .vic:
+            return "Victoria"
+        case .wa:
+            return "Western Australia"
+        }
+    }
+
+    var subtitle: String? {
+        return nil
+    }
+
+    var searchQuery: String? {
+        if self == .allStates {
+            return nil
+        }
+        return rawValue
+    }
+
+    static var all: [State] = [.allStates, .act, .qld, .nsw, .nt, .sa, .tas, .vic, .wa]
+}
+
 fileprivate class VehicleSearchOptions: SearchOptions {
-    var type: SearchType = .registration
+    var vehicleIdentifier: VehicleSearchType = .registration
+    var vehicleType: VehicleType = .allVehicleTypes
+    var state: State = .allStates
 
     // MARK: - Filters
 
@@ -63,8 +147,12 @@ fileprivate class VehicleSearchOptions: SearchOptions {
         guard let filterItem = FilterItem(rawValue: index) else { return nil }
 
         switch filterItem {
-        case .type:
-            return type.title
+        case .vehicleSearchType:
+            return vehicleIdentifier.title
+        case .vehicleTypeFilter:
+            return vehicleType.title
+        case .stateFilter:
+            return state.title
         }
     }
 
@@ -121,7 +209,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         return .search(configure: { [weak self] (textField) in
             guard let `self` = self else { return nil }
 
-            let text = (self.options as! VehicleSearchOptions).type.placeholderText
+            let text = (self.options as! VehicleSearchOptions).vehicleIdentifier.placeholderText
             let placeholder = NSAttributedString(string: text, attributes: [
                 NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
                 NSAttributedStringKey.foregroundColor: UIColor.lightGray
@@ -162,16 +250,38 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         guard let options = options as? VehicleSearchOptions else { return .none }
 
         switch item {
-        case .type:
-            let searchTypes = SearchType.all
+        case .vehicleSearchType:
+            let searchTypes = VehicleSearchType.all
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
-                                          selectedIndexes: searchTypes.indexes { $0 == options.type },
+                                          selectedIndexes: searchTypes.indexes { $0 == options.vehicleIdentifier },
                                           onSelect: { [weak self] (_, selectedIndexes) in
                                             guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
-                                            options.type = searchTypes[selectedTypeIndex]
+                                            options.vehicleIdentifier = searchTypes[selectedTypeIndex]
                                             
                                             self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
+            })
+
+            return .options(controller: picker)
+        case .vehicleTypeFilter:
+            let searchTypes = VehicleType.all
+            let picker = pickerController(forFilterAt: index,
+                                          items: searchTypes,
+                                          selectedIndexes: searchTypes.indexes { $0 == options.vehicleType },
+                                          onSelect: { (_, selectedIndexes) in
+                                            guard let selectedTypeIndex = selectedIndexes.first else { return }
+                                            options.vehicleType = searchTypes[selectedTypeIndex]
+            })
+
+            return .options(controller: picker)
+        case .stateFilter:
+            let searchTypes = State.all
+            let picker = pickerController(forFilterAt: index,
+                                          items: searchTypes,
+                                          selectedIndexes: searchTypes.indexes { $0 == options.state },
+                                          onSelect: { (_, selectedIndexes) in
+                                            guard let selectedTypeIndex = selectedIndexes.first else { return }
+                                            options.state = searchTypes[selectedTypeIndex]
             })
 
             return .options(controller: picker)
@@ -180,7 +290,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     // MARK: - Private
 
-    private func parser(forType type: SearchType, text: String) -> QueryParser {
+    private func parser(forType type: VehicleSearchType, text: String) -> QueryParser {
         let containsWildcard = text.contains("*")
         switch type {
         case .registration:
@@ -207,11 +317,11 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         do {
-            guard let searchTerm = text, let type = (options as? VehicleSearchOptions)?.type else {
+            guard let searchTerm = text, let vehicleIdentifier = (options as? VehicleSearchOptions)?.vehicleIdentifier, let vehicleType = (options as? VehicleSearchOptions)?.vehicleType, let state = (options as? VehicleSearchOptions)?.state else {
                 throw NSError(domain: "MPOL.VehicleSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
             }
 
-            let queryParser = parser(forType: type, text: searchTerm)
+            let queryParser = parser(forType: vehicleIdentifier, text: searchTerm)
             let parserResults = try queryParser.parseString(query: searchTerm)
 
             var searchParameters: EntitySearchRequest<Vehicle>?
@@ -220,17 +330,19 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             switch parserDefinition {
             case is RegistrationDefinitionType:
-                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!)
+
+                searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!, vehicleType: vehicleType.searchQuery, state: state.searchQuery)
             case is VINDefinitionType:
-                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!)
+                searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!, vehicleType: vehicleType.searchQuery, state: state.searchQuery)
             case is EngineNumberDefinitionType:
-                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!)
+                searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!, vehicleType: vehicleType.searchQuery, state: state.searchQuery)
             default:
                 #if DEBUG
                 fatalError("No parser definition found. Ensure that all combinations are covered.")
                 #endif
                 break
             }
+
 
             if let searchParameters = searchParameters {
                 // Note: generate as many requests as required
@@ -239,7 +351,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 
                 let resultModel = EntitySummaryAlertsSearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]))
 
-                resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [SearchResultStyle.grid: 4, SearchResultStyle.list: 3])
+                resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                 resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                 resultModel.allowedStyles = [.list]
                 completion(resultModel, nil)
@@ -268,12 +380,11 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             if let options = searchable.options {
                 let vehicleOptions = self.options as! VehicleSearchOptions
-                vehicleOptions.type = SearchType(rawValue: options[FilterItem.type.rawValue] ?? "") ?? .registration
+                vehicleOptions.vehicleIdentifier = VehicleSearchType(rawValue: options[FilterItem.vehicleSearchType.rawValue] ?? "") ?? .registration
             }
 
             return true
         }
-
         return false
     }
 

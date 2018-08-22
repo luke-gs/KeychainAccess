@@ -101,7 +101,12 @@
 		AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1320BF9993009862FD /* VehicleTowReportViewModel.swift */; };
 		AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1420BF9993009862FD /* VehicleTowReportViewController.swift */; };
 		AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */; };
+		AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = AA1E7BB72119145B0086AA70 /* termsandconditions.html */; };
 		AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */; };
+		AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513821180E1A00621E58 /* TermsAndConditions.swift */; };
+		AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513A21180E6200621E58 /* WhatsNew.swift */; };
+		AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */; };
+		AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E5148211815F300621E58 /* WhatsNewSetting.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
 		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
@@ -111,7 +116,6 @@
 		BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; };
 		BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F51F60F64A0057048E /* LandingPresenter.swift */; };
-		EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = EA3C89051F32E34300F38461 /* termsandconditions.html */; };
 		EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194DC1FC5098200A2980B /* EventPresenter.swift */; };
 		EA8923550DA023B64142DEF7 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98286F47FF0E675D611C2782 /* Pods_MPOL.framework */; };
 		EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAEB3491F664705002D6C65 /* EntityPresenter.swift */; };
@@ -266,7 +270,12 @@
 		AA1C0B1320BF9993009862FD /* VehicleTowReportViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReportViewModel.swift; sourceTree = "<group>"; };
 		AA1C0B1420BF9993009862FD /* VehicleTowReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReportViewController.swift; sourceTree = "<group>"; };
 		AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSelectionAction.swift; sourceTree = "<group>"; };
+		AA1E7BB72119145B0086AA70 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAdditionalActionBuilding.swift; sourceTree = "<group>"; };
+		AA3E513821180E1A00621E58 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
+		AA3E513A21180E6200621E58 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
+		AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
+		AA3E5148211815F300621E58 /* WhatsNewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSetting.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -284,7 +293,6 @@
 		DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APNS_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.release.xcconfig"; sourceTree = "<group>"; };
 		EA2189F51F60F64A0057048E /* LandingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
-		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		EA7194DC1FC5098200A2980B /* EventPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPresenter.swift; sourceTree = "<group>"; };
 		EAAEB3491F664705002D6C65 /* EntityPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -327,6 +335,8 @@
 			children = (
 				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
+				AA3E513821180E1A00621E58 /* TermsAndConditions.swift */,
+				AA3E513A21180E6200621E58 /* WhatsNew.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -596,6 +606,15 @@
 			path = VehicleTow;
 			sourceTree = "<group>";
 		};
+		AA3E51452118153E00621E58 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */,
+				AA3E5148211815F300621E58 /* WhatsNewSetting.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		AA7B25D220B27F43005A23F0 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,6 +651,7 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				AA3E51452118153E00621E58 /* Settings */,
 				37F1B3AF20CF9676007F263B /* Search */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
@@ -679,8 +699,8 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AA1E7BB72119145B0086AA70 /* termsandconditions.html */,
 				1988306B20BB77B5006FE165 /* Settings.bundle */,
-				EA3C89051F32E34300F38461 /* termsandconditions.html */,
 				445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */,
 				445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */,
 				445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */,
@@ -830,7 +850,7 @@
 				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
 				445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */,
 				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
-				EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */,
+				AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */,
 				BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1000,6 +1020,7 @@
 				AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */,
 				371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
+				AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */,
 				37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */,
@@ -1035,16 +1056,19 @@
 				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
 				37235FB220AE738E0021850B /* DomesticViolencePropertyViewController.swift in Sources */,
 				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
+				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
 				12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
 				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
 				12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */,
+				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
 				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
+				AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */,
 				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
 				192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,

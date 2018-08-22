@@ -40,17 +40,17 @@ open class PersonTrafficHistoryViewController: EntityDetailFormViewController {
             return
         }
 
-        //add pointSummary view
+        // add pointSummary view
         pointSummaryView.titleLabel.text = "Summary"
         pointSummaryView.items = viewModel.trafficHistoryOverviewItems
         view.insertSubview(pointSummaryView, belowSubview: collectionView)
         pointSummaryView.translatesAutoresizingMaskIntoConstraints = false
 
-        //adjust collectionView inset to sit below summaryView
+        // adjust collectionView inset to sit below summaryView
         collectionView.contentInset = UIEdgeInsets(top: pointSummaryHeight, left: 0, bottom: 0, right: 0)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        //add footerView
+        // add footerView
         footerView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(footerView, belowSubview: pointSummaryView)
 

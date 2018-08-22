@@ -59,7 +59,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
-  ClientKit: 28076891c946ca81df17d71b683bab1c568b48d2
+  ClientKit: 7b04f609730ade8aa70ec46526b192db456c22f0
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
   HockeySDK: 38b7e2726af1ea86ae97ce4b5de33ab0817e3500
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3

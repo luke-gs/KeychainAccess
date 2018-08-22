@@ -11,13 +11,11 @@ import MPOLKit
 import ClientKit
 import CoreLocation
 import Alamofire
+import PromiseKit
 
 #if !DEBUG
 import HockeySDK
 #endif
-
-let TermsAndConditionsVersion = "1.0"
-let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,7 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MPOLKitInitialize()
 
-        var plugins = [NetworkMonitorPlugin().allowAll()]
+        let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
+            self.attemptRefresh(response: response)
+            }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
+
+        var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll(), SessionPlugin().allowAll(), GeolocationPlugin().allowAll()]
+
         #if DEBUG
             plugins.append(NetworkLoggingPlugin().allowAll())
         #endif
@@ -138,6 +141,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
             }
         }
+    }
+
+    private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
+
+        let promise: Promise<Void>
+
+        // Create refresh token request with current token
+        if let token = UserSession.current.token?.refreshToken {
+            promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
+                .done { token -> Void in
+                    // Update access token
+                    APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+                    UserSession.current.updateToken(token)
+                }.recover { error -> Promise<Void> in
+                    // Throw 401 error instead of refresh token error
+                    throw response.error!
+            }
+        } else {
+            promise = Promise(error: response.error!)
+        }
+
+        promise.catch { error in
+            UserSession.current.endSession()
+            self.landingPresenter.updateInterfaceForUserSession(animated: true)
+            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
+        }
+
+        return promise
     }
 
     @objc private func applyCurrentTheme() {

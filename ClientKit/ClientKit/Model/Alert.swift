@@ -15,6 +15,7 @@ open class Alert: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public enum Level: Int, UnboxableEnum {
+
         case low    = 0
         case medium = 1
         case high   = 2
@@ -178,6 +179,14 @@ extension Alert.Level: Pickable {
     }
     
 }
+
+extension Alert.Level: Comparable {
+
+    public static func < (lhs: Alert.Level, rhs: Alert.Level) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+}
+
 
 private enum CodingKey: String {
     case version

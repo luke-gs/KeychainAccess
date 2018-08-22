@@ -52,6 +52,13 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         evaluator.registerKey(.eventReadyToSubmit) {
             return self.readyToSubmit
         }
+
+        readyToSubmit = event.evaluator.isComplete
+
+        if readyToSubmit {
+            evaluator.updateEvaluation(for: .eventReadyToSubmit)
+        }
+
     }
 
     private func setUpdateHeaderDelegate() {

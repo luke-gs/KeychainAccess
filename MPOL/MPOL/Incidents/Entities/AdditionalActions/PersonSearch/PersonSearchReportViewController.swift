@@ -108,7 +108,9 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             }
 
         // offcier list
-        viewModel.report.officerDisplayables.enumerated().forEach { (index, displayable) in
+        viewModel.report.officers.enumerated().forEach { (index, officer) in
+
+            let displayable = OfficerSummaryDisplayable(officer)
 
             builder += SummaryListFormItem()
                 .title(displayable.title)
@@ -117,7 +119,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
                 .selectionStyle(.none)
                 .imageStyle(.circle)
                 .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
-                    self.viewModel.report.officerDisplayables.remove(at: index)
+                    self.viewModel.report.officers.remove(at: index)
                     self.reloadForm()
                 })])
         }
@@ -211,8 +213,12 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
 
 extension PersonSearchReportViewController: SearchDisplayableDelegate {
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
-        self.viewModel.report.officerDisplayables.append(OfficerSummaryDisplayable(object))
-        reloadForm()
+
+        if !viewModel.report.officers.contains(object) {
+            viewModel.report.officers.append(object)
+            reloadForm()
+        }
+        
         viewController.dismiss(animated: true, completion: nil)
     }
 }

@@ -10,7 +10,7 @@ import Unbox
 import MPOLKit
 
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
-    case pscore = "pscore"
+    case pscore = "ds1"
     case nat = "ds2"
     case rda = "ds3"
     case gnaf = "gnaf"
