@@ -24,7 +24,6 @@ s.ios.deployment_target = '10.0'
 s.source_files = 'DemoAppKit/DemoAppKit/Classes/**/*'
 s.resources = 'DemoAppKit/DemoAppKit/Resources/**/*'
 
-s.dependency 'PatternKit'
-s.dependency 'Wrap', '2.1.1'
+s.dependency 'PublicSafetyKit'
 
 end
