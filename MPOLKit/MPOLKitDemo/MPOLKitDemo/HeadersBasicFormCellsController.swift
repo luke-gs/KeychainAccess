@@ -90,7 +90,7 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
             cell.titleLabel.text = "Title"
             cell.subtitleLabel.text = "Subtitle"
             
-            cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
+            cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .red, handler: nil)]
             
             return cell
         case .valueField:
@@ -105,7 +105,7 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
                 cell.valueLabel.text = nil
             }
             
-            cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
+            cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .red, handler: nil)]
             
             return cell
             
