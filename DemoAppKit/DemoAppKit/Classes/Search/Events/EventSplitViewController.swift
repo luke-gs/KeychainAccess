@@ -8,11 +8,7 @@
 import UIKit
 import PromiseKit
 
-public extension EvaluatorKey {
-    static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
-}
-
-public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EvaluationObserverable, EventSummaryViewControllerDelegate, EventSubmitter {
+public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EventSummaryViewControllerDelegate, EventSubmitter {
 
     public let viewModel: EventDetailViewModelType
     public var delegate: EventsSubmissionDelegate?
@@ -36,7 +32,6 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
                                                                                          target: self,
                                                                                          action: #selector(presentEventSummary))
         
-        viewModel.evaluator.addObserver(self)
         viewModel.headerUpdated = { [weak self] in
             let selectedRow = self?.regularSidebarViewController.sidebarTableView?.indexPathForSelectedRow
             self?.regularSidebarViewController.sidebarTableView?.reloadData()
@@ -44,24 +39,6 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
                                                                            animated: false,
                                                                            scrollPosition: .none)
         }
-        
-        setSubmitButtonEnabled(false)
-    }
-    
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        if key == .eventReadyToSubmit {
-            setSubmitButtonEnabled(evaluationState)
-        }
-    }
-    
-    // MARK: Private
-    private func setSubmitButtonEnabled(_ state: Bool) {
-        regularSidebarViewController.navigationItem.rightBarButtonItem?.isEnabled = state
-        
-        //TODO: Remove if not needed
-        #if DEBUG
-        regularSidebarViewController.navigationItem.rightBarButtonItem?.isEnabled = true
-        #endif
     }
 
     // TODO: Fix the EventSubmitter protocol and make this private again.
