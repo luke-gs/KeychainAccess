@@ -15,8 +15,8 @@ def mpol_kit
 end
 
 def core_app_extension
-    pod 'CoreKitAppExtension', :git=> 'https://github.com/Gridstone/mPolKit-iOS/CoreKit', :branch => 'development'
-    #pod 'CoreKitAppExtension', :path => '../../mPolKit-iOS/CoreKit'
+    pod 'CoreKitAppExtension', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    #pod 'CoreKitAppExtension', :path => '../../mPolKit-iOS'
 end
 
 target 'ClientKit' do

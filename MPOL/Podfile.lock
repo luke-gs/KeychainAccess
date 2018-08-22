@@ -46,7 +46,7 @@ PODS:
   - Wrap (2.1.1)
 
 DEPENDENCIES:
-  - CoreKitAppExtension (from `../../mPolKit-iOS/CoreKit`)
+  - CoreKitAppExtension (from `../../mPolKit-iOS`)
   - HockeySDK
   - HyperioniOS
   - KeychainAccess
@@ -67,7 +67,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   CoreKitAppExtension:
-    :path: "../../mPolKit-iOS/CoreKit"
+    :path: "../../mPolKit-iOS"
   MPOLKit:
     :path: "../../mPolKit-iOS"
 
@@ -75,7 +75,7 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
-  CoreKitAppExtension: 9578176dafe6dc9dbbf23b3c25b5152c5a093c7c
+  CoreKitAppExtension: b15f6718ab583fbaa025e053b415d8c69f9dc825
   HockeySDK: 38b7e2726af1ea86ae97ce4b5de33ab0817e3500
   HyperioniOS: 2397937925b2d57ec28182ac979879b0da2658ee
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
@@ -85,6 +85,6 @@ SPEC CHECKSUMS:
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 42287029e8c0b82e2873fc3995f83b5e217edb9d
+PODFILE CHECKSUM: 26ab98f7585dc740e346d6222e20b7d69c205e14
 
 COCOAPODS: 1.5.0
