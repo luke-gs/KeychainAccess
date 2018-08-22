@@ -8,6 +8,10 @@
 import UIKit
 import MPOLKit
 
+public extension EvaluatorKey {
+    static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
+}
+
 let incidentsHeaderDefaultTitle = "No Incident Selected"
 let incidentsHeaderDefaultSubtitle = "IN PROGRESS"
 
