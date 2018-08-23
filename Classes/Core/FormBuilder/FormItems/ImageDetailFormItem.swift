@@ -84,14 +84,14 @@ public class ImageDetailFormItem: BaseSupplementaryFormItem {
         view.separatorView.backgroundColor = separatorColor
 
         // set title text color
-        if let titleColorAttrib = (title?.sizing().attributedString?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor) {
+        if let titleColorAttrib = (title?.sizing().attributedString?.attributeIfExists(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor) {
             view.titleLabel.textColor = titleColorAttrib
         } else {
             view.titleLabel.textColor = theme.color(forKey: titleColorKey ?? .primaryText)
         }
 
         // set description text color
-        if let descriptionColorAttrib = (description?.sizing().attributedString?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor) {
+        if let descriptionColorAttrib = (description?.sizing().attributedString?.attributeIfExists(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor) {
             view.titleLabel.textColor = descriptionColorAttrib
         } else {
             view.descriptionLabel.textColor = theme.color(forKey: descriptionColorKey ?? .secondaryText)
