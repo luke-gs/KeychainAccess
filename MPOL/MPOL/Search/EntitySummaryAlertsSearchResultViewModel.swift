@@ -70,8 +70,11 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
         var alertEntities = [MPOLKitEntity]()
 
-        (rawResults.filter {$0.state == .finished}).forEach { (rawResult) in
-            rawResult.entities.compactMap {$0 as? Entity}.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}.forEach({ (entity) in
+        let finishedResults = rawResults.filter {$0.state == .finished}
+        finishedResults.forEach { (finishedResult) in
+            let entities = finishedResult.entities.compactMap {$0 as? Entity}
+            let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
+            filteredEntities.forEach({ (entity) in
                 alertEntities.append(entity)
             })
         }
