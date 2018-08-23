@@ -67,7 +67,7 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventS
 
     // MARK: - Event Location Search Delegate
 
-    func didUpdateDatasource() {
+    func didUpdateDataSource() {
         reloadForm()
         activityIndicator.stopAnimating()
     }

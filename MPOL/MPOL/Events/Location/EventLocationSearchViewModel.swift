@@ -53,7 +53,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             }
 
             defaultOptions = searchResults.count > 0 ? formItems(for: [.manual]) : formItems(for: EventLocationSearchOption.defaultOptions)
-            delegate?.didUpdateDatasource()
+            delegate?.didUpdateDataSource()
         }
     }
 
@@ -135,7 +135,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
     }
 
     func didCancelSearch() {
-        delegate?.didUpdateDatasource()
+        delegate?.didUpdateDataSource()
     }
 
     func searchTextDidChange(to text: String?) {
@@ -155,7 +155,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             // Handle when the text is cleared by deletion
             searchResults = []
         }
-        delegate?.didUpdateDatasource()
+        delegate?.didUpdateDataSource()
     }
 
 }

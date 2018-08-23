@@ -8,7 +8,7 @@
 import UIKit
 import MPOLKit
 
-public class IncidentSearchDataSource: CustomSearchPickerDatasource {
+public class IncidentSearchDataSource: CustomSearchPickerDataSource {
 
     public var objects: [Pickable] = []
     public var selectedObjects: [Pickable]?

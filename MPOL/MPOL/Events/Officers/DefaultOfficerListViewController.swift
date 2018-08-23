@@ -101,12 +101,12 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
-        let datasource = DefaultPickableSearchDatasource(objects: viewModel.officerInvolvementOptions,
+        let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
                                                             selectedObjects: officer.involvements,
                                                             title: "Involvements",
                                                             configuration: headerConfig)
-        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
-        let viewController = CustomPickerController(datasource: datasource)
+        dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
@@ -148,14 +148,14 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
-        let involvementDatasource = DefaultPickableSearchDatasource(
+        let involvementDataSource = DefaultPickableSearchDataSource(
             objects: viewModel.officerInvolvementOptions,
             selectedObjects: officer.involvements,
             title: "Involvements",
             configuration: headerConfig)
-        involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        involvementDataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
-        let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
+        let involvementsViewController = CustomPickerController(dataSource: involvementDataSource)
         involvementsViewController.finishUpdateHandler = { controller, index in
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
