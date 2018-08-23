@@ -11,8 +11,8 @@ import Alamofire
 
 /// The type of manifest fetch
 ///
-/// - full: fetch the whole manifest
-/// - partial: fetch a pratial manifest with the `ManifestCollection` to fetch
+/// - full: Fetch the whole manifest
+/// - partial: Fetch a pratial manifest with the `ManifestCollection` to fetch
 public enum ManifestFetchType: Equatable {
     case full
     case partial(collections: [ManifestCollection])
@@ -42,8 +42,8 @@ public enum ManifestFetchType: Equatable {
     /// If comparing partials, ignores the associated `[ManifestCollection]` types equality
     ///
     /// - Parameters:
-    ///   - lhs: the left hand ManifestFetchType
-    ///   - rhs: the right hand ManifestFetchType
+    ///   - lhs: The left hand ManifestFetchType
+    ///   - rhs: The right hand ManifestFetchType
     /// - Returns: Whether the lhs is equal to the rhs
     public static func ==(lhs: ManifestFetchType, rhs: ManifestFetchType) -> Bool {
         switch (lhs, rhs) {

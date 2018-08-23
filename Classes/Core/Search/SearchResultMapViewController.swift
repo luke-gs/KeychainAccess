@@ -396,7 +396,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
         /// Remove all the existing annotations, except current user location
         clusterManager.removeAll()
-        /// Due to us reloading the viewmodel each time, we can't use removeAnnotation(searchOriginAnnotation)
+        /// Due to us reloading the viewModel each time, we can't use removeAnnotation(searchOriginAnnotation)
         if let searchOriginAnnotations = mapView?.annotations.compactMap({$0 as? SearchOriginAnnotation}) {
             mapView?.removeAnnotations(searchOriginAnnotations)
         }

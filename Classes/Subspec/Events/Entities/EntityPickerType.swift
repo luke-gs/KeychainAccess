@@ -20,8 +20,8 @@ public protocol EntityPickerTypeDefiniton {
     // The entity that objects that are picked will be applied to.
     var entity: MPOLKitEntity { get }
 
-    /// The datasource to be used when presenting the CustomPickerController.
-    var datasource: CustomSearchPickerDatasource {get}
+    /// The data source to be used when presenting the CustomPickerController.
+    var dataSource: CustomSearchPickerDataSource {get}
 
     /// The completionHandler to be executed when the user has selected their required item(s) and selected "Done".
     var completion: ((CustomPickerController, IndexSet) -> Void)? {get}
@@ -38,7 +38,7 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
         self.entity = entity
     }
 
-    var datasource: CustomSearchPickerDatasource {
+    var dataSource: CustomSearchPickerDataSource {
         let displayable = context.viewModel.displayable(for: entity)
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: "No Involvements Selected",
@@ -47,13 +47,13 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
                                                      tintColor: displayable.iconColor,
                                                      borderColor: displayable.borderColor)
 
-        let datasource = DefaultPickableSearchDatasource(objects: context.viewModel.involvements(for: entity),
+        let dataSource = DefaultPickableSearchDataSource(objects: context.viewModel.involvements(for: entity),
                                                          selectedObjects: context.viewModel.retrieveInvolvements(for: entity) ?? [],
                                                          title: "Involvements",
                                                          dismissOnFinish: context.viewModel.entities.contains(entity),
                                                          configuration: headerConfig)
-        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
-        return datasource
+        dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        return dataSource
     }
 
     var completion: ((CustomPickerController, IndexSet) -> Void)? {
@@ -97,7 +97,7 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
         self.entity = entity
     }
 
-    var datasource: CustomSearchPickerDatasource {
+    var dataSource: CustomSearchPickerDataSource {
         let displayable = context.viewModel.displayable(for: entity)
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: "No Additional Actions Selected",
@@ -107,13 +107,13 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
                                                      borderColor: displayable.borderColor)
 
         let selectedObjects = context.viewModel.retrieveAdditionalActions(for: entity)?.compactMap { $0.additionalActionType.rawValue } ?? []
-        let datasource = DefaultPickableSearchDatasource(objects: context.viewModel.additionalActions(for: entity),
+        let dataSource = DefaultPickableSearchDataSource(objects: context.viewModel.additionalActions(for: entity),
                                                          selectedObjects: selectedObjects,
                                                          title: "Additional Actions",
                                                          requiresSelection: false,
                                                          configuration: headerConfig)
-        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
-        return datasource
+        dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        return dataSource
     }
 
     var completion: ((CustomPickerController, IndexSet) -> Void)? {

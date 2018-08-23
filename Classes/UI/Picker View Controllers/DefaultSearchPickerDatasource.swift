@@ -1,5 +1,5 @@
 //
-//  DefaultSearchPickerDatasource.swift
+//  DefaultSearchPickerDataSource.swift
 //  MPOLKit
 //
 //  Created by QHMW64 on 13/2/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class DefaultSearchDatasource: CustomSearchPickerDatasource {
+public class DefaultSearchDataSource: CustomSearchPickerDataSource {
 
     public var objects: [Pickable] = []
     public var selectedObjects: [Pickable]?

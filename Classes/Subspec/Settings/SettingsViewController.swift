@@ -23,7 +23,7 @@ final public class SettingsViewController: FormTableViewController {
 
     /// Initiaise the SettingsViewController with sections
     ///
-    /// - Parameter settingSections: the sections
+    /// - Parameter settingSections: The sections
     public required init(settingSections: [SettingSection]) {
         self.sections = settingSections.filter{$0.type != .pinned}
         self.pinnedSettings = settingSections.filter{$0.type == .pinned}.flatMap{$0.settings}

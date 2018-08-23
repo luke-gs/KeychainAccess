@@ -20,6 +20,8 @@ public struct SourceItem: Equatable {
         case loaded(count: UInt?, color: UIColor?)
         
         case notAvailable
+
+        case multipleResults
     }
     
     /// The title to show with the item.

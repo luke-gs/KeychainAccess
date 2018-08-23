@@ -119,15 +119,15 @@ public protocol EventDetailViewModelType: Evaluatable {
     /// Initialiser
     ///
     /// - Parameters:
-    ///   - event: the event object
-    ///   - builder: the screen builder
+    ///   - event: The event object
+    ///   - builder: The screen builder
     init(event: Event, builder: EventScreenBuilding)
 }
 
 /// The event status
 ///
-/// - draft: event is a draft
-/// - queued: event is queued
+/// - draft: Event is a draft
+/// - queued: Event is queued
 public enum EventStatus: String {
     case draft
     case queued

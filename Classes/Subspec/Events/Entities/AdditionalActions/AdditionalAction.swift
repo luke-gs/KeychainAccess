@@ -122,7 +122,7 @@ public protocol AdditionalActionBuilding {
 
     /// Create an additional action, injecting any reports that you need.
     ///
-    /// - Parameter type: the type of additional action that is being asked to be created.
+    /// - Parameter type: The type of additional action that is being asked to be created.
     func createAdditionalAction(for type: AdditionalActionType, on incident: Incident) -> AdditionalAction
 }
 
@@ -133,8 +133,8 @@ public protocol AdditionalActionScreenBuilding {
 
     /// Constructs an array of view controllers depending on what reportables are passed in
     ///
-    /// - Parameter reportables: the array of reports to construct view controllers for
-    /// - Returns: an array of viewController constucted for the reports
+    /// - Parameter reportables: The array of reports to construct view controllers for
+    /// - Returns: An array of viewController constucted for the reports
     func viewControllers(for reports: [IncidentReportable]) -> [UIViewController] 
 }
 

@@ -10,7 +10,7 @@ import Foundation
 
 fileprivate let cellID = "CellID"
 
-public protocol CustomSearchPickerDatasource {
+public protocol CustomSearchPickerDataSource {
     var objects: [Pickable] { get set }
     var selectedObjects: [Pickable]? { get set }
     var title: String? { get }
@@ -27,7 +27,7 @@ public protocol CustomSearchPickerDatasource {
     func selectedIndexes() -> [Int]
 }
 
-public extension CustomSearchPickerDatasource {
+public extension CustomSearchPickerDataSource {
     public func requiredIndexes() -> [Int] {
         return objects.enumerated().filter { !allowsSelection(of: $0.element) }.map { $0.offset}
     }
@@ -48,10 +48,10 @@ public class CustomPickerController: FormTableViewController {
     // MARK: - Public properties
 
     public var objects: [Pickable] {
-        return datasource.objects
+        return dataSource.objects
     }
 
-    public let datasource: CustomSearchPickerDatasource
+    public let dataSource: CustomSearchPickerDataSource
 
     /// The current selected item indexes from the list.
     ///
@@ -80,7 +80,7 @@ public class CustomPickerController: FormTableViewController {
 
                 let section = allowsQuickSelection ? 1 : 0
 
-                for row in (0..<datasource.objects.count) where indexesChangingSelection.contains(row) {
+                for row in (0..<dataSource.objects.count) where indexesChangingSelection.contains(row) {
                     indexPathsToReload.append(IndexPath(row: row, section: section))
                 }
             }
@@ -141,7 +141,7 @@ public class CustomPickerController: FormTableViewController {
     open var searchTerm: String? {
         didSet {
             if searchTerm == oldValue { return }
-            datasource.header?.searchBar.text = searchTerm
+            dataSource.header?.searchBar.text = searchTerm
             updateFilter()
         }
     }
@@ -168,23 +168,23 @@ public class CustomPickerController: FormTableViewController {
 
     // MARK: - Initializing
 
-    public init(datasource: CustomSearchPickerDatasource, style: UITableViewStyle = .plain) {
-        self.datasource = datasource
+    public init(dataSource: CustomSearchPickerDataSource, style: UITableViewStyle = .plain) {
+        self.dataSource = dataSource
         super.init(style: style)
 
-        title = datasource.title
+        title = dataSource.title
         clearsSelectionOnViewWillAppear = false
-        allowsMultipleSelection = datasource.allowsMultipleSelection
+        allowsMultipleSelection = dataSource.allowsMultipleSelection
         updateFilter()
 
-        datasource.selectedIndexes().forEach { selectedIndexes.insert($0) }
-        datasource.header?.searchHandler = {
+        dataSource.selectedIndexes().forEach { selectedIndexes.insert($0) }
+        dataSource.header?.searchHandler = {
             self.searchTerm = $0
         }
         let button: UIBarButtonItem
-        button = UIBarButtonItem(title: datasource.dismissOnFinish ? "Done": "Next", style: .plain, target: self, action: #selector(doneTapped(sender:)))
+        button = UIBarButtonItem(title: dataSource.dismissOnFinish ? "Done": "Next", style: .plain, target: self, action: #selector(doneTapped(sender:)))
 
-        button.isEnabled = datasource.isValidSelection(for: [])
+        button.isEnabled = dataSource.isValidSelection(for: [])
         navigationItem.rightBarButtonItem = button
     }
 
@@ -194,7 +194,7 @@ public class CustomPickerController: FormTableViewController {
 
     @objc private func doneTapped(sender: UIBarButtonItem) {
         finishUpdateHandler?(self, selectedIndexes)
-        if datasource.dismissOnFinish {
+        if dataSource.dismissOnFinish {
             dismiss(animated: true, completion: nil)
         }
     }
@@ -223,7 +223,7 @@ public class CustomPickerController: FormTableViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
         ]
 
-        if let headerView = datasource.header {
+        if let headerView = dataSource.header {
             headerView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(headerView)
 
@@ -248,7 +248,7 @@ public class CustomPickerController: FormTableViewController {
         edgesForExtendedLayout = []
 
         tableView?.rowHeight = 64.0
-        datasource.header?.searchBar.text = searchTerm
+        dataSource.header?.searchBar.text = searchTerm
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -302,7 +302,7 @@ public class CustomPickerController: FormTableViewController {
             isSelected = selectedIndexes.contains(itemIndex)
         } else {
             if allowsMultipleSelection {
-                if selectedIndexes.count < datasource.objects.count {
+                if selectedIndexes.count < dataSource.objects.count {
                     cell.textLabel?.text = NSLocalizedString("Select All", bundle: .mpolKit, comment: "")
                 } else {
                     cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
@@ -334,7 +334,7 @@ public class CustomPickerController: FormTableViewController {
 
         if let index = indexForItem(at: indexPath) {
             let item = objects[index]
-            cell.textLabel?.alpha = !datasource.allowsSelection(of: item) ? 0.25 : 1.0
+            cell.textLabel?.alpha = !dataSource.allowsSelection(of: item) ? 0.25 : 1.0
         } else {
             cell.textLabel?.alpha = 1.0
             cell.textLabel?.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) ?? tintColor
@@ -359,7 +359,7 @@ public class CustomPickerController: FormTableViewController {
         let quickSelectionShowing = allowsQuickSelection && filteredIndexes == nil
 
         if let itemIndex = indexForItem(at: indexPath) {
-            if datasource.allowsSelection(of: objects[itemIndex]) {
+            if dataSource.allowsSelection(of: objects[itemIndex]) {
                 if allowsMultipleSelection {
                     let isSelected = selectedIndexes.remove(itemIndex) == nil
                     if isSelected {
@@ -373,7 +373,7 @@ public class CustomPickerController: FormTableViewController {
                         selectedIndexes = IndexSet(integer: itemIndex)
 
                         // If there are any required fields they must be inserted into the set
-                        datasource.requiredIndexes().forEach { selectedIndexes.insert($0) }
+                        dataSource.requiredIndexes().forEach { selectedIndexes.insert($0) }
                     }
                     updateCurrentCell(checked: isSelected)
                 }
@@ -382,26 +382,26 @@ public class CustomPickerController: FormTableViewController {
             // Can be switched from All/None
             let selectedCount = selectedIndexes.count
 
-            if !allowsMultipleSelection || selectedCount == datasource.objects.count {
+            if !allowsMultipleSelection || selectedCount == dataSource.objects.count {
                 // Deselect all
                 let oldSelectedIndexes = selectedIndexes
 
                 selectedIndexes.removeAll()
 
                 // Re insert the required rows
-                datasource.requiredIndexes().forEach { selectedIndexes.insert($0) }
+                dataSource.requiredIndexes().forEach { selectedIndexes.insert($0) }
 
                 reloadIndexPaths.reserveCapacity(selectedCount + 1)
 
-                for index in (0..<datasource.objects.count) where oldSelectedIndexes.contains(index) {
+                for index in (0..<dataSource.objects.count) where oldSelectedIndexes.contains(index) {
                     reloadIndexPaths.append(IndexPath(row: index, section: 1))
                 }
             } else {
-                selectedIndexes = IndexSet(integersIn: 0...datasource.objects.count - 1)
+                selectedIndexes = IndexSet(integersIn: 0...dataSource.objects.count - 1)
 
-                reloadIndexPaths.reserveCapacity(datasource.objects.count + 1)
+                reloadIndexPaths.reserveCapacity(dataSource.objects.count + 1)
 
-                for index in (0..<datasource.objects.count) {
+                for index in (0..<dataSource.objects.count) {
                     reloadIndexPaths.append(IndexPath(row: index, section: 1))
                 }
             }
@@ -421,8 +421,8 @@ public class CustomPickerController: FormTableViewController {
         selectionUpdateHandler?(self, selectedIndexes)
 
         let selectedValues = selectedIndexes.map { objects[$0] }
-        datasource.updateHeader(for: selectedValues)
-        navigationItem.rightBarButtonItem?.isEnabled = datasource.isValidSelection(for: selectedValues)
+        dataSource.updateHeader(for: selectedValues)
+        navigationItem.rightBarButtonItem?.isEnabled = dataSource.isValidSelection(for: selectedValues)
     }
 
     // MARK: - Private methods
@@ -460,7 +460,7 @@ public class CustomPickerController: FormTableViewController {
             let term = searchText.trimmingCharacters(in: .whitespaces)
             var indexes: [Int] = []
             if term.isEmpty == false {
-                datasource.objects.enumerated().forEach { (offset, item) in
+                dataSource.objects.enumerated().forEach { (offset, item) in
                     if item.title?.localizedCaseInsensitiveContains(term) ?? false ||
                         item.subtitle?.localizedCaseInsensitiveContains(term) ?? false ||
                         (item as? CustomSearchPickable)?.contains(term) ?? false {

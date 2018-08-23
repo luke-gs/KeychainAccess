@@ -47,9 +47,9 @@ extension LoadingViewController {
     /// will use the presenting view controllers content size is not specified in the `builder`
     ///
     /// - Parameters:
-    ///   - builder: the loading view builder
-    ///   - presentingViewController: the presenting view controller
-    /// - Returns: the promise that will be fulfilled
+    ///   - builder: The loading view builder
+    ///   - presentingViewController: The presenting view controller
+    /// - Returns: The promise that will be fulfilled
     @discardableResult
     public static func presentWith(_ builder: LoadingViewBuilder<T>,
                                    from presentingViewController: UIViewController)

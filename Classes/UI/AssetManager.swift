@@ -272,7 +272,8 @@ extension AssetManager {
         // Source bar
         public static let sourceBarDownload    = ImageKey("SourceBarDownload")
         public static let sourceBarNone        = ImageKey("SourceBarNone")
-        
+        public static let sourceBarMultiple    = ImageKey("iconResourceGeneral")
+
         // Map
         public static let mapUserLocation            = ImageKey("iconUserLocation")
         public static let mapUserTracking            = ImageKey("iconUserTracking")
