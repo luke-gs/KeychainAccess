@@ -60,12 +60,13 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
         let previousResults = self.results
         var processedResults: [SearchResultSection] = rawResults.enumerated().map { (index, rawResult) -> SearchResultSection in
             let entities = summarySearchResultsHandler(rawResult.entities)
-            return SearchResultSection(title: titleForResult(rawResult), entities: entities, isExpanded: {
+            let shouldBeExpanded: Bool = {
                 if let previous = previousResults[ifExists: index] {
                     return rawResult.state != previous.state || previous.isExpanded
                 }
                 return true
-            }(), state: rawResult.state, error: rawResult.error, source: rawResult.request.source)
+            }()
+            return SearchResultSection(title: titleForResult(rawResult), entities: entities, isExpanded: shouldBeExpanded, state: rawResult.state, error: rawResult.error, source: rawResult.request.source)
         }
 
         var alertEntities = [MPOLKitEntity]()
