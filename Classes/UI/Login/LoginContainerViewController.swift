@@ -169,14 +169,14 @@ final public class LoginContainerViewController: UIViewController {
             view.addSubview(subView)
         }
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[hl]-[hc(<=hl@500)]-[hr(<=hc@400)]-|",
-                                                         options: [.alignAllTop, .alignAllBottom],
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[hl]-[hc]-[hr(==hl)]-|",
+                                                         options: [.alignAllTop],
                                                          metrics: nil,
                                                          views: ["hl": headerViewLeft,
                                                                  "hc": headerViewCenter,
                                                                  "hr": headerViewRight])
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-[fl]-[fc(<=fl@500)]-[fr(<=fc@400)]-|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-[fl]-[fc]-[fr(==fl)]-|",
                                                       options: [.alignAllBottom],
                                                       metrics: nil,
                                                       views: ["fl": footerViewLeft,
@@ -189,8 +189,6 @@ final public class LoginContainerViewController: UIViewController {
                                                       views: ["cv": contentView,
                                                               "hvl": headerViewLeft,
                                                               "fvl": footerViewLeft])
-
-
 
         NSLayoutConstraint.activate(constraints)
     }
