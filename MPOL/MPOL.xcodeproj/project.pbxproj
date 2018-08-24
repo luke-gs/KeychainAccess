@@ -48,7 +48,6 @@
 		12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */; };
 		1900374521081DC80030B15C /* DemoPrepopulate in Resources */ = {isa = PBXBuildFile; fileRef = 1900374421081DC80030B15C /* DemoPrepopulate */; };
 		19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */; };
-		192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988306E20BB79DA006FE165 /* APIURLManager.swift */; };
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
@@ -199,7 +198,6 @@
 		12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionReport.swift; sourceTree = "<group>"; };
 		1900374421081DC80030B15C /* DemoPrepopulate */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DemoPrepopulate; sourceTree = "<group>"; };
 		19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+RecentlyDataPrepopulation.swift"; sourceTree = "<group>"; };
-		192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMatchMakingInjectionPlugin.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		1988306B20BB77B5006FE165 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
@@ -670,7 +668,6 @@
 				EA3C89041F32E31500F38461 /* Resources */,
 				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
 				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
-				192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */,
 			);
 			path = MPOL;
 			sourceTree = "<group>";
@@ -1070,7 +1067,6 @@
 				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
 				AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */,
 				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
-				192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
