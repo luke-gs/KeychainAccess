@@ -9,7 +9,14 @@ import Foundation
 import PublicSafetyKit
 import DemoAppKit
 
+import AVFoundation
+
 public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntitySummarySearchResultViewModel<T>, SearchAlertsViewModelable, SearchAlertsDelegate {
+
+    lazy var speechSynthetizer: AVSpeechSynthesizer = {
+        let synthetizer = AVSpeechSynthesizer()
+        return synthetizer
+    }()
 
     public var alertEntities: [Entity] = []
 
@@ -70,6 +77,34 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
         }
 
         var alertEntities = [MPOLKitEntity]()
+
+        if let pscore = rawResults.first, pscore.state == .finished {
+            if (pscore.entities.compactMap { $0 as? Vehicle }).count == 1 {
+                let firstResult = pscore.entities.first as! Vehicle
+                let summary = VehicleSummaryDisplayable(firstResult)
+
+                let audioSession = AVAudioSession.sharedInstance()
+                try? audioSession.setCategory(AVAudioSessionCategoryPlayback)
+                try? audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+
+                var rego = firstResult.registration ?? ""
+                let crap = rego.map { value -> String in
+                    let result = String(value)
+                    if let number = Int(result) {
+                        return String(number) + " "
+                    } else {
+                        return result
+                    }
+                }
+                let crap2 = crap.joined()
+
+                var text = "One result from \(pscore.request.source.localizedBadgeTitle).\nRegistration: \(crap2), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
+                if speechSynthetizer.isSpeaking {
+                    speechSynthetizer.stopSpeaking(at: .immediate)
+                }
+                speechSynthetizer.speak(AVSpeechUtterance(string: text))
+            }
+        }
 
         let finishedResults = rawResults.filter {$0.state == .finished}
         finishedResults.forEach { (finishedResult) in

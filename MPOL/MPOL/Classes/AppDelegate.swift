@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
     var navigator: AppURLNavigator!
-    let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 1.5), textResultTransformer: VehicleRegistrationResultTransformer())
+    let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 1.5))
 
     var plugins: [Plugin]?
 
@@ -371,12 +371,39 @@ extension AppDelegate: VoiceSearchManagerDelegate {
         vc.recognisedSpeechWithResult(result)
     }
 
+    func didEndRecognisingSpeechWithFinalResult(_ result: String?) {
+
+        let trans = VehicleRegistrationResultTransformer()
+
+        var text = result
+        var rightNow = false
+
     func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithFinalResult result: String?) {
         let vc = AppDelegate.viewController
         vc.didEndRecognisingSpeechWithFinalResult(result)
         vc.dismiss(animated: false)
 
-        let activity = SearchActivity.searchEntity(term: Searchable(text: result, type: "Vehicle"))
+        if let currentRecognition = result {
+            let words = currentRecognition.components(separatedBy: " ")
+            if let lastWord = words.last {
+                if lastWord.localizedCaseInsensitiveCompare("search") == .orderedSame {
+                    text = words.dropLast().joined(separator: " ")
+                    rightNow = true
+                }
+            }
+        }
+
+        if let value = text {
+            text = trans.transform(value)
+        }
+
+
+        let searchable = Searchable(text: text, type: "Vehicle")
+        if rightNow {
+            searchable.options = [100: "OK"]
+        }
+
+        let activity = SearchActivity.searchEntity(term: searchable)
         try? searchLauncher.launch(activity, using: navigator)
     }
 

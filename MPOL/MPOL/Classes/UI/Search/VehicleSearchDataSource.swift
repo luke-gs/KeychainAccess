@@ -239,6 +239,15 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     let wildcardVINParser          = QueryParser(parserDefinition: VINParserDefinition(range: 1...17))
     let wildcardEngineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 1...20))
 
+    override init() {
+        super.init()
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "dodgySearch"), object: nil, queue: OperationQueue.main) { _ in
+            self.performSearch()
+        }
+
+    }
+
     weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
     var localizedDisplayName: String {
