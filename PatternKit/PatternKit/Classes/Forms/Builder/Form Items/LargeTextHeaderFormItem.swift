@@ -79,7 +79,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
         if let cell = view as? CollectionViewFormLargeTextLabelCell {
             if let text = text {
                 if text.sizing().attributedString?
-                    .attribute(.foregroundColor, at: 0, effectiveRange: nil) == nil {
+                    .attributeIfExists(.foregroundColor, at: 0, effectiveRange: nil) == nil {
                         cell.titleLabel.textColor = theme.color(forKey: .primaryText)
                 }
 

@@ -15,8 +15,8 @@ public protocol EventBuilding {
 
     /// Create an event, injecting any reports that you need.
     ///
-    /// - Parameter type: the type of event that is being asked to be created.
-    /// - Returns: a tuple of an event and it's list view representation
+    /// - Parameter type: The type of event that is being asked to be created.
+    /// - Returns: A tuple of an event and it's list view representation
     func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable)
 }
 
@@ -30,7 +30,7 @@ public protocol EventScreenBuilding {
 
     /// Constructs an array of view controllers depending on what reportables are passed in
     ///
-    /// - Parameter reportables: the array of reports to construct view controllers for
-    /// - Returns: an array of viewController constucted for the reports
+    /// - Parameter reportables: The array of reports to construct view controllers for
+    /// - Returns: An array of viewController constucted for the reports
     func viewControllers(for reportables: [EventReportable]) -> [UIViewController]
 }

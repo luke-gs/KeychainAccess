@@ -89,29 +89,29 @@ public protocol DirectoryManaging {
     /// Initialise the directory manager with a base url
     ///
     ///All subsequent write/reads will be appending to the base url
-    /// - Parameter baseURL: the base url to use
+    /// - Parameter baseURL: The base url to use
     init(baseURL: URL)
 
     /// Write the object to a directory at sub path of the base url
     ///
     /// If the intermediate directories don't exist, it will create them for you
     /// - Parameters:
-    ///   - object: the object to archive
-    ///   - path: the sub path to archive to
-    /// - Returns: true of the write was successful
+    ///   - object: The object to archive
+    ///   - path: The sub path to archive to
+    /// - Returns: `true` of the write was successful
     @discardableResult func write(_ object: Any, to path: String) -> Bool
 
     /// Read from the directory and unarchive an object
     ///
-    /// - Parameter path: the path of the object
-    /// - Returns: the object unarchived from the path. nil if no object was found.
+    /// - Parameter path: The path of the object
+    /// - Returns: The object unarchived from the path. nil if no object was found.
     func read(from path: String) -> Any?
 
     /// Removes the file at the given path
     ///
-    /// - Parameter path: the path of the file
-    /// - Returns: returns true if removal was successful
-    /// - Throws: throws error if there was a problem removing the file
+    /// - Parameter path: The path of the file
+    /// - Returns: `true` if removal was successful
+    /// - Throws: Error if there was a problem removing the file
     func remove(at path: String) throws
 
     /// Retrieve a list of file names from the given directory
@@ -123,15 +123,15 @@ public protocol DirectoryManaging {
     /// Write an object to the keychain
     ///
     /// - Parameters:
-    ///   - object: the object to write to keychain
-    ///   - key: the key to store it under
-    /// - Returns: true of the write was successful
+    ///   - object: The object to write to keychain
+    ///   - key: The key to store it under
+    /// - Returns: `true` of the write was successful
     @discardableResult func write(_ object: Any?, toKeyChain key: String) -> Bool
 
     /// Read from the keychain
     ///
-    /// - Parameter key: the key of the object in keychain
-    /// - Returns: the unarchived object
+    /// - Parameter key: The key of the object in keychain
+    /// - Returns: The unarchived object
     func read(fromKeyChain key: String) -> Any?
 }
 
@@ -149,8 +149,8 @@ public extension FileManager {
     ///   - data: A data object containing the contents of the new file.
     ///   - createIntermediates: If true, this method creates any non-existent parent directories as part of creating the directory in path. If false, this method fails if any of the intermediate parent directories does not exist. This method also fails if any of the intermediate path elements corresponds to a file and not a directory.
     ///   - attr: A dictionary containing the attributes to associate with the new file. You can use these attributes to set the owner and group numbers, file permissions, and modification date. For a list of keys, see File Attribute Keys. If you specify nil for attributes, the file is created with a set of default attributes.
-    /// - Returns: true if the operation was successful or if the item already exists, otherwise false.
-    /// - Throws: throws if error has occurred
+    /// - Returns: `true` if the operation was successful or if the item already exists, otherwise false.
+    /// - Throws: if error has occurred
     func createFile(atPath path: String,
                     contents data: Data?,
                     withIntermediateDirectories createIntermediates: Bool,

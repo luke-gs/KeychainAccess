@@ -9,7 +9,7 @@
 import UIKit
 
 /// A searchable object. 
-/// The datasource should know the options and types and what to do with them
+/// The dataSource should know the options and types and what to do with them
 public class Searchable: NSObject, NSSecureCoding, Codable {
 
     /// The search text
@@ -179,7 +179,7 @@ public protocol SearchDataSource: class {
     /// The filter object used to declare all filtering rules
     var options: SearchOptions? { get }
     
-    /// The localized display name for the datasource. Used as the title in the search options view controller.
+    /// The localized display name for the dataSource. Used as the title in the search options view controller.
     var localizedDisplayName: String { get }
 
     /// The search button to be displayed in the navigation bar.
@@ -190,7 +190,7 @@ public protocol SearchDataSource: class {
     var updatingDelegate: (SearchDataSourceUpdating & UIViewController)? { get set }
 
     /// The action for filter. The method is called on selection of each option field. Typically used
-    /// to generate dropdown action. But the datasource can intercept and perform other task if required.
+    /// to generate dropdown action. But the dataSource can intercept and perform other task if required.
     ///
     /// - Parameters:
     ///   - index: The filter index.
@@ -205,13 +205,13 @@ public protocol SearchDataSource: class {
     ///   - ended: Indicates the end of editing.
     func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool)
     
-    /// Prefills search with existing search. Datasource can choose to ignore the existing search
+    /// Prefills search with existing search. Data Source can choose to ignore the existing search
     /// if it doesn't satisfy the format requirement. Return true if the search is processed and 
-    /// accepted by the datasource. False to indicate that it has been rejected.
+    /// accepted by the dataSource. False to indicate that it has been rejected.
     /// 
     /// - Parameters:
     ///   - searchable: The searchable.
-    /// - Returns: True if searchable is accepted by the datasource. False otherwise.
+    /// - Returns: True if searchable is accepted by the dataSource. False otherwise.
     @discardableResult func prefill(withSearchable searchable: Searchable) -> Bool
 }
 

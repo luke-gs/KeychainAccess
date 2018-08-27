@@ -29,6 +29,7 @@ public protocol EntitySummaryDisplayable {
 
     var priority: Int { get }
 
+    init(_ entity: MPOLKitEntity)
 }
 
 extension EntitySummaryDisplayable {

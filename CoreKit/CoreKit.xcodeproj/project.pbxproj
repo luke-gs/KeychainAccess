@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F931D82E5569D1976AFA7C2 /* Pods_CoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA6CD0E2C1BD0CF693CAD58 /* Pods_CoreKitTests.framework */; };
+		969EA9262134BDFA0027E2AD /* NSAttributedString+IfExists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA9252134BDFA0027E2AD /* NSAttributedString+IfExists.swift */; };
 		96B801E8212D1787005A72A0 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80137212D1787005A72A0 /* Evaluator.swift */; };
 		96B801E9212D1787005A72A0 /* Evaluatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80138212D1787005A72A0 /* Evaluatable.swift */; };
 		96B801EA212D1787005A72A0 /* EvaluatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80139212D1787005A72A0 /* EvaluatorKey.swift */; };
@@ -173,6 +174,7 @@
 		707D627B14DC00C68E483590 /* Pods-CoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoreKit/Pods-CoreKit.release.xcconfig"; sourceTree = "<group>"; };
 		8828933F8C25D51C2B5E7C0E /* Pods_CoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA6CD0E2C1BD0CF693CAD58 /* Pods_CoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		969EA9252134BDFA0027E2AD /* NSAttributedString+IfExists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+IfExists.swift"; sourceTree = "<group>"; };
 		96B80137212D1787005A72A0 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
 		96B80138212D1787005A72A0 /* Evaluatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluatable.swift; sourceTree = "<group>"; };
 		96B80139212D1787005A72A0 /* EvaluatorKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatorKey.swift; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 				96B801B4212D1787005A72A0 /* FloatingPoint+Comparison.swift */,
 				96B8019D212D1787005A72A0 /* MKMapView+BoundingBox.swift */,
 				96B801B7212D1787005A72A0 /* NSArchiver+SecureArchiver.swift */,
+				969EA9252134BDFA0027E2AD /* NSAttributedString+IfExists.swift */,
 				96B801B5212D1787005A72A0 /* NSLayoutConstraint+Conveniences.swift */,
 				96B801A1212D1787005A72A0 /* NSMutableAttributedString+Append.swift */,
 				96B8019E212D1787005A72A0 /* Optional+Extension.swift */,
@@ -1082,6 +1085,7 @@
 				96B80209212D1787005A72A0 /* MappedError.swift in Sources */,
 				96B80238212D1787005A72A0 /* MKMapView+BoundingBox.swift in Sources */,
 				96B8026A212D1787005A72A0 /* ModelVersionable.swift in Sources */,
+				969EA9262134BDFA0027E2AD /* NSAttributedString+IfExists.swift in Sources */,
 				96B80255212D1787005A72A0 /* MPOLAssert.swift in Sources */,
 				96B8020A212D1787005A72A0 /* NetworkErrorDefinition.swift in Sources */,
 				96B8026E212D1787005A72A0 /* NetworkLoggingPlugin.swift in Sources */,

@@ -51,7 +51,7 @@ extension NSAttributedString: StringSizable {
     /// NOTE: Currently only considers the font at index 0
     public func sizing() -> StringSizing {
         // TODO: Use the largest font if multiple exist
-        let font = self.attributes(at: 0, effectiveRange: nil)[NSAttributedStringKey.font] as? UIFont
+        let font = self.attributesIfExist(at: 0, effectiveRange: nil)?[NSAttributedStringKey.font] as? UIFont
 
         return StringSizing(string: self.string, attributedString: self, font: font, numberOfLines: nil)
     }
@@ -60,7 +60,7 @@ extension NSAttributedString: StringSizable {
     /// NOTE: Currently only considers the font at index 0
     public func sizing(withNumberOfLines numberOfLines: Int?) -> StringSizing {
         // TODO: Use the largest font if multiple exist
-        let font = self.attributes(at: 0, effectiveRange: nil)[NSAttributedStringKey.font] as? UIFont
+        let font = self.attributesIfExist(at: 0, effectiveRange: nil)?[NSAttributedStringKey.font] as? UIFont
         
         return StringSizing(string: self.string, attributedString: self, font: font, numberOfLines: numberOfLines)
     }
@@ -161,8 +161,8 @@ public struct StringSizing: StringSizable {
         
         var attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: font]
         
-        if let attributedString = attributedString {
-            for (key, value) in attributedString.attributes(at: 0, effectiveRange: nil) {
+        if let additionalAttributes = attributedString?.attributesIfExist(at: 0, effectiveRange: nil) {
+            for (key, value) in additionalAttributes {
                 attributes[key] = value
             }
         }

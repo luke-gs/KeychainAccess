@@ -131,7 +131,7 @@ internal class SourceBarCell: UIControl {
             accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
             accessibilityValue = "Not yet loaded."
         case .notAvailable:
-            isEnabled = true
+            isEnabled = false
             
             let imageView = self.imageView()
             imageView.isHidden = false
@@ -187,6 +187,20 @@ internal class SourceBarCell: UIControl {
             } else {
                 accessibilityValue = nil
             }
+        case .multipleResults:
+            isEnabled = true
+
+            let imageView = self.imageView()
+            imageView.isHidden = false
+            imageView.image = AssetManager.shared.image(forKey: .sourceBarMultiple)
+
+            highlightedTintColor = .white
+            normalTintColor = SourceBarCell.disabledColor
+
+            _loadingIndicator?.stopAnimating()
+            _iconView?.isHidden = true
+
+            accessibilityValue  = "Multiple results."
         }
 
         updateSelection()

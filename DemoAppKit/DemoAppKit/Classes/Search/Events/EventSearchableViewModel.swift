@@ -23,7 +23,7 @@ public protocol EventSearchableViewModelDelegate {
     associatedtype Searchable
     associatedtype Option
 
-    func didUpdateDatasource()
+    func didUpdateDataSource()
     func didSelectSearchable(_ searchable: Searchable)
     func didSelectOption(_ option: Option)
 }

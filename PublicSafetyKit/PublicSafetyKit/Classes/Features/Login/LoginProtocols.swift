@@ -7,22 +7,22 @@
 
 import LocalAuthentication
 
-/// Credential used in the `LoginViewController` to define and verify the various
+/// Credential used in The `LoginViewController` to define and verify The various
 /// properties required to login
 public protocol LoginCredential: class {
 
-    /// The name of the credential
+    /// The name of The credential
     var name: String { get }
 
-    /// The value of the credential
-    /// Automatically gets populated by the text field
+    /// The value of The credential
+    /// Automatically gets populated by The text field
     var value: String? { get set }
 
-    /// Whether this field is required to enable the login button
+    /// Whether this field is required to enable The login button
     var isRequired: Bool { get }
 
-    /// Implement your own logic to determine if the current value
-    /// makes the credential valid
+    /// Implement your own logic to determine if The current value
+    /// makes The credential valid
     ///
     /// eg. > 6 characters
     var isValid: Bool { get }
@@ -46,41 +46,41 @@ public enum LoginMode {
 /// Login View Controller delegate
 public protocol LoginViewControllerDelegate {
 
-    /// Triggers when the login view controller appears
+    /// Triggers when The login view controller appears
     ///
-    /// - Parameter controller: the login view controller
+    /// - Parameter controller: The login view controller
     func loginViewControllerDidAppear(_ controller: LoginViewController)
 }
 
-/// LoginViewController delegate used with the basic credentials `LoginMode`
+/// LoginViewController delegate used with The basic credentials `LoginMode`
 public protocol CredentialsDelegate: LoginViewControllerDelegate {
 
-    /// Triggers when the login button is pressed
+    /// Triggers when The login button is pressed
     ///
     /// - Parameters:
-    ///   - controller: the login viewController
-    ///   - didFinishWithCredentials: the array of credentials, do what you will with them
+    ///   - controller: The login viewController
+    ///   - didFinishWithCredentials: The array of credentials, do what you will with them
     func loginViewController(_ controller: LoginViewController, didFinishWithCredentials: [LoginCredential])
 }
 
-/// LoginViewController delegate used with the basic credentials and biometrics
+/// LoginViewController delegate used with The basic credentials and biometrics
 public protocol BiometricDelegate: CredentialsDelegate {
 
-    /// Triggers when the login button is pressed
+    /// Triggers when The login button is pressed
     ///
     /// - Parameters:
-    ///   - controller: the login view controller
-    ///   - context: the local authentication context
+    ///   - controller: The login view controller
+    ///   - context: The local authentication context
     func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext)
 }
 
 /// LoginViewController delegate used with external authentication
 public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
 
-    /// Triggers when the login button is pressed
+    /// Triggers when The login button is pressed
     ///
     /// - Parameters:
-    ///   - controller: the login view controller
+    ///   - controller: The login view controller
     func loginViewControllerDidCommenceExternalAuth(_ controller: LoginViewController)
 }
 

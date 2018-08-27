@@ -105,8 +105,8 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     
     /// Sorts sections based on resource status, then alphabetically by callsign
     ///
-    /// - Parameter unsorted: the unsorted array
-    /// - Returns: a sorted array
+    /// - Parameter unsorted: The unsorted array
+    /// - Returns: A sorted array
     open func sortedSections(from unsorted: [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>]) -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
         // Map sections
         return unsorted.map { section in

@@ -21,9 +21,9 @@ public struct HighlightTextModel {
     /// Intializer
     ///
     /// - Parameters:
-    ///   - text: the text to display
-    ///   - highlightText: the text to highlight
-    ///   - action: the action to perform when the text is tapped
+    ///   - text: The text to display
+    ///   - highlightText: The text to highlight
+    ///   - action: The action to perform when the text is tapped
     public init(text: String, highlightText: String?, action: ((UIViewController)->())? = nil) {
         self.text = text
         self.highlightText = highlightText
