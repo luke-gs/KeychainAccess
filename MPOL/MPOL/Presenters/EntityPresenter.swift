@@ -13,9 +13,7 @@ import ClientKit
 public enum EntityScreen: Presentable {
 
     case help(type: EntityType)
-
     case createEntity(type: EntityType)
-
     case entityDetails(entity: Entity, delegate: SearchDelegate?)
 
     public enum EntityType {
@@ -34,50 +32,61 @@ public class EntityPresenter: Presenter {
         switch presentable {
 
         case .entityDetails(let entity, let delegate):
-            let dataSources: [EntityDetailSectionsDataSource]
-
             switch entity {
             case is Person:
-                // FIXME: Refactor all of these data sources set up.
-                dataSources = [
-                    PersonPSCoreDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    PersonNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    PersonRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
-                ]
+                let ds1 = PersonPSCoreDetailsSectionsDataSource(delegate: delegate)
+                let ds2 = PersonNATDetailsSectionsDataSource(delegate: delegate)
+                let ds3 = PersonRDADetailsSectionsDataSource(delegate: delegate)
 
-                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
-                                                              dataSources: dataSources,
-                                                              andMatchMaker: PersonMatchMaker())
-                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
-                viewModel.recentlyViewed = UserSession.current.recentlyViewed
+                let strat1 = PersonRetrieveStrategy(source: MPOLSource.pscore)
+                let strat2 = PersonRetrieveStrategy(source: MPOLSource.nat)
+                let strat3 = PersonRetrieveStrategy(source: MPOLSource.rda)
 
-                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
-                entityDetailViewController.delegate = self
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+
+                let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
+                                                            initialSource: entity.source!,
+                                                            referenceEntity: entity)
+
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+
                 return entityDetailViewController
             case is Vehicle:
-                dataSources = [
-                    VehiclePSCoreDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    VehicleNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    VehicleRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
-                ]
 
-                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
-                                                              dataSources: dataSources,
-                                                              andMatchMaker: VehicleMatchMaker())
-                viewModel.recentlyViewed = UserSession.current.recentlyViewed
-                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
+                let ds1 = VehiclePSCoreDetailsSectionsDataSource(delegate: delegate)
+                let ds2 = VehicleNATDetailsSectionsDataSource(delegate: delegate)
+                let ds3 = VehicleRDADetailsSectionsDataSource(delegate: delegate)
 
-                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
-                 entityDetailViewController.delegate = self
+                let strat1 = VehicleRetrieveStrategy(source: MPOLSource.pscore)
+                let strat2 = VehicleRetrieveStrategy(source: MPOLSource.nat)
+                let strat3 = VehicleRetrieveStrategy(source: MPOLSource.rda)
+
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+
+                let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
+                                                            initialSource: entity.source!,
+                                                            referenceEntity: entity)
+
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+
                 return entityDetailViewController
             case is Address:
-                dataSources = [LocationMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)]
-                let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.pscore,
-                                                              dataSources: dataSources,
-                                                              andMatchMaker: nil)
-                viewModel.recentlyViewed = UserSession.current.recentlyViewed
-                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
-                entityDetailViewController.delegate = self
+
+                let ds1 = LocationMPOLDetailsSectionsDataSource(delegate: delegate)
+                let strat1 = LocationRetrieveStrategy(source: MPOLSource.pscore)
+
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1)
+
+                let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1],
+                                                            initialSource: entity.source!,
+                                                            referenceEntity: entity)
+
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
+                
                 return entityDetailViewController
             default:
                 break
@@ -136,15 +145,7 @@ public class EntityPresenter: Presenter {
         }
     }
 
-
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is EntityScreen.Type
-    }
-
-}
-
-extension EntityPresenter: EntityDetailSplitViewControllerDelegate {
-
-    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity) {
     }
 }

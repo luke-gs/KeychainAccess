@@ -14,7 +14,7 @@ open class EntityDetailFormViewController: FormBuilderViewController, EntityDeta
 
     // MARK: Public properties
     
-    public var genericEntity: MPOLKitEntity? {
+    public var entity: MPOLKitEntity? {
         get {
             return viewModel.entity
         }

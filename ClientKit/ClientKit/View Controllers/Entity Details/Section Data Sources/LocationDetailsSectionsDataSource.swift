@@ -1,5 +1,5 @@
 //
-//  LocationDetailsSectionsDatasource.swift
+//  LocationDetailsSectionsDataSource.swift
 //  ClientKit
 //
 //  Created by QHMW64 on 13/11/17.
@@ -9,28 +9,18 @@
 import Foundation
 import MPOLKit
 
-public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class LocationMPOLDetailsSectionsDataSource: EntityDetailsDataSource {
 
-    public var source: EntitySource = MPOLSource.pscore
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
+    public let source: EntitySource = MPOLSource.pscore
+    public let viewControllers: [UIViewController]
+    public var subsequentMatches: [EntityDetailMatch] = []
 
-    public var localizedDisplayName: String {
-        return NSLocalizedString("Location", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = LocationFetchRequest(source: source, request: EntityFetchRequest<Address>(id: entity.id))
-        return EntityDetailFetch<Address>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers =  [
-                                        EntityLocationInformationViewController(viewModel: LocationInfoViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel())
+    public init(delegate: SearchDelegate?) {
+        self.viewControllers = [
+            EntityLocationInformationViewController(viewModel: LocationInfoViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+            EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+            EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel())
         ]
     }
 }

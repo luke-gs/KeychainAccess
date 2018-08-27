@@ -15,7 +15,7 @@ class EventEntityRelationshipsViewModel {
 
     init(report: EventEntityRelationshipsReport) {
         self.report = report
-        self.createDatasources()
+        self.createDataSources()
     }
 
     public func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
@@ -87,7 +87,7 @@ class EventEntityRelationshipsViewModel {
 
     // MARK: Private
 
-    private func createDatasources() {
+    private func createDataSources() {
         if let entities = entitesFor(Person.self), !entities.isEmpty {
             dataSources.append(EventRelationshipEntityDataSource(header: "Persons", entities: entities))
         }
