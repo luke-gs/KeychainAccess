@@ -127,7 +127,7 @@ final public class LoginContainerViewController: UIViewController {
         if traitCollection.horizontalSizeClass == .regular {
             view.layoutMargins = UIEdgeInsets(top: 64, left: 64, bottom: 64, right: 64)
         } else {
-            view.layoutMargins = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
+            view.layoutMargins = UIEdgeInsets(top: 16, left: 32, bottom: 16, right: 32)
         }
     }
 

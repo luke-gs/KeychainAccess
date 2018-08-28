@@ -21,15 +21,10 @@ final public class LoginViewController: UIViewController {
     public let loginMode: LoginMode
 
     /// The primary title label. Customise to your hearts content.
-    public let titleLabel: UILabel = UILabel()
+    public var titleView: UIView = UIView()
 
     /// The login button. Customise to your hearts content.
     public let loginButton: UIButton = UIButton()
-
-    /// The subtitle text view. Customise to your hearts content.
-    /// Make sure to provide a `HighlightTextModel` to specify the text to highlight and the action
-    /// to perform when tapped.
-    public let subtitleTextView: HighlightingTextView = HighlightingTextView()
 
     /// The detail text view. Customise to your hearts content.
     /// Make sure to provide a `HighlightTextModel` to specify the text to highlight and the action
@@ -110,12 +105,12 @@ final public class LoginViewController: UIViewController {
 
         button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
         button.setTitle(buttonText, for: .normal)
-        button.tintColor = ColorPalette.shared.skyBlue
+        button.tintColor = ColorPalette.shared.brightBlue
 
         button.clipsToBounds = true
 
         return button
-        }()
+    }()
 
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
@@ -184,8 +179,7 @@ final public class LoginViewController: UIViewController {
         scrollView.addSubview(contentView)
 
         let views = [
-            titleLabel,
-            subtitleTextView,
+            titleView,
             credentialsStackView,
             biometricButton,
             loginButton,
@@ -208,19 +202,18 @@ final public class LoginViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ]
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tv]-42-[csv]-20-[lb(48)]-20-[bb]-20-[dtv]|",
                                                          options: [.alignAllLeading, .alignAllTrailing,],
                                                          metrics: nil,
-                                                         views: ["tl": titleLabel,
-                                                                 "stv": subtitleTextView,
+                                                         views: ["tv": titleView,
                                                                  "csv": credentialsStackView,
-                                                                 "bb": biometricButton,
                                                                  "lb": loginButton,
+                                                                 "bb": biometricButton,
                                                                  "dtv": detailTextView])
 
         constraints += [
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)
