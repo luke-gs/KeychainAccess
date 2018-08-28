@@ -119,9 +119,9 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     private func screenForUserSession() -> LandingScreen {
         if let user = UserSession.current.user, UserSession.current.isActive {
 
-            let usedVersion = SemanticVersion(user.lastUsedAppVersion)
+            let usedVersion = SemanticVersion(user.highestUsedAppVersion)
             if usedVersion == nil || usedVersion! < appVersion {
-                user.lastUsedAppVersion = appVersion.rawVersion
+                user.highestUsedAppVersion = appVersion.rawVersion
                 user.lastWhatsNewShownVersion = nil
                 user.lastTermsAndConditionsVersionAccepted = nil
             }
@@ -251,11 +251,11 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             throw error
         }.done {
             UserSession.startSession(user: User(username: username), token: lToken!)
-            self.updateInterfaceForUserSession(animated: true)
         }.then { [unowned self] () -> Promise<Void> in
             return self.postAuthenticateChain()
         }.ensure {
             controller.setLoading(false, animated: true)
+            self.updateInterfaceForUserSession(animated: true)
         }.catch { error in
             let error = error as NSError
 
@@ -290,8 +290,9 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     /// Custom post authentication logic that must be executed as part of authentication chain
     /// Eg Search uses this to fetch officer details
+    /// By default fetch the clientkit user preferences
     open func postAuthenticateChain() -> Promise<Void> {
-        return Promise<Void>()
+        return UserPreferenceManager.shared.fetchSharedUserPreferences()
     }
 
     private func askForBiometricPermission(in controller: UIViewController) -> Promise<Void> {

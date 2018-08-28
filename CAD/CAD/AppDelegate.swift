@@ -118,6 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
                 APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
+                UserPreferenceManager.shared.fetchSharedUserPreferences().then(UserPreferenceManager.shared.fetchUserPreferences).cauterize()
             }
         }
 

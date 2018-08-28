@@ -63,6 +63,7 @@
 		46E0B8BC2033AC1700B40DF2 /* OfficerSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BB2033AC1700B40DF2 /* OfficerSearchParameters.swift */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
 		968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */; };
+		AA16283E212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16283D212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift */; };
 		AA16412D20F476970027F947 /* AssociationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412C20F476970027F947 /* AssociationReason.swift */; };
 		AA18D63D211AA278002E6227 /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18D63C211AA278002E6227 /* User+VersionAccessors.swift */; };
 		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
@@ -196,6 +197,7 @@
 		8D456DA74D3DDFD103A00567 /* Pods-ClientKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		905D1BB1A0DB324FE3C6DD8B /* Pods-ClientKit.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-debug.xcconfig"; sourceTree = "<group>"; };
 		968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupLandingPresenter.swift; sourceTree = "<group>"; };
+		AA16283D212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserPreferenceManager+ClientKit.swift"; sourceTree = "<group>"; };
 		AA16412C20F476970027F947 /* AssociationReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationReason.swift; sourceTree = "<group>"; };
 		AA18D63C211AA278002E6227 /* User+VersionAccessors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
 		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 		BCAEFED71F03170900C97F9C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AA16283D212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift */,
 				44F1FB3B1FF5FAF400D463CA /* Entity Details */,
 				EA8B66631F38470300F09716 /* Entity Summary */,
 				BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */,
@@ -917,6 +920,7 @@
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
 				464977C4203685E500590DC3 /* Identifiable.swift in Sources */,
+				AA16283E212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift in Sources */,
 				AA1B950021211207002B5590 /* OrderSummaryViewModel.swift in Sources */,
 				AA662E9E211ABC2600B107C8 /* AlertSummaryViewController.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,

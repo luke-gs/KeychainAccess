@@ -9,6 +9,7 @@
 import Foundation
 import MPOLKit
 import ClientKit
+import PromiseKit
 
 public class LandingPresenter: AppGroupLandingPresenter {
 
@@ -122,6 +123,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     public var wantsForgotPassword: Bool {
         return false
+    }
+    
+    /// Custom post authentication logic that must be executed as part of authentication chain
+    override open func postAuthenticateChain() -> Promise<Void> {
+        return super.postAuthenticateChain().then { UserPreferenceManager.shared.fetchUserPreferences() }
     }
     
     override public func logOff() {
