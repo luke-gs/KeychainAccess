@@ -12,7 +12,9 @@ Shake the device to activate
 
 Larry uses our lovely [Pod Brancher](https://github.com/Gridstone/Pod-Brancher) to sneakily change the branch in the Podfile if you specify it in the body of your PR. 
 
-To use it, add `{kit-branch='MyBranch'}` anywhere in the description of your PR, replacing `MyBranch` with the branch your Kit PR is from.
+To use it, add `{%pod%='%branch%'}` anywhere in the description of your PR, replacing `%pod` with the name of the Pod and `%branch%` with the branch your Kit PR is from.
+
+Note: each pod must manually be added on Larry to `/TeamCity/Agent/Config/mPol/conf/config.json` before it can be used in the brancher.
 
 ### Podfile Changes
 
