@@ -581,6 +581,9 @@
 		969EADDF2134C3540027E2AD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EAD4D2134C3540027E2AD /* NetworkMonitor.swift */; };
 		969EADE02134C3540027E2AD /* RegisterDeviceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EAD4F2134C3540027E2AD /* RegisterDeviceRequest.swift */; };
 		969EADE12134C3540027E2AD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EAD512134C3540027E2AD /* HapticHelper.swift */; };
+		969EADEE2134E35F0027E2AD /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EADEB2134E35F0027E2AD /* UserPreference.swift */; };
+		969EADEF2134E35F0027E2AD /* UserPreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EADEC2134E35F0027E2AD /* UserPreferenceManager.swift */; };
+		969EADF32134E4210027E2AD /* APIManager+UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EADF22134E4210027E2AD /* APIManager+UserPreference.swift */; };
 		96B80CE2212D1AB6005A72A0 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80B99212D1AB5005A72A0 /* SidebarHeaderView.swift */; };
 		96B80CE3212D1AB6005A72A0 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80B9A212D1AB5005A72A0 /* SidebarItem.swift */; };
 		96B80CE4212D1AB6005A72A0 /* RegularSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80B9B212D1AB5005A72A0 /* RegularSidebarViewController.swift */; };
@@ -1521,6 +1524,9 @@
 		969EAD4D2134C3540027E2AD /* NetworkMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		969EAD4F2134C3540027E2AD /* RegisterDeviceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDeviceRequest.swift; sourceTree = "<group>"; };
 		969EAD512134C3540027E2AD /* HapticHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
+		969EADEB2134E35F0027E2AD /* UserPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
+		969EADEC2134E35F0027E2AD /* UserPreferenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreferenceManager.swift; sourceTree = "<group>"; };
+		969EADF22134E4210027E2AD /* APIManager+UserPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+UserPreference.swift"; sourceTree = "<group>"; };
 		96B80B99212D1AB5005A72A0 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
 		96B80B9A212D1AB5005A72A0 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		96B80B9B212D1AB5005A72A0 /* RegularSidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularSidebarViewController.swift; sourceTree = "<group>"; };
@@ -3442,6 +3448,7 @@
 				969EACA62134C3540027E2AD /* Search */,
 				969EACFA2134C3540027E2AD /* Tasking */,
 				969EAD1F2134C3540027E2AD /* Theme Gesture */,
+				969EADE92134E35F0027E2AD /* User Preferences */,
 				969EAD152134C3540027E2AD /* User Settings */,
 				969EAC9E2134C3530027E2AD /* User State */,
 				969EACF62134C3540027E2AD /* Whats New */,
@@ -3833,6 +3840,7 @@
 				969EAD472134C3540027E2AD /* Network Plugins */,
 				969EAD3B2134C3540027E2AD /* Search */,
 				969EAD282134C3540027E2AD /* Unboxable */,
+				969EADF12134E4210027E2AD /* User Preferences */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -3919,6 +3927,23 @@
 				969EAD512134C3540027E2AD /* HapticHelper.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		969EADE92134E35F0027E2AD /* User Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				969EADEB2134E35F0027E2AD /* UserPreference.swift */,
+				969EADEC2134E35F0027E2AD /* UserPreferenceManager.swift */,
+			);
+			path = "User Preferences";
+			sourceTree = "<group>";
+		};
+		969EADF12134E4210027E2AD /* User Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				969EADF22134E4210027E2AD /* APIManager+UserPreference.swift */,
+			);
+			path = "User Preferences";
 			sourceTree = "<group>";
 		};
 		96B80B96212D1AB5005A72A0 /* Classes */ = {
@@ -5204,6 +5229,7 @@
 				969EAC2B2134C34B0027E2AD /* BookOnDetailsFormViewController.swift in Sources */,
 				969EAC2D2134C34B0027E2AD /* BookOnDetailsFormViewModel.swift in Sources */,
 				969EAC2F2134C34B0027E2AD /* BookOnDetailsOfficerCell.swift in Sources */,
+				969EADF32134E4210027E2AD /* APIManager+UserPreference.swift in Sources */,
 				969EAC2C2134C34B0027E2AD /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				969EAC362134C34B0027E2AD /* BookOnLandingItemViewModel.swift in Sources */,
 				969EAC372134C34B0027E2AD /* BookOnLandingViewController.swift in Sources */,
@@ -5236,6 +5262,7 @@
 				969EAC782134C34C0027E2AD /* CADEmployeeDetailsType.swift in Sources */,
 				969EAC6B2134C34C0027E2AD /* CADEnumIntType.swift in Sources */,
 				969EAC6D2134C34C0027E2AD /* CADEnumStringType.swift in Sources */,
+				969EADEE2134E35F0027E2AD /* UserPreference.swift in Sources */,
 				969EAC5D2134C34B0027E2AD /* CADEquipmentCore.swift in Sources */,
 				969EAC7B2134C34C0027E2AD /* CADEquipmentType.swift in Sources */,
 				969EAD9E2134C3540027E2AD /* CADFormCollectionSectionViewModel.swift in Sources */,
@@ -5467,6 +5494,7 @@
 				96B80D6D212D1AB6005A72A0 /* FormCollectionViewHandler.swift in Sources */,
 				96B80D8E212D1AB6005A72A0 /* FormDefines.swift in Sources */,
 				96B80D85212D1AB6005A72A0 /* FormDisclosureView.swift in Sources */,
+				969EADEF2134E35F0027E2AD /* UserPreferenceManager.swift in Sources */,
 				96B80D90212D1AB6005A72A0 /* FormItemable.swift in Sources */,
 				96B80D7A212D1AB6005A72A0 /* FormSearchTableViewController.swift in Sources */,
 				96B80DDF212D1AB7005A72A0 /* FormSection.swift in Sources */,

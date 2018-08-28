@@ -16,14 +16,8 @@ public protocol SignatureViewControllerDelegate: class {
 open class SignatureViewController: UIViewController {
 
     public weak var delegate: SignatureViewControllerDelegate?
-    private lazy var signatureView: SignatureView = {
-        if let image = UserPreferenceManager.shared.preference(for: .signaturePreference)?.image {
-            return SignatureView(image: image)
-        } else {
-            return SignatureView()
-        }
-        
-    }()
+
+    private var signatureView: SignatureView
 
     private lazy var doneButton: UIBarButtonItem = {
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
@@ -31,7 +25,7 @@ open class SignatureViewController: UIViewController {
         return doneButton
     }()
 
-    fileprivate lazy var clearButton: UIButton = {
+    private lazy var clearButton: UIButton = {
         let clearButton = UIButton(type: .custom)
         clearButton.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.00)
         clearButton.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
@@ -42,7 +36,13 @@ open class SignatureViewController: UIViewController {
         return clearButton
     }()
 
-    public init() {
+    public init(image: UIImage? = nil) {
+        if let image = image {
+            self.signatureView = SignatureView(image: image)
+        } else {
+            self.signatureView = SignatureView()
+        }
+
         super.init(nibName: nil, bundle: nil)
 
         title = "Capture Signature"
@@ -64,8 +64,6 @@ open class SignatureViewController: UIViewController {
         signatureView.delegate = self
         signatureView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(signatureView)
-
-
 
         // Placeholder icon for the clear button
         // Replace with actual Icon when ready
@@ -92,12 +90,10 @@ open class SignatureViewController: UIViewController {
 
     @objc private func cancelTapped() {
         delegate?.controllerDidCancelIn(self)
-//        dismiss(animated: true, completion: nil)
     }
 
     @objc private func doneTapped() {
         delegate?.controller(self, didFinishWithSignature: signatureView.renderedImage())
-//        dismiss(animated: true, completion: nil)
     }
 
     @objc private func clearTapped() {
@@ -112,7 +108,6 @@ open class SignatureViewController: UIViewController {
             self.clearButton.isEnabled = containsSignature
             self.clearButton.setTitleColor(containsSignature ? .darkGray : .lightGray, for: .normal)
         }
-
     }
 
 }
@@ -125,10 +120,4 @@ extension SignatureViewController: SignatureViewResponder {
     public func didEndSigning() {
         updateButtonStates()
     }
-
-
-}
-
-extension UserPreferenceKey {
-    public static let signaturePreference = UserPreferenceKey("signaturePreference")
 }

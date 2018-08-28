@@ -402,9 +402,16 @@
 		969EADE22134E0130027E2AD /* User Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				969EADE32134E0130027E2AD /* APIManager+UserPreference.swift */,
 				969EADE42134E0130027E2AD /* UserPreference.swift */,
 				969EADE52134E0130027E2AD /* UserPreferenceManager.swift */,
+			);
+			path = "User Preferences";
+			sourceTree = "<group>";
+		};
+		969EADF02134E3C90027E2AD /* User Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				969EADE32134E0130027E2AD /* APIManager+UserPreference.swift */,
 			);
 			path = "User Preferences";
 			sourceTree = "<group>";
@@ -810,6 +817,7 @@
 				96B80584212D1896005A72A0 /* Network Plugins */,
 				96B80577212D1896005A72A0 /* Search */,
 				96B80563212D1896005A72A0 /* Unboxable */,
+				969EADF02134E3C90027E2AD /* User Preferences */,
 			);
 			path = API;
 			sourceTree = "<group>";

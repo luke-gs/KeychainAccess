@@ -14,7 +14,7 @@ public extension Settings {
                                           type: .button(action: presentVC))
 
     private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
-        let vc = SignatureViewController()
+        let vc = SignatureViewController(image: UserPreferenceManager.shared.preference(for: .signaturePreference)?.image)
         vc.delegate = viewController as? SignatureViewControllerDelegate
         vc.modalPresentationStyle = .formSheet
         viewController.show(vc, sender: viewController)
@@ -35,4 +35,8 @@ extension SettingsViewController: SignatureViewControllerDelegate {
         }
         
     }
+}
+
+extension UserPreferenceKey {
+    public static let signaturePreference = UserPreferenceKey("signaturePreference")
 }
