@@ -31,11 +31,16 @@ public class SignatureView: UIView {
             signatureLayer.strokeColor = strokeColor.cgColor
         }
     }
+    
+    /// Used to show the current saved signature
+    /// Counts as a valid signature and the image
+    /// is nilled when the user clears/ draws another one
+    private var savedSignatureImageView: UIImageView?
 
     /// Can be used to determine whether the signature has been started
     /// Checks that the path is not empty for validation
     public var containsSignature: Bool {
-        return !path.isEmpty
+        return !path.isEmpty || savedSignatureImageView?.image != nil
     }
 
     /// Animation layer for the clearing of the signature
@@ -67,6 +72,13 @@ public class SignatureView: UIView {
         super.init(frame: frame)
         commonInit()
     }
+    
+    /// Convenience to pass through a saved signature image
+    public convenience init(frame: CGRect = .zero, image: UIImage) {
+        self.init(frame: frame)
+        addImageView()
+        savedSignatureImageView?.image = image
+    }
 
     private func commonInit() {
         backgroundColor = UIColor(red:0.92, green:0.92, blue:0.93, alpha:1.00)
@@ -78,12 +90,27 @@ public class SignatureView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
+    
+    func addImageView() {
+        let imageView = UIImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
+        NSLayoutConstraint.activate([
+            trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            topAnchor.constraint(equalTo: imageView.topAnchor),
+            bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
+            ])
+        imageView.contentMode = .scaleAspectFill
+        savedSignatureImageView = imageView
+    }
 
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             pathBuilder.controlPoint = 0
             pathBuilder.setPoint(.leading, to: touch.location(in: self))
         }
+        savedSignatureImageView?.image = nil
         delegate?.didStartSigning()
     }
 
@@ -145,6 +172,8 @@ public class SignatureView: UIView {
         animation.isRemovedOnCompletion = false
 
         signatureLayer.add(animation, forKey: "reverseSignature")
+        
+        savedSignatureImageView?.image = nil
     }
 
 

@@ -13,9 +13,8 @@ open class BookOnLandingViewModel {
     public init() {}
 
     open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
+        let recentCallsignIds: [String] = UserPreferenceManager.shared.preference(for: .recentCallsigns)?.codables() ?? []
 
-        let recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? []
-        
         let recentCallsigns = recentCallsignIds.compactMap { id -> BookOnLandingCallsignItemViewModel? in
             if let resource = CADStateManager.shared.resourcesById[id],
                 resource.patrolGroup == CADStateManager.shared.patrolGroup

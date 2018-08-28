@@ -18,6 +18,9 @@
 		969EA9332134BFF10027E2AD /* EntityDetailDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA9322134BFF00027E2AD /* EntityDetailDisplayable.swift */; };
 		969EA9372134C1B70027E2AD /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA9362134C1B70027E2AD /* EntityPickerViewModel.swift */; };
 		969EA9392134C29D0027E2AD /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA9382134C29C0027E2AD /* EntityPickerViewController.swift */; };
+		969EADE62134E0130027E2AD /* APIManager+UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EADE32134E0130027E2AD /* APIManager+UserPreference.swift */; };
+		969EADE72134E0130027E2AD /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EADE42134E0130027E2AD /* UserPreference.swift */; };
+		969EADE82134E0130027E2AD /* UserPreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EADE52134E0130027E2AD /* UserPreferenceManager.swift */; };
 		96B8058F212D1896005A72A0 /* PublicSafetyKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B804D5212D1895005A72A0 /* PublicSafetyKitImports.swift */; };
 		96B80590212D1896005A72A0 /* SearchActivityLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B804D9212D1895005A72A0 /* SearchActivityLauncher.swift */; };
 		96B80591212D1896005A72A0 /* SearchActivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B804DA212D1895005A72A0 /* SearchActivityHandler.swift */; };
@@ -180,6 +183,9 @@
 		969EA9322134BFF00027E2AD /* EntityDetailDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailDisplayable.swift; sourceTree = "<group>"; };
 		969EA9362134C1B70027E2AD /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
 		969EA9382134C29C0027E2AD /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
+		969EADE32134E0130027E2AD /* APIManager+UserPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+UserPreference.swift"; sourceTree = "<group>"; };
+		969EADE42134E0130027E2AD /* UserPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
+		969EADE52134E0130027E2AD /* UserPreferenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreferenceManager.swift; sourceTree = "<group>"; };
 		96B804D5212D1895005A72A0 /* PublicSafetyKitImports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicSafetyKitImports.swift; sourceTree = "<group>"; };
 		96B804D9212D1895005A72A0 /* SearchActivityLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchActivityLauncher.swift; sourceTree = "<group>"; };
 		96B804DA212D1895005A72A0 /* SearchActivityHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchActivityHandler.swift; sourceTree = "<group>"; };
@@ -393,6 +399,16 @@
 			path = Details;
 			sourceTree = "<group>";
 		};
+		969EADE22134E0130027E2AD /* User Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				969EADE32134E0130027E2AD /* APIManager+UserPreference.swift */,
+				969EADE42134E0130027E2AD /* UserPreference.swift */,
+				969EADE52134E0130027E2AD /* UserPreferenceManager.swift */,
+			);
+			path = "User Preferences";
+			sourceTree = "<group>";
+		};
 		96B804D4212D1895005A72A0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +433,7 @@
 				96B804E5212D1896005A72A0 /* Search */,
 				96B80535212D1896005A72A0 /* Tasking */,
 				96B8055A212D1896005A72A0 /* Theme Gesture */,
+				969EADE22134E0130027E2AD /* User Preferences */,
 				96B80550212D1896005A72A0 /* User Settings */,
 				96B804DD212D1895005A72A0 /* User State */,
 				96B80531212D1896005A72A0 /* Whats New */,
@@ -1119,6 +1136,7 @@
 				96B80593212D1896005A72A0 /* AppLaunchActivity.swift in Sources */,
 				96B805C7212D1896005A72A0 /* AppProxyViewController.swift in Sources */,
 				96B805EA212D1896005A72A0 /* AppSettingKey.swift in Sources */,
+				969EADE72134E0130027E2AD /* UserPreference.swift in Sources */,
 				96B80602212D1896005A72A0 /* ArchivedManifestEntry.swift in Sources */,
 				96B80618212D1896005A72A0 /* AuditPlugin.swift in Sources */,
 				96B805EF212D1896005A72A0 /* BiometricIDSetting.swift in Sources */,
@@ -1153,6 +1171,7 @@
 				96B805AC212D1896005A72A0 /* EntitySummarySearchViewModel.swift in Sources */,
 				96B80617212D1896005A72A0 /* GeolocationPlugin.swift in Sources */,
 				96B8061C212D1896005A72A0 /* HapticHelper.swift in Sources */,
+				969EADE62134E0130027E2AD /* APIManager+UserPreference.swift in Sources */,
 				96B805E5212D1896005A72A0 /* HighlightingTextView.swift in Sources */,
 				96B80599212D1896005A72A0 /* HTMLPresenterViewController.swift in Sources */,
 				96B8059A212D1896005A72A0 /* LocationAdvanceOptions.swift in Sources */,
@@ -1209,6 +1228,7 @@
 				96B805F0212D1896005A72A0 /* NumericKeyboardSetting.swift in Sources */,
 				96B805A1212D1896005A72A0 /* ObjectBucket.swift in Sources */,
 				96B80603212D1896005A72A0 /* PickableManifestEntry.swift in Sources */,
+				969EADE82134E0130027E2AD /* UserPreferenceManager.swift in Sources */,
 				96B8058F212D1896005A72A0 /* PublicSafetyKitImports.swift in Sources */,
 				96B80619212D1896005A72A0 /* RefreshTokenPlugin.swift in Sources */,
 				96B8061B212D1896005A72A0 /* RegisterDeviceRequest.swift in Sources */,

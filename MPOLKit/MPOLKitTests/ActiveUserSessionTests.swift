@@ -68,16 +68,4 @@ class ActiveUserSessionTests: XCTestCase {
         XCTAssertEqual(testSearchable.type, UserSession.current.recentlySearched.first?.type)
         XCTAssertEqual(testEntity.id, UserSession.current.recentlyViewed.entities.first?.id)
     }
-
-    func testUserUpdateTC() {
-        UserSession.current.user?.setAppSettingValue("1234" as AnyObject, forKey: .termsAndConditionsVersionAccepted)
-        UserSession.current.updateUser()
-        XCTAssertEqual("1234", UserSession.current.user?.appSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String)
-    }
-
-    func testUserUpdateWhatsNew() {
-        UserSession.current.user?.setAppSettingValue("1234" as AnyObject, forKey: .whatsNewShownVersion)
-        UserSession.current.updateUser()
-        XCTAssertEqual("1234", UserSession.current.user?.appSettingValue(forKey: .whatsNewShownVersion) as? String)
-    }
 }
