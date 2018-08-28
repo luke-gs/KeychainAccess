@@ -76,7 +76,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Records Found", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("No Records Found", comment: "")
     }
     
     open override var noContentSubtitle: String? {
@@ -185,9 +185,9 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         if let date = item.occurredDate {
             lastOccurred = DateFormatter.preferredDateStyle.string(from: date)
         } else {
-            lastOccurred = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
+            lastOccurred = NSLocalizedString("Unknown", comment: "Unknown date")
         }
-        return String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurred)
+        return String(format: NSLocalizedString("Last occurred: %@", comment: ""), lastOccurred)
     }
 
     private func presentCriminalHistorySummary(in viewController: UIViewController, criminalHistory: CriminalHistory) {

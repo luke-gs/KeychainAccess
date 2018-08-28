@@ -14,9 +14,9 @@ def mpol_kit
     #pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
 end
 
-def mpol_kit_crypto
-    pod 'MPOLKitCrypto', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    #pod 'MPOLKitCrypto', :path => '../../mPolKit-iOS'
+def core_app_extension
+    pod 'CoreKitAppExtension', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    #pod 'CoreKitAppExtension', :path => '../../mPolKit-iOS'
 end
 
 target 'ClientKit' do
@@ -37,7 +37,7 @@ end
 
 target 'APNS Extension' do
     project 'MPOL.xcodeproj'
-    mpol_kit_crypto
+    core_app_extension
     pod 'KeychainAccess'
 end
 

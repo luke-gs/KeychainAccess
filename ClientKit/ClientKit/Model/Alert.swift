@@ -32,9 +32,9 @@ open class Alert: NSObject, Serialisable {
         
         public func localizedDescription() -> String? {
             switch self {
-            case .high: return NSLocalizedString("High", bundle: .mpolKit, comment: "Alert Level Title")
-            case .medium: return NSLocalizedString("Medium", bundle: .mpolKit, comment: "Alert Level Title")
-            case .low: return NSLocalizedString("Low", bundle: .mpolKit, comment: "Alert Level Title")
+            case .high: return NSLocalizedString("High", comment: "Alert Level Title")
+            case .medium: return NSLocalizedString("Medium", comment: "Alert Level Title")
+            case .low: return NSLocalizedString("Low", comment: "Alert Level Title")
             }
         }
         

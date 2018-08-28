@@ -32,7 +32,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         // ---------- HEADER ----------
         
         // Values
-        let detail = person.descriptions?.first?.formatted() ?? NSLocalizedString("No description", bundle: .mpolKit, comment: "")
+        let detail = person.descriptions?.first?.formatted() ?? NSLocalizedString("No description", comment: "")
         let count = person.descriptions?.count ?? 0
         let isDetailPlaceholder = count == 0
         let buttonTitle = count <= 1 ? nil : "\(count - 1) MORE DESCRIPTION\(count != 2 ? "S" : "")"
@@ -99,9 +99,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     if let date = alias.dateCreated {
 
                         let locationString = alias.jurisdiction != nil ? " (\(alias.jurisdiction!))": ""
-                        title =  String(format: NSLocalizedString("Recorded on %@%@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
+                        title =  String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
-                        title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                        title = NSLocalizedString("Recorded date unknown", comment: "")
                     }
                     return StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline))
                 }()
@@ -131,9 +131,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     if let date = address.reportDate {
                         
                         let locationString = address.jurisdiction != nil ? " (\(address.jurisdiction!))": ""
-                        detail =  String(format: NSLocalizedString("Recorded on %@%@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
+                        detail =  String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
-                        detail = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                        detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }
                     return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
                 }()
@@ -164,9 +164,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     if let date = contact.dateCreated {
                         
                         let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))": ""
-                        detail = String(format: NSLocalizedString("Recorded on %@%@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: Date()), locationString)
+                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: Date()), locationString)
                     } else {
-                        detail = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                        detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }
                     return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
                 }()
@@ -190,15 +190,15 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     }
     
     open override var title: String? {
-        return NSLocalizedString("Information", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("Information", comment: "")
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("No Person Found", comment: "")
     }
     
     open override var noContentSubtitle: String? {
-        return NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("There are no details for this person", comment: "")
     }
     
     open override var sidebarImage: UIImage? {
@@ -235,11 +235,11 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         case .licence:
             return nil
         case .aliases:
-            return NSLocalizedString("Aliases", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("Aliases", comment: "")
         case .addresses:
-            return NSLocalizedString("Addresses", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("Addresses", comment: "")
         case .contact:
-            return NSLocalizedString("Contact Details", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("Contact Details", comment: "")
         }
     }
 }
@@ -251,7 +251,7 @@ fileprivate extension Alias {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
             return DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
         } else {
-            return NSLocalizedString("DOB Unknown", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DOB Unknown", comment: "")
         }
     }
 }

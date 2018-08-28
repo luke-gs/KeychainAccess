@@ -102,9 +102,9 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             }
             return dobString
         } else if let gender = person.gender {
-            return gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
+            return gender.description + " (\(NSLocalizedString("DOB unknown", comment: "")))"
         } else {
-            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DOB and gender unknown", comment: "")
         }
     }
     

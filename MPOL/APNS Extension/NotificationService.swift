@@ -6,7 +6,7 @@
 //
 
 import UserNotifications
-import MPOLKitCrypto
+import CoreKitAppExtension
 import KeychainAccess
 
 class NotificationService: UNNotificationServiceExtension {

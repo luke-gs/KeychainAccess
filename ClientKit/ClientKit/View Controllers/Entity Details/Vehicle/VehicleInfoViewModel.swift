@@ -45,32 +45,32 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         // ---------- VEHICLE DETAILS ----------
         builder += HeaderFormItem(text: header(for: .vehicleDetails), style: .collapsible)
 
-        builder += ValueFormItem(title: NSLocalizedString("Year of Manufacture", bundle: .mpolKit, comment: ""), value: vehicle.year ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Year of Manufacture", comment: ""), value: vehicle.year ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Make", bundle: .mpolKit, comment: ""), value: vehicle.make ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Make", comment: ""), value: vehicle.make ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Model", bundle: .mpolKit, comment: ""), value: vehicle.model ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Model", comment: ""), value: vehicle.model ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("VIN", bundle: .mpolKit, comment: ""), value: vehicle.vin ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("VIN", comment: ""), value: vehicle.vin ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Chassis Number", bundle: .mpolKit, comment: ""), value: vehicle.chassisNumber ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Chassis Number", comment: ""), value: vehicle.chassisNumber ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Engine Number", bundle: .mpolKit, comment: ""), value: vehicle.engineNumber ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Engine Number", comment: ""), value: vehicle.engineNumber ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Transmission", bundle: .mpolKit, comment: ""), value: vehicle.transmission ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Transmission", comment: ""), value: vehicle.transmission ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Primary Colour", bundle: .mpolKit, comment: ""), value: vehicle.primaryColor ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Primary Colour", comment: ""), value: vehicle.primaryColor ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Secondary Colour", bundle: .mpolKit, comment: ""), value: vehicle.secondaryColor ?? "-")
+        builder += ValueFormItem(title: NSLocalizedString("Secondary Colour", comment: ""), value: vehicle.secondaryColor ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Seating Capacity", bundle: .mpolKit, comment: ""), value: {
+        builder += ValueFormItem(title: NSLocalizedString("Seating Capacity", comment: ""), value: {
             guard let seatCapacity = vehicle.seatingCapacity, seatCapacity > 0 else { return "-" }
             return String(describing: seatCapacity)
         }())
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("TARE", bundle: .mpolKit, comment: ""), value: "-")
+        builder += ValueFormItem(title: NSLocalizedString("TARE", comment: ""), value: "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: ""), value: {
+        builder += ValueFormItem(title: NSLocalizedString("Gross Vehicle Mass", comment: ""), value: {
             guard let weight = vehicle.weight, weight > 0 else { return "-" }
             return "\(weight) kg"
         }())
@@ -110,15 +110,15 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
     }
     
     open override var title: String? {
-        return NSLocalizedString("Information", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("Information", comment: "")
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Vehicle Found", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("No Vehicle Found", comment: "")
     }
     
     open override var noContentSubtitle: String? {
-        return NSLocalizedString("There are no details for this vehicle", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("There are no details for this vehicle", comment: "")
     }
     
     open override var sidebarImage: UIImage? {
@@ -140,9 +140,9 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
             if let date = vehicle?.lastUpdated {
                 lastUpdated = DateFormatter.preferredDateStyle.string(from: date)
             } else {
-                lastUpdated = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
+                lastUpdated = NSLocalizedString("UNKNOWN", comment: "Unknown Date")
             }
-            return String(format: NSLocalizedString("LAST UPDATED: %@", bundle: .mpolKit, comment: ""), lastUpdated)
+            return String(format: NSLocalizedString("LAST UPDATED: %@", comment: ""), lastUpdated)
         case .vehicleDetails:
             return NSLocalizedString("VEHICLE DETAILS", comment: "")
         case .registrationDetails:

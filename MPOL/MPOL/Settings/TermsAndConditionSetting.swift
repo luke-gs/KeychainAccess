@@ -21,7 +21,7 @@ public extension Settings {
     private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
 
         do {
-            let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: "Title"),
+            let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                             htmlURL: TermsAndConditions.url,
                                                             actions: nil)
 

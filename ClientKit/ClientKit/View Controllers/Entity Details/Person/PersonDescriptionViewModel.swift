@@ -50,7 +50,7 @@ open class PersonDescriptionViewModel {
     }
     
     open var title: String? {
-        return NSLocalizedString("More Descriptions", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("More Descriptions", comment: "")
     }
     
     private var yearDateFormatter: DateFormatter {
