@@ -9,19 +9,10 @@ import MPOLKit
 
 public extension LoginViewController {
     public func setupDefaultStyle(with username: String?) {
-        let subtitleContainer = HighlightTextModel(text: "By continuing you are agreeing to the Terms and Conditions previously presented to you.", highlightText: nil)
 
-        titleLabel.textColor = .white
-        titleLabel.text = self.title
-        titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
-        titleLabel.textAlignment = .center
-        titleLabel.text = "Login to Continue"
-
-        subtitleTextView.highlightTextModel = subtitleContainer
-        subtitleTextView.textColor = .white
-        subtitleTextView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        subtitleTextView.textAlignment = .center
-        subtitleTextView.delegate = self
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "PSCore"))
+        imageView.contentMode = .top
+        titleView = imageView
 
         let usernameCred = UsernameCredential(username: username)
         let passwordCred = PasswordCredential()
@@ -38,6 +29,14 @@ public extension LoginViewController {
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
         loginButton.adjustsImageWhenDisabled = true
+
+        let detailContainer = HighlightTextModel(text: "By continuing you are agreeing to the Terms and \n Conditions previously presented to you.", highlightText: nil)
+
+        detailTextView.highlightTextModel = detailContainer
+        detailTextView.textColor = .secondaryGray
+        detailTextView.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        detailTextView.textAlignment = .center
+        detailTextView.delegate = self
     }
 }
 
@@ -47,29 +46,37 @@ public extension LoginContainerViewController {
         let versionLabel: UILabel = {
             let label = UILabel(frame: .zero)
             label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
-            label.textColor = UIColor(white: 1.0, alpha: 0.64)
+            label.textColor = .secondaryGray
 
             if let info = Bundle.main.infoDictionary {
                 let version = info["CFBundleShortVersionString"] as? String ?? ""
                 let build   = info["CFBundleVersion"] as? String ?? ""
 
-                label.text = "v\(version) #\(build)"
+                label.text = "Version \(version) #\(build)"
             }
 
-            label.textAlignment = .right
+            label.textAlignment = .center
             return label
         }()
 
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "GSMotoLogo"))
-        imageView.contentMode = .bottomLeft
+        let gridstoneImageView = UIImageView(image: #imageLiteral(resourceName: "GSLogo"))
+        gridstoneImageView.contentMode = .bottomLeft
 
-        let loginHeader = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
-                                          subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
+        let motoImageView = UIImageView(image: #imageLiteral(resourceName: "MotoLogo"))
+        motoImageView.contentMode = .bottomRight
 
         backgroundImage = #imageLiteral(resourceName: "Login")
 
-        setHeaderView(loginHeader, at: .left)
-        setFooterView(imageView, at: .left)
-        setFooterView(versionLabel, at: .right)
+        let imageStackView = UIStackView(arrangedSubviews: [gridstoneImageView, motoImageView])
+        imageStackView.axis = .horizontal
+        imageStackView.alignment = .center
+        imageStackView.spacing = 16.0
+
+        let footerStackView = UIStackView(arrangedSubviews: [versionLabel, imageStackView])
+        footerStackView.axis = .vertical
+        footerStackView.alignment = .center
+        footerStackView.spacing = 16.0
+
+        setFooterView(footerStackView, at: .center)
     }
 }
