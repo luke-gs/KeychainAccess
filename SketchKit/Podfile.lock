@@ -1,0 +1,50 @@
+PODS:
+  - Alamofire (4.5.1)
+  - Cache (4.1.2)
+  - CoreKit (0.0.1):
+    - Alamofire (= 4.5.1)
+    - Cache (~> 4.1.2)
+    - KeychainAccess (~> 3.1.1)
+    - PromiseKit (~> 6.0)
+    - PromiseKit/CoreLocation
+    - Unbox (= 2.5.0)
+  - KeychainAccess (3.1.1)
+  - PromiseKit (6.3.4):
+    - PromiseKit/CorePromise (= 6.3.4)
+    - PromiseKit/Foundation (= 6.3.4)
+    - PromiseKit/UIKit (= 6.3.4)
+  - PromiseKit/CoreLocation (6.3.4):
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (6.3.4)
+  - PromiseKit/Foundation (6.3.4):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.3.4):
+    - PromiseKit/CorePromise
+  - Unbox (2.5.0)
+
+DEPENDENCIES:
+  - CoreKit (from `..`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Cache
+    - KeychainAccess
+    - PromiseKit
+    - Unbox
+
+EXTERNAL SOURCES:
+  CoreKit:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
+  CoreKit: 0555cc074101bd6d33817279a8afbdc574d205e3
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
+  PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
+  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+
+PODFILE CHECKSUM: 5888e2193f7dbc4abb371463c468e2abc8771ab0
+
+COCOAPODS: 1.5.0
