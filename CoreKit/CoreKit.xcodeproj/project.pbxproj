@@ -62,7 +62,7 @@
 		96B8021A212D1787005A72A0 /* LocationErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80177212D1787005A72A0 /* LocationErrorManager.swift */; };
 		96B8021B212D1787005A72A0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80178212D1787005A72A0 /* LocationManager.swift */; };
 		96B8021C212D1787005A72A0 /* TestingDirective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8017A212D1787005A72A0 /* TestingDirective.swift */; };
-		96B8021D212D1787005A72A0 /* ObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 96B8017B212D1787005A72A0 /* ObjC.h */; };
+		96B8021D212D1787005A72A0 /* ObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 96B8017B212D1787005A72A0 /* ObjC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96B8021E212D1787005A72A0 /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B8017C212D1787005A72A0 /* ObjC.m */; };
 		96B8021F212D1787005A72A0 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8017D212D1787005A72A0 /* Weak.swift */; };
 		96B80220212D1787005A72A0 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80180212D1787005A72A0 /* ActivityType.swift */; };
@@ -952,24 +952,30 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CoreKitTests/Pods-CoreKitTests-frameworks.sh",
+				"${SRCROOT}/../Pods/Target Support Files/Pods-CoreKitTests/Pods-CoreKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
+				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoreKitTests/Pods-CoreKitTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-CoreKitTests/Pods-CoreKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		81C4E94B3A1C5ED88D4DDE37 /* [CP] Check Pods Manifest.lock */ = {

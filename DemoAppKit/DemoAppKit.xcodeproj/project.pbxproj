@@ -45,10 +45,8 @@
 		96B80773212D1954005A72A0 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8064A212D1953005A72A0 /* EntitiesListViewModel.swift */; };
 		96B80774212D1954005A72A0 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8064B212D1953005A72A0 /* DefaultEntitiesListReport.swift */; };
 		96B80775212D1954005A72A0 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8064C212D1953005A72A0 /* DefaultEntitiesListViewController.swift */; };
-		96B80776212D1954005A72A0 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8064D212D1953005A72A0 /* EntityPickerViewController.swift */; };
 		96B80777212D1954005A72A0 /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8064F212D1953005A72A0 /* AdditionalAction.swift */; };
 		96B80778212D1954005A72A0 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80650212D1953005A72A0 /* AdditionalActionManager.swift */; };
-		96B80779212D1954005A72A0 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80651212D1953005A72A0 /* EntityPickerViewModel.swift */; };
 		96B8077A212D1954005A72A0 /* EventSubmittable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80653212D1953005A72A0 /* EventSubmittable.swift */; };
 		96B8077B212D1954005A72A0 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80654212D1953005A72A0 /* LoadingViewController.swift */; };
 		96B8077C212D1954005A72A0 /* IncidentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80656212D1953005A72A0 /* IncidentsManager.swift */; };
@@ -294,10 +292,8 @@
 		96B8064A212D1953005A72A0 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
 		96B8064B212D1953005A72A0 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
 		96B8064C212D1953005A72A0 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
-		96B8064D212D1953005A72A0 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
 		96B8064F212D1953005A72A0 /* AdditionalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		96B80650212D1953005A72A0 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
-		96B80651212D1953005A72A0 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
 		96B80653212D1953005A72A0 /* EventSubmittable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
 		96B80654212D1953005A72A0 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		96B80656212D1953005A72A0 /* IncidentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentsManager.swift; sourceTree = "<group>"; };
@@ -652,9 +648,7 @@
 				96B8064A212D1953005A72A0 /* EntitiesListViewModel.swift */,
 				96B8064B212D1953005A72A0 /* DefaultEntitiesListReport.swift */,
 				96B8064C212D1953005A72A0 /* DefaultEntitiesListViewController.swift */,
-				96B8064D212D1953005A72A0 /* EntityPickerViewController.swift */,
 				96B8064E212D1953005A72A0 /* AdditionalActions */,
-				96B80651212D1953005A72A0 /* EntityPickerViewModel.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1558,38 +1552,38 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests-frameworks.sh",
+				"${SRCROOT}/../Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
-				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
-				"${BUILT_PRODUCTS_DIR}/PatternKit/PatternKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/PublicSafetyKit/PublicSafetyKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SketchKit/SketchKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SketchKit/SketchKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PatternKit/PatternKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PublicSafetyKit/PublicSafetyKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PatternKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PublicSafetyKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SketchKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SketchKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PatternKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PublicSafetyKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9556DB2B6CE59EB1CBD8D20C /* [CP] Check Pods Manifest.lock */ = {
@@ -1783,7 +1777,6 @@
 				96B80767212D1954005A72A0 /* DefaultLocationReport.swift in Sources */,
 				96B80803212D1954005A72A0 /* CADIncidentCore.swift in Sources */,
 				96B807C5212D1954005A72A0 /* TasksListBasicCollectionViewCell.swift in Sources */,
-				96B80779212D1954005A72A0 /* EntityPickerViewModel.swift in Sources */,
 				96B80822212D1954005A72A0 /* CADIncidentVehicleType.swift in Sources */,
 				96B80836212D1954005A72A0 /* CADStateManagerCore.swift in Sources */,
 				96B80818212D1954005A72A0 /* CADIncidentAssociationType.swift in Sources */,
@@ -1821,7 +1814,6 @@
 				96B80815212D1954005A72A0 /* CADResourceStatusType.swift in Sources */,
 				96B80797212D1954005A72A0 /* PatrolOverviewMapViewModel.swift in Sources */,
 				96B80769212D1954005A72A0 /* EventType.swift in Sources */,
-				96B80776212D1954005A72A0 /* EntityPickerViewController.swift in Sources */,
 				96B80801212D1954005A72A0 /* CADEquipmentCore.swift in Sources */,
 				96B8078E212D1954005A72A0 /* ResourceActivityLogViewController.swift in Sources */,
 				96B80784212D1954005A72A0 /* StatusChangeReasonViewController.swift in Sources */,
@@ -2004,11 +1996,7 @@
 				INFOPLIST_FILE = DemoAppKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.DemoAppKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2031,11 +2019,7 @@
 				INFOPLIST_FILE = DemoAppKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.DemoAppKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2051,11 +2035,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = DemoAppKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.DemoAppKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2070,11 +2050,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = DemoAppKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.DemoAppKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

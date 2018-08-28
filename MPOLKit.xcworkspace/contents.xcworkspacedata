@@ -7,4 +7,19 @@
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:CoreKit/CoreKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:DemoAppKit/DemoAppKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:PatternKit/PatternKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:PublicSafetyKit/PublicSafetyKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SketchKit/SketchKit.xcodeproj">
+   </FileRef>
 </Workspace>

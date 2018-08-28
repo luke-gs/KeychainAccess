@@ -2,8 +2,20 @@ PODS:
   - Alamofire (4.5.1)
   - Cache (4.1.2)
   - Cluster (2.1.1)
+  - CoreKit (0.0.1):
+    - Alamofire (= 4.5.1)
+    - Cache (~> 4.1.2)
+    - KeychainAccess (~> 3.1.1)
+    - PromiseKit (~> 6.0)
+    - PromiseKit/CoreLocation
+    - Unbox (= 2.5.0)
   - KeychainAccess (3.1.1)
-  - lottie-ios (2.1.5)
+  - lottie-ios (2.1.3)
+  - PatternKit (0.0.1):
+    - Cluster (= 2.1.1)
+    - CoreKit
+    - lottie-ios (= 2.1.3)
+    - SketchKit
   - PromiseKit (6.2.4):
     - PromiseKit/CorePromise (= 6.2.4)
     - PromiseKit/Foundation (= 6.2.4)
@@ -15,6 +27,11 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (6.2.4):
     - PromiseKit/CorePromise
+  - PublicSafetyKit (0.0.1):
+    - PatternKit
+    - Wrap (= 2.1.1)
+  - SketchKit (0.0.1):
+    - CoreKit
   - Unbox (2.5.0)
   - Wrap (2.1.1)
 
@@ -22,10 +39,14 @@ DEPENDENCIES:
   - Alamofire (= 4.5.1)
   - Cache (~> 4.1.2)
   - Cluster (= 2.1.1)
+  - CoreKit (from `.`)
   - KeychainAccess (~> 3.1.1)
-  - lottie-ios (~> 2.1.3)
+  - lottie-ios (= 2.1.3)
+  - PatternKit (from `.`)
   - PromiseKit (~> 6.0)
   - PromiseKit/CoreLocation (~> 6.0)
+  - PublicSafetyKit (from `.`)
+  - SketchKit (from `.`)
   - Unbox (= 2.5.0)
   - Wrap (= 2.1.1)
 
@@ -40,16 +61,30 @@ SPEC REPOS:
     - Unbox
     - Wrap
 
+EXTERNAL SOURCES:
+  CoreKit:
+    :path: "."
+  PatternKit:
+    :path: "."
+  PublicSafetyKit:
+    :path: "."
+  SketchKit:
+    :path: "."
+
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
+  CoreKit: 0555cc074101bd6d33817279a8afbdc574d205e3
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
-  lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
+  lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
+  PatternKit: 1ccb78b25c7372c229b1ac649b68851b8445cabf
   PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
+  PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23
+  SketchKit: 440c6e6b6ba7c6a1a4f4a69ea9cf5f8cff981ddc
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 4110e0a230409cc5411d059d83f020bfd64d30ca
+PODFILE CHECKSUM: 6831e1af9dd6c32fa045396fc49d7aaad37fee33
 
 COCOAPODS: 1.5.0
