@@ -71,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         applyCurrentTheme()
 
         updateAppForUserSession()
-
+    
         window.makeKeyAndVisible()
 
         #if INTERNAL || EXTERNAL
@@ -101,6 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserSession.current.restoreSession { token in
                 APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
                 NotificationManager.shared.registerPushToken()
+                UserPreferenceManager.shared.fetchSharedUserPreferences()
             }
         }
 
