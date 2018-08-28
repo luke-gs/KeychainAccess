@@ -73,15 +73,15 @@ open class SidebarSplitViewController: MPOLSplitViewController, SidebarDelegate 
 
     public init(detailViewControllers: [UIViewController]) {
 
+        // Force potentially hidden compact sidebar view to load as part of init
+        _ = compactSidebarViewController.view
+
         // Use regular sidebar view controller as master VC
         super.init(masterViewController: regularSidebarViewController, detailViewControllers: detailViewControllers)
 
         // Create header sidebar for horizontal navigation, visible only when compact
         masterViewControllerHeaderCompact = compactSidebarViewController
         updateHeaderViewController()
-
-        // Force potentially hidden compact sidebar view to load as part of init
-        _ = compactSidebarViewController.view
 
         regularSidebarViewController.delegate = self
         compactSidebarViewController.delegate = self
