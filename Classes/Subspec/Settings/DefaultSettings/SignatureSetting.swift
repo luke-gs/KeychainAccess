@@ -20,3 +20,19 @@ public extension Settings {
         viewController.show(vc, sender: viewController)
     }
 }
+
+
+extension SettingsViewController: SignatureViewControllerDelegate {
+    public func controllerDidCancelIn(_ controller: SignatureViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    public  func controller(_ controller: SignatureViewController, didFinishWithSignature signature: UIImage?) {
+        if let image = signature,
+            let userPreference = UserPreference(applicationName: User.appGroupKey, preferenceTypeKey: .signaturePreference, image: image) {
+            try? UserPreferenceManager.shared.updatePreference(userPreference)
+            navigationController?.popViewController(animated: true)
+        }
+        
+    }
+}

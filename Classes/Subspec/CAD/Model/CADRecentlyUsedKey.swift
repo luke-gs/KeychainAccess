@@ -8,6 +8,14 @@
 
 import UIKit
 
+extension UserPreferenceKey {
+    /// Recently used callsigns
+    public static let recentCallsigns = UserPreferenceKey("recentCallsigns")
+    
+    /// Recently used officers
+    public static let recentOfficers = UserPreferenceKey("recentOfficers")
+}
+
 public struct CADRecentlyUsedKey: RawRepresentable, Equatable, Hashable {
 
     /// Recently used callsigns

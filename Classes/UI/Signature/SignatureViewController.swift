@@ -16,7 +16,14 @@ public protocol SignatureViewControllerDelegate: class {
 open class SignatureViewController: UIViewController {
 
     public weak var delegate: SignatureViewControllerDelegate?
-    private lazy var signatureView: SignatureView = SignatureView()
+    private lazy var signatureView: SignatureView = {
+        if let image = UserPreferenceManager.shared.preference(for: .signaturePreference)?.image {
+            return SignatureView(image: image)
+        } else {
+            return SignatureView()
+        }
+        
+    }()
 
     private lazy var doneButton: UIBarButtonItem = {
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
@@ -79,6 +86,8 @@ open class SignatureViewController: UIViewController {
             clearButton.heightAnchor.constraint(equalToConstant: 60.0),
             clearButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+        
+        updateButtonStates()
     }
 
     @objc private func cancelTapped() {
@@ -118,4 +127,8 @@ extension SignatureViewController: SignatureViewResponder {
     }
 
 
+}
+
+extension UserPreferenceKey {
+    public static let signaturePreference = UserPreferenceKey("signaturePreference")
 }

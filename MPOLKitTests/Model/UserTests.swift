@@ -18,7 +18,6 @@ class UserTests: XCTestCase {
     
     func testBinarySerialization() {
         let user = User(username: "Herli")
-        user.setAppSettingValue("1" as AnyObject, forKey: .termsAndConditionsVersionAccepted)
             
         let cloned = self.clone(object: user)
         XCTAssertEqual(user, cloned)
@@ -26,17 +25,14 @@ class UserTests: XCTestCase {
     
     func testThatItNotEqualToUser() {
         let user1 = User(username: "Herli")
-        user1.setAppSettingValue("2" as AnyObject, forKey: .termsAndConditionsVersionAccepted)
         
         let user2 = User(username: "Not Herli")
-        user2.setAppSettingValue("1" as AnyObject, forKey: .termsAndConditionsVersionAccepted)
         
         XCTAssertNotEqual(user1, user2)
     }
     
     func testThatItNotEqualToAPerson() {
         let user1 = User(username: "Herli")
-        user1.setAppSettingValue("10" as AnyObject, forKey: .termsAndConditionsVersionAccepted)
         
         let james = NSObject()
         
