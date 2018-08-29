@@ -76,7 +76,6 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
         if let image = UIImage(named: imageName, in: .patternKit, compatibleWith: nil) {
             return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
-
         return nil
     }
     

@@ -147,6 +147,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let viewModel = EntitySummarySearchViewModel(title: "PSCore", dataSources: [
                 PersonSearchDataSource(),
                 VehicleSearchDataSource(),
+                OrganisationSearchDataSource(),
                 locationDataSource
                 ])
             
@@ -183,6 +184,10 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             entityFormatter.registerEntityType(Vehicle.self,
                                                forSummary: .function { return VehicleSummaryDisplayable($0) },
+                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
+            
+            entityFormatter.registerEntityType(Organisation.self,
+                                               forSummary: .function { return OrganisationSummaryDisplayable($0) },
                                                andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
 
             entityFormatter.registerEntityType(Address.self,
