@@ -18,8 +18,11 @@ class UserTests: XCTestCase {
     
     func testBinarySerialization() {
         let user = User(username: "Herli")
-            
-        let cloned = self.clone(object: user)
+
+        // let cloned = self.clone(object: user)
+        let data = NSKeyedArchiver.archivedData(withRootObject: user)
+        let cloned = NSKeyedUnarchiver.unarchiveObject(with: data) as! User
+
         XCTAssertEqual(user, cloned)
     }
     
