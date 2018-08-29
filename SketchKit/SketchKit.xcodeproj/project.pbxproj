@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B8A2613A71533942DE7389E /* Pods_SketchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66E26557DB5CB12BD86D115 /* Pods_SketchKit.framework */; };
+		61FD8CD1C15FB08B0E481A59 /* Pods_SketchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41ED9997A95EEBFFCDEE0821 /* Pods_SketchKit.framework */; };
 		968723E9212A64B40061FF72 /* SketchPen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D2212A64B40061FF72 /* SketchPen.swift */; };
 		968723EA212A64B40061FF72 /* SketchEraser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D3212A64B40061FF72 /* SketchEraser.swift */; };
 		968723EB212A64B40061FF72 /* TouchTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968723D4212A64B40061FF72 /* TouchTool.swift */; };
@@ -30,7 +30,7 @@
 		96BE884D2126591B00F57FF0 /* SketchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE88432126591A00F57FF0 /* SketchKit.framework */; };
 		96BE88522126591B00F57FF0 /* SketchKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88512126591B00F57FF0 /* SketchKitTests.swift */; };
 		96BE88542126591B00F57FF0 /* SketchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE88462126591A00F57FF0 /* SketchKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF37E7870C06F768D11A2FC6 /* Pods_SketchKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECCA044F5B50FAC9B4D03678 /* Pods_SketchKitTests.framework */; };
+		CDC4A0E92B83EA34D4D47B27 /* Pods_SketchKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AE2D4CB35B761B4DA113E2 /* Pods_SketchKitTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,8 +44,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2CA08B0F8236AAECB656C7B6 /* Pods-SketchKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKit/Pods-SketchKit.release.xcconfig"; sourceTree = "<group>"; };
-		6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		27AE2D4CB35B761B4DA113E2 /* Pods_SketchKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SketchKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ECF129EEE7CEB8B4BD2CE86 /* Pods-SketchKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKit/Pods-SketchKit.release.xcconfig"; sourceTree = "<group>"; };
+		41ED9997A95EEBFFCDEE0821 /* Pods_SketchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SketchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F0DF1C5A1948F46A8C4FE59 /* Pods-SketchKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		706954B77328562CF8326F05 /* Pods-SketchKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKit/Pods-SketchKit.debug.xcconfig"; sourceTree = "<group>"; };
 		968723D2212A64B40061FF72 /* SketchPen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchPen.swift; sourceTree = "<group>"; };
 		968723D3212A64B40061FF72 /* SketchEraser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchEraser.swift; sourceTree = "<group>"; };
 		968723D4212A64B40061FF72 /* TouchTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchTool.swift; sourceTree = "<group>"; };
@@ -71,10 +74,7 @@
 		96BE884C2126591B00F57FF0 /* SketchKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SketchKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE88512126591B00F57FF0 /* SketchKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchKitTests.swift; sourceTree = "<group>"; };
 		96BE88532126591B00F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A66E26557DB5CB12BD86D115 /* Pods_SketchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SketchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E60B1C12DF109D2CC6B51060 /* Pods-SketchKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKit/Pods-SketchKit.debug.xcconfig"; sourceTree = "<group>"; };
-		ECCA044F5B50FAC9B4D03678 /* Pods_SketchKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SketchKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0F5869F6127B075A5554492 /* Pods-SketchKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SketchKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B8A2613A71533942DE7389E /* Pods_SketchKit.framework in Frameworks */,
+				61FD8CD1C15FB08B0E481A59 /* Pods_SketchKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,18 +91,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				96BE884D2126591B00F57FF0 /* SketchKit.framework in Frameworks */,
-				BF37E7870C06F768D11A2FC6 /* Pods_SketchKitTests.framework in Frameworks */,
+				CDC4A0E92B83EA34D4D47B27 /* Pods_SketchKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3D109621839F5BB907C7D4BC /* Frameworks */ = {
+		67274C538EC0F04B73CF27C6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A66E26557DB5CB12BD86D115 /* Pods_SketchKit.framework */,
-				ECCA044F5B50FAC9B4D03678 /* Pods_SketchKitTests.framework */,
+				706954B77328562CF8326F05 /* Pods-SketchKit.debug.xcconfig */,
+				2ECF129EEE7CEB8B4BD2CE86 /* Pods-SketchKit.release.xcconfig */,
+				6F0DF1C5A1948F46A8C4FE59 /* Pods-SketchKitTests.debug.xcconfig */,
+				A0F5869F6127B075A5554492 /* Pods-SketchKitTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		6BE0B8302DD1D95E6B7E4478 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				41ED9997A95EEBFFCDEE0821 /* Pods_SketchKit.framework */,
+				27AE2D4CB35B761B4DA113E2 /* Pods_SketchKitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,8 +190,8 @@
 				96BE88452126591A00F57FF0 /* SketchKit */,
 				96BE88502126591B00F57FF0 /* SketchKitTests */,
 				96BE88442126591A00F57FF0 /* Products */,
-				9A9C2E1442B2F3D5BC96AFCD /* Pods */,
-				3D109621839F5BB907C7D4BC /* Frameworks */,
+				67274C538EC0F04B73CF27C6 /* Pods */,
+				6BE0B8302DD1D95E6B7E4478 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,17 +223,6 @@
 			path = SketchKitTests;
 			sourceTree = "<group>";
 		};
-		9A9C2E1442B2F3D5BC96AFCD /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E60B1C12DF109D2CC6B51060 /* Pods-SketchKit.debug.xcconfig */,
-				2CA08B0F8236AAECB656C7B6 /* Pods-SketchKit.release.xcconfig */,
-				DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */,
-				6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -241,7 +241,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96BE88572126591B00F57FF0 /* Build configuration list for PBXNativeTarget "SketchKit" */;
 			buildPhases = (
-				12B70FDD0E71D151A8159F79 /* [CP] Check Pods Manifest.lock */,
+				174274892ADE980E37342479 /* [CP] Check Pods Manifest.lock */,
 				96BE883E2126591A00F57FF0 /* Sources */,
 				96BE883F2126591A00F57FF0 /* Frameworks */,
 				96BE88402126591A00F57FF0 /* Headers */,
@@ -260,11 +260,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96BE885A2126591B00F57FF0 /* Build configuration list for PBXNativeTarget "SketchKitTests" */;
 			buildPhases = (
-				89A5BAE5D7F5756AA1B73CF7 /* [CP] Check Pods Manifest.lock */,
+				6C06C38257A0730D5D9B38CE /* [CP] Check Pods Manifest.lock */,
 				96BE88482126591B00F57FF0 /* Sources */,
 				96BE88492126591B00F57FF0 /* Frameworks */,
 				96BE884A2126591B00F57FF0 /* Resources */,
-				266A9EF319F1DE51BFE5561F /* [CP] Embed Pods Frameworks */,
+				6FE32A634C20C247B40DAEB9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -330,7 +330,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		12B70FDD0E71D151A8159F79 /* [CP] Check Pods Manifest.lock */ = {
+		174274892ADE980E37342479 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -348,7 +348,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		266A9EF319F1DE51BFE5561F /* [CP] Embed Pods Frameworks */ = {
+		6C06C38257A0730D5D9B38CE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SketchKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FE32A634C20C247B40DAEB9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -374,24 +392,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SketchKitTests/Pods-SketchKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		89A5BAE5D7F5756AA1B73CF7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SketchKitTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -564,7 +564,7 @@
 		};
 		96BE88582126591B00F57FF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E60B1C12DF109D2CC6B51060 /* Pods-SketchKit.debug.xcconfig */;
+			baseConfigurationReference = 706954B77328562CF8326F05 /* Pods-SketchKit.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -576,11 +576,7 @@
 				INFOPLIST_FILE = SketchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.SketchKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -591,7 +587,7 @@
 		};
 		96BE88592126591B00F57FF0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2CA08B0F8236AAECB656C7B6 /* Pods-SketchKit.release.xcconfig */;
+			baseConfigurationReference = 2ECF129EEE7CEB8B4BD2CE86 /* Pods-SketchKit.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -603,11 +599,7 @@
 				INFOPLIST_FILE = SketchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.SketchKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -618,16 +610,12 @@
 		};
 		96BE885B2126591B00F57FF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA0B5286B0EEEAF2C853F9CF /* Pods-SketchKitTests.debug.xcconfig */;
+			baseConfigurationReference = 6F0DF1C5A1948F46A8C4FE59 /* Pods-SketchKitTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = SketchKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.SketchKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -637,16 +625,12 @@
 		};
 		96BE885C2126591B00F57FF0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F54853C6751F370FFF7EC61 /* Pods-SketchKitTests.release.xcconfig */;
+			baseConfigurationReference = A0F5869F6127B075A5554492 /* Pods-SketchKitTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = SketchKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.SketchKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

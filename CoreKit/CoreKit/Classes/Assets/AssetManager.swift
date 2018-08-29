@@ -23,6 +23,9 @@ public final class AssetManager {
     
     /// The shared asset manager singleton.
     public static let shared: AssetManager = AssetManager()
+
+    /// The default bundle to search for assets
+    public static var defaultBundle = Bundle(for: AssetManager.self)
     
     private var localImageMap: [ImageKey: (name: String, bundle: Bundle)] = [:]
     
@@ -66,8 +69,7 @@ public final class AssetManager {
         }
 
         // TODO: refactor to allow bundle registration
-        let assetKit = Bundle(for: type(of: self))
-        return UIImage(named: key.rawValue, in: assetKit, compatibleWith: traitCollection)
+        return UIImage(named: key.rawValue, in: AssetManager.defaultBundle, compatibleWith: traitCollection)
     }
     
 }

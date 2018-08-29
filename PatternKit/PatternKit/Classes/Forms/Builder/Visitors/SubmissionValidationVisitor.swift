@@ -13,6 +13,8 @@ import Foundation
 /// and return the validation result without updating the validation text.
 public class SubmissionValidationVisitor: FormVisitor {
 
+    public init() {}
+
     public var result: ValidateResult = .valid
 
     public func visit(_ object: FormItem) {

@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char CoreKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CoreKit/PublicHeader.h>
 
-
+#import <CoreKit/ObjC.h>
