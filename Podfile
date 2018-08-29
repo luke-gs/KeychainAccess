@@ -23,7 +23,6 @@ def mpol_kit_dependencies
     pod 'SketchKit', :path => '.'
     pod 'PatternKit', :path => '.'
     pod 'PublicSafetyKit', :path => '.'
-    pod 'DemoAppKit', :path => '.'
 end
 
 target 'MPOLKit' do
