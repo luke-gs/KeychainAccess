@@ -108,8 +108,8 @@ extension AssetManager {
         }
 
         // Login Logos
-        public static let GSLogo           = ImageKey("GSLogo")
-        public static let MotoLogo         = ImageKey("MotoLogo")
+        public static let GSLogo           = ImageKey("imageGridstoneLogo")
+        public static let MotoLogo         = ImageKey("imageMotorolaLogo")
         
         // Tab Bar Icons
         public static let tabBarEvents     = ImageKey("iconTabBarEvents")
