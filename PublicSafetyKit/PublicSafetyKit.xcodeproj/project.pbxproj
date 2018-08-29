@@ -32,6 +32,7 @@
 		963271A42136647D0020BB57 /* EntitySummaryDisplayFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632718D2136647C0020BB57 /* EntitySummaryDisplayFormatterTests.swift */; };
 		963271A52136647D0020BB57 /* EntitySearchRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632718E2136647C0020BB57 /* EntitySearchRequestTests.swift */; };
 		963271A62136647D0020BB57 /* EntitySummarySearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632718F2136647C0020BB57 /* EntitySummarySearchResultViewModelTests.swift */; };
+		963271AC21366A890020BB57 /* OAuthAccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 963271AB21366A890020BB57 /* OAuthAccessToken.json */; };
 		96872BE4212B7BF30061FF72 /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 96872B37212B7BF30061FF72 /* Manifest.xcdatamodeld */; };
 		969EA92D2134BE7B0027E2AD /* EntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA9282134BE7A0027E2AD /* EntityState.swift */; };
 		969EA92E2134BE7B0027E2AD /* EntityDetailsDatasourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA9292134BE7A0027E2AD /* EntityDetailsDatasourceViewModel.swift */; };
@@ -221,6 +222,7 @@
 		9632718D2136647C0020BB57 /* EntitySummaryDisplayFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatterTests.swift; sourceTree = "<group>"; };
 		9632718E2136647C0020BB57 /* EntitySearchRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySearchRequestTests.swift; sourceTree = "<group>"; };
 		9632718F2136647C0020BB57 /* EntitySummarySearchResultViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModelTests.swift; sourceTree = "<group>"; };
+		963271AB21366A890020BB57 /* OAuthAccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuthAccessToken.json; sourceTree = "<group>"; };
 		96872B38212B7BF30061FF72 /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		969EA9282134BE7A0027E2AD /* EntityState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityState.swift; sourceTree = "<group>"; };
 		969EA9292134BE7A0027E2AD /* EntityDetailsDatasourceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsDatasourceViewModel.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 		963271812136647C0020BB57 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				963271AB21366A890020BB57 /* OAuthAccessToken.json */,
 				963271832136647C0020BB57 /* ActiveUserSessionTests.swift */,
 				963271842136647C0020BB57 /* NewUserSessionTests.swift */,
 				963271702136647C0020BB57 /* UserStorageTests.swift */,
@@ -1219,6 +1222,7 @@
 				963271952136647C0020BB57 /* SimplePersonArray.json in Resources */,
 				963271972136647C0020BB57 /* SimplePersonArrayKeyPath.json in Resources */,
 				963271932136647C0020BB57 /* SimplePersonArrayNestedKeyPath.json in Resources */,
+				963271AC21366A890020BB57 /* OAuthAccessToken.json in Resources */,
 				963271942136647C0020BB57 /* SimplePersonKeyPath.json in Resources */,
 				963271982136647D0020BB57 /* SimplePersonNestedKeyPath.json in Resources */,
 			);
