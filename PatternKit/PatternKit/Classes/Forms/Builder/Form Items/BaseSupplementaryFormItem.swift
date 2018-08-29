@@ -46,13 +46,13 @@ open class BaseSupplementaryFormItem: FormItem {
 
     // MARK: - Collection view related methods. These are called by the form system.
 
-    func view(in collectionView: UICollectionView, for indexPath: IndexPath) -> UICollectionReusableView {
+    public func view(in collectionView: UICollectionView, for indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath)
         reload(view)
         return view
     }
 
-    func decorate(_ view: UICollectionReusableView, withTheme theme: Theme) {
+    public func decorate(_ view: UICollectionReusableView, withTheme theme: Theme) {
         apply(theme: theme, toView: view)
         onThemeChanged?(view, theme)
     }

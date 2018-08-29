@@ -12,6 +12,8 @@ import Foundation
 /// This visitor will validate and reload the current validation state of the form item if it implements `FormValidatable`.
 public class ReloadValidationStateVisitor: FormVisitor {
 
+    public init() {}
+
     public func visit(_ object: FormItem) {
         guard let item = object as? FormValidatable else { return }
         item.reloadSubmitValidationState()

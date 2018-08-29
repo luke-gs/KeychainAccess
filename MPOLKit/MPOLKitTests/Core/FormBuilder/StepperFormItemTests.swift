@@ -125,7 +125,7 @@ class StepperFormItemTests: XCTestCase {
 
         // When
         item.configure(view)
-        item.cell = view
+        // item.cell = view
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
             view.valueChangedHandler?(10)

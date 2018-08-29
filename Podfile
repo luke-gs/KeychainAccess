@@ -18,56 +18,12 @@ def mpol_kit_dependencies
 	pod 'KeychainAccess', '~> 3.1.1'
     pod 'Cache', '~> 4.1.2'
     pod 'Cluster', '2.1.1'
-end
-
-target 'CoreKit' do
-    project 'CoreKit/CoreKit.xcodeproj'
-    mpol_kit_dependencies
-
-    target 'CoreKitTests' do
-        inherit! :search_paths
-    end
-end
-
-target 'PatternKit' do
-    project 'PatternKit/PatternKit.xcodeproj'
-    mpol_kit_dependencies
+    
     pod 'CoreKit', :path => '.'
     pod 'SketchKit', :path => '.'
-
-    target 'PatternKitTests' do
-        inherit! :search_paths
-    end
-end
-
-target 'SketchKit' do
-    project 'SketchKit/SketchKit.xcodeproj'
-    mpol_kit_dependencies
-    pod 'CoreKit', :path => '.'
-
-    target 'SketchKitTests' do
-        inherit! :search_paths
-    end
-end
-
-target 'PublicSafetyKit' do
-    project 'PublicSafetyKit/PublicSafetyKit.xcodeproj'
-    mpol_kit_dependencies
     pod 'PatternKit', :path => '.'
-
-    target 'PublicSafetyKitTests' do
-        inherit! :search_paths
-    end
-end
-
-target 'DemoAppKit' do
-    project 'DemoAppKit/DemoAppKit.xcodeproj'
-    mpol_kit_dependencies
     pod 'PublicSafetyKit', :path => '.'
-
-    target 'DemoAppKitTests' do
-        inherit! :search_paths
-    end
+    pod 'DemoAppKit', :path => '.'
 end
 
 target 'MPOLKit' do

@@ -22,7 +22,7 @@ public struct Plugin {
     /// - Parameter urlString: The URL to check against the plugin.
     /// - Returns: `true` if it's applicable according to the filter rule.
     /// - Note: Intentionally internal, as it's only going to be used by `APIManager`.
-    func isApplicable(to url: URL) -> Bool {
+    public func isApplicable(to url: URL) -> Bool {
         switch rule {
         case .allowAll:
             return true
