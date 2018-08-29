@@ -103,8 +103,9 @@ open class SignatureViewController: UIViewController {
 
     private func updateButtonStates() {
         let containsSignature = signatureView.containsSignature
+        let hasChanges = signatureView.signatureHasChanged
         UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.doneButton.isEnabled = containsSignature
+            self.doneButton.isEnabled = hasChanges
             self.clearButton.isEnabled = containsSignature
             self.clearButton.setTitleColor(containsSignature ? .darkGray : .lightGray, for: .normal)
         }
