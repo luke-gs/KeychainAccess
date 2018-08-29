@@ -59,10 +59,10 @@ public extension LoginContainerViewController {
             return label
         }()
 
-        let gridstoneImageView = UIImageView(image: #imageLiteral(resourceName: "GSLogo"))
+        let gridstoneImageView = UIImageView(image: AssetManager.shared.image(forKey: .GSLogo))
         gridstoneImageView.contentMode = .bottomLeft
 
-        let motoImageView = UIImageView(image: #imageLiteral(resourceName: "MotoLogo"))
+        let motoImageView = UIImageView(image: AssetManager.shared.image(forKey: .MotoLogo))
         motoImageView.contentMode = .bottomRight
 
         backgroundImage = #imageLiteral(resourceName: "Login")
