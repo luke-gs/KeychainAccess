@@ -106,7 +106,11 @@ extension AssetManager {
         public var hashValue: Int {
             return rawValue.hashValue
         }
-        
+
+        // Login Logos
+        public static let titledPSCoreLogo  = ImageKey("PSCore")
+        public static let GSLogo           = ImageKey("GSLogo")
+        public static let MotoLogo         = ImageKey("MotoLogo")
         
         // Tab Bar Icons
         public static let tabBarEvents     = ImageKey("iconTabBarEvents")
