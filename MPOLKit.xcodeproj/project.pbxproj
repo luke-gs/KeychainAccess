@@ -16,9 +16,6 @@
 /* Begin PBXFileReference section */
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MPOLKitPlayground.playground; path = MPOLKit/MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		265D4F38311A3E29E4F2BB84 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
-		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
-		46A0A2AE20BE4314007AAAA8 /* Reportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
 		4A7816025A35A1948AC9A77C /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		5B6388619D4AC22D8BA94513 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9632702C213622500020BB57 /* CoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,7 +27,6 @@
 		969EADFE213607440027E2AD /* SketchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SketchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		969EAE0221360D1E0027E2AD /* MPOLKitImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLKitImports.swift; sourceTree = "<group>"; };
 		9936C6771F9573B50091A61C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		AA18995C20F48E4E001E4CBC /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = MPOLKit/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -59,24 +55,12 @@
 			name = MPOLKit;
 			sourceTree = "<group>";
 		};
-		AA792CCF2098323B008C7606 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */,
-				469EB5801F452FAB0005CAF7 /* LoginViewController.swift */,
-				46A0A2AE20BE4314007AAAA8 /* Reportable.swift */,
-				AA18995C20F48E4E001E4CBC /* SemanticVersion.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		C605F87C1ECCAB2B001194DD = {
 			isa = PBXGroup;
 			children = (
 				C605F9E71ECCB423001194DD /* Frameworks */,
 				968A17ED2126828B006634DC /* MPOLKit */,
 				C605F8871ECCAB2B001194DD /* Products */,
-				AA792CCF2098323B008C7606 /* Recovered References */,
 				E915CC450B92A63EBC2303CE /* Pods */,
 			);
 			sourceTree = "<group>";
