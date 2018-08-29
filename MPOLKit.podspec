@@ -28,7 +28,7 @@ s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/CoreKit/CommonCr
 s.preserve_paths = 'CoreKit/CommonCrypto/module.modulemap', 'MPOLKit/EmptyModules/**/*'
   
 s.source_files = '**/Classes/**/*', '**/MPOLKit.h'
-s.exclude_files = '**/Pods/**/*'
+s.exclude_files = '**/*Tests/Classes/**/*', '**/Pods/**/*'
 s.resources = '**/PatternKit/Resources/**/*', '**/PublicSafetyKit/Resources/**/*'
 
 s.dependency 'Alamofire', '4.5.1'
