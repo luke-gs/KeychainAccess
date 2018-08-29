@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import MPOLKit
+
 
 class EntitySummaryDisplayFormatterTests: XCTestCase {
 

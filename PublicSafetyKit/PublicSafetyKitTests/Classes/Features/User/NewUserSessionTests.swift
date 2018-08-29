@@ -8,7 +8,7 @@
 
 import XCTest
 import Unbox
-@testable import MPOLKit
+
 
 private var user = User(username: "Blahblah")
 private var token: OAuthAccessToken {

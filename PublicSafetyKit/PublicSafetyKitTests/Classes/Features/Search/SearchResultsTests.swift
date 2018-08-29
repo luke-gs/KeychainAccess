@@ -8,7 +8,7 @@
 
 import XCTest
 import Unbox
-@testable import MPOLKit
+
 
 class SearchResultsTests: XCTestCase {
 

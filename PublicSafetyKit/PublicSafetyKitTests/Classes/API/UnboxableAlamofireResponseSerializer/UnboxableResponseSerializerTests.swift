@@ -6,7 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-@testable import MPOLKit
+
 import XCTest
 import Alamofire
 

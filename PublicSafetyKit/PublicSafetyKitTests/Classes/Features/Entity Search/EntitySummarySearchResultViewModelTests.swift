@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import MPOLKit
+
 
 class EntitySummarySearchResultViewModelTests: XCTestCase {
     

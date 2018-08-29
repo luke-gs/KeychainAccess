@@ -8,7 +8,6 @@
 
 import XCTest
 import Unbox
-import MPOLKit
 import CoreLocation
 
 class LookupAddressTests: XCTestCase {
