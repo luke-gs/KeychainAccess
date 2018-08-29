@@ -7,39 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		335779843CC96FF3BB3A2C71 /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89233082237243921E3DB397 /* Pods_MPOLKit.framework */; };
-		86ABA66D9B5FA56EC5E5FC71 /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E055B6678A68190C7E3311 /* Pods_MPOLKitTests.framework */; };
-		963271AA213668290020BB57 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963271A9213668290020BB57 /* UserTests.swift */; };
 		968A17EF212682C9006634DC /* MPOLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 968A17EE212682C9006634DC /* MPOLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		969EAE0321360D1E0027E2AD /* MPOLKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EAE0221360D1E0027E2AD /* MPOLKitImports.swift */; };
 		9936C6781F9573B50091A61C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9936C6771F9573B50091A61C /* CoreLocation.framework */; };
-		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
+		A6B357D1805F1B4C48484456 /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6388619D4AC22D8BA94513 /* Pods_MPOLKit.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		C605F8911ECCAB2C001194DD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C605F87D1ECCAB2B001194DD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C605F8851ECCAB2B001194DD;
-			remoteInfo = MPOLKit;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		16E055B6678A68190C7E3311 /* Pods_MPOLKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MPOLKitPlayground.playground; path = MPOLKit/MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		265D4F38311A3E29E4F2BB84 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		46A0A2AE20BE4314007AAAA8 /* Reportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
-		4C2DD177830CE75548B77F86 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
-		79F63B286361F24C32451E5E /* Pods-MPOLKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		89233082237243921E3DB397 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		91797E98AFB01CA0348E6075 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
+		4A7816025A35A1948AC9A77C /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
+		5B6388619D4AC22D8BA94513 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9632702C213622500020BB57 /* CoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		963271A9213668290020BB57 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		968A17EE212682C9006634DC /* MPOLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPOLKit.h; path = MPOLKit/MPOLKit.h; sourceTree = "<group>"; };
-		969DC68C1FBBAC8400010212 /* MPOLKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPOLKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		969EADF42136057E0027E2AD /* CoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		969EADF8213607330027E2AD /* DemoAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DemoAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		969EADFA213607390027E2AD /* PatternKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PatternKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,10 +31,7 @@
 		969EAE0221360D1E0027E2AD /* MPOLKitImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLKitImports.swift; sourceTree = "<group>"; };
 		9936C6771F9573B50091A61C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		AA18995C20F48E4E001E4CBC /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
-		B26799D85E231BC04EBB9786 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C605F8961ECCAB2C001194DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = MPOLKit/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -61,16 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9936C6781F9573B50091A61C /* CoreLocation.framework in Frameworks */,
-				335779843CC96FF3BB3A2C71 /* Pods_MPOLKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C605F88C1ECCAB2C001194DD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */,
-				86ABA66D9B5FA56EC5E5FC71 /* Pods_MPOLKitTests.framework in Frameworks */,
+				A6B357D1805F1B4C48484456 /* Pods_MPOLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,10 +75,9 @@
 			children = (
 				C605F9E71ECCB423001194DD /* Frameworks */,
 				968A17ED2126828B006634DC /* MPOLKit */,
-				C605F8931ECCAB2C001194DD /* MPOLKitTests */,
 				C605F8871ECCAB2B001194DD /* Products */,
 				AA792CCF2098323B008C7606 /* Recovered References */,
-				D7135441B47CA4A21D10AEA7 /* Pods */,
+				E915CC450B92A63EBC2303CE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,20 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				C605F8861ECCAB2B001194DD /* MPOLKit.framework */,
-				C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		C605F8931ECCAB2C001194DD /* MPOLKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				963271A9213668290020BB57 /* UserTests.swift */,
-				C605F8961ECCAB2C001194DD /* Info.plist */,
-				969DC68C1FBBAC8400010212 /* MPOLKitTests-Bridging-Header.h */,
-			);
-			name = MPOLKitTests;
-			path = MPOLKit/MPOLKitTests;
 			sourceTree = "<group>";
 		};
 		C605F9E71ECCB423001194DD /* Frameworks */ = {
@@ -141,19 +99,16 @@
 				969EADF8213607330027E2AD /* DemoAppKit.framework */,
 				969EADF42136057E0027E2AD /* CoreKit.framework */,
 				9936C6771F9573B50091A61C /* CoreLocation.framework */,
-				89233082237243921E3DB397 /* Pods_MPOLKit.framework */,
-				16E055B6678A68190C7E3311 /* Pods_MPOLKitTests.framework */,
+				5B6388619D4AC22D8BA94513 /* Pods_MPOLKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D7135441B47CA4A21D10AEA7 /* Pods */ = {
+		E915CC450B92A63EBC2303CE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B26799D85E231BC04EBB9786 /* Pods-MPOLKit.debug.xcconfig */,
-				91797E98AFB01CA0348E6075 /* Pods-MPOLKit.release.xcconfig */,
-				79F63B286361F24C32451E5E /* Pods-MPOLKitTests.debug.xcconfig */,
-				4C2DD177830CE75548B77F86 /* Pods-MPOLKitTests.release.xcconfig */,
+				265D4F38311A3E29E4F2BB84 /* Pods-MPOLKit.debug.xcconfig */,
+				4A7816025A35A1948AC9A77C /* Pods-MPOLKit.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -176,7 +131,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C605F89A1ECCAB2C001194DD /* Build configuration list for PBXNativeTarget "MPOLKit" */;
 			buildPhases = (
-				BA26087D32E37A23E5C8CFF1 /* [CP] Check Pods Manifest.lock */,
+				A507FEB8EFF1E5125258BDA1 /* [CP] Check Pods Manifest.lock */,
 				C605F8811ECCAB2B001194DD /* Sources */,
 				C605F8821ECCAB2B001194DD /* Frameworks */,
 				C605F8831ECCAB2B001194DD /* Headers */,
@@ -190,26 +145,6 @@
 			productName = MPOLKit;
 			productReference = C605F8861ECCAB2B001194DD /* MPOLKit.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		C605F88E1ECCAB2C001194DD /* MPOLKitTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C605F89D1ECCAB2C001194DD /* Build configuration list for PBXNativeTarget "MPOLKitTests" */;
-			buildPhases = (
-				6CD26CFAA25FB21243E4A22F /* [CP] Check Pods Manifest.lock */,
-				C605F88B1ECCAB2C001194DD /* Sources */,
-				C605F88C1ECCAB2C001194DD /* Frameworks */,
-				C605F88D1ECCAB2C001194DD /* Resources */,
-				6BFAF82F31A0F0F4AF3C6803 /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C605F8921ECCAB2C001194DD /* PBXTargetDependency */,
-			);
-			name = MPOLKitTests;
-			productName = MPOLKitTests;
-			productReference = C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -228,12 +163,6 @@
 						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 					};
-					C605F88E1ECCAB2C001194DD = {
-						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = FNW7L4X44S;
-						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = C605F8801ECCAB2B001194DD /* Build configuration list for PBXProject "MPOLKit" */;
@@ -249,7 +178,6 @@
 			projectRoot = "";
 			targets = (
 				C605F8851ECCAB2B001194DD /* MPOLKit */,
-				C605F88E1ECCAB2C001194DD /* MPOLKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -262,75 +190,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C605F88D1ECCAB2C001194DD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6BFAF82F31A0F0F4AF3C6803 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
-				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
-				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
-				"${BUILT_PRODUCTS_DIR}/PatternKit/PatternKit.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/PublicSafetyKit/PublicSafetyKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SketchKit/SketchKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
-				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
-				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PatternKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PublicSafetyKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SketchKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6CD26CFAA25FB21243E4A22F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MPOLKitTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BA26087D32E37A23E5C8CFF1 /* [CP] Check Pods Manifest.lock */ = {
+		A507FEB8EFF1E5125258BDA1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -359,23 +222,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C605F88B1ECCAB2C001194DD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				963271AA213668290020BB57 /* UserTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C605F8921ECCAB2C001194DD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C605F8851ECCAB2B001194DD /* MPOLKit */;
-			targetProxy = C605F8911ECCAB2C001194DD /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C605F8981ECCAB2C001194DD /* Debug */ = {
@@ -497,7 +344,7 @@
 		};
 		C605F89B1ECCAB2C001194DD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B26799D85E231BC04EBB9786 /* Pods-MPOLKit.debug.xcconfig */;
+			baseConfigurationReference = 265D4F38311A3E29E4F2BB84 /* Pods-MPOLKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -522,7 +369,7 @@
 		};
 		C605F89C1ECCAB2C001194DD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91797E98AFB01CA0348E6075 /* Pods-MPOLKit.release.xcconfig */;
+			baseConfigurationReference = 4A7816025A35A1948AC9A77C /* Pods-MPOLKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -539,39 +386,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		C605F89E1ECCAB2C001194DD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79F63B286361F24C32451E5E /* Pods-MPOLKitTests.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = MPOLKit/MPOLKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "MPOLKit/MPOLKitTests/MPOLKitTests-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		C605F89F1ECCAB2C001194DD /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C2DD177830CE75548B77F86 /* Pods-MPOLKitTests.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = MPOLKit/MPOLKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "MPOLKit/MPOLKitTests/MPOLKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -593,15 +407,6 @@
 			buildConfigurations = (
 				C605F89B1ECCAB2C001194DD /* Debug */,
 				C605F89C1ECCAB2C001194DD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C605F89D1ECCAB2C001194DD /* Build configuration list for PBXNativeTarget "MPOLKitTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C605F89E1ECCAB2C001194DD /* Debug */,
-				C605F89F1ECCAB2C001194DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

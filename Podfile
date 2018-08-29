@@ -28,9 +28,5 @@ end
 target 'MPOLKit' do
     project 'MPOLKit.xcodeproj'
     mpol_kit_dependencies
-
-    target "MPOLKitTests" do
-        inherit! :search_paths
-    end
 end
 
