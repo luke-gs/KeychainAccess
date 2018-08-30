@@ -74,6 +74,27 @@ public class EntityPresenter: Presenter {
                 let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
 
                 return entityDetailViewController
+            case is Organisation:
+                let ds1 = OrganisationPSCoreDetailsSectionsDataSource(delegate: delegate)
+                let ds2 = OrganisationNATDetailsSectionsDataSource(delegate: delegate)
+                let ds3 = OrganisationRDADetailsSectionsDataSource(delegate: delegate)
+                
+                let strat1 = OrganisationRetrieveStrategy(source: MPOLSource.pscore)
+                let strat2 = OrganisationRetrieveStrategy(source: MPOLSource.nat)
+                let strat3 = OrganisationRetrieveStrategy(source: MPOLSource.rda)
+                
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+                
+                let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
+                                                       initialSource: entity.source!,
+                                                       referenceEntity: entity)
+                
+                let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, OrganisationSummaryDisplayable>(viewModel: viewModel)
+                
+                return entityDetailViewController
+                
             case is Address:
 
                 let ds1 = LocationMPOLDetailsSectionsDataSource(delegate: delegate)

@@ -1,5 +1,5 @@
 //
-//  OrganizationInfoViewModel.swift
+//  OrganisationInfoViewModel.swift
 //  ClientKit
 //
 //  Created by Megan Efron on 11/1/18.
@@ -8,7 +8,7 @@
 
 import MPOLKit
 
-open class OrganizationInfoViewModel: EntityDetailFormViewModel {
+open class OrganisationInfoViewModel: EntityDetailFormViewModel {
 
     // MARK: - EntityDetailFormViewModel
     
@@ -21,11 +21,11 @@ open class OrganizationInfoViewModel: EntityDetailFormViewModel {
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Organization Found", comment: "")
+        return NSLocalizedString("No Organisation Found", comment: "")
     }
     
     open override var noContentSubtitle: String? {
-        return NSLocalizedString("There are no details for this organization", comment: "")
+        return NSLocalizedString("There are no details for this organisation", comment: "")
     }
     
     open override var sidebarImage: UIImage? {
