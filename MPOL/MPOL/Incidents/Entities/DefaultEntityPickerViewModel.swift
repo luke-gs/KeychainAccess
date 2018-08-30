@@ -8,7 +8,7 @@
 import MPOLKit
 import ClientKit
 
-/// This EntityPickerViewModel suppports `Person` and `Vehicle`.
+/// This EntityPickerViewModel suppports `Person`, `Vehicle` and `Organisation`.
 class DefaultEntityPickerViewModel: EntityPickerViewModel {
     var headerTitle: String
     var entities: [MPOLKitEntity]
@@ -17,7 +17,7 @@ class DefaultEntityPickerViewModel: EntityPickerViewModel {
     public init() {
         headerTitle = "Recently Viewed"
         entities = UserSession.current.recentlyViewed.entities.filter {
-            return $0 is Person || $0 is Vehicle
+            return $0 is Person || $0 is Vehicle || $0 is Organisation
         }
     }
 
@@ -27,6 +27,8 @@ class DefaultEntityPickerViewModel: EntityPickerViewModel {
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
+        case is Organisation:
+            return OrganisationSummaryDisplayable(entity)
         default:
             fatalError("No Displayable for Entity Type")
         }
