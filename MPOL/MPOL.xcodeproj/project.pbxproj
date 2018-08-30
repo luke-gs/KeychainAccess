@@ -49,6 +49,7 @@
 		1900374521081DC80030B15C /* DemoPrepopulate in Resources */ = {isa = PBXBuildFile; fileRef = 1900374421081DC80030B15C /* DemoPrepopulate */; };
 		19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */; };
 		1982A741215871E400612B94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1982A740215871E400612B94 /* ViewController.swift */; };
+		1982A7432158882300612B94 /* VoiceSearchWorkflowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1982A7422158882300612B94 /* VoiceSearchWorkflowManager.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988306E20BB79DA006FE165 /* APIURLManager.swift */; };
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
@@ -327,6 +328,7 @@
 		1900374421081DC80030B15C /* DemoPrepopulate */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DemoPrepopulate; sourceTree = "<group>"; };
 		19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+RecentlyDataPrepopulation.swift"; sourceTree = "<group>"; };
 		1982A740215871E400612B94 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1982A7422158882300612B94 /* VoiceSearchWorkflowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceSearchWorkflowManager.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1988306B20BB77B5006FE165 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
@@ -1272,6 +1274,7 @@
 			isa = PBXGroup;
 			children = (
 				1982A740215871E400612B94 /* ViewController.swift */,
+				1982A7422158882300612B94 /* VoiceSearchWorkflowManager.swift */,
 				96B774842140F57F00836B83 /* Classes */,
 				EA3C89041F32E31500F38461 /* Resources */,
 				BCD4EA981E515ACE000B993D /* Info.plist */,
@@ -1897,6 +1900,7 @@
 				96B7753D2140F8EE00836B83 /* VehicleEditViewController.swift in Sources */,
 				96B7751C2140F8EE00836B83 /* VehicleFetchParameter.swift in Sources */,
 				96B775572140F8EE00836B83 /* VehicleFetchRequest.swift in Sources */,
+				1982A7432158882300612B94 /* VoiceSearchWorkflowManager.swift in Sources */,
 				96B775A9214206F100836B83 /* ACNParserDefinition.swift in Sources */,
 				96B775212140F8EE00836B83 /* VehicleInfoViewModel.swift in Sources */,
 				96B7755E2140F8EE00836B83 /* VehicleRetrieveStrategy.swift in Sources */,

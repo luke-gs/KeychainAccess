@@ -83,11 +83,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                 let firstResult = pscore.entities.first as! Vehicle
                 let summary = VehicleSummaryDisplayable(firstResult)
 
-                let audioSession = AVAudioSession.sharedInstance()
-                try? audioSession.setCategory(AVAudioSessionCategoryPlayback)
-                try? audioSession.setActive(true, with: .notifyOthersOnDeactivation)
-
-                var rego = firstResult.registration ?? ""
+                let rego = firstResult.registration ?? ""
                 let crap = rego.map { value -> String in
                     let result = String(value)
                     if let number = Int(result) {
@@ -98,11 +94,26 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                 }
                 let crap2 = crap.joined()
 
-                var text = "One result from \(pscore.request.source.localizedBadgeTitle).\nRegistration: \(crap2), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
-                if speechSynthetizer.isSpeaking {
-                    speechSynthetizer.stopSpeaking(at: .immediate)
+                let status: String?
+                if let alert = firstResult.alertLevel {
+                    switch alert {
+                    case .high:
+                        status = "High alert"
+                    case .medium:
+                        status = "Medium alert"
+                    case .low:
+                        status = "Low alert"
+                    }
+                } else {
+                    status = nil
                 }
-                speechSynthetizer.speak(AVSpeechUtterance(string: text))
+
+
+                let text = "One result from \(pscore.request.source.localizedBadgeTitle). \nRegistration: \(crap2), \(status != nil ? "\n\(status!)" : ""), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
+                VoiceSearchWorkflowManager.shared.speak(text)
+            } else if (pscore.entities.compactMap { $0 as? Vehicle }).count == 0 {
+                let text = "No results from \(pscore.request.source.localizedBadgeTitle)"
+                VoiceSearchWorkflowManager.shared.speak(text)
             }
         }
 

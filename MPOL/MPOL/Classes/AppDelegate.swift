@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
     var navigator: AppURLNavigator!
-    let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 1.5))
+    
 
     var plugins: [Plugin]?
 
@@ -39,9 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
         }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
-
-        voiceSearchManager.delegate = self
-        voiceSearchManager.start()
 
         var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll(), SessionPlugin().allowAll(), GeolocationPlugin(fetchLocationPerRequest: false).allowAll()]
 
@@ -99,6 +96,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupNavigator()
         startPrepopulationProcessIfNecessary()
 
+        NotificationCenter.default.addObserver(forName: .userSessionStarted, object: nil, queue: OperationQueue.main) { _ in
+            VoiceSearchWorkflowManager.shared.startListening()
+        }
+        NotificationCenter.default.addObserver(forName: .userSessionEnded, object: nil, queue: OperationQueue.main) { _ in
+            VoiceSearchWorkflowManager.shared.stopListening()
+        }
+
         return true
     }
 
@@ -111,6 +115,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 NotificationManager.shared.registerPushToken()
                 UserPreferenceManager.shared.fetchSharedUserPreferences()
             }
+            VoiceSearchWorkflowManager.shared.startListening()
+        } else {
+            VoiceSearchWorkflowManager.shared.stopListening()
         }
 
         // Update screen if necessary
@@ -195,8 +202,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
-        let promise: Promise<Void>
 
+        let promise: Promise<Void>
+        
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken, let savedToken = UserSession.current.token {
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token)).done { token -> Void in
@@ -310,7 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navigator.register(searchHandler)
     }
 
-    private lazy var searchLauncher: SearchActivityLauncher = {
+    lazy var searchLauncher: SearchActivityLauncher = {
         return SearchActivityLauncher()
     }()
 
@@ -354,67 +362,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return handled
     }
 
-}
-
-extension AppDelegate: VoiceSearchManagerDelegate {
-    
-    static var viewController: ViewController = ViewController()
-
-    func voiceSearchManagerWillStartRecognisingSpeech(_ manager: VoiceSearchManager) {
-        let vc = AppDelegate.viewController
-        vc.willStartRecognisingSpeech()
-        self.window?.rootViewController?.present(vc, animated: false, completion: nil)
-    }
-
-    func voiceSearchManager(_ manager: VoiceSearchManager, recognisedSpeechWithResult result: String) {
-        let vc = AppDelegate.viewController
-        vc.recognisedSpeechWithResult(result)
-    }
-
-    func didEndRecognisingSpeechWithFinalResult(_ result: String?) {
-
-        let trans = VehicleRegistrationResultTransformer()
-
-        var text = result
-        var rightNow = false
-
-    func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithFinalResult result: String?) {
-        let vc = AppDelegate.viewController
-        vc.didEndRecognisingSpeechWithFinalResult(result)
-        vc.dismiss(animated: false)
-
-        if let currentRecognition = result {
-            let words = currentRecognition.components(separatedBy: " ")
-            if let lastWord = words.last {
-                if lastWord.localizedCaseInsensitiveCompare("search") == .orderedSame {
-                    text = words.dropLast().joined(separator: " ")
-                    rightNow = true
-                }
-            }
-        }
-
-        if let value = text {
-            text = trans.transform(value)
-        }
-
-
-        let searchable = Searchable(text: text, type: "Vehicle")
-        if rightNow {
-            searchable.options = [100: "OK"]
-        }
-
-        let activity = SearchActivity.searchEntity(term: searchable)
-        try? searchLauncher.launch(activity, using: navigator)
-    }
-
-    func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithError error: Error) {
-        let vc = AppDelegate.viewController
-
-        vc.didEndRecognisingSpeechWithError(error)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            vc.dismiss(animated: false)
-        }
-    }
 }
 
 // MARK: - Handling Search Activity
