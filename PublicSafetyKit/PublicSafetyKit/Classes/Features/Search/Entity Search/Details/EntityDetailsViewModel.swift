@@ -74,12 +74,8 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         // Fetch for the relevant entity
         dataSourceViewModels.forEach { viewModel in
             switch viewModel.state {
-            case .fetching:
+            case .fetching, .result:
                 break
-            case .result(let states):
-                if states.count == 1, case .summary(let entity) = states.first! {
-                    viewModel.retrieve(for: entity)
-                }
             case .empty, .error:
                 if case .result(let states) = selectedDataSourceViewModel.state, case .detail(let entity) = states.first!  {
                     viewModel.retrieve(for: entity)
@@ -152,8 +148,11 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
 
     private func shouldPresentEntityPicker() -> Bool {
         if let viewModel = dataSourceViewModels.first(where: {$0.dataSource.source == selectedSource}) {
-            if case .result(let results) = viewModel.state, results.count > 1 {
-                return true
+            if case .result(let results) = viewModel.state {
+                if results.count >= 1, case .summary = results.first! {
+                    return true
+                }
+                return false
             }
         }
         return false

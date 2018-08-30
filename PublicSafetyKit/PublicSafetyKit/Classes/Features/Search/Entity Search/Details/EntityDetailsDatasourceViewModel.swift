@@ -76,7 +76,7 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
     public func presentEntitySelection(from context: UIViewController) {
         guard let pickerViewModel = pickerViewModel else { return }
 
-        if case .result(let results) = state, results.count > 1 {
+        if case .result(let results) = state {
             let entities = results.compactMap { state -> MPOLKitEntity in
                 switch state {
                 case .detail(let entity):
@@ -115,7 +115,7 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
                 let entityState = states.first!
                 switch entityState {
                 case .summary:
-                    return .notLoaded
+                    return .multipleResults
                 case .detail(let entity):
                     let displayable = Details(entity)
                     return .loaded(count: displayable.alertBadgeCount,
@@ -143,9 +143,11 @@ open class EntityDetailsDataSourceViewModel<Details: EntityDetailDisplayable>: E
             if states.count == 1 {
                 let entityState = states.first!
                 switch entityState {
-                case .summary(let entity), .detail(let entity):
+                case .detail(let entity):
                     viewControllersToUpdate.forEach{$0.entity = entity}
                     viewControllersToUpdate.forEach{$0.loadingManager.state = .loaded}
+                case .summary:
+                    viewControllersToUpdate.forEach{$0.loadingManager.state = .noContent}
                 }
             } else {
                 viewControllersToUpdate.forEach{$0.loadingManager.state = .noContent}
