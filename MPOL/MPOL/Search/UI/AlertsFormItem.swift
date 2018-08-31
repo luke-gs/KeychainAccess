@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import ClientKit
 
 public class AlertsFormItem: BaseFormItem {

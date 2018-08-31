@@ -6,7 +6,7 @@
 //  Copyright © 2017 Rod Brown. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 import UIKit
 
 extension EntityThumbnailView {

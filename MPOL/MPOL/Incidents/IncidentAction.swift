@@ -5,7 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 /// Enumeration that defines various Incident-based actions that can be performed.
 public enum IncidentActionType {

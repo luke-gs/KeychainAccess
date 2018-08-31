@@ -6,7 +6,7 @@
 //
 
 import PromiseKit
-import MPOLKit
+import PublicSafetyKit
 
 public class LocationRetrieveStrategy: EntityRetrievalStrategy {
 

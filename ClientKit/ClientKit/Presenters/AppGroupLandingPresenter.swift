@@ -9,7 +9,7 @@
 import UIKit
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import PromiseKit
 import KeychainAccess
 import LocalAuthentication

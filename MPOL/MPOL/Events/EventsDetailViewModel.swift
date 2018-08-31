@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
 
 public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")

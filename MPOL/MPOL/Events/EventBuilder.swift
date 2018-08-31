@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
 
 public class EventBuilder: EventBuilding {
 

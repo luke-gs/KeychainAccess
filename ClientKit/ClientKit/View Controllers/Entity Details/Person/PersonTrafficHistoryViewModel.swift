@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 

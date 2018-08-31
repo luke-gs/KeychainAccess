@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 public enum FixedLengthParseError: LocalizedError {
     case invalidNumber(number: String)

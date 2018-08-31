@@ -6,7 +6,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 /// Abstract subclass of `EntityDetailFormViewController` that provides filtering support.
 /// Abstract subclass of `EntityDetailFormViewController` that provides filtering support.

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
 import ClientKit
 
 fileprivate enum FilterItem: Int {

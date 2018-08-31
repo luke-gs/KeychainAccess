@@ -7,7 +7,7 @@
 //
 
 import Unbox
-import MPOLKit
+import PublicSafetyKit
 
 @objc(MPLTelephoneNumber)
 open class TelephoneNumber: NSObject, Serialisable {

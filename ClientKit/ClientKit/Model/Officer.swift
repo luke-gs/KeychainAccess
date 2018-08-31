@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import Unbox
 
 open class Officer: MPOLKitEntity, Identifiable {

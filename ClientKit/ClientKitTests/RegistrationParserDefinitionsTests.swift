@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import ClientKit
-@testable import MPOLKit
+@testable import PublicSafetyKit
 
 class RegistrationParserDefinitionsTests: XCTestCase {
     

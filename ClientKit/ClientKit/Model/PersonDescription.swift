@@ -7,7 +7,7 @@
 //
 
 import Unbox
-import MPOLKit
+import PublicSafetyKit
 
 @objc(MPLPersonDescription)
 open class PersonDescription: NSObject, Serialisable {

@@ -6,7 +6,7 @@
 //
 
 import PromiseKit
-import MPOLKit
+import PublicSafetyKit
 
 public class PersonRetrieveStrategy: EntityRetrievalStrategy {
     public let source: MPOLSource

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
 
 fileprivate extension EvaluatorKey {
     static let hasContactDetails = EvaluatorKey("hasContactDetails")

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 public class EntityImageSizing<T: Identifiable>: AsynchronousImageSizing {
     public let entity: T

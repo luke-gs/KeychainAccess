@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import Unbox
 
 open class Media: NSObject, Serialisable {

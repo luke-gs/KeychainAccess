@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 extension UserPreferenceKey {
     /// The appVersion at the last user login

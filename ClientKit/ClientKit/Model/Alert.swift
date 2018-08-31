@@ -6,7 +6,7 @@
 //
 //
 
-import MPOLKit
+import PublicSafetyKit
 import Unbox
 
 @objc(MPLAlert)

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
     override public var detail1: String? {

@@ -8,7 +8,7 @@
 
 import Foundation
 import PromiseKit
-import MPOLKit
+import PublicSafetyKit
 
 public class VehicleFetchRequest: EntityDetailFetchRequest<Vehicle> {
 

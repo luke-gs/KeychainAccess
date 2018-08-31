@@ -5,7 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 public class DomesticViolenceScreenBuilder: IncidentScreenBuilding {
 
