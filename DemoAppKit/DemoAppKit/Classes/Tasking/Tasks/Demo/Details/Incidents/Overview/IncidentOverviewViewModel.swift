@@ -65,7 +65,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Contact Number",
-                                                                              value: incident.informant?.primaryPhone ?? "",
+                                                                              value: incident.informant?.primaryPhone ?? "Unknown",
                                                                               width: .column(3)),
             ]),
             
