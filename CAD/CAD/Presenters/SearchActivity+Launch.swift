@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 /// Extension to simplify launching search activities
 extension SearchActivity {

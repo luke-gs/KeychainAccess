@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import PromiseKit
 
 extension UserPreferenceManager {

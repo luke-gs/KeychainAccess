@@ -8,7 +8,7 @@
 
 import UIKit
 import PromiseKit
-import MPOLKit
+import DemoAppKit
 import ClientKit
 
 enum APIError: Error {
