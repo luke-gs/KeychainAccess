@@ -66,6 +66,8 @@
 		AA16283E212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16283D212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift */; };
 		AA16412D20F476970027F947 /* AssociationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16412C20F476970027F947 /* AssociationReason.swift */; };
 		AA18D63D211AA278002E6227 /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18D63C211AA278002E6227 /* User+VersionAccessors.swift */; };
+		AA1960272137BDCD00923BB8 /* RetrievedEventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1960262137BDCD00923BB8 /* RetrievedEventSummaryViewController.swift */; };
+		AA1960292137BDE300923BB8 /* RetrievedEventSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1960282137BDE300923BB8 /* RetrievedEventSummaryViewModel.swift */; };
 		AA19BF3420DB1C01003E3252 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */; };
 		AA1B950021211207002B5590 /* OrderSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */; };
 		AA1B950221211237002B5590 /* OrderSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B950121211237002B5590 /* OrderSummaryViewController.swift */; };
@@ -210,6 +212,8 @@
 		AA16283D212A806600CF10E0 /* UserPreferenceManager+ClientKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserPreferenceManager+ClientKit.swift"; sourceTree = "<group>"; };
 		AA16412C20F476970027F947 /* AssociationReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationReason.swift; sourceTree = "<group>"; };
 		AA18D63C211AA278002E6227 /* User+VersionAccessors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
+		AA1960262137BDCD00923BB8 /* RetrievedEventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEventSummaryViewController.swift; sourceTree = "<group>"; };
+		AA1960282137BDE300923BB8 /* RetrievedEventSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEventSummaryViewModel.swift; sourceTree = "<group>"; };
 		AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
 		AA1B94FF21211207002B5590 /* OrderSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewModel.swift; sourceTree = "<group>"; };
 		AA1B950121211237002B5590 /* OrderSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewController.swift; sourceTree = "<group>"; };
@@ -384,6 +388,15 @@
 				968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */,
 			);
 			path = Presenters;
+			sourceTree = "<group>";
+		};
+		AA1960252137BD6300923BB8 /* Event Summary */ = {
+			isa = PBXGroup;
+			children = (
+				AA1960262137BDCD00923BB8 /* RetrievedEventSummaryViewController.swift */,
+				AA1960282137BDE300923BB8 /* RetrievedEventSummaryViewModel.swift */,
+			);
+			path = "Event Summary";
 			sourceTree = "<group>";
 		};
 		AA1B950321211286002B5590 /* OrderSummary */ = {
@@ -570,6 +583,7 @@
 			isa = PBXGroup;
 			children = (
 				AA19BF3320DB1C01003E3252 /* PersonTrafficHistoryViewController.swift */,
+				AA1960252137BD6300923BB8 /* Event Summary */,
 				AA662E9C211ABBFB00B107C8 /* AlertSummary */,
 				AA1B950321211286002B5590 /* OrderSummary */,
 				AA95FCCF2124013B008EBD35 /* CriminalHistorySummary */,
@@ -919,6 +933,7 @@
 				BCAEFEA61F03150800C97F9C /* Person.swift in Sources */,
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
 				BCAEFE931F03150800C97F9C /* Alert.swift in Sources */,
+				AA1960272137BDCD00923BB8 /* RetrievedEventSummaryViewController.swift in Sources */,
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				46E0B8BA2033AAE600B40DF2 /* OfficerSearchRequest.swift in Sources */,
@@ -1001,6 +1016,7 @@
 				122C1D7221214E79003388A5 /* LocationRetrieveStrategy.swift in Sources */,
 				194E00A120C4DA0D00F5571A /* RangeParserDefinition.swift in Sources */,
 				194E009D20C4C79B00F5571A /* VehicleParserDefinition.swift in Sources */,
+				AA1960292137BDE300923BB8 /* RetrievedEventSummaryViewModel.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 				1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */,
 				46E0B89D202C13AB00B40DF2 /* OfficerSummaryDisplayable.swift in Sources */,

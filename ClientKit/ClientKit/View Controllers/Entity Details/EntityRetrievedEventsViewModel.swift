@@ -60,9 +60,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
                 builder += DetailFormItem(title: event.type, subtitle: subtitle(for: event), detail: detail(for: event))
                     .accessory(ItemAccessory.disclosure)
                     .onSelection({ [weak self] _ in
-                        // TODO: Present a formsheet when creatives approved
-                        self?.updateExpanded(for: event)
-                        self?.delegate?.reloadData()
+                        self?.presentEventSummary(in: viewController, event: event)
                     })
             }
         }
@@ -210,20 +208,20 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
         }
     }
 
-    // TODO: Remove Below code when updating cell selection to Present a formsheet 
-
-    private var expandedEvents: Set<RetrievedEvent> = []
-
     private func detail(for event: RetrievedEvent) -> StringSizable? {
-        let details = event.eventDescription?.ifNotEmpty() 
-        let numberOfLines = expandedEvents.contains(event) ? 0 : 2
-        return details?.sizing(withNumberOfLines: numberOfLines)
+        let details = event.eventDescription?.ifNotEmpty()
+        return details?.sizing(withNumberOfLines: 2)
     }
 
-    private func updateExpanded(for event: RetrievedEvent) {
-        if expandedEvents.remove(event) == nil {
-            expandedEvents.insert(event)
-        }
+    private func presentEventSummary(in viewController: UIViewController, event: RetrievedEvent) {
+        let viewModel = RetrievedEventSummaryViewModel(event: event)
+        let eventVC = RetrievedEventSummaryViewController(viewModel: viewModel)
+        eventVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
+
+        let navController = ThemedNavigationController(rootViewController: eventVC)
+        navController.modalPresentationStyle = .formSheet
+
+        viewController.present(navController, animated: true, completion: nil)
     }
 
 }
