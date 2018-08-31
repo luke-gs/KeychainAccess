@@ -7,6 +7,7 @@
 
 import UIKit
 import PublicSafetyKit
+import DemoAppKit
 
 open class IncidentListViewController: FormBuilderViewController, EvaluationObserverable {
 

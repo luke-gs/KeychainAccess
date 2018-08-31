@@ -7,6 +7,7 @@
 
 import UIKit
 import PublicSafetyKit
+import DemoAppKit
 import ClientKit
 
 open class IncidentSelectViewController: ThemedPopoverViewController {

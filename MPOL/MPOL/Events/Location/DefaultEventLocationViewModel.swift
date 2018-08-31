@@ -6,6 +6,7 @@
 //
 
 import PublicSafetyKit
+import DemoAppKit
 
 public class DefaultEventLocationViewModel {
 

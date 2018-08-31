@@ -5,6 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 import PublicSafetyKit
+import DemoAppKit
 import ClientKit
 
 fileprivate extension EvaluatorKey {

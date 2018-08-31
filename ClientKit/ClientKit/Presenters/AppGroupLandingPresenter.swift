@@ -10,6 +10,7 @@ import UIKit
 
 import Foundation
 import PublicSafetyKit
+import DemoAppKit
 import PromiseKit
 import KeychainAccess
 import LocalAuthentication

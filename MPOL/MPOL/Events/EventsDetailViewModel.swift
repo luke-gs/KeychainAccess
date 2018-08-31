@@ -7,6 +7,7 @@
 
 import UIKit
 import PublicSafetyKit
+import DemoAppKit
 
 public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")

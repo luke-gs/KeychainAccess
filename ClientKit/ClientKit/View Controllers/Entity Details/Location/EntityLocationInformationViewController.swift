@@ -7,6 +7,7 @@
 
 import UIKit
 import PublicSafetyKit
+import DemoAppKit
 
 public protocol EntityLocationMapDisplayable {
     func mapSummaryDisplayable() -> EntityMapSummaryDisplayable?

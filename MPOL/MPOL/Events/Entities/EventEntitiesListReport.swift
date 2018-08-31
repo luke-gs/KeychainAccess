@@ -6,6 +6,7 @@
 //
 
 import PublicSafetyKit
+import DemoAppKit
 import Foundation
 
 fileprivate extension EvaluatorKey {

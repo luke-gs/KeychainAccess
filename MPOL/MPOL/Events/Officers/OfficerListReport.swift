@@ -8,6 +8,7 @@
 
 import Foundation
 import PublicSafetyKit
+import DemoAppKit
 import ClientKit
 
 public class OfficerListReport: EventReportable {

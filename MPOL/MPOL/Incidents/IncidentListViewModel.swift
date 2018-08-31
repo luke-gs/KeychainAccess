@@ -6,6 +6,7 @@
 //
 
 import PublicSafetyKit
+import DemoAppKit
 
 open class IncidentListViewModel: IncidentListViewModelType {
 

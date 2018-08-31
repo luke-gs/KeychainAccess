@@ -6,6 +6,7 @@
 //
 
 import PublicSafetyKit
+import DemoAppKit
 import ClientKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
