@@ -9,9 +9,12 @@ workspace 'MPOL'
 project 'MPOL.xcodeproj', 'External-Debug' => :debug, 'Internal-Debug' => :debug
 project '../ClientKit/ClientKit.xcodeproj'
 
-def mpol_kit
-    pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    #pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
+def all_kits
+    pod 'CoreKit',         :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    pod 'SketchKit',       :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    pod 'PatternKit',      :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    pod 'PublicSafetyKit', :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    pod 'DemoAppKit',      :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
 end
 
 def core_app_extension
@@ -21,7 +24,7 @@ end
 
 target 'ClientKit' do
     project '../ClientKit/ClientKit.xcodeproj'
-    mpol_kit
+    all_kits
     
     target 'ClientKitTests' do
         inherit! :search_paths
@@ -30,7 +33,7 @@ end
 
 target 'MPOL' do
     project 'MPOL.xcodeproj'
-    mpol_kit
+    all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
 end

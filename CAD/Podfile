@@ -8,15 +8,18 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 workspace 'CAD'
 project 'CAD.xcodeproj'
 
-def mpol_kit
-    #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
-    pod 'ClientKit', :path => '../ClientKit', :inhibit_warnings => false
+def all_kits
+    pod 'CoreKit',         :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'SketchKit',       :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'PatternKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'PublicSafetyKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'DemoAppKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'ClientKit',       :path => '../ClientKit', :inhibit_warnings => false
 end
 
 target 'CAD' do
     project 'CAD.xcodeproj'
-    mpol_kit
+    all_kits
     pod "HockeySDK", :configurations => ['release', 'external-release', 'external-debug']
 end
 
