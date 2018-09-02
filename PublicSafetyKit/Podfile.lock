@@ -9,6 +9,18 @@ PODS:
     - PromiseKit (~> 6.0)
     - PromiseKit/CoreLocation
     - Unbox (= 2.5.0)
+  - HyperioniOS (1.0.2):
+    - HyperioniOS/AttributesInspector (= 1.0.2)
+    - HyperioniOS/Core (= 1.0.2)
+    - HyperioniOS/Measurements (= 1.0.2)
+    - HyperioniOS/SlowAnimations (= 1.0.2)
+  - HyperioniOS/AttributesInspector (1.0.2):
+    - HyperioniOS/Core
+  - HyperioniOS/Core (1.0.2)
+  - HyperioniOS/Measurements (1.0.2):
+    - HyperioniOS/Core
+  - HyperioniOS/SlowAnimations (1.0.2):
+    - HyperioniOS/Core
   - KeychainAccess (3.1.1)
   - lottie-ios (2.1.3)
   - PatternKit (0.0.1):
@@ -27,6 +39,9 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (6.3.4):
     - PromiseKit/CorePromise
+  - PublicSafetyKit (0.0.1):
+    - PatternKit
+    - Wrap (= 2.1.1)
   - SketchKit (0.0.1):
     - CoreKit
   - Unbox (2.5.0)
@@ -34,7 +49,9 @@ PODS:
 
 DEPENDENCIES:
   - CoreKit (from `..`)
+  - HyperioniOS
   - PatternKit (from `..`)
+  - PublicSafetyKit (from `..`)
   - SketchKit (from `..`)
   - Wrap (= 2.1.1)
 
@@ -43,6 +60,7 @@ SPEC REPOS:
     - Alamofire
     - Cache
     - Cluster
+    - HyperioniOS
     - KeychainAccess
     - lottie-ios
     - PromiseKit
@@ -54,6 +72,8 @@ EXTERNAL SOURCES:
     :path: ".."
   PatternKit:
     :path: ".."
+  PublicSafetyKit:
+    :path: ".."
   SketchKit:
     :path: ".."
 
@@ -62,14 +82,16 @@ SPEC CHECKSUMS:
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
   CoreKit: 0555cc074101bd6d33817279a8afbdc574d205e3
+  HyperioniOS: 2397937925b2d57ec28182ac979879b0da2658ee
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
   PatternKit: 1ccb78b25c7372c229b1ac649b68851b8445cabf
   PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
+  PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23
   SketchKit: 440c6e6b6ba7c6a1a4f4a69ea9cf5f8cff981ddc
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 60e067a8cc1465c9d153de01d9f122e704e43211
+PODFILE CHECKSUM: df978ef8e2eb553bf2fbc3bff3f91410e7707589
 
 COCOAPODS: 1.5.0
