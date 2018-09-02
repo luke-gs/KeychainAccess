@@ -285,7 +285,6 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: subdetailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
             
             NSLayoutConstraint(item: titleLabel,     attribute: .top,    relatedBy: .equal, toItem: textLabelGuide, attribute: .top),
-            NSLayoutConstraint(item: subdetailLabel, attribute: .bottom, relatedBy: .equal, toItem: thumbnailView, attribute: .bottom),
             
             titleToSubtitleConstraint, subtitleToDetailConstraint, detailToSubdetailConstraint
         ])
@@ -331,6 +330,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: 9.0),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .equal, toItem: contentModeGuide, attribute: .bottom),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeGuide, attribute: .trailing),
+                    NSLayoutConstraint(item: subdetailLabel, attribute: .bottom, relatedBy: .equal, toItem: contentModeGuide, attribute: .bottom),
                 ]
             case .detail:
                 styleConstraints = [
@@ -342,7 +342,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,   relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 16.0),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .top,   relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 8),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: 8),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing)
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing),
+                    NSLayoutConstraint(item: subdetailLabel, attribute: .bottom, relatedBy: .equal, toItem: thumbnailView, attribute: .bottom),
                 ]
             case .thumbnail:
                 styleConstraints = [

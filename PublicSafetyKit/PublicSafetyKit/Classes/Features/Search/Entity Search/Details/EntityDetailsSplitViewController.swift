@@ -50,7 +50,7 @@ public class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, 
         }
 
         let index = viewModel.dataSourceViewModels.index(where: {$0.dataSource.source == viewModel.selectedDataSourceViewModel.dataSource.source})
-
+    
         regularSidebarViewController.sourceItems =  items
         regularSidebarViewController.selectedSourceIndex = index
 
@@ -106,6 +106,11 @@ public class EntityDetailsSplitViewController<Details: EntityDetailDisplayable, 
     }
 
     public func entityDetailsDataSourceViewModel<U>(_ viewModel: EntityDetailsDataSourceViewModel<U>, didEndFetchWith state: EntityDetailState) where U : EntityDetailDisplayable {
+        
+        if let index = self.viewModel.dataSourceViewModels.index(where: {$0.dataSource.source == viewModel.dataSource.source}) {
+            self.viewModel.didFinishLoadingSourceAt(index)
+        }
+
         updateSourceItems()
         updateViewControllers()
         self.viewModel.fetchSubsequent()
