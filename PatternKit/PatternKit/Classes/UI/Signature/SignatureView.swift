@@ -38,9 +38,15 @@ public class SignatureView: UIView {
     private var savedSignatureImageView: UIImageView?
 
     /// Can be used to determine whether the signature has been started
-    /// Checks that the path is not empty for validation
+    /// or if a previous version has been loaded on init.
     public var containsSignature: Bool {
         return !path.isEmpty || savedSignatureImageView?.image != nil
+    }
+    
+    /// Determines if the signature has been changed
+    /// from the initial state
+    public var signatureHasChanged: Bool {
+        return !path.isEmpty
     }
 
     /// Animation layer for the clearing of the signature
