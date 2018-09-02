@@ -7,7 +7,7 @@
 //
 
 import Unbox
-import MPOLKit
+import PublicSafetyKit
 
 @objc(MPLEntity)
 open class Entity: MPOLKitEntity {

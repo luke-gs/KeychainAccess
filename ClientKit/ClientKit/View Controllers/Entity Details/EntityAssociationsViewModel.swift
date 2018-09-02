@@ -6,7 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     

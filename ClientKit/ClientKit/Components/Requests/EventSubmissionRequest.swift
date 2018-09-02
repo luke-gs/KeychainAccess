@@ -7,7 +7,7 @@
 
 import Foundation
 import PromiseKit
-import MPOLKit
+import PublicSafetyKit
 
 public class EventSubmissionRequest: Requestable {
     public typealias ResultClass = EventSubmissionResponse

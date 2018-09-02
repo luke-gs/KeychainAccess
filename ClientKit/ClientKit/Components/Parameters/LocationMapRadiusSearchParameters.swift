@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import Wrap
 
 public class LocationMapRadiusSearchParameters: EntitySearchRequest<Address> {

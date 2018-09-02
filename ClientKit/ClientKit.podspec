@@ -24,6 +24,6 @@ s.ios.deployment_target = '10.0'
 s.source_files = 'ClientKit/**/*.swift'
 s.resources = 'ClientKit/Resources/*'
 
-s.dependency 'MPOLKit'
+s.dependency 'DemoAppKit'
 
 end

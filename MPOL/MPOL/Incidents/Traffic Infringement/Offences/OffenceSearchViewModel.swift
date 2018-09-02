@@ -7,7 +7,7 @@
 
 import Foundation
 import PromiseKit
-import MPOLKit
+import PublicSafetyKit
 
 public class OffenceSearchViewModel : SearchDisplayableViewModel {
     public typealias Object = Offence

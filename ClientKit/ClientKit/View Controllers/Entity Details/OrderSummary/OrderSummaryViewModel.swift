@@ -5,7 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 public class OrderSummaryViewModel {
     private var order: Order

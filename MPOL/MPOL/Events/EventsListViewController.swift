@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
+import DemoAppKit
 import PromiseKit
 import ClientKit
 

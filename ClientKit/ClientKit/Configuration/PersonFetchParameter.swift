@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 public struct PersonFetchParameter: Requestable {
     public typealias ResultClass = Person

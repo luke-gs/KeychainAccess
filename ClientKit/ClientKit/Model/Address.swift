@@ -7,7 +7,7 @@
 //
 
 import Unbox
-import MPOLKit
+import PublicSafetyKit
 
 private enum CodingKeys: String, CodingKey {
     case type = "addressType"

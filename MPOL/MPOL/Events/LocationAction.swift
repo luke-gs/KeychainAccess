@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
+import DemoAppKit
 
 class LocationAction<T: EventLocation>: ValueSelectionAction<T>, LocationSelectionMapViewModelDelegate {
     var viewModel: EventLocationSelectionMapViewModel

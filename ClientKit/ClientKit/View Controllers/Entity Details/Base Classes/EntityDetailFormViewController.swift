@@ -6,7 +6,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 /// An abstract view controller for presenting entity details. Accepts a subclass of
 /// `EntityDetailFormViewModel` which should provide the content.

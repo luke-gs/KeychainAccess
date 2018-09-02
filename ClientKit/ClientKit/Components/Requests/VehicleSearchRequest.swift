@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import PromiseKit
 
 public class VehicleSearchRequest: AggregatedSearchRequest<Vehicle> {

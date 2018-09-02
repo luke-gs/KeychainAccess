@@ -5,7 +5,7 @@
 //  Created by Gridstone on 20/6/17.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 public class PersonParserDefinition: QueryParserDefinition {
 

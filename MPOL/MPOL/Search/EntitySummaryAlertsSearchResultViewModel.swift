@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import ClientKit
 
 public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntitySummarySearchResultViewModel<T>, SearchAlertsViewModelable, SearchAlertsDelegate {

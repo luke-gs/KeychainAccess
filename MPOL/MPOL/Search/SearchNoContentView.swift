@@ -5,7 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 import ClientKit
 
 public class SearchNoContentView: LoadingStateNoContentView {

@@ -8,7 +8,7 @@
 
 import Foundation
 import ClientKit
-import MPOLKit
+import PublicSafetyKit
 
 public protocol EventOfficerListViewModelDelegate: class {
     func officerListDidUpdate()

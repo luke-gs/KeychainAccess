@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
+import DemoAppKit
 
 public class TrafficInfringementOffencesViewModel {
 

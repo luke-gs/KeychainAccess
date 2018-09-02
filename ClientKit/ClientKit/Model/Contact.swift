@@ -7,7 +7,7 @@
 //
 
 import Unbox
-import MPOLKit
+import PublicSafetyKit
 
 @objc(MPLContact)
 open class Contact: NSObject, Serialisable {

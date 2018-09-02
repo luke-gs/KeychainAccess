@@ -5,7 +5,7 @@
 //  
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 public protocol AssociatedEntitySummaryDisplayable: EntitySummaryDisplayable {
     var association: String? { get }

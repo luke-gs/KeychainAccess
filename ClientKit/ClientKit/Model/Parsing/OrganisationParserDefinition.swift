@@ -6,7 +6,7 @@
 //
 
 
-import MPOLKit
+import PublicSafetyKit
 
 public class OrganisationParserDefinition: QueryParserDefinition {
     

@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
+import DemoAppKit
 import ClientKit
 
 public class TaskItemPresenter: Presenter {

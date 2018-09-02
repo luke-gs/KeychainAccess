@@ -6,7 +6,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import MPOLKit
+import PublicSafetyKit
 
 /// A delegate for updating the view (PopoverPresenter so we can present new views from view model)
 public protocol EntityDetailFormViewModelDelegate: PopoverPresenter, NavigationPresenter {

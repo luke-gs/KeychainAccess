@@ -7,7 +7,7 @@
 //
 
 import Unbox
-import MPOLKit
+import PublicSafetyKit
 
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
     case pscore = "ds1"

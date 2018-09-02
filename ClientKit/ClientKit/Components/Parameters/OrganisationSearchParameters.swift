@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 import Wrap
 
 public class OrganisationSearchParameters: EntitySearchRequest<Organisation> {

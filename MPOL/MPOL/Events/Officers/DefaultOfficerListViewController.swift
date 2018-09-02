@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MPOLKit
+import PublicSafetyKit
 import ClientKit
 
 extension EvaluatorKey {

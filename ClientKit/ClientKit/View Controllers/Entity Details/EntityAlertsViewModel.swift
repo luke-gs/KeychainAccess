@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MPOLKit
+import PublicSafetyKit
 
 open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     
