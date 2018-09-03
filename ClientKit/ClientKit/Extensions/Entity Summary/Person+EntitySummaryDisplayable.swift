@@ -108,10 +108,10 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         }
     }
     
-    private func formattedAddress() -> String? {
+    private func formattedAddress(withNewLine: Bool = false) -> String? {
         guard let address = person.addresses?.first else { return nil }
         guard let shortAddressForm = AddressFormatter(style: .short).formattedString(from: address) else { return nil }
-        let components = [address.county, address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
+        let components = [address.county, address.suburb != nil && withNewLine ? "\n" + address.suburb! : address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
         guard components.isEmpty == false else { return nil }
         return shortAddressForm + ", " + components.joined(separator: " ")
     }
@@ -119,6 +119,21 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     private func formattedAssociationReason() -> String? {
         guard let lastReason = person.associatedReasons?.last else { return nil }
         return lastReason.formattedReason()
+    }
+
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
+        return SummaryThumbnailFormItem()
+            .style(style)
+            .width(.column(2))
+            .category(category)
+            .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
+            .badge(badge)
+            .badgeColor(borderColor)
+            .image(thumbnail(ofSize: style == .hero ? .large : .medium))
+            .borderColor(borderColor)
+            .imageTintColor(iconColor)
     }
 }
 
