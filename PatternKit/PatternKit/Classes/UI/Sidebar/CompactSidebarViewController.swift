@@ -408,6 +408,7 @@ extension CompactSidebarViewController: CompactSidebarSourceViewControllerDelega
     }
 
     public func sourceViewController(_ viewController: CompactSidebarSourceViewController, didSelectItemAt index: Int) {
+        selectedSourceIndex = index
         delegate?.sidebarViewController(self, didSelectSourceAt: index)
     }
 
