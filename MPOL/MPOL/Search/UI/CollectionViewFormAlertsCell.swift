@@ -13,10 +13,7 @@ import Cache
 public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {
     public static let intrinsicHeight: CGFloat = 96
 
-    /// Cache for downloaded entity images
-    private lazy var downloadedImageCache: Storage? = {
-       return try? Storage(diskConfig: DiskConfig(name: "entityAlertImages"))
-    }()
+    public var cellHolder: [Entity: EntityCollectionViewCell] = [:]
 
     public weak var dataSource: SearchAlertsViewModelable? {
         didSet {
@@ -101,8 +98,6 @@ public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionV
             return EntityCollectionViewCell()
         }
 
-        let entity = dataSource.alertEntities[indexPath.item]
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "entityCell", for: indexPath) as! EntityCollectionViewCell
 
         cell.style = .thumbnail
@@ -110,30 +105,11 @@ public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionV
         cell.contentMode = .center
         cell.contentView.layoutMargins = .zero
 
-        let image = entitySummary.thumbnail(ofSize: .medium)
-        let sizing = image?.sizing()
-
         cell.thumbnailView.borderColor = entitySummary.borderColor
         cell.borderColor = entitySummary.borderColor
 
         cell.thumbnailView.backgroundView.backgroundColor = ThemeManager.shared.theme(for: .current).color(forKey: .entityThumbnailBackground)
         cell.thumbnailView.tintColor = entitySummary.iconColor ?? ThemeManager.shared.theme(for: .current).color(forKey: .entityImageTint)
-
-        cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
-
-
-        // Apply an already downloaded image if it exists, otherwise apply the placeholder image and attempt to download the image for the entity - if this succeeds, reload to apply it
-        if let imageWrapper = try? downloadedImageCache?.object(ofType: ImageWrapper.self, forKey: entity.uniqueID) {
-            cell.thumbnailView.imageView.image = imageWrapper?.image
-        } else {
-            cell.thumbnailView.imageView.image = sizing?.image
-            image?.loadImage(completion: { [downloadedImageCache] (imageSizable) in
-                    try? downloadedImageCache?.setObject(ImageWrapper(image: imageSizable.sizing().image!), forKey: entity.uniqueID)
-                    UIView.setAnimationsEnabled(false)
-                    collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
-                    UIView.setAnimationsEnabled(true)
-            })
-        }
 
         cell.sourceLabel.text = dataSource.alertEntities[indexPath.item].source?.localizedBarTitle
         cell.sourceLabel.backgroundColor = UIColor.black
@@ -141,22 +117,37 @@ public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionV
         return cell
     }
 
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let dataSource = dataSource, let entitySummary = dataSource.summaryDisplayFormatter.summaryDisplayForEntity(dataSource.alertEntities[indexPath.item]) else {
+            return
+        }
+
+        let entity = dataSource.alertEntities[indexPath.item]
+
+        let cell = cell as! EntityCollectionViewCell
+        let image = entitySummary.thumbnail(ofSize: .medium)
+        let sizing = image?.sizing()
+
+        cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
+        cell.thumbnailView.imageView.image = sizing?.image
+
+        cellHolder[entity] = cell
+
+        image?.loadImage(completion: { [cellHolder] (imageSizable) in
+            if let cell = cellHolder[entity] {
+                cell.thumbnailView.imageView.image = imageSizable.sizing().image
+                cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
+            }
+        })
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let index = cellHolder.index(where: { $0.value == cell }) {
+            cellHolder.remove(at: index)
+        }
+    }
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.didSelectEntity(at: indexPath.item)
-    }
-}
-
-fileprivate extension Entity {
-
-    /// Unique identifier used to caching images and tracking them against a specific entity
-    fileprivate var uniqueID: String {
-        var value = self.id
-        if let sourceString = self.source?.rawValue {
-            value += sourceString
-        }
-        if let entityTypeString = self.entityType {
-            value += entityTypeString
-        }
-        return value
     }
 }
