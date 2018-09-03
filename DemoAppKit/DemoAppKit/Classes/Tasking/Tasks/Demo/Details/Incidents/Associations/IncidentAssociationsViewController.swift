@@ -10,7 +10,7 @@ import UIKit
 
 open class IncidentAssociationsViewController: CADFormCollectionViewController<IncidentAssociationItemViewModel>, TaskDetailsLoadable {
     
-    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
+    private let styleItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .navBarThumbnailSelected), style: .plain, target: nil, action: nil)
 
     override public init(viewModel: CADFormCollectionViewModel<IncidentAssociationItemViewModel>) {
         super.init(viewModel: viewModel)
@@ -19,11 +19,11 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
         sidebarItem.image = AssetManager.shared.image(forKey: .association)
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
         
-        navigationItem.rightBarButtonItem = listStateItem
+        navigationItem.rightBarButtonItem = styleItem
         
-        listStateItem.target = self
-        listStateItem.action = #selector(toggleThumbnails)
-        listStateItem.imageInsets = .zero
+        styleItem.target = self
+        styleItem.action = #selector(toggleStyle)
+        styleItem.imageInsets = .zero
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -44,25 +44,20 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
     }
     
     // MARK: - Thumbnail support
-    
-    private var wantsThumbnails: Bool = false {
+
+    private var style: EntityDisplayStyle = .grid {
         didSet {
-            guard wantsThumbnails != oldValue else { return }
-            
-            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
-            
-            if traitCollection.horizontalSizeClass != .compact {
+            guard style != oldValue else { return }
+
+            if !isCompact() {
+                styleItem.image = AssetManager.shared.image(forKey: style == .grid ? .navBarThumbnailSelected : .navBarThumbnail)
                 collectionView?.reloadData()
             }
         }
     }
     
-    private var shouldShowGrid: Bool {
-        return wantsThumbnails && traitCollection.horizontalSizeClass != .compact
-    }
-    
-    @objc private func toggleThumbnails() {
-        wantsThumbnails = !wantsThumbnails
+    @objc private func toggleStyle() {
+        style = style == .grid ? . list : .grid
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -71,29 +66,38 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
         let isCompact = traitCollection.horizontalSizeClass == .compact
         
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
-            if wantsThumbnails {
+            if style == .grid && !isCompact {
                 collectionView?.reloadData()
             }
-            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
+            navigationItem.rightBarButtonItems = isCompact ? nil : [styleItem]
         }
     }
     
     
     // MARK: - Override
-    
-    override open func cellType() -> CollectionViewFormCell.Type {
-        if shouldShowGrid {
+
+    open override func cellType() -> CollectionViewFormCell.Type {
+        if !isCompact() && style == .grid {
             return EntityCollectionViewCell.self
-        } else {
-            return EntityListCollectionViewCell.self
+        }
+        return EntityListCollectionViewCell.self
+    }
+
+    private func cellType(for entityType: IncidentAssociationItemViewModel.EntityType) -> CollectionViewFormCell.Type {
+
+        switch entityType {
+            case .person:
+                return cellType()
+            default:
+                return EntityListCollectionViewCell.self
         }
     }
-    
+
     override open func decorate(cell: CollectionViewFormCell, with viewModel: IncidentAssociationItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.accessoryView = nil
-        
+
         if let cell = cell as? EntityListCollectionViewCell {
             cell.separatorStyle = .indented
             cell.decorate(with: viewModel)
@@ -102,19 +106,31 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
             cell.decorate(with: viewModel)
         }
     }
-    
+
+    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        guard let item = viewModel.item(at: indexPath) else {
+            return super.collectionView(collectionView, cellForItemAt: indexPath)
+        }
+
+
+        let cell = collectionView.dequeueReusableCell(of: cellType(for: item.entityType), for: indexPath)
+        decorate(cell: cell, with: item)
+        return cell
+    }
+
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
+
         if let cell = cell as? EntityListCollectionViewCell {
             cell.thumbnailView.apply(theme: ThemeManager.shared.theme(for: .current))
         } else if let cell = cell as? EntityCollectionViewCell {
             cell.thumbnailView.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
-    
+
     // MARK: - UICollectionViewDelegate
-    
+
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
 
@@ -123,18 +139,20 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
             Director.shared.present(TaskItemScreen.associationDetails(association: item.association), fromViewController: self)
         }
     }
-    
-    
+
+
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if shouldShowGrid {
-            return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        if let item = viewModel.item(at: indexPath) {
+            if cellType(for: item.entityType) == EntityCollectionViewCell.self {
+                return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+            }
         }
         return collectionView.bounds.width
     }
-    
+
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            if shouldShowGrid {
+            if cellType(for: item.entityType) == EntityCollectionViewCell.self {
                 return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, title: item.title, subtitle: item.detail1, detail: item.detail2, compatibleWith: traitCollection)
             } else {
                 return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, detail: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
