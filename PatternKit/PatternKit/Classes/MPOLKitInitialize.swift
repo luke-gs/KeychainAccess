@@ -14,10 +14,6 @@ import SketchKit
 // TODO: remove this and add explicit imports where needed
 @_exported import CoreKit
 
-extension AssetManager.BundlePriority {
-    public static let patternKit = AssetManager.BundlePriority(300)
-}
-
 // Temporary: Performs default setup for MPOLKit applications
 public func MPOLKitInitialize() {
 

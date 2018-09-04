@@ -9,6 +9,11 @@
 import Foundation
 import CoreKit
 
+extension AssetManager.BundlePriority {
+    // Higher priority than core and sketch kit
+    public static let patternKit = AssetManager.BundlePriority(300)
+}
+
 extension AssetManager.AssetKey {
     public static let animatedSpinner             = AssetManager.AssetKey("Lottie/spinner.json")
 }
