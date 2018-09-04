@@ -8,10 +8,56 @@
 
 /* Begin PBXBuildFile section */
 		1F15E9736DB1E0E32DA56D66 /* Pods_PatternKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF71B30F7B9892DB70397B0 /* Pods_PatternKitTests.framework */; };
+		96327134213660810020BB57 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327103213660800020BB57 /* SourceItemTests.swift */; };
+		96327135213660810020BB57 /* DropDownFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327105213660800020BB57 /* DropDownFormItemTests.swift */; };
+		96327136213660810020BB57 /* StringSizing+LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327106213660800020BB57 /* StringSizing+LabelTests.swift */; };
+		96327137213660810020BB57 /* FormSectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327107213660800020BB57 /* FormSectionTests.swift */; };
+		96327138213660810020BB57 /* SubmissionValidationVisitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327108213660800020BB57 /* SubmissionValidationVisitorTests.swift */; };
+		96327139213660810020BB57 /* SubtitleFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327109213660800020BB57 /* SubtitleFormItemTests.swift */; };
+		9632713A213660810020BB57 /* TextFieldFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632710A213660800020BB57 /* TextFieldFormItemTests.swift */; };
+		9632713B213660810020BB57 /* ReloadValidationStateVisitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632710B213660800020BB57 /* ReloadValidationStateVisitorTests.swift */; };
+		9632713C213660810020BB57 /* ItemAccessoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632710C213660800020BB57 /* ItemAccessoryTests.swift */; };
+		9632713D213660810020BB57 /* OptionGroupFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632710D213660800020BB57 /* OptionGroupFormItemTests.swift */; };
+		9632713E213660810020BB57 /* CustomItemAccessoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632710E213660800020BB57 /* CustomItemAccessoryTests.swift */; };
+		9632713F213660810020BB57 /* HeaderFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632710F213660800020BB57 /* HeaderFormItemTests.swift */; };
+		96327140213660810020BB57 /* FormValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327110213660800020BB57 /* FormValidatorTests.swift */; };
+		96327141213660810020BB57 /* ImageSizingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327111213660800020BB57 /* ImageSizingTests.swift */; };
+		96327142213660810020BB57 /* RangeFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327112213660800020BB57 /* RangeFormItemTests.swift */; };
+		96327143213660810020BB57 /* BaseSupplementaryFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327113213660800020BB57 /* BaseSupplementaryFormItemTests.swift */; };
+		96327144213660810020BB57 /* ImageLoadableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327114213660800020BB57 /* ImageLoadableTests.swift */; };
+		96327145213660810020BB57 /* CustomFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327115213660800020BB57 /* CustomFormItemTests.swift */; };
+		96327146213660810020BB57 /* SummaryListFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327116213660800020BB57 /* SummaryListFormItemTests.swift */; };
+		96327147213660810020BB57 /* FromRequiredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327117213660800020BB57 /* FromRequiredTests.swift */; };
+		96327148213660810020BB57 /* OptionFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327118213660800020BB57 /* OptionFormItemTests.swift */; };
+		96327149213660810020BB57 /* TextViewFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327119213660800020BB57 /* TextViewFormItemTests.swift */; };
+		9632714A213660810020BB57 /* PickerFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632711A213660800020BB57 /* PickerFormItemTests.swift */; };
+		9632714B213660810020BB57 /* FooterFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632711B213660800020BB57 /* FooterFormItemTests.swift */; };
+		9632714C213660810020BB57 /* SummaryDetailFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632711C213660800020BB57 /* SummaryDetailFormItemTests.swift */; };
+		9632714D213660810020BB57 /* ValueFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632711D213660800020BB57 /* ValueFormItemTests.swift */; };
+		9632714E213660810020BB57 /* StepperFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632711E213660800020BB57 /* StepperFormItemTests.swift */; };
+		9632714F213660810020BB57 /* ValidatorRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632711F213660800020BB57 /* ValidatorRuleTests.swift */; };
+		96327150213660810020BB57 /* ValidateResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327120213660800020BB57 /* ValidateResultTests.swift */; };
+		96327151213660810020BB57 /* DateFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327121213660800020BB57 /* DateFormItemTests.swift */; };
+		96327152213660810020BB57 /* LabeledItemAccessoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327122213660800020BB57 /* LabeledItemAccessoryTests.swift */; };
+		96327153213660810020BB57 /* DetailFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327123213660800020BB57 /* DetailFormItemTests.swift */; };
+		96327154213660810020BB57 /* SummaryThumbnailFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327124213660800020BB57 /* SummaryThumbnailFormItemTests.swift */; };
+		96327155213660810020BB57 /* BaseFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327125213660800020BB57 /* BaseFormItemTests.swift */; };
+		96327156213660810020BB57 /* FormBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327126213660800020BB57 /* FormBuilderTests.swift */; };
+		96327157213660810020BB57 /* StringSizingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327128213660800020BB57 /* StringSizingTests.swift */; };
+		96327158213660810020BB57 /* ThemeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632712A213660800020BB57 /* ThemeManagerTests.swift */; };
+		96327159213660810020BB57 /* testTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 9632712B213660800020BB57 /* testTheme.json */; };
+		9632715A213660810020BB57 /* GenericSearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632712D213660800020BB57 /* GenericSearchViewModelTests.swift */; };
+		9632715B213660810020BB57 /* KeyboardInputManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632712F213660800020BB57 /* KeyboardInputManagerTests.swift */; };
+		9632715C213660810020BB57 /* DataCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327131213660800020BB57 /* DataCoordinatorTests.swift */; };
+		9632715D213660810020BB57 /* LocalDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327132213660800020BB57 /* LocalDataStoreTests.swift */; };
+		9632715E213660810020BB57 /* DataCoordinateStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327133213660800020BB57 /* DataCoordinateStateTests.swift */; };
+		96327162213662C30020BB57 /* Lottie in Resources */ = {isa = PBXBuildFile; fileRef = 96327161213662C20020BB57 /* Lottie */; };
+		96327163213662F80020BB57 /* Lottie in Resources */ = {isa = PBXBuildFile; fileRef = 96327161213662C20020BB57 /* Lottie */; };
+		9632716A213663C90020BB57 /* LightTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 96327168213663C90020BB57 /* LightTheme.json */; };
+		9632716B213663C90020BB57 /* LightTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 96327168213663C90020BB57 /* LightTheme.json */; };
+		9632716C213663C90020BB57 /* DarkTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 96327169213663C90020BB57 /* DarkTheme.json */; };
+		9632716D213663C90020BB57 /* DarkTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 96327169213663C90020BB57 /* DarkTheme.json */; };
 		968A17E921267CE3006634DC /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A17E321267CE2006634DC /* Icons.xcassets */; };
-		968A17EA21267CE3006634DC /* LightTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 968A17E521267CE2006634DC /* LightTheme.json */; };
-		968A17EB21267CE3006634DC /* DarkTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 968A17E621267CE2006634DC /* DarkTheme.json */; };
-		968A17EC21267CE3006634DC /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 968A17E821267CE2006634DC /* spinner.json */; };
 		96B803C3212D17F5005A72A0 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8027A212D17F5005A72A0 /* SidebarHeaderView.swift */; };
 		96B803C4212D17F5005A72A0 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8027B212D17F5005A72A0 /* SidebarItem.swift */; };
 		96B803C5212D17F5005A72A0 /* RegularSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8027C212D17F5005A72A0 /* RegularSidebarViewController.swift */; };
@@ -306,10 +352,53 @@
 		2B348E05D14A9A8D74EAD40E /* Pods-PatternKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatternKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-PatternKit/Pods-PatternKit.release.xcconfig"; sourceTree = "<group>"; };
 		3BF71B30F7B9892DB70397B0 /* Pods_PatternKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatternKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A725326776B41B422DA1C9 /* Pods-PatternKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatternKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PatternKit/Pods-PatternKit.debug.xcconfig"; sourceTree = "<group>"; };
+		96327103213660800020BB57 /* SourceItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
+		96327105213660800020BB57 /* DropDownFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownFormItemTests.swift; sourceTree = "<group>"; };
+		96327106213660800020BB57 /* StringSizing+LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StringSizing+LabelTests.swift"; sourceTree = "<group>"; };
+		96327107213660800020BB57 /* FormSectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSectionTests.swift; sourceTree = "<group>"; };
+		96327108213660800020BB57 /* SubmissionValidationVisitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmissionValidationVisitorTests.swift; sourceTree = "<group>"; };
+		96327109213660800020BB57 /* SubtitleFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubtitleFormItemTests.swift; sourceTree = "<group>"; };
+		9632710A213660800020BB57 /* TextFieldFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormItemTests.swift; sourceTree = "<group>"; };
+		9632710B213660800020BB57 /* ReloadValidationStateVisitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadValidationStateVisitorTests.swift; sourceTree = "<group>"; };
+		9632710C213660800020BB57 /* ItemAccessoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemAccessoryTests.swift; sourceTree = "<group>"; };
+		9632710D213660800020BB57 /* OptionGroupFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItemTests.swift; sourceTree = "<group>"; };
+		9632710E213660800020BB57 /* CustomItemAccessoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomItemAccessoryTests.swift; sourceTree = "<group>"; };
+		9632710F213660800020BB57 /* HeaderFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderFormItemTests.swift; sourceTree = "<group>"; };
+		96327110213660800020BB57 /* FormValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidatorTests.swift; sourceTree = "<group>"; };
+		96327111213660800020BB57 /* ImageSizingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSizingTests.swift; sourceTree = "<group>"; };
+		96327112213660800020BB57 /* RangeFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeFormItemTests.swift; sourceTree = "<group>"; };
+		96327113213660800020BB57 /* BaseSupplementaryFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseSupplementaryFormItemTests.swift; sourceTree = "<group>"; };
+		96327114213660800020BB57 /* ImageLoadableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoadableTests.swift; sourceTree = "<group>"; };
+		96327115213660800020BB57 /* CustomFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFormItemTests.swift; sourceTree = "<group>"; };
+		96327116213660800020BB57 /* SummaryListFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryListFormItemTests.swift; sourceTree = "<group>"; };
+		96327117213660800020BB57 /* FromRequiredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromRequiredTests.swift; sourceTree = "<group>"; };
+		96327118213660800020BB57 /* OptionFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionFormItemTests.swift; sourceTree = "<group>"; };
+		96327119213660800020BB57 /* TextViewFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewFormItemTests.swift; sourceTree = "<group>"; };
+		9632711A213660800020BB57 /* PickerFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerFormItemTests.swift; sourceTree = "<group>"; };
+		9632711B213660800020BB57 /* FooterFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterFormItemTests.swift; sourceTree = "<group>"; };
+		9632711C213660800020BB57 /* SummaryDetailFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryDetailFormItemTests.swift; sourceTree = "<group>"; };
+		9632711D213660800020BB57 /* ValueFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueFormItemTests.swift; sourceTree = "<group>"; };
+		9632711E213660800020BB57 /* StepperFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepperFormItemTests.swift; sourceTree = "<group>"; };
+		9632711F213660800020BB57 /* ValidatorRuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatorRuleTests.swift; sourceTree = "<group>"; };
+		96327120213660800020BB57 /* ValidateResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateResultTests.swift; sourceTree = "<group>"; };
+		96327121213660800020BB57 /* DateFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormItemTests.swift; sourceTree = "<group>"; };
+		96327122213660800020BB57 /* LabeledItemAccessoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabeledItemAccessoryTests.swift; sourceTree = "<group>"; };
+		96327123213660800020BB57 /* DetailFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailFormItemTests.swift; sourceTree = "<group>"; };
+		96327124213660800020BB57 /* SummaryThumbnailFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryThumbnailFormItemTests.swift; sourceTree = "<group>"; };
+		96327125213660800020BB57 /* BaseFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFormItemTests.swift; sourceTree = "<group>"; };
+		96327126213660800020BB57 /* FormBuilderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormBuilderTests.swift; sourceTree = "<group>"; };
+		96327128213660800020BB57 /* StringSizingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringSizingTests.swift; sourceTree = "<group>"; };
+		9632712A213660800020BB57 /* ThemeManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManagerTests.swift; sourceTree = "<group>"; };
+		9632712B213660800020BB57 /* testTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testTheme.json; sourceTree = "<group>"; };
+		9632712D213660800020BB57 /* GenericSearchViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericSearchViewModelTests.swift; sourceTree = "<group>"; };
+		9632712F213660800020BB57 /* KeyboardInputManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputManagerTests.swift; sourceTree = "<group>"; };
+		96327131213660800020BB57 /* DataCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCoordinatorTests.swift; sourceTree = "<group>"; };
+		96327132213660800020BB57 /* LocalDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalDataStoreTests.swift; sourceTree = "<group>"; };
+		96327133213660800020BB57 /* DataCoordinateStateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCoordinateStateTests.swift; sourceTree = "<group>"; };
+		96327161213662C20020BB57 /* Lottie */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lottie; sourceTree = "<group>"; };
+		96327168213663C90020BB57 /* LightTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LightTheme.json; sourceTree = "<group>"; };
+		96327169213663C90020BB57 /* DarkTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DarkTheme.json; sourceTree = "<group>"; };
 		968A17E321267CE2006634DC /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
-		968A17E521267CE2006634DC /* LightTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LightTheme.json; sourceTree = "<group>"; };
-		968A17E621267CE2006634DC /* DarkTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DarkTheme.json; sourceTree = "<group>"; };
-		968A17E821267CE2006634DC /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
 		96B8027A212D17F5005A72A0 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
 		96B8027B212D17F5005A72A0 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		96B8027C212D17F5005A72A0 /* RegularSidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularSidebarViewController.swift; sourceTree = "<group>"; };
@@ -634,31 +723,137 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		968A17E221267CE2006634DC /* Resources */ = {
+		96327101213660800020BB57 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				968A17E721267CE2006634DC /* Lottie */,
-				968A17E421267CE2006634DC /* Theme */,
-				968A17E321267CE2006634DC /* Icons.xcassets */,
+				9632715F213660FE0020BB57 /* Forms */,
+				9632712C213660800020BB57 /* Generic Search */,
+				9632712E213660800020BB57 /* Helper */,
+				96327127213660800020BB57 /* Sizing */,
+				96327102213660800020BB57 /* Source Bar */,
+				96327129213660800020BB57 /* Theme */,
 			);
-			path = Resources;
+			path = Classes;
 			sourceTree = "<group>";
 		};
-		968A17E421267CE2006634DC /* Theme */ = {
+		96327102213660800020BB57 /* Source Bar */ = {
 			isa = PBXGroup;
 			children = (
-				968A17E621267CE2006634DC /* DarkTheme.json */,
-				968A17E521267CE2006634DC /* LightTheme.json */,
+				96327103213660800020BB57 /* SourceItemTests.swift */,
+			);
+			path = "Source Bar";
+			sourceTree = "<group>";
+		};
+		96327104213660800020BB57 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				96327125213660800020BB57 /* BaseFormItemTests.swift */,
+				96327113213660800020BB57 /* BaseSupplementaryFormItemTests.swift */,
+				96327115213660800020BB57 /* CustomFormItemTests.swift */,
+				9632710E213660800020BB57 /* CustomItemAccessoryTests.swift */,
+				96327121213660800020BB57 /* DateFormItemTests.swift */,
+				96327123213660800020BB57 /* DetailFormItemTests.swift */,
+				96327105213660800020BB57 /* DropDownFormItemTests.swift */,
+				9632711B213660800020BB57 /* FooterFormItemTests.swift */,
+				96327126213660800020BB57 /* FormBuilderTests.swift */,
+				96327107213660800020BB57 /* FormSectionTests.swift */,
+				96327110213660800020BB57 /* FormValidatorTests.swift */,
+				96327117213660800020BB57 /* FromRequiredTests.swift */,
+				9632710F213660800020BB57 /* HeaderFormItemTests.swift */,
+				96327114213660800020BB57 /* ImageLoadableTests.swift */,
+				96327111213660800020BB57 /* ImageSizingTests.swift */,
+				9632710C213660800020BB57 /* ItemAccessoryTests.swift */,
+				96327122213660800020BB57 /* LabeledItemAccessoryTests.swift */,
+				96327118213660800020BB57 /* OptionFormItemTests.swift */,
+				9632710D213660800020BB57 /* OptionGroupFormItemTests.swift */,
+				9632711A213660800020BB57 /* PickerFormItemTests.swift */,
+				96327112213660800020BB57 /* RangeFormItemTests.swift */,
+				9632710B213660800020BB57 /* ReloadValidationStateVisitorTests.swift */,
+				9632711E213660800020BB57 /* StepperFormItemTests.swift */,
+				96327106213660800020BB57 /* StringSizing+LabelTests.swift */,
+				96327108213660800020BB57 /* SubmissionValidationVisitorTests.swift */,
+				96327109213660800020BB57 /* SubtitleFormItemTests.swift */,
+				9632711C213660800020BB57 /* SummaryDetailFormItemTests.swift */,
+				96327116213660800020BB57 /* SummaryListFormItemTests.swift */,
+				96327124213660800020BB57 /* SummaryThumbnailFormItemTests.swift */,
+				9632710A213660800020BB57 /* TextFieldFormItemTests.swift */,
+				96327119213660800020BB57 /* TextViewFormItemTests.swift */,
+				96327120213660800020BB57 /* ValidateResultTests.swift */,
+				9632711F213660800020BB57 /* ValidatorRuleTests.swift */,
+				9632711D213660800020BB57 /* ValueFormItemTests.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		96327127213660800020BB57 /* Sizing */ = {
+			isa = PBXGroup;
+			children = (
+				96327128213660800020BB57 /* StringSizingTests.swift */,
+			);
+			path = Sizing;
+			sourceTree = "<group>";
+		};
+		96327129213660800020BB57 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				9632712B213660800020BB57 /* testTheme.json */,
+				9632712A213660800020BB57 /* ThemeManagerTests.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
 		};
-		968A17E721267CE2006634DC /* Lottie */ = {
+		9632712C213660800020BB57 /* Generic Search */ = {
 			isa = PBXGroup;
 			children = (
-				968A17E821267CE2006634DC /* spinner.json */,
+				9632712D213660800020BB57 /* GenericSearchViewModelTests.swift */,
 			);
-			path = Lottie;
+			path = "Generic Search";
+			sourceTree = "<group>";
+		};
+		9632712E213660800020BB57 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				9632712F213660800020BB57 /* KeyboardInputManagerTests.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		96327130213660800020BB57 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				96327133213660800020BB57 /* DataCoordinateStateTests.swift */,
+				96327131213660800020BB57 /* DataCoordinatorTests.swift */,
+				96327132213660800020BB57 /* LocalDataStoreTests.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		9632715F213660FE0020BB57 /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				96327104213660800020BB57 /* Builder */,
+				96327130213660800020BB57 /* Media */,
+			);
+			path = Forms;
+			sourceTree = "<group>";
+		};
+		96327167213663C90020BB57 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				96327168213663C90020BB57 /* LightTheme.json */,
+				96327169213663C90020BB57 /* DarkTheme.json */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		968A17E221267CE2006634DC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				96327161213662C20020BB57 /* Lottie */,
+				968A17E321267CE2006634DC /* Icons.xcassets */,
+				96327167213663C90020BB57 /* Theme */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		96B80277212D17F5005A72A0 /* Classes */ = {
@@ -1408,11 +1603,11 @@
 		96BE87F12126548000F57FF0 = {
 			isa = PBXGroup;
 			children = (
+				2BCD48607267810310FC55BA /* Frameworks */,
 				96BE87FD2126548000F57FF0 /* PatternKit */,
 				96BE88082126548000F57FF0 /* PatternKitTests */,
-				96BE87FC2126548000F57FF0 /* Products */,
 				18CBCBB5A257821E471D4868 /* Pods */,
-				2BCD48607267810310FC55BA /* Frameworks */,
+				96BE87FC2126548000F57FF0 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1439,6 +1634,7 @@
 		96BE88082126548000F57FF0 /* PatternKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				96327101213660800020BB57 /* Classes */,
 				96BE880B2126548000F57FF0 /* Info.plist */,
 				96BE88092126548000F57FF0 /* PatternKitTests.swift */,
 			);
@@ -1541,10 +1737,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				968A17EB21267CE3006634DC /* DarkTheme.json in Resources */,
+				9632716A213663C90020BB57 /* LightTheme.json in Resources */,
+				96327163213662F80020BB57 /* Lottie in Resources */,
 				968A17E921267CE3006634DC /* Icons.xcassets in Resources */,
-				968A17EA21267CE3006634DC /* LightTheme.json in Resources */,
-				968A17EC21267CE3006634DC /* spinner.json in Resources */,
+				9632716C213663C90020BB57 /* DarkTheme.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1552,6 +1748,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9632716B213663C90020BB57 /* LightTheme.json in Resources */,
+				96327159213660810020BB57 /* testTheme.json in Resources */,
+				96327162213662C30020BB57 /* Lottie in Resources */,
+				9632716D213663C90020BB57 /* DarkTheme.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1913,7 +2113,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96327155213660810020BB57 /* BaseFormItemTests.swift in Sources */,
+				96327143213660810020BB57 /* BaseSupplementaryFormItemTests.swift in Sources */,
+				96327145213660810020BB57 /* CustomFormItemTests.swift in Sources */,
+				9632713E213660810020BB57 /* CustomItemAccessoryTests.swift in Sources */,
+				9632715E213660810020BB57 /* DataCoordinateStateTests.swift in Sources */,
+				9632715C213660810020BB57 /* DataCoordinatorTests.swift in Sources */,
+				96327151213660810020BB57 /* DateFormItemTests.swift in Sources */,
+				96327153213660810020BB57 /* DetailFormItemTests.swift in Sources */,
+				96327135213660810020BB57 /* DropDownFormItemTests.swift in Sources */,
+				9632714B213660810020BB57 /* FooterFormItemTests.swift in Sources */,
+				96327156213660810020BB57 /* FormBuilderTests.swift in Sources */,
+				96327137213660810020BB57 /* FormSectionTests.swift in Sources */,
+				96327140213660810020BB57 /* FormValidatorTests.swift in Sources */,
+				96327147213660810020BB57 /* FromRequiredTests.swift in Sources */,
+				9632715A213660810020BB57 /* GenericSearchViewModelTests.swift in Sources */,
+				9632713F213660810020BB57 /* HeaderFormItemTests.swift in Sources */,
+				96327144213660810020BB57 /* ImageLoadableTests.swift in Sources */,
+				96327141213660810020BB57 /* ImageSizingTests.swift in Sources */,
+				9632713C213660810020BB57 /* ItemAccessoryTests.swift in Sources */,
+				9632715B213660810020BB57 /* KeyboardInputManagerTests.swift in Sources */,
+				96327152213660810020BB57 /* LabeledItemAccessoryTests.swift in Sources */,
+				9632715D213660810020BB57 /* LocalDataStoreTests.swift in Sources */,
+				96327148213660810020BB57 /* OptionFormItemTests.swift in Sources */,
+				9632713D213660810020BB57 /* OptionGroupFormItemTests.swift in Sources */,
 				96BE880A2126548000F57FF0 /* PatternKitTests.swift in Sources */,
+				9632714A213660810020BB57 /* PickerFormItemTests.swift in Sources */,
+				96327142213660810020BB57 /* RangeFormItemTests.swift in Sources */,
+				9632713B213660810020BB57 /* ReloadValidationStateVisitorTests.swift in Sources */,
+				96327134213660810020BB57 /* SourceItemTests.swift in Sources */,
+				9632714E213660810020BB57 /* StepperFormItemTests.swift in Sources */,
+				96327136213660810020BB57 /* StringSizing+LabelTests.swift in Sources */,
+				96327157213660810020BB57 /* StringSizingTests.swift in Sources */,
+				96327138213660810020BB57 /* SubmissionValidationVisitorTests.swift in Sources */,
+				96327139213660810020BB57 /* SubtitleFormItemTests.swift in Sources */,
+				9632714C213660810020BB57 /* SummaryDetailFormItemTests.swift in Sources */,
+				96327146213660810020BB57 /* SummaryListFormItemTests.swift in Sources */,
+				96327154213660810020BB57 /* SummaryThumbnailFormItemTests.swift in Sources */,
+				9632713A213660810020BB57 /* TextFieldFormItemTests.swift in Sources */,
+				96327149213660810020BB57 /* TextViewFormItemTests.swift in Sources */,
+				96327158213660810020BB57 /* ThemeManagerTests.swift in Sources */,
+				96327150213660810020BB57 /* ValidateResultTests.swift in Sources */,
+				9632714F213660810020BB57 /* ValidatorRuleTests.swift in Sources */,
+				9632714D213660810020BB57 /* ValueFormItemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2062,7 +2304,11 @@
 				INFOPLIST_FILE = PatternKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.PatternKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2085,7 +2331,11 @@
 				INFOPLIST_FILE = PatternKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.PatternKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2101,7 +2351,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = PatternKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.PatternKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2116,7 +2370,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				INFOPLIST_FILE = PatternKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.PatternKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

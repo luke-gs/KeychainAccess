@@ -19,13 +19,13 @@ public class DateFormItem: PickerFormItem<Date> {
         }
     }
 
-    public var minimumDate: Date?  {
+    public var minimumDate: Date? {
         didSet {
             action.minimumDate = minimumDate
         }
     }
 
-    public var maximumDate: Date?  {
+    public var maximumDate: Date? {
         didSet {
             action.maximumDate = maximumDate
         }
@@ -148,23 +148,32 @@ class DateAction: ValueSelectionAction<Date> {
     }
 
     public override func viewController() -> UIViewController {
-        let updateHandler: (Date) -> () = { [weak self] date in
-            self?.selectedValue = date
-            self?.updateHandler?()
-        }
 
         let dateViewController = PopoverDatePickerViewController(withNowButton: hasNowButton)
         dateViewController.title = title
-        dateViewController.dateUpdateHandler = updateHandler
 
         let datePicker = dateViewController.datePicker
         datePicker.date = selectedValue ?? Date()
         datePicker.datePickerMode = mode
-        datePicker.minimumDate = minimumDate
-        datePicker.maximumDate = maximumDate
         datePicker.minuteInterval = minuteInterval ?? 1
         datePicker.timeZone = timeZone
         datePicker.locale = locale
+
+        let updateHandler: (Date) -> () = { [weak self] date in
+
+            if let minDate = self?.minimumDate, datePicker.date < minDate {
+                datePicker.setDate(minDate, animated: true)
+                self?.selectedValue = minDate
+            } else if let maxDate = self?.maximumDate, datePicker.date > maxDate {
+                datePicker.setDate(maxDate, animated: true)
+                self?.selectedValue = maxDate
+            } else {
+                self?.selectedValue = date
+            }
+            
+            self?.updateHandler?()
+        }
+        dateViewController.dateUpdateHandler = updateHandler
 
         updateHandler(datePicker.date)
 

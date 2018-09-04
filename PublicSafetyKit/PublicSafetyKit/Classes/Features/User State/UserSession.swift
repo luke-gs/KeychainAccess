@@ -62,6 +62,8 @@ public class UserSession: UserSessionable {
     public init() {
         // Backwards compatibility for loading users that were stored when class was in different module
         NSKeyedUnarchiver.setClass(User.self, forClassName: "MPOLKit.User")
+        NSKeyedUnarchiver.setClass(OAuthAccessToken.self, forClassName: "MPOLKit.OAuthAccessToken")
+        NSKeyedUnarchiver.setClass(UserPreference.self, forClassName: "MPOLKit.UserPreference")
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyViewed)

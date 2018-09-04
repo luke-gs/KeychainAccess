@@ -101,8 +101,8 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         if shouldPresentEntityPicker() {
             presentEntitySelection(from: controller)
         } else {
-            updateRecentlyViewed()
             currentSource = dataSource.source
+            updateRecentlyViewed()
         }
     }
 
@@ -123,6 +123,17 @@ open class EntityDetailsViewModel<Details: EntityDetailDisplayable>: EntityDetai
         }
 
         currentSource = newViewModel.dataSource.source
+    }
+    
+    /// Called when a request to load is finished.
+    ///
+    /// - Parameters:
+    ///   - index: The data source index
+    public func didFinishLoadingSourceAt(_ index: Int) {
+        // only update recently used when the current source fetch finishes
+        if currentSource == dataSourceViewModels[index].dataSource.source {
+            updateRecentlyViewed()
+        }
     }
 
     //MARK:- Private
