@@ -31,6 +31,12 @@ public class PropertyDetailsViewController: FormBuilderViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                            target: self,
                                                            action: #selector(dismissAnimated))
+
+        updateRightBarButtonIsEnabled()
+
+        viewModel.updateDoneButton = { [weak self] in
+            self?.updateRightBarButtonIsEnabled()
+        }
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -46,5 +52,9 @@ public class PropertyDetailsViewController: FormBuilderViewController {
     @objc public func doneHandler() {
         dismissAnimated()
         viewModel.completion?(viewModel.report)
+    }
+
+    private func updateRightBarButtonIsEnabled() {
+        navigationItem.rightBarButtonItem?.isEnabled = viewModel.report.property != nil
     }
 }

@@ -11,6 +11,7 @@ public class PropertyDetailsViewModel {
     public var completion: ((PropertyDetailsReport) -> ())?
     let involvements: [String]
     let properties: [Property]
+    var updateDoneButton: (()->())?
 
     public var plugins: [FormBuilderPlugin]?
 
@@ -27,10 +28,14 @@ public class PropertyDetailsViewModel {
         report.property = property
         report.involvements = nil
         report.media = []
+
+        updateDoneButton?()
+
         let keys = property.detailNames?.compactMap{$0.title}
         guard let validKeys = keys else { return }
         let values = Array(repeating: "", count: validKeys.count)
         report.details = Dictionary(uniqueKeysWithValues: zip(validKeys, values))
+
     }
 }
 
