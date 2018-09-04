@@ -74,7 +74,13 @@ public class AssetManager {
         registeredAssets[key] = AssetRegistration(bundle: bundle, name: name)
     }
 
-    // MARK: - Asset Loading
+    // MARK: - Image Loading
+
+    // For backwards compatibility with existing code...
+    public typealias ImageKey = AssetKey
+    public func registerImage(named name: String, in bundle: Bundle, forKey key: ImageKey) {
+        registerAsset(named: name, in: bundle, forKey: key)
+    }
 
     /// Fetch an image asset from the registered assets and bundles. Returns nil if not found.
     ///
@@ -99,14 +105,25 @@ public class AssetManager {
         return nil
     }
 
-    // MARK: - Backwards compatibility
+    // MARK: - Resource Loading
 
-    // For backwards compatibility with existing code...
-    public typealias ImageKey = AssetKey
+    public func resource(forKey key: ImageKey) -> URL? {
 
-    public func registerImage(named name: String, in bundle: Bundle, forKey key: ImageKey) {
-        registerAsset(named: name, in: bundle, forKey: key)
+        // First check for individual asset override
+        if let asset = registeredAssets[key],
+            let url = asset.bundle.url(forResource: asset.name, withExtension: nil) {
+            return url
+        }
+
+        // Otherwise check the registered bundles, in order
+        for registeredBundle in registeredBundles {
+            if let url = registeredBundle.bundle.url(forResource: key.rawValue, withExtension: nil) {
+                return url
+            }
+        }
+        return nil
     }
+
 
     // MARK: - Internal
 

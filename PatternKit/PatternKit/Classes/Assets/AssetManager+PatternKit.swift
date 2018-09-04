@@ -9,6 +9,10 @@
 import Foundation
 import CoreKit
 
+extension AssetManager.AssetKey {
+    public static let animatedSpinner             = AssetManager.AssetKey("Lottie/spinner.json")
+}
+
 extension AssetManager.ImageKey {
 
     // Login Logos
@@ -145,6 +149,14 @@ extension AssetManager.ImageKey {
     public static let entityBoatMedium            = AssetManager.ImageKey("iconEntityAutomotiveWaterMedium")
     public static let entityBoatLarge             = AssetManager.ImageKey("iconEntityAutomotiveWaterLarge")
 
+    public static let entityLocationSmall         = AssetManager.ImageKey("iconEntityLocation")
+    public static let entityLocationMedium        = AssetManager.ImageKey("iconEntityLocation48")
+    public static let entityLocationLarge         = AssetManager.ImageKey("iconEntityLocation96")
+
+    public static let entityBuildingSmall         = AssetManager.ImageKey("iconEntityBuildingFilled")
+    public static let entityBuildingMedium        = AssetManager.ImageKey("iconEntityBuilding48Filled")
+    public static let entityBuildingLarge         = AssetManager.ImageKey("iconEntityBuilding96Filled")
+
     // Resource
     public static let resourceGeneral             = AssetManager.ImageKey("iconResourceGeneral")
     public static let resourceDevice              = AssetManager.ImageKey("iconResourceDevice")
@@ -209,7 +221,6 @@ extension AssetManager.ImageKey {
     public static let iconHeaderFinalise          = AssetManager.ImageKey("icon40StatusFinalise")
     public static let iconHeaderEdit              = AssetManager.ImageKey("icon40SystemEdit")
     public static let eventDateTime               = AssetManager.ImageKey("iconSystemDateAndTime")
-    public static let eventLocation               = AssetManager.ImageKey("iconEntityLocation")
 
     // Dialog images
     public static let dialogAlert                 = AssetManager.ImageKey("dialogAlert")

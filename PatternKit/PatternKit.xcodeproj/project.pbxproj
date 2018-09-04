@@ -331,7 +331,6 @@
 		96B804D0212D17F5005A72A0 /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803BE212D17F5005A72A0 /* KeyboardNumberBar.swift */; };
 		96B804D1212D17F5005A72A0 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803C0212D17F5005A72A0 /* ScrollViewInsetManager.swift */; };
 		96B804D2212D17F5005A72A0 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803C1212D17F5005A72A0 /* KeyboardAnimationDetails.swift */; };
-		96B804D3212D17F5005A72A0 /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803C2212D17F5005A72A0 /* Bundle+MPOLKit.swift */; };
 		96BE88052126548000F57FF0 /* PatternKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE87FB2126548000F57FF0 /* PatternKit.framework */; };
 		96BE880A2126548000F57FF0 /* PatternKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88092126548000F57FF0 /* PatternKitTests.swift */; };
 		96BE880C2126548000F57FF0 /* PatternKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE87FE2126548000F57FF0 /* PatternKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -673,7 +672,6 @@
 		96B803BE212D17F5005A72A0 /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNumberBar.swift; sourceTree = "<group>"; };
 		96B803C0212D17F5005A72A0 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
 		96B803C1212D17F5005A72A0 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
-		96B803C2212D17F5005A72A0 /* Bundle+MPOLKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+MPOLKit.swift"; sourceTree = "<group>"; };
 		96BE87FB2126548000F57FF0 /* PatternKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PatternKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE87FE2126548000F57FF0 /* PatternKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PatternKit.h; sourceTree = "<group>"; };
 		96BE87FF2126548000F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -874,7 +872,6 @@
 				96B803AF212D17F5005A72A0 /* Helper */,
 				96B803A9212D17F5005A72A0 /* Theme */,
 				96B80278212D17F5005A72A0 /* UI */,
-				96B803C2212D17F5005A72A0 /* Bundle+MPOLKit.swift */,
 				96B803AE212D17F5005A72A0 /* MPOLKitInitialize.swift */,
 			);
 			path = Classes;
@@ -1863,7 +1860,6 @@
 				96B80401212D17F5005A72A0 /* BaseLoadingStateView.swift in Sources */,
 				96B804B1212D17F5005A72A0 /* BaseSupplementaryFormItem.swift in Sources */,
 				96B803FB212D17F5005A72A0 /* BubbleAnnotationView.swift in Sources */,
-				96B804D3212D17F5005A72A0 /* Bundle+MPOLKit.swift in Sources */,
 				96B8040D212D17F5005A72A0 /* ButtonStackView.swift in Sources */,
 				96B8046B212D17F5005A72A0 /* CheckBox.swift in Sources */,
 				96B80416212D17F5005A72A0 /* CircleIconView.swift in Sources */,

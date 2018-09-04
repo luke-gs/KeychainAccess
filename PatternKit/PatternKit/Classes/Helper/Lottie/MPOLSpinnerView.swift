@@ -6,11 +6,6 @@
 import Foundation
 import Lottie
 
-
-private let LottieDirectory = "Lottie"
-private let LottieType      = "json"
-
-
 public enum MPOLSpinnerStyle {
     case regular
     case large
@@ -23,10 +18,7 @@ public enum MPOLSpinnerStyle {
     }
 }
 
-
 public class MPOLSpinnerView: LOTAnimationView {
-
-    static var fileURL: URL = Bundle.patternKit.url(forResource: "spinner", withExtension: LottieType, subdirectory: LottieDirectory)!
 
     public let style: MPOLSpinnerStyle
 
@@ -45,14 +37,15 @@ public class MPOLSpinnerView: LOTAnimationView {
     public init(style: MPOLSpinnerStyle = .regular, color: UIColor? = .white) {
         self.style = style
 
-        let cacheName = MPOLSpinnerView.fileURL.absoluteString
+        let fileURL = AssetManager.shared.resource(forKey: .animatedSpinner)!
+        let cacheName = fileURL.absoluteString
         var model = LOTAnimationCache.shared().animation(forKey: cacheName)
 
         // Load model if not already cached
         if model == nil {
-            model = LOTAnimationView.loadMPOLAnimation(fileURL: MPOLSpinnerView.fileURL)
+            model = LOTAnimationView.loadMPOLAnimation(fileURL: fileURL)
         }
-        super.init(model: model, in: Bundle.patternKit)
+        super.init(model: model, in: nil)
 
         loopAnimation = true
         frame = CGRect(origin: .zero, size: style.size)
