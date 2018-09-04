@@ -1,110 +1,130 @@
 //
 //  AssetManager.swift
-//  MPOLKit
+//  CoreKit
 //
-//  Created by Rod Brown on 21/7/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
-
 import UIKit
 
-
-/// The Asset Manager for MPOL applications.
+/// Generic Asset Manager for managing asset loading in complex apps.
 ///
-/// The asset manager allows you to access the assets within different bundles
-/// within MPOLKit. You can also register overrides for MPOL standard assets,
-/// or add additional items to be managed.
+/// The asset manager allows you to access the assets contained within different bundles
+/// spread across the app.
 ///
-/// By default, if you ask for MPOL standard items, MPOL will first check if any
-/// custom items have been registered, and use them if it can find it. If no
-/// custom item has been registered, or no asset has been found, it will use MPOL
-/// default assets.
-public final class AssetManager {
+/// When loading assets, individual asset overrides are first checked by asset key.
+/// If no override is found each bundle that has been registered will be searched in
+/// priority order until the item is found or return nil.
+public class AssetManager {
     
     /// The shared asset manager singleton.
     public static let shared: AssetManager = AssetManager()
 
-    /// The default bundle to search for assets
-    public static var defaultBundle = Bundle(for: AssetManager.self)
-    
-    private var localImageMap: [ImageKey: (name: String, bundle: Bundle)] = [:]
-    
-    private init() {
+    /// Default init that uses this module by default to load assets
+    public init() {
+        register(bundle: Bundle(for: AssetManager.self), priority: .coreKit)
     }
-    
-    // MARK: - Image assets
-    
-    
-    /// Registers an image by name from within a bundle in the application loading.
-    /// This avoids loading the image into the cache by trying to retrieve it and set
-    /// it directly.
+
+    // MARK: - Bundle Registration
+
+    /// The priority order of using a bundle, similar to UILayoutPriority. Higher value is higher priority
+    public class BundlePriority: ExtensibleKey<Int> {
+        public static let coreKit = AssetManager.BundlePriority(100)
+    }
+
+    /// Register an asset bundle with a given priority.
     ///
-    /// If you pass `nil` for either the name or bundle, any previous registration
-    /// will be removed.
+    /// If an existing bundle is already registered with the same priority,
+    /// the previously registered bundle will take precedence.
+    ///
+    /// - Parameters:
+    ///   - bundle:   The bundle containing the asset catalogue or file.
+    ///   - priority: The priority of this bundle when loading assets.
+    public func register(bundle: Bundle, priority: BundlePriority) {
+        // Insert bundle in sorted position based on priority
+        let bundleRegistration = BundleRegistration(bundle: bundle, priority: priority)
+        if let insertPos = registeredBundles.index(where: { $0.priority.rawValue < priority.rawValue }) {
+            registeredBundles.insert(bundleRegistration, at: insertPos)
+        } else {
+            registeredBundles.append(bundleRegistration)
+        }
+    }
+
+    // MARK: - Asset Registration
+    
+    /// Unique identifier for an asset. The raw value is either the name of an asset in an asset catalog or a filename
+    /// of a resource in the app.
+    ///
+    /// Extensions to AssetKey should be defined in the module where the asset exists.
+    /// eg.
+    /// ```
+    /// extension AssetManager.AssetKey {
+    ///   public static let myImage = AssetManager.AssetKey("myImage")
+    /// }
+    /// ```
+    public class AssetKey: ExtensibleKey<String> { }
+
+    /// Register an individual asset for a given key. You can provide an additional asset name here along with the
+    /// key in case the asset has a different name in the bundle being registered.
     ///
     /// - Parameters:
     ///   - name:   The asset catalogue or file name within the specified bundle.
     ///   - bundle: The bundle containing the asset catalogue or file.
-    ///   - key:    The ImageKey to register for.
-    public func registerImage(named name: String?, in bundle: Bundle?, forKey key: ImageKey) {
-        if let name = name, let bundle = bundle {
-            localImageMap[key] = (name, bundle)
-        } else {
-            localImageMap.removeValue(forKey: key)
-        }
+    ///   - key:    The AssetKey to register for.
+    public func registerAsset(named name: String, in bundle: Bundle, forKey key: AssetKey) {
+        registeredAssets[key] = AssetRegistration(bundle: bundle, name: name)
     }
-    
-    /// Fetches an image either registered, or from within MPOLKit bundle.
+
+    // MARK: - Asset Loading
+
+    /// Fetch an image asset from the registered assets and bundles. Returns nil if not found.
     ///
     /// - Parameters:
-    ///   - key:             The MPOL image key to fetch.
+    ///   - key:             The image key to fetch.
     ///   - traitCollection: The trait collection to fetch the asset for. The default is `nil`.
     /// - Returns: A `UIImage` instance if one could be found matching the criteria, or `nil`.
     public func image(forKey key: ImageKey, compatibleWith traitCollection: UITraitCollection? = nil) -> UIImage? {
-        if let fileLocation = localImageMap[key],
-            let asset = UIImage(named: fileLocation.name, in: fileLocation.bundle, compatibleWith: traitCollection) {
-            return asset
+
+        // First check for individual asset override
+        if let asset = registeredAssets[key],
+            let image = UIImage(named: asset.name, in: asset.bundle, compatibleWith: traitCollection) {
+            return image
         }
 
-        // TODO: refactor to allow bundle registration
-        return UIImage(named: key.rawValue, in: AssetManager.defaultBundle, compatibleWith: traitCollection)
+        // Otherwise check the registered bundles, in order
+        for registeredBundle in registeredBundles {
+            if let image = UIImage(named: key.rawValue, in: registeredBundle.bundle, compatibleWith: traitCollection) {
+                return image
+            }
+        }
+        return nil
     }
-    
-}
 
-extension AssetManager {
-    
-    /// A struct wrapping the concept of an ImageKey.
-    ///
-    /// You can define your own ImageKeys to register by using static constants and
-    /// initializing with custom raw values. Be sure you don't clash with any of the
-    /// system MPOL assets in your naming.
-    ///
-    /// Below are a set of standard MPOL Image types.
-    ///
-    /// Internal note: We currently use the actual asset names within MPOLKit's asset
-    /// catalogues as the raw value to avoid having to create a constant map within this
-    /// file. This also lets us avoid the issue where someone could delete the standard
-    /// item. This can change at a later time.
-    public struct ImageKey: RawRepresentable, Hashable, Codable {
-        
-        // Book-keeping
-        public var rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-        
-        public init(_ rawValue: String) {
-            self.rawValue = rawValue
-        }
-        
-        public var hashValue: Int {
-            return rawValue.hashValue
-        }
+    // MARK: - Backwards compatibility
+
+    // For backwards compatibility with existing code...
+    public typealias ImageKey = AssetKey
+
+    public func registerImage(named name: String, in bundle: Bundle, forKey key: ImageKey) {
+        registerAsset(named: name, in: bundle, forKey: key)
     }
-}
 
-public func == (lhs: AssetManager.ImageKey, rhs: AssetManager.ImageKey) -> Bool {
-    return lhs.rawValue == rhs.rawValue
+    // MARK: - Internal
+
+    /// Represents a bundle registration
+    private struct BundleRegistration {
+        let bundle: Bundle
+        let priority: BundlePriority
+    }
+
+    /// Represents a single asset registration
+    private struct AssetRegistration {
+        let bundle: Bundle
+        let name: String
+    }
+
+    /// Registered bundles for loading assets, in order with highest priority first
+    private var registeredBundles: [BundleRegistration] = []
+
+    /// Individual registered images
+    private var registeredAssets: [ImageKey: AssetRegistration] = [:]
 }
