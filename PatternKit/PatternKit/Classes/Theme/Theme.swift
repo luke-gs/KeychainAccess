@@ -111,24 +111,8 @@ extension Theme {
     ///
     /// These color types are dictionary keys for the correct
     /// UIColor for the display of these items.
-    public struct ColorKey: RawRepresentable, Hashable {
-        
-        // Book-keeping
-        
-        public var rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-        
-        public init(_ rawValue: String) {
-            self.rawValue = rawValue
-        }
-        
-        public var hashValue: Int {
-            return rawValue.hashValue
-        }
-        
+    public class ColorKey: ExtensibleKey<String> {
+
         // Tint
         public static let tint                = ColorKey(rawValue: "tint")
         public static let navigationBarTint   = ColorKey(rawValue: "navigationBarTint")
@@ -163,23 +147,7 @@ extension Theme {
         public static let entityImageTint           = ColorKey(rawValue: "entityImageTint")
     }
     
-    public struct ImageKey: RawRepresentable, Hashable {
-        
-        // Book-keeping
-        
-        public var rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-        
-        public init(_ rawValue: String) {
-            self.rawValue = rawValue
-        }
-        
-        public var hashValue: Int {
-            return rawValue.hashValue
-        }
+    public class ImageKey: ExtensibleKey<String> {
         
         // Nav Bar
         public static let navigationBarBackground = ImageKey("navigationBar")

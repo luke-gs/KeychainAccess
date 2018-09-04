@@ -8,9 +8,11 @@
 
 import Foundation
 
-/// Extensible 'enum' for keys that extended in another module
-/// Implemented the same way swift imports NS_TYPED_EXTENSIBLE_ENUMs from obj-c
-public class ExtensibleKey<T>: RawRepresentable {
+/// Extensible 'enum' for keys that are extended in another module
+///
+/// Implemented the same way swift imports NS_TYPED_EXTENSIBLE_ENUMs from obj-c, but using a class instead of struct
+/// to allow subclassing and with a generic type to allow different raw value implementations
+open class ExtensibleKey<T>: RawRepresentable {
 
     // Associated type in RawRepresentable
     public typealias RawValue = T

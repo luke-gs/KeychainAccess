@@ -13,19 +13,14 @@ public class Concealer {
     ///
     /// You can define your own SecurityEvent to register by using static constants and
     /// initializing with custom raw values.
-    public struct SecurityEvent: RawRepresentable, Hashable, Codable {
-        public let rawValue: Int
-
-        public init(rawValue: Int) {
-            self.rawValue = rawValue
-        }
+    public class SecurityEvent: ExtensibleKey<Int> {
 
         var lookupTag: Int {
             return rawValue
         }
 
         // Default event captured by the Security Event
-        public static let springboard = SecurityEvent(rawValue: 123)
+        public static let springboard = SecurityEvent(123)
     }
 
     private static let sizingMismatch: String =

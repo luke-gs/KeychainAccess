@@ -106,10 +106,6 @@ public struct SettingSection {
     }
 }
 
-/// An extensible setting object
-public struct Settings: RawRepresentable {
-    public let rawValue: Setting
-    public init(rawValue: Setting) {
-        self.rawValue = rawValue
-    }
+/// A container struct that just contains static extensions for each client defined setting
+public struct Settings {
 }
