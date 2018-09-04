@@ -32,7 +32,6 @@ public final class AssetManager {
     private init() {
     }
     
-    
     // MARK: - Image assets
     
     
@@ -55,7 +54,6 @@ public final class AssetManager {
         }
     }
     
-    
     /// Fetches an image either registered, or from within MPOLKit bundle.
     ///
     /// - Parameters:
@@ -74,9 +72,6 @@ public final class AssetManager {
     
 }
 
-
-
-
 extension AssetManager {
     
     /// A struct wrapping the concept of an ImageKey.
@@ -94,7 +89,6 @@ extension AssetManager {
     public struct ImageKey: RawRepresentable, Hashable, Codable {
         
         // Book-keeping
-        
         public var rawValue: String
         
         public init(rawValue: String) {
@@ -108,218 +102,9 @@ extension AssetManager {
         public var hashValue: Int {
             return rawValue.hashValue
         }
-
-        // Login Logos
-        public static let GSLogo           = ImageKey("imageGridstoneLogo")
-        public static let MotoLogo         = ImageKey("imageMotorolaLogo")
-        
-        // Tab Bar Icons
-        public static let tabBarEvents     = ImageKey("iconTabBarEvents")
-        public static let tabBarTasks      = ImageKey("iconTabBarTasks")
-        public static let tabBarComms      = ImageKey("iconTabBarComms")
-        public static let tabBarActivity   = ImageKey("iconTabBarActivityLog")
-        public static let tabBarSearch     = ImageKey("iconTabBarSearch")
-        
-        public static let tabBarEventsSelected     = ImageKey("iconTabBarEventsSelected")
-        public static let tabBarTasksSelected      = ImageKey("iconTabBarTasksSelected")
-        public static let tabBarCommsSelected      = ImageKey("iconTabBarCommsSelected")
-        public static let tabBarActivitySelected   = ImageKey("iconTabBarActivityLogSelected")
-        public static let tabBarSearchSelected     = ImageKey("iconTabBarSearchSelected")
-
-        // Nav Bar Icons
-        public static let back           = ImageKey("iconNavBarBack")
-        public static let filter         = ImageKey("iconNavBarFilter")
-        public static let filterFilled   = ImageKey("iconNavBarFilterSelected")
-        public static let settings       = ImageKey("iconNavBarSettings")
-        
-        // System
-        public static let add            = ImageKey("iconSystemAdd")
-        public static let close          = ImageKey("iconSystemClose")
-        public static let edit           = ImageKey("iconSystemEdit")
-        public static let editCell       = ImageKey("iconSystemEditCell")
-        public static let info           = ImageKey("iconSystemInfo")
-        public static let infoFilled     = ImageKey("iconSystemInfoFilled")
-        public static let time           = ImageKey("iconSystemTime")
-        public static let date           = ImageKey("iconSystemDate")
-        public static let location       = ImageKey("iconSystemLocation")
-        public static let thumbnail      = ImageKey("iconSystemThumbnail")
-        public static let dropDown       = ImageKey("iconSystemDropdown")
-        public static let disclosure     = ImageKey("iconSystemDisclosure")
-        public static let overflow       = ImageKey("iconSystemOverflow")
-        public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
-        public static let login          = ImageKey("iconSystemLogin")
-        public static let nightMode      = ImageKey("iconSystemNightMode")
-        public static let keyboard       = ImageKey("iconSystemKeyboard")
-        public static let searchField    = ImageKey("iconSystemSearchField")
-
-        public static let faceId  = ImageKey("iconBiometricFaceId")
-        public static let touchId = ImageKey("iconBiometricTouchId")
-
-        public static let navBarThumbnail         = ImageKey("iconNavBarThumbnail")
-        public static let navBarThumbnailSelected = ImageKey("iconNavBarThumbnailSelected")
-
-        // Media
-        public static let play           = ImageKey("iconMediaPlay")
-        public static let audioWave      = ImageKey("audioWave")
-        public static let iconPlay       = ImageKey("iconPlay")
-        public static let iconPause      = ImageKey("iconPause")
-        public static let download       = ImageKey("download")
-
-        // General
-        public static let alert          = ImageKey("iconGeneralAlert")
-        public static let alertFilled    = ImageKey("iconGeneralAlertFilled")
-        public static let association    = ImageKey("iconGeneralAssociation")
-        public static let event          = ImageKey("iconGeneralEvent")
-        public static let document       = ImageKey("iconGeneralDocument")
-        public static let documentFilled = ImageKey("iconGeneralDocumentFilled")
-        public static let direction      = ImageKey("iconGeneralDirection")
-        public static let service        = ImageKey("iconGeneralService")
-        public static let attachment     = ImageKey("iconGeneralAttachment")
-        public static let finalise       = ImageKey("iconGeneralFinalise")
-        public static let tactical       = ImageKey("iconGeneralTactical")
-        public static let journey        = ImageKey("iconGeneralJourney")
-        public static let list           = ImageKey("iconGeneralList")
-        public static let mass           = ImageKey("iconGeneralMass")
-        public static let map            = ImageKey("iconGeneralMap")
-        public static let folder         = ImageKey("iconFormFolder")
-        public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
-        public static let email          = ImageKey("iconFormEmail")
-        public static let duress         = ImageKey("iconDuress")
-        public static let route          = ImageKey("iconGeneralRoute")
-        public static let streetView     = ImageKey("iconGeneralStreetView")
-        public static let clearText      = ImageKey("iconClearText")
-
-        public static let generalLocation = ImageKey("iconGeneralLocation")
-        public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
-
-        // Map
-        public static let pinLocation    = ImageKey("pinLocation")
-        public static let pinDefault     = ImageKey("pinDefault")
-        public static let pinCluster     = ImageKey("pinCluster")
-        
-        // Entity
-        public static let entityOfficer  = ImageKey("iconEntityOfficer")
-        public static let entityPerson   = ImageKey("iconEntityPerson")
-        public static let entityBuilding = ImageKey("iconEntityBuilding")
-        public static let entityTruck    = ImageKey("iconEntityVehicleTruck")
-        public static let entityBoat     = ImageKey("iconEntityAutomotiveWater")
-
-        public static let entityPersonMedium = ImageKey("iconEntityPerson32")
-
-        public static let entityCarSmall = ImageKey("iconEntityAutomotiveCarSmall")
-        public static let entityCarMedium = ImageKey("iconEntityAutomotiveCarMedium")
-        public static let entityCarLarge = ImageKey("iconEntityAutomotiveCarLarge")
-
-        public static let entityMotorbikeSmall = ImageKey("iconEntityAutomotiveMotorbikeSmall")
-        public static let entityMotorbikeMedium = ImageKey("iconEntityAutomotiveMotorbikeMedium")
-        public static let entityMotorbikeLarge = ImageKey("iconEntityAutomotiveMotorbikeLarge")
-
-        public static let entityTruckSmall = ImageKey("iconEntityVehicleTruckSmall")
-        public static let entityTruckMedium = ImageKey("iconÍEntityVehicleTruckMedium")
-        public static let entityTruckLarge = ImageKey("iconEntityVehicleTruckLarge")
-
-        public static let entityTrailerSmall = ImageKey("iconEntityAutomotiveTrailerSmall")
-        public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailerMedium")
-        public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailerLarge")
-
-        public static let entityTrailer2Small = ImageKey("iconEntityAutomotiveTrailer2Small")
-        public static let entityTrailer2Medium = ImageKey("iconEntityAutomotiveTrailer2Medium")
-        public static let entityTrailer2Large = ImageKey("iconEntityAutomotiveTrailer2Large")
-
-        @available(iOS, deprecated, message: "EntityThumbnail now uses themed coloured backgrounds")
-        public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
-
-        public static let iconEntityVehicleMotorcycle = ImageKey("iconEntityVehicleMotorcycle")
-
-        public static let entityMotorcycleSmall = ImageKey("iconEntityVehicleMotorcycleSmall")
-        public static let entityMotorcycleMedium = ImageKey("iconEntityVehicleMotorcycleMedium")
-        public static let entityMotorcycleLarge = ImageKey("iconEntityVehicleMotorcycleLarge")
-
-        public static let entityVanSmall = ImageKey("iconEntityVehicleVanSmall")
-        public static let entityVanMedium = ImageKey("iconEntityVehicleVanMedium")
-        public static let entityVanLarge = ImageKey("iconEntityVehicleVanLarge")
-
-        public static let entityBoatSmall = ImageKey("iconEntityAutomotiveWaterSmall")
-        public static let entityBoatMedium = ImageKey("iconEntityAutomotiveWaterMedium")
-        public static let entityBoatLarge = ImageKey("iconEntityAutomotiveWaterLarge")
-
-        // Resource
-        public static let resourceGeneral       = ImageKey("iconResourceGeneral")
-        public static let resourceDevice        = ImageKey("iconResourceDevice")
-        public static let resourceCar           = ImageKey("iconResourceCar")
-        public static let resourceWater         = ImageKey("iconResourceWater")
-        public static let resourceBicycle       = ImageKey("iconResourceBicycle")
-        public static let resourceHelicopter    = ImageKey("iconResourceHelicopter")
-        public static let resourceBeat          = ImageKey("iconResourceBeat")
-        public static let resourceDog           = ImageKey("iconResourceDog") // woof woof
-        public static let resourceSegway        = ImageKey("iconResourceSegway")
-
-        public static let resourceCarLarge      = ImageKey("icon32ResourceCar")
-
-        // Sketch
-        public static let penStub = ImageKey("penStub")
-        public static let penNib = ImageKey("penNib")
-        public static let rubber = ImageKey("rubber")
-        
-        // Comms
-        public static let commsDevice    = ImageKey("iconCommsDevice")
-        public static let commsEmail     = ImageKey("iconCommsEmail")
-        public static let post           = ImageKey("iconCommsPost")
-        public static let audioCall      = ImageKey("iconCommsCall")
-        public static let videoCall      = ImageKey("iconCommsVideo")
-        public static let message        = ImageKey("iconCommsMessage")
-        public static let gallery        = ImageKey("iconCommsGallery")
-
-        // Forms
-        public static let checkbox             = ImageKey("iconFormCheckbox")
-        public static let checkboxSelected     = ImageKey("iconFormCheckboxSelected")
-        public static let radioButton          = ImageKey("iconFormRadio")
-        public static let radioButtonSelected  = ImageKey("iconFormRadioSelected")
-        public static let checkmark            = ImageKey("iconFormCheckmark")
-        
-        // Source bar
-        public static let sourceBarDownload    = ImageKey("SourceBarDownload")
-        public static let sourceBarNone        = ImageKey("SourceBarNone")
-        public static let sourceBarMultiple    = ImageKey("iconResourceGeneral")
-
-        // Map
-        public static let mapUserLocation            = ImageKey("iconUserLocation")
-        public static let mapUserTracking            = ImageKey("iconUserTracking")
-        public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
-        public static let mapCurrentLocation         = ImageKey("iconCurrentLocation")
-
-        // Loading states
-        public static let iconLoadingFailed          = ImageKey("iconLoadingFailed")
-
-        // CAD status
-        public static let iconStatusAtIncident   = ImageKey("iconStatusAtIncident")
-        public static let iconStatusCourt        = ImageKey("iconStatusCourt")
-        public static let iconStatusFinalise     = ImageKey("iconStatusFinalise")
-        public static let iconStatusInquiries    = ImageKey("iconStatusInquiries")
-        public static let iconStatusMealBreak    = ImageKey("iconStatusMealBreak")
-        public static let iconStatusOnAir        = ImageKey("iconStatusOnAir")
-        public static let iconStatusOnCall       = ImageKey("iconStatusOnCall")
-        public static let iconStatusProceeding   = ImageKey("iconStatusProceeding")
-        public static let iconStatusStation      = ImageKey("iconStatusStation")
-        public static let iconStatusTrafficStop  = ImageKey("iconStatusTrafficStop")
-        public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
-
-        // Events
-        public static let iconFolder          = ImageKey("iconFolder")
-        public static let iconPencil          = ImageKey("iconPencil")
-        public static let iconDocument        = ImageKey("iconDocument")
-        public static let iconRelationships   = ImageKey("iconGeneralRelationships")
-        public static let iconHeaderFinalise  = ImageKey("icon40StatusFinalise")
-        public static let iconHeaderEdit      = ImageKey("icon40SystemEdit")
-        public static let eventDateTime       = ImageKey("iconSystemDateAndTime")
-        public static let eventLocation       = ImageKey("iconEntityLocation")
-
-        // Dialog images
-        public static let dialogAlert = ImageKey("dialogAlert")
     }
 }
 
 public func == (lhs: AssetManager.ImageKey, rhs: AssetManager.ImageKey) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
-
