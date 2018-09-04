@@ -61,7 +61,7 @@ public class AssetManager {
     ///   public static let myImage = AssetManager.AssetKey("myImage")
     /// }
     /// ```
-    public class AssetKey: ExtensibleKey<String> { }
+    public class AssetKey: ExtensibleKey<String>, Codable { }
 
     /// Register an individual asset for a given key. You can provide an additional asset name here along with the
     /// key in case the asset has a different name in the bundle being registered.

@@ -9,9 +9,11 @@
 import Foundation
 import CoreKit
 
-extension AssetManager.ImageKey {
+extension AssetManager.BundlePriority {
+    public static let sketchKit = AssetManager.BundlePriority(200)
+}
 
-    // Sketch
+extension AssetManager.ImageKey {
     public static let penStub = AssetManager.ImageKey("penStub")
     public static let penNib  = AssetManager.ImageKey("penNib")
     public static let rubber  = AssetManager.ImageKey("rubber")
