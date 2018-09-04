@@ -50,18 +50,18 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
-                                                                              value: incident.createdAtString ?? "",
+                                                                              value: incident.createdAtString ?? "Unknown",
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
-                                                                              value: incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? "",
+                                                                              value: incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAtString ?? "Unknown",
                                                                               width: .column(4)),
             ]),
             
             CADFormCollectionSectionViewModel(title: "Informant Details",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: "Name",
-                                                                              value: incident.informant?.fullName ?? "",
+                                                                              value: incident.informant?.fullName ?? "Unknown",
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Contact Number",
