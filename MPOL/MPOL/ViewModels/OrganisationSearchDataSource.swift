@@ -26,7 +26,20 @@ fileprivate enum Suburb {
     // Individual State based on user input
     case individual(value: String)
     
-    var title: String? {
+    
+    /// Initalize a suburb from a string
+    /// Anything that doesnt match the title of all case
+    /// and isnt empty is assumed to be an individual
+    /// This is required based around our creation of searchables
+    init(rawValue: String) {
+        if rawValue == Suburb.all.title || rawValue.isEmpty {
+            self = .all
+        } else {
+            self = .individual(value: rawValue)
+        }
+    }
+    
+    var title: String {
         switch self {
         case .all:
             return "All"
@@ -226,13 +239,31 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
         }
     }
     
+    func prefill(withSearchable searchable: Searchable) -> Bool {
+        let type = searchable.type
+        
+        if type == nil || type == OrganisationSearchDataSource.searchableType {
+            text = searchable.text
+            
+            if let options = searchable.options {
+                let organisationOptions = self.options as! OrganisationSearchOptions
+                if let suburbOptionString = options[FilterItem.suburbFilter.rawValue] {
+                    organisationOptions.suburb = Suburb(rawValue: suburbOptionString)
+                }
+            }
+            
+            return true
+        }
+        return false
+    }
+    
     private func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
                 self.errorMessage = error.localizedDescription
             } else {
                 // Generate Searchable
-                let search = Searchable(text: text, options: nil, type: OrganisationSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityBuilding)
+                let search = Searchable(text: text, options: options?.state(), type: OrganisationSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityBuilding)
                 updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: resultModel)
             }
         }
