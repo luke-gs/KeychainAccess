@@ -54,16 +54,15 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        let imageName: String
-
         let vehicleType = VehicleType(optionalValue: vehicle.vehicleType)
 
         let vehicleString: String = vehicleType.imageAssetString
         let sizeString: String = size.imageSizeString
 
-        imageName = vehicleString + sizeString
+        let imageName = vehicleString + sizeString
+        let imageKey = AssetManager.ImageKey(imageName)
 
-        if let image = UIImage(named: imageName, in: .patternKit, compatibleWith: nil) {
+        if let image = AssetManager.shared.image(forKey: imageKey) {
             return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
 

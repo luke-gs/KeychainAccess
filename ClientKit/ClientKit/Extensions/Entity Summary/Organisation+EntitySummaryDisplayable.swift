@@ -53,18 +53,18 @@ public struct OrganisationSummaryDisplayable: AssociatedEntitySummaryDisplayable
     }
     
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        let imageName: String
+        let imageKey: AssetManager.ImageKey
         
         switch size {
         case .small:
-            imageName = "iconEntityBuildingFilled"
+            imageKey = .entityBuildingSmall
         case .medium:
-            imageName = "iconEntityBuilding48Filled"
+            imageKey = .entityBuildingMedium
         case .large:
-            imageName = "iconEntityBuilding96Filled"
+            imageKey = .entityBuildingLarge
         }
         
-        if let image = UIImage(named: imageName, in: .patternKit, compatibleWith: nil) {
+        if let image = AssetManager.shared.image(forKey: imageKey) {
             return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
         
