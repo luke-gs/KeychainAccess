@@ -54,12 +54,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         registerPushNotifications(application)
 
+        // Use demo data
+        CADStateManager.shared = CADStateManagerCore(apiManager: DemoAPIManager.shared)
+
         landingPresenter = LandingPresenter()
         landingPresenter.wantsBiometricAuthentication = true
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter()])
-
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter(), TaskListPresenter(), TaskItemPresenter(), BookOnPresenter()])
+        
         let director = Director(presenter: presenter)
-
         Director.shared = director
 
         APIManager.shared = apiManager(with: APIURLManager.serverURL)

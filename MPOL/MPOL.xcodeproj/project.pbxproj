@@ -119,6 +119,13 @@
 		EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194DC1FC5098200A2980B /* EventPresenter.swift */; };
 		EA8923550DA023B64142DEF7 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98286F47FF0E675D611C2782 /* Pods_MPOL.framework */; };
 		EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAEB3491F664705002D6C65 /* EntityPresenter.swift */; };
+		EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */; };
+		EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */; };
+		EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */; };
+		EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C521365D32004D9DE8 /* DemoSync.json */; };
+		EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */; };
+		EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */; };
+		EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C821365D32004D9DE8 /* DemoManifest.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -279,7 +286,7 @@
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
-		BCD4EA891E515ACE000B993D /* PS Core Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core Search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCD4EA891E515ACE000B993D /* PS Core.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -295,6 +302,13 @@
 		EA2189F51F60F64A0057048E /* LandingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		EA7194DC1FC5098200A2980B /* EventPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPresenter.swift; sourceTree = "<group>"; };
 		EAAEB3491F664705002D6C65 /* EntityPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPresenter.swift; sourceTree = "<group>"; };
+		EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemPresenter.swift; sourceTree = "<group>"; };
+		EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnPresenter.swift; sourceTree = "<group>"; };
+		EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListPresenter.swift; sourceTree = "<group>"; };
+		EAE9F6C521365D32004D9DE8 /* DemoSync.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoSync.json; sourceTree = "<group>"; };
+		EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
+		EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
+		EAE9F6C821365D32004D9DE8 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -643,7 +657,7 @@
 		BCD4EA8A1E515ACE000B993D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BCD4EA891E515ACE000B993D /* PS Core Search.app */,
+				BCD4EA891E515ACE000B993D /* PS Core.app */,
 				96728C1E20D0B25600B82A53 /* APNS Extension.appex */,
 			);
 			name = Products;
@@ -652,6 +666,7 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				EAE9F6B821365AB8004D9DE8 /* Task */,
 				AA3E51452118153E00621E58 /* Settings */,
 				37F1B3AF20CF9676007F263B /* Search */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
@@ -719,6 +734,36 @@
 			path = Presenters;
 			sourceTree = "<group>";
 		};
+		EAE9F6B821365AB8004D9DE8 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				EAE9F6C421365D32004D9DE8 /* Demo */,
+				EAE9F6B921365AB8004D9DE8 /* Presenter */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		EAE9F6B921365AB8004D9DE8 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
+				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
+				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		EAE9F6C421365D32004D9DE8 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				EAE9F6C521365D32004D9DE8 /* DemoSync.json */,
+				EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */,
+				EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */,
+				EAE9F6C821365D32004D9DE8 /* DemoManifest.json */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -762,7 +807,7 @@
 			);
 			name = MPOL;
 			productName = MPOL;
-			productReference = BCD4EA891E515ACE000B993D /* PS Core Search.app */;
+			productReference = BCD4EA891E515ACE000B993D /* PS Core.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -848,6 +893,9 @@
 				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
 				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
+				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
+				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
+				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */,
 				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
 				AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */,
@@ -1047,6 +1095,7 @@
 				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
 				AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */,
 				AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */,
+				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
@@ -1060,6 +1109,7 @@
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */,
 				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
+				EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
 				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
@@ -1083,7 +1133,9 @@
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
 				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
+				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
 				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
+				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
 				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,

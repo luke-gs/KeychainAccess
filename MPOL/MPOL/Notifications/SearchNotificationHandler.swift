@@ -10,6 +10,7 @@ import UIKit
 import PublicSafetyKit
 import PromiseKit
 import UserNotifications
+import DemoAppKit
 
 class SearchNotificationHandler: NotificationHandler {
 
@@ -18,8 +19,16 @@ class SearchNotificationHandler: NotificationHandler {
         let userInfo = notification.request.content.userInfo
 
         // Decrypt the content of the message
-        if let _: SearchNotificationContent = NotificationManager.shared.decryptUserInfo(userInfo) {
+        if let content: SearchNotificationContent = NotificationManager.shared.decryptUserInfo(userInfo) {
             // TODO: Work out if we should show this message to user
+
+            // Perform sync in background (don't force display of notification to wait)
+            switch content.type {
+            case "incident":
+                _ = CADStateManager.shared.syncDetails()
+            default:
+                break
+            }
         }
 
         // Complete with presentation options so notification is still shown in app
@@ -31,8 +40,17 @@ class SearchNotificationHandler: NotificationHandler {
         let userInfo = notification.request.content.userInfo
 
         // Decrypt the content of the message
-        if let _: SearchNotificationContent = NotificationManager.shared.decryptUserInfo(userInfo) {
+        if let content: SearchNotificationContent = NotificationManager.shared.decryptUserInfo(userInfo) {
             // TODO: process interaction
+
+            switch content.type {
+            case "incident":
+                if let identifier = content.identifier {
+                    openIncident(identifier)
+                }
+            default:
+                break
+            }
         }
 
         return Promise<Void>()
@@ -56,7 +74,7 @@ class SearchNotificationHandler: NotificationHandler {
                 }.done { _ in
                 }
             default:
-                break
+                promise = CADStateManager.shared.syncDetails()
             }
         }
 
@@ -76,6 +94,30 @@ class SearchNotificationHandler: NotificationHandler {
     func handleRegistrationError(_ error: Error) {
         // TODO: show error, retry, something
         print(error.localizedDescription)
+    }
+
+    // MARK: - Internal
+
+    func taskListPresenter() -> TaskListPresenter? {
+        // Find task list presenter
+        guard let presenterGroup = Director.shared.presenter as? PresenterGroup else { return nil }
+        return presenterGroup.presenters.first { $0 is TaskListPresenter } as? TaskListPresenter
+    }
+
+    func openIncident(_ identifier: String) {
+        if let viewModel = CADTaskListSourceCore.incident.createItemViewModel(identifier: identifier) {
+            if let vc = taskListPresenter()?.tasksSplitViewController {
+                if vc.presentedViewController != nil {
+                    // Dismiss any existing modal dialog then present
+                    vc.dismiss(animated: true, completion: {
+                        Director.shared.present(TaskItemScreen.landing(viewModel: viewModel), fromViewController: vc)
+                    })
+                } else {
+                    // Present incident details immediately
+                    Director.shared.present(TaskItemScreen.landing(viewModel: viewModel), fromViewController: vc)
+                }
+            }
+        }
     }
 
 }

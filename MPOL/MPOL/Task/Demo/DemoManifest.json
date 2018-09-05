@@ -1,0 +1,226 @@
+[
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment1",
+        "subtitle": "",
+        "title": "Radar",
+        "value": "Radar"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment2",
+        "subtitle": "",
+        "title": "Shotgun",
+        "value": "Shotgun"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment3",
+        "subtitle": "",
+        "title": "Tyre Deflation Device",
+        "value": "Tyre Deflation Device"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment4",
+        "subtitle": "",
+        "title": "Traffic Direction Cones",
+        "value": "Traffic Direction Cones"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment5",
+        "subtitle": "",
+        "title": "Taser",
+        "value": "Taser"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment6",
+        "subtitle": "",
+        "title": "Sexual Offence Kit",
+        "value": "Sexual Offence Kit"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment7",
+        "subtitle": "",
+        "title": "Breach Kit",
+        "value": "Breach Kit"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment8",
+        "subtitle": "",
+        "title": "Radio",
+        "value": "Radio"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment9",
+        "subtitle": "",
+        "title": "Riot Control Helmet",
+        "value": "Riot Control Helmet"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment10",
+        "subtitle": "",
+        "title": "Ballistic Vest",
+        "value": "Ballistic Vest"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-11-16T10:00:00Z",
+        "dateLastUpdated": "2017-11-16T10:00:00Z",
+        "effectiveDate": "2017-11-16T10:00:00Z",
+        "expiryDate": null,
+        "id": "25e66365-fd1d-43ce-8bb7-6a29b46b050a",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "Fitzroy",
+        "value": "Fitzroy"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-12-22T10:00:00Z",
+        "dateLastUpdated": "2017-12-22T10:00:00Z",
+        "effectiveDate": "2017-12-22T10:00:00Z",
+        "expiryDate": null,
+        "id": "b83bbeee-5b62-4842-a83f-b77a75a3780d",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "Collingwood",
+        "value": "Collingwood"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-12-22T10:00:00Z",
+        "dateLastUpdated": "2017-12-22T10:00:00Z",
+        "effectiveDate": "2017-12-22T10:00:00Z",
+        "expiryDate": null,
+        "id": "61d66062-53e3-4144-a550-9d57d1d7f090",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "Richmond",
+        "value": "Richmond"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-12-22T10:00:00Z",
+        "dateLastUpdated": "2017-12-22T10:00:00Z",
+        "effectiveDate": "2017-12-22T10:00:00Z",
+        "expiryDate": null,
+        "id": "f982ee61-fb52-45e2-be62-55e68b18d225",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "Melbourne East",
+        "value": "Melbourne East"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-12-22T10:00:00Z",
+        "dateLastUpdated": "2017-12-22T10:00:00Z",
+        "effectiveDate": "2017-12-22T10:00:00Z",
+        "expiryDate": null,
+        "id": "9ae6f7bb-9bbc-4cd6-88c9-24aad4999594",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "North Melbourne",
+        "value": "North Melbourne"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-12-22T10:00:00Z",
+        "dateLastUpdated": "2017-12-22T10:00:00Z",
+        "effectiveDate": "2017-12-22T10:00:00Z",
+        "expiryDate": null,
+        "id": "f4336816-1044-4f72-8489-0a0b8d4e1446",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "Melbourne West",
+        "value": "Melbourne West"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-12-22T10:00:00Z",
+        "dateLastUpdated": "2017-12-22T10:00:00Z",
+        "effectiveDate": "2017-12-22T10:00:00Z",
+        "expiryDate": null,
+        "id": "f2f7d193-9611-4076-98a2-7d660036efd8",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "South Melbourne",
+        "value": "South Melbourne"
+    },
+    {
+        "active": true,
+        "additionalData": null,
+        "category": "PatrolGroup",
+        "dateCreated": "2017-11-16T10:00:00Z",
+        "dateLastUpdated": "2017-11-16T10:00:00Z",
+        "effectiveDate": "2017-11-16T10:00:00Z",
+        "expiryDate": null,
+        "id": "4389b9af-1526-4222-aa76-db29bb75848c",
+        "sortOrder": 0,
+        "source": "mpol",
+        "subtitle": null,
+        "title": "East Melbourne",
+        "value": "East Melbourne"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability1",
+		"title": "Negotiator"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability2",
+		"title": "Public Order Qualified"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability3",
+		"title": "LIDAR Qualified"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability4",
+		"title": "TDD Qualified"
+    }
+]

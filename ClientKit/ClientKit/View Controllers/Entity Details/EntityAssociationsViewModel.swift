@@ -82,9 +82,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             for person in persons {
                 let displayable = PersonSummaryDisplayable(person)
                 builder += displayable.associatedSummaryFormItem(style: style(for: person))
-                    .onSelection { [weak self] _ in
+                    .onSelection { [weak self, weak viewController] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(person) {
-                            self?.searchDelegate?.handlePresentable(presentable)
+                            viewController?.present(presentable)
                         }
                 }
             }
@@ -97,9 +97,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             for vehicle in vehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
                 builder += displayable.associatedSummaryFormItem(style: style(for: vehicle))
-                    .onSelection { [weak self] _ in
+                    .onSelection { [weak self, weak viewController] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(vehicle) {
-                            self?.searchDelegate?.handlePresentable(presentable)
+                            viewController?.present(presentable)
                         }
                 }
             }
@@ -112,9 +112,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             for location in locations {
                 let displayable = AddressSummaryDisplayable(location)
                 builder += displayable.associatedSummaryFormItem(style: style(for: location))
-                    .onSelection { [weak self] _ in
+                    .onSelection { [weak self, weak viewController] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(location) {
-                            self?.searchDelegate?.handlePresentable(presentable)
+                            viewController?.present(presentable)
                         }
                 }
             }

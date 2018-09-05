@@ -56,6 +56,24 @@
 			<string>%1$d Incidents</string>
 		</dict>
 	</dict>
+	<key>%d Officer(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@officers@</string>
+		<key>officers</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Officer</string>
+			<key>zero</key>
+			<string>No Officers</string>
+			<key>other</key>
+			<string>%d Officers</string>
+		</dict>
+	</dict>
 	<key>%d Officers</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -352,6 +370,114 @@
 			<string>%d day</string>
 			<key>other</key>
 			<string>%d days</string>
+		</dict>
+	</dict>
+	<key>%d Broadcast(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@broadcasts@</string>
+		<key>broadcasts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Broadcast</string>
+			<key>zero</key>
+			<string>No Broadcasts</string>
+			<key>other</key>
+			<string>%d Broadcasts</string>
+		</dict>
+	</dict>
+	<key>%d Patrol(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@patrols@</string>
+		<key>patrols</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Patrol</string>
+			<key>zero</key>
+			<string>No Patrols</string>
+			<key>other</key>
+			<string>%d Patrols</string>
+		</dict>
+	</dict>
+	<key>%d Incident(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@incidents@</string>
+		<key>incidents</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Incident</string>
+			<key>zero</key>
+			<string>No Incidents</string>
+			<key>other</key>
+			<string>%d Incidents</string>
+		</dict>
+	</dict>
+	<key>%d BOLF(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@bolfs@</string>
+		<key>bolfs</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d BOLF</string>
+			<key>zero</key>
+			<string>No BOLF</string>
+			<key>other</key>
+			<string>%d BOLF</string>
+		</dict>
+	</dict>
+	<key>%d Resource(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@resources@</string>
+		<key>resources</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Resource</string>
+			<key>zero</key>
+			<string>No Resources</string>
+			<key>other</key>
+			<string>%d Resources</string>
+		</dict>
+	</dict>
+	<key>%d Person(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@persons@</string>
+		<key>persons</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Person</string>
+			<key>zero</key>
+			<string>No People</string>
+			<key>other</key>
+			<string>%d People</string>
 		</dict>
 	</dict>
 </dict>

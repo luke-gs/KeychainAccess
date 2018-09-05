@@ -8,7 +8,7 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.external-debug.xcconfig"
 
-PRODUCT_NAME=PS Core Search
+PRODUCT_NAME=PS Core
 CONFIG_HOST_URL=client-demo-api.pscore.mobi
 
 APP_GROUP_ID=group.enterprise.gridstone.pscore.external

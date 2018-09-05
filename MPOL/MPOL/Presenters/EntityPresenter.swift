@@ -161,6 +161,12 @@ public class EntityPresenter: Presenter {
         switch presentable {
         case .createEntity:
             from.present(to, animated: true, completion: nil)
+        case .entityDetails:
+            if from is EntityDetailFormViewController {
+                from.splitViewController?.navigationController?.show(to, sender: from)
+            } else {
+                from.show(to, sender: from)
+            }
         default:
             from.show(to, sender: from)
         }

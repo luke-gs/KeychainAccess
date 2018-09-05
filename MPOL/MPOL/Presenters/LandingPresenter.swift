@@ -166,13 +166,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchNavController = UINavigationController(rootViewController: searchViewController)
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
-            tasksProxyViewController = AppProxyViewController(appURLScheme: CAD_APP_SCHEME)
-            tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
-            tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
+            let bookOnViewController = self.bookOnViewController
+            let taskingViewController = self.taskingViewController
+            let activityLogViewController = self.activityLogViewController
 
             let tabBarController = UITabBarController()
             tabBarController.delegate = self
-            tabBarController.viewControllers = [searchNavController, eventListNavController, tasksProxyViewController]
+            tabBarController.viewControllers = [bookOnViewController, searchNavController, eventListNavController, taskingViewController, activityLogViewController]
+            tabBarController.selectedViewController = searchNavController
 
             self.tabBarController = tabBarController
 
@@ -227,15 +228,67 @@ public class LandingPresenter: AppGroupLandingPresenter {
         let selectedIndex: Int
         switch screen {
         case .search:
-            selectedIndex = 0
-        case .event:
             selectedIndex = 1
+        case .event:
+            selectedIndex = 2
         }
 
         tabBarController?.selectedIndex = selectedIndex
     }
 
+    // MARK: - Tasking
+
+    private var taskingViewController: UINavigationController {
+        let taskListViewController = Director.shared.viewController(forPresentable: TaskListScreen.landing)
+
+        let masterViewController = (taskListViewController as? MPOLSplitViewController)?.masterViewController
+        masterViewController?.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+
+        let navigationController = UINavigationController(rootViewController: taskListViewController)
+        navigationController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
+        navigationController.tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarTasksSelected)
+        navigationController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
+        return navigationController
+    }
+
+    private var activityLogViewController: UINavigationController {
+        let activityLogViewModel = ActivityLogViewModel()
+
+        let activityLogViewController = activityLogViewModel.createViewController()
+        activityLogViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+
+        let navigationController = UINavigationController(rootViewController: activityLogViewController)
+        navigationController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
+        navigationController.tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarActivitySelected)
+        navigationController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
+        return navigationController
+    }
+
+    private let userCallsignStatusViewModel = UserCallsignStatusViewModel()
+
+    private lazy var bookOnViewController: UINavigationController = {
+        userCallsignStatusViewModel.delegate = self
+
+        let bookOnViewController = UIViewController()
+        bookOnViewController.title = NSLocalizedString("Book On", comment: "Book On Screen Title")
+
+        let navigationController = UINavigationController(rootViewController: bookOnViewController)
+
+        if let item = navigationController.tabBarItem {
+            item.title = userCallsignStatusViewModel.state.title
+            item.image = userCallsignStatusViewModel.iconImage
+        }
+
+        return navigationController
+    }()
+
     // MARK: - Private
+
+    private func settingsBarButtonItem() -> UIBarButtonItem {
+        let settingsItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .settings), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
+        settingsItem.accessibilityLabel = NSLocalizedString("Settings", comment: "SettingsIconAccessibility")
+        return settingsItem
+    }
 
     public weak var tabBarController: UITabBarController?
 
@@ -271,14 +324,33 @@ public class LandingPresenter: AppGroupLandingPresenter {
     }
 }
 
+extension LandingPresenter: UserCallsignStatusViewModelDelegate {
+
+    public func viewModelStateChanged() {
+        if let item = bookOnViewController.tabBarItem {
+            item.title = userCallsignStatusViewModel.state.title
+            item.image = userCallsignStatusViewModel.iconImage
+        }
+    }
+
+}
+
+
 // MARK: - UITabBarControllerDelegate
 extension LandingPresenter: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+
+        if viewController == bookOnViewController {
+            tabBarController.present(userCallsignStatusViewModel.screenForAction()!)
+            return false
+        }
+
         if let appProxy = viewController as? AppProxyViewController {
             appProxy.launch(AppLaunchActivity.open)
             return false
         }
         return true
     }
+
 }

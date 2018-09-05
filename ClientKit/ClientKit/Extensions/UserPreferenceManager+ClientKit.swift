@@ -17,7 +17,9 @@ extension UserPreferenceManager {
         let sharedPreferences: [UserPreferenceKey] = [.signaturePreference,
                                                       .highestUsedAppVersion,
                                                       .termsAndConditionsVersionAccepted,
-                                                      .whatsNewShownVersion]
+                                                      .whatsNewShownVersion,
+                                                      .recentCallsigns,
+                                                      .recentOfficers]
         return fetchUserPreferences(application: User.appGroupKey, preferenceKeys: sharedPreferences)
     }
 }
