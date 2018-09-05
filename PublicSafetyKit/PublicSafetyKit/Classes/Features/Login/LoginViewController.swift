@@ -174,7 +174,7 @@ final public class LoginViewController: UIViewController {
     }
 
     private lazy var biometricHeightConstraint: NSLayoutConstraint = {
-        return biometricButton.heightAnchor.constraint(equalToConstant: 0).withPriority(.required)
+        return biometricButton.heightAnchor.constraint(equalToConstant: 0)
     }()
 
     required public init?(coder aDecoder: NSCoder) {
@@ -190,16 +190,31 @@ final public class LoginViewController: UIViewController {
         insetManager.standardContentInset    = .zero
         insetManager.standardIndicatorInset  = .zero
 
-        if usesBiometrics {
-            let notificationCenter = NotificationCenter.default
+        setBiometricEnabled(usesBiometrics)
+
+        scrollView.showsVerticalScrollIndicator = false
+    }
+
+    private func setBiometricEnabled(_ enabled: Bool, animated: Bool = false) {
+
+        let notificationCenter = NotificationCenter.default
+
+        if enabled {
             notificationCenter.addObserver(self, selector: #selector(onApplicationDidBecomeActiveNotification(_:)), name: .UIApplicationDidBecomeActive, object: nil)
             notificationCenter.addObserver(self, selector: #selector(onApplicationWillResignActiveNotification(_:)), name: .UIApplicationWillResignActive, object: nil)
+            biometricHeightConstraint.isActive = false
+
         } else {
-            biometricButton.isHidden = true
+            notificationCenter.removeObserver(self, name: .UIApplicationDidBecomeActive, object: nil)
+            notificationCenter.removeObserver(self, name: .UIApplicationWillResignActive, object: nil)
             biometricHeightConstraint.isActive = true
         }
 
-        scrollView.showsVerticalScrollIndicator = false
+        if animated {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -399,6 +414,14 @@ final public class LoginViewController: UIViewController {
         }
 
         if case .credentialsWithBiometric(let delegate) = loginMode {
+            authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+            if delegate?.loginViewController(self, canUseBiometricWithPolicyDomainState: authenticationContext.evaluatedPolicyDomainState) != true {
+                setBiometricEnabled(false, animated: true)
+                return
+            }
+        }
+
+        if case .credentialsWithBiometric(let delegate) = loginMode {
             if delegate?.loginViewController(self, shouldPromptForEvent: event) == true {
                 authenticateWithBiometric()
             }
@@ -407,10 +430,11 @@ final public class LoginViewController: UIViewController {
 
     @objc func onApplicationDidBecomeActiveNotification(_ notification: Notification) {
         // Don't prompt here if the application becomes active due to the dismissal of LAContext evaluation.
-        if usesBiometrics && !isResigningActiveDueToBiometricAuthentication {
+        let shouldPrompt = !isResigningActiveDueToBiometricAuthentication
+        isResigningActiveDueToBiometricAuthentication = false
+        if usesBiometrics && shouldPrompt {
             promptForBiometricAuthenticationIfRequired(for: .applicationDidBecomeActive)
         }
-        isResigningActiveDueToBiometricAuthentication = false
     }
 
     @objc func onApplicationWillResignActiveNotification(_ notification: Notification) {
