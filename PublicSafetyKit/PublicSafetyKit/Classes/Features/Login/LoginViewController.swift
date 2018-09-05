@@ -419,9 +419,7 @@ final public class LoginViewController: UIViewController {
                 setBiometricEnabled(false, animated: true)
                 return
             }
-        }
 
-        if case .credentialsWithBiometric(let delegate) = loginMode {
             if delegate?.loginViewController(self, shouldPromptForEvent: event) == true {
                 authenticateWithBiometric()
             }
