@@ -209,6 +209,19 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }
     }
 
+    public func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
+        if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            if handler.isEvaluatedPolicyDomainStateStillValid(policyDomainState) {
+                return true
+            } else {
+                handler.clear()
+                AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Biometric data changed", comment: ""), message: NSLocalizedString("The registered biometric has changed since registration. Please login with your credentials", comment: ""))
+                return false
+            }
+        }
+        return false
+    }
+
     open func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
         controller.setLoading(true, animated: true)
 
