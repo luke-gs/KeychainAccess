@@ -190,28 +190,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
-
         let promise: Promise<Void>
-        
+
         // Create refresh token request with current token
-        if let token = UserSession.current.token?.refreshToken {
-            promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
-                .done { token -> Void in
-                    // Update access token
-                    APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
-                    UserSession.current.updateToken(token)
-                }.recover { error -> Promise<Void> in
-                    // Throw 401 error instead of refresh token error
-                    throw response.error!
+        if let token = UserSession.current.token?.refreshToken, let savedToken = UserSession.current.token {
+            promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token)).done { token -> Void in
+                // Update access token
+                let newToken = OAuthAccessToken(accessToken: token.accessToken,
+                                                type: token.type,
+                                                expiresAt: token.expiresAt,
+                                                refreshToken: savedToken.refreshToken, // Temp, don't know the response yet.
+                                                refreshTokenExpiresAt: savedToken.refreshTokenExpiresAt)
+
+                let plugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: newToken))
+                APIManager.shared.setAuthenticationPlugin(plugin, rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+
+                UserSession.current.updateToken(newToken)
+
+            }.recover { [weak self] error -> Promise<Void> in
+
+                // Get the underlying errors. MappedError -> APIManagerError -> AFError.
+                if let networkResponseError = ((error as? MappedError)?.underlyingError as? APIManagerError)?.underlyingError as? AFError {
+                    if case AFError.responseValidationFailed(reason: let reason) = networkResponseError,
+                        case AFError.ResponseValidationFailureReason.unacceptableStatusCode(code: let statusCode) = reason {
+                        // Relogin only when it's appropriate error, e.g refresh token is invalid.
+                        // Or for now, kick them out.
+                        if statusCode == 400 {
+                            UserSession.current.endSession()
+                            self?.landingPresenter.updateInterfaceForUserSession(animated: true)
+                            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
+                        }
+
+                    }
+                }
+                // Gives back the original 401 error instead of the error caused by "refreshToken" call.
+                throw response.error!
             }
         } else {
+            // If there's no token, nothing can be done, just forward the error.
             promise = Promise(error: response.error!)
-        }
-
-        promise.catch { error in
-            UserSession.current.endSession()
-            self.landingPresenter.updateInterfaceForUserSession(animated: true)
-            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
         }
 
         return promise
