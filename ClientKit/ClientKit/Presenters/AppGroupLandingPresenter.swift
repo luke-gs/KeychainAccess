@@ -172,9 +172,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 if let password = password {
                     self?.authenticateWithUsername(handler.username, password: password, inController: controller, context: context)
                 } else {
-                    // Tell the user that they don't have password here, although, if this ever happens,
-                    // something probably is broken already.
-                    // fatalError for now.
+                    // BiometricUserHandler won't return password when the biometric set has changed.
+                    // Should probably prevent ever getting to here.
                     fatalError("Biometric authentication isn't setup correctly.")
                 }
             }.catch { error in
