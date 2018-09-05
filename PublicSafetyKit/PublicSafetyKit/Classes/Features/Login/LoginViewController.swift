@@ -50,6 +50,18 @@ final public class LoginViewController: UIViewController {
     ///
     /// Defaults to `true`
     public var usesBiometrics: Bool = true
+    private lazy var loginDelegate: LoginViewControllerDelegate? = {
+        let loginDelegate: LoginViewControllerDelegate?
+        switch loginMode {
+        case .credentials(let delegate):
+            loginDelegate = delegate
+        case .credentialsWithBiometric(let delegate):
+            loginDelegate = delegate
+        case .externalAuth(delegate: let delegate):
+            loginDelegate = delegate
+        }
+        return loginDelegate
+    }()
 
     /// Inititalise the view controller with a login mode
     ///
@@ -182,6 +194,11 @@ final public class LoginViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
     }
 
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        loginDelegate?.loginViewControllerDidAppear(self)
+    }
     private func setupViews() {
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
