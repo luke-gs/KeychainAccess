@@ -20,13 +20,13 @@ final public class LoginViewController: UIViewController {
     /// The type of login mode to use
     public let loginMode: LoginMode
 
-    /// The primary title label. Customise to your hearts content.
-    public var titleView: UIView = UIView()
+    /// The container primarily for title view. Add custom content view as subview.
+    public let titleView: UIView = UIView()
 
-    /// The login button. Customise to your hearts content.
+    /// The login button.
     public let loginButton: UIButton = UIButton()
 
-    /// The detail text view. Customise to your hearts content.
+    /// The detail text view.
     /// Make sure to provide a `HighlightTextModel` to specify the text to highlight and the action
     /// to perform when tapped.
     public let detailTextView: HighlightingTextView = HighlightingTextView()
@@ -38,7 +38,6 @@ final public class LoginViewController: UIViewController {
             // Ensure that the observations (added by `setupCredentialActions`) are removed.
             removeObservers(from: oldValue)
 
-            credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
             credentials?.forEach { credential in
                 credentialsStackView.addArrangedSubview(credential.inputField)
                 credential.inputField.textField.text = credential.value
