@@ -97,22 +97,7 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
 /// A bunch of Additional Actions
 /// This can later be expanded upon to build different types of incidents/ events
 /// via the app
-public struct AdditionalActionType: RawRepresentable, Hashable {
-
-    public var rawValue: String
-
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public var hashValue: Int {
-        return rawValue.hashValue
-    }
-
-    public static func ==(lhs: AdditionalActionType, rhs: AdditionalActionType) -> Bool {
-        return lhs.rawValue == rhs.rawValue
-    }
-}
+public class AdditionalActionType: ExtensibleKey<String> { }
 
 /// Builder for additional action
 ///

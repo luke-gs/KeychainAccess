@@ -103,7 +103,7 @@ open class LocationBasicSearchOptions: SearchOptions {
         let numberOfResults = results.count
 
         if numberOfResults > index {
-            return .action(image: AssetManager.shared.image(forKey: .eventLocation), buttonTitle: "Edit Address", buttonHandler: { [weak self] in
+            return .action(image: AssetManager.shared.image(forKey: .entityLocationSmall), buttonTitle: "Edit Address", buttonHandler: { [weak self] in
                 guard let `self` = self else { return }
                 let result = self.results[index]
                 self.delegate?.locationBasicSearchOptions(self, didEditResult: result)
@@ -114,7 +114,7 @@ open class LocationBasicSearchOptions: SearchOptions {
             let other = others[otherIndex]
             switch other {
             case .currentLocation:
-                return .action(image: AssetManager.shared.image(forKey: .eventLocation ), buttonTitle: nil, buttonHandler:nil)
+                return .action(image: AssetManager.shared.image(forKey: .entityLocationSmall), buttonTitle: nil, buttonHandler:nil)
             case .map:
                 return .action(image: AssetManager.shared.image(forKey: .map), buttonTitle: nil, buttonHandler:nil)
             case .manual:

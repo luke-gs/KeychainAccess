@@ -14,7 +14,8 @@ public extension LOTAnimationView {
     
     /// Preload MPOL animations
     static func preloadMPOLAnimations() {
-        let urls: [URL] = [MPOLSpinnerView.fileURL]
+        let assetKeys: [AssetManager.AssetKey] = [.animatedSpinner]
+        let urls: [URL] = assetKeys.compactMap { AssetManager.shared.resource(forKey: $0) }
         
         /// Preload all animations on a background thread
         DispatchQueue.global().async {
@@ -28,7 +29,7 @@ public extension LOTAnimationView {
     static func loadMPOLAnimation(fileURL: URL) -> LOTComposition? {
         let data = try! Data(contentsOf: fileURL)
         if let json = try! JSONSerialization.jsonObject(with: data) as? [AnyHashable: Any] {
-            let composition = LOTComposition(json: json, withAssetBundle: Bundle.patternKit)
+            let composition = LOTComposition(json: json)
             DispatchQueue.main.async {
                 LOTAnimationCache.shared().addAnimation(composition, forKey: fileURL.absoluteString)
             }

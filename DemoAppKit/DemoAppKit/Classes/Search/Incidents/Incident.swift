@@ -99,24 +99,10 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
 /// A bunch of incident types
 /// This can later be expanded upon to build different types of events
 /// via the app
-public struct IncidentType: RawRepresentable, Hashable {
+public class IncidentType: ExtensibleKey<String> {
 
     //Define default EventTypes
-    public static let blank = IncidentType(rawValue: "Blank")
-
-    public var rawValue: String
-
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public var hashValue: Int {
-        return rawValue.hashValue
-    }
-
-    public static func ==(lhs: IncidentType, rhs: IncidentType) -> Bool {
-        return lhs.rawValue == rhs.rawValue
-    }
+    public static let blank = IncidentType("Blank")
 }
 
 /// Builder for incidents

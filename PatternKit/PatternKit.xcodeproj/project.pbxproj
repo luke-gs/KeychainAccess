@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F15E9736DB1E0E32DA56D66 /* Pods_PatternKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF71B30F7B9892DB70397B0 /* Pods_PatternKitTests.framework */; };
+		960DC5FA213E2C7700C883F2 /* AssetManager+PatternKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960DC5F9213E2C7700C883F2 /* AssetManager+PatternKit.swift */; };
 		96327134213660810020BB57 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327103213660800020BB57 /* SourceItemTests.swift */; };
 		96327135213660810020BB57 /* DropDownFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327105213660800020BB57 /* DropDownFormItemTests.swift */; };
 		96327136213660810020BB57 /* StringSizing+LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96327106213660800020BB57 /* StringSizing+LabelTests.swift */; };
@@ -330,7 +331,6 @@
 		96B804D0212D17F5005A72A0 /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803BE212D17F5005A72A0 /* KeyboardNumberBar.swift */; };
 		96B804D1212D17F5005A72A0 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803C0212D17F5005A72A0 /* ScrollViewInsetManager.swift */; };
 		96B804D2212D17F5005A72A0 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803C1212D17F5005A72A0 /* KeyboardAnimationDetails.swift */; };
-		96B804D3212D17F5005A72A0 /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B803C2212D17F5005A72A0 /* Bundle+MPOLKit.swift */; };
 		96BE88052126548000F57FF0 /* PatternKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE87FB2126548000F57FF0 /* PatternKit.framework */; };
 		96BE880A2126548000F57FF0 /* PatternKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88092126548000F57FF0 /* PatternKitTests.swift */; };
 		96BE880C2126548000F57FF0 /* PatternKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE87FE2126548000F57FF0 /* PatternKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -352,6 +352,7 @@
 		2B348E05D14A9A8D74EAD40E /* Pods-PatternKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatternKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-PatternKit/Pods-PatternKit.release.xcconfig"; sourceTree = "<group>"; };
 		3BF71B30F7B9892DB70397B0 /* Pods_PatternKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatternKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A725326776B41B422DA1C9 /* Pods-PatternKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatternKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PatternKit/Pods-PatternKit.debug.xcconfig"; sourceTree = "<group>"; };
+		960DC5F9213E2C7700C883F2 /* AssetManager+PatternKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AssetManager+PatternKit.swift"; sourceTree = "<group>"; };
 		96327103213660800020BB57 /* SourceItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
 		96327105213660800020BB57 /* DropDownFormItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownFormItemTests.swift; sourceTree = "<group>"; };
 		96327106213660800020BB57 /* StringSizing+LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StringSizing+LabelTests.swift"; sourceTree = "<group>"; };
@@ -671,7 +672,6 @@
 		96B803BE212D17F5005A72A0 /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNumberBar.swift; sourceTree = "<group>"; };
 		96B803C0212D17F5005A72A0 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
 		96B803C1212D17F5005A72A0 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
-		96B803C2212D17F5005A72A0 /* Bundle+MPOLKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+MPOLKit.swift"; sourceTree = "<group>"; };
 		96BE87FB2126548000F57FF0 /* PatternKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PatternKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE87FE2126548000F57FF0 /* PatternKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PatternKit.h; sourceTree = "<group>"; };
 		96BE87FF2126548000F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -721,6 +721,14 @@
 				3BF71B30F7B9892DB70397B0 /* Pods_PatternKitTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		960DC5F8213E2C6100C883F2 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				960DC5F9213E2C7700C883F2 /* AssetManager+PatternKit.swift */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		96327101213660800020BB57 /* Classes */ = {
@@ -859,11 +867,11 @@
 		96B80277212D17F5005A72A0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				960DC5F8213E2C6100C883F2 /* Assets */,
 				96B802FD212D17F5005A72A0 /* Forms */,
 				96B803AF212D17F5005A72A0 /* Helper */,
 				96B803A9212D17F5005A72A0 /* Theme */,
 				96B80278212D17F5005A72A0 /* UI */,
-				96B803C2212D17F5005A72A0 /* Bundle+MPOLKit.swift */,
 				96B803AE212D17F5005A72A0 /* MPOLKitInitialize.swift */,
 			);
 			path = Classes;
@@ -1852,7 +1860,6 @@
 				96B80401212D17F5005A72A0 /* BaseLoadingStateView.swift in Sources */,
 				96B804B1212D17F5005A72A0 /* BaseSupplementaryFormItem.swift in Sources */,
 				96B803FB212D17F5005A72A0 /* BubbleAnnotationView.swift in Sources */,
-				96B804D3212D17F5005A72A0 /* Bundle+MPOLKit.swift in Sources */,
 				96B8040D212D17F5005A72A0 /* ButtonStackView.swift in Sources */,
 				96B8046B212D17F5005A72A0 /* CheckBox.swift in Sources */,
 				96B80416212D17F5005A72A0 /* CircleIconView.swift in Sources */,
@@ -2095,6 +2102,7 @@
 				96B80423212D17F5005A72A0 /* TimelineView.swift in Sources */,
 				96B803E1212D17F5005A72A0 /* UIImage+Initials.swift in Sources */,
 				96B803E2212D17F5005A72A0 /* UIImage+StatusDot.swift in Sources */,
+				960DC5FA213E2C7700C883F2 /* AssetManager+PatternKit.swift in Sources */,
 				96B803E5212D17F5005A72A0 /* UIImageView+ImageLoadable.swift in Sources */,
 				96B8045C212D17F5005A72A0 /* UITableView+DefaultReuse.swift in Sources */,
 				96B80459212D17F5005A72A0 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
