@@ -36,7 +36,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     public var wantsBiometricAuthentication = true
     private var isLogOffInitiatedByUser = false
-    private var biometricShouldPromptOnAppearance = true
 
     public override init() {
         super.init()
