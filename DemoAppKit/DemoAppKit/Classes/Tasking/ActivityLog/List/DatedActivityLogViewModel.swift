@@ -49,6 +49,7 @@ open class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItem
 
     open func createNewActivityLogViewController() -> UIViewController {
         let viewModel = CreateActivityLogItemViewModel()
+        viewModel.startTime = Date().rounded(minutes: 15, rounding: .floor)
         return viewModel.createViewController()
     }
 }
