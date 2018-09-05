@@ -118,7 +118,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         if let county = address.county {
             components.insert(county, at: 0)
         }
-        guard components.isEmpty == false else { return nil }
+        guard !components.isEmpty else { return nil }
         return shortAddressForm + ", " + components.joined(separator: " ")
     }
     
