@@ -52,6 +52,12 @@ public protocol LoginViewControllerDelegate {
     func loginViewControllerDidAppear(_ controller: LoginViewController)
 }
 
+extension LoginViewControllerDelegate {
+    public func loginViewControllerDidAppear(_ controller: LoginViewController) {
+
+    }
+}
+
 /// LoginViewController delegate used with The basic credentials `LoginMode`
 public protocol CredentialsDelegate: LoginViewControllerDelegate {
 
