@@ -55,13 +55,8 @@ open class ContainerWithHeaderViewController: UIViewController {
                 // Constrain header to top
                 let headerView = headerViewController.view!
                 headerView.translatesAutoresizingMaskIntoConstraints = false
-                headerTopConstraint = headerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: 0)
-                NSLayoutConstraint.activate([
-                    headerTopConstraint!,
-                    headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                    headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                ])
             }
+            updateLayouts()
             updateHeaderVisibility()
         }
     }
@@ -86,16 +81,48 @@ open class ContainerWithHeaderViewController: UIViewController {
                 // Constrain content to safe area
                 let contentView = contentViewController.view!
                 contentView.translatesAutoresizingMaskIntoConstraints = false
-                contentTopConstraint = contentView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: 0)
-                NSLayoutConstraint.activate([
-                    contentTopConstraint!,
-                    contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                    contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                    contentView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
-                ])
             }
+            updateLayouts()
             updateHeaderVisibility()
         }
+    }
+
+    private var constraints: [NSLayoutConstraint] = []
+
+    open func updateLayouts() {
+        NSLayoutConstraint.deactivate(constraints)
+
+        let headerView = headerViewController?.view
+        let contentView = contentViewController?.view
+
+        var newConstraints = [NSLayoutConstraint]()
+
+        if let headerView = headerView {
+            headerTopConstraint = headerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: 0)
+            newConstraints += [
+                headerTopConstraint!,
+                headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            ]
+        }
+
+        if let contentView = contentView {
+            newConstraints += [
+                contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ]
+
+            if let headerView = headerView {
+                newConstraints.append(contentView.topAnchor.constraint(equalTo: headerView.bottomAnchor))
+            } else {
+                contentTopConstraint = contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: headerOffset)
+                newConstraints.append(contentTopConstraint!)
+            }
+        }
+
+        NSLayoutConstraint.activate(newConstraints)
+        constraints = newConstraints
     }
 
     /// Return whether header view should be shown, if available
@@ -109,6 +136,7 @@ open class ContainerWithHeaderViewController: UIViewController {
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        updateLayouts()
         updateHeaderVisibility()
     }
 
@@ -120,11 +148,9 @@ open class ContainerWithHeaderViewController: UIViewController {
             headerView.setNeedsLayout()
             headerView.layoutIfNeeded()
             headerTopConstraint?.constant = headerOffset
-            contentTopConstraint?.constant = headerView.bounds.height + headerOffset
         } else {
-            headerTopConstraint?.constant = 0
-            headerViewController?.view?.isHidden = true
             contentTopConstraint?.constant = headerOffset
+            headerViewController?.view?.isHidden = true
         }
     }
 }

@@ -108,7 +108,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
         if #available(iOS 11, *) {
             masterNavController.additionalSafeAreaInsets.top = height
         } else {
-            containerMasterViewController.headerOffset = height
+            containerMasterViewController.headerOffset = masterNavController.navigationBar.frame.maxY + height
         }
     }
 

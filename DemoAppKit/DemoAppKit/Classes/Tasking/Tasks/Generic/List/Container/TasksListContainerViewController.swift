@@ -229,7 +229,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
         // Layout sidebar on left, header on top right, list bottom right
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: view.topAnchor),
+            contentView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
             contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
