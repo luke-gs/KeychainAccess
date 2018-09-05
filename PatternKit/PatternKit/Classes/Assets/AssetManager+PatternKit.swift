@@ -161,6 +161,10 @@ extension AssetManager.ImageKey {
     public static let entityBuildingSmall         = AssetManager.ImageKey("iconEntityBuildingFilled")
     public static let entityBuildingMedium        = AssetManager.ImageKey("iconEntityBuilding48Filled")
     public static let entityBuildingLarge         = AssetManager.ImageKey("iconEntityBuilding96Filled")
+    
+    public static let entityOrganisationSmall     = AssetManager.ImageKey("iconEntityOrganisationSmall")
+    public static let entityOrganisationMedium    = AssetManager.ImageKey("iconEntityOrganisationMedium")
+    public static let entityOrganisationLarge     = AssetManager.ImageKey("iconEntityOrganisationLarge")
 
     // Resource
     public static let resourceGeneral             = AssetManager.ImageKey("iconResourceGeneral")
