@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
-public struct OrganisationSummaryDisplayable: AssociatedEntitySummaryDisplayable {
+public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, AssociatedEntitySummaryDisplayable {
     
     private var organisation: Organisation
     
@@ -21,7 +21,7 @@ public struct OrganisationSummaryDisplayable: AssociatedEntitySummaryDisplayable
     }
     
     public var title: String? {
-        return organisation.name
+        return organisation.summary
     }
     
     public var detail1: String? {
@@ -29,7 +29,7 @@ public struct OrganisationSummaryDisplayable: AssociatedEntitySummaryDisplayable
     }
     
     public var detail2: String? {
-        return nil
+        return organisation.locations?.first?.fullAddress
     }
     
     public var association: String? {
@@ -57,11 +57,11 @@ public struct OrganisationSummaryDisplayable: AssociatedEntitySummaryDisplayable
         
         switch size {
         case .small:
-            imageKey = .entityBuildingSmall
+            imageKey = .entityOrganisationSmall
         case .medium:
-            imageKey = .entityBuildingMedium
+            imageKey = .entityOrganisationMedium
         case .large:
-            imageKey = .entityBuildingLarge
+            imageKey = .entityOrganisationLarge
         }
         
         if let image = AssetManager.shared.image(forKey: imageKey) {
@@ -69,6 +69,14 @@ public struct OrganisationSummaryDisplayable: AssociatedEntitySummaryDisplayable
         }
         
         return nil
+    }
+    
+    public var coordinate: CLLocationCoordinate2D? {
+        guard let location = organisation.locations?.first,
+            let lat = location.latitude,
+            let lon = location.longitude else { return nil }
+        
+        return CLLocationCoordinate2D(latitude: lat, longitude: lon)
     }
 }
 

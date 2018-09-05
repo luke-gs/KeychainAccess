@@ -19,12 +19,10 @@ public class OrganisationPSCoreDetailsSectionsDataSource: EntityDetailsDataSourc
     
     public init(delegate: SearchDelegate?) {
         self.viewControllers = [
-            EntityDetailFormViewController(viewModel: OrganisationInfoViewModel()),
+            EntityLocationInformationViewController(viewModel: OrganisationInfoViewModel()),
             EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
             EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-            EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
-            EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
-            EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
+            EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel())
         ]
     }
 }
@@ -40,7 +38,7 @@ public class OrganisationNATDetailsSectionsDataSource: EntityDetailsDataSource {
     
     public init(delegate: SearchDelegate?) {
         self.viewControllers = [
-            EntityDetailFormViewController(viewModel: OrganisationInfoViewModel()),
+            EntityLocationInformationViewController(viewModel: OrganisationInfoViewModel()),
             EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
             EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
             EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel())
@@ -59,7 +57,7 @@ public class OrganisationRDADetailsSectionsDataSource: EntityDetailsDataSource {
     
     public init(delegate: SearchDelegate?) {
         self.viewControllers = [
-            EntityDetailFormViewController(viewModel: OrganisationInfoViewModel()),
+            EntityLocationInformationViewController(viewModel: OrganisationInfoViewModel()),
             EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
             EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate))
         ]
