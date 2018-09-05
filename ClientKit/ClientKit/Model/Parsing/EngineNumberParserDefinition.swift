@@ -24,7 +24,7 @@ public protocol EngineNumberDefinitionType {
     static var engineNumberKey: String { get }
 }
 
-public class EngineNumberParserDefinition: VehicleParserDefinition, EngineNumberDefinitionType {
+public class EngineNumberParserDefinition: WildcardParserDefinition, EngineNumberDefinitionType {
     public static let engineNumberKey = "engineNumber"
 
     public init(range: CountableClosedRange<Int>) {

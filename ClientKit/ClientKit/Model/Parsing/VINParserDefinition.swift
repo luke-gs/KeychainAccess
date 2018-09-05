@@ -24,7 +24,7 @@ public protocol VINDefinitionType {
     static var vinKey: String { get }
 }
 
-public class VINParserDefinition: VehicleParserDefinition, VINDefinitionType {
+public class VINParserDefinition: WildcardParserDefinition, VINDefinitionType {
     
     public static let vinKey = "vin"
     

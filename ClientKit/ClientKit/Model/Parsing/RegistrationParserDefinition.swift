@@ -24,7 +24,7 @@ public protocol RegistrationDefinitionType {
     static var registrationKey: String { get }
 }
 
-public class RegistrationParserDefinition: VehicleParserDefinition, RegistrationDefinitionType {
+public class RegistrationParserDefinition: WildcardParserDefinition, RegistrationDefinitionType {
     
     public static let registrationKey = "registration"
 

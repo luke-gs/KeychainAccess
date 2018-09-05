@@ -148,6 +148,12 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
         let acnParser = ACNParserDefinition()
         definitionSelector.register(definition: acnParser, withValidation: acnParser.validateQuery)
         
+        let parser = ABNACNWildcardParserDefinition()
+        definitionSelector.register(definition: parser, withValidation: { query in
+            let trimmedVal = query.trimmingCharacters(in: parser.allowedCharacterSet)
+            return trimmedVal.isEmpty && query.count < 11
+        })
+        
         definitionSelector.register(definition: OrganisationParserDefinition(), withValidation: { query in
             return query.isEmpty == false && formatter.number(from: query) == nil
         })
@@ -193,46 +199,49 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         if let searchTerm = text {
             do {
-                
                 let definitions = self.definitionSelector.supportedDefinitions(for: searchTerm)
-                if let definition = definitions.first {
-                    
-                    var searchParameters: EntitySearchRequest<Organisation>?
-                    
-                    if definition is OrganisationParserDefinition {
-                        // Only apply suburb and name type to name searches
-                        var suburb: String?
-                        if let orgOptions = self.options as? OrganisationSearchOptions {
-                            if case Suburb.individual(value: let val) = orgOptions.suburb {
-                                suburb = val
-                            }
+
+                var searchParameters: EntitySearchRequest<Organisation>?
+                if let definition = definitions.compactMap({ $0 as? ABNACNWildcardParserDefinition }).first {
+                    let organisationParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
+                    let value = organisationParserResults[ABNACNWildcardParserDefinition.ABNACNWildcardNumberKey]!
+                    searchParameters = OrganisationSearchParameters(abn: value, acn: value)
+                } else if let definition = definitions.compactMap({ $0 as? ABNParserDefinition }).first {
+                    let organisationParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
+                    searchParameters = OrganisationSearchParameters(abn: organisationParserResults[ABNParserDefinition.ABNKey]!)
+                } else if let definition = definitions.compactMap({ $0 as? ACNParserDefinition }).first {
+                    let organisationParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
+                    searchParameters = OrganisationSearchParameters(acn: organisationParserResults[ACNParserDefinition.ACNKey]!)
+                } else if let definition = definitions.compactMap({ $0 as? OrganisationParserDefinition }).first {
+                    // Only apply suburb and name type to name searches
+                    var suburb: String?
+                    if let orgOptions = self.options as? OrganisationSearchOptions {
+                        if case Suburb.individual(value: let val) = orgOptions.suburb {
+                            suburb = val
                         }
-                        
-                        let organisationParserResults = try QueryParser(parserDefinition: OrganisationParserDefinition()).parseString(query: searchTerm)
-                        searchParameters = OrganisationSearchParameters(name: organisationParserResults[OrganisationParserDefinition.NameKey],
-                                                                        suburb: suburb)
-                    } else if definition is ABNParserDefinition {
-                        let organisationParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
-                        searchParameters = OrganisationSearchParameters(abn: organisationParserResults[ABNParserDefinition.ABNKey]!)
-                    } else if definition is ACNParserDefinition {
-                        let organisationParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
-                        searchParameters = OrganisationSearchParameters(acn: organisationParserResults[ACNParserDefinition.ACNKey]!)
                     }
-                    if let searchParameters = searchParameters {
-                        
-                        // Note: generate as many requests as required
-                        let request = OrganisationSearchRequest(source: .pscore, request: searchParameters)
-                        let natRequest = OrganisationSearchRequest(source: .nat, request: searchParameters)
-                        let rdaRequest = OrganisationSearchRequest(source: .rda, request: searchParameters)
-                        
-                        let resultModel = EntitySummaryAlertsSearchResultViewModel<Organisation>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
-                        resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                     
-                        completion(resultModel, nil)
-                    }
+                    let organisationParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
+                    searchParameters = OrganisationSearchParameters(name: organisationParserResults[OrganisationParserDefinition.NameKey],
+                                                                    suburb: suburb)
                 } else {
-                   throw NSError(domain: "MPOL.OrganisationSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
+                    throw NSError(domain: "MPOL.OrganisationSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
                 }
+                    
+                    
+                if let searchParameters = searchParameters {
+                        
+                    // Note: generate as many requests as required
+                    let request = OrganisationSearchRequest(source: .pscore, request: searchParameters)
+                    let natRequest = OrganisationSearchRequest(source: .nat, request: searchParameters)
+                    let rdaRequest = OrganisationSearchRequest(source: .rda, request: searchParameters)
+                    
+                    let resultModel = EntitySummaryAlertsSearchResultViewModel<Organisation>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
+                    resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
+                
+                    completion(resultModel, nil)
+                }
+                
             } catch {
                 completion(nil, error)
             }
