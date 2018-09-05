@@ -156,14 +156,6 @@ extension Theme {
     }
 }
 
-public func ==(lhs: Theme.ColorKey, rhs: Theme.ColorKey) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-}
-
-public func ==(lhs: Theme.ImageKey, rhs: Theme.ImageKey) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-}
-
 
 // MARK: - Deprecated
 
