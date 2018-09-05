@@ -23,6 +23,7 @@ public struct BiometricUserHandler {
     public let keychain: Keychain
 
     private let _passwordKey: String
+    private let _policyDomainStateKey: String
     private let _queue = DispatchQueue(label: "au.com.gridstone.BiometricUserHandlerQueue")
 
     public init(username: String, keychain: Keychain) {
@@ -31,11 +32,12 @@ public struct BiometricUserHandler {
 
         // Prefix the key with random String.
         _passwordKey = BiometricUserHandler.prefixedKey(username)
+        _policyDomainStateKey = BiometricUserHandler.prefixedKey("domainPolicyState")
     }
-
 
     /// Save password to keychain. The password will only be accessible if the user could provide credentials using the LocalAuthentication.
     /// If LAContext is provided, it'll re-use the context otherwise, this will present the Biometric authentication prompt.
+    /// `evaluatedPolicyDomainState` value will also be stored on successful event.
     ///
     /// - Parameters:
     ///   - password: The password to be saved.
@@ -46,19 +48,26 @@ public struct BiometricUserHandler {
 
         let (promise, seal) = Promise<Void>.pending()
         let key = _passwordKey
+        let stateKey = _policyDomainStateKey
         let lContext = context ?? LAContext()
         let current = keychain(self.keychain, context: lContext, prompt: prompt)
         
         let performUpdate = {
             self._queue.async {
                 do {
+                    let data = lContext.evaluatedPolicyDomainState
+
                     if let password = password {
                         try current.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: .touchIDCurrentSet)
                             .set(password, key: key)
+                        if let data = data {
+                            try current.set(data, key: stateKey)
+                        }
                         seal.fulfill(())
                     } else {
                         // Password can be removed without context.
                         try current.remove(key)
+                        try current.remove(stateKey)
                         seal.fulfill(())
                     }
                 } catch {
@@ -82,7 +91,6 @@ public struct BiometricUserHandler {
         return promise
     }
 
-
     /// Retrieve password from keychain. The password will only be accessible if the user could provide credentials using the LocalAuthentication.
     ///
     /// - Parameters:
@@ -105,6 +113,19 @@ public struct BiometricUserHandler {
         }
 
         return promise
+    }
+
+    public func previousEvaluatedPolicyDomainState() -> Data? {
+        do {
+            let state = try keychain.getData(_policyDomainStateKey)
+            return state
+        } catch {
+            return nil
+        }
+    }
+
+    public func isEvaluatedPolicyDomainStateStillValid(_ evaluatedPolicyDomainState: Data?) -> Bool {
+        return evaluatedPolicyDomainState == previousEvaluatedPolicyDomainState()
     }
 
     public var useBiometric: UseBiometric {
@@ -139,6 +160,7 @@ public struct BiometricUserHandler {
         useBiometric = .unknown
         try? keychain.remove(_passwordKey)
         try? keychain.remove(BiometricUserHandler.prefixedKey("currentUser"))
+        try? keychain.remove(_policyDomainStateKey)
     }
 
     /// Retrieve current `logged in` Biometric User from the provided keychain.
