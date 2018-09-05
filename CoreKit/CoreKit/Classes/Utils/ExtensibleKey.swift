@@ -18,7 +18,7 @@ open class ExtensibleKey<T>: RawRepresentable {
     public typealias RawValue = T
 
     // Underlying raw value
-    public var rawValue: T
+    public let rawValue: T
 
     public required init(rawValue: T) {
         self.rawValue = rawValue
