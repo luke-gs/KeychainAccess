@@ -88,25 +88,38 @@ final public class LoginViewController: UIViewController {
     private var contentView = UIView()
     private lazy var authenticationContext = LAContext()
     private(set) var credentialsStackView: UIStackView = UIStackView()
+
     private(set) lazy var biometricButton: UIButton = { [unowned self] in
         let button = UIButton(type: .system)
 
         var imageKey: AssetManager.ImageKey = .touchId
-        var buttonText = " or use Touch ID"
+        var buttonText = NSLocalizedString("Use Touch ID", comment: "")
         // Apple lies, it's not @available(iOS 11.0, *), it's later.
         // Crash on iOS 11.0
         if #available(iOS 11.0.1, *) {
-            if authenticationContext.biometryType == .faceID {
+            // `canEvaluatePolicy` needs to be called first before `biometryType` is known.
+            if authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && authenticationContext.biometryType == .faceID {
                 imageKey = .faceId
-                buttonText = " or use Face ID"
+                buttonText = NSLocalizedString("Use Face ID", comment: "")
             }
         }
 
         button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
         button.setTitle(buttonText, for: .normal)
-        button.tintColor = ColorPalette.shared.brightBlue
 
+        button.tintColor = ColorPalette.shared.brightBlue
         button.clipsToBounds = true
+
+        // Gives spacing between Image and Text
+        let spacing: CGFloat = 12
+        let half = spacing * 0.5
+        let insets = UIEdgeInsetsMake(0, spacing, 0, 0)
+        button.titleEdgeInsets = insets
+
+        // Ensure that the content is pad properly. titleEdgeInsets doesn't
+        // affect intrinsicContentSize.
+        let contentInsets = UIEdgeInsetsMake(0, half, 0, half)
+        button.contentEdgeInsets = contentInsets
 
         return button
     }()
