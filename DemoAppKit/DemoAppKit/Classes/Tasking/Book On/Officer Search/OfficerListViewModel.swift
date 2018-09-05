@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 public protocol OfficerListViewModelDelegate: class {
     func itemSelectedAndFinishedEditing()
@@ -66,6 +67,11 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
         }
         return result
     }()
+
+    open override func searchAction() -> Promise<Void>? {
+        return nil
+    }
+
 }
 
 extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
