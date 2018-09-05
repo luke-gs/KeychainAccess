@@ -218,17 +218,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         if statusCode == 400 {
                             UserSession.current.endSession()
                             self?.landingPresenter.updateInterfaceForUserSession(animated: true)
-                            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
                         }
-
                     }
                 }
+
                 // Gives back the original 401 error instead of the error caused by "refreshToken" call.
                 throw response.error!
             }
         } else {
-            // If there's no token, nothing can be done, just forward the error.
-            promise = Promise(error: response.error!)
+            let error = response.error!
+
+            // Log the user out.
+            LogOffManager.shared.requestLogOff()
+            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
+
+            // Forward the error.
+            promise = Promise(error: error)
         }
 
         return promise
