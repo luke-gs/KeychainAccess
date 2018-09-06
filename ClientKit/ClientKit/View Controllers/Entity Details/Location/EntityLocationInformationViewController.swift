@@ -142,7 +142,8 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
     private func setupConstraints() {
         guard let formCollectionView = formViewController.collectionView else { return }
         guard let formView = formViewController.view else { return }
-        let mapView = mapViewController.mapView
+        //View holds both the MKMapView and the mapOptionsView
+        guard let mapView = mapViewController.view else { return }
 
         // Change collection view to not use autoresizing mask constraints so it uses intrinsic content height
         formCollectionView.translatesAutoresizingMaskIntoConstraints = false
