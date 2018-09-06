@@ -12,6 +12,15 @@ import DemoAppKit
 import ClientKit
 import PromiseKit
 
+public class OfficerFetchRequest: EntityDetailFetchRequest<Officer> {
+
+    public override func fetchPromise() -> Promise<Officer> {
+        return APIManager.shared.fetchEntityDetails(in: source, with: request)
+    }
+
+}
+
+
 class OfficerSearchViewModel: SearchDisplayableViewModel {
     typealias Object = Officer
 
@@ -28,7 +37,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let items = items {
             self.items = items
         } else {
-            #if DEBUG || EXTERNAL
+            #if EXTERNAL
                 // Fake officers used for the purposes of demos.
                 let fakeOfficerOne = Officer(id: "SmithJacksonGS007")
                 fakeOfficerOne.familyName = "Smith"
@@ -40,7 +49,22 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                 fakeOfficerTwo.employeeNumber = "#GS008"
                 self.items = [fakeOfficerOne, fakeOfficerTwo]
             #else
-                self.items = []
+
+            self.items = []
+
+            if let officerIds: [String] = UserPreferenceManager.shared.preference(for: .recentOfficers)?.codables() {
+                if !officerIds.isEmpty {
+
+                    let request = OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: officerIds[0]))
+                    request.fetch().done { officer in
+                        print(officer)
+                        self.items = [officer]
+                    }.catch { error in
+                        print(error)
+                    }
+                }
+            }
+
             #endif
         }
 

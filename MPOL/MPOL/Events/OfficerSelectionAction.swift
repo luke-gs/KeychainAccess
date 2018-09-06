@@ -38,6 +38,7 @@ extension OfficerSelectionAction: SearchDisplayableDelegate {
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
         self.selectedValue = object
         self.updateHandler?()
+
         viewController.dismiss(animated: true, completion: nil)
     }
 }
