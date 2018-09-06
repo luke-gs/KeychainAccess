@@ -219,6 +219,15 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
     }
     
+    override public func logOff() {
+        if CADStateManager.shared.lastBookOn != nil {
+            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
+                                             message: NSLocalizedString("You must book off before logging out.", comment: ""))
+            return
+        }
+        super.logOff()
+    }
+    
     override public func onRemoteLogOffCompleted() {
         super.onRemoteLogOffCompleted()
         (UIApplication.shared.delegate as? AppDelegate)?.removeShortcuts()
