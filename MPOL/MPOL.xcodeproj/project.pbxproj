@@ -605,18 +605,6 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
-		12ADD42F1F32C0FA00CA8B4D /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */,
-				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
-				AA3E513821180E1A00621E58 /* TermsAndConditions.swift */,
-				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
-				AA3E513A21180E6200621E58 /* WhatsNew.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
@@ -770,25 +758,6 @@
 			path = Summary;
 			sourceTree = "<group>";
 		};
-		37F048A12105A4CB00860B6D /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
-				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		37F1B3AF20CF9676007F263B /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				37F048A12105A4CB00860B6D /* UI */,
-				37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */,
-				37F1B3B020CF9694007F263B /* SearchNoContentView.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
 		37F3A3BC2084754A0077998C /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -811,10 +780,10 @@
 				E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */,
 				3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */,
 				ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */,
-				2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */,
-				C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */,
-				495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */,
 				512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */,
+				2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */,
+				495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */,
+				C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -825,8 +794,8 @@
 				BCEEA5601F03205800C884A4 /* ClientKit.framework */,
 				DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */,
 				98286F47FF0E675D611C2782 /* Pods_MPOL.framework */,
-				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 				D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */,
+				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -869,18 +838,15 @@
 			isa = PBXGroup;
 			children = (
 				96B774852140F8EE00836B83 /* ClientKit */,
-				12EB8099202AAC0000405F5C /* Events */,
-				12EF65C12086D52200739924 /* Incidents */,
+				EAE9F6C421365D32004D9DE8 /* Demo */,
 				96BE10E92080406E005D4BAA /* Notifications */,
 				EAAFAD511F665B8A00AA2F94 /* Presenters */,
-				37F1B3AF20CF9676007F263B /* Search */,
-				AA3E51452118153E00621E58 /* Settings */,
-				EAE9F6B821365AB8004D9DE8 /* Task */,
-				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
+				96B7758B2141E66200836B83 /* UI */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
+				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1243,6 +1209,31 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		96B7758B2141E66200836B83 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				12EB8099202AAC0000405F5C /* Events */,
+				12EF65C12086D52200739924 /* Incidents */,
+				96B7758C2141E75200836B83 /* Search */,
+				AA3E51452118153E00621E58 /* Settings */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		96B7758C2141E75200836B83 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
+				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
+				37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */,
+				AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */,
+				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
+				37F1B3B020CF9694007F263B /* SearchNoContentView.swift */,
+				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		96BE10E92080406E005D4BAA /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1285,7 +1276,9 @@
 		AA3E51452118153E00621E58 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				AA3E513821180E1A00621E58 /* TermsAndConditions.swift */,
 				AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */,
+				AA3E513A21180E6200621E58 /* WhatsNew.swift */,
 				AA3E5148211815F300621E58 /* WhatsNewSetting.swift */,
 			);
 			path = Settings;
@@ -1332,7 +1325,6 @@
 				EA3C89041F32E31500F38461 /* Resources */,
 				BCD4EA981E515ACE000B993D /* Info.plist */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
-				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 			);
 			path = MPOL;
 			sourceTree = "<group>";
@@ -1378,30 +1370,14 @@
 		EAAFAD511F665B8A00AA2F94 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
 				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
 				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
-			);
-			path = Presenters;
-			sourceTree = "<group>";
-		};
-		EAE9F6B821365AB8004D9DE8 /* Task */ = {
-			isa = PBXGroup;
-			children = (
-				EAE9F6C421365D32004D9DE8 /* Demo */,
-				EAE9F6B921365AB8004D9DE8 /* Presenter */,
-			);
-			path = Task;
-			sourceTree = "<group>";
-		};
-		EAE9F6B921365AB8004D9DE8 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
 				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
 				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
 			);
-			path = Presenter;
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 		EAE9F6C421365D32004D9DE8 /* Demo */ = {
