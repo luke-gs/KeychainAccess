@@ -138,7 +138,7 @@
 		96B7753E2140F8EE00836B83 /* PersonEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */; };
 		96B7753F2140F8EE00836B83 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */; };
 		96B775402140F8EE00836B83 /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */; };
-		96B775412140F8EE00836B83 /* UserPreferenceManager+ClientKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C22140F8EE00836B83 /* UserPreferenceManager+ClientKit.swift */; };
+		96B775412140F8EE00836B83 /* UserPreferenceManager+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C22140F8EE00836B83 /* UserPreferenceManager+Shared.swift */; };
 		96B775422140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */; };
 		96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */; };
 		96B775442140F8EE00836B83 /* OfficerSearchDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C72140F8EE00836B83 /* OfficerSearchDisplayable.swift */; };
@@ -443,7 +443,7 @@
 		96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonEditViewController.swift; sourceTree = "<group>"; };
 		96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppGroupLandingPresenter.swift; sourceTree = "<group>"; };
 		96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
-		96B774C22140F8EE00836B83 /* UserPreferenceManager+ClientKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserPreferenceManager+ClientKit.swift"; sourceTree = "<group>"; };
+		96B774C22140F8EE00836B83 /* UserPreferenceManager+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserPreferenceManager+Shared.swift"; sourceTree = "<group>"; };
 		96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Entity+EntityDetailDisplayable.swift"; sourceTree = "<group>"; };
 		96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityThumbnailView+Configuration.swift"; sourceTree = "<group>"; };
 		96B774C72140F8EE00836B83 /* OfficerSearchDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchDisplayable.swift; sourceTree = "<group>"; };
@@ -837,11 +837,12 @@
 		96B774842140F57F00836B83 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				96B774852140F8EE00836B83 /* ClientKit */,
 				EAE9F6C421365D32004D9DE8 /* Demo */,
+				96B774EE2140F8EE00836B83 /* Model */,
 				96BE10E92080406E005D4BAA /* Notifications */,
 				EAAFAD511F665B8A00AA2F94 /* Presenters */,
 				96B7758B2141E66200836B83 /* UI */,
+				96B7758D2141E9BF00836B83 /* User Preferences */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
@@ -849,42 +850,6 @@
 				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		96B774852140F8EE00836B83 /* ClientKit */ = {
-			isa = PBXGroup;
-			children = (
-				96B774D52140F8EE00836B83 /* Components */,
-				96B774892140F8EE00836B83 /* Configuration */,
-				96B774C02140F8EE00836B83 /* Extensions */,
-				96B775142140F8EE00836B83 /* Login */,
-				96B7748D2140F8EE00836B83 /* Manifest */,
-				96B774EE2140F8EE00836B83 /* Model */,
-				96B774BE2140F8EE00836B83 /* Presenters */,
-				96B774862140F8EE00836B83 /* Settings */,
-				96B774CF2140F8EE00836B83 /* Utilities */,
-				96B774912140F8EE00836B83 /* View Controllers */,
-			);
-			path = ClientKit;
-			sourceTree = "<group>";
-		};
-		96B774862140F8EE00836B83 /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				96B774872140F8EE00836B83 /* ManifestSetting.swift */,
-				96B774882140F8EE00836B83 /* SupportSetting.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
-		96B774892140F8EE00836B83 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				96B7748A2140F8EE00836B83 /* DefaultFilterRules.swift */,
-				96B7748B2140F8EE00836B83 /* PersonFetchParameter.swift */,
-				96B7748C2140F8EE00836B83 /* VehicleFetchParameter.swift */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 		96B7748D2140F8EE00836B83 /* Manifest */ = {
@@ -896,15 +861,6 @@
 			path = Manifest;
 			sourceTree = "<group>";
 		};
-		96B774912140F8EE00836B83 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				96B774BB2140F8EE00836B83 /* Entity Creations */,
-				96B774922140F8EE00836B83 /* Entity Details */,
-			);
-			path = "View Controllers";
-			sourceTree = "<group>";
-		};
 		96B774922140F8EE00836B83 /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -912,6 +868,7 @@
 				96B774B42140F8EE00836B83 /* Base Classes */,
 				96B774B82140F8EE00836B83 /* CriminalHistorySummary */,
 				96B774B02140F8EE00836B83 /* Detail View Controllers */,
+				96B774C62140F8EE00836B83 /* Entity Summary */,
 				96B774972140F8EE00836B83 /* Event Summary */,
 				96B774A52140F8EE00836B83 /* Location */,
 				96B774B12140F8EE00836B83 /* OrderSummary */,
@@ -919,9 +876,11 @@
 				96B7749E2140F8EE00836B83 /* Person */,
 				96B774A92140F8EE00836B83 /* Section Data Sources */,
 				96B774952140F8EE00836B83 /* Vehicle */,
+				96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */,
 				96B774AF2140F8EE00836B83 /* EntityAlertsViewModel.swift */,
 				96B7749A2140F8EE00836B83 /* EntityAssociationsViewModel.swift */,
 				96B774A82140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift */,
+				96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */,
 				96B774AE2140F8EE00836B83 /* PersonTrafficHistoryViewController.swift */,
 			);
 			path = "Entity Details";
@@ -1029,41 +988,13 @@
 			path = CriminalHistorySummary;
 			sourceTree = "<group>";
 		};
-		96B774BB2140F8EE00836B83 /* Entity Creations */ = {
+		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
 				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
 				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
-			path = "Entity Creations";
-			sourceTree = "<group>";
-		};
-		96B774BE2140F8EE00836B83 /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-				96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */,
-			);
-			path = Presenters;
-			sourceTree = "<group>";
-		};
-		96B774C02140F8EE00836B83 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				96B774C32140F8EE00836B83 /* Entity Details */,
-				96B774C62140F8EE00836B83 /* Entity Summary */,
-				96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */,
-				96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */,
-				96B774C22140F8EE00836B83 /* UserPreferenceManager+ClientKit.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		96B774C32140F8EE00836B83 /* Entity Details */ = {
-			isa = PBXGroup;
-			children = (
-				96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */,
-			);
-			path = "Entity Details";
+			path = "Entity Creation";
 			sourceTree = "<group>";
 		};
 		96B774C62140F8EE00836B83 /* Entity Summary */ = {
@@ -1083,30 +1014,12 @@
 		96B774CF2140F8EE00836B83 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				96B774D12140F8EE00836B83 /* Formatters */,
+				96B774D22140F8EE00836B83 /* AddressFormatter.swift */,
 				96B774D32140F8EE00836B83 /* DateSorting.swift */,
 				96B774D42140F8EE00836B83 /* EntityImageSizing.swift */,
 				96B774D02140F8EE00836B83 /* PersonImageSizing.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		96B774D12140F8EE00836B83 /* Formatters */ = {
-			isa = PBXGroup;
-			children = (
-				96B774D22140F8EE00836B83 /* AddressFormatter.swift */,
-			);
-			path = Formatters;
-			sourceTree = "<group>";
-		};
-		96B774D52140F8EE00836B83 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				96B774E02140F8EE00836B83 /* Parameters */,
-				96B774D62140F8EE00836B83 /* Requests */,
-				96B774E72140F8EE00836B83 /* RetrievalStrategies */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		96B774D62140F8EE00836B83 /* Requests */ = {
@@ -1132,7 +1045,9 @@
 				96B774E32140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift */,
 				96B774E12140F8EE00836B83 /* OfficerSearchParameters.swift */,
 				96B774E52140F8EE00836B83 /* OrganisationSearchParameters.swift */,
+				96B7748B2140F8EE00836B83 /* PersonFetchParameter.swift */,
 				96B774E42140F8EE00836B83 /* PersonSearchParameters.swift */,
+				96B7748C2140F8EE00836B83 /* VehicleFetchParameter.swift */,
 				96B774E22140F8EE00836B83 /* VehicleSearchParameters.swift */,
 			);
 			path = Parameters;
@@ -1152,30 +1067,14 @@
 		96B774EE2140F8EE00836B83 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				96B7748D2140F8EE00836B83 /* Manifest */,
+				96B7758E2141EA9900836B83 /* Object */,
+				96B774E02140F8EE00836B83 /* Parameters */,
 				96B775022140F8EE00836B83 /* Parsing */,
-				96B774F32140F8EE00836B83 /* Address.swift */,
-				96B774F02140F8EE00836B83 /* Alert.swift */,
-				96B774F92140F8EE00836B83 /* Alias.swift */,
-				96B774F22140F8EE00836B83 /* AssociationReason.swift */,
-				96B775132140F8EE00836B83 /* Contact.swift */,
-				96B774F12140F8EE00836B83 /* CriminalHistory.swift */,
-				96B774FC2140F8EE00836B83 /* Email.swift */,
-				96B774F52140F8EE00836B83 /* Entity.swift */,
-				96B775002140F8EE00836B83 /* EventSubmissionResponse.swift */,
-				96B774FF2140F8EE00836B83 /* Identifiable.swift */,
-				96B775122140F8EE00836B83 /* Licence.swift */,
-				96B774FD2140F8EE00836B83 /* Media.swift */,
-				96B775102140F8EE00836B83 /* MPOLSource.swift */,
-				96B774F42140F8EE00836B83 /* Officer.swift */,
-				96B774F82140F8EE00836B83 /* Order.swift */,
-				96B775112140F8EE00836B83 /* Organisation.swift */,
-				96B774F72140F8EE00836B83 /* Person.swift */,
-				96B775012140F8EE00836B83 /* PersonDescription.swift */,
-				96B774EF2140F8EE00836B83 /* PhoneNumber.swift */,
-				96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */,
-				96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */,
-				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
-				96B774F62140F8EE00836B83 /* Vehicle.swift */,
+				96B774D62140F8EE00836B83 /* Requests */,
+				96B7758F2141EAB400836B83 /* Responses */,
+				96B774E72140F8EE00836B83 /* RetrievalStrategies */,
+				96B7748A2140F8EE00836B83 /* DefaultFilterRules.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1212,10 +1111,14 @@
 		96B7758B2141E66200836B83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				96B774BB2140F8EE00836B83 /* Entity Creation */,
+				96B774922140F8EE00836B83 /* Entity Details */,
 				12EB8099202AAC0000405F5C /* Events */,
 				12EF65C12086D52200739924 /* Incidents */,
+				96B775142140F8EE00836B83 /* Login */,
 				96B7758C2141E75200836B83 /* Search */,
 				AA3E51452118153E00621E58 /* Settings */,
+				96B774CF2140F8EE00836B83 /* Utilities */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1232,6 +1135,52 @@
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		96B7758D2141E9BF00836B83 /* User Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */,
+				96B774C22140F8EE00836B83 /* UserPreferenceManager+Shared.swift */,
+			);
+			path = "User Preferences";
+			sourceTree = "<group>";
+		};
+		96B7758E2141EA9900836B83 /* Object */ = {
+			isa = PBXGroup;
+			children = (
+				96B774F32140F8EE00836B83 /* Address.swift */,
+				96B774F02140F8EE00836B83 /* Alert.swift */,
+				96B774F92140F8EE00836B83 /* Alias.swift */,
+				96B774F22140F8EE00836B83 /* AssociationReason.swift */,
+				96B775132140F8EE00836B83 /* Contact.swift */,
+				96B774F12140F8EE00836B83 /* CriminalHistory.swift */,
+				96B774FC2140F8EE00836B83 /* Email.swift */,
+				96B774F52140F8EE00836B83 /* Entity.swift */,
+				96B774FF2140F8EE00836B83 /* Identifiable.swift */,
+				96B775122140F8EE00836B83 /* Licence.swift */,
+				96B774FD2140F8EE00836B83 /* Media.swift */,
+				96B775102140F8EE00836B83 /* MPOLSource.swift */,
+				96B774F42140F8EE00836B83 /* Officer.swift */,
+				96B774F82140F8EE00836B83 /* Order.swift */,
+				96B775112140F8EE00836B83 /* Organisation.swift */,
+				96B774F72140F8EE00836B83 /* Person.swift */,
+				96B775012140F8EE00836B83 /* PersonDescription.swift */,
+				96B774EF2140F8EE00836B83 /* PhoneNumber.swift */,
+				96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */,
+				96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */,
+				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
+				96B774F62140F8EE00836B83 /* Vehicle.swift */,
+			);
+			path = Object;
+			sourceTree = "<group>";
+		};
+		96B7758F2141EAB400836B83 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				96B775002140F8EE00836B83 /* EventSubmissionResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 		96BE10E92080406E005D4BAA /* Notifications */ = {
@@ -1276,6 +1225,8 @@
 		AA3E51452118153E00621E58 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				96B774872140F8EE00836B83 /* ManifestSetting.swift */,
+				96B774882140F8EE00836B83 /* SupportSetting.swift */,
 				AA3E513821180E1A00621E58 /* TermsAndConditions.swift */,
 				AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */,
 				AA3E513A21180E6200621E58 /* WhatsNew.swift */,
@@ -1370,6 +1321,7 @@
 		EAAFAD511F665B8A00AA2F94 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */,
 				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
 				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
@@ -1926,7 +1878,7 @@
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
 				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
 				96B775402140F8EE00836B83 /* User+VersionAccessors.swift in Sources */,
-				96B775412140F8EE00836B83 /* UserPreferenceManager+ClientKit.swift in Sources */,
+				96B775412140F8EE00836B83 /* UserPreferenceManager+Shared.swift in Sources */,
 				96B775472140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
 				96B775692140F8EE00836B83 /* Vehicle.swift in Sources */,
 				96B775312140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  UserPreferenceManager+ClientKit.swift
+//  UserPreferenceManager+Shared.swift
 //  ClientKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
