@@ -75,6 +75,7 @@
 		AA1CF1032136788400706571 /* OrganisationDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CF1022136788400706571 /* OrganisationDetailsSectionsDataSource.swift */; };
 		AA1CF10521367A4A00706571 /* OrganisationRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CF10421367A4A00706571 /* OrganisationRetrieveStrategy.swift */; };
 		AA2DC27620E4AE6700154571 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DC27520E4AE6700154571 /* AddressFormatter.swift */; };
+		AA39A0A62140D5950041FCF1 /* LicenceWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA39A0A52140D5950041FCF1 /* LicenceWildcardParserDefinition.swift */; };
 		AA49DE2521338D7100330696 /* Organisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE2421338D7100330696 /* Organisation.swift */; };
 		AA49DE27213391CE00330696 /* OrganisationFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE26213391CE00330696 /* OrganisationFetchRequest.swift */; };
 		AA49DE292133946200330696 /* OrganisationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE282133946200330696 /* OrganisationParserDefinition.swift */; };
@@ -84,7 +85,7 @@
 		AA49DE312133C3C800330696 /* ACNParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE302133C3C800330696 /* ACNParserDefinition.swift */; };
 		AA662E9E211ABC2600B107C8 /* AlertSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */; };
 		AA662EA0211ABC3700B107C8 /* AlertSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */; };
-		AA68EE38213E676F003E1ED2 /* WildcardABNACNParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68EE37213E676F003E1ED2 /* WildcardABNACNParser.swift */; };
+		AA68EE38213E676F003E1ED2 /* ABNACNWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68EE37213E676F003E1ED2 /* ABNACNWildcardParserDefinition.swift */; };
 		AA95FCD121240181008EBD35 /* CriminalHistorySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA95FCD021240181008EBD35 /* CriminalHistorySummaryViewController.swift */; };
 		AA95FCD321240192008EBD35 /* CriminalHistorySummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA95FCD221240192008EBD35 /* CriminalHistorySummaryViewModel.swift */; };
 		AAFC420F20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */; };
@@ -222,6 +223,7 @@
 		AA1CF1022136788400706571 /* OrganisationDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
 		AA1CF10421367A4A00706571 /* OrganisationRetrieveStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationRetrieveStrategy.swift; sourceTree = "<group>"; };
 		AA2DC27520E4AE6700154571 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
+		AA39A0A52140D5950041FCF1 /* LicenceWildcardParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenceWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		AA49DE2421338D7100330696 /* Organisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organisation.swift; sourceTree = "<group>"; };
 		AA49DE26213391CE00330696 /* OrganisationFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationFetchRequest.swift; sourceTree = "<group>"; };
 		AA49DE282133946200330696 /* OrganisationParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationParserDefinition.swift; sourceTree = "<group>"; };
@@ -231,7 +233,7 @@
 		AA49DE302133C3C800330696 /* ACNParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACNParserDefinition.swift; sourceTree = "<group>"; };
 		AA662E9D211ABC2600B107C8 /* AlertSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewController.swift; sourceTree = "<group>"; };
 		AA662E9F211ABC3700B107C8 /* AlertSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewModel.swift; sourceTree = "<group>"; };
-		AA68EE37213E676F003E1ED2 /* WildcardABNACNParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildcardABNACNParser.swift; sourceTree = "<group>"; };
+		AA68EE37213E676F003E1ED2 /* ABNACNWildcardParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABNACNWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		AA95FCD021240181008EBD35 /* CriminalHistorySummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriminalHistorySummaryViewController.swift; sourceTree = "<group>"; };
 		AA95FCD221240192008EBD35 /* CriminalHistorySummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriminalHistorySummaryViewModel.swift; sourceTree = "<group>"; };
 		AAFC420E20DCC806009DFE66 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
@@ -537,7 +539,8 @@
 				AA49DE2C2133A93300330696 /* ABNParserDefinition.swift */,
 				AA49DE2E2133C20300330696 /* FixedLengthNumberParserDefinition.swift */,
 				AA49DE302133C3C800330696 /* ACNParserDefinition.swift */,
-				AA68EE37213E676F003E1ED2 /* WildcardABNACNParser.swift */,
+				AA68EE37213E676F003E1ED2 /* ABNACNWildcardParserDefinition.swift */,
+				AA39A0A52140D5950041FCF1 /* LicenceWildcardParserDefinition.swift */,
 			);
 			path = Parsing;
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA39A0A62140D5950041FCF1 /* LicenceWildcardParserDefinition.swift in Sources */,
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
@@ -961,7 +965,7 @@
 				AA49DE292133946200330696 /* OrganisationParserDefinition.swift in Sources */,
 				1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
-				AA68EE38213E676F003E1ED2 /* WildcardABNACNParser.swift in Sources */,
+				AA68EE38213E676F003E1ED2 /* ABNACNWildcardParserDefinition.swift in Sources */,
 				122C1D6E21214E2F003388A5 /* PersonRetrieveStrategy.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,

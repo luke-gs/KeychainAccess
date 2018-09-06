@@ -38,7 +38,7 @@ class LicenceParserDefinitionsTests: XCTestCase {
         let parser = QueryParser(parserDefinition: definition)
         
         let tokens = try! parser.parseString(query: query)
-        let expectedResult = ["licence" : query]
+        let expectedResult = [LicenceParserDefinition.licenceNumberKey : query]
         XCTAssertEqual(tokens, expectedResult)
 
     }

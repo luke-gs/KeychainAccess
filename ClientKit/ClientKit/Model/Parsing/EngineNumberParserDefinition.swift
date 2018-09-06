@@ -28,12 +28,10 @@ public class EngineNumberParserDefinition: WildcardParserDefinition, EngineNumbe
     public static let engineNumberKey = "engineNumber"
 
     public init(range: CountableClosedRange<Int>) {
-        super.init(range: range, definitionKey: EngineNumberParserDefinition.engineNumberKey, errorClosure: invalidLengthError)
-    }
-}
-
-fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
-    return {  (query, requiredLengthRange) -> LocalizedError in
-        return EngineNumberParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+        super.init(range: range,
+                   definitionKey: EngineNumberParserDefinition.engineNumberKey,
+                   errorClosure: {  (query, requiredLengthRange) -> LocalizedError in
+                      return EngineNumberParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+                   })
     }
 }
