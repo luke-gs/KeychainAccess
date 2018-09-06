@@ -1068,7 +1068,7 @@
 			isa = PBXGroup;
 			children = (
 				96B7748D2140F8EE00836B83 /* Manifest */,
-				96B7758E2141EA9900836B83 /* Object */,
+				96B7758E2141EA9900836B83 /* Objects */,
 				96B774E02140F8EE00836B83 /* Parameters */,
 				96B775022140F8EE00836B83 /* Parsing */,
 				96B774D62140F8EE00836B83 /* Requests */,
@@ -1146,7 +1146,7 @@
 			path = "User Preferences";
 			sourceTree = "<group>";
 		};
-		96B7758E2141EA9900836B83 /* Object */ = {
+		96B7758E2141EA9900836B83 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
 				96B774F32140F8EE00836B83 /* Address.swift */,
@@ -1172,7 +1172,7 @@
 				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
 				96B774F62140F8EE00836B83 /* Vehicle.swift */,
 			);
-			path = Object;
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		96B7758F2141EAB400836B83 /* Responses */ = {
