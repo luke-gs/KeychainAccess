@@ -23,6 +23,10 @@ public protocol CADBroadcastType: class, CADTaskListItemModelType {
     // MARK: - Generated
     var coordinate: CLLocationCoordinate2D? { get }
     var createdAtString: String? { get }
+
+    var locations: [CADLocationType] { get set }
+    var persons: [CADPersonType] { get set }
+    var vehicles: [CADVehicleType] { get set }
 }
 
 // Protocol for a class representing the full details for an incident.

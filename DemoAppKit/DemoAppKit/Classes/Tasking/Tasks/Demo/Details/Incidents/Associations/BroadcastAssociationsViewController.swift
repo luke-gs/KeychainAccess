@@ -1,31 +1,30 @@
 //
-//  IncidentAssociationsViewController.swift
-//  MPOLKit
+//  BroadcastAssociationsViewController.swift
+//  DemoAppKit
 //
-//  Created by Kyle May on 12/10/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Campbell Graham on 6/9/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-open class IncidentAssociationsViewController: CADFormCollectionViewController<AssociationItemViewModel>, TaskDetailsLoadable {
-    
+open class BroadcastAssociationsViewController: CADFormCollectionViewController<AssociationItemViewModel>, TaskDetailsLoadable {
     private let styleItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .navBarThumbnailSelected), style: .plain, target: nil, action: nil)
 
     override public init(viewModel: CADFormCollectionViewModel<AssociationItemViewModel>) {
         super.init(viewModel: viewModel)
-        
+
         // TODO: Add red dot
         sidebarItem.image = AssetManager.shared.image(forKey: .association)
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
-        
+
         navigationItem.rightBarButtonItem = styleItem
-        
+
         styleItem.target = self
         styleItem.action = #selector(toggleStyle)
         styleItem.imageInsets = .zero
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -35,14 +34,14 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<A
         collectionView?.register(EntityCollectionViewCell.self)
         collectionView?.register(EntityListCollectionViewCell.self)
     }
-    
+
     override open func reloadContent() {
         super.reloadContent()
 
         // Update sidebar count when data changes
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
-    
+
     // MARK: - Thumbnail support
 
     private var style: EntityDisplayStyle = .grid {
@@ -55,16 +54,16 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<A
             }
         }
     }
-    
+
     @objc private func toggleStyle() {
         style = style == .grid ? . list : .grid
     }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         let isCompact = traitCollection.horizontalSizeClass == .compact
-        
+
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
             if style == .grid && !isCompact {
                 collectionView?.reloadData()
@@ -72,8 +71,8 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<A
             navigationItem.rightBarButtonItems = isCompact ? nil : [styleItem]
         }
     }
-    
-    
+
+
     // MARK: - Override
 
     open override func cellType() -> CollectionViewFormCell.Type {
@@ -86,10 +85,10 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<A
     private func cellType(for entityType: AssociationItemViewModel.EntityType) -> CollectionViewFormCell.Type {
 
         switch entityType {
-            case .person:
-                return cellType()
-            default:
-                return EntityListCollectionViewCell.self
+        case .person:
+            return cellType()
+        default:
+            return EntityListCollectionViewCell.self
         }
     }
 

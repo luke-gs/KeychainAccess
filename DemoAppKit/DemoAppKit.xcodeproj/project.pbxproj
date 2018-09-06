@@ -10,6 +10,8 @@
 		11981E942304331901A520CF /* Pods_DemoAppKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */; };
 		379567B72140D96400577C0B /* BroadcastNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */; };
 		379567B92140D9B600577C0B /* BroadcastNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */; };
+		379567BB2140E54A00577C0B /* BroadcastAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */; };
+		379567BD2140E59C00577C0B /* BroadcastAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567BC2140E59C00577C0B /* BroadcastAssociationsViewController.swift */; };
 		96B80752212D1953005A72A0 /* DemoAppKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */; };
 		96B80753212D1953005A72A0 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80620212D1953005A72A0 /* SystemPresenter.swift */; };
 		96B80754212D1953005A72A0 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80623212D1953005A72A0 /* TrafficHistoryCollectionViewCell.swift */; };
@@ -83,7 +85,7 @@
 		96B8079A212D1954005A72A0 /* BroadcastOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80685212D1953005A72A0 /* BroadcastOverviewMapViewModel.swift */; };
 		96B8079B212D1954005A72A0 /* BroadcastOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80686212D1953005A72A0 /* BroadcastOverviewViewModel.swift */; };
 		96B8079C212D1954005A72A0 /* IncidentAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80689212D1953005A72A0 /* IncidentAssociationsViewModel.swift */; };
-		96B8079D212D1954005A72A0 /* IncidentAssociationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068A212D1953005A72A0 /* IncidentAssociationItemViewModel.swift */; };
+		96B8079D212D1954005A72A0 /* AssociationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */; };
 		96B8079E212D1954005A72A0 /* IncidentAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068B212D1953005A72A0 /* IncidentAssociationsViewController.swift */; };
 		96B8079F212D1954005A72A0 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068D212D1953005A72A0 /* IncidentResourcesViewController.swift */; };
 		96B807A0212D1954005A72A0 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068E212D1953005A72A0 /* IncidentResourcesViewModel.swift */; };
@@ -260,6 +262,8 @@
 		1DFE492F8D46446B33E651EC /* Pods-DemoAppKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.release.xcconfig"; sourceTree = "<group>"; };
 		379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewModel.swift; sourceTree = "<group>"; };
 		379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewController.swift; sourceTree = "<group>"; };
+		379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewModel.swift; sourceTree = "<group>"; };
+		379567BC2140E59C00577C0B /* BroadcastAssociationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewController.swift; sourceTree = "<group>"; };
 		4743E5E1011191428DE51086 /* Pods-DemoAppKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		49B402C8F20F35F80AAF07E7 /* Pods-DemoAppKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.debug.xcconfig"; sourceTree = "<group>"; };
 		837172668652E1ABE842ACD1 /* Pods_DemoAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -336,7 +340,7 @@
 		96B80685212D1953005A72A0 /* BroadcastOverviewMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		96B80686212D1953005A72A0 /* BroadcastOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewViewModel.swift; sourceTree = "<group>"; };
 		96B80689212D1953005A72A0 /* IncidentAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewModel.swift; sourceTree = "<group>"; };
-		96B8068A212D1953005A72A0 /* IncidentAssociationItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationItemViewModel.swift; sourceTree = "<group>"; };
+		96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationItemViewModel.swift; sourceTree = "<group>"; };
 		96B8068B212D1953005A72A0 /* IncidentAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewController.swift; sourceTree = "<group>"; };
 		96B8068D212D1953005A72A0 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
 		96B8068E212D1953005A72A0 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
@@ -880,8 +884,10 @@
 			isa = PBXGroup;
 			children = (
 				96B80689212D1953005A72A0 /* IncidentAssociationsViewModel.swift */,
-				96B8068A212D1953005A72A0 /* IncidentAssociationItemViewModel.swift */,
+				379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */,
+				96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */,
 				96B8068B212D1953005A72A0 /* IncidentAssociationsViewController.swift */,
+				379567BC2140E59C00577C0B /* BroadcastAssociationsViewController.swift */,
 			);
 			path = Associations;
 			sourceTree = "<group>";
@@ -1643,7 +1649,7 @@
 				96B8077E212D1954005A72A0 /* IncidentSplitViewController.swift in Sources */,
 				96B80752212D1953005A72A0 /* DemoAppKitImports.swift in Sources */,
 				96B807A1212D1954005A72A0 /* IncidentResourceItemViewModel.swift in Sources */,
-				96B8079D212D1954005A72A0 /* IncidentAssociationItemViewModel.swift in Sources */,
+				96B8079D212D1954005A72A0 /* AssociationItemViewModel.swift in Sources */,
 				96B807A2212D1954005A72A0 /* IncidentNarrativeViewController.swift in Sources */,
 				96B807ED212D1954005A72A0 /* TasksMapViewController.swift in Sources */,
 				96B80805212D1954005A72A0 /* CADOfficerCore.swift in Sources */,
@@ -1703,6 +1709,7 @@
 				96B807EF212D1954005A72A0 /* TasksMapFilterViewModelCore.swift in Sources */,
 				96B807E9212D1954005A72A0 /* BroadcastAnnotationView.swift in Sources */,
 				379567B92140D9B600577C0B /* BroadcastNarrativeViewController.swift in Sources */,
+				379567BB2140E54A00577C0B /* BroadcastAssociationsViewModel.swift in Sources */,
 				96B80780212D1954005A72A0 /* TrafficStopViewModel.swift in Sources */,
 				96B80812212D1954005A72A0 /* CADAlertLevelType.swift in Sources */,
 				96B80814212D1954005A72A0 /* CADBroadcastCategoryType.swift in Sources */,
@@ -1817,6 +1824,7 @@
 				96B8082F212D1954005A72A0 /* ActivityLogViewModel.swift in Sources */,
 				96B8080D212D1954005A72A0 /* CADClientModelTypes.swift in Sources */,
 				96B8082C212D1954005A72A0 /* DatedActivityLogViewModel.swift in Sources */,
+				379567BD2140E59C00577C0B /* BroadcastAssociationsViewController.swift in Sources */,
 				96B80813212D1954005A72A0 /* CADResourceUnitType.swift in Sources */,
 				96B80816212D1954005A72A0 /* CADPatrolStatusType.swift in Sources */,
 				96B80815212D1954005A72A0 /* CADResourceStatusType.swift in Sources */,

@@ -1,25 +1,23 @@
 //
-//  IncidentAssociationsViewModel.swift
-//  MPOLKit
+//  BroadcastAssociationsViewModel.swift
+//  DemoAppKit
 //
-//  Created by Kyle May on 12/10/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Campbell Graham on 6/9/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import UIKit
+public class BroadcastAssociationsViewModel: CADFormCollectionViewModel<AssociationItemViewModel>, TaskDetailsViewModel {
 
-public class IncidentAssociationsViewModel: CADFormCollectionViewModel<AssociationItemViewModel>, TaskDetailsViewModel {
-    
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         return IncidentAssociationsViewController(viewModel: self)
     }
 
     public func reloadFromModel(_ model: CADTaskListItemModelType) {
-        guard let incident = model as? CADIncidentType else { return }
+        guard let incident = model as? CADBroadcastType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<AssociationItemViewModel>] = []
-        
+
         let personsViewModels = incident.persons.map { person in
             return AssociationItemViewModel(
                 association: person,
@@ -32,7 +30,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<Associati
                 iconColor: nil,
                 badge: 0)
         }
-        
+
         let vehiclesViewModels = incident.vehicles.map { vehicle in
             return AssociationItemViewModel(
                 association: vehicle,
@@ -45,29 +43,29 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<Associati
                 iconColor: vehicle.alertLevel?.color,
                 badge: 0)
         }
-        
+
         if personsViewModels.count > 0 {
             let title = String.localizedStringWithFormat(NSLocalizedString("%d Person(s)", comment: ""), personsViewModels.count)
             sections.append(CADFormCollectionSectionViewModel(title: title, items: personsViewModels))
         }
-        
+
         if vehiclesViewModels.count > 0 {
             let title = String.localizedStringWithFormat(NSLocalizedString("%d Vehicle(s)", comment: ""), vehiclesViewModels.count)
             sections.append(CADFormCollectionSectionViewModel(title: title, items: vehiclesViewModels))
         }
         self.sections = sections
     }
-    
+
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Associations", comment: "Associations sidebar title")
     }
-    
+
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
         return NSLocalizedString("No Associations Found", comment: "")
     }
-    
+
     override open func noContentSubtitle() -> String? {
         return nil
     }
@@ -83,6 +81,4 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<Associati
             return NSLocalizedString("DOB and gender unknown", comment: "")
         }
     }
-
 }
-

@@ -9,7 +9,7 @@
 import Foundation
 
 /// PSCore implementation of class representing a person associated with incident
-open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
+open class CADIncidentPersonCore: Codable, CADPersonType {
 
     public var entityType: String? {
         return "Person"
@@ -25,7 +25,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var fullAddress: String?
 
-    open var gender: CADIncidentPersonGenderType?
+    open var gender: CADPersonGenderType?
 
     open var id: String?
 
@@ -85,7 +85,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 }
 
 /// PSCore implementation of enum representing gender
-public enum CADIncidentPersonGenderCore: String, Codable, CADIncidentPersonGenderType {
+public enum CADIncidentPersonGenderCore: String, Codable, CADPersonGenderType {
     case male = "M"
     case female = "F"
     case other = "O"

@@ -13,7 +13,6 @@ import UIKit
 /// PSCore implementation of class representing a broadcast task
 open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
 
-
     // MARK: - Network
 
     open var createdAt: Date?
@@ -31,6 +30,12 @@ open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
     open var type: CADBroadcastCategoryType
 
     public var narrative: [CADActivityLogItemType]
+
+    public var locations: [CADLocationType]
+
+    public var persons: [CADPersonType]
+
+    public var vehicles: [CADVehicleType]
 
     // MARK: - Generated
 
@@ -67,6 +72,9 @@ open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
         case narrative = "narrative"
         case title = "title"
         case type = "type"
+        case persons = "persons"
+        case locations = "locations"
+        case vehicles = "vehicles"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -79,6 +87,9 @@ open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
         narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative) ?? []
         title = try values.decodeIfPresent(String.self, forKey: .title)
         type = try values.decode(CADBroadcastCategoryCore.self, forKey: .type)
+        persons = try values.decodeIfPresent([CADIncidentPersonCore].self, forKey: .persons) ?? []
+        locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations) ?? []
+        vehicles = try values.decodeIfPresent([CADIncidentVehicleCore].self, forKey: .vehicles) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {

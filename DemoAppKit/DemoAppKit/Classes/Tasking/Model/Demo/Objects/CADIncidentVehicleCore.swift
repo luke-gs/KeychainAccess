@@ -9,7 +9,7 @@
 import Foundation
 
 /// PSCore implementation of class representing a vehicle associated with an incident
-open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
+open class CADIncidentVehicleCore: Codable, CADVehicleType {
 
     public var entityType: String? {
         return "Vehicle"

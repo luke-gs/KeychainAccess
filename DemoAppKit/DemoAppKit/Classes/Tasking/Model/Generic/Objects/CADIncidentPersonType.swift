@@ -9,14 +9,14 @@
 import Foundation
 
 /// Protocol for a class representing an incident person (association)
-public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
+public protocol CADPersonType: class, CADIncidentAssociationType {
 
     // MARK: - Network
     var alertLevel: CADAlertLevelType? { get set }
     var dateOfBirth: Date? { get set }
     var firstName: String? { get set }
     var fullAddress: String? { get set }
-    var gender: CADIncidentPersonGenderType? { get set }
+    var gender: CADPersonGenderType? { get set }
     var lastName: String? { get set }
     var middleNames: String? { get set }
     var thumbnailUrl: URL? { get set }
@@ -27,7 +27,7 @@ public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
 }
 
 /// Protocol for an enum representing a gender
-public protocol CADIncidentPersonGenderType: CADEnumStringType {
+public protocol CADPersonGenderType: CADEnumStringType {
 
     /// The display title for the gender
     var title: String { get }
