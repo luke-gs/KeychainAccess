@@ -7,7 +7,6 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 workspace 'MPOL'
 project 'MPOL.xcodeproj', 'External-Debug' => :debug, 'Internal-Debug' => :debug
-project '../ClientKit/ClientKit.xcodeproj'
 
 def all_kits
     pod 'CoreKit',         :path => '../../mPolKit-iOS', :inhibit_warnings => false
@@ -20,15 +19,6 @@ end
 def core_app_extension
     #pod 'CoreKitAppExtension', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
     pod 'CoreKitAppExtension', :path => '../../mPolKit-iOS'
-end
-
-target 'ClientKit' do
-    project '../ClientKit/ClientKit.xcodeproj'
-    all_kits
-    
-    target 'ClientKitTests' do
-        inherit! :search_paths
-    end
 end
 
 target 'MPOL' do

@@ -39,6 +39,16 @@
                ReferencedContainer = "container:../ClientKit/ClientKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "96B774622140F4C400836B83"
+               BuildableName = "MPOLTests.xctest"
+               BlueprintName = "MPOLTests"
+               ReferencedContainer = "container:MPOL.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
