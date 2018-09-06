@@ -26,6 +26,11 @@ target 'MPOL' do
     all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
+    
+    target 'MPOLTests' do
+      inherit! :search_paths
+      # Pods for testing
+    end    
 end
 
 target 'APNS Extension' do

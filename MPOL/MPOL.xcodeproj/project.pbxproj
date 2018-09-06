@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05F2A841DF06C289F75527F9 /* Pods_MPOLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */; };
 		127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventsListViewModel.swift */; };
 		127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F2202AB1F0007D0BBB /* EventBuilder.swift */; };
 		127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */; };
@@ -335,6 +336,7 @@
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
 		371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsReport.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 		37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.debug.xcconfig"; sourceTree = "<group>"; };
 		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
 		445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocationSearchHelp.json; sourceTree = "<group>"; };
 		445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OrganisationSearchHelp.json; sourceTree = "<group>"; };
@@ -374,6 +377,8 @@
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
 		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
+		495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-release.xcconfig"; sourceTree = "<group>"; };
+		512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-release.xcconfig"; sourceTree = "<group>"; };
 		529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-release.xcconfig"; sourceTree = "<group>"; };
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
@@ -537,6 +542,8 @@
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.release.xcconfig"; sourceTree = "<group>"; };
+		D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D55548341F4DC664F254C922 /* Pods-APNS Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-mpol-debug.xcconfig"; sourceTree = "<group>"; };
 		DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-mpol-release.xcconfig"; sourceTree = "<group>"; };
@@ -554,6 +561,7 @@
 		EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
 		EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
 		EAE9F6C821365D32004D9DE8 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
+		ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -569,6 +577,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05F2A841DF06C289F75527F9 /* Pods_MPOLTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,6 +809,12 @@
 				54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */,
 				529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */,
 				E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */,
+				3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */,
+				ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */,
+				2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */,
+				C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */,
+				495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */,
+				512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -811,6 +826,7 @@
 				DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */,
 				98286F47FF0E675D611C2782 /* Pods_MPOL.framework */,
 				397B77001E52CEDA00696677 /* UserNotifications.framework */,
+				D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -872,7 +888,6 @@
 		96B774852140F8EE00836B83 /* ClientKit */ = {
 			isa = PBXGroup;
 			children = (
-				96B774EC2140F8EE00836B83 /* CAD */,
 				96B774D52140F8EE00836B83 /* Components */,
 				96B774892140F8EE00836B83 /* Configuration */,
 				96B774C02140F8EE00836B83 /* Extensions */,
@@ -1168,21 +1183,6 @@
 			path = RetrievalStrategies;
 			sourceTree = "<group>";
 		};
-		96B774EC2140F8EE00836B83 /* CAD */ = {
-			isa = PBXGroup;
-			children = (
-				96B774ED2140F8EE00836B83 /* Model */,
-			);
-			path = CAD;
-			sourceTree = "<group>";
-		};
-		96B774ED2140F8EE00836B83 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		96B774EE2140F8EE00836B83 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1440,6 +1440,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96B7746A2140F4C500836B83 /* Build configuration list for PBXNativeTarget "MPOLTests" */;
 			buildPhases = (
+				6A98BC1170BFFDF8C7F61C36 /* [CP] Check Pods Manifest.lock */,
 				96B7745F2140F4C400836B83 /* Sources */,
 				96B774602140F4C400836B83 /* Frameworks */,
 				96B774612140F4C400836B83 /* Resources */,
@@ -1615,6 +1616,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6A98BC1170BFFDF8C7F61C36 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MPOLTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8B71FE9FF7FFCA71C69316A1 /* [CP] Check Pods Manifest.lock */ = {
@@ -2452,6 +2471,7 @@
 		};
 		96B7746B2140F4C500836B83 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2475,6 +2495,7 @@
 		};
 		96B7746C2140F4C500836B83 /* External-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2498,6 +2519,7 @@
 		};
 		96B7746D2140F4C500836B83 /* Internal-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2521,6 +2543,7 @@
 		};
 		96B7746E2140F4C500836B83 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2544,6 +2567,7 @@
 		};
 		96B7746F2140F4C500836B83 /* Internal-Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2567,6 +2591,7 @@
 		};
 		96B774702140F4C500836B83 /* External-Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
