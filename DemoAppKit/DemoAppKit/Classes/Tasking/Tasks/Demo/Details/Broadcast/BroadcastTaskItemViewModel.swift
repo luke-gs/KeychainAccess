@@ -44,7 +44,8 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     // MARK: - Methods
 
     open override func createViewModels() -> [TaskDetailsViewModel] {
-        return [BroadcastOverviewViewModel()]
+        return [BroadcastOverviewViewModel(),
+        BroadcastNarrativeViewModel()]
     }
 
     open override func createViewController() -> UIViewController {

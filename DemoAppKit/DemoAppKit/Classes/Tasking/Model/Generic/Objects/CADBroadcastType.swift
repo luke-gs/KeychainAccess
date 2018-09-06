@@ -24,3 +24,12 @@ public protocol CADBroadcastType: class, CADTaskListItemModelType {
     var coordinate: CLLocationCoordinate2D? { get }
     var createdAtString: String? { get }
 }
+
+// Protocol for a class representing the full details for an incident.
+///
+/// This information only gets loaded when viewing an individual incident.
+public protocol CADBroadcastDetailsType: CADBroadcastType {
+
+    // MARK: - Network
+    var narrative: [CADActivityLogItemType] { get set }
+}
