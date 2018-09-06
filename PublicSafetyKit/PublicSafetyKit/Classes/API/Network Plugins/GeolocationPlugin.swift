@@ -31,7 +31,7 @@ open class GeolocationPlugin: PluginType {
     /// Init
     ///
     /// - Parameter useLastLocation: Whether to use the last location returned to LocationManager rather than requesting a new one each time
-    public init(useLastLocation: Bool = true) {
+    public init(useLastLocation: Bool = false) {
         self.useLastLocation = useLastLocation
 
         if useLastLocation {
