@@ -54,7 +54,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
-                                                                              value: incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAtString ?? "Unknown",
+                                                                              value: incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAt?.elapsedTimeIntervalForHuman() ?? "Unknown",
                                                                               width: .column(4)),
             ]),
             
