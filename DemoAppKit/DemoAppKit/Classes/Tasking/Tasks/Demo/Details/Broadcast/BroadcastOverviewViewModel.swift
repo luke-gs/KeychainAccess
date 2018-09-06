@@ -29,7 +29,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
         let locationItem = broadcast.location?.coordinate != nil ?
             // Show location and accessory for address popover
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: broadcast.location?.displayText,
+                                             value: broadcast.location?.displayText?.ifNotEmpty() ?? "Unknown",
                                              width: .column(1),
                                              selectAction: { [unowned self] cell in
                                                 self.presentAddressPopover(from: cell)
@@ -37,7 +37,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                              accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)) :
             // Just show location
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: addressText,
+                                             value: addressText?.ifNotEmpty() ?? "Unknown",
                                              width: .column(1))
 
         sections = [
@@ -54,11 +54,11 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(2)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
-                                                                              value: broadcast.createdAtString ?? "",
+                                                                              value: broadcast.createdAtString ?? "Unknown",
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
-                                                                              value: broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? "",
+                                                                              value: broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? broadcast.createdAtString ?? "",
                                                                               width: .column(2)),
                                                 ]),
             
