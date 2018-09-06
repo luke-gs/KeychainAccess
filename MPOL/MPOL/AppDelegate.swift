@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.attemptRefresh(response: response)
         }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
 
-        var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll(), SessionPlugin().allowAll(), GeolocationPlugin().allowAll()]
+        var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll(), SessionPlugin().allowAll(), GeolocationPlugin(fetchLocationPerRequest: false).allowAll()]
 
         #if DEBUG
             plugins.append(NetworkLoggingPlugin().allowAll())
