@@ -1,6 +1,6 @@
 //
 //  Identifiable.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by QHMW64 on 16/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.

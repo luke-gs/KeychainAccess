@@ -1,6 +1,6 @@
 //
 //  PersonParserDefinitionsTests.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Herli Halim on 6/7/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

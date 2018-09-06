@@ -1,6 +1,6 @@
 //
 //  DateSorting.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Rod Brown on 4/7/17.
 //  Copyright © 2017 Rod Brown. All rights reserved.

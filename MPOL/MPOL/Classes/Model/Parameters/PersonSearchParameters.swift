@@ -1,6 +1,6 @@
 //
 //  PersonSearchParameters.swift
-//  ClientKit
+//  MPOL
 //
 //  Created Herli Halim on 4/8/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  EntityDetailFormViewModel.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Megan Efron on 8/1/18.
 //  Copyright © 2018 Gridstone. All rights reserved.

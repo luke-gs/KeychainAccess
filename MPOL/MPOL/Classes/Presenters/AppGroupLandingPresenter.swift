@@ -1,6 +1,6 @@
 //
 //  AppGroupLandingPresenter.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Trent Fitzgibbon on 14/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  DefaultFilterRules.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Herli Halim on 11/12/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

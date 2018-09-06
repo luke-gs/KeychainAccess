@@ -1,6 +1,6 @@
 //
 //  Address+EntitySummaryDisplayable.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by RUI WANG on 7/9/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

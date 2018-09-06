@@ -1,6 +1,6 @@
 //
 //  EntityThumbnailView+Configuration.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Rod Brown on 28/6/17.
 //  Copyright © 2017 Rod Brown. All rights reserved.

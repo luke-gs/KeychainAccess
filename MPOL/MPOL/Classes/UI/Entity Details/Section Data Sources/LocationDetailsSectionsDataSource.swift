@@ -1,6 +1,6 @@
 //
 //  LocationDetailsSectionsDataSource.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by QHMW64 on 13/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  PersonImageSizing.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by Herli Halim on 2/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  LandingPresenter.swift
-//  ClientKit
+//  MPOL
 //
 //  Created by KGWH78 on 6/9/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
