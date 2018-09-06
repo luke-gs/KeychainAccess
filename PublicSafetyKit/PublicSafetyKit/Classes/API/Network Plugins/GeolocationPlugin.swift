@@ -24,15 +24,40 @@ open class GeolocationPlugin: PluginType {
     static let locationDirectionOfTravelKey = "X-GPS-Direction-Of-Travel"
     static let locationSpeed = "X-GPS-Speed"
     static let locationTimestamp = "X-GPS-Timestamp"
-    
-    public init() {
 
+    /// Whether to use the last location returned to LocationManager rather than requesting a new one each time
+    private let useLastLocation: Bool
+
+    /// Init
+    ///
+    /// - Parameter useLastLocation: Whether to use the last location returned to LocationManager rather than requesting a new one each time
+    public init(useLastLocation: Bool = true) {
+        self.useLastLocation = useLastLocation
+
+        if useLastLocation {
+            // Trigger at least one location fetch so lastLocation is updated
+            LocationManager.shared.requestLocation().cauterize()
+        }
     }
     
     open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         var adaptedRequest = urlRequest
 
-        return LocationManager.shared.requestLocation().recover { error -> Promise<CLLocation> in
+        let locationPromise: Promise<CLLocation>
+        if useLastLocation {
+            // Use the last location if found, otherwise let the error manager handle it as location unknown
+            if let location = LocationManager.shared.lastLocation {
+                locationPromise = Promise<CLLocation>.value(location)
+            } else {
+                let clError = NSError(domain: "", code: CLError.locationUnknown.rawValue, userInfo: nil)
+                locationPromise = Promise<CLLocation>(error: clError)
+            }
+        } else {
+            // Fetch a new location
+            locationPromise = LocationManager.shared.requestLocation()
+        }
+
+        return locationPromise.recover { error -> Promise<CLLocation> in
             return LocationManager.shared.errorManager.handleError(error)
         }.then { [weak self] location -> Promise<URLRequest> in
             guard let `self` = self else {
