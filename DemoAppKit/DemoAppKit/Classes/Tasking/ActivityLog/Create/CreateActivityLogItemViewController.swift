@@ -8,6 +8,7 @@
 
 import UIKit
 import PromiseKit
+import CoreKit
 
 open class CreateActivityLogItemViewController: SubmissionFormBuilderViewController {
 
@@ -48,27 +49,40 @@ open class CreateActivityLogItemViewController: SubmissionFormBuilderViewControl
                 self.viewModel.eventReference = $0?.first
             })
 
-        builder += DateFormItem(title: NSLocalizedString("Start Time", comment: ""))
+        let startTimeItem = DateFormItem(title: NSLocalizedString("Start Time", comment: ""))
             .width(.column(2))
             .required("Start time is required.")
             .datePickerMode(.dateAndTime)
             .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minuteInterval(5)
-            .selectedValue(viewModel.startTime ?? Date().rounded(minutes: 15, rounding: .floor))
-            .onValueChanged({ [unowned self] in
-                self.viewModel.startTime = $0
-            })
+            .selectedValue(viewModel.startTime)
 
-        builder += DateFormItem(title: NSLocalizedString("End Time", comment: ""))
+        let endTimeItem = DateFormItem(title: NSLocalizedString("End Time", comment: ""))
+            .minimumDate(viewModel.startTime)
             .width(.column(2))
             .required("End time is required.")
             .datePickerMode(.dateAndTime)
             .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minuteInterval(5)
             .selectedValue(viewModel.endTime)
-            .onValueChanged({ [unowned self] in
-                self.viewModel.endTime = $0
-            })
+            .submitValidate(PredicateSpecification<Date>(predicate: { [unowned self] (date) -> Bool in
+                guard let startTime = self.viewModel.startTime else { return true }
+                return date > startTime
+            }), message: "End time must be after start time.")
+
+        startTimeItem.onValueChanged({ [unowned self] in
+            self.viewModel.startTime = $0
+            endTimeItem.minimumDate(self.viewModel.startTime)
+            endTimeItem.reloadSubmitValidationState()
+        })
+
+        endTimeItem.onValueChanged({ [unowned self] in
+            self.viewModel.endTime = $0
+        })
+
+
+        builder += startTimeItem
+        builder += endTimeItem
 
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))

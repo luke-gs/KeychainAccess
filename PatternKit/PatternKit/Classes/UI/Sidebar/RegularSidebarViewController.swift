@@ -220,12 +220,14 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
-        sourceInsetManager?.standardContentInset    = contentInsets
-        sourceInsetManager?.standardIndicatorInset  = contentInsets
-        sidebarInsetManager?.standardContentInset   = contentInsets
-        sidebarInsetManager?.standardIndicatorInset = contentInsets
+
+        if #available(iOS 11.0, *) {} else {
+            let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+            sourceInsetManager?.standardContentInset    = contentInsets
+            sourceInsetManager?.standardIndicatorInset  = contentInsets
+            sidebarInsetManager?.standardContentInset   = contentInsets
+            sidebarInsetManager?.standardIndicatorInset = contentInsets
+        }
     }
     
     open override func viewWillAppear(_ animated: Bool) {

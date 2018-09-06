@@ -110,8 +110,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             }
         }
 
-        // Disable the inset manager, as it breaks things
-        collectionViewInsetManager = nil
     }
 
     open func createConstraints() {

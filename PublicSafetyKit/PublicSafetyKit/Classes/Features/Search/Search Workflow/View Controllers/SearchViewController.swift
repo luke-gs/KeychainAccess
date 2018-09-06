@@ -56,11 +56,7 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
     
     // MARK: - Private methods
 
-    private lazy var mapResultsViewController: SearchResultMapViewController = { [unowned self] in
-        correctMapResultsViewController()
-    }()
-
-    private func correctMapResultsViewController() -> SearchResultMapViewController {
+    private var mapResultsViewController: SearchResultMapViewController {
 
         let layout = viewModel.locationSearchResultMapLayout(for: traitCollection.horizontalSizeClass)
         let resultsController = SearchResultMapViewController(layout: layout)
@@ -221,8 +217,8 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if currentResultsViewController is SearchResultMapViewController {
+
             clearResults(animated: true)
-            mapResultsViewController = correctMapResultsViewController()
         }
     }
     
@@ -362,10 +358,11 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
             setCurrentResultsViewController(resultsListViewController, animated: true)
 
         } else if let viewModel = viewModel as? MapResultViewModelable {
-            mapResultsViewController.viewModel = viewModel
+            let mapVC = mapResultsViewController
+            mapVC.viewModel = viewModel
 
             setShowingSearchOptions(false, animated: true)
-            setCurrentResultsViewController(mapResultsViewController, animated: true)
+            setCurrentResultsViewController(mapVC, animated: true)
         }
 
         if let searchable = searchable {

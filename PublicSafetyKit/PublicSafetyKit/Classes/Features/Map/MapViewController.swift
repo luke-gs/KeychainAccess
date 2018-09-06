@@ -76,16 +76,15 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
         settingsViewModel.delegate = self
-        
-        edgesForExtendedLayout = []
 
         // Use background color for when non safe area is visible
         view.backgroundColor = .white
-        
+
+        mapView.frame = view.bounds
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
         mapView.userTrackingMode = .none
         mapView.showsUserLocation = true
-        mapView.translatesAutoresizingMaskIntoConstraints = false
         if let startingRegion = startingRegion {
             mapView.setRegion(startingRegion, animated: false)
         }
@@ -120,15 +119,8 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// Activates the constraints for the views
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-
-            mapControlView.topAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTopAnchor, constant: buttonMargin),
-            mapControlView.trailingAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTrailingAnchor, constant: -buttonMargin),
-
-            // Make map view fill the view on leading and trailing, even outside safe area so it looks good on iPhone X
-            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+            mapControlView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: buttonMargin),
+            mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -buttonMargin)
         ])
     }
     

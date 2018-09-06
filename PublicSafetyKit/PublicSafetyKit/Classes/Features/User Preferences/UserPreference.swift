@@ -7,19 +7,7 @@
 
 import Foundation
 
-public struct UserPreferenceKey: RawRepresentable, Equatable, Hashable {
-    
-    public var rawValue: String
-    
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-    
-    public init(_ rawValue: String) {
-        self.rawValue = rawValue
-    }
-}
-
+public class UserPreferenceKey: ExtensibleKey<String> { }
 
 // Representation of the backend PreferenceObject.
 public class UserPreference: NSObject, NSSecureCoding, Codable {

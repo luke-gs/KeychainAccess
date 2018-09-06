@@ -24,21 +24,4 @@
 ///
 /// is strongly discouraged. You should declare the Collection explicitly, and then use
 /// it in your code.
-public struct ManifestCollection: RawRepresentable, Equatable, Hashable {
-    
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-    
-    public let rawValue: String
-    
-    // PSCore doesn't contain any default collections for 25/09/2017
-    
-    public var hashValue: Int {
-        return rawValue.hashValue
-    }
-}
-
-public func ==(lhs: ManifestCollection, rhs: ManifestCollection) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-}
+public class ManifestCollection: ExtensibleKey<String> { }
