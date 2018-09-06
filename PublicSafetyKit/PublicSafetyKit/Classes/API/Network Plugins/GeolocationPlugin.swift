@@ -25,16 +25,16 @@ open class GeolocationPlugin: PluginType {
     static let locationSpeed = "X-GPS-Speed"
     static let locationTimestamp = "X-GPS-Timestamp"
 
-    /// Whether to use the last location returned to LocationManager rather than requesting a new one each time
-    private let useLastLocation: Bool
+    /// Whether the plugin should fetch a new location for every network request. Otherwise last location is used.
+    public let fetchLocationPerRequest: Bool
 
     /// Init
     ///
-    /// - Parameter useLastLocation: Whether to use the last location returned to LocationManager rather than requesting a new one each time
-    public init(useLastLocation: Bool = false) {
-        self.useLastLocation = useLastLocation
+    /// - Parameter fetchLocationPerRequest: Whether the plugin should fetch a new location for every network request.
+    public init(fetchLocationPerRequest: Bool = true) {
+        self.fetchLocationPerRequest = fetchLocationPerRequest
 
-        if useLastLocation {
+        if !fetchLocationPerRequest {
             // Trigger at least one location fetch so lastLocation is updated
             LocationManager.shared.requestLocation().cauterize()
         }
@@ -44,17 +44,17 @@ open class GeolocationPlugin: PluginType {
         var adaptedRequest = urlRequest
 
         let locationPromise: Promise<CLLocation>
-        if useLastLocation {
+        if fetchLocationPerRequest {
+            // Fetch a new location
+            locationPromise = LocationManager.shared.requestLocation()
+        } else {
             // Use the last location if found, otherwise let the error manager handle it as location unknown
             if let location = LocationManager.shared.lastLocation {
                 locationPromise = Promise<CLLocation>.value(location)
             } else {
-                let clError = NSError(domain: "", code: CLError.locationUnknown.rawValue, userInfo: nil)
+                let clError = NSError(domain: kCLErrorDomain, code: CLError.locationUnknown.rawValue, userInfo: nil)
                 locationPromise = Promise<CLLocation>(error: clError)
             }
-        } else {
-            // Fetch a new location
-            locationPromise = LocationManager.shared.requestLocation()
         }
 
         return locationPromise.recover { error -> Promise<CLLocation> in
