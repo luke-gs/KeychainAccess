@@ -331,7 +331,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         if let previousTraitCollection = previousTraitCollection,
             previousTraitCollection.horizontalSizeClass != .unspecified,
             previousTraitCollection.horizontalSizeClass != traitCollection.horizontalSizeClass,
-            builder.forceLinearLayoutWhenCompact {
+            builder.enforceLinearLayout == .onCompact {
             formLayout.invalidateLayout()
         }
 
@@ -537,8 +537,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if builder.forceLinearLayout || (isCompact() && builder.forceLinearLayoutWhenCompact) {
-            return collectionView.bounds.width
+
+        switch builder.enforceLinearLayout {
+        case .always: return collectionView.bounds.width
+        case .onCompact where isCompact(): return collectionView.bounds.width
+        default: break
         }
 
         let item = sections[indexPath] as! BaseFormItem

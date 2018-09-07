@@ -56,7 +56,7 @@ DEPENDENCIES:
   - Wrap (= 2.1.1)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - Cache
     - Cluster
@@ -94,4 +94,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: df978ef8e2eb553bf2fbc3bff3f91410e7707589
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

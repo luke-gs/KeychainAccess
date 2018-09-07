@@ -15,7 +15,7 @@ class HeaderViewController: FormBuilderViewController {
 
         builder.title = "Header Styles"
 
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += HeaderFormItem(text: "EXPANDABLE", style: .collapsible)
         builder += SubtitleFormItem(title: "Item 1", subtitle: "Tap header to collapse", image: #imageLiteral(resourceName: "SidebarInfo"))

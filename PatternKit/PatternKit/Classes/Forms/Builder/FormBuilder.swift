@@ -33,10 +33,35 @@ public class FormBuilder {
     public var title: String?
 
     /// Force linear layout ignores items' width and forces each item to occupy the full row.
-    public var forceLinearLayout: Bool = false
+    @available(*, deprecated, message: "Use `enforceLinearLayout` instead.")
+    public var forceLinearLayout: Bool = false {
+        didSet {
+            enforceLinearLayout = forceLinearLayout ? .always : (forceLinearLayoutWhenCompact ? .onCompact : .never)
+        }
+    }
 
     /// Force linear layout when view controller is compact
-    public var forceLinearLayoutWhenCompact: Bool = true
+    @available(*, deprecated, message: "Use `enforceLinearLayout` instead.")
+    public var forceLinearLayoutWhenCompact: Bool = true {
+        didSet {
+            enforceLinearLayout = forceLinearLayout ? .always : (forceLinearLayoutWhenCompact ? .onCompact : .never)
+        }
+    }
+
+    /// The supported linear layout that the form builder can enforce.
+    ///
+    /// - always: Each item will always occupy the full row.
+    /// - compactOnly: Each item will always occupy the full row when compact.
+    /// - never: Do not enforce linear layout
+    public enum LinearLayout {
+        case always
+        case onCompact
+        case never
+    }
+
+    /// Enforce linear layout ignores item width and forces each item to occupy the full row.
+    /// The default value of this property is `.onCompact`.
+    public var enforceLinearLayout: LinearLayout = .onCompact
 
     public private(set) var formItems: [FormItem] = []
 

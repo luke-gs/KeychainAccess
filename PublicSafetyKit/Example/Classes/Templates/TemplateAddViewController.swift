@@ -37,7 +37,7 @@ class TemplateAddViewController: FormBuilderViewController {
 
     override func construct(builder: FormBuilder) {
         builder.title = "Add Template"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder.add(
             [nameField, descriptionField, valueField].map { $0.onValueChanged { _ in self.updateDoneButton() } }

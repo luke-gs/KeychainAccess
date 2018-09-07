@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 /// Class for Objective C utility methods
 @interface ObjC : NSObject

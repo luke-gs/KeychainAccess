@@ -19,13 +19,35 @@ class FormBuilderTests: XCTestCase {
 
         // When
         let title = builder.title
-        let forceLinearLayout = builder.forceLinearLayout
         let itemsCount = builder.formItems.count
+        let enforceLinearLayout = builder.enforceLinearLayout
 
         // Expected
         XCTAssertNil(title)
-        XCTAssertFalse(forceLinearLayout)
         XCTAssertEqual(itemsCount, 0)
+        XCTAssertEqual(enforceLinearLayout, .onCompact)
+    }
+
+    func testThatEnforceLinearLayoutIsBackwardCompatible() {
+        // Given
+        let builder = FormBuilder()
+
+        // Then
+        builder.forceLinearLayout = false
+        builder.forceLinearLayoutWhenCompact = true
+        XCTAssertEqual(builder.enforceLinearLayout, .onCompact)
+
+        builder.forceLinearLayout = true
+        builder.forceLinearLayoutWhenCompact = false
+        XCTAssertEqual(builder.enforceLinearLayout, .always)
+
+        builder.forceLinearLayout = true
+        builder.forceLinearLayoutWhenCompact = true
+        XCTAssertEqual(builder.enforceLinearLayout, .always)
+
+        builder.forceLinearLayout = false
+        builder.forceLinearLayoutWhenCompact = false
+        XCTAssertEqual(builder.enforceLinearLayout, .never)
     }
     
     func testThatItAddsAnItem() {

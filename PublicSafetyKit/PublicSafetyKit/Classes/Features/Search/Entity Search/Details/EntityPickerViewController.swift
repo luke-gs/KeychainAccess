@@ -74,7 +74,7 @@ open class EntityPickerViewController: FormBuilderViewController {
 
     open override func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         let entities = viewModel.entities
 

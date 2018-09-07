@@ -38,7 +38,7 @@ open class ActionSheetViewController: FormBuilderViewController {
     
     open override func construct(builder: FormBuilder) {
         builder.title = nil
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
         
         buttons.forEach { button in
             builder += SubtitleFormItem()

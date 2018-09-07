@@ -39,7 +39,7 @@ open class CallsignStatusViewController: SubmissionFormBuilderViewController {
 
     open override func construct(builder: FormBuilder) {
         // We show items in 2 columns when compact
-        builder.forceLinearLayoutWhenCompact = false
+        builder.enforceLinearLayout = .never
 
         for sectionIndex in 0..<viewModel.numberOfSections() {
             // Show header if text

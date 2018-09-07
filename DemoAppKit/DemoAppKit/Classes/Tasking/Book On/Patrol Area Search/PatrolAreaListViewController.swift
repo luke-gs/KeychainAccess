@@ -31,7 +31,7 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
     }
 
     open override func construct(builder: FormBuilder) {
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
         builder.title = viewModel.title
 
         for section in 0..<viewModel.numberOfSections() {

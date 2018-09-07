@@ -14,7 +14,7 @@ class ProgressViewController: FormBuilderViewController {
     override func construct(builder: FormBuilder) {
         
         builder.title = "Progress"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
         
         builder += ProgressFormItem(title: "Valid until", value: "16/01/2018", detail: "100 days left")
             .progress(0.25)

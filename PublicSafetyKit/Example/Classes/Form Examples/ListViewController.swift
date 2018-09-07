@@ -15,7 +15,7 @@ class ListViewController: FormBuilderViewController {
 
         builder.title = "List"
 
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += HeaderFormItem(text: "ITEMS")
         builder += SubtitleFormItem(title: "Item 1", subtitle: "Item 1 subtitle", image: #imageLiteral(resourceName: "SidebarInfo"))
