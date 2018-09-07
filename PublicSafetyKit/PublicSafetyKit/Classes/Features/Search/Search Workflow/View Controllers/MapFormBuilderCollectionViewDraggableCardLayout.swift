@@ -15,6 +15,7 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
     private var cardView: DraggableCardView!
     private var cardBottomConstraint: NSLayoutConstraint?
     private var cardHeightConstraint: NSLayoutConstraint?
+    private var formHeightConstraint: NSLayoutConstraint!
 
     var minCardHeight: CGFloat = 42 {
         didSet {
@@ -61,6 +62,7 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
         cardView.contentView.addSubview(collectionView)
 
         cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: minCardHeight)
+        formHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 0)
 
         if #available(iOS 11, *) {
             cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
@@ -74,6 +76,7 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
             collectionView.topAnchor.constraint(equalTo: cardView.contentView.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: cardView.contentView.bottomAnchor),
+            formHeightConstraint,
 
             cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -85,6 +88,9 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
     }
 
     open override func viewDidLayoutSubviews() -> Bool {
+        // Update the form collection view height to match the content
+        formHeightConstraint.constant = controller?.collectionView?.contentSize.height ?? 0
+
         updateMinCardHeight()
         return false
     }
