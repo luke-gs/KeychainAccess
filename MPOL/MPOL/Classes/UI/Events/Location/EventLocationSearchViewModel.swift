@@ -72,8 +72,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
     private lazy var defaultOptions: [SubtitleFormItem] = formItems(for: EventLocationSearchOption.defaultOptions)
 
     public func construct(builder: FormBuilder) {
-        builder.forceLinearLayout = true
-        builder.forceLinearLayoutWhenCompact = true
+        builder.enforceLinearLayout = .always
 
         if searchResults.count > 0 {
             builder += HeaderFormItem(text: "\(searchResults.count) RESULT\(searchResults.count == 0 ? "" : "S") FOUND", style: .collapsible)

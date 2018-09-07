@@ -61,7 +61,7 @@ open class TrafficInfringementOffencesViewController: FormBuilderViewController,
     
     override open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += LargeTextHeaderFormItem(text: viewModel.headerFormItemTitle)
             .separatorColor(.clear)

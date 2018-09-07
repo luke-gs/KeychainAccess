@@ -42,7 +42,7 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
     
     public override func construct(builder: FormBuilder) {
         builder.title = self.title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += LargeTextHeaderFormItem(text: viewModel.headerText)
             .separatorColor(.clear)

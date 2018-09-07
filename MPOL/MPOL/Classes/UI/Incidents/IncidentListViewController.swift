@@ -50,7 +50,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
     override open func construct(builder: FormBuilder) {
         builder.title = "Incidents"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         if let primaryIncident = viewModel.primaryIncident {
             let headerItem = LargeTextHeaderFormItem(text: "Primary Incident")

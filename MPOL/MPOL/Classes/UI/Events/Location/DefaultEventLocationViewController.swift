@@ -48,7 +48,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
     override open func construct(builder: FormBuilder) {
         builder.title = "Locations"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         let viewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.eventLocation,
                                                    typeCollection: ManifestCollection.eventLocationInvolvementType)

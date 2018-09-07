@@ -27,7 +27,7 @@ public class CriminalHistorySummaryViewController: FormBuilderViewController {
 
     override open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += LargeTextHeaderFormItem(text: viewModel.primaryCharge)
             .separatorColor(.clear)

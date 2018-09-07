@@ -64,7 +64,7 @@ open class PersonDescriptionViewModel {
     
     open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
         
         for section in sections {
             builder += HeaderFormItem(text: section.title, style: .collapsible)

@@ -26,7 +26,7 @@ public class AlertSummaryViewController: FormBuilderViewController {
 
     override open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += ImageDetailFormItem(image: viewModel.alertimage, title: viewModel.levelText, description: viewModel.titleText)
             .separatorColor(.clear)
