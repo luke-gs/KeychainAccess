@@ -14,7 +14,7 @@ class AccessoryViewController: FormBuilderViewController {
     override func construct(builder: FormBuilder) {
 
         builder.title = "Accessories"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += HeaderFormItem(text: "ACCESSORIES")
 

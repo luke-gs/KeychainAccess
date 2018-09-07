@@ -180,7 +180,7 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
             let form = recentlyViewedBuilder.generateSections()
 
             let handler = FormCollectionViewHandler(sections: form.sections, globalHeader: form.globalHeader)
-            handler.forceLinearLayout = builder.forceLinearLayout
+            handler.forceLinearLayout = (builder.enforceLinearLayout == .always)
 
             var insets = handler.sectionInsets
             insets.top = 10

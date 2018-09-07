@@ -56,7 +56,7 @@ open class LocationSelectionMapViewController: MapFormBuilderViewController, CLL
 
     override open func construct(builder: FormBuilder) {
         builder.title = viewModel.navTitle
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += HeaderFormItem(text: viewModel.headerTitle)
         if !viewModel.locationTypeOptions.isEmpty {

@@ -35,7 +35,7 @@ class TemplateManagerViewController: FormBuilderViewController {
 
     override func construct(builder: FormBuilder) {
         builder.title = "Templates"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += HeaderFormItem(text: "TEMPLATE DEMO")
         builder += SubtitleFormItem(title: "Choose a template!", subtitle: "Tap the below drop-down to select a template.", image: nil)

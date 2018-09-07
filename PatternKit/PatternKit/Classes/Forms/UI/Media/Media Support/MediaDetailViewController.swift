@@ -46,7 +46,7 @@ public class MediaDetailViewController: FormBuilderViewController {
 
         builder.title = "Details"
 
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += HeaderFormItem(text: "DETAILS")
 

@@ -79,7 +79,7 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
 
     override open func construct(builder: FormBuilder) {
         // We show items in 2 columns when compact
-        builder.forceLinearLayoutWhenCompact = false
+        builder.enforceLinearLayout = .never
 
         // Show current incident with header if set
         let listViewModel = viewModel.incidentListViewModel

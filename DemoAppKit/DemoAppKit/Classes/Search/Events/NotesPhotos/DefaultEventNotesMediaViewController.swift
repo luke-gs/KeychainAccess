@@ -51,7 +51,7 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
     
     override open func construct(builder: FormBuilder) {
         builder.title = sidebarItem.regularTitle
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         // General Section
         builder += LargeTextHeaderFormItem(text: "General")

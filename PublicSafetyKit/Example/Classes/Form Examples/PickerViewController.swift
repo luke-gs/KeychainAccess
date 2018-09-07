@@ -14,7 +14,7 @@ class PickerViewController: FormBuilderViewController {
     override func construct(builder: FormBuilder) {
         builder += HeaderFormItem(text: "PICKER EXAMPLES")
 
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += DropDownFormItem()
             .title("Greeting")

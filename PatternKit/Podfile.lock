@@ -33,7 +33,7 @@ DEPENDENCIES:
   - SketchKit (from `..`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - Cache
     - Cluster
@@ -61,4 +61,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 05a07ead47f24af22d4e032f067c5222184eff57
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

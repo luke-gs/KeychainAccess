@@ -60,7 +60,6 @@
 		963272092138B9F10020BB57 /* GenericSearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963271E22138B9EE0020BB57 /* GenericSearchModels.swift */; };
 		9632720A2138B9F10020BB57 /* sample2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 963271E32138B9EE0020BB57 /* sample2.jpg */; };
 		9632720B2138B9F10020BB57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963271E42138B9EF0020BB57 /* Assets.xcassets */; };
-		9632720C2138B9F10020BB57 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 963271E52138B9EF0020BB57 /* Info.plist */; };
 		9632720D2138B9F10020BB57 /* NoContentCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963271E62138B9EF0020BB57 /* NoContentCollectionController.swift */; };
 		9632720E2138B9F10020BB57 /* sample3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 963271E82138B9EF0020BB57 /* sample3.jpg */; };
 		9632720F2138B9F10020BB57 /* sample1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 963271E92138B9EF0020BB57 /* sample1.jpg */; };
@@ -1451,7 +1450,6 @@
 			files = (
 				9632720B2138B9F10020BB57 /* Assets.xcassets in Resources */,
 				963271F32138B9F10020BB57 /* audio.m4a in Resources */,
-				9632720C2138B9F10020BB57 /* Info.plist in Resources */,
 				963271F52138B9F10020BB57 /* LaunchScreen.storyboard in Resources */,
 				9632720F2138B9F10020BB57 /* sample1.jpg in Resources */,
 				9632720A2138B9F10020BB57 /* sample2.jpg in Resources */,
