@@ -12,7 +12,15 @@ public extension LoginViewController {
 
         let imageView = UIImageView(image: #imageLiteral(resourceName: "PSCore"))
         imageView.contentMode = .top
-        titleView = imageView
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.addSubview(imageView)
+
+        NSLayoutConstraint.activate([
+            imageView.leftAnchor.constraint(equalTo: titleView.leftAnchor),
+            imageView.rightAnchor.constraint(equalTo: titleView.rightAnchor),
+            imageView.topAnchor.constraint(equalTo: titleView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+        ])
 
         let usernameCred = UsernameCredential(username: username)
         let passwordCred = PasswordCredential()

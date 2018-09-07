@@ -33,18 +33,14 @@ public enum LandingScreen: Presentable {
 
 /// Presenter for a standard MPOL app that shares the app group settings of the user session
 open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
-    
-    
+
+    public var wantsBiometricAuthentication = true
+    private var isLogOffInitiatedByUser = false
+
     public override init() {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(logOff), name: LogOffManager.logOffWasRequestedNotification, object: nil)
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    public var wantsBiometricAuthentication = true
 
     open func updateInterfaceForUserSession(animated: Bool) {
         let screen = screenForUserSession()
@@ -158,9 +154,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         return currentViewController
     }
 
-    open func loginViewControllerDidAppear(_ controller: LoginViewController) {
-
-    }
+    // MARK: LoginViewController delegate
 
     open func loginViewController(_ controller: LoginViewController, didFinishWithCredentials credentials: [LoginCredential]) {
         let usernameCred = credentials.filter{$0.name == "Username"}.first
@@ -177,9 +171,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 if let password = password {
                     self?.authenticateWithUsername(handler.username, password: password, inController: controller, context: context)
                 } else {
-                    // Tell the user that they don't have password here, although, if this ever happens,
-                    // something probably is broken already.
-                    // fatalError for now.
+                    // BiometricUserHandler won't return password when the biometric set has changed.
+                    // Should probably prevent ever getting to here.
                     fatalError("Biometric authentication isn't setup correctly.")
                 }
             }.catch { error in
@@ -194,7 +187,40 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     }
 
-    public func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
+    open func biometricAuthenticationPrompt(for loginViewController: LoginViewController) -> String {
+        if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            return String(format: NSLocalizedString("Login to account %@", comment: ""), handler.username)
+        }
+        // Shouldn't get here in the first place, something is incorrect.
+        fatalError("Biometric authentication isn't setup correctly.")
+    }
+
+    open func loginViewController(_ loginViewController: LoginViewController, shouldPromptForEvent event: BiometricPromptEvent) -> Bool {
+        switch event {
+        case .applicationDidBecomeActive:
+            return true
+        case .loginViewControllerDidAppear:
+            let shouldPrompt = !isLogOffInitiatedByUser
+            // Assuming that since this is asked, next attempt will be a new login session.
+            isLogOffInitiatedByUser = false
+            return shouldPrompt
+        }
+    }
+
+    public func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
+        if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            if handler.isEvaluatedPolicyDomainStateStillValid(policyDomainState) {
+                return true
+            } else {
+                handler.clear()
+                AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Biometric data changed", comment: ""), message: NSLocalizedString("The registered biometric has changed since registration. Please login with your credentials", comment: ""))
+                return false
+            }
+        }
+        return false
+    }
+
+    open func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
         controller.setLoading(true, animated: true)
 
         // `lToken` is added so we could start the session slightly later.
@@ -267,8 +293,12 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }
 
     }
+
+    // MARK: - Log off
     
     @objc open func logOff() {
+
+        isLogOffInitiatedByUser = true
         
         // If we have no token we dont need to revoke it
         guard let refreshToken = UserSession.current.token?.refreshToken else {
