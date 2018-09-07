@@ -28,16 +28,6 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     
     private var isFullScreen: Bool = false
 
-    // Detects whether the status bar appearance should be based on `UIApplication` or `UIViewController`.
-    private lazy var isUIViewControllerBasedStatusBarAppearance: Bool = {
-        let infoPlist = Bundle.main.infoDictionary
-        if let isViewControllerBased = infoPlist?["UIViewControllerBasedStatusBarAppearance"] as? Bool {
-            return isViewControllerBased
-        }
-        // If not declared, the default value is `true`
-        return true
-    }()
-
     public var allowEditing: Bool = true
 
     public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: UIScreen.main.bounds) {
@@ -448,17 +438,10 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     }
 
     private func setNavigationBarEnabled(_ enabled: Bool, animated: Bool) {
-        if isUIViewControllerBasedStatusBarAppearance {
-            UIView.animate(withDuration: animated ? TimeInterval(MediaSlideshowHideShowDuration) : 0.0, animations: {
-                self.setNeedsStatusBarAppearanceUpdate()
-            })
-            self.navigationController?.setNavigationBarHidden(!enabled, animated: animated)
-
-        } else {
-            let animation: UIStatusBarAnimation = animated ? .slide : .none
-            ObjC.setStatusBarHidden(!enabled, with: animation)
-            navigationController?.setNavigationBarHidden(!enabled, animated: animated)
-        }
+        UIView.animate(withDuration: animated ? TimeInterval(MediaSlideshowHideShowDuration) : 0.0, animations: {
+            self.setNeedsStatusBarAppearanceUpdate()
+        })
+        self.navigationController?.setNavigationBarHidden(!enabled, animated: animated)
     }
 
     @objc private func galleryDidChange(_ notification: Notification) {

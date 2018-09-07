@@ -34,15 +34,6 @@ extension DateFormatter {
         return formatter
     }()
 
-    /// Special formatter that keeps template after locale changes
-    public static let mediumNumericDate: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.setLocalizedDateFormatFromTemplate("ddMMyyyy")
-        DateFormatter.isListeningForLocaleChanges = true
-        return formatter
-    }()
-
     @available(*, deprecated, message: "Use preferredDateStyle instead.")
     public static let shortDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -135,20 +126,6 @@ extension DateFormatter {
         return RelativeDateFormatter(dateFormatter: mediumDateStyle, timeFormatter: militaryTimeStyle, separator: ", ")
     }()
 
-    // MARK: - Locale changes
-    
-    private static var isListeningForLocaleChanges: Bool = false {
-        didSet {
-            if isListeningForLocaleChanges && oldValue == false {
-                NotificationCenter.default.addObserver(self, selector: #selector(mpl_currentLocaleDidChange), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
-            }
-        }
-    }
-    
-    @objc private class func mpl_currentLocaleDidChange() {
-        mediumNumericDate.setLocalizedDateFormatFromTemplate("ddMMyyyy")
-    }
-    
 }
 
 /// Convenience extension to Date to do conversions for preferred styles

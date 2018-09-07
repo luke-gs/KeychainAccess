@@ -22,12 +22,4 @@
     }
 }
 
-+ (void)setStatusBarHidden:(BOOL)hidden withAnimation:(UIStatusBarAnimation)animation
-{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [UIApplication.sharedApplication setStatusBarHidden:hidden withAnimation:animation];
-#pragma clang diagnostic pop
-}
-
 @end
