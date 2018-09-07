@@ -8,7 +8,7 @@
 
 import XCTest
 import DemoAppKit
-import PublicSafetyKit
+import PS_Core
 
 class VINParserDefinitionsTests: XCTestCase {
  

@@ -8,6 +8,7 @@
 
 import XCTest
 import DemoAppKit
+import PS_Core
 
 class VehicleSearchParametersTests: XCTestCase {
     
