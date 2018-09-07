@@ -207,7 +207,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }
     }
 
-    public func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
+    open func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
         if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
             if handler.isEvaluatedPolicyDomainStateStillValid(policyDomainState) {
                 return true
@@ -235,7 +235,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 throw PMKError.cancelled
             }
 
-            APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+            let plugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            APIManager.shared.setAuthenticationPlugin(plugin, rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             lToken = token
             controller.resetFields()
