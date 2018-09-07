@@ -176,6 +176,7 @@ final public class SettingsViewController: FormTableViewController {
 
         cell.textLabel?.text = setting.title
         cell.detailTextLabel?.text = setting.subtitle
+        cell.detailTextLabel?.numberOfLines = 0
         cell.imageView?.image = setting.image?.withRenderingMode(.alwaysTemplate)
         cell.imageView?.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
 
