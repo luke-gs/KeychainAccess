@@ -21,6 +21,8 @@ public class ValueFormItem: BaseFormItem {
 
     public var labelSeparation: CGFloat = CellTitleSubtitleSeparation
 
+    public var isRequired: Bool = false
+
     public init() {
         super.init(cellType: CollectionViewFormValueFieldCell.self, reuseIdentifier: CollectionViewFormValueFieldCell.defaultReuseIdentifier)
     }
@@ -40,6 +42,10 @@ public class ValueFormItem: BaseFormItem {
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection))
         cell.valueLabel.apply(sizable: value, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection), defaultNumberOfLines: 0)
         cell.imageView.image = image
+
+        if isRequired {
+            cell.titleLabel.makeRequired(with: title)
+        }
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -118,4 +124,9 @@ extension ValueFormItem {
         return self
     }
 
+    @discardableResult
+    public func isRequired(_ isRequired: Bool) -> Self {
+        self.isRequired = isRequired
+        return self
+    }
 }

@@ -69,6 +69,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
             LargeTextHeaderFormItem(text: "General").separatorColor(.clear),
             ValueFormItem(title: "Type",
                           value: viewModel.report.property?.type)
+                .isRequired(true)
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
@@ -78,6 +79,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
             ValueFormItem(title: "Sub Type",
                           value: viewModel.report.property?.subType)
                 .accessory(ItemAccessory.dropDown)
+                .isRequired(true)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
                     delegate.didTapOnPropertyType()
