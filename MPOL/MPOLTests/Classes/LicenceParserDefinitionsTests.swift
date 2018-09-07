@@ -7,8 +7,8 @@
 //
 
 import XCTest
-@testable import ClientKit
-@testable import PublicSafetyKit
+import DemoAppKit
+import PublicSafetyKit
 
 class LicenceParserDefinitionsTests: XCTestCase {
     

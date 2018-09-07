@@ -9,7 +9,7 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import ClientKit
+import DemoAppKit
 import PromiseKit
 
 class OfficerSearchViewModel: SearchDisplayableViewModel {

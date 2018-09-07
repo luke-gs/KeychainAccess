@@ -6,7 +6,7 @@
 //
 
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 
 public class SearchNoContentView: LoadingStateNoContentView {
 

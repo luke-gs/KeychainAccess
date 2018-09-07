@@ -8,7 +8,7 @@
 import UIKit
 import PublicSafetyKit
 import DemoAppKit
-import ClientKit
+import DemoAppKit
 
 public class PersonSearchReportViewController: FormBuilderViewController, EvaluationObserverable {
 

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import ClientKit
+import DemoAppKit
 
 class VehicleSearchParametersTests: XCTestCase {
     

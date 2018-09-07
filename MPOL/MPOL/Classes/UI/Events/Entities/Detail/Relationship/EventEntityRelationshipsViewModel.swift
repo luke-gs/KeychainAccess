@@ -6,7 +6,7 @@
 //
 
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 
 class EventEntityRelationshipsViewModel {
 

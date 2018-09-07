@@ -8,7 +8,7 @@
 
 import UIKit
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 
 fileprivate enum FilterItem: Int {
     case stateFilter

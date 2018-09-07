@@ -7,7 +7,7 @@
 
 import Foundation
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 import Cache
 
 public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {

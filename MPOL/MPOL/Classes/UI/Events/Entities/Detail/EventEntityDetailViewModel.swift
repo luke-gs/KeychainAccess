@@ -8,7 +8,7 @@
 import UIKit
 import PublicSafetyKit
 import DemoAppKit
-import ClientKit
+import DemoAppKit
 
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey("allValid")

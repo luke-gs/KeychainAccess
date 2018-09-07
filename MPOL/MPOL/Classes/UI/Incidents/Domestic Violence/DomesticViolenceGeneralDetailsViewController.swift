@@ -7,7 +7,7 @@
 
 import UIKit
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 
 open class DomesticViolenceGeneralDetailsViewController: FormBuilderViewController, EvaluationObserverable {
 

@@ -12,7 +12,7 @@ import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
 import Lottie
-import ClientKit
+import DemoAppKit
 import Alamofire
 
 #if INTERNAL || EXTERNAL

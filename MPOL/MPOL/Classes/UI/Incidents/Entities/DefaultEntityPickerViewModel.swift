@@ -6,7 +6,7 @@
 //
 
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 
 /// This EntityPickerViewModel suppports `Person`, `Vehicle` and `Organisation`.
 class DefaultEntityPickerViewModel: EntityPickerViewModel {

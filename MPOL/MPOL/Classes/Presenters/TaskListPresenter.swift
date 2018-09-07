@@ -8,7 +8,7 @@
 
 import Foundation
 import DemoAppKit
-import ClientKit
+import DemoAppKit
 
 public class TaskListPresenter: Presenter {
 

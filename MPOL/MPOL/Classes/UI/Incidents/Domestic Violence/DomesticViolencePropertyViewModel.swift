@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import ClientKit
+import DemoAppKit
 
 public class DomesticViolencePropertyViewModel {
 

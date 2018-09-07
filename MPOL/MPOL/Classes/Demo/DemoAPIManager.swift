@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 import DemoAppKit
-import ClientKit
+import DemoAppKit
 
 enum APIError: Error {
     case fileNotFound

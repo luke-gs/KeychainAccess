@@ -9,7 +9,7 @@ import UIKit
 import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
-import ClientKit
+import DemoAppKit
 
 open class EventsListViewController: FormBuilderViewController, EventsManagerDelegate {
 

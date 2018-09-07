@@ -7,7 +7,7 @@
 
 import Foundation
 import PublicSafetyKit
-import ClientKit
+import DemoAppKit
 
 public class DomesticViolenceGeneralDetailsViewModel {
 
