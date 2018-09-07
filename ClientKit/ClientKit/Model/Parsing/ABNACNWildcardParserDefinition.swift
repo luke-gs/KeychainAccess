@@ -1,6 +1,6 @@
 //
-//  WildcardABNACNParser.swift
-//  MPOL
+//  ABNACNWildcardParserDefinition.swift
+//  ClientKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
-public enum WildABNACNParserError: LocalizedError {
+public enum ABNACNWildcardParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
     public var errorDescription: String? {
@@ -19,23 +19,15 @@ public enum WildABNACNParserError: LocalizedError {
     }
 }
 
-public protocol ABNACNWildcardDefinitionType {
-    static var ABNACNWildcardNumberKey: String { get }
-}
-
-public class ABNACNWildcardParserDefinition: WildcardParserDefinition, ABNACNWildcardDefinitionType {
+public class ABNACNWildcardParserDefinition: WildcardParserDefinition {
     public static let ABNACNWildcardNumberKey = "ABNACNWildcardNumber"
     
     public init() {
         super.init(range: 0...11,
                    definitionKey: ABNACNWildcardParserDefinition.ABNACNWildcardNumberKey,
                    allowedCharacterSet: .decimalDigits,
-                   errorClosure: invalidLengthError)
-    }
-}
-
-fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
-    return { (query, requiredLengthRange) -> LocalizedError in
-        return WildABNACNParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+                   errorClosure: { (query, requiredLengthRange) -> LocalizedError in
+                      return ABNACNWildcardParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+                   })
     }
 }

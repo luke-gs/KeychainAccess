@@ -22,11 +22,15 @@ public enum LicenceParseError: LocalizedError {
     }
 }
 
-public struct LicenceParserDefinition: QueryParserDefinition {
+public protocol LicenceDefinitionType {
+    static var licenceNumberKey: String { get }
+}
+
+public struct LicenceParserDefinition: QueryParserDefinition, LicenceDefinitionType {
     private static let whiteCharacterSets = CharacterSet.whitespacesAndNewlines
     private static let numberFormatter = NumberFormatter()
     
-    public static let licenceKey = "licence"
+    public static let licenceNumberKey = "licenceNumber"
     public let range: CountableClosedRange<Int>
     public private(set) var tokenDefinitions: [QueryTokenDefinition]
     
@@ -34,7 +38,7 @@ public struct LicenceParserDefinition: QueryParserDefinition {
         self.range = range
         
         // Only one definition for licence
-        let licenceDefinition = QueryTokenDefinition(key: LicenceParserDefinition.licenceKey, required: true, typeCheck: { value -> Bool in
+        let licenceDefinition = QueryTokenDefinition(key: LicenceParserDefinition.licenceNumberKey, required: true, typeCheck: { value -> Bool in
             return true
         }) { (value, index, map) in
             

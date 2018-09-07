@@ -69,6 +69,16 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             return query.isEmpty == false && formatter.number(from: query) != nil
         })
 
+        definitionSelector.register(definition: LicenceWildcardParserDefinition(range: 2...10), withValidation: { query in
+
+            guard query.isEmpty == false && (query.range(of: "*") != nil || query.range(of: "?") != nil) else {
+                return false
+            }
+
+            let queryWithoutWild = query.replacingOccurrences(of: "*", with: "").replacingOccurrences(of: "?", with: "")
+            return formatter.number(from: queryWithoutWild) != nil
+        })
+
         definitionSelector.register(definition: PersonParserDefinition(), withValidation: { query in
             return query.isEmpty == false && formatter.number(from: query) == nil
         })
@@ -120,9 +130,10 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                                                                   dateOfBirth: personParserResults[PersonParserDefinition.DateOfBirthKey],
                                                                   age: personParserResults[PersonParserDefinition.AgeRangeKey])
 
-                    } else if definition is LicenceParserDefinition {
+                    } else if definition is LicenceDefinitionType {
                         let personParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
-                        searchParameters = LicenceSearchParameters(licenceNumber: personParserResults[LicenceParserDefinition.licenceKey]!)
+                        searchParameters = LicenceSearchParameters(licenceNumber: personParserResults[LicenceParserDefinition.licenceNumberKey]!)
+
                     }
 
                     if let searchParameters = searchParameters {
