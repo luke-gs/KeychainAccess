@@ -20,13 +20,13 @@ final public class LoginViewController: UIViewController {
     /// The type of login mode to use
     public let loginMode: LoginMode
 
-    /// The primary title label. Customise to your hearts content.
-    public var titleView: UIView = UIView()
+    /// The container primarily for title view. Add custom content view as subview.
+    public let titleView: UIView = UIView()
 
-    /// The login button. Customise to your hearts content.
+    /// The login button.
     public let loginButton: UIButton = UIButton()
 
-    /// The detail text view. Customise to your hearts content.
+    /// The detail text view.
     /// Make sure to provide a `HighlightTextModel` to specify the text to highlight and the action
     /// to perform when tapped.
     public let detailTextView: HighlightingTextView = HighlightingTextView()
@@ -38,7 +38,7 @@ final public class LoginViewController: UIViewController {
             // Ensure that the observations (added by `setupCredentialActions`) are removed.
             removeObservers(from: oldValue)
 
-            credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
+            credentialsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
             credentials?.forEach { credential in
                 credentialsStackView.addArrangedSubview(credential.inputField)
                 credential.inputField.textField.text = credential.value
@@ -47,10 +47,18 @@ final public class LoginViewController: UIViewController {
         }
     }
 
-    /// Whether to allow biometrics
-    ///
-    /// Defaults to `true`
-    public var usesBiometrics: Bool = true
+    private lazy var loginDelegate: LoginViewControllerDelegate? = {
+        let loginDelegate: LoginViewControllerDelegate?
+        switch loginMode {
+        case .credentials(let delegate):
+            loginDelegate = delegate
+        case .credentialsWithBiometric(let delegate):
+            loginDelegate = delegate
+        case .externalAuth(delegate: let delegate):
+            loginDelegate = delegate
+        }
+        return loginDelegate
+    }()
 
     /// Inititalise the view controller with a login mode
     ///
@@ -70,7 +78,9 @@ final public class LoginViewController: UIViewController {
     ///   - loading: `true` if loading is required
     ///   - animated: `true` if animation is required
     public func setLoading(_ loading: Bool, animated: Bool) {
-        if loading == isLoading { return }
+        if loading == isLoading {
+            return
+        }
         self.isLoading = loading
         if animated {
             UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
@@ -89,25 +99,38 @@ final public class LoginViewController: UIViewController {
     private var contentView = UIView()
     private lazy var authenticationContext = LAContext()
     private(set) var credentialsStackView: UIStackView = UIStackView()
+
     private(set) lazy var biometricButton: UIButton = { [unowned self] in
         let button = UIButton(type: .system)
 
         var imageKey: AssetManager.ImageKey = .touchId
-        var buttonText = " or use Touch ID"
+        var buttonText = NSLocalizedString("Use Touch ID", comment: "")
         // Apple lies, it's not @available(iOS 11.0, *), it's later.
         // Crash on iOS 11.0
         if #available(iOS 11.0.1, *) {
-            if authenticationContext.biometryType == .faceID {
+            // `canEvaluatePolicy` needs to be called first before `biometryType` is known.
+            if authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && authenticationContext.biometryType == .faceID {
                 imageKey = .faceId
-                buttonText = " or use Face ID"
+                buttonText = NSLocalizedString("Use Face ID", comment: "")
             }
         }
 
         button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
         button.setTitle(buttonText, for: .normal)
-        button.tintColor = ColorPalette.shared.brightBlue
 
+        button.tintColor = ColorPalette.shared.brightBlue
         button.clipsToBounds = true
+
+        // Gives spacing between Image and Text
+        let spacing: CGFloat = 12
+        let half = spacing * 0.5
+        let insets = UIEdgeInsetsMake(0, spacing, 0, 0)
+        button.titleEdgeInsets = insets
+
+        // Ensure that the content is pad properly. titleEdgeInsets doesn't
+        // affect intrinsicContentSize.
+        let contentInsets = UIEdgeInsetsMake(0, half, 0, half)
+        button.contentEdgeInsets = contentInsets
 
         return button
     }()
@@ -124,14 +147,16 @@ final public class LoginViewController: UIViewController {
             spinner.widthAnchor.constraint(equalToConstant: 48),
             spinner.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor)
-            ])
+        ])
 
         return spinner
     }()
 
     private var isLoading: Bool = false {
         didSet {
-            if isLoading == oldValue || isViewLoaded == false { return }
+            if isLoading == oldValue || isViewLoaded == false {
+                return
+            }
 
             if isLoading {
                 loadingIndicator?.isHidden = false
@@ -149,10 +174,13 @@ final public class LoginViewController: UIViewController {
     }
 
     private lazy var biometricHeightConstraint: NSLayoutConstraint = {
-        return biometricButton.heightAnchor.constraint(equalToConstant: 0).withPriority(.required)
+        return biometricButton.heightAnchor.constraint(equalToConstant: 0)
     }()
 
-    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
+    required public init?(coder aDecoder: NSCoder) {
+        MPLUnimplemented()
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -162,12 +190,41 @@ final public class LoginViewController: UIViewController {
         insetManager.standardContentInset    = .zero
         insetManager.standardIndicatorInset  = .zero
 
-        if usesBiometrics == false {
-            biometricButton.isHidden = true
+        setBiometricEnabled(usesBiometrics)
+
+        scrollView.showsVerticalScrollIndicator = false
+    }
+
+    private func setBiometricEnabled(_ enabled: Bool, animated: Bool = false) {
+
+        let notificationCenter = NotificationCenter.default
+
+        if enabled {
+            notificationCenter.addObserver(self, selector: #selector(onApplicationDidBecomeActiveNotification(_:)), name: .UIApplicationDidBecomeActive, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(onApplicationWillResignActiveNotification(_:)), name: .UIApplicationWillResignActive, object: nil)
+            biometricHeightConstraint.isActive = false
+
+        } else {
+            notificationCenter.removeObserver(self, name: .UIApplicationDidBecomeActive, object: nil)
+            notificationCenter.removeObserver(self, name: .UIApplicationWillResignActive, object: nil)
             biometricHeightConstraint.isActive = true
         }
 
-        scrollView.showsVerticalScrollIndicator = false
+        if animated {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        loginDelegate?.loginViewControllerDidAppear(self)
+
+        if usesBiometrics {
+            promptForBiometricAuthenticationIfRequired(for: .loginViewControllerDidAppear)
+        }
     }
 
     private func setupViews() {
@@ -257,19 +314,6 @@ final public class LoginViewController: UIViewController {
         }
     }
 
-    private func authenticateWithBiometric(title: String) {
-        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
-
-        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: title, reply: { [weak self] (success, error) in
-            guard let `self` = self else { return }
-            DispatchQueue.main.async {
-                if success {
-                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
-                }
-            }
-        })
-    }
-
     private func areCredentialsValid() -> Bool {
         guard let credentials = credentials else { return false }
         return credentials.reduce(true, { (result, cred) -> Bool in
@@ -279,8 +323,7 @@ final public class LoginViewController: UIViewController {
     }
 
     @objc private func biometricButtonTriggered() {
-        guard let credential = credentials?.first?.value else { return }
-        authenticateWithBiometric(title: "Login to account \"\(credential)\"")
+        authenticateWithBiometric()
     }
 
     @objc private func biometricButtonTouchDown() {
@@ -296,13 +339,15 @@ final public class LoginViewController: UIViewController {
 
         switch loginMode {
         case .credentials(let delegate):
-            guard let credentials = credentials else { return }
-            guard areCredentialsValid() else { return }
+            guard let credentials = credentials, areCredentialsValid() else {
+                return
+            }
             view.endEditing(true)
             delegate?.loginViewController(self, didFinishWithCredentials: credentials)
         case .credentialsWithBiometric(let delegate):
-            guard let credentials = credentials else { return }
-            guard areCredentialsValid() else { return }
+            guard let credentials = credentials, areCredentialsValid() else {
+                return
+            }
             view.endEditing(true)
             delegate?.loginViewController(self, didFinishWithCredentials: credentials)
         case .externalAuth(let delegate):
@@ -314,6 +359,86 @@ final public class LoginViewController: UIViewController {
         let credential = credentials?.first(where: {$0.inputField.textField == textField})
         credential?.value = textField.text
         updateLoginButtonState()
+    }
+
+
+    // MARK: - Biometric Authentication
+
+    private var isPromptingForBiometricAuthentication = false
+    // Evaluating LAContext will cause the app to resign active.
+    private var isResigningActiveDueToBiometricAuthentication = false
+
+    private var usesBiometrics: Bool {
+        if case .credentialsWithBiometric(_) = loginMode {
+            return _canUseBiometrics
+        } else {
+            return false
+        }
+    }
+
+    private var _canUseBiometrics: Bool {
+        return authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+    }
+
+    private func authenticateWithBiometric() {
+
+        guard case .credentialsWithBiometric(let delegate) = loginMode else {
+            return
+        }
+
+        let prompt: String
+        if let delegate = delegate {
+            prompt = delegate.biometricAuthenticationPrompt(for: self)
+        } else {
+            prompt = NSLocalizedString("Confirm your credentials", comment: "")
+        }
+
+        isPromptingForBiometricAuthentication = true
+        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: prompt, reply: { [weak self] success, error in
+            guard let `self` = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.isPromptingForBiometricAuthentication = false
+                if success {
+                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
+                }
+            }
+        })
+    }
+
+    private func promptForBiometricAuthenticationIfRequired(for event: BiometricPromptEvent) {
+
+        guard !isPromptingForBiometricAuthentication else {
+            return
+        }
+
+        if case .credentialsWithBiometric(let delegate) = loginMode {
+            authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+            if delegate?.loginViewController(self, canUseBiometricWithPolicyDomainState: authenticationContext.evaluatedPolicyDomainState) != true {
+                setBiometricEnabled(false, animated: true)
+                return
+            }
+
+            if delegate?.loginViewController(self, shouldPromptForEvent: event) == true {
+                authenticateWithBiometric()
+            }
+        }
+    }
+
+    @objc func onApplicationDidBecomeActiveNotification(_ notification: Notification) {
+        // Don't prompt here if the application becomes active due to the dismissal of LAContext evaluation.
+        let shouldPrompt = !isResigningActiveDueToBiometricAuthentication
+        isResigningActiveDueToBiometricAuthentication = false
+        if usesBiometrics && shouldPrompt {
+            promptForBiometricAuthenticationIfRequired(for: .applicationDidBecomeActive)
+        }
+    }
+
+    @objc func onApplicationWillResignActiveNotification(_ notification: Notification) {
+        if isPromptingForBiometricAuthentication {
+            isResigningActiveDueToBiometricAuthentication = true
+        }
     }
 }
 
