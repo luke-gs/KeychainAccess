@@ -249,7 +249,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
                     // Ask if the user wants to remember their password.
                     if biometricUser.useBiometric == .unknown {
-                        return self.askForBiometricPermission(in: controller).then { promise -> Promise<Void> in
+                        return self.askForBiometricPermission(in: controller, with: lContext).then { promise -> Promise<Void> in
                             // Store the username and password.
                             return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
                                 // Only set it to `agreed` after password saving is successful.
@@ -327,9 +327,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         return UserPreferenceManager.shared.fetchSharedUserPreferences()
     }
 
-    private func askForBiometricPermission(in controller: UIViewController) -> Promise<Void> {
+    private func askForBiometricPermission(in controller: UIViewController, with context: LAContext) -> Promise<Void> {
         return Promise { seal in
-            let context = LAContext()
             var title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDTitle", comment: "Title of prompt asking the user whether they want to enable Touch ID.")
             var message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDMessage", comment: "Disclaimer / terms of use for enabling Touch ID")
             if #available(iOS 11.0.1, *) {
