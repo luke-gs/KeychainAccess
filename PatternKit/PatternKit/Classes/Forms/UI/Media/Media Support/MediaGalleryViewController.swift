@@ -69,7 +69,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                     if let index = self.itemsBeingProcessed.index(where: { $0 == media }) {
                         self.itemsBeingProcessed.remove(at: index)
                     }
-                }
+                }.cauterize()
             }
         }
 
@@ -363,7 +363,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 }
             }.ensure {
                 self.itemsBeingProcessed = self.itemsBeingProcessed.filter({ !items.contains($0) })
-            }
+            }.cauterize()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         alertController.popoverPresentationController?.barButtonItem = item
@@ -385,7 +385,6 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         let theme = ThemeManager.shared.theme(for: .current)
         let backgroundColor = theme.color(forKey: .background)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
 
         view.backgroundColor = backgroundColor
 

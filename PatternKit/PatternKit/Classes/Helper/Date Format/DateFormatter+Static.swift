@@ -34,21 +34,21 @@ extension DateFormatter {
         return formatter
     }()
 
+    /// Special formatter that keeps template after locale changes
+    public static let mediumNumericDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("ddMMyyyy")
+        DateFormatter.isListeningForLocaleChanges = true
+        return formatter
+    }()
+
     @available(*, deprecated, message: "Use preferredDateStyle instead.")
     public static let shortDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
         formatter.dateStyle = .short
         formatter.timeStyle = .none
-        return formatter
-    }()
-
-    @available(*, deprecated, message: "Use preferredDateStyle instead.")
-    public static let mediumNumericDate: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.setLocalizedDateFormatFromTemplate("ddMMyyyy")
-        DateFormatter.isListeningForLocaleChanges = true
         return formatter
     }()
 

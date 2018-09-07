@@ -134,7 +134,7 @@ open class SidebarHeaderView: UIView {
         
         // If the title caption label gets used, we need to update the subtitle label's offset so we don't have a huge gap when it's not used
         titleCaptionLabelTextObserver = titleCaptionLabel.observe(\.text) { [weak self] (label, value) in
-            if let value = value.newValue??.ifNotEmpty() as? String? {
+            if (value.newValue??.ifNotEmpty()) != nil {
                 self?.subtitleLabelTopConstraint.constant = 8
             } else {
                 self?.subtitleLabelTopConstraint.constant = 0

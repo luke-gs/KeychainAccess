@@ -14,4 +14,7 @@
 /// Utility method to call a block that may throw an NSException, and convert it to a Swift Error
 + (BOOL)catchException:(void(^)(void))tryBlock error:(__autoreleasing NSError **)error;
 
+/// Hides or shows the status bar, optionally animating the transition, without making a compiler warning
++ (void)setStatusBarHidden:(BOOL)hidden withAnimation:(UIStatusBarAnimation)animation;
+
 @end

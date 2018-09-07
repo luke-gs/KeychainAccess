@@ -225,7 +225,7 @@ open class ButtonStackView: UIView {
                 CATransaction.setDisableActions(true)
                 borderLayer.isHidden = false
                 CATransaction.commit()
-            }
+            }.cauterize()
         }
     }
 

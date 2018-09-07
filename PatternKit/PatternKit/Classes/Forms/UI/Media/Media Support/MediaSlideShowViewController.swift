@@ -456,7 +456,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         } else {
             let animation: UIStatusBarAnimation = animated ? .slide : .none
-            UIApplication.shared.setStatusBarHidden(!enabled, with: animation)
+            ObjC.setStatusBarHidden(!enabled, with: animation)
             navigationController?.setNavigationBarHidden(!enabled, animated: animated)
         }
     }
