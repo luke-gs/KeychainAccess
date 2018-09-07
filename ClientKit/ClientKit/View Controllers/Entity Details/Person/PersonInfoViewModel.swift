@@ -144,7 +144,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     .width(.column(1))
                     .onSelection({ cell in
                         // TODO: add actual functionality when tapping address when it is decided
-                        print(address.fullAddress)
+                        print(address.fullAddress as Any)
                     })
             }
         }
@@ -162,9 +162,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let detail: StringSizing = {
                     let detail: String
                     if let date = contact.dateCreated {
-                        
                         let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))": ""
-                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: Date()), locationString)
+                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }
@@ -180,7 +179,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                         if contact.type == .email {
                             return { cell in
                                 // TODO: add actual functionality when tapping email when it is decided
-                                print(contact.value)
+                                print(contact.value as Any)
                             }
                         }
                         return nil
