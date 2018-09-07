@@ -47,7 +47,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
 
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
         
         guard let eventsList = viewModel.eventsList else { return }
         

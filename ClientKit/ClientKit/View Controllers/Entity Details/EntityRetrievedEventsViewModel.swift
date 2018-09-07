@@ -51,7 +51,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         if !events.isEmpty {
             builder += LargeTextHeaderFormItem(text: headerTitle)

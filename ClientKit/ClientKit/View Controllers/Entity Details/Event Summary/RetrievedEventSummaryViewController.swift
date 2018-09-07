@@ -26,7 +26,7 @@ public class RetrievedEventSummaryViewController: FormBuilderViewController {
 
     override open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += LargeTextHeaderFormItem(text: viewModel.eventName)
             .separatorColor(.clear)
