@@ -14,11 +14,11 @@ public class BroadcastAssociationsViewModel: CADFormCollectionViewModel<Associat
     }
 
     public func reloadFromModel(_ model: CADTaskListItemModelType) {
-        guard let incident = model as? CADBroadcastType else { return }
+        guard let broadcast = model as? CADBroadcastType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<AssociationItemViewModel>] = []
 
-        let personsViewModels = incident.persons.map { person in
+        let personsViewModels = broadcast.persons.map { person in
             return AssociationItemViewModel(
                 association: person,
                 category: "DS1",
@@ -31,7 +31,7 @@ public class BroadcastAssociationsViewModel: CADFormCollectionViewModel<Associat
                 badge: 0)
         }
 
-        let vehiclesViewModels = incident.vehicles.map { vehicle in
+        let vehiclesViewModels = broadcast.vehicles.map { vehicle in
             return AssociationItemViewModel(
                 association: vehicle,
                 category: "DS1",
