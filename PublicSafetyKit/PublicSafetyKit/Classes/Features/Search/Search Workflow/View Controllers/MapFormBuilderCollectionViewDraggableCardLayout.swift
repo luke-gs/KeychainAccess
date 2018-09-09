@@ -19,7 +19,9 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
 
     var minCardHeight: CGFloat = 42 {
         didSet {
-            cardHeightConstraint?.constant = minCardHeight
+            if cardView.currentState == .minimised {
+                cardHeightConstraint?.constant = minCardHeight
+            }
         }
     }
 
@@ -55,7 +57,6 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
         cardView.translatesAutoresizingMaskIntoConstraints = false
 
         cardView.enabledStates = [.minimised, .normal, .maximised]
-        cardView.currentState = .minimised
         view.addSubview(cardView)
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -92,17 +93,17 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
         formHeightConstraint.constant = controller?.collectionView?.contentSize.height ?? 0
 
         updateMinCardHeight()
-        return false
+        return true
     }
 
     private func updateMinCardHeight() {
-        let collectionViewHeaderHeight = controller?.minimumCardHeight ?? 0
-
-        if minCardHeight != collectionViewHeaderHeight && collectionViewHeaderHeight > 0 {
-            minCardHeight = collectionViewHeaderHeight
+        let firstHeaderIndexPath = IndexPath(row: 0, section: 0)
+        guard let sectionHeader = controller?.collectionView?.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: firstHeaderIndexPath) else { return }
+        let sectionHeaderHeight = sectionHeader.bounds.height
+        if minCardHeight != sectionHeaderHeight && sectionHeaderHeight > 0 {
+            minCardHeight = sectionHeaderHeight
         }
     }
-
 
 }
 

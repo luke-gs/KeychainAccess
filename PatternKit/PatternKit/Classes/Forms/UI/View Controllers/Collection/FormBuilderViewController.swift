@@ -11,7 +11,7 @@ import Foundation
 fileprivate var contentHeightContext = 1
 fileprivate let tempID = "temp"
 
-open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController, DraggableCardViewLayoutable {
+open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
 
     // MARK: - Public properties
 
@@ -35,9 +35,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     private var sections: [FormSection] = []
 
     private var isUnderConstruction: Bool = true
-
-    // MARK: - DraggableCardDelegate variables
-    public var minimumCardHeight: CGFloat = 0.0
 
     // MARK: - Height Calculations
 
@@ -467,10 +464,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         case UICollectionElementKindSectionHeader:
             if let item = section.formHeader as? BaseSupplementaryFormItem {
                 item.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle), toView: view)
-
-                if indexPath.section == 0 {
-                    minimumCardHeight = view.frame.height
-                }
             }
         case UICollectionElementKindSectionFooter:
             if let item = section.formFooter as? BaseSupplementaryFormItem {
