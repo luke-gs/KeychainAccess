@@ -12,7 +12,7 @@ open class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsVie
  
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        let vc = IncidentNarrativeViewController(viewModel: self)
+        let vc = NarrativeViewController(viewModel: self)
         self.delegate = vc
         return vc
     }

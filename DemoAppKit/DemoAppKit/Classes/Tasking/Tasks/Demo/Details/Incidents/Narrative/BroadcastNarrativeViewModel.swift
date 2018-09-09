@@ -12,7 +12,7 @@ open class BroadcastNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsVi
 
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        let vc = BroadcastNarrativeViewController(viewModel: self)
+        let vc = NarrativeViewController(viewModel: self)
         self.delegate = vc
         return vc
     }

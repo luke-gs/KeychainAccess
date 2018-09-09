@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		11981E942304331901A520CF /* Pods_DemoAppKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */; };
 		379567B72140D96400577C0B /* BroadcastNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */; };
-		379567B92140D9B600577C0B /* BroadcastNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */; };
 		379567BB2140E54A00577C0B /* BroadcastAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */; };
 		96B80752212D1953005A72A0 /* DemoAppKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */; };
 		96B80753212D1953005A72A0 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80620212D1953005A72A0 /* SystemPresenter.swift */; };
@@ -89,7 +88,7 @@
 		96B8079F212D1954005A72A0 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068D212D1953005A72A0 /* IncidentResourcesViewController.swift */; };
 		96B807A0212D1954005A72A0 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068E212D1953005A72A0 /* IncidentResourcesViewModel.swift */; };
 		96B807A1212D1954005A72A0 /* IncidentResourceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068F212D1953005A72A0 /* IncidentResourceItemViewModel.swift */; };
-		96B807A2212D1954005A72A0 /* IncidentNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80691212D1953005A72A0 /* IncidentNarrativeViewController.swift */; };
+		96B807A2212D1954005A72A0 /* NarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80691212D1953005A72A0 /* NarrativeViewController.swift */; };
 		96B807A3212D1954005A72A0 /* IncidentNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80692212D1953005A72A0 /* IncidentNarrativeViewModel.swift */; };
 		96B807A4212D1954005A72A0 /* IncidentTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80693212D1953005A72A0 /* IncidentTaskItemViewModel.swift */; };
 		96B807A5212D1954005A72A0 /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80695212D1953005A72A0 /* IncidentOverviewViewModel.swift */; };
@@ -260,7 +259,6 @@
 		194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoAppKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFE492F8D46446B33E651EC /* Pods-DemoAppKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.release.xcconfig"; sourceTree = "<group>"; };
 		379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewModel.swift; sourceTree = "<group>"; };
-		379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewController.swift; sourceTree = "<group>"; };
 		379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewModel.swift; sourceTree = "<group>"; };
 		4743E5E1011191428DE51086 /* Pods-DemoAppKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		49B402C8F20F35F80AAF07E7 /* Pods-DemoAppKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -343,7 +341,7 @@
 		96B8068D212D1953005A72A0 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
 		96B8068E212D1953005A72A0 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
 		96B8068F212D1953005A72A0 /* IncidentResourceItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourceItemViewModel.swift; sourceTree = "<group>"; };
-		96B80691212D1953005A72A0 /* IncidentNarrativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewController.swift; sourceTree = "<group>"; };
+		96B80691212D1953005A72A0 /* NarrativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NarrativeViewController.swift; sourceTree = "<group>"; };
 		96B80692212D1953005A72A0 /* IncidentNarrativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewModel.swift; sourceTree = "<group>"; };
 		96B80693212D1953005A72A0 /* IncidentTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTaskItemViewModel.swift; sourceTree = "<group>"; };
 		96B80695212D1953005A72A0 /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
@@ -902,10 +900,9 @@
 		96B80690212D1953005A72A0 /* Narrative */ = {
 			isa = PBXGroup;
 			children = (
-				96B80691212D1953005A72A0 /* IncidentNarrativeViewController.swift */,
+				96B80691212D1953005A72A0 /* NarrativeViewController.swift */,
 				96B80692212D1953005A72A0 /* IncidentNarrativeViewModel.swift */,
 				379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */,
-				379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */,
 			);
 			path = Narrative;
 			sourceTree = "<group>";
@@ -1647,7 +1644,7 @@
 				96B80752212D1953005A72A0 /* DemoAppKitImports.swift in Sources */,
 				96B807A1212D1954005A72A0 /* IncidentResourceItemViewModel.swift in Sources */,
 				96B8079D212D1954005A72A0 /* AssociationItemViewModel.swift in Sources */,
-				96B807A2212D1954005A72A0 /* IncidentNarrativeViewController.swift in Sources */,
+				96B807A2212D1954005A72A0 /* NarrativeViewController.swift in Sources */,
 				96B807ED212D1954005A72A0 /* TasksMapViewController.swift in Sources */,
 				96B80805212D1954005A72A0 /* CADOfficerCore.swift in Sources */,
 				96B807D0212D1954005A72A0 /* BookOnDetailsOfficerFormItem.swift in Sources */,
@@ -1705,7 +1702,6 @@
 				96B8075B212D1954005A72A0 /* EventLocation.swift in Sources */,
 				96B807EF212D1954005A72A0 /* TasksMapFilterViewModelCore.swift in Sources */,
 				96B807E9212D1954005A72A0 /* BroadcastAnnotationView.swift in Sources */,
-				379567B92140D9B600577C0B /* BroadcastNarrativeViewController.swift in Sources */,
 				379567BB2140E54A00577C0B /* BroadcastAssociationsViewModel.swift in Sources */,
 				96B80780212D1954005A72A0 /* TrafficStopViewModel.swift in Sources */,
 				96B80812212D1954005A72A0 /* CADAlertLevelType.swift in Sources */,
