@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class IncidentAssociationsViewController: CADFormCollectionViewController<AssociationItemViewModel>, TaskDetailsLoadable {
+open class AssociationsViewController: CADFormCollectionViewController<AssociationItemViewModel>, TaskDetailsLoadable {
     
     private let styleItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .navBarThumbnailSelected), style: .plain, target: nil, action: nil)
 

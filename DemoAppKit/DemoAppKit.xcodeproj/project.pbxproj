@@ -11,7 +11,6 @@
 		379567B72140D96400577C0B /* BroadcastNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */; };
 		379567B92140D9B600577C0B /* BroadcastNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */; };
 		379567BB2140E54A00577C0B /* BroadcastAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */; };
-		379567BD2140E59C00577C0B /* BroadcastAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567BC2140E59C00577C0B /* BroadcastAssociationsViewController.swift */; };
 		96B80752212D1953005A72A0 /* DemoAppKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */; };
 		96B80753212D1953005A72A0 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80620212D1953005A72A0 /* SystemPresenter.swift */; };
 		96B80754212D1953005A72A0 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80623212D1953005A72A0 /* TrafficHistoryCollectionViewCell.swift */; };
@@ -86,7 +85,7 @@
 		96B8079B212D1954005A72A0 /* BroadcastOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80686212D1953005A72A0 /* BroadcastOverviewViewModel.swift */; };
 		96B8079C212D1954005A72A0 /* IncidentAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80689212D1953005A72A0 /* IncidentAssociationsViewModel.swift */; };
 		96B8079D212D1954005A72A0 /* AssociationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */; };
-		96B8079E212D1954005A72A0 /* IncidentAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068B212D1953005A72A0 /* IncidentAssociationsViewController.swift */; };
+		96B8079E212D1954005A72A0 /* AssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068B212D1953005A72A0 /* AssociationsViewController.swift */; };
 		96B8079F212D1954005A72A0 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068D212D1953005A72A0 /* IncidentResourcesViewController.swift */; };
 		96B807A0212D1954005A72A0 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068E212D1953005A72A0 /* IncidentResourcesViewModel.swift */; };
 		96B807A1212D1954005A72A0 /* IncidentResourceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8068F212D1953005A72A0 /* IncidentResourceItemViewModel.swift */; };
@@ -263,7 +262,6 @@
 		379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewModel.swift; sourceTree = "<group>"; };
 		379567B82140D9B600577C0B /* BroadcastNarrativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewController.swift; sourceTree = "<group>"; };
 		379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewModel.swift; sourceTree = "<group>"; };
-		379567BC2140E59C00577C0B /* BroadcastAssociationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewController.swift; sourceTree = "<group>"; };
 		4743E5E1011191428DE51086 /* Pods-DemoAppKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		49B402C8F20F35F80AAF07E7 /* Pods-DemoAppKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.debug.xcconfig"; sourceTree = "<group>"; };
 		837172668652E1ABE842ACD1 /* Pods_DemoAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -341,7 +339,7 @@
 		96B80686212D1953005A72A0 /* BroadcastOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewViewModel.swift; sourceTree = "<group>"; };
 		96B80689212D1953005A72A0 /* IncidentAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewModel.swift; sourceTree = "<group>"; };
 		96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationItemViewModel.swift; sourceTree = "<group>"; };
-		96B8068B212D1953005A72A0 /* IncidentAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewController.swift; sourceTree = "<group>"; };
+		96B8068B212D1953005A72A0 /* AssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationsViewController.swift; sourceTree = "<group>"; };
 		96B8068D212D1953005A72A0 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
 		96B8068E212D1953005A72A0 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
 		96B8068F212D1953005A72A0 /* IncidentResourceItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourceItemViewModel.swift; sourceTree = "<group>"; };
@@ -886,8 +884,7 @@
 				96B80689212D1953005A72A0 /* IncidentAssociationsViewModel.swift */,
 				379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */,
 				96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */,
-				96B8068B212D1953005A72A0 /* IncidentAssociationsViewController.swift */,
-				379567BC2140E59C00577C0B /* BroadcastAssociationsViewController.swift */,
+				96B8068B212D1953005A72A0 /* AssociationsViewController.swift */,
 			);
 			path = Associations;
 			sourceTree = "<group>";
@@ -1722,7 +1719,7 @@
 				96B807CA212D1954005A72A0 /* PatrolAreaListItemViewModel.swift in Sources */,
 				96B80763212D1954005A72A0 /* PropertyDetailsReport.swift in Sources */,
 				96B807DD212D1954005A72A0 /* TaskListScreen.swift in Sources */,
-				96B8079E212D1954005A72A0 /* IncidentAssociationsViewController.swift in Sources */,
+				96B8079E212D1954005A72A0 /* AssociationsViewController.swift in Sources */,
 				96B807A7212D1954005A72A0 /* TasksListResourceSummaryView.swift in Sources */,
 				96B8075A212D1954005A72A0 /* EventBuilding.swift in Sources */,
 				96B80785212D1954005A72A0 /* CallsignStatusViewModel.swift in Sources */,
@@ -1824,7 +1821,6 @@
 				96B8082F212D1954005A72A0 /* ActivityLogViewModel.swift in Sources */,
 				96B8080D212D1954005A72A0 /* CADClientModelTypes.swift in Sources */,
 				96B8082C212D1954005A72A0 /* DatedActivityLogViewModel.swift in Sources */,
-				379567BD2140E59C00577C0B /* BroadcastAssociationsViewController.swift in Sources */,
 				96B80813212D1954005A72A0 /* CADResourceUnitType.swift in Sources */,
 				96B80816212D1954005A72A0 /* CADPatrolStatusType.swift in Sources */,
 				96B80815212D1954005A72A0 /* CADResourceStatusType.swift in Sources */,

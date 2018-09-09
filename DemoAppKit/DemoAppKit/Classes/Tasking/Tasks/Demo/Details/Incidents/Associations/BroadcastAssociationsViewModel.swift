@@ -10,7 +10,7 @@ public class BroadcastAssociationsViewModel: CADFormCollectionViewModel<Associat
 
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        return IncidentAssociationsViewController(viewModel: self)
+        return AssociationsViewController(viewModel: self)
     }
 
     public func reloadFromModel(_ model: CADTaskListItemModelType) {
