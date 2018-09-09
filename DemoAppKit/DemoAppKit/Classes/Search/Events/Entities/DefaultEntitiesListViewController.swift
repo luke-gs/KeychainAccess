@@ -101,7 +101,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
     @objc private func newEntityHandler(_ sender: UIButton) {
 
-        var entityPickerViewModel = viewModel.entityPickerViewModel
+        let entityPickerViewModel = viewModel.entityPickerViewModel
         entityPickerViewModel.delegate = self
         
         let viewController = EntityPickerViewController(viewModel: entityPickerViewModel)

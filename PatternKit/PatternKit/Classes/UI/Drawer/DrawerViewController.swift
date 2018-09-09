@@ -21,7 +21,7 @@ import UIKit
     /// Tells the delegate that the height of the drawer has been changed.
     ///
     /// - Parameters:
-    ///   - drawer: The view controller informing the delegate.
+    ///   - drawerViewController: The view controller informing the delegate.
     ///   - height: The height at which the drawer is set to.
     @objc optional func drawerViewControllerDrawerHeightDidChange(_ drawerViewController: DrawerViewController, height: CGFloat)
 
