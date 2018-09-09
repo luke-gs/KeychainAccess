@@ -29,9 +29,9 @@ public protocol CADBroadcastType: class, CADTaskListItemModelType {
     var vehicles: [CADVehicleType] { get set }
 }
 
-// Protocol for a class representing the full details for an incident.
+// Protocol for a class representing the full details for an broadcast.
 ///
-/// This information only gets loaded when viewing an individual incident.
+/// This information only gets loaded when viewing an individual broadcast.
 public protocol CADBroadcastDetailsType: CADBroadcastType {
 
     // MARK: - Network
