@@ -22,12 +22,6 @@ public protocol DraggableCardViewDelegate: class {
     func didFinishDragCardView()
 }
 
-public protocol DraggableCardViewLayoutable: class {
-    
-    // height the card will sit at in its minimised state
-    var minimumCardHeight: CGFloat { get }
-}
-
 /// View for showing scrollable content that can be minimised or restored using pan gestures
 /// on the content view or drag bar
 open class DraggableCardView: UIView {
@@ -165,8 +159,7 @@ open class DraggableCardView: UIView {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
 
