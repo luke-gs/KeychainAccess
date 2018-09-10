@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class IncidentAssociationsViewController: CADFormCollectionViewController<IncidentAssociationItemViewModel>, TaskDetailsLoadable {
+open class AssociationsViewController: CADFormCollectionViewController<AssociationItemViewModel>, TaskDetailsLoadable {
     
     private let styleItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .navBarThumbnailSelected), style: .plain, target: nil, action: nil)
 
-    override public init(viewModel: CADFormCollectionViewModel<IncidentAssociationItemViewModel>) {
+    override public init(viewModel: CADFormCollectionViewModel<AssociationItemViewModel>) {
         super.init(viewModel: viewModel)
         
         // TODO: Add red dot
@@ -83,7 +83,7 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
         return EntityListCollectionViewCell.self
     }
 
-    private func cellType(for entityType: IncidentAssociationItemViewModel.EntityType) -> CollectionViewFormCell.Type {
+    private func cellType(for entityType: AssociationItemViewModel.EntityType) -> CollectionViewFormCell.Type {
 
         switch entityType {
             case .person:
@@ -93,7 +93,7 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
         }
     }
 
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: IncidentAssociationItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: AssociationItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.accessoryView = nil

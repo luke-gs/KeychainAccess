@@ -25,8 +25,8 @@ public protocol CADIncidentType: class, Codable, CADTaskListItemModelType {
     var details: String? { get set }
     var informant : CADIncidentInformantType? { get set }
     var locations: [CADLocationType] { get set }
-    var persons: [CADIncidentPersonType] { get set }
-    var vehicles: [CADIncidentVehicleType] { get set }
+    var persons: [CADAssociatedPersonType] { get set }
+    var vehicles: [CADAssociatedVehicleType] { get set }
 
     // MARK: - Generated
     var status: CADIncidentStatusType { get }

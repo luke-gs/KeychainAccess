@@ -23,4 +23,17 @@ public protocol CADBroadcastType: class, CADTaskListItemModelType {
     // MARK: - Generated
     var coordinate: CLLocationCoordinate2D? { get }
     var createdAtString: String? { get }
+
+    var locations: [CADLocationType] { get set }
+    var persons: [CADAssociatedPersonType] { get set }
+    var vehicles: [CADAssociatedVehicleType] { get set }
+}
+
+// Protocol for a class representing the full details for an broadcast.
+///
+/// This information only gets loaded when viewing an individual broadcast.
+public protocol CADBroadcastDetailsType: CADBroadcastType {
+
+    // MARK: - Network
+    var narrative: [CADActivityLogItemType] { get set }
 }

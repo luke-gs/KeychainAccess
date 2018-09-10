@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
+public class AssociationItemViewModel: EntitySummaryDisplayable {
     
     public enum EntityType {
         case person(initials: String, thumbnailUrl: URL?)

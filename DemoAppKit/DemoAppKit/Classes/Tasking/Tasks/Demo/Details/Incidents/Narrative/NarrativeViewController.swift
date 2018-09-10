@@ -8,9 +8,9 @@
 
 import UIKit
 
-public class IncidentNarrativeViewController: ActivityLogViewController, TaskDetailsLoadable {
+public class NarrativeViewController: ActivityLogViewController, TaskDetailsLoadable {
 
-    public init(viewModel: IncidentNarrativeViewModel) {
+    public init(viewModel: DatedActivityLogViewModel & TaskDetailsViewModel) {
         super.init(viewModel: viewModel)
         
         sidebarItem.image = AssetManager.shared.image(forKey: .list)
