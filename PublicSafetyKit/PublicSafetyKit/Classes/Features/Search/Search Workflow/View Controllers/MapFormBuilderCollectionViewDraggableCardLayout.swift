@@ -15,7 +15,8 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
     private var cardView: DraggableCardView!
     private var cardBottomConstraint: NSLayoutConstraint?
     private var cardHeightConstraint: NSLayoutConstraint?
-    private var formHeightConstraint: NSLayoutConstraint!
+    private var formHeightConstraint: NSLayoutConstraint?
+    private var mapCenterYConstraint: NSLayoutConstraint?
 
     var minCardHeight: CGFloat = 42 {
         didSet {
@@ -39,7 +40,7 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
         let collectionView = controller.collectionView!
         let mapView = controller.mapView!
         mapView.frame = view.bounds
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mapView)
 
         if let accessoryView = controller.accessoryView {
@@ -72,12 +73,19 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
             cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(offset))
         }
 
+        mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+
         constraints += [
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2, constant: 0),
+            mapCenterYConstraint!,
+
             collectionView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: cardView.contentView.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: cardView.contentView.bottomAnchor),
-            formHeightConstraint,
+            formHeightConstraint!,
 
             cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -90,7 +98,7 @@ open class MapFormBuilderCollectionViewDraggableCardLayout: MapFormBuilderViewLa
 
     open override func viewDidLayoutSubviews() -> Bool {
         // Update the form collection view height to match the content
-        formHeightConstraint.constant = controller?.collectionView?.contentSize.height ?? 0
+        formHeightConstraint?.constant = controller?.collectionView?.contentSize.height ?? 0
 
         updateMinCardHeight()
         return true
@@ -159,7 +167,8 @@ extension MapFormBuilderCollectionViewDraggableCardLayout: DraggableCardViewDele
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
             // Move card to match new state with no translation
             self.didDragCardView(translation: 0)
-
+            // Move map so that it is centered in the remaining space (without changing size)
+            self.mapCenterYConstraint?.constant = -(self.cardHeightConstraint?.constant ?? 0) / 2
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
