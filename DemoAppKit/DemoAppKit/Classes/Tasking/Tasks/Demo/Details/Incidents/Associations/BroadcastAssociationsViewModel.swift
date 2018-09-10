@@ -21,7 +21,7 @@ public class BroadcastAssociationsViewModel: CADFormCollectionViewModel<Associat
         let personsViewModels = broadcast.persons.map { person in
             return AssociationItemViewModel(
                 association: person,
-                category: "DS1",
+                category: person.source,
                 entityType: .person(initials: person.initials, thumbnailUrl: person.thumbnailUrl),
                 title: person.fullName,
                 detail1: formattedDOBAgeGender(person),
@@ -34,7 +34,7 @@ public class BroadcastAssociationsViewModel: CADFormCollectionViewModel<Associat
         let vehiclesViewModels = broadcast.vehicles.map { vehicle in
             return AssociationItemViewModel(
                 association: vehicle,
-                category: "DS1",
+                category: vehicle.source,
                 entityType: .vehicle,
                 title: vehicle.plateNumber,
                 detail1: [vehicle.year, vehicle.make, vehicle.model].joined(),
