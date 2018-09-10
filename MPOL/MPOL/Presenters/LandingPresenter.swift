@@ -302,12 +302,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
     public weak var tabBarController: UITabBarController?
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
+
         let accessibilitySection: SettingSection = SettingSection(type: .plain(title: "Accessibility"), settings: [
             Settings.numericKeyboard,
             Settings.darkMode,
-            Settings.biometrics,
+            Settings.appropriateBiometric(),
             Settings.signature
-            ])
+            ].compactMap { $0 })
         let generalSection: SettingSection = SettingSection(type: .plain(title: "General"), settings: [
             Settings.manifest,
             Settings.support,
