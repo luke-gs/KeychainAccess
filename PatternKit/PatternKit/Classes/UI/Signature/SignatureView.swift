@@ -107,7 +107,7 @@ public class SignatureView: UIView {
             topAnchor.constraint(equalTo: imageView.topAnchor),
             bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
             ])
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         savedSignatureImageView = imageView
     }
 
