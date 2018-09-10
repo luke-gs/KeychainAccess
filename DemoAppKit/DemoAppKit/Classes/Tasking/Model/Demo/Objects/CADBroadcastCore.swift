@@ -87,9 +87,9 @@ open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
         narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative) ?? []
         title = try values.decodeIfPresent(String.self, forKey: .title)
         type = try values.decode(CADBroadcastCategoryCore.self, forKey: .type)
-        persons = try values.decodeIfPresent([CADIncidentPersonCore].self, forKey: .persons) ?? []
+        persons = try values.decodeIfPresent([CADAssociatedPersonCore].self, forKey: .persons) ?? []
         locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations) ?? []
-        vehicles = try values.decodeIfPresent([CADIncidentVehicleCore].self, forKey: .vehicles) ?? []
+        vehicles = try values.decodeIfPresent([CADAssoctiatedVehicleCore].self, forKey: .vehicles) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {

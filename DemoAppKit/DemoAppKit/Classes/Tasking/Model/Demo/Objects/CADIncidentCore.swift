@@ -130,10 +130,10 @@ open class CADIncidentCore: Codable, CADIncidentDetailsType {
         locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations) ?? []
         narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative) ?? []
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        persons = try values.decodeIfPresent([CADIncidentPersonCore].self, forKey: .persons) ?? []
+        persons = try values.decodeIfPresent([CADAssociatedPersonCore].self, forKey: .persons) ?? []
         secondaryCode = try values.decodeIfPresent(String.self, forKey: .secondaryCode)
         type = try values.decodeIfPresent(String.self, forKey: .type)
-        vehicles = try values.decodeIfPresent([CADIncidentVehicleCore].self, forKey: .vehicles) ?? []
+        vehicles = try values.decodeIfPresent([CADAssoctiatedVehicleCore].self, forKey: .vehicles) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {

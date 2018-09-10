@@ -9,7 +9,7 @@
 import Foundation
 
 /// PSCore implementation of class representing a person associated with incident
-open class CADIncidentPersonCore: Codable, CADAssociatedPersonType {
+open class CADAssociatedPersonCore: Codable, CADAssociatedPersonType {
 
     public var entityType: String? {
         return "Person"
