@@ -38,9 +38,9 @@ open class CADIncidentCore: Codable, CADIncidentDetailsType {
 
     open var locations: [CADLocationType]
 
-    open var persons: [CADPersonType]
+    open var persons: [CADAssociatedPersonType]
 
-    open var vehicles: [CADVehicleType]
+    open var vehicles: [CADAssociatedVehicleType]
 
     open var narrative: [CADActivityLogItemType]
 

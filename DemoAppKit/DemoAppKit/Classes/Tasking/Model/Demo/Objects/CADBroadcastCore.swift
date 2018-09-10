@@ -33,9 +33,9 @@ open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
 
     public var locations: [CADLocationType]
 
-    public var persons: [CADPersonType]
+    public var persons: [CADAssociatedPersonType]
 
-    public var vehicles: [CADVehicleType]
+    public var vehicles: [CADAssociatedVehicleType]
 
     // MARK: - Generated
 

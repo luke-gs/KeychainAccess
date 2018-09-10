@@ -73,7 +73,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<Associati
     }
 
     /// Return the DOB, age and gender according to creative. eg 08/05/1987 (31 Male)
-    open func formattedDOBAgeGender(_ person: CADPersonType) -> String? {
+    open func formattedDOBAgeGender(_ person: CADAssociatedPersonType) -> String? {
         if let dob = person.dateOfBirth {
             let ageAndGender = "(\([String(dob.dobAge()), person.gender?.title].joined()))"
             return [dob.asPreferredDateString(), ageAndGender].joined(separator: " ")
