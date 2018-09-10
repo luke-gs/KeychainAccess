@@ -7,7 +7,6 @@
 
 import PublicSafetyKit
 import DemoAppKit
-import DemoAppKit
 
 extension IncidentType {
 

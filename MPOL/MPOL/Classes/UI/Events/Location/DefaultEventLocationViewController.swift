@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 import PublicSafetyKit
 import DemoAppKit
-import DemoAppKit
 
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 

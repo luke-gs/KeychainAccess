@@ -6,7 +6,6 @@
 //
 import PublicSafetyKit
 import DemoAppKit
-import DemoAppKit
 
 fileprivate extension EvaluatorKey {
     static let hasRequiredData = EvaluatorKey("hasRequiredData")

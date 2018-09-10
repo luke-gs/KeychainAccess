@@ -12,7 +12,6 @@ import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
 import Lottie
-import DemoAppKit
 import Alamofire
 
 #if INTERNAL || EXTERNAL

@@ -8,7 +8,6 @@
 
 import Foundation
 import DemoAppKit
-import DemoAppKit
 
 public class BookOnPresenter: Presenter {
 

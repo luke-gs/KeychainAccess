@@ -8,7 +8,6 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import DemoAppKit
 
 public class DomesticViolencePropertyViewModel {
 

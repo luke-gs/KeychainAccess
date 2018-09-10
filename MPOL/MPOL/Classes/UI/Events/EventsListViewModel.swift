@@ -8,7 +8,6 @@
 import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
-import DemoAppKit
 
 public class EventsListViewModel {
 

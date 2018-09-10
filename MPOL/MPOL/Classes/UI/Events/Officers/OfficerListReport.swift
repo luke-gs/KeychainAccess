@@ -9,7 +9,6 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import DemoAppKit
 
 public class OfficerListReport: EventReportable {
     public let weakEvent: Weak<Event>

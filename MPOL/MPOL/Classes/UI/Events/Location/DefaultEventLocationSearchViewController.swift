@@ -9,7 +9,6 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import DemoAppKit
 import PromiseKit
 
 class EventLocationSearchViewController: FormBuilderSearchViewController, EventSearchableViewModelDelegate, CLLocationManagerDelegate {
