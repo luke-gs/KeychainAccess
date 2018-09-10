@@ -28,9 +28,14 @@ open class ResourceOfficerViewModel {
     
     convenience public init(officer: CADOfficerType, resource: CADResourceType? = nil) {
         let commsEnabled = officer.contactNumber != nil
-        
+
+        var licenceType: String?
+        if let licenceId = officer.licenceTypeId {
+            licenceType = Manifest.shared.entry(withID: licenceId)?.rawValue
+        }
+
         self.init(title: officer.displayName,
-                  subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
+                  subtitle: [officer.rank, officer.payrollIdDisplayString, licenceType]
                     .joined(separator: ThemeConstants.dividerSeparator),
                   initials: officer.initials,
                   badgeText: resource?.driver == officer.payrollId ? "D": nil,
