@@ -70,6 +70,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             loginViewController.setupDefaultStyle(with: retrievedUsername)
 
             let loginContainer = LoginContainerViewController()
+            loginContainer.statusBarStyle = .lightContent
             loginContainer.setupDefaultStyle()
 
             loginContainer.addContentViewController(loginViewController)
