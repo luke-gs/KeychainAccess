@@ -53,12 +53,10 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             // Check if the user wants to authenticate with biometric and it's possible.
             // Can't check for password, because the `password` would require user permission.
-            var retrievedUsername: String?
             if wantsBiometricAuthentication {
                 if let currentUser = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
                     currentUser.useBiometric == .agreed {
                     mode = .credentialsWithBiometric(delegate: self)
-                    retrievedUsername = currentUser.username
                 } else {
                     mode = .credentials(delegate: self)
                 }
@@ -67,7 +65,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             }
 
             let loginViewController = LoginViewController(mode: mode)
-            loginViewController.setupDefaultStyle(with: retrievedUsername)
+            loginViewController.setupDefaultStyle(with: nil)
 
             let loginContainer = LoginContainerViewController()
             loginContainer.setupDefaultStyle()
