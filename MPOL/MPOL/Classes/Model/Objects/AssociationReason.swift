@@ -9,6 +9,7 @@ import UIKit
 import PublicSafetyKit
 import Unbox
 
+@objc(MPLAssociationReason)
 open class AssociationReason: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     

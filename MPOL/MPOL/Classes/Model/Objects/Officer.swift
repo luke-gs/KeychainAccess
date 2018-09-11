@@ -10,6 +10,7 @@ import Foundation
 import PublicSafetyKit
 import Unbox
 
+@objc(MPLOfficer)
 open class Officer: MPOLKitEntity, Identifiable {
 
     override open class var serverTypeRepresentation: String {

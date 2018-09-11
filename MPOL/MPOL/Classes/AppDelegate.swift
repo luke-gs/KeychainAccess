@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
+        performDataMigrationIfNecessary()
 
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
@@ -91,7 +92,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #endif
 
         setupNavigator()
-        performDataMigrationIfNecessary()
         startPrepopulationProcessIfNecessary()
 
         return true

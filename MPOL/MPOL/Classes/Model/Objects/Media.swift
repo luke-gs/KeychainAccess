@@ -10,6 +10,7 @@ import Foundation
 import PublicSafetyKit
 import Unbox
 
+@objc(MPLMedia)
 open class Media: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

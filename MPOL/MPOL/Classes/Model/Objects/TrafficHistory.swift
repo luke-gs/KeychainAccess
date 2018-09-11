@@ -9,6 +9,7 @@ import Foundation
 import PublicSafetyKit
 import Unbox
 
+@objc(MPLTrafficHistory)
 public class TrafficHistory: NSObject, Serialisable {
 
     public let id: String
