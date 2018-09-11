@@ -90,6 +90,7 @@
 		96728C2520D0B25600B82A53 /* APNS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
 		96728C3020D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
+		96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */; };
 		96B7747B2140F51900836B83 /* VINParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774722140F51900836B83 /* VINParserDefinitionsTests.swift */; };
 		96B7747C2140F51900836B83 /* LicenceSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774732140F51900836B83 /* LicenceSearchParametersTests.swift */; };
 		96B7747E2140F51900836B83 /* RegistrationParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774752140F51900836B83 /* RegistrationParserDefinitionsTests.swift */; };
@@ -381,6 +382,7 @@
 		96728C3520D0D08000B82A53 /* APNSConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		96728C3620D0D08000B82A53 /* APNSConfig-external-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		96728C3D20D2025200B82A53 /* APNS Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "APNS Extension.entitlements"; sourceTree = "<group>"; };
+		96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+DataMigration.swift"; sourceTree = "<group>"; };
 		96B774632140F4C400836B83 /* MPOLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96B774672140F4C500836B83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96B774722140F51900836B83 /* VINParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinitionsTests.swift; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				96B7758B2141E66200836B83 /* UI */,
 				96B7758D2141E9BF00836B83 /* User Preferences */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
+				96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */,
 				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
@@ -1747,6 +1750,7 @@
 				96B775AB214206F100836B83 /* PersonParserDefinition.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
+				96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,

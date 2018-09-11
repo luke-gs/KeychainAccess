@@ -91,6 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #endif
 
         setupNavigator()
+        performDataMigrationIfNecessary()
         startPrepopulationProcessIfNecessary()
 
         return true
