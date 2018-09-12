@@ -13,7 +13,7 @@ def all_kits
     pod 'SketchKit',       :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'PatternKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'PublicSafetyKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
-    pod 'DemoAppKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'DemoAppKit',      :path => '..', :inhibit_warnings => false
 end
 
 def core_app_extension

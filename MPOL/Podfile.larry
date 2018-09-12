@@ -13,7 +13,7 @@ def all_kits
     pod 'SketchKit',       :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
     pod 'PatternKit',      :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
     pod 'PublicSafetyKit', :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    pod 'DemoAppKit',      :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    pod 'DemoAppKit',      :git => 'https://github.com/Gridstone/mPol-iOS', :branch => 'development'
 end
 
 def core_app_extension

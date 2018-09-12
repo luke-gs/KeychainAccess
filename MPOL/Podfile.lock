@@ -57,7 +57,7 @@ PODS:
 DEPENDENCIES:
   - CoreKit (from `../../mPolKit-iOS`)
   - CoreKitAppExtension (from `../../mPolKit-iOS`)
-  - DemoAppKit (from `../../mPolKit-iOS`)
+  - DemoAppKit (from `..`)
   - HockeySDK
   - HyperioniOS
   - KeychainAccess
@@ -84,7 +84,7 @@ EXTERNAL SOURCES:
   CoreKitAppExtension:
     :path: "../../mPolKit-iOS"
   DemoAppKit:
-    :path: "../../mPolKit-iOS"
+    :path: ".."
   PatternKit:
     :path: "../../mPolKit-iOS"
   PublicSafetyKit:
@@ -110,6 +110,6 @@ SPEC CHECKSUMS:
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 9f49598b02f8afaeeddcf267f28b885b6bcbd27d
+PODFILE CHECKSUM: 5ca535317c56eadec07af349a3f453d701d1584d
 
 COCOAPODS: 1.5.3
