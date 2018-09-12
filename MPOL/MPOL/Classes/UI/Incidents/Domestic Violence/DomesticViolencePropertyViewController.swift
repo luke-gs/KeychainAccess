@@ -46,7 +46,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
 
     override open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.enforceLinearLayout = .always
 
         builder += LargeTextHeaderFormItem(text: viewModel.headerTitle).separatorColor(.clear)
             .actionButton(title: "Add", handler: { _ in
