@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		11981E942304331901A520CF /* Pods_DemoAppKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */; };
+		3729EBCB21461F9D00308250 /* PatrolAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBCA21461F9D00308250 /* PatrolAssociationsViewModel.swift */; };
+		3729EBCD214627E700308250 /* PatrolNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBCC214627E700308250 /* PatrolNarrativeViewModel.swift */; };
+		3729EBCF2148967D00308250 /* AssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBCE2148967D00308250 /* AssociationsViewModel.swift */; };
+		3729EBD12148A45B00308250 /* NarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBD02148A45B00308250 /* NarrativeViewModel.swift */; };
 		379567B72140D96400577C0B /* BroadcastNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */; };
 		379567BB2140E54A00577C0B /* BroadcastAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */; };
 		96B80752212D1953005A72A0 /* DemoAppKitImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */; };
@@ -258,6 +262,10 @@
 /* Begin PBXFileReference section */
 		194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoAppKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFE492F8D46446B33E651EC /* Pods-DemoAppKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.release.xcconfig"; sourceTree = "<group>"; };
+		3729EBCA21461F9D00308250 /* PatrolAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolAssociationsViewModel.swift; sourceTree = "<group>"; };
+		3729EBCC214627E700308250 /* PatrolNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolNarrativeViewModel.swift; sourceTree = "<group>"; };
+		3729EBCE2148967D00308250 /* AssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationsViewModel.swift; sourceTree = "<group>"; };
+		3729EBD02148A45B00308250 /* NarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarrativeViewModel.swift; sourceTree = "<group>"; };
 		379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewModel.swift; sourceTree = "<group>"; };
 		379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewModel.swift; sourceTree = "<group>"; };
 		4743E5E1011191428DE51086 /* Pods-DemoAppKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -883,6 +891,8 @@
 				379567BA2140E54A00577C0B /* BroadcastAssociationsViewModel.swift */,
 				96B8068A212D1953005A72A0 /* AssociationItemViewModel.swift */,
 				96B8068B212D1953005A72A0 /* AssociationsViewController.swift */,
+				3729EBCA21461F9D00308250 /* PatrolAssociationsViewModel.swift */,
+				3729EBCE2148967D00308250 /* AssociationsViewModel.swift */,
 			);
 			path = Associations;
 			sourceTree = "<group>";
@@ -903,6 +913,8 @@
 				96B80691212D1953005A72A0 /* NarrativeViewController.swift */,
 				96B80692212D1953005A72A0 /* IncidentNarrativeViewModel.swift */,
 				379567B62140D96400577C0B /* BroadcastNarrativeViewModel.swift */,
+				3729EBCC214627E700308250 /* PatrolNarrativeViewModel.swift */,
+				3729EBD02148A45B00308250 /* NarrativeViewModel.swift */,
 			);
 			path = Narrative;
 			sourceTree = "<group>";
@@ -1655,6 +1667,7 @@
 				96B807E3212D1954005A72A0 /* TasksMapViewModel.swift in Sources */,
 				96B8076A212D1954005A72A0 /* EventEntityManager.swift in Sources */,
 				96B80771212D1954005A72A0 /* EventSplitViewController.swift in Sources */,
+				3729EBD12148A45B00308250 /* NarrativeViewModel.swift in Sources */,
 				96B80770212D1954005A72A0 /* ServiceType.swift in Sources */,
 				96B8081E212D1954005A72A0 /* CADAssociatedPersonType.swift in Sources */,
 				96B80791212D1954005A72A0 /* ResourceOfficerViewModel.swift in Sources */,
@@ -1671,6 +1684,7 @@
 				96B80774212D1954005A72A0 /* DefaultEntitiesListReport.swift in Sources */,
 				96B807B8212D1954005A72A0 /* TasksListViewController.swift in Sources */,
 				96B8077D212D1954005A72A0 /* Incident.swift in Sources */,
+				3729EBCB21461F9D00308250 /* PatrolAssociationsViewModel.swift in Sources */,
 				96B80832212D1954005A72A0 /* CreateIncidentViewController.swift in Sources */,
 				96B80799212D1954005A72A0 /* BroadcastTaskItemViewModel.swift in Sources */,
 				96B807F8212D1954005A72A0 /* CADAlertLevelCore.swift in Sources */,
@@ -1714,6 +1728,7 @@
 				96B80753212D1953005A72A0 /* SystemPresenter.swift in Sources */,
 				96B807CA212D1954005A72A0 /* PatrolAreaListItemViewModel.swift in Sources */,
 				96B80763212D1954005A72A0 /* PropertyDetailsReport.swift in Sources */,
+				3729EBCF2148967D00308250 /* AssociationsViewModel.swift in Sources */,
 				96B807DD212D1954005A72A0 /* TaskListScreen.swift in Sources */,
 				96B8079E212D1954005A72A0 /* AssociationsViewController.swift in Sources */,
 				96B807A7212D1954005A72A0 /* TasksListResourceSummaryView.swift in Sources */,
@@ -1807,6 +1822,7 @@
 				96B80823212D1954005A72A0 /* CADActivityLogItemType.swift in Sources */,
 				96B807AE212D1954005A72A0 /* TasksSplitViewController.swift in Sources */,
 				96B80777212D1954005A72A0 /* AdditionalAction.swift in Sources */,
+				3729EBCD214627E700308250 /* PatrolNarrativeViewModel.swift in Sources */,
 				96B8082D212D1954005A72A0 /* ActivityLogViewController.swift in Sources */,
 				96B80821212D1954005A72A0 /* CADPatrolType.swift in Sources */,
 				96B8077B212D1954005A72A0 /* LoadingViewController.swift in Sources */,

@@ -1,14 +1,14 @@
 //
-//  BroadcastNarrativeViewModel.swift
+//  PatrolNarrativeViewModel.swift
 //  DemoAppKit
 //
-//  Created by Campbell Graham on 6/9/18.
+//  Created by Campbell Graham on 10/9/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-open class BroadcastNarrativeViewModel: NarrativeViewModel {
+open class PatrolNarrativeViewModel: NarrativeViewModel {
 
     open override func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let broadcast = model as? CADBroadcastDetailsType else { return }
@@ -24,3 +24,4 @@ open class BroadcastNarrativeViewModel: NarrativeViewModel {
         sections = sortedSectionsByDate(from: activityLogItemsViewModels)
     }
 }
+

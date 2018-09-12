@@ -1,19 +1,21 @@
 //
-//  BroadcastAssociationsViewModel.swift
+//  PatrolAssociationsViewModel.swift
 //  DemoAppKit
 //
-//  Created by Campbell Graham on 6/9/18.
+//  Created by Campbell Graham on 10/9/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-public class BroadcastAssociationsViewModel: AssociationsViewModel {
+import UIKit
+
+public class PatrolAssociationsViewModel: AssociationsViewModel {
 
     public override func reloadFromModel(_ model: CADTaskListItemModelType) {
-        guard let broadcast = model as? CADBroadcastType else { return }
+        guard let incident = model as? CADPatrolType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<AssociationItemViewModel>] = []
 
-        let personsViewModels = broadcast.persons.map { person in
+        let personsViewModels = incident.persons.map { person in
             return AssociationItemViewModel(
                 association: person,
                 category: person.source,
@@ -26,7 +28,7 @@ public class BroadcastAssociationsViewModel: AssociationsViewModel {
                 badge: 0)
         }
 
-        let vehiclesViewModels = broadcast.vehicles.map { vehicle in
+        let vehiclesViewModels = incident.vehicles.map { vehicle in
             return AssociationItemViewModel(
                 association: vehicle,
                 category: vehicle.source,

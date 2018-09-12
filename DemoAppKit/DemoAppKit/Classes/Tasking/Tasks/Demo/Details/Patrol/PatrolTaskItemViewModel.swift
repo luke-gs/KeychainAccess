@@ -44,7 +44,11 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     // MARK: - Methods
 
     open override func createViewModels() -> [TaskDetailsViewModel] {
-        return [PatrolOverviewViewModel()]
+        return [
+            PatrolOverviewViewModel(),
+            PatrolAssociationsViewModel(),
+            PatrolNarrativeViewModel()
+        ]
     }
 
     open override func createViewController() -> UIViewController {

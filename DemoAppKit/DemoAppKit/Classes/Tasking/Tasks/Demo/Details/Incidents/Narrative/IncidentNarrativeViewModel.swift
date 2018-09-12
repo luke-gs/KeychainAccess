@@ -8,16 +8,9 @@
 
 import UIKit
 
-open class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
- 
-    /// Create the view controller for this view model
-    open func createViewController() -> TaskDetailsViewController {
-        let vc = NarrativeViewController(viewModel: self)
-        self.delegate = vc
-        return vc
-    }
+open class IncidentNarrativeViewModel: NarrativeViewModel {
     
-    open func reloadFromModel(_ model: CADTaskListItemModelType) {
+    open override func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let incident = model as? CADIncidentDetailsType else { return }
 
         let activityLogItemsViewModels = incident.narrative.map { item in
@@ -29,19 +22,5 @@ open class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsVie
             }.sorted { return $0.timestamp > $1.timestamp }
         
         sections = sortedSectionsByDate(from: activityLogItemsViewModels)
-    }
-    
-    /// The title to use in the navigation bar
-    override open func navTitle() -> String {
-        return NSLocalizedString("Narrative", comment: "Narrative sidebar title")
-    }
-    
-    /// Content title shown when no results
-    override open func noContentTitle() -> String? {
-        return NSLocalizedString("No Activity Found", comment: "")
-    }
-    
-    override open func noContentSubtitle() -> String? {
-        return nil
     }
 }

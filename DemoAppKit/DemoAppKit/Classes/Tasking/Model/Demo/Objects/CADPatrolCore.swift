@@ -12,7 +12,7 @@ import CoreLocation
 // TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
 
 /// PSCore implementation of class representing a patrol task
-open class CADPatrolCore: Codable, CADPatrolType {
+open class CADPatrolCore: Codable, CADPatrolDetailsType {
 
     // MARK: - Network
 
@@ -33,6 +33,15 @@ open class CADPatrolCore: Codable, CADPatrolType {
     open var subtype: String?
 
     open var type: String?
+
+    public var locations: [CADLocationType]
+
+    public var persons: [CADAssociatedPersonType]
+
+    public var vehicles: [CADAssociatedVehicleType]
+
+    public var narrative: [CADActivityLogItemType]
+
 
     // MARK: - Generated
 
@@ -69,6 +78,10 @@ open class CADPatrolCore: Codable, CADPatrolType {
         case status = "status"
         case subtype = "subtype"
         case type = "type"
+        case locations = "locations"
+        case persons = "persons"
+        case vehicles = "vehicles"
+        case narrative = "narrative"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -82,6 +95,10 @@ open class CADPatrolCore: Codable, CADPatrolType {
         status = try values.decodeIfPresent(CADPatrolStatusCore.self, forKey: .status) ?? .assigned
         subtype = try values.decodeIfPresent(String.self, forKey: .subtype)
         type = try values.decodeIfPresent(String.self, forKey: .type)
+        persons = try values.decodeIfPresent([CADAssociatedPersonCore].self, forKey: .persons) ?? []
+        locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations) ?? []
+        vehicles = try values.decodeIfPresent([CADAssoctiatedVehicleCore].self, forKey: .vehicles) ?? []
+        narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {

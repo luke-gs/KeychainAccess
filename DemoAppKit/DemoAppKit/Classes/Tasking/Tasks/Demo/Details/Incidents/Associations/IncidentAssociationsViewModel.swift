@@ -8,14 +8,9 @@
 
 import UIKit
 
-public class IncidentAssociationsViewModel: CADFormCollectionViewModel<AssociationItemViewModel>, TaskDetailsViewModel {
-    
-    /// Create the view controller for this view model
-    open func createViewController() -> TaskDetailsViewController {
-        return AssociationsViewController(viewModel: self)
-    }
+public class IncidentAssociationsViewModel: AssociationsViewModel {
 
-    public func reloadFromModel(_ model: CADTaskListItemModelType) {
+    public override func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let incident = model as? CADIncidentType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<AssociationItemViewModel>] = []
@@ -57,32 +52,4 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<Associati
         }
         self.sections = sections
     }
-    
-    /// The title to use in the navigation bar
-    override open func navTitle() -> String {
-        return NSLocalizedString("Associations", comment: "Associations sidebar title")
-    }
-    
-    /// Content title shown when no results
-    override open func noContentTitle() -> String? {
-        return NSLocalizedString("No Associations Found", comment: "")
-    }
-    
-    override open func noContentSubtitle() -> String? {
-        return nil
-    }
-
-    /// Return the DOB, age and gender according to creative. eg 08/05/1987 (31 Male)
-    open func formattedDOBAgeGender(_ person: CADAssociatedPersonType) -> String? {
-        if let dob = person.dateOfBirth {
-            let ageAndGender = "(\([String(dob.dobAge()), person.gender?.title].joined()))"
-            return [dob.asPreferredDateString(), ageAndGender].joined(separator: " ")
-        } else if let gender = person.gender {
-            return gender.title + " (\(NSLocalizedString("DOB unknown", comment: "")))"
-        } else {
-            return NSLocalizedString("DOB and gender unknown", comment: "")
-        }
-    }
-
 }
-
