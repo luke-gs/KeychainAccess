@@ -207,7 +207,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }
     }
 
-    public func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
+    open func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
         if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
             if handler.isEvaluatedPolicyDomainStateStillValid(policyDomainState) {
                 return true
@@ -235,7 +235,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 throw PMKError.cancelled
             }
 
-            APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+            let plugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            APIManager.shared.setAuthenticationPlugin(plugin, rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             lToken = token
             controller.resetFields()
@@ -248,7 +249,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
                     // Ask if the user wants to remember their password.
                     if biometricUser.useBiometric == .unknown {
-                        return self.askForBiometricPermission(in: controller).then { promise -> Promise<Void> in
+                        return self.askForBiometricPermission(in: controller, with: lContext).then { promise -> Promise<Void> in
                             // Store the username and password.
                             return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
                                 // Only set it to `agreed` after password saving is successful.
@@ -326,22 +327,21 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         return UserPreferenceManager.shared.fetchSharedUserPreferences()
     }
 
-    private func askForBiometricPermission(in controller: UIViewController) -> Promise<Void> {
+    private func askForBiometricPermission(in controller: UIViewController, with context: LAContext) -> Promise<Void> {
         return Promise { seal in
-            let context = LAContext()
-            var title = "TouchID"
-            var message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDMessage", comment: "Message asking whether the user wants to enabled TouchID in login screen")
+            var title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDTitle", comment: "Title of prompt asking the user whether they want to enable Touch ID.")
+            var message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDMessage", comment: "Disclaimer / terms of use for enabling Touch ID")
             if #available(iOS 11.0.1, *) {
                 if context.biometryType == .faceID {
-                    title = "FaceID"
-                    message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDMessage", comment: "Message asking whether the user wants to use FaceID in login screen")
+                    title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDTitle", comment: "")
+                    message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDMessage", comment: "Disclaimer / terms of use for enabling Face ID")
                 }
             }
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let action = UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            let action = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .default, handler: { _ in
                 seal.fulfill(())
             })
-            let cancel = UIAlertAction(title: "No", style: .cancel, handler: { _ in
+            let cancel = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .cancel, handler: { _ in
                 seal.reject(PMKError.cancelled)
             })
             alertController.addAction(action)
