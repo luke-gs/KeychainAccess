@@ -12,5 +12,8 @@
 "AppGroupLandingPresenter.BiometricSavePrompt" = "Authenticate to enable biometric login";
 "AppGroupLandingPresenter.BiometricSaveCredentialsFailedTitle" = "Failed to authenticate";
 
-"AppGroupLandingPresenter.BiometricEnabledTouchIDMessage" = "Would you like to enable TouchID?";
-"AppGroupLandingPresenter.BiometricEnabledFaceIDMessage" = "Would you like to enable FaceID?";
+"AppGroupLandingPresenter.BiometricEnabledTouchIDTitle" = "Would you like to enable Touch ID?";
+"AppGroupLandingPresenter.BiometricEnabledFaceIDTitle" = "Would you like to enable Face ID?";
+
+"AppGroupLandingPresenter.BiometricEnabledTouchIDMessage" = "You must only ever store your own fingerprints on this device.\n\nIf anyone else's fingerprint is on this device they'll be considered authorised.";
+"AppGroupLandingPresenter.BiometricEnabledFaceIDMessage" = "You must only ever register your own face on this device.\n\nIf anyone else's face is on this device as alternative appearance they'll be considered authorised.";
