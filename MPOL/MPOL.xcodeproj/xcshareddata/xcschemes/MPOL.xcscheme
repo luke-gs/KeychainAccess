@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-               BuildableName = "PS Core Search.app"
+               BuildableName = "PS Core.app"
                BlueprintName = "MPOL"
                ReferencedContainer = "container:MPOL.xcodeproj">
             </BuildableReference>
@@ -33,10 +33,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BC12DC941F023EF0001A5BB7"
-               BuildableName = "ClientKitTests.xctest"
-               BlueprintName = "ClientKitTests"
-               ReferencedContainer = "container:../ClientKit/ClientKit.xcodeproj">
+               BlueprintIdentifier = "96B774622140F4C400836B83"
+               BuildableName = "MPOLTests.xctest"
+               BlueprintName = "MPOLTests"
+               ReferencedContainer = "container:MPOL.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "PS Core Search.app"
+            BuildableName = "PS Core.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
@@ -67,7 +67,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "PS Core Search.app"
+            BuildableName = "PS Core.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
@@ -90,7 +90,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "PS Core Search.app"
+            BuildableName = "PS Core.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>

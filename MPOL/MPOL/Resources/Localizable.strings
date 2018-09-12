@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  MPOL
+
+  Created by Herli Halim on 9/4/18.
+  Copyright © 2018 Gridstone. All rights reserved.
+*/
+
+"ShortcutItem.SearchPersonTitle" = "Search Person";
+"ShortcutItem.SearchVehicleTitle" = "Search Vehicle";
+"ShortcutItem.LaunchTasks" = "Launch Tasking";
+"AppGroupLandingPresenter.BiometricSavePrompt" = "Authenticate to enable biometric login";
+"AppGroupLandingPresenter.BiometricSaveCredentialsFailedTitle" = "Failed to authenticate";
+
+"AppGroupLandingPresenter.BiometricEnabledTouchIDTitle" = "Would you like to enable Touch ID?";
+"AppGroupLandingPresenter.BiometricEnabledFaceIDTitle" = "Would you like to enable Face ID?";
+
+"AppGroupLandingPresenter.BiometricEnabledTouchIDMessage" = "You must only ever store your own fingerprints on this device.\n\nIf anyone else's fingerprint is on this device they'll be considered authorised.";
+"AppGroupLandingPresenter.BiometricEnabledFaceIDMessage" = "You must only ever register your own face on this device.\n\nIf anyone else's face is on this device as alternative appearance they'll be considered authorised.";
