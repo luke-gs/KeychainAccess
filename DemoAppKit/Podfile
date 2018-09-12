@@ -1,0 +1,25 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+inhibit_all_warnings!
+use_frameworks!
+
+def the_dependencies
+  pod 'CoreKit', :path => '..', :inhibit_warnings => false
+  pod 'SketchKit', :path => '..', :inhibit_warnings => false
+  pod 'PatternKit', :path => '..', :inhibit_warnings => false
+  pod 'PublicSafetyKit', :path => '..', :inhibit_warnings => false
+end
+
+target 'DemoAppKit' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for DemoAppKit
+  the_dependencies
+
+  target 'DemoAppKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
