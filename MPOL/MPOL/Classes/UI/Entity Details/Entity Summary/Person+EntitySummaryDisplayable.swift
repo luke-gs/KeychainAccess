@@ -111,12 +111,9 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     private func formattedAddress(withNewLine: Bool = false) -> String? {
         guard let address = person.addresses?.first else { return nil }
         guard let shortAddressForm = AddressFormatter(style: .short).formattedString(from: address) else { return nil }
-        var components = [address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
+        var components = [address.suburb, address.county, address.state?.uppercased(), address.postcode].compactMap { $0 }
         if withNewLine && !components.isEmpty {
             components.insert("\n", at: 0)
-        }
-        if let county = address.county {
-            components.insert(county, at: 0)
         }
         guard !components.isEmpty else { return nil }
         return shortAddressForm + ", " + components.joined(separator: " ")
