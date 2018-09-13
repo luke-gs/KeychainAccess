@@ -133,8 +133,8 @@ public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionV
 
         cellHolder[entity] = cell
 
-        image?.loadImage(completion: { (imageSizable) in
-            if let cell = self.cellHolder[entity] {
+        image?.loadImage(completion: { [weak self] (imageSizable) in
+            if let cell = self?.cellHolder[entity] {
                 cell.thumbnailView.imageView.image = imageSizable.sizing().image
                 cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
             }
