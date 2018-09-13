@@ -1064,17 +1064,18 @@
       "narrative": [], 
       "patrolGroup": "Collingwood", 
       "persons": [
-        {
-          "alertLevel": 0, 
-          "dateOfBirth": "1989-11-01", 
-          "familyName": "Fuller", 
-          "fullAddress": "2 Bundalohn Court, St Kilda VIC 3182", 
-          "gender": "M", 
-          "givenName": "Daniel", 
-          "id": "2ff46c89-6388-435b-8bcf-df88e0785147", 
-          "source": "ds1", 
+          {
+          "alertLevel": 2,
+          "dateOfBirth": "1987-05-08",
+          "familyName": "Doe",
+          "fullAddress": "4 Bundalohn Court, St Kilda VIC 3182",
+          "gender": "M",
+          "givenName": "John",
+          "id": "2ff46c89-6388-435b-8bcf-df16e0785127",
+          "middleNames": "Robert",
+          "source": "ds1",
           "thumbnailUrl": "http://client-demo-api.pscore.mobi/ds1/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
-        }
+          },
       ], 
       "subtype": "Random check", 
       "type": "Bail", 
