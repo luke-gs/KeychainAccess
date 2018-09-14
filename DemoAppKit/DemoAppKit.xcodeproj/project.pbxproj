@@ -210,7 +210,7 @@
 		96B80815212D1954005A72A0 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80725212D1953005A72A0 /* CADResourceStatusType.swift */; };
 		96B80816212D1954005A72A0 /* CADPatrolStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80726212D1953005A72A0 /* CADPatrolStatusType.swift */; };
 		96B80817212D1954005A72A0 /* CADSyncResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80728212D1953005A72A0 /* CADSyncResponseType.swift */; };
-		96B80818212D1954005A72A0 /* CADIncidentAssociationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8072A212D1953005A72A0 /* CADIncidentAssociationType.swift */; };
+		96B80818212D1954005A72A0 /* CADAssociationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8072A212D1953005A72A0 /* CADAssociationType.swift */; };
 		96B80819212D1954005A72A0 /* CADIncidentInformantType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8072B212D1953005A72A0 /* CADIncidentInformantType.swift */; };
 		96B8081A212D1954005A72A0 /* CADBroadcastType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8072C212D1953005A72A0 /* CADBroadcastType.swift */; };
 		96B8081B212D1954005A72A0 /* CADOfficerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8072D212D1953005A72A0 /* CADOfficerType.swift */; };
@@ -467,7 +467,7 @@
 		96B80725212D1953005A72A0 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
 		96B80726212D1953005A72A0 /* CADPatrolStatusType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusType.swift; sourceTree = "<group>"; };
 		96B80728212D1953005A72A0 /* CADSyncResponseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncResponseType.swift; sourceTree = "<group>"; };
-		96B8072A212D1953005A72A0 /* CADIncidentAssociationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentAssociationType.swift; sourceTree = "<group>"; };
+		96B8072A212D1953005A72A0 /* CADAssociationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociationType.swift; sourceTree = "<group>"; };
 		96B8072B212D1953005A72A0 /* CADIncidentInformantType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentInformantType.swift; sourceTree = "<group>"; };
 		96B8072C212D1953005A72A0 /* CADBroadcastType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastType.swift; sourceTree = "<group>"; };
 		96B8072D212D1953005A72A0 /* CADOfficerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerType.swift; sourceTree = "<group>"; };
@@ -1303,7 +1303,7 @@
 		96B80729212D1953005A72A0 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				96B8072A212D1953005A72A0 /* CADIncidentAssociationType.swift */,
+				96B8072A212D1953005A72A0 /* CADAssociationType.swift */,
 				96B8072B212D1953005A72A0 /* CADIncidentInformantType.swift */,
 				96B8072C212D1953005A72A0 /* CADBroadcastType.swift */,
 				96B8072D212D1953005A72A0 /* CADOfficerType.swift */,
@@ -1802,7 +1802,7 @@
 				96B807C5212D1954005A72A0 /* TasksListBasicCollectionViewCell.swift in Sources */,
 				96B80822212D1954005A72A0 /* CADAssociatedVehicleType.swift in Sources */,
 				96B80836212D1954005A72A0 /* CADStateManagerCore.swift in Sources */,
-				96B80818212D1954005A72A0 /* CADIncidentAssociationType.swift in Sources */,
+				96B80818212D1954005A72A0 /* CADAssociationType.swift in Sources */,
 				96B8079C212D1954005A72A0 /* IncidentAssociationsViewModel.swift in Sources */,
 				96B80768212D1954005A72A0 /* EventLocationSelectionMapViewController.swift in Sources */,
 				96B807D8212D1954005A72A0 /* OfficerListViewModel.swift in Sources */,

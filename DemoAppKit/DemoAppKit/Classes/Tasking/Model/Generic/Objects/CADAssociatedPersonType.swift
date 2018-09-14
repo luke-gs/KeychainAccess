@@ -1,5 +1,5 @@
 //
-//  CADIncidentPersonType.swift
+//  CADAssociatedPersonType.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for a class representing an incident person (association)
-public protocol CADAssociatedPersonType: class, CADIncidentAssociationType {
+public protocol CADAssociatedPersonType: class, CADAssociationType {
 
     // MARK: - Network
     var alertLevel: CADAlertLevelType? { get set }
