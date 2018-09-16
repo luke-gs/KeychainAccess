@@ -1,5 +1,5 @@
 //
-//  CADIncidentPersonCore.swift
+//  CADAssociatedPersonCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
