@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PatternKit
 import CoreLocation
 
 /// PSCore implementation of class representing a resource (aka callsign)
@@ -68,13 +69,13 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
     /// Shift start string, default format `hh:mm`, 24 hours. `nil` if no shift start time
     open var shiftStartString: String? {
         guard let shiftStart = shiftStart else { return nil }
-        return CADResourceCore.shiftTimeFormatter.string(from: shiftStart)
+        return RelativeDateFormatter.relativeDayMonthAndTime.string(from: shiftStart)
     }
 
     /// Shift end string, default format `hh:mm`, 24 hours. `nil` if no shift end time
     open var shiftEndString: String? {
         guard let shiftEnd = shiftEnd else { return nil }
-        return CADResourceCore.shiftTimeFormatter.string(from: shiftEnd)
+        return RelativeDateFormatter.relativeDayMonthAndTime.string(from: shiftEnd)
     }
 
     /// Shift duration string, default short format. `nil` if no shift start or end time
@@ -112,12 +113,6 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
     }
 
     // MARK: - Static
-
-    public static var shiftTimeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter
-    }()
 
     public static var durationTimeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
