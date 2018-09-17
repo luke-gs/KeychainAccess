@@ -153,7 +153,7 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
             if cellType(for: item.entityType) == EntityCollectionViewCell.self {
-                return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, title: item.title, subtitle: item.detail1, detail: item.detail2, compatibleWith: traitCollection)
+                return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, title: item.title, subtitle: item.detail1, detail: item.detail2, subdetail: nil, inWidth: itemWidth, compatibleWith: traitCollection)
             } else {
                 return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, detail: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
             }
