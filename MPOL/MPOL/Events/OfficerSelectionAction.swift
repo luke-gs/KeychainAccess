@@ -39,6 +39,8 @@ extension OfficerSelectionAction: SearchDisplayableDelegate {
         self.selectedValue = object
         self.updateHandler?()
 
+        try? UserPreferenceManager.shared.addRecentId(object.id, forKey: .recentOfficers)
+
         viewController.dismiss(animated: true, completion: nil)
     }
 }
