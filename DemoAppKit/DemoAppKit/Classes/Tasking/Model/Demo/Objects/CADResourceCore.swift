@@ -115,8 +115,9 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 
     public static var shiftTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "dd/MM"
+        return RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
     }()
 
     public static var durationTimeFormatter: DateComponentsFormatter = {
