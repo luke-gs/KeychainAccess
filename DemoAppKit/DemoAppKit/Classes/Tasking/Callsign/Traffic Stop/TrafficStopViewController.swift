@@ -52,29 +52,11 @@ open class TrafficStopViewController: FormBuilderViewController {
     /// Form builder implementation
     open override func construct(builder: FormBuilder) {
         builder.title = viewModel.navTitle()
-        
-        builder += HeaderFormItem(text: "STOPPED ENTITIES")
-            .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] _ in
-                let entityViewModel = self.viewModel.viewModelForAddingEntity()
-                self.present(BookOnScreen.trafficStopEntity(entityViewModel: entityViewModel))
-            })
-        viewModel.entities.forEach { item in
-            builder += SummaryListFormItem()
-                .category(item.category)
-                .title(item.title)
-                .subtitle(item.subtitle)
-                .image(item.image)
-                .imageTintColor(item.imageColor ?? .primaryGray)
-                .borderColor(item.borderColor)
-                .width(.column(1))
-                .editActions([
-                    CollectionViewFormEditAction(title: "Remove", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
-                        self.viewModel.entities.remove(at: indexPath.item)
-                        self.reloadForm()
-                })])
-        }
-        
-        builder += HeaderFormItem(text: "STOP DETAILS")
+
+        // Stop Detail Form Items
+
+        builder += LargeTextHeaderFormItem(text: "Stop Details")
+            .separatorColor(.clear)
 
         let locationSelectionViewModel = LocationSelectionMapViewModel()
         if let location = viewModel.location {
@@ -100,8 +82,13 @@ open class TrafficStopViewController: FormBuilderViewController {
             })
             .width(.column(1))
 
+        // Incident Details Form Items
+
         if viewModel.createIncident {
-            builder += HeaderFormItem(text: "INCIDENT DETAILS")
+
+            builder += LargeTextHeaderFormItem(text: "Incident Details")
+                .separatorColor(.clear)
+
             builder += DropDownFormItem(title: "Priority")
                 .options(viewModel.priorityOptions)
                 .required("Priority is required")
@@ -110,7 +97,8 @@ open class TrafficStopViewController: FormBuilderViewController {
                 .onValueChanged({ [unowned self] in
                     self.viewModel.priority = CADClientModelTypes.incidentGrade.init(rawValue: $0?.first ?? "")
                 })
-                .width(.fixed(100))
+                .width(.column(3))
+
             builder += DropDownFormItem(title: "Primary Code")
                 .options(viewModel.primaryCodeOptions)
                 .required("Primary Code is required")
@@ -119,7 +107,8 @@ open class TrafficStopViewController: FormBuilderViewController {
                 .onValueChanged({ [unowned self] in
                     self.viewModel.primaryCode = $0?.first
                 })
-                .width(.fixed(150))
+                .width(.column(3))
+
             builder += DropDownFormItem(title: "Secondary Code")
                 .options(viewModel.secondaryCodeOptions)
                 .selectedValue([viewModel.secondaryCode].removeNils())
@@ -127,15 +116,41 @@ open class TrafficStopViewController: FormBuilderViewController {
                 .onValueChanged({ [unowned self] in
                     self.viewModel.secondaryCode = $0?.first
                 })
-                .width(.fixed(150))
+                .width(.column(3))
+
             builder += TextFieldFormItem(title: "Remark")
                 .text(viewModel.remark)
-                .placeholder("Required")
-                .required("Remark is required")
+                .placeholder("optional")
                 .onValueChanged({ [unowned self] in
                     self.viewModel.remark = $0
                 })
                 .width(.column(1))
+        }
+
+        // Entity Form Items
+
+        builder += LargeTextHeaderFormItem(text: "Stopped Subjects")
+            .separatorColor(.clear)
+            .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
+                let entityViewModel = self.viewModel.viewModelForAddingEntity()
+                self.present(BookOnScreen.trafficStopEntity(entityViewModel: entityViewModel))
+            })
+
+        viewModel.entities.forEach { item in
+            builder += SummaryListFormItem()
+                .category(item.category)
+                .title(item.title)
+                .subtitle(item.subtitle)
+                .image(item.image)
+                .imageTintColor(item.imageColor ?? .primaryGray)
+                .borderColor(item.borderColor)
+                .width(.column(1))
+                .editActions([
+                    CollectionViewFormEditAction(title: "Remove", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
+                        self.viewModel.entities.remove(at: indexPath.item)
+                        self.reloadForm()
+                    })])
+
         }
     }
     
