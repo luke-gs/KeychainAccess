@@ -41,6 +41,13 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
     /// Delegate action to interested party
     open var onSelectEntity: ((SelectStoppedEntityItemViewModel) -> Void)?
 
+    /// array of strings that match the serverTypeRepresentations of entities
+    open var allowedEntities: [String] = ["person","vehicle", "Location", "organisation"] {
+        didSet {
+            updateSections()
+        }
+    }
+
     // MARK: - Lifecycle
     
     public override init() {
@@ -58,13 +65,18 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
 
     open func updateSections() {
         let recentlyViewed = UserSession.current.recentlyViewed.entities
+
+        let allowedRecentlyViewed = recentlyViewed.filter({
+            allowedEntities.contains(type(of: $0).serverTypeRepresentation)
+        })
+
         let summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default
 
-        let viewModels: [SelectStoppedEntityItemViewModel] = recentlyViewed.reversed().compactMap { entity in
+        let viewModels: [SelectStoppedEntityItemViewModel] = allowedRecentlyViewed.reversed().compactMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
             return SelectStoppedEntityItemViewModel(entity: entity, summary: summary)
         }
-        self.sections = [CADFormCollectionSectionViewModel(title: "RECENTLY VIEWED", items: viewModels)]
+        self.sections = [CADFormCollectionSectionViewModel(title: "Recently Viewed", items: viewModels)]
     }
     
     /// Gets called from view controller when index path is selected

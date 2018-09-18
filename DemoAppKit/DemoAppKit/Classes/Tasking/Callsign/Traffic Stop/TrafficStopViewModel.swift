@@ -54,6 +54,7 @@ open class TrafficStopViewModel {
     /// View model for adding an entity
     open func viewModelForAddingEntity() -> SelectStoppedEntityViewModel {
         let viewModel = SelectStoppedEntityViewModel()
+        viewModel.allowedEntities = ["person", "vehicle"]
         viewModel.onSelectEntity = { [unowned self] entity -> Void in
             if !self.entities.contains(entity) {
                 self.entities.append(entity)
