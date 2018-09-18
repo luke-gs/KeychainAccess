@@ -69,7 +69,7 @@ open class CallsignListViewController: CADFormCollectionViewController<BookOnLan
     /// Activates view constraints
     open func setupConstraints() {
         NSLayoutConstraint.activate([
-            searchBarView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchBarView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             searchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
