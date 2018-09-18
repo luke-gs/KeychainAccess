@@ -257,7 +257,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
     }
 
-    open override func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool = false) -> Promise<Void> {
+    open override func syncBoundingBox(_ boundingBox: MKMapRect.BoundingBox, force: Bool = false) -> Promise<Void> {
         // Check whether new sync is required
         if !requiresSyncForBoundingBox(boundingBox) && !force {
             return Promise<Void>()

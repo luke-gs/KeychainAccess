@@ -122,7 +122,7 @@ open class CADStateManagerBase: CADStateManagerType {
     open var lastSync: CADSyncResponseType?
 
     /// The last synced bounding box
-    open var lastSyncMapBoundingBox: MKMapView.BoundingBox? = nil
+    open var lastSyncMapBoundingBox: MKMapRect.BoundingBox? = nil
 
     // MARK: - Property changes
 
@@ -237,7 +237,7 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Check whether a bounding box sync is needed
-    open func requiresSyncForBoundingBox(_ boundingBox: MKMapView.BoundingBox) -> Bool {
+    open func requiresSyncForBoundingBox(_ boundingBox: MKMapRect.BoundingBox) -> Bool {
         if let prevBoundingBox = lastSyncMapBoundingBox {
             // Check how far map has moved or been resized
             let prevSize = prevBoundingBox.northWestLocation.distance(from: prevBoundingBox.southEastLocation)
@@ -357,7 +357,7 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Sync a map bounding box
-    open func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool = false) -> Promise<Void> {
+    open func syncBoundingBox(_ boundingBox: MKMapRect.BoundingBox, force: Bool = false) -> Promise<Void> {
         MPLRequiresConcreteImplementation()
     }
 

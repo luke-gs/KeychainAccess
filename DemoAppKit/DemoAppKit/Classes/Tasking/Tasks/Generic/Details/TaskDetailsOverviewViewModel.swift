@@ -46,7 +46,7 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     
     /// The image to use in the sidebar
     open func sidebarImage() -> UIImage? {
-        return AssetManager.shared.image(forKey: .info)
+        return AssetManager.shared.image(forKey: .infoFilled)
     }
     
     /// Present "Directions, Street View, Search" options on address

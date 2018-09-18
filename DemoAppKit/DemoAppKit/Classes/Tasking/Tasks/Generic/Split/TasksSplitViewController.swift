@@ -18,7 +18,7 @@ public protocol TasksSplitViewControllerDelegate {
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
 open class TasksSplitViewController: MPOLSplitViewController {
     
-    public static let defaultSplitWidth: CGFloat = 320
+    public static var defaultSplitWidth: CGFloat = 320
     public let extendedNavbarHeight: CGFloat = 44
     
     public let viewModel: TasksSplitViewModel
