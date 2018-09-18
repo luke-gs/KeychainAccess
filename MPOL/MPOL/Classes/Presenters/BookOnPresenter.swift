@@ -78,8 +78,9 @@ public class BookOnPresenter: Presenter {
         case .notBookedOn: fallthrough
         case .manageBookOn:
             let container = PopoverNavigationController(rootViewController: to)
-            container.modalPresentationStyle = .formSheet
-            container.lightTransparentBackground = UIColor(white: 1, alpha: 0.5)
+            container.setModalPresentationStyle(.narrowPageSheet)
+            container.wantsTransparentBackground = false
+
             from.present(container, animated: true)
 
         // Present form sheet with custom size
