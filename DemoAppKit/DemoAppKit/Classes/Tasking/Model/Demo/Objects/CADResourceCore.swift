@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import PatternKit
 import CoreLocation
 
 /// PSCore implementation of class representing a resource (aka callsign)
