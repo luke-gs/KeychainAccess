@@ -1,5 +1,5 @@
 //
-//  CADIncidentVehicleType.swift
+//  CADAssociatedVehicleType.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for a class representing an incident vehicle (association)
-public protocol CADAssociatedVehicleType: class, CADIncidentAssociationType {
+public protocol CADAssociatedVehicleType: class, CADAssociationType {
 
     // MARK: - Network
     var alertLevel : CADAlertLevelType? { get set }

@@ -22,6 +22,6 @@ public enum TaskItemScreen: Presentable {
     case addressLookup(source: UIView, coordinate: CLLocationCoordinate2D?, address: String?)
 
     /// Show details for an association
-    case associationDetails(association: CADIncidentAssociationType)
+    case associationDetails(association: CADAssociationType)
 
 }

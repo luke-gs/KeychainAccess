@@ -15,7 +15,6 @@ private enum CodingKeys: String, CodingKey {
     case abn = "abn"
     case type = "type"
     case tradingAs = "tradingAs"
-    case locations = "locations"
     case aliases = "aliases"
 }
 
@@ -33,7 +32,6 @@ open class Organisation: Entity {
     open var type: String?
     
     open var tradingAs: String?
-    open var locations: [Address]?
     open var aliases: [Alias]?
     
     open override class var localizedDisplayName: String {
@@ -56,7 +54,6 @@ open class Organisation: Entity {
         acn = unboxer.unbox(key: CodingKeys.acn.rawValue)
         abn = unboxer.unbox(key: CodingKeys.abn.rawValue)
         type = unboxer.unbox(key: CodingKeys.type.rawValue)
-        locations = unboxer.unbox(key: CodingKeys.locations.rawValue)
         tradingAs = unboxer.unbox(key: CodingKeys.tradingAs.rawValue)
         aliases = unboxer.unbox(key: CodingKeys.aliases.rawValue)
 
@@ -68,7 +65,6 @@ open class Organisation: Entity {
         acn = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.acn.rawValue) as String?
         abn = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.abn.rawValue) as String?
         type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
-        locations = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.locations.rawValue) as? [Address]
         tradingAs = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.tradingAs.rawValue) as String?
         aliases = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.aliases.rawValue) as? [Alias]
     }
@@ -80,7 +76,6 @@ open class Organisation: Entity {
         aCoder.encode(acn, forKey: CodingKeys.acn.rawValue)
         aCoder.encode(abn, forKey: CodingKeys.abn.rawValue)
         aCoder.encode(type, forKey: CodingKeys.type.rawValue)
-        aCoder.encode(locations, forKey: CodingKeys.locations.rawValue)
         aCoder.encode(tradingAs, forKey: CodingKeys.tradingAs.rawValue)
         aCoder.encode(aliases, forKey: CodingKeys.aliases.rawValue)
     }

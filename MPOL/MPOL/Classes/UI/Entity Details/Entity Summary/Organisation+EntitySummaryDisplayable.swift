@@ -29,7 +29,7 @@ public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, Assoc
     }
     
     public var detail2: String? {
-        return organisation.locations?.first?.fullAddress
+        return organisation.addresses?.first?.fullAddress
     }
     
     public var association: String? {
@@ -72,7 +72,7 @@ public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, Assoc
     }
     
     public var coordinate: CLLocationCoordinate2D? {
-        guard let location = organisation.locations?.first,
+        guard let location = organisation.addresses?.first,
             let lat = location.latitude,
             let lon = location.longitude else { return nil }
         
