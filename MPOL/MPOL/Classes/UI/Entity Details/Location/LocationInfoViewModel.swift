@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PromiseKit
 import PublicSafetyKit
 
 open class LocationInfoViewModel: EntityDetailFormViewModel {
@@ -14,6 +15,11 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         return entity as? Address
     }
 
+    private var travelTimeETA: String?
+    private var travelTimeDistance: String?
+
+    public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
+
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
         builder.title = title
 
@@ -21,12 +27,34 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
             return
         }
 
-        builder += HeaderFormItem(text: NSLocalizedString("DETAILS", comment: ""), style: .collapsible)
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        builder += ValueFormItem(title: NSLocalizedString("Address", comment: ""), value: addressText(for: location))
-            .width(.column(1)).highlightStyle(.fade)
-        builder += ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: coordinateText(for: location))
-            .width(.column(2))
+        let asset = AssetManager.shared.image(forKey: .entityCarSmall)
+
+        // Only create travel Accessory if we have the data to fill it
+        var travelAccessory: CustomItemAccessory?
+
+        if let travelTime = travelTimeETA, let travelDistance = travelTimeDistance {
+            let travelTimeAccessoryView = TravelTimeAccessoryView(image: asset, distance: travelDistance, time: travelTime, frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+
+            travelAccessory = CustomItemAccessory(onCreate: { () -> UIView in
+                return travelTimeAccessoryView
+            }, size: CGSize(width: 100, height: 30))
+
+        }
+
+        builder += DetailLinkFormItem()
+            .title("Address")
+            .subtitle(addressText(for: location))
+            .width(.column(1))
+            .accessory(travelAccessory)
+            .onSelection { cell in
+                let handler = AddressOptionHandler(coordinate: CLLocation(latitude: location.latitude!, longitude: location.longitude!).coordinate, address: location.fullAddress)
+                viewController.presentActionSheetPopover(handler.actionSheetViewController(), sourceView: cell, sourceRect: cell.bounds, animated: true)
+        }
+
+        builder += ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: coordinateText(for: location)).width(.column(1))
+
     }
 
     open override var title: String? {
@@ -43,6 +71,11 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
     open override var sidebarImage: UIImage? {
         return AssetManager.shared.image(forKey: .infoFilled)
+    }
+
+    override func didSetEntity() {
+        super.didSetEntity()
+        LocationManager.shared.requestLocation().done(calculateETAandDistanceFromCurrentLocation).cauterize()
     }
 
     // MARK - Private
@@ -71,6 +104,33 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
     func suitableForHabitationText(for address: Address) -> String {
         // Data is not available yet.
         return "-"
+    }
+
+    private func calculateETAandDistanceFromCurrentLocation(_ currentLocation: CLLocation) {
+        guard let location = location else { return }
+        calculateETAandDistance(currentLocation: currentLocation, address: location).done {
+            self.delegate?.reloadData()
+            }.cauterize()
+    }
+
+    private func calculateETAandDistance(currentLocation: CLLocation, address: Address) -> Promise<Void> {
+        guard let location = location(from: self.location) else { return Promise<Void>() }
+        let promises: [Promise<Void>] = [
+            travelEstimationPlugin.calculateDistance(from: currentLocation, to: location).done {
+                self.travelTimeDistance = $0
+            },
+            travelEstimationPlugin.calculateETA(from: currentLocation, to: location, transportType: .automobile).done {
+                self.travelTimeETA = $0
+            }
+        ]
+        return when(fulfilled: promises).asVoid()
+    }
+
+    private func location(from address: Address?) -> CLLocation? {
+        guard let lat = address?.latitude,
+            let long = address?.longitude else { return nil }
+
+        return CLLocation(latitude: lat, longitude: long)
     }
 }
 
