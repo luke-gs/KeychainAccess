@@ -30,17 +30,18 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
                         .title(StringSizing(string: item.title ?? "Unknown"))
                         .subtitle(item.value)
                         .width(.column(1))
-                        .onSelection{ cell in
+                        .onSelection { cell in
                             item.selectAction?(cell)
-                    }
+                        }
                 } else {
                     builder += ValueFormItem(title: item.title,
                                              value: StringSizing(string: item.value ?? "Unknown"),
                                              image: item.image)
                         .width(item.width)
-                        .onSelection({ cell in
+                        .accessory(item.accessory)
+                        .onSelection{ cell in
                             item.selectAction?(cell)
-                        }).accessory(item.accessory)
+                        }
                 }
             }
         }

@@ -27,7 +27,8 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                              value: location?.displayText,
                                              width: .column(1),
                                              selectAction: { [unowned self] cell in
-                                                self.presentAddressPopover(from: cell)},
+                                                self.presentAddressPopover(from: cell)
+                                             },
                                              isAddress: true),
             
             TaskDetailsOverviewItemViewModel(title: "Priority",
