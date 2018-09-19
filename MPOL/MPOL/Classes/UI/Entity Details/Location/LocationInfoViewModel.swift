@@ -152,5 +152,3 @@ extension LocationInfoViewModel: EntityLocationMapDisplayable {
     }
 
 }
-
-public func 
