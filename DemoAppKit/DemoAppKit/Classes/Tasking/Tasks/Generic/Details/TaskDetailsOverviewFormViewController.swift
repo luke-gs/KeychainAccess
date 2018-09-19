@@ -47,7 +47,7 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
                                              image: item.image)
                         .width(item.width)
                         .accessory(item.accessory)
-                        .onSelection{ cell in
+                        .onSelection { cell in
                             item.selectAction?(cell)
                         }
                 }
