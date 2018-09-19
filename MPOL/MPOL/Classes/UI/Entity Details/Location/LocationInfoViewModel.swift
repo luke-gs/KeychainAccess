@@ -43,9 +43,15 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         }
 
-        builder += DetailLinkFormItem()
-            .title("Address")
-            .subtitle(addressText(for: location))
+        var linkAttributes = [NSAttributedStringKey : Any]()
+
+        if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
+            linkAttributes[NSAttributedStringKey.foregroundColor] = tintColor
+        }
+
+        builder += ValueFormItem()
+            .title(NSAttributedString(string: "Address"))
+            .value(NSAttributedString(string: addressText(for: location), attributes: linkAttributes))
             .width(.column(1))
             .accessory(travelAccessory)
             .onSelection { cell in
@@ -53,8 +59,10 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
                 viewController.presentActionSheetPopover(handler.actionSheetViewController(), sourceView: cell, sourceRect: cell.bounds, animated: true)
         }
 
-        builder += ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: coordinateText(for: location)).width(.column(1))
-
+        builder += ValueFormItem()
+            .title(NSAttributedString(string: "Latitude, Longitude"))
+            .value(NSAttributedString(string: coordinateText(for: location)))
+            .width(.column(1))
     }
 
     open override var title: String? {
@@ -144,3 +152,5 @@ extension LocationInfoViewModel: EntityLocationMapDisplayable {
     }
 
 }
+
+public func 
