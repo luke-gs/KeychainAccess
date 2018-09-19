@@ -26,13 +26,21 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
             }
             for item in section.items {
                 if item.isAddress {
-                    builder += DetailLinkFormItem()
-                        .title(StringSizing(string: item.title ?? "Unknown"))
-                        .subtitle(item.value)
+                    
+                    var linkAttributes = [NSAttributedStringKey: Any]()
+                    
+                    if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
+                        linkAttributes[.foregroundColor] = tintColor
+                    }
+                    
+                    builder += ValueFormItem(title: item.title,
+                                             value: NSAttributedString(string: item.value ?? "",
+                                                                       attributes: linkAttributes))
                         .width(.column(1))
                         .onSelection { cell in
                             item.selectAction?(cell)
                         }
+                    
                 } else {
                     builder += ValueFormItem(title: item.title,
                                              value: StringSizing(string: item.value ?? "Unknown"),
