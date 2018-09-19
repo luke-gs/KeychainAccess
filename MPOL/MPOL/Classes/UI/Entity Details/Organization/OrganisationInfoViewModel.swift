@@ -7,68 +7,20 @@
 //
 
 import PublicSafetyKit
+import PromiseKit
 
 open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationMapDisplayable {
+
+    public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
+    
+    private var travelTimeETAs: [String: String] = [:]
+    private var travelTimeDistances: [String: String] = [:]
     
     private var organisation: Organisation? {
         return entity as? Organisation
     }
     
     // MARK: - EntityDetailFormViewModel
-    
-    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
-        
-        guard let organisation = organisation else {
-            return
-        }
-        
-        builder.title = title
-        
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("DETAILS", comment: ""), separatorColor: .clear)
-        
-        builder += locationBlock(for: organisation)
-        
-        builder += detailsBlock(for: organisation)
-        
-        builder += aliasBlock(for: organisation)
-    }
-    
-    private func locationBlock(for organisation: Organisation) -> [FormItem] {
-        return [
-            ValueFormItem(title: NSLocalizedString("Address", comment: ""), value: organisation.locations?.first?.fullAddress)
-            .width(.column(1)).highlightStyle(.fade).separatorColor(.clear),
-            ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString())
-            .width(.column(1)).separatorColor(.clear)
-        ]
-    }
-    
-    private func detailsBlock(for organisation: Organisation) -> [FormItem] {
-        var items = [FormItem]()
-        items.append(ValueFormItem(title: NSLocalizedString("Organisation Type", comment: ""), value: organisation.type).width(.column(3)))
-        
-        if let acn = organisation.acn {
-             items.append(ValueFormItem(title: NSLocalizedString("ABN/ACN", comment: ""), value: acn).width(.column(3)))
-        } else {
-            items.append(ValueFormItem(title: NSLocalizedString("ABN/ACN", comment: ""), value: organisation.abn).width(.column(3)))
-        }
-        
-        if let effectiveDate = organisation.effectiveDate {
-            let dateString = DateFormatter.preferredDateStyle.string(from: effectiveDate)
-            items.append(ValueFormItem(title: NSLocalizedString("Effective From", comment: ""), value: dateString).width(.column(3)))
-        }
-        
-        return items
-    }
-    
-    private func aliasBlock(for organisation: Organisation) -> [FormItem] {
-        let title = LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""), separatorColor: .clear)
-        guard let aliases = organisation.aliases else { return [title] }
-    
-        return [title] + aliases.map {
-            let formTitle = $0.dateCreated != nil ? NSLocalizedString("Recorded on \($0.dateCreated!)", comment: "") : NSLocalizedString("", comment: "")
-            return ValueFormItem(title: formTitle, value: $0.formattedName).width(.column(3)) as FormItem
-        }
-    }
     
     open override var title: String? {
         return NSLocalizedString("Information", comment: "")
@@ -86,6 +38,28 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         return AssetManager.shared.image(forKey: .info)
     }
     
+    open override func didSetEntity() {
+        super.didSetEntity()
+        LocationManager.shared.requestLocation().done(calculateETAandDistanceFromCurrentLocation).cauterize()
+    }
+    
+    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
+        
+        guard let organisation = organisation else {
+            return
+        }
+        
+        builder.title = title
+        
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("DETAILS", comment: ""), separatorColor: .clear)
+        
+        builder += addressBlocks(for: organisation, viewController: viewController)
+        
+        builder += detailsBlock(for: organisation)
+        
+        builder += aliasBlock(for: organisation)
+    }
+    
     open func mapSummaryDisplayable() -> EntityMapSummaryDisplayable? {
         guard let organisation = entity as? Organisation else {
             return nil
@@ -94,10 +68,109 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         return OrganisationSummaryDisplayable(organisation)
     }
     
-    open func latLongString() -> String? {
-        guard let location = organisation?.locations?.first,
-            let lat = location.latitude,
-            let long = location.longitude else { return nil }
+    // MARK: private
+    
+    private func addressBlocks(for organisation: Organisation, viewController: UIViewController) -> [FormItem] {
+        return organisation.addresses?.reduce([FormItem]()) { (result, address) -> [FormItem] in
+            return result + individualAddressBlock(for: address, viewController: viewController)
+        } ?? []
+    }
+    
+    private func individualAddressBlock(for address: Address, viewController: UIViewController) -> [FormItem] {
+        let title = NSAttributedString(string: NSLocalizedString("Address", comment: ""), attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)])
+        
+        let asset = AssetManager.shared.image(forKey: .entityCarSmall)
+        
+        // Only create travel Accessory if we have the data to fill it
+        var travelAccessory: CustomItemAccessory?
+        
+        if let travelTime = travelTimeETAs[address.id],
+            let travelDistance = travelTimeDistances[address.id] {
+                let travelTimeAccessoryView = TravelTimeAccessoryView(image: asset, distance: travelDistance, time: travelTime, frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+     
+                travelAccessory = CustomItemAccessory(onCreate: { () -> UIView in
+                    return travelTimeAccessoryView
+                }, size: CGSize(width: 100, height: 30))
+        
+        }
+        
+        return [
+            DetailLinkFormItem()
+                .title(title)
+                .subtitle(address.fullAddress)
+                .width(.column(1))
+                .accessory(travelAccessory)
+                .onSelection { cell in
+                    let coordinate = self.location(from: address)?.coordinate
+                    let handler = AddressOptionHandler(coordinate: coordinate, address: address.fullAddress)
+                    viewController.presentActionSheetPopover(handler.actionSheetViewController(), sourceView: cell, sourceRect: cell.bounds, animated: true)
+                },
+            ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
+                .width(.column(1)).separatorColor(.clear)
+        ]
+    }
+    
+    private func detailsBlock(for organisation: Organisation) -> [FormItem] {
+        var items = [FormItem]()
+        items.append(ValueFormItem(title: NSLocalizedString("Organisation Type", comment: ""), value: organisation.type).width(.column(3)))
+        
+        if let acn = organisation.acn {
+            items.append(ValueFormItem(title: NSLocalizedString("ABN/ACN", comment: ""), value: acn).width(.column(3)))
+        } else {
+            items.append(ValueFormItem(title: NSLocalizedString("ABN/ACN", comment: ""), value: organisation.abn).width(.column(3)))
+        }
+        
+        if let effectiveDate = organisation.effectiveDate {
+            let dateString = DateFormatter.preferredDateStyle.string(from: effectiveDate)
+            items.append(ValueFormItem(title: NSLocalizedString("Effective From", comment: ""), value: dateString).width(.column(3)))
+        }
+        
+        return items
+    }
+    
+    private func aliasBlock(for organisation: Organisation) -> [FormItem] {
+        let title = LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""), separatorColor: .clear)
+        guard let aliases = organisation.aliases else { return [title] }
+        
+        return [title] + aliases.map {
+            let formTitle = $0.dateCreated != nil ? NSLocalizedString("Recorded on \($0.dateCreated!)", comment: "") : NSLocalizedString("", comment: "")
+            return ValueFormItem(title: formTitle, value: $0.formattedName).width(.column(3)) as FormItem
+        }
+    }
+    
+    // MARK: Private
+    
+    private func calculateETAandDistanceFromCurrentLocation(_ currentLocation: CLLocation) {
+        organisation?.addresses?.forEach { address in
+            calculateETAandDistance(currentLocation: currentLocation, address: address).done {
+                self.delegate?.reloadData()
+            }.cauterize()
+        }
+    }
+    
+    private func calculateETAandDistance(currentLocation: CLLocation, address: Address) -> Promise<Void> {
+        guard let location = location(from: address) else { return Promise<Void>() }
+        let promises: [Promise<Void>] = [
+            travelEstimationPlugin.calculateDistance(from: currentLocation, to: location).done {
+                self.travelTimeETAs[address.id] = $0
+            },
+            travelEstimationPlugin.calculateETA(from: currentLocation, to: location, transportType: .automobile).done {
+                self.travelTimeDistances[address.id] = $0
+            }
+        ]
+        return when(fulfilled: promises).asVoid()
+    }
+    
+    private func location(from address: Address?) -> CLLocation? {
+        guard let lat = address?.latitude,
+            let long = address?.longitude else { return nil }
+        
+        return CLLocation(latitude: lat, longitude: long)
+    }
+    
+    private func latLongString(from address: Address?) -> String? {
+        guard let lat = address?.latitude,
+            let long = address?.longitude else { return nil }
         
         return "\(lat), \(long)"
     }

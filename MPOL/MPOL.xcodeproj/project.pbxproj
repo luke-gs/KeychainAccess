@@ -229,6 +229,8 @@
 		AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */; };
 		AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E5148211815F300621E58 /* WhatsNewSetting.swift */; };
 		AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */; };
+		AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D5453214794EF00162017 /* AddressOptionHandler.swift */; };
+		AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
 		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
@@ -524,6 +526,8 @@
 		AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
 		AA3E5148211815F300621E58 /* WhatsNewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSetting.swift; sourceTree = "<group>"; };
 		AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationSearchDataSource.swift; sourceTree = "<group>"; };
+		AA5D5453214794EF00162017 /* AddressOptionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressOptionHandler.swift; sourceTree = "<group>"; };
+		AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTimeAccessoryView.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -1005,6 +1009,7 @@
 		96B774CF2140F8EE00836B83 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				AA5D5453214794EF00162017 /* AddressOptionHandler.swift */,
 				96B774D22140F8EE00836B83 /* AddressFormatter.swift */,
 				96B774D32140F8EE00836B83 /* DateSorting.swift */,
 				96B774D42140F8EE00836B83 /* EntityImageSizing.swift */,
@@ -1097,6 +1102,7 @@
 		96B7758C2141E75200836B83 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */,
 				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
 				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
 				37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */,
@@ -1729,6 +1735,7 @@
 				96B775682140F8EE00836B83 /* Entity.swift in Sources */,
 				96B775352140F8EE00836B83 /* EntityAlertsViewModel.swift in Sources */,
 				96B775242140F8EE00836B83 /* EntityAssociationsViewModel.swift in Sources */,
+				AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */,
 				96B775392140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift in Sources */,
 				96B7753A2140F8EE00836B83 /* EntityDetailFormViewController.swift in Sources */,
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
@@ -1739,6 +1746,7 @@
 				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
 				96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
+				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
