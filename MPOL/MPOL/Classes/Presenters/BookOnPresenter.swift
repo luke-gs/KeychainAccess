@@ -78,7 +78,6 @@ public class BookOnPresenter: Presenter {
         case .notBookedOn: fallthrough
         case .manageBookOn:
             let container = NarrowPageSheetNavigationController(rootViewController: to)
-            container.wantsTransparentBackground = false
 
             from.present(container, animated: true)
 
