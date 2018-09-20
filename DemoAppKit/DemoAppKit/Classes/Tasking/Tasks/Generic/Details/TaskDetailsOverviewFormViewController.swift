@@ -27,15 +27,8 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
             for item in section.items {
                 if item.isAddress {
                     
-                    var linkAttributes = [NSAttributedStringKey: Any]()
-                    
-                    if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
-                        linkAttributes[.foregroundColor] = tintColor
-                    }
-                    
                     builder += ValueFormItem(title: item.title,
-                                             value: NSAttributedString(string: item.value ?? "",
-                                                                       attributes: linkAttributes))
+                                             value: NSAttributedString.stringWithTint(string: item.value ?? "Unknown"))
                         .width(.column(1))
                         .onSelection { cell in
                             item.selectAction?(cell)
