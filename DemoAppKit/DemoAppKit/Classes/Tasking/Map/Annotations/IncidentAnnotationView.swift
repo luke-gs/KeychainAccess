@@ -25,7 +25,7 @@ open class IncidentAnnotationView: BubbleAnnotationView {
     // MARK: - Views
     
     /// Top line label in the bubble
-    private var titleLabel: UILabel!
+    public private(set) var titleLabel: UILabel!
     
     /// Rounded rect showing the priority level colour
     private var priorityBackground: UIView!
