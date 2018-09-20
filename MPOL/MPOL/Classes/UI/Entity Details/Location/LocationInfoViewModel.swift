@@ -29,40 +29,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        let asset = AssetManager.shared.image(forKey: .entityCarSmall)
-
-        // Only create travel Accessory if we have the data to fill it
-        var travelAccessory: CustomItemAccessory?
-
-        if let travelTime = travelTimeETA, let travelDistance = travelTimeDistance {
-            let travelTimeAccessoryView = TravelTimeAccessoryView(image: asset, distance: travelDistance, time: travelTime, frame: CGRect(x: 0, y: 0, width: 120, height: 30))
-
-            travelAccessory = CustomItemAccessory(onCreate: { () -> UIView in
-                return travelTimeAccessoryView
-            }, size: CGSize(width: 100, height: 30))
-
-        }
-
-        var linkAttributes = [NSAttributedStringKey : Any]()
-
-        if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
-            linkAttributes[NSAttributedStringKey.foregroundColor] = tintColor
-        }
-
-        builder += ValueFormItem()
-            .title(NSAttributedString(string: "Address"))
-            .value(NSAttributedString(string: addressText(for: location), attributes: linkAttributes))
-            .width(.column(1))
-            .accessory(travelAccessory)
-            .onSelection { cell in
-                let handler = AddressOptionHandler(coordinate: CLLocation(latitude: location.latitude!, longitude: location.longitude!).coordinate, address: location.fullAddress)
-                viewController.presentActionSheetPopover(handler.actionSheetViewController(), sourceView: cell, sourceRect: cell.bounds, animated: true)
-        }
-
-        builder += ValueFormItem()
-            .title(NSAttributedString(string: "Latitude, Longitude"))
-            .value(NSAttributedString(string: coordinateText(for: location)))
-            .width(.column(1))
+        builder += AddressFormItemFactory.defaultAddressFormItems(address: location, travelTimeETA: travelTimeETA, travelTimeDistance: travelTimeDistance, context: viewController)
     }
 
     open override var title: String? {
