@@ -11,8 +11,7 @@ import PublicSafetyKit
 
 public struct AddressFormItemFactory {
 
-    // Local helper functions
-
+    // Local helper function
     private static func addressText(for address: Address) -> String {
 
         if let text = address.fullAddress {
@@ -26,6 +25,7 @@ public struct AddressFormItemFactory {
         return "-"
     }
 
+    // Local helper function
     private static func coordinateText(for address: Address) -> String {
         guard let latitude = address.latitude, let longitude = address.longitude else {
             return "-"
@@ -34,6 +34,7 @@ public struct AddressFormItemFactory {
         return "\(latitude), \(longitude)"
     }
 
+    /// Address form item with travel time and distance, if supplied, as well as navigation options when tapped. Can supply custom actions..
     public static func addressNavigationFormItem(address: Address, travelTimeETA: String?, travelTimeDistance: String?, context: UIViewController, addressActions: [ActionSheetButton]? = nil) -> FormItem {
 
 
@@ -70,6 +71,7 @@ public struct AddressFormItemFactory {
         return addressFormItem
     }
 
+    /// Address form item with a coordinate pairing. Is full width by default.
     public static func coordinateFormItem(address: Address) -> FormItem {
         let coordinateFormitem = ValueFormItem()
             .title(NSAttributedString(string: "Latitude, Longitude"))
@@ -79,7 +81,7 @@ public struct AddressFormItemFactory {
         return coordinateFormitem
     }
 
-    /// Form items
+    /// Default set of form items for an address. Includes an addressNavigationFormItem (with default options) and a coordinateFormItem.
     public static func defaultAddressFormItems(address: Address, travelTimeETA: String?, travelTimeDistance: String?, context: UIViewController) -> [FormItem] {
         return [addressNavigationFormItem(address: address, travelTimeETA: travelTimeETA, travelTimeDistance: travelTimeDistance, context: context), coordinateFormItem(address: address)]
     }
