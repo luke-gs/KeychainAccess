@@ -532,12 +532,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		204B57A621532704006745D5 /* Extension */ = {
+		204B57A621532704006745D5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				204B57A721532704006745D5 /* NSAttributedString+Theme.swift */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		9209401AEEA05E56B854BA99 /* Pods */ = {
@@ -555,7 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */,
-				204B57A621532704006745D5 /* Extension */,
+				204B57A621532704006745D5 /* Extensions */,
 				96B8061F212D1953005A72A0 /* Presenter */,
 				96B80621212D1953005A72A0 /* Search */,
 				96B8065B212D1953005A72A0 /* Tasking */,
