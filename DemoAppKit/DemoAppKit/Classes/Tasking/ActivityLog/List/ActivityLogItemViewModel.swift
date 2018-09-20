@@ -29,7 +29,7 @@ open class ActivityLogItemViewModel {
     }
     
     /// Timestamp string
-    public var timestampString: String {
+    open var timestampString: String {
         return ActivityLogItemViewModel.timestampDateFormatter.string(from: timestamp)
     }
 
