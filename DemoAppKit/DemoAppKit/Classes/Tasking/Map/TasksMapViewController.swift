@@ -154,7 +154,7 @@ open class TasksMapViewController: MapViewController {
         }, completion: nil)
 
         if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
-            CADStateManager.shared.syncMode = .map(boundingBox: mapView.visibleBundingBox())
+            CADStateManager.shared.syncMode = .map(boundingBox: mapView.visibleBoundingBox())
         }
 
         // Keep resource annotations on top by bringing subview to front
@@ -266,7 +266,7 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 extension TasksMapViewController: TasksMapViewModelDelegate {
 
     public func boundingBox() -> MKMapRect.BoundingBox {
-        return mapView.boundingBox()
+        return mapView.visibleBoundingBox()
     }
 
     public func filterChanged() {
