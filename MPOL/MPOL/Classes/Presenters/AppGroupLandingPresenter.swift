@@ -35,7 +35,6 @@ public enum LandingScreen: Presentable {
 open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     public var wantsBiometricAuthentication = true
-    private var isLogOffInitiatedByUser = false
 
     public override init() {
         super.init()
@@ -196,15 +195,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     }
 
     open func loginViewController(_ loginViewController: LoginViewController, shouldPromptForEvent event: BiometricPromptEvent) -> Bool {
-        switch event {
-        case .applicationDidBecomeActive:
-            return true
-        case .loginViewControllerDidAppear:
-            let shouldPrompt = !isLogOffInitiatedByUser
-            // Assuming that since this is asked, next attempt will be a new login session.
-            isLogOffInitiatedByUser = false
-            return shouldPrompt
-        }
+        // Shouldn't automatically prompt for biometric
+        return false
     }
 
     open func loginViewController(_ loginViewController: LoginViewController, canUseBiometricWithPolicyDomainState policyDomainState: Data?) -> Bool {
@@ -298,8 +290,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     // MARK: - Log off
     
     @objc open func logOff() {
-
-        isLogOffInitiatedByUser = true
         
         // If we have no token we dont need to revoke it
         guard let refreshToken = UserSession.current.token?.refreshToken else {
