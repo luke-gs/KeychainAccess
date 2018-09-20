@@ -29,7 +29,7 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               selectAction: { [unowned self] cell in
                                                                                 self.presentAddressPopover(from: cell)
                                                                               },
-                                                                              accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
+                                                                              isAddress: true),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Patrol number",
                                                                               value: patrol.identifier,

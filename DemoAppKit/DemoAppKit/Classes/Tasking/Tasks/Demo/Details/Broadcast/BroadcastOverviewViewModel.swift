@@ -27,14 +27,14 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
         location = broadcast.location
 
         let locationItem = broadcast.location?.coordinate != nil ?
-            // Show location and accessory for address popover
+            // Show location for address popover
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
                                              value: broadcast.location?.displayText?.ifNotEmpty() ?? "Unknown",
                                              width: .column(1),
                                              selectAction: { [unowned self] cell in
                                                 self.presentAddressPopover(from: cell)
                                              },
-                                             accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)) :
+                                             isAddress: true) :
             // Just show location
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
                                              value: addressText?.ifNotEmpty() ?? "Unknown",
