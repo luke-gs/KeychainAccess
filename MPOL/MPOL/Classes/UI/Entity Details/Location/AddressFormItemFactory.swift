@@ -50,7 +50,7 @@ public struct AddressFormItemFactory {
 
         }
 
-        var linkAttributes = [NSAttributedStringKey : Any]()
+        var linkAttributes = [NSAttributedStringKey: Any]()
 
         if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
             linkAttributes[NSAttributedStringKey.foregroundColor] = tintColor
