@@ -40,7 +40,9 @@ class EventEntityRelationshipsViewModel {
 
     public func addRelationship(relatedEntity: MPOLKitEntity, reasons: [String]) {
         guard let baseEntity = report.entity else { fatalError("Report did not contain a base entity") }
+        // Add relationship both ways
         report.event?.entityManager.addRelationship(between: baseEntity, and: relatedEntity, with: reasons)
+        report.event?.entityManager.addRelationship(between: relatedEntity, and: baseEntity, with: reasons)
     }
 
     public func removeRelationship(forEntity: MPOLKitEntity) {
