@@ -833,18 +833,18 @@
 		96B774842140F57F00836B83 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
+				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
+				96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */,
+				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
+				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
 				EAE9F6C421365D32004D9DE8 /* Demo */,
 				96B774EE2140F8EE00836B83 /* Model */,
 				96BE10E92080406E005D4BAA /* Notifications */,
 				EAAFAD511F665B8A00AA2F94 /* Presenters */,
+				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 				96B7758B2141E66200836B83 /* UI */,
 				96B7758D2141E9BF00836B83 /* User Preferences */,
-				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
-				96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */,
-				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
-				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
-				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
-				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

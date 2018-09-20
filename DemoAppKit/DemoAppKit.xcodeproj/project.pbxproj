@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11981E942304331901A520CF /* Pods_DemoAppKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */; };
+		204B57A821532704006745D5 /* NSAttributedString+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B57A721532704006745D5 /* NSAttributedString+Theme.swift */; };
 		3729EBCB21461F9D00308250 /* PatrolAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBCA21461F9D00308250 /* PatrolAssociationsViewModel.swift */; };
 		3729EBCD214627E700308250 /* PatrolNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBCC214627E700308250 /* PatrolNarrativeViewModel.swift */; };
 		3729EBCF2148967D00308250 /* AssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3729EBCE2148967D00308250 /* AssociationsViewModel.swift */; };
@@ -262,6 +263,7 @@
 /* Begin PBXFileReference section */
 		194D3221C4F43D096AE6831D /* Pods_DemoAppKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoAppKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFE492F8D46446B33E651EC /* Pods-DemoAppKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKit/Pods-DemoAppKit.release.xcconfig"; sourceTree = "<group>"; };
+		204B57A721532704006745D5 /* NSAttributedString+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Theme.swift"; sourceTree = "<group>"; };
 		3729EBCA21461F9D00308250 /* PatrolAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolAssociationsViewModel.swift; sourceTree = "<group>"; };
 		3729EBCC214627E700308250 /* PatrolNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolNarrativeViewModel.swift; sourceTree = "<group>"; };
 		3729EBCE2148967D00308250 /* AssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationsViewModel.swift; sourceTree = "<group>"; };
@@ -530,6 +532,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		204B57A621532704006745D5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				204B57A721532704006745D5 /* NSAttributedString+Theme.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9209401AEEA05E56B854BA99 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -545,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */,
+				204B57A621532704006745D5 /* Extensions */,
 				96B8061F212D1953005A72A0 /* Presenter */,
 				96B80621212D1953005A72A0 /* Search */,
 				96B8065B212D1953005A72A0 /* Tasking */,
@@ -1796,6 +1807,7 @@
 				96B80765212D1954005A72A0 /* EventSummaryViewController.swift in Sources */,
 				96B807E5212D1954005A72A0 /* IncidentAnnotation.swift in Sources */,
 				96B807A9212D1954005A72A0 /* TasksListResourceCollectionViewCell.swift in Sources */,
+				204B57A821532704006745D5 /* NSAttributedString+Theme.swift in Sources */,
 				96B807AC212D1954005A72A0 /* IncidentSummaryFormItem.swift in Sources */,
 				96B80767212D1954005A72A0 /* DefaultLocationReport.swift in Sources */,
 				96B80803212D1954005A72A0 /* CADIncidentCore.swift in Sources */,
