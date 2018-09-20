@@ -96,8 +96,8 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
-  CoreKit: 0555cc074101bd6d33817279a8afbdc574d205e3
-  CoreKitAppExtension: b15f6718ab583fbaa025e053b415d8c69f9dc825
+  CoreKit: f2ee81b46eae79422fe3d08047841a1830c3db81
+  CoreKitAppExtension: c24f3ac21c6992dda5bc2c0bcebf805ff4692b9b
   DemoAppKit: c18cc3f491feeb0a017c4fb4c9e1372671e2937b
   HockeySDK: 38b7e2726af1ea86ae97ce4b5de33ab0817e3500
   HyperioniOS: 2397937925b2d57ec28182ac979879b0da2658ee
