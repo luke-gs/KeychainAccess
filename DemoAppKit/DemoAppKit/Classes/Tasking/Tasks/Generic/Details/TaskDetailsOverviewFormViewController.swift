@@ -28,7 +28,9 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
                 if item.isAddress {
                     
                     builder += ValueFormItem(title: item.title,
-                                             value: NSAttributedString.stringWithTint(string: item.value ?? "Unknown"))
+                                             value: item.value != nil
+                                                ? NSAttributedString.stringWithTint(string: item.value!)
+                                                : "Unknown")
                         .width(.column(1))
                         .onSelection { cell in
                             item.selectAction?(cell)
