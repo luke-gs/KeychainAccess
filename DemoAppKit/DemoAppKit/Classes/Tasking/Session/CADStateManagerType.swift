@@ -187,7 +187,7 @@ public enum CADStateManagerError: LocalizedError {
 public enum CADSyncMode: Equatable {
     case none
     case patrolGroup(patrolGroup: String)
-    case map(boundingBox: MKMapView.BoundingBox)
+    case map(boundingBox: MKMapRect.BoundingBox)
 
     public static func ==(lhs: CADSyncMode, rhs: CADSyncMode) -> Bool {
         switch (lhs, rhs) {
