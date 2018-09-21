@@ -28,7 +28,7 @@ open class TrafficStopViewModel {
     open var primaryCode: String?
     open var secondaryCode: String?
     open var remark: String?
-    open var allowedEntities: [String]?
+    open var allowedEntities: [MPOLKitEntity.Type]?
     
     // Options - where are these coming from?
     open var priorityOptions: [String] {

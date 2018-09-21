@@ -42,7 +42,7 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
     open var onSelectEntity: ((SelectStoppedEntityItemViewModel) -> Void)?
 
     /// array of strings that match the serverTypeRepresentations of entities
-    open var allowedEntities: [String]? {
+    open var allowedEntities: [MPOLKitEntity.Type]? {
         didSet {
             updateSections()
         }
@@ -67,8 +67,8 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
         var recentlyViewed = UserSession.current.recentlyViewed.entities
 
         if let allowedEntities = allowedEntities {
-            recentlyViewed = recentlyViewed.filter({
-                allowedEntities.contains(type(of: $0).serverTypeRepresentation)
+            recentlyViewed = recentlyViewed.filter({entity in
+                allowedEntities.contains(where: { $0 == type(of: entity) })
             })
         }
 

@@ -51,7 +51,7 @@ public class BookOnPresenter: Presenter {
 
         case .trafficStop(let completionHandler):
             let viewModel = TrafficStopViewModel()
-            viewModel.allowedEntities = [Person.serverTypeRepresentation, Vehicle.serverTypeRepresentation]
+            viewModel.allowedEntities = [Person.self, Vehicle.self]
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
 
