@@ -23,6 +23,7 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
         for section in viewModel.sections {
             if let title = section.title {
                 builder += LargeTextHeaderFormItem(text: StringSizing(string: title))
+                    .separatorColor(.clear)
             }
             for item in section.items {
                 if item.isAddress {
