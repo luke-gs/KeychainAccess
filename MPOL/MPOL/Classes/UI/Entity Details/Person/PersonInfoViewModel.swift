@@ -76,7 +76,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             if let licence = sortedLicences.first {
                 builder += LargeTextHeaderFormItem(text: header(for: .details))
                     .separatorColor(.clear)
-                let title = StringSizing(string: NSLocalizedString("Identification Number", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let title = StringSizing(string: NSLocalizedString("Unique ID", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline))
                 let value = StringSizing(string: licence.number ?? "-", font: UIFont.preferredFont(forTextStyle: .subheadline))
                 builder += ValueFormItem(title: title, value: value)
                     .width(.column(1))
@@ -87,9 +87,10 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         // ---------- ALIASES ----------
         
         if let aliases = person.aliases, !aliases.isEmpty {
-            builder += LargeTextHeaderFormItem(text: header(for: .aliases))
+            builder += LargeTextHeaderFormItem(text: header(for: .aliases(count: aliases.count)))
                 .separatorColor(.clear)
-            
+                .style(.collapsible)
+
             for alias in aliases {
                 SubtitleFormItem(title: alias.formattedName, subtitle: alias.formattedDOBAgeGender()).width(.column(1))
 
@@ -97,9 +98,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let title: StringSizing = {
                     let title: String
                     if let date = alias.dateCreated {
-
                         let locationString = alias.jurisdiction != nil ? " (\(alias.jurisdiction!))": ""
-                        title =  String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
+                        title = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         title = NSLocalizedString("Recorded date unknown", comment: "")
                     }
@@ -118,34 +118,27 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             let sort = SortDescriptor<Address>(ascending: false) { $0.reportDate ?? Date.distantPast }
             let sorted = addresses.sorted(using: [sort])
             
-            builder += LargeTextHeaderFormItem(text: header(for: .addresses))
+            builder += LargeTextHeaderFormItem(text: header(for: .addresses(count: addresses.count)))
                 .separatorColor(.clear)
+                .style(.collapsible)
             
             for address in sorted {
 
-                let title = StringSizing(string: address.type ?? "Unknown", font: UIFont.preferredFont(forTextStyle: .subheadline))
-                let subtitle = StringSizing(string: AddressFormatter().formattedString(from: address) ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let title = address.type ?? "Unknown"
 
-                let detail: StringSizing = {
+                let detail: String = {
                     let detail: String
                     if let date = address.reportDate {
                         
                         let locationString = address.jurisdiction != nil ? " (\(address.jurisdiction!))": ""
-                        detail =  String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
+                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }
-                    return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
+                    return detail
                 }()
-                builder += DetailLinkFormItem()
-                    .title(title)
-                    .subtitle(subtitle)
-                    .detail(detail)
-                    .width(.column(1))
-                    .onSelection({ cell in
-                        // TODO: add actual functionality when tapping address when it is decided
-                        print(address.fullAddress as Any)
-                    })
+
+                builder += AddressFormItemFactory.addressNavigationFormItem(address: address, title: title, detail: detail, context: viewController)
             }
         }
         
@@ -154,6 +147,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         if let contacts = person.contacts, !contacts.isEmpty {
             builder += LargeTextHeaderFormItem(text: header(for: .contact))
                 .separatorColor(.clear)
+                .style(.collapsible)
             
             for contact in contacts {
                 let title = StringSizing(string: [contact.type?.localizedDescription(), contact.subType].joined(separator: " - "), font: UIFont.preferredFont(forTextStyle: .subheadline))
@@ -220,8 +214,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         case header
         case details
         case licence
-        case aliases
-        case addresses
+        case aliases(count: Int)
+        case addresses(count: Int)
         case contact
     }
     
@@ -233,10 +227,10 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             return NSLocalizedString("Details", comment: "")
         case .licence:
             return nil
-        case .aliases:
-            return NSLocalizedString("Aliases", comment: "")
-        case .addresses:
-            return NSLocalizedString("Addresses", comment: "")
+        case .aliases(let count):
+            return NSLocalizedString("Aliases (\(count))", comment: "")
+        case .addresses(let count):
+            return NSLocalizedString("Addresses (\(count))", comment: "")
         case .contact:
             return NSLocalizedString("Contact Details", comment: "")
         }
@@ -295,7 +289,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
 
         var valid = true
 
-        if isSuspended  {
+        if isSuspended {
             valid = false
             _subtitle = NSAttributedString(string: NSLocalizedString("Suspended", comment: ""), attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
         } else {
