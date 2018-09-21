@@ -31,7 +31,7 @@ public extension Settings {
                                                                          target: tsAndCsVC,
                                                                          action: #selector(UIViewController.dismissAnimated))
 
-            let navVC = ThemedNavigationController(rootViewController: tsAndCsVC)
+            let navVC = ModalNavigationController(rootViewController: tsAndCsVC)
             navVC.modalPresentationStyle = .pageSheet
 
             viewController.present(navVC, animated: true, completion: nil)
