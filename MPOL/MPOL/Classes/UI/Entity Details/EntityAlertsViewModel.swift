@@ -213,7 +213,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         let alertVC = AlertSummaryViewController(viewModel: viewModel)
         alertVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
 
-        let navController = ThemedNavigationController(rootViewController: alertVC)
+        let navController = ModalNavigationController(rootViewController: alertVC)
         navController.modalPresentationStyle = .formSheet
 
         viewController.present(navController, animated: true, completion: nil)

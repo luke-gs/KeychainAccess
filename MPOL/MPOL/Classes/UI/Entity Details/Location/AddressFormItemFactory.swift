@@ -35,8 +35,7 @@ public struct AddressFormItemFactory {
     }
 
     /// Address form item with travel time and distance, if supplied, as well as navigation options when tapped. Can supply custom actions..
-    public static func addressNavigationFormItem(address: Address, travelTimeETA: String?, travelTimeDistance: String?, context: UIViewController, addressActions: [ActionSheetButton]? = nil) -> FormItem {
-
+    public static func addressNavigationFormItem(address: Address, title: String? = nil, detail: String? = nil, travelTimeETA: String? = nil, travelTimeDistance: String? = nil, context: UIViewController, addressActions: [ActionSheetButton]? = nil) -> FormItem {
 
         // Only create travel Accessory if we have the data to fill it
         var travelAccessory: CustomItemAccessory?
@@ -47,38 +46,42 @@ public struct AddressFormItemFactory {
             travelAccessory = CustomItemAccessory(onCreate: { () -> UIView in
                 return travelTimeAccessoryView
             }, size: CGSize(width: 100, height: 30))
-
         }
 
-        var linkAttributes = [NSAttributedStringKey: Any]()
-
-        if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
-            linkAttributes[NSAttributedStringKey.foregroundColor] = tintColor
+        if let detail = detail {
+            return DetailFormItem()
+                .title(StringSizing(string: title ?? "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .subtitle(StringSizing(string: addressText(for: address), font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote)))
+                .width(.column(1))
+                .accessory(travelAccessory)
+                .onSelection { cell in
+                    if let latitude = address.latitude, let longitude = address.longitude {
+                        let handler = AddressOptionHandler(coordinate: CLLocation(latitude: latitude, longitude: longitude).coordinate, address: address.fullAddress)
+                        context.presentActionSheetPopover(handler.actionSheetViewController(with: addressActions), sourceView: cell, sourceRect: cell.bounds, animated: true)
+                    }
+            }
+        } else {
+            return ValueFormItem()
+                .title(StringSizing(string: title ?? "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .value(StringSizing(string: addressText(for: address), font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .width(.column(1))
+                .accessory(travelAccessory)
+                .onSelection { cell in
+                    if let latitude = address.latitude, let longitude = address.longitude {
+                        let handler = AddressOptionHandler(coordinate: CLLocation(latitude: latitude, longitude: longitude).coordinate, address: address.fullAddress)
+                        context.presentActionSheetPopover(handler.actionSheetViewController(with: addressActions), sourceView: cell, sourceRect: cell.bounds, animated: true)
+                    }
+            }
         }
-
-        let addressFormItem = ValueFormItem()
-            .title(NSAttributedString(string: "Address"))
-            .value(NSAttributedString(string: addressText(for: address), attributes: linkAttributes))
-            .width(.column(1))
-            .accessory(travelAccessory)
-            .onSelection { cell in
-                if let latitude = address.latitude, let longitude = address.longitude {
-                    let handler = AddressOptionHandler(coordinate: CLLocation(latitude: latitude, longitude: longitude).coordinate, address: address.fullAddress)
-                    context.presentActionSheetPopover(handler.actionSheetViewController(with: addressActions), sourceView: cell, sourceRect: cell.bounds, animated: true)
-                }
-        }
-
-        return addressFormItem
     }
 
     /// Address form item with a coordinate pairing. Is full width by default.
     public static func coordinateFormItem(address: Address) -> FormItem {
-        let coordinateFormitem = ValueFormItem()
-            .title(NSAttributedString(string: "Latitude, Longitude"))
-            .value(NSAttributedString(string: coordinateText(for: address)))
+        return ValueFormItem()
+            .title(StringSizing(string: "Latitude, Longitude", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .value(StringSizing(string: coordinateText(for: address), font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .width(.column(1))
-
-        return coordinateFormitem
     }
 
     /// Default set of form items for an address. Includes an addressNavigationFormItem (with default options) and a coordinateFormItem.

@@ -85,7 +85,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                                 actions: [declineAction, acceptAction])
                 tsAndCsVC.title = "Terms and Conditions"
 
-                let navController = ThemedNavigationController(rootViewController: tsAndCsVC)
+                let navController = ModalNavigationController(rootViewController: tsAndCsVC)
                 navController.modalPresentationStyle = .pageSheet
                 return navController
             } catch {
