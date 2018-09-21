@@ -218,7 +218,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
         let eventVC = RetrievedEventSummaryViewController(viewModel: viewModel)
         eventVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
 
-        let navController = ThemedNavigationController(rootViewController: eventVC)
+        let navController = ModalNavigationController(rootViewController: eventVC)
         navController.modalPresentationStyle = .formSheet
 
         viewController.present(navController, animated: true, completion: nil)

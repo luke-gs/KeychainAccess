@@ -194,7 +194,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         let viewModel = CriminalHistorySummaryViewModel(criminalHistory: criminalHistory)
         let criminalHistoryVC = CriminalHistorySummaryViewController(viewModel: viewModel)
 
-        let navController = ThemedNavigationController(rootViewController: criminalHistoryVC)
+        let navController = ModalNavigationController(rootViewController: criminalHistoryVC)
         navController.modalPresentationStyle = .formSheet
         viewController.present(navController, animated: true, completion: nil)
     }
