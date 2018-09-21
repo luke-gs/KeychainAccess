@@ -15,7 +15,7 @@ private enum Coding: String {
 }
 
 public class EventSubmissionResponse: MPOLKitEntityProtocol {
-    public static var serverTypeRepresentation: String = "event"
+    public static var serverTypeRepresentation: String = "Event"
     public static var supportsSecureCoding: Bool = true
 
     public var id: String = UUID().uuidString
