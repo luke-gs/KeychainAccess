@@ -78,8 +78,9 @@ public class BookOnPresenter: Presenter {
         case .notBookedOn: fallthrough
         case .manageBookOn:
             let container = CustomSizedFormSheetNavigationController(rootViewController: to)
+            from.present(container, size: CGSize(width: 512, height: 1004))
 
-            from.present(container, animated: true)
+            //from.present(container, animated: true)
 
         // Present form sheet with custom size
         case .statusChangeReason, .finaliseDetails:
