@@ -36,7 +36,16 @@ public class TaskListPresenter: Presenter {
             return tasksSplitViewController
 
         case .createIncident:
-            return CreateIncidentViewModel().createViewController()
+            // TODO: change to the new view model
+            let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue })
+            let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
+            let secondaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
+            
+            let viewModel = CreateIncidentViewModel(priorityOptions: priorityOptions,
+                                                    primaryCodeOptions: primaryCodeOptions,
+                                                    secondaryCodeOptions: secondaryCodeOptions)
+            
+            return viewModel.createViewController()
 
         case .mapFilter(let delegate):
             return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)
