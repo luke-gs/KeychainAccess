@@ -21,15 +21,32 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
     
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
-            builder += HeaderFormItem(text: section.title?.uppercased(),
-                                      style: .collapsible)
-            
+            if let title = section.title {
+                builder += LargeTextHeaderFormItem(text: StringSizing(string: title))
+                    .separatorColor(.clear)
+            }
             for item in section.items {
-                builder += ValueFormItem(title: item.title, value: item.value, image: item.image)
-                    .width(item.width)
-                    .onSelection({ cell in
-                        item.selectAction?(cell)
-                    }).accessory(item.accessory)
+                if item.isAddress {
+                    
+                    builder += ValueFormItem(title: item.title,
+                                             value: item.value != nil
+                                                ? NSAttributedString.stringWithTint(string: item.value!)
+                                                : "Unknown")
+                        .width(.column(1))
+                        .onSelection { cell in
+                            item.selectAction?(cell)
+                        }
+                    
+                } else {
+                    builder += ValueFormItem(title: item.title,
+                                             value: StringSizing(string: item.value ?? "Unknown"),
+                                             image: item.image)
+                        .width(item.width)
+                        .accessory(item.accessory)
+                        .onSelection { cell in
+                            item.selectAction?(cell)
+                        }
+                }
             }
         }
     }

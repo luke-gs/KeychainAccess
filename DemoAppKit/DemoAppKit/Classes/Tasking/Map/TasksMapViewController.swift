@@ -107,7 +107,7 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+    open func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let clusterView = view as? MPOLClusterAnnotationView {
             present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: clusterDelegate ?? self))
             return
@@ -154,7 +154,7 @@ open class TasksMapViewController: MapViewController {
         }, completion: nil)
 
         if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
-            CADStateManager.shared.syncMode = .map(boundingBox: mapView.boundingBox())
+            CADStateManager.shared.syncMode = .map(boundingBox: mapView.visibleBoundingBox())
         }
 
         // Keep resource annotations on top by bringing subview to front
@@ -208,12 +208,12 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+    open func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         zoomToAnnotationsOnLoad()
     }
     
     /// Adds annotations to cluster manager or map view depending on view model
-    private func addAnnotations(_ annotations: [MKAnnotation]) {
+    open func addAnnotations(_ annotations: [MKAnnotation]) {
         if viewModel.shouldCluster() {
             clusterManager.add(annotations)
             UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
@@ -265,8 +265,8 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 // MARK: - TasksMapViewModelDelegate
 extension TasksMapViewController: TasksMapViewModelDelegate {
 
-    public func boundingBox() -> MKMapView.BoundingBox {
-        return mapView.boundingBox()
+    public func boundingBox() -> MKMapRect.BoundingBox {
+        return mapView.visibleBoundingBox()
     }
 
     public func filterChanged() {
