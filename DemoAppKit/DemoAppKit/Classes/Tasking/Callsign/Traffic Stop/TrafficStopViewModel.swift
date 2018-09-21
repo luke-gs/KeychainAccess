@@ -28,6 +28,7 @@ open class TrafficStopViewModel {
     open var primaryCode: String?
     open var secondaryCode: String?
     open var remark: String?
+    open var allowedEntities: [String]?
     
     // Options - where are these coming from?
     open var priorityOptions: [String] {
@@ -54,7 +55,7 @@ open class TrafficStopViewModel {
     /// View model for adding an entity
     open func viewModelForAddingEntity() -> SelectStoppedEntityViewModel {
         let viewModel = SelectStoppedEntityViewModel()
-        viewModel.allowedEntities = ["person", "vehicle"]
+        viewModel.allowedEntities = allowedEntities
         viewModel.onSelectEntity = { [unowned self] entity -> Void in
             if !self.entities.contains(entity) {
                 self.entities.append(entity)

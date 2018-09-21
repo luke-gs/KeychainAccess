@@ -42,7 +42,7 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
     open var onSelectEntity: ((SelectStoppedEntityItemViewModel) -> Void)?
 
     /// array of strings that match the serverTypeRepresentations of entities
-    open var allowedEntities: [String] = ["person","vehicle", "Location", "organisation"] {
+    open var allowedEntities: [String]? {
         didSet {
             updateSections()
         }
@@ -64,15 +64,17 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
     }
 
     open func updateSections() {
-        let recentlyViewed = UserSession.current.recentlyViewed.entities
+        var recentlyViewed = UserSession.current.recentlyViewed.entities
 
-        let allowedRecentlyViewed = recentlyViewed.filter({
-            allowedEntities.contains(type(of: $0).serverTypeRepresentation)
-        })
+        if let allowedEntities = allowedEntities {
+            recentlyViewed = recentlyViewed.filter({
+                allowedEntities.contains(type(of: $0).serverTypeRepresentation)
+            })
+        }
 
         let summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default
 
-        let viewModels: [SelectStoppedEntityItemViewModel] = allowedRecentlyViewed.reversed().compactMap { entity in
+        let viewModels: [SelectStoppedEntityItemViewModel] = recentlyViewed.reversed().compactMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
             return SelectStoppedEntityItemViewModel(entity: entity, summary: summary)
         }
