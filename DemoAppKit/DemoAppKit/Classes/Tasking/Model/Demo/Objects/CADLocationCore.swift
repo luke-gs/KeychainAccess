@@ -20,9 +20,9 @@ open class CADLocationCore: Codable, CADLocationType {
 
     open var fullAddress: String?
 
-    open var latitude: Float?
+    open var latitude: Double?
 
-    open var longitude: Float?
+    open var longitude: Double?
 
     open var postalCode: String?
 
@@ -77,8 +77,8 @@ open class CADLocationCore: Codable, CADLocationType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         country = try values.decodeIfPresent(String.self, forKey: .country)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)
-        latitude = try values.decodeIfPresent(Float.self, forKey: .latitude)
-        longitude = try values.decodeIfPresent(Float.self, forKey: .longitude)
+        latitude = try values.decodeIfPresent(Double.self, forKey: .latitude)
+        longitude = try values.decodeIfPresent(Double.self, forKey: .longitude)
         postalCode = try values.decodeIfPresent(String.self, forKey: .postalCode)
         state = try values.decodeIfPresent(String.self, forKey: .state)
         streetName = try values.decodeIfPresent(String.self, forKey: .streetName)
