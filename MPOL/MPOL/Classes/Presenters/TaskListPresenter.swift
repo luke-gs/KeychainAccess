@@ -43,15 +43,14 @@ public class TaskListPresenter: Presenter {
             
             // Populate status in the form
             let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
-            
-            let taskStatusViewModel = TaskStatusViewModel(sections:
-                [TaskStatusSection(header: "Initial Status", items: statusItems)],
-                                                          selectedStatus: CADClientModelTypes.resourceStatus?.defaultCreateCase)
+            let selectedStatus = CADClientModelTypes.resourceStatus?.defaultCreateCase
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
                                             primaryCodeOptions: primaryCodeOptions,
                                             secondaryCodeOptions: secondaryCodeOptions,
-                                            statusViewModel: taskStatusViewModel)
+                                            statusHeader: "Initial Status",
+                                            statusItems: statusItems,
+                                            selectedStatus: selectedStatus)
             
             return viewModel.createViewController()
 
