@@ -41,14 +41,17 @@ public class TaskListPresenter: Presenter {
             let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
             let secondaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
             
-            // Status Data
-            let statusItems: [TaskStatusItemViewModel] = CADClientModelTypes.resourceStatus.incidentCases.map { (status) -> TaskStatusItemViewModel in
-                return TaskStatusItemViewModel(title: status.rawValue, image: status.icon)
+            // Populate status in the form
+            let statusItems: [TaskStatusItem] = CADClientModelTypes.resourceStatus.incidentCases.map { (status) -> TaskStatusItem in
+                return TaskStatusItem(title: status.rawValue, image: status.icon)
             }
             
+            let defaultStatusItem = TaskStatusItem(title: CADClientModelTypes.resourceStatus.defaultCreateCase.rawValue,
+                                                            image: CADClientModelTypes.resourceStatus.defaultCreateCase.icon)
+            
             let taskStatusViewModel = TaskStatusViewModel(sections:
-                [TaskStatusSectionViewModel(header: "Initial Status", items: statusItems)],
-                                                  selectedStatus: "")
+                [TaskStatusSection(header: "Initial Status", items: statusItems)],
+                                                  selectedStatus: defaultStatusItem)
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
                                             primaryCodeOptions: primaryCodeOptions,
