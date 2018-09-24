@@ -10,6 +10,7 @@ import UIKit
 import UserNotifications
 import PublicSafetyKit
 import DemoAppKit
+import SketchKit
 import PromiseKit
 import Lottie
 import Alamofire
@@ -31,7 +32,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        MPOLKitInitialize()
+        // Register bundles used by pattern kit containing assets
+        AssetManager.shared.register(bundle: Bundle(for: SketchPen.self), priority: .sketchKit)
+        AssetManager.shared.register(bundle: Bundle(for: FormBuilder.self), priority: .patternKit)
+        AssetManager.shared.register(bundle: Bundle(for: BiometricUserHandler.self), priority: .publicSafteyKit)
+
+        // Access the keyboard input manager to start it managing all text entry.
+        _ = KeyboardInputManager.shared
+
+        // Preload MPOL animations
+        LOTAnimationView.preloadMPOLAnimations()
+
         performDataMigrationIfNecessary()
 
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
