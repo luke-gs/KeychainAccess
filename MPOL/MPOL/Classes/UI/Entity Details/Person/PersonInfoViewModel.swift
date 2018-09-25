@@ -98,7 +98,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let title: StringSizing = {
                     let title: String
                     if let date = alias.dateCreated {
-                        let locationString = alias.jurisdiction != nil ? " (\(alias.jurisdiction!))": ""
+                        let locationString = alias.jurisdiction != nil ? " (\(alias.jurisdiction!))" : ""
                         title = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         title = NSLocalizedString("Recorded date unknown", comment: "")
@@ -130,7 +130,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     let detail: String
                     if let date = address.reportDate {
                         
-                        let locationString = address.jurisdiction != nil ? " (\(address.jurisdiction!))": ""
+                        let locationString = address.jurisdiction != nil ? " (\(address.jurisdiction!))" : ""
                         detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", comment: "")
@@ -156,7 +156,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let detail: StringSizing = {
                     let detail: String
                     if let date = contact.dateCreated {
-                        let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))": ""
+                        let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))" : ""
                         detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", comment: "")
@@ -281,8 +281,6 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
 
     let validLicence: Bool
 
-    private let _subtitle: StringSizing?
-
     init(licenceClass: Licence.LicenceClass, isSuspended: Bool) {
         self.licenceClass = licenceClass
         hasExpired = false
@@ -291,25 +289,25 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
 
         if isSuspended {
             valid = false
-            _subtitle = NSAttributedString(string: NSLocalizedString("Suspended", comment: ""), attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+            subtitle = NSAttributedString(string: NSLocalizedString("Suspended", comment: ""), attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
         } else {
             if let expiryDate = licenceClass.expiryDate {
                 let dayComponent = Calendar.current.dateComponents([.day], from: Date(), to: expiryDate)
                 if let day = dayComponent.day {
                     if day > 0 {
                         let text = String(format: NSLocalizedString("Valid Until %@", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate))
-                        _subtitle = text.sizing(withNumberOfLines: 0)
+                        subtitle = text.sizing(withNumberOfLines: 0)
                     } else {
                         let text = String(format: NSLocalizedString("Expired Since %1$@ (%2$d day(s))", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate), abs(day))
-                        _subtitle = NSAttributedString(string: text, attributes: [ .font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+                        subtitle = NSAttributedString(string: text, attributes: [ .font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
                         valid = false
                     }
                 } else {
-                    _subtitle = nil
+                    subtitle = nil
                 }
 
             } else {
-                _subtitle = nil
+                subtitle = nil
             }
         }
         validLicence = valid
@@ -328,9 +326,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
         return text.sizing(withNumberOfLines: 0)
     }
 
-    var subtitle: StringSizing? {
-        return _subtitle
-    }
+    private (set) var subtitle: StringSizing?
 
     var detail: StringSizing? {
         let proficiency = licenceClass.proficiency ?? "Unknown"

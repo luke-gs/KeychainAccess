@@ -27,11 +27,11 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
             builder += IncidentSummaryFormItem(viewModel: currentIncident)
                 .accessory(ItemAccessory.disclosure)
                 .separatorStyle(.fullWidth)
-                .onSelection({ [unowned self] cell in
+                .onSelection { [unowned self] cell in
                     // Present the resource split view controller
                     let viewModel = IncidentTaskItemViewModel(incidentNumber: currentIncident.identifier)
                     self.present(TaskItemScreen.landing(viewModel: viewModel))
-                })
+                }
         }
         
         for section in viewModel.sections {

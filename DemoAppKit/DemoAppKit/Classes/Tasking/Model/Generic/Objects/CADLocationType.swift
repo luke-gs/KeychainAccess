@@ -14,18 +14,18 @@ import PublicSafetyKit
 public protocol CADLocationType: class, Navigatable {
 
     // MARK: - Network
-    var alertLevel : Int? { get set }
-    var country : String? { get set }
-    var fullAddress : String? { get set }
-    var latitude : Double? { get set }
-    var longitude : Double? { get set }
-    var postalCode : String? { get set }
-    var state : String? { get set }
-    var streetName : String? { get set }
-    var streetNumberFirst : String? { get set }
-    var streetNumberLast : String? { get set }
-    var streetType : String? { get set }
-    var suburb : String? { get set }
+    var alertLevel: Int? { get set }
+    var country: String? { get set }
+    var fullAddress: String? { get set }
+    var latitude: Double? { get set }
+    var longitude: Double? { get set }
+    var postalCode: String? { get set }
+    var state: String? { get set }
+    var streetName: String? { get set }
+    var streetNumberFirst: String? { get set }
+    var streetNumberLast: String? { get set }
+    var streetType: String? { get set }
+    var suburb: String? { get set }
 
     // MARK: - Generated
     var coordinate: CLLocationCoordinate2D? { get }
