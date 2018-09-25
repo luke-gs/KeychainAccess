@@ -39,18 +39,22 @@ public class TaskListPresenter: Presenter {
             
             let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue })
             let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
-            let secondaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
             
             // Populate status in the form
             let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
             let selectedStatus = CADClientModelTypes.resourceStatus?.defaultCreateCase
             
+            // Submit action
+            let submitHandler: CreateTaskViewModel.CreateTaskSubmitHandler = { (status, priority, primaryCode, remarks) in
+                // TODO: implement handler
+            }
+            
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
                                             primaryCodeOptions: primaryCodeOptions,
-                                            secondaryCodeOptions: secondaryCodeOptions,
-                                            statusHeader: "Initial Status",
+                                            statusHeader: NSLocalizedString("Initial Status", comment: ""),
                                             statusItems: statusItems,
-                                            selectedStatus: selectedStatus)
+                                            selectedStatus: selectedStatus,
+                                            submitHandler: submitHandler)
             
             return viewModel.createViewController()
 
