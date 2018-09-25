@@ -24,7 +24,7 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
         var overviewItems: [FormItem] = []
 
         if let location = patrol.location, let context = delegate as? UIViewController {
-            let addressItem = AddressFormItemFactory.addressNavigationFormItem(address: location, title: "Patrol Location", context: context)
+            let addressItem = NavigationFormItemFactory.addressNavigationFormItem(address: location, title: "Patrol Location", context: context)
             overviewItems.append(addressItem)
         }
 
@@ -53,7 +53,6 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
 
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview", items: overviewItems),
-            
             CADFormCollectionSectionViewModel(title: "Patrol Details",
                                               items: [
                                                 ValueFormItem()

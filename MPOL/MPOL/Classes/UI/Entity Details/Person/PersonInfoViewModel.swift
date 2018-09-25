@@ -138,7 +138,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     return detail
                 }()
 
-                builder += AddressFormItemFactory.addressNavigationFormItem(address: address, title: title, detail: detail, context: viewController)
+                builder += NavigationFormItemFactory.addressNavigationFormItem(address: address, title: title, detail: detail, context: viewController)
             }
         }
         

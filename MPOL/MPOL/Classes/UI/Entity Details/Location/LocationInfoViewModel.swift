@@ -29,7 +29,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        builder += AddressFormItemFactory.defaultAddressFormItems(address: location, travelTimeETA: travelTimeETA, travelTimeDistance: travelTimeDistance, context: viewController)
+        builder += NavigationFormItemFactory.defaultAddressFormItems(address: location, travelTimeETA: travelTimeETA, travelTimeDistance: travelTimeDistance, context: viewController)
     }
 
     open override var title: String? {
