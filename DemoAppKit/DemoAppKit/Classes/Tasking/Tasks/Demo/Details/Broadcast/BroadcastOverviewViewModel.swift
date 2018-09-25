@@ -27,7 +27,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
         var overviewItems: [FormItem] = [
             ValueFormItem()
-                .title("Broadcast number")
+                .title("Broadcast Number")
                 .value(broadcast.identifier)
                 .width(.column(3)),
             ValueFormItem()
