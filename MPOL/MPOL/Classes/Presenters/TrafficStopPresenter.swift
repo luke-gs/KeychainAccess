@@ -1,5 +1,5 @@
 //
-//  BookOnTrafficStopPresenter.swift
+//  TrafficStopPresenter.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
-public class BookOnTrafficStopPresenter: Presenter {
+public class TrafficStopPresenter: Presenter {
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! BookOnTrafficStopScreen
