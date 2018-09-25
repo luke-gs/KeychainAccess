@@ -38,12 +38,6 @@ public enum BookOnScreen: Presentable {
     /// Create traffic stop incident
     case trafficStop(completionHandler: ((CodableRequestParameters?) -> Void)?)
 
-    /// Add traffic stop entity
-    case trafficStopEntity(entityViewModel: SelectStoppedEntityViewModel)
-
-    /// Search for a new entity to add to traffic stop
-    case trafficStopSearchEntity
-
     /// Enter finalise details
     case finaliseDetails(primaryCode: String, completionHandler: ((_ secondaryCode: String?, _ remark: String?) -> Void)?)
 }

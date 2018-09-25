@@ -57,13 +57,6 @@ public class BookOnPresenter: Presenter {
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
 
-        case .trafficStopEntity(let entityViewModel):
-            return entityViewModel.createViewController()
-
-        case .trafficStopSearchEntity:
-            // Will redirect to search app, return dummy VC here
-            return UIViewController()
-
         case .finaliseDetails(let primaryCode, let completionHandler):
             let viewModel = FinaliseDetailsViewModel(primaryCode: primaryCode)
             viewModel.completionHandler = completionHandler
@@ -95,20 +88,6 @@ public class BookOnPresenter: Presenter {
                 from.show(to, sender: from)
             }
 
-        // Push
-        case .trafficStopEntity(_):
-            from.navigationController?.pushViewController(to, animated: true)
-
-        // Search app
-        case .trafficStopSearchEntity:
-            from.dismiss(animated: true) {
-                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"))
-                do {
-                    try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
-                }  catch {
-                    AlertQueue.shared.addSimpleAlert(title: "An Error Has Occurred", message: "Failed To Launch Entity Search")
-                }
-            }
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
             from.show(to, sender: from)
@@ -119,4 +98,3 @@ public class BookOnPresenter: Presenter {
         return presentableType is BookOnScreen.Type
     }
 }
-
