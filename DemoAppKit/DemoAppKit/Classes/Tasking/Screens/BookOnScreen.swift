@@ -36,7 +36,7 @@ public enum BookOnScreen: Presentable {
     case statusChangeReason(completionHandler: ((String?) -> Void)?)
 
     /// Create traffic stop incident
-    case trafficStop(completionHandler: ((CodableRequestParameters?) -> Void)?)
+    case trafficStop(submitHandler: (() -> Void)?, cancelHandler: (() -> Void)?)
 
     /// Enter finalise details
     case finaliseDetails(primaryCode: String, completionHandler: ((_ secondaryCode: String?, _ remark: String?) -> Void)?)
