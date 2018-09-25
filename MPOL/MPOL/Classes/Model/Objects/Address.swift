@@ -36,7 +36,7 @@ private enum CodingKeys: String, CodingKey {
 }
 
 @objc(MPLAddress)
-open class Address: Entity, Navigatable {
+open class Address: Entity, AddressFormItemConfiguration {
 
     override open class var serverTypeRepresentation: String {
         return "Location"
