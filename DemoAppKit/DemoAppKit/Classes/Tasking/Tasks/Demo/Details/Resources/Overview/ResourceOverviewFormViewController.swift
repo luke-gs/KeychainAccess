@@ -37,14 +37,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)
-            
-            for item in section.items {
-                if item.title == "Current Incident" {
-                    
-                } else {
-                    builder += ValueFormItem(title: item.title, value: item.value, image: item.image).width(item.width)
-                }
-            }
+            builder += section.items
         }
     }
 }

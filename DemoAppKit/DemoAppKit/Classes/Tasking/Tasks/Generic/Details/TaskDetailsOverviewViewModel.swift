@@ -17,7 +17,7 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     open weak var delegate: CADFormCollectionViewModelDelegate?
     
     /// Lazy var for creating view model content
-    open var sections: [CADFormCollectionSectionViewModel<TaskDetailsOverviewItemViewModel>] = [] {
+    open var sections: [CADFormCollectionSectionViewModel<FormItem>] = [] {
         didSet {
             delegate?.sectionsUpdated()
         }

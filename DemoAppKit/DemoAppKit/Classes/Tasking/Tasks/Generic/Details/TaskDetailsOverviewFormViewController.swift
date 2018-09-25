@@ -25,29 +25,7 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
                 builder += LargeTextHeaderFormItem(text: StringSizing(string: title))
                     .separatorColor(.clear)
             }
-            for item in section.items {
-                if item.isAddress {
-                    
-                    builder += ValueFormItem(title: item.title,
-                                             value: item.value != nil
-                                                ? NSAttributedString.stringWithTint(string: item.value!)
-                                                : "Unknown")
-                        .width(.column(1))
-                        .onSelection { cell in
-                            item.selectAction?(cell)
-                        }
-                    
-                } else {
-                    builder += ValueFormItem(title: item.title,
-                                             value: StringSizing(string: item.value ?? "Unknown"),
-                                             image: item.image)
-                        .width(item.width)
-                        .accessory(item.accessory)
-                        .onSelection { cell in
-                            item.selectAction?(cell)
-                        }
-                }
-            }
+            builder += section.items
         }
     }
 }

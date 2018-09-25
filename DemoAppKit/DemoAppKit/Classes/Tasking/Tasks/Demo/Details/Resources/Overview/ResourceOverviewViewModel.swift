@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PublicSafetyKit
 
 open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
 
@@ -49,44 +50,46 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         sections = [
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
                                               items: [
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
-                                                                              value: resource.shiftStartString,
-                                                                              width: .column(3)),
-
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
-                                                                              value: resource.shiftEndString,
-                                                                              width: .column(3)),
-
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
-                                                                              value: resource.shiftDuration,
-                                                                              width: .column(3)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Start Time", comment: ""))
+                                                    .value(resource.shiftStartString)
+                                                    .width(.column(3)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Estimated End Time", comment: ""))
+                                                    .value(resource.shiftEndString)
+                                                    .width(.column(3)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Duration", comment: ""))
+                                                    .value(resource.shiftDuration)
+                                                    .width(.column(3)),
                                                 ]),
 
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Call Sign Details", comment: ""),
                                               items: [
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Type", comment: ""),
-                                                                              value: resource.type.rawValue,
-                                                                              width: .column(4)),
-                                                
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Station", comment: ""),
-                                                                              value: resource.station,
-                                                                              width: .column(4)),
-                                                
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Fleet ID", comment: ""),
-                                                                              value: resource.serial,
-                                                                              width: .column(4)),
-                                                
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
-                                                                              value: vehicleCategoryText,
-                                                                              width: .column(4)),
-                                                
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
-                                                                                 value: resource.equipmentListString(separator: ", "),
-                                                                              width: .column(1)),
-                                                
-                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
-                                                                              value: resource.remarks ?? "–",
-                                                                              width: .column(1)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Type", comment: ""))
+                                                    .value(resource.type.rawValue)
+                                                    .width(.column(4)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Station", comment: ""))
+                                                    .value(resource.station)
+                                                    .width(.column(4)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Fleet ID", comment: ""))
+                                                    .value(resource.serial)
+                                                    .width(.column(4)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Category", comment: ""))
+                                                    .value(vehicleCategoryText)
+                                                    .width(.column(4)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Equipment", comment: ""))
+                                                    .value(resource.equipmentListString(separator: ", "))
+                                                    .width(.column(4)),
+                                                ValueFormItem()
+                                                    .title(NSLocalizedString("Remarks", comment: ""))
+                                                    .value(resource.remarks ?? "-")
+                                                    .width(.column(1)),
                                                 ])
         ]
     }
