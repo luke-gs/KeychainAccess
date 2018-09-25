@@ -11,7 +11,7 @@ import PublicSafetyKit
 public class TrafficStopPresenter: Presenter {
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
-        let presentable = presentable as! BookOnTrafficStopScreen
+        let presentable = presentable as! TrafficStopScreen
 
         switch presentable {
 
@@ -25,7 +25,7 @@ public class TrafficStopPresenter: Presenter {
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
-        let presentable = presentable as! BookOnTrafficStopScreen
+        let presentable = presentable as! TrafficStopScreen
 
         switch presentable {
         // Push
@@ -46,7 +46,7 @@ public class TrafficStopPresenter: Presenter {
     }
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
-        return presentableType is BookOnTrafficStopScreen.Type
+        return presentableType is  TrafficStopScreen.Type
     }
 }
 
