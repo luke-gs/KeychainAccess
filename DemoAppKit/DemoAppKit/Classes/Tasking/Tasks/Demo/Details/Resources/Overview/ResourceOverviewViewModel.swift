@@ -85,7 +85,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
                                                 ValueFormItem()
                                                     .title(NSLocalizedString("Equipment", comment: ""))
                                                     .value(resource.equipmentListString(separator: ", "))
-                                                    .width(.column(4)),
+                                                    .width(.column(1)),
                                                 ValueFormItem()
                                                     .title(NSLocalizedString("Remarks", comment: ""))
                                                     .value(resource.remarks ?? "-")
