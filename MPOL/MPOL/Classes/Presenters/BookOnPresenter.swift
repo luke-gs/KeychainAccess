@@ -50,7 +50,9 @@ public class BookOnPresenter: Presenter {
             return vc
 
         case .trafficStop(let completionHandler):
-            let viewModel = TrafficStopViewModel()
+
+            let viewModel = TrafficStopViewModel(priorityOptions: CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue }))
+
             viewModel.allowedEntities = [Person.self, Vehicle.self]
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
