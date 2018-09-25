@@ -120,7 +120,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         guard let viewController = self.viewModel.screenBuilding.viewControllers(for: reports).first else {
             return
         }
-        let navController = ThemedNavigationController(rootViewController: viewController)
+        let navController = ModalNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .pageSheet
         navController.dismissHandler = { animated in
             self.reloadForm()

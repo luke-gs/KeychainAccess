@@ -55,28 +55,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
     // MARK - Private
 
-    func addressText(for address: Address) -> String {
-    
-        if let text = address.fullAddress {
-            return text
-        }
-
-        if let text = AddressFormatter().formattedString(from: address) {
-            return text
-        }
-
-        return "-"
-    }
-
-    func coordinateText(for address: Address) -> String {
-        guard let latitude = address.latitude, let longitude = address.longitude else {
-            return "-"
-        }
-
-        return "\(latitude), \(longitude)"
-    }
-
-    func suitableForHabitationText(for address: Address) -> String {
+    private func suitableForHabitationText(for address: Address) -> String {
         // Data is not available yet.
         return "-"
     }

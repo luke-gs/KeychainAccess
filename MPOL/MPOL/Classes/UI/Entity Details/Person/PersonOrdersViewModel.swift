@@ -218,7 +218,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
         let viewModel = OrderSummaryViewModel(order: order)
         let orderVC = OrderSummaryViewController(viewModel: viewModel)
 
-        let navController = ThemedNavigationController(rootViewController: orderVC)
+        let navController = ModalNavigationController(rootViewController: orderVC)
         navController.modalPresentationStyle = .formSheet
         viewController.present(navController, animated: true, completion: nil)
     }
