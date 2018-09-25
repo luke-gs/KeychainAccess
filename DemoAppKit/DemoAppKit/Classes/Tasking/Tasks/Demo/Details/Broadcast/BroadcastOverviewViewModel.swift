@@ -25,7 +25,14 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
             mapViewModel = nil
         }
 
-        var overviewItems: [FormItem] = [
+        var overviewItems: [FormItem] = []
+
+        if let location = broadcast.location, let context = delegate as? UIViewController {
+            let locationItem = AddressFormItemFactory.addressNavigationFormItem(address: location, title: "Broadcast Location", context: context)
+            overviewItems.append(locationItem)
+        }
+
+        overviewItems += [
             ValueFormItem()
                 .title("Broadcast Number")
                 .value(broadcast.identifier)
@@ -43,13 +50,6 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                 .value(broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? broadcast.createdAtString ?? "")
                 .width(.column(2))
         ]
-
-        var locationItem: FormItem
-
-        if let location = broadcast.location, let context = delegate as? UIViewController {
-            locationItem = AddressFormItemFactory.addressNavigationFormItem(address: location, title: "Broadcast Location", context: context)
-            overviewItems.insert(locationItem, at: 0)
-        }
 
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
