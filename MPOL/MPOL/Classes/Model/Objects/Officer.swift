@@ -14,7 +14,7 @@ import Unbox
 open class Officer: MPOLKitEntity, Identifiable {
 
     override open class var serverTypeRepresentation: String {
-        return "Officer"
+        return "officer"
     }
 
     enum CodingKey: String {

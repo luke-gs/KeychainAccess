@@ -50,7 +50,7 @@ private enum Coding: String {
 open class Vehicle: Entity {
 
     override open class var serverTypeRepresentation: String {
-        return "Vehicle"
+        return "vehicle"
     }
     
     open override class var localizedDisplayName: String {

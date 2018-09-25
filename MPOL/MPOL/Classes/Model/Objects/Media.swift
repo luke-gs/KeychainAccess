@@ -15,7 +15,7 @@ open class Media: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     open class var serverTypeRepresentation: String {
-        return "Media"
+        return "media"
     }
     
     open class var supportsSecureCoding: Bool { return true }

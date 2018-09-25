@@ -33,7 +33,7 @@ open class Person: Entity, Identifiable {
     }
 
     override open class var serverTypeRepresentation: String {
-        return "Person"
+        return "person"
     }
 
     public enum Gender: String, CustomStringConvertible, UnboxableEnum, Pickable {

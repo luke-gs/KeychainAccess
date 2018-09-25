@@ -23,7 +23,7 @@ private enum CodingKeys: String, CodingKey {
 open class Organisation: Entity {
     
     override open class var serverTypeRepresentation: String {
-        return "Organisation"
+        return "organisation"
     }
     
     open var name: String?
