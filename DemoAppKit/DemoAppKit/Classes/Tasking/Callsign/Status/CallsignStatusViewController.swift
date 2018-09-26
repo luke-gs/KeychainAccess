@@ -12,7 +12,7 @@ import PromiseKit
 /// View controller for showing callsign statuses as a collection view
 open class CallsignStatusViewController: SubmissionFormBuilderViewController {
 
-    open let viewModel: CallsignStatusViewModel
+    public let viewModel: CallsignStatusViewModel
 
     // MARK: - Initializers
 

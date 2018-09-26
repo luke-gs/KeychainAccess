@@ -49,18 +49,6 @@ public class BookOnPresenter: Presenter {
             vc.completionHandler = completionHandler
             return vc
 
-        case .trafficStop(let submitHandler, let cancelHandler):
-
-            let viewModel = TrafficStopViewModel(priorityOptions: CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue }),
-                                                 primaryCodeOptions: ["Traffic", "Crash", "Other"],
-                                                 secondaryCodeOptions: ["Traffic", "Crash", "Other"])
-
-            viewModel.allowedEntities = [Person.self, Vehicle.self]
-            viewModel.submitHandler = submitHandler
-            viewModel.cancelHandler = cancelHandler
-
-            return viewModel.createViewController()
-
         case .finaliseDetails(let primaryCode, let completionHandler):
             let viewModel = FinaliseDetailsViewModel(primaryCode: primaryCode)
             viewModel.completionHandler = completionHandler

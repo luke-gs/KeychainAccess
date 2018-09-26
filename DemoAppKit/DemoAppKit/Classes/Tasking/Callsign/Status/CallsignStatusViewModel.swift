@@ -103,14 +103,15 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     @discardableResult
     open func promptForTrafficStopDetails() -> Promise<CodableRequestParameters> {
         let (promise, resolver) = Promise<CodableRequestParameters>.pending()
-        let submitHandler: (() -> Void) = {
-            // TODO: Fill request object with details
-            resolver.fulfill(DummyTrafficStopRequest())
+        let completionHandler: ((CreateTrafficStopViewModel?) -> Void) = { viewModel in
+            if viewModel != nil {
+                // TODO: Fill request object with details
+                resolver.fulfill(DummyTrafficStopRequest())
+            } else {
+                resolver.reject(PMKError.cancelled)
+            }
         }
-        let cancelHandler: (() -> Void) = {
-            resolver.reject(PMKError.cancelled)
-        }
-        delegate?.present(BookOnScreen.trafficStop(submitHandler: submitHandler, cancelHandler: cancelHandler))
+        delegate?.present(TrafficStopScreen.trafficStopCreate(completionHandler: completionHandler))
         return promise
     }
 
