@@ -38,7 +38,7 @@ public class TaskListPresenter: Presenter {
 
         case .createIncident:
             
-            let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue })
+            let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map{ $0.rawValue }
             let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
             
             // Populate status in the form
