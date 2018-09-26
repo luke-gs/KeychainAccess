@@ -56,36 +56,11 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         return AssetManager.shared.image(forKey: .infoFilled)
     }
 
-    override func didSetEntity() {
-        super.didSetEntity()
-        LocationManager.shared.requestLocation().done(calculateETAandDistanceFromCurrentLocation).cauterize()
-    }
-
     // MARK - Private
 
     private func suitableForHabitationText(for address: Address) -> String {
         // Data is not available yet.
         return "-"
-    }
-
-    private func calculateETAandDistanceFromCurrentLocation(_ currentLocation: CLLocation) {
-        guard let location = location else { return }
-        calculateETAandDistance(currentLocation: currentLocation, address: location).done {
-            self.delegate?.reloadData()
-            }.cauterize()
-    }
-
-    private func calculateETAandDistance(currentLocation: CLLocation, address: Address) -> Promise<Void> {
-        guard let location = location(from: self.location) else { return Promise<Void>() }
-        let promises: [Promise<Void>] = [
-            travelEstimationPlugin.calculateDistance(from: currentLocation, to: location).done {
-                self.travelTimeDistance = $0
-            },
-            travelEstimationPlugin.calculateETA(from: currentLocation, to: location, transportType: .automobile).done {
-                self.travelTimeETA = $0
-            }
-        ]
-        return when(fulfilled: promises).asVoid()
     }
 
     private func location(from address: Address?) -> CLLocation? {
@@ -112,5 +87,5 @@ extension LocationInfoViewModel: AddressFormItemConfigurationDelegate {
     public func didFinishCalculatingEstimates(from: AddressFormItemConfiguration) {
         delegate?.reloadData()
     }
-    
+
 }
