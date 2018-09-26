@@ -108,7 +108,9 @@ extension LocationInfoViewModel: EntityLocationMapDisplayable {
 }
 
 extension LocationInfoViewModel: AddressFormItemConfigurationDelegate {
+
     public func didFinishCalculatingEstimates(from: AddressFormItemConfiguration) {
         delegate?.reloadData()
     }
+    
 }
