@@ -45,8 +45,15 @@ public class TaskListPresenter: Presenter {
             let selectedStatus = CADClientModelTypes.resourceStatus?.defaultCreateCase
             
             // Submit action
-            let submitHandler: CreateTaskViewModel.CreateTaskSubmitHandler = { (status, priority, primaryCode, remarks) in
+            let submitHandler: CreateTaskViewModel.CreateTaskSubmitHandler = { createTaskViewModel in
                 // TODO: implement handler
+                /**
+                 form values:
+                 createTaskViewModel.selectedStatus
+                 createTaskViewModel.priority
+                 createTaskViewModel.primaryCode
+                 createTaskViewModel.remarks
+                */
             }
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
