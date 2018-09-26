@@ -54,6 +54,7 @@ public class TaskListPresenter: Presenter {
                  createTaskViewModel.primaryCode
                  createTaskViewModel.remarks
                 */
+                return Promise<Void>()
             }
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
