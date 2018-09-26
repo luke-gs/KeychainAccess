@@ -24,7 +24,8 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
         var taskDetailsOverviewItems: [FormItem] = []
 
         if let location = incident.location, let context = delegate as? UIViewController {
-            let addressItem = AddressFormItemFactory.addressNavigationFormItem(address: location, context: context)
+            let factory = AddressFormItemFactory(config: AddressFormItemConfiguration(data: location))
+            let addressItem = factory.addressNavigationFormItem(context: context)
             taskDetailsOverviewItems.append(addressItem)
         }
 

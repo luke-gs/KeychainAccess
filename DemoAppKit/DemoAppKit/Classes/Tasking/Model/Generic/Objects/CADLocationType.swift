@@ -11,7 +11,7 @@ import CoreLocation
 import PublicSafetyKit
 
 /// Protocol for a class representing a location
-public protocol CADLocationType: class, AddressFormItemConfiguration {
+public protocol CADLocationType: class, Navigatable {
 
     // MARK: - Network
     var alertLevel: Int? { get set }

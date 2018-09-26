@@ -18,6 +18,8 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
     private var travelTimeETA: String?
     private var travelTimeDistance: String?
 
+    private var addressConfig: AddressFormItemConfiguration?
+
     public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
 
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
@@ -29,7 +31,13 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        builder += AddressFormItemFactory.defaultAddressFormItems(address: location, travelTimeETA: travelTimeETA, travelTimeDistance: travelTimeDistance, context: viewController)
+        if addressConfig == nil {
+            addressConfig = AddressFormItemConfiguration(data: location, showTravelData: true)
+            addressConfig!.delegate = self
+        }
+
+        let factory = AddressFormItemFactory(config: addressConfig!)
+        builder += factory.defaultAddressFormItems( context: viewController)
     }
 
     open override var title: String? {
@@ -97,4 +105,10 @@ extension LocationInfoViewModel: EntityLocationMapDisplayable {
         return AddressSummaryDisplayable(location)
     }
 
+}
+
+extension LocationInfoViewModel: AddressFormItemConfigurationDelegate {
+    public func didFinishCalculatingEstimates(from: AddressFormItemConfiguration) {
+        delegate?.reloadData()
+    }
 }

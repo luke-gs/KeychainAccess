@@ -28,7 +28,8 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
         var overviewItems: [FormItem] = []
 
         if let location = broadcast.location, let context = delegate as? UIViewController {
-            let locationItem = AddressFormItemFactory.addressNavigationFormItem(address: location, title: "Broadcast Location", context: context)
+            let factory = AddressFormItemFactory(config: AddressFormItemConfiguration(data: location, title: "Broadcast Location"))
+            let locationItem = factory.addressNavigationFormItem(context: context)
             overviewItems.append(locationItem)
         }
 
