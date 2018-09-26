@@ -56,7 +56,8 @@ public class TaskListPresenter: Presenter {
                                             selectedStatus: selectedStatus,
                                             submitHandler: submitHandler)
             
-            return viewModel.createViewController()
+            
+            return CreateTaskViewController(viewModel: viewModel)
 
         case .mapFilter(let delegate):
             return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)
