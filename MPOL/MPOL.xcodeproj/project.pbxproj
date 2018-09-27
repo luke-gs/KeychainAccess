@@ -1320,13 +1320,13 @@
 			children = (
 				96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */,
 				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
-				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
+				20C97904215C93610067977B /* CreateTaskPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
 				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
 				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
 				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
 				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
-				20C97904215C93610067977B /* CreateTaskPresenter.swift */,
+				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";

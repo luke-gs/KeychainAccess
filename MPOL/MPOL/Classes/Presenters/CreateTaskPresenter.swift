@@ -18,8 +18,8 @@ public class CreateTaskPresenter: Presenter {
         switch presentable {
         case .createTaskMain:
         
-            let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { $0.rawValue }
-            let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
+            let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { AnyPickable($0.rawValue) }
+            let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map( { AnyPickable($0) } )
             
             // Populate status in the form
             let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
