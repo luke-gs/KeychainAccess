@@ -120,7 +120,7 @@ open class TasksListHeaderViewModel {
                 return
             }
 
-            let vc = Director.shared.viewController(forPresentable: TaskListScreen.createIncident)
+            let vc = Director.shared.viewController(forPresentable: CreateTaskScreen.createTaskMain)
             delegate?.presentFormSheet(vc, animated: true)
         } else {
             AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Create Incident", comment: ""),

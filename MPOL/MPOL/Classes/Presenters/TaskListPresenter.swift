@@ -36,38 +36,6 @@ public class TaskListPresenter: Presenter {
             tasksSplitViewController = tasksSplitViewModel.createViewController()
             return tasksSplitViewController
 
-        case .createIncident:
-            
-            let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { $0.rawValue }
-            let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
-            
-            // Populate status in the form
-            let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
-            let selectedStatus = CADClientModelTypes.resourceStatus?.defaultCreateCase
-            
-            // Submit action
-            let submitHandler: CreateTaskViewModel.CreateTaskSubmitHandler = { createTaskViewModel in
-                // TODO: implement handler
-                /**
-                 form values:
-                 createTaskViewModel.selectedStatus
-                 createTaskViewModel.priority
-                 createTaskViewModel.primaryCode
-                 createTaskViewModel.remarks
-                */
-                return Promise<Void>()
-            }
-            
-            let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
-                                            primaryCodeOptions: primaryCodeOptions,
-                                            statusHeader: NSLocalizedString("Initial Status", comment: ""),
-                                            statusItems: statusItems,
-                                            selectedStatus: selectedStatus,
-                                            submitHandler: submitHandler)
-            
-            
-            return CreateTaskViewController(viewModel: viewModel)
-
         case .mapFilter(let delegate):
             return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)
 
