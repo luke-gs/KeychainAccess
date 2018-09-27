@@ -223,6 +223,7 @@
 		AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1320BF9993009862FD /* VehicleTowReportViewModel.swift */; };
 		AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1420BF9993009862FD /* VehicleTowReportViewController.swift */; };
 		AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */; };
+		AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */; };
 		AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = AA1E7BB72119145B0086AA70 /* termsandconditions.html */; };
 		AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */; };
 		AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513821180E1A00621E58 /* TermsAndConditions.swift */; };
@@ -521,6 +522,7 @@
 		AA1C0B1320BF9993009862FD /* VehicleTowReportViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReportViewModel.swift; sourceTree = "<group>"; };
 		AA1C0B1420BF9993009862FD /* VehicleTowReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReportViewController.swift; sourceTree = "<group>"; };
 		AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSelectionAction.swift; sourceTree = "<group>"; };
+		AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficStopPresenter.swift; sourceTree = "<group>"; };
 		AA1E7BB72119145B0086AA70 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAdditionalActionBuilding.swift; sourceTree = "<group>"; };
 		AA3E513821180E1A00621E58 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
@@ -1316,6 +1318,7 @@
 			children = (
 				96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */,
 				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
+				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
 				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
 				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
@@ -1740,6 +1743,7 @@
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */,
 				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
+				AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */,
 				96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
 				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
