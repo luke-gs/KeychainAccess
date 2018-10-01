@@ -20,6 +20,7 @@ public class CreateTaskPresenter: Presenter {
         
             let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { AnyPickable($0.rawValue) }
             let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map( { AnyPickable($0) } )
+            let secondaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map( { AnyPickable($0) } )
             
             // Populate status in the form
             let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
@@ -28,6 +29,7 @@ public class CreateTaskPresenter: Presenter {
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
                                                 primaryCodeOptions: primaryCodeOptions,
+                                                secondaryCodeOptions: secondaryCodeOptions,
                                                 statusItems: statusItems,
                                                 selectedStatus: selectedStatus)
             
