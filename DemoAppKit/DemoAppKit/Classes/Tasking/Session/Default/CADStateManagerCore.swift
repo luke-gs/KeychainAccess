@@ -274,6 +274,21 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
     }
 
+    open override func processSyncItems() {
+        super.processSyncItems()
+
+        // TODO: remove this when we have a real CAD system
+        // Update booked on resources to have shift times from today
+        if let lastSync = lastSync {
+            for resource in lastSync.resources {
+                if resource.shiftStart != nil {
+                    resource.shiftStart = Date().beginningOfDay.adding(hours: 9)
+                    resource.shiftEnd = Date().beginningOfDay.adding(hours: 9+8)
+                }
+            }
+        }
+    }
+
     // MARK: - Notifications
     
     /// Adds scheduled local notification and clears any conflicting ones.
