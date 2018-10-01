@@ -28,7 +28,6 @@ public class CreateTaskPresenter: Presenter {
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
                                                 primaryCodeOptions: primaryCodeOptions,
-                                                statusHeader: NSLocalizedString("Initial Status", comment: ""),
                                                 statusItems: statusItems,
                                                 selectedStatus: selectedStatus)
             
