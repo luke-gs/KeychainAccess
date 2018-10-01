@@ -13,6 +13,7 @@ import DemoAppKit
 import PromiseKit
 import Lottie
 import Alamofire
+import VoiceSearchManager
 
 #if INTERNAL || EXTERNAL
     import HockeySDK
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
     var navigator: AppURLNavigator!
+    
 
     var plugins: [Plugin]?
 
@@ -94,6 +96,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupNavigator()
         startPrepopulationProcessIfNecessary()
 
+        NotificationCenter.default.addObserver(forName: .userSessionStarted, object: nil, queue: OperationQueue.main) { _ in
+            VoiceSearchWorkflowManager.shared.startListening()
+        }
+        NotificationCenter.default.addObserver(forName: .userSessionEnded, object: nil, queue: OperationQueue.main) { _ in
+            VoiceSearchWorkflowManager.shared.stopListening()
+        }
+
         return true
     }
 
@@ -106,6 +115,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 NotificationManager.shared.registerPushToken()
                 UserPreferenceManager.shared.fetchSharedUserPreferences()
             }
+            VoiceSearchWorkflowManager.shared.startListening()
+        } else {
+            VoiceSearchWorkflowManager.shared.stopListening()
         }
 
         // Update screen if necessary
@@ -190,8 +202,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
-        let promise: Promise<Void>
 
+        let promise: Promise<Void>
+        
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken, let savedToken = UserSession.current.token {
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token)).done { token -> Void in
@@ -305,7 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navigator.register(searchHandler)
     }
 
-    private lazy var searchLauncher: SearchActivityLauncher = {
+    lazy var searchLauncher: SearchActivityLauncher = {
         return SearchActivityLauncher()
     }()
 

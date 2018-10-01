@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '11.2'
 use_frameworks!
 inhibit_all_warnings!
 
@@ -26,6 +26,8 @@ target 'MPOL' do
     all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
+    pod 'VoiceSearchManager', '~> 2.0'
+    pod 'VoiceSearchManager/VehicleRegistrationTransformer'
     
     target 'MPOLTests' do
       inherit! :search_paths
