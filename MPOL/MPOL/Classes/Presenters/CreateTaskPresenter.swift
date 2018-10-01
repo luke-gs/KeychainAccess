@@ -25,28 +25,20 @@ public class CreateTaskPresenter: Presenter {
             let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
             let selectedStatus = CADClientModelTypes.resourceStatus?.defaultCreateCase
             
-            // Submit action
-            let submitHandler: CreateTaskViewModel.CreateTaskSubmitHandler = { createTaskViewModel in
-                // TODO: implement handler
-                /**
-                 form values:
-                 createTaskViewModel.selectedStatus
-                 createTaskViewModel.priority
-                 createTaskViewModel.primaryCode
-                 createTaskViewModel.remarks
-                 */
-                return Promise<Void>()
-            }
             
             let viewModel = CreateTaskViewModel(priorityOptions: priorityOptions,
                                                 primaryCodeOptions: primaryCodeOptions,
                                                 statusHeader: NSLocalizedString("Initial Status", comment: ""),
                                                 statusItems: statusItems,
-                                                selectedStatus: selectedStatus,
-                                                submitHandler: submitHandler)
+                                                selectedStatus: selectedStatus)
             
+            let viewController = CreateTaskViewController(viewModel: viewModel)
+            viewController.submitHandler = { viewModel in
+                // TODO: send to network
+                return Promise<Void>()
+            }
             
-            return CreateTaskViewController(viewModel: viewModel)
+            return viewController
             
         case .createTaskAddEntity(let completionHandler):
             let viewModel = RecentEntitySummarySelectionViewModel()
