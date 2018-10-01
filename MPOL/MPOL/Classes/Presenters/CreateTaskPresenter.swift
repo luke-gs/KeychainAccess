@@ -38,6 +38,11 @@ public class CreateTaskPresenter: Presenter {
                 return Promise<Void>()
             }
             
+            viewController.closeHandler = { submitted in
+                // By default just dismiss the dialog
+                viewController.dismissAnimated()
+            }
+            
             return viewController
             
         case .createTaskAddEntity(let completionHandler):
