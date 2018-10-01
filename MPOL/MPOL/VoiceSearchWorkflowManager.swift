@@ -37,6 +37,8 @@ class VoiceSearchWorkflowManager: NSObject {
     }
 
     func speak(_ text: String) {
+
+        return
         
         if voiceSearchManager.isActive {
             voiceSearchManager.pause()

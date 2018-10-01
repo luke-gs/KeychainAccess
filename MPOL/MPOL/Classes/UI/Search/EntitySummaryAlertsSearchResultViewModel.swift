@@ -13,11 +13,6 @@ import AVFoundation
 
 public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntitySummarySearchResultViewModel<T>, SearchAlertsViewModelable, SearchAlertsDelegate {
 
-    lazy var speechSynthetizer: AVSpeechSynthesizer = {
-        let synthetizer = AVSpeechSynthesizer()
-        return synthetizer
-    }()
-
     public var alertEntities: [Entity] = []
 
     // Used to sort the entities according to their associated alert level
