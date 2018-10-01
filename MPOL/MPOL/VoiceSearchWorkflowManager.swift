@@ -98,6 +98,9 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
         vc.didEndRecognisingSpeechWithFinalResult(result)
         vc.dismiss(animated: false)
 
+        // Change to immediate search for now, to be defined later.
+        rightNow = true
+        /*
         if let currentRecognition = result {
             let words = currentRecognition.components(separatedBy: " ")
             if let lastWord = words.last {
@@ -108,10 +111,11 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
             }
         }
 
+        */
+
         if let value = text {
             text = trans.transform(value)
         }
-
 
         let searchable = Searchable(text: text, type: "Vehicle")
         if rightNow {
