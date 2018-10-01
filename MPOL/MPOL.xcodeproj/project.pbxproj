@@ -53,6 +53,9 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */; };
+		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
+		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
 		20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C97904215C93610067977B /* CreateTaskPresenter.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
@@ -330,6 +333,9 @@
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PersonSearchHelp.html; sourceTree = "<group>"; };
+		208A85BF2161ECFB00FEC69B /* LightModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = LightModeStyle.css; sourceTree = "<group>"; };
+		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
 		2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		20C97904215C93610067977B /* CreateTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskPresenter.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
@@ -1301,6 +1307,9 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				208A85BF2161ECFB00FEC69B /* LightModeStyle.css */,
+				208A85C12161ED5500FEC69B /* DarkModeStyle.css */,
+				208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				1987C2AB20846766007F7273 /* Localizable.strings */,
@@ -1497,9 +1506,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
+				208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */,
 				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
 				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
+				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
 				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
 				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
@@ -1508,6 +1519,7 @@
 				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
 				1988307020BB82FE006FE165 /* Settings.bundle in Resources */,
+				208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */,
 				AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */,
 				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
 			);

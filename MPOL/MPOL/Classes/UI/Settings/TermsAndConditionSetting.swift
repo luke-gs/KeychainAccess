@@ -21,8 +21,13 @@ public extension Settings {
     private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
 
         do {
-            let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
+            
+            let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
+            let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
+            let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                             htmlURL: TermsAndConditions.url,
+                                                            lightStyleURL: lightURL,
+                                                            darkStyleURL: darkURL,
                                                             actions: nil)
 
             tsAndCsVC.title = "Terms and Conditions"

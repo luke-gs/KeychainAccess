@@ -118,7 +118,12 @@ public class EntityPresenter: Presenter {
 
             switch type {
             case .person:
-                content = HelpContent(filename: "PersonSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "PersonSearchHelp", withExtension: "html")!
+                let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
+                let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
+                let htmlVC = try! HTMLTextViewController.init(title: "PersonSearchHelp", htmlURL: url, lightStyleURL: lightURL, darkStyleURL: darkURL, actions: nil)
+                return htmlVC
+                
             case .vehicle:
                 content = HelpContent(filename: "VehicleSearchHelp", bundle: Bundle.main)
             case .location:

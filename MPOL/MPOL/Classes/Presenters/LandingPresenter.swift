@@ -80,8 +80,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let declineAction = DialogAction(title: NSLocalizedString("Decline", comment: "T&C - Decline"), handler: didDeclineConditions(_ :))
 
             do {
-                let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
+                let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
+                let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
+                let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                                 htmlURL: TermsAndConditions.url,
+                                                                lightStyleURL: lightURL,
+                                                                darkStyleURL: darkURL,
                                                                 actions: [declineAction, acceptAction])
                 tsAndCsVC.title = "Terms and Conditions"
 
