@@ -53,6 +53,7 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C97904215C93610067977B /* CreateTaskPresenter.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
 		371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */; };
@@ -330,6 +331,7 @@
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
 		2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
+		20C97904215C93610067977B /* CreateTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskPresenter.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
 		371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsReport.swift; sourceTree = "<group>"; };
@@ -1318,12 +1320,13 @@
 			children = (
 				96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */,
 				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
-				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
+				20C97904215C93610067977B /* CreateTaskPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
 				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
 				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
 				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
 				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
+				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -1898,6 +1901,7 @@
 				AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */,
 				AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */,
 				AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */,
+				20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */,
 				96B775AC214206F100836B83 /* EngineNumberParserDefinition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

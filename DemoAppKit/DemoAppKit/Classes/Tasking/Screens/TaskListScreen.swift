@@ -14,9 +14,6 @@ public enum TaskListScreen: Presentable {
     /// The landing screen of the task list, the top level split view
     case landing
 
-    /// Create a new incident
-    case createIncident
-
     /// Display the map filter
     case mapFilter(delegate: MapFilterViewControllerDelegate?)
 
