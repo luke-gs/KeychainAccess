@@ -35,7 +35,7 @@ PODS:
     - CoreKit
     - lottie-ios (= 2.1.3)
     - SketchKit
-  - Porcupine-iOS (2.0.2)
+  - Porcupine-iOS (2.0)
   - PromiseKit (6.4.0):
     - PromiseKit/CorePromise (= 6.4.0)
     - PromiseKit/Foundation (= 6.4.0)
@@ -53,12 +53,12 @@ PODS:
   - SketchKit (0.0.1):
     - CoreKit
   - Unbox (2.5.0)
-  - VoiceSearchManager (2.0.2):
+  - VoiceSearchManager (2.0):
     - Porcupine-iOS (~> 2.0)
-    - VoiceSearchManager/Core (= 2.0.2)
-  - VoiceSearchManager/Core (2.0.2):
+    - VoiceSearchManager/Core (= 2.0)
+  - VoiceSearchManager/Core (2.0):
     - Porcupine-iOS (~> 2.0)
-  - VoiceSearchManager/VehicleRegistrationTransformer (2.0.2):
+  - VoiceSearchManager/VehicleRegistrationTransformer (2.0):
     - Porcupine-iOS (~> 2.0)
     - VoiceSearchManager/Core
   - Wrap (2.1.1)
@@ -118,12 +118,12 @@ SPEC CHECKSUMS:
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
   PatternKit: 1ccb78b25c7372c229b1ac649b68851b8445cabf
-  Porcupine-iOS: b02012233f68f256596ccfb881e9a2a6014775a7
+  Porcupine-iOS: 672cd7d49a6c3ebd03ae6c76a270d98ecff61800
   PromiseKit: ae3616f45d7bb9bf4ff1e91abc9b7a8c48a340e0
   PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23
   SketchKit: 440c6e6b6ba7c6a1a4f4a69ea9cf5f8cff981ddc
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
-  VoiceSearchManager: 88ed211c24b873b3367d2b8402b7183c26e5c24a
+  VoiceSearchManager: 14efef79b893004aeb026e9e803c949574431f4b
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
 PODFILE CHECKSUM: 02ebadf5b894a002d4cbbf3b7db339ef190203a2
