@@ -77,6 +77,11 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
     static var viewController: ViewController = ViewController()
 
+    var shouldBeginListening: Bool {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.window?.rootViewController?.presentedViewController == nil
+    }
+
     func voiceSearchManagerWillStartRecognisingSpeech(_ manager: VoiceSearchManager) {
         let vc = VoiceSearchWorkflowManager.viewController
         vc.willStartRecognisingSpeech()
