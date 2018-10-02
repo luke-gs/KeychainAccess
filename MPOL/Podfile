@@ -26,8 +26,8 @@ target 'MPOL' do
     all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
-    pod 'VoiceSearchManager', '~> 2.0'
-    pod 'VoiceSearchManager/VehicleRegistrationTransformer'
+    pod 'VoiceSearchManager', :path => '../../VoiceSearchManager-iOS'
+    pod 'VoiceSearchManager/VehicleRegistrationTransformer', :path => '../../VoiceSearchManager-iOS'
     
     target 'MPOLTests' do
       inherit! :search_paths
