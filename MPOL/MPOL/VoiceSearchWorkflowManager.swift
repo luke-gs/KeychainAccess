@@ -36,6 +36,10 @@ class VoiceSearchWorkflowManager: NSObject {
         voiceSearchManager.pause()
     }
 
+    func beginVoiceSearch() {
+       try? voiceSearchManager.startRecognitionTask()
+    }
+
     func speak(_ text: String) {
 
         return
