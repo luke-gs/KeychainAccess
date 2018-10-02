@@ -9,7 +9,7 @@ import UIKit
 import PublicSafetyKit
 import DemoAppKit
 
-class LocationAction<T: EventLocation>: ValueSelectionAction<T>, LocationSelectionMapViewModelDelegate {
+class LocationAction<T: EventLocation>: ValueSelectionAction<T>, OldLocationSelectionMapViewModelDelegate {
     var viewModel: EventLocationSelectionMapViewModel
 
     init(viewModel: EventLocationSelectionMapViewModel) {
@@ -32,7 +32,7 @@ class LocationAction<T: EventLocation>: ValueSelectionAction<T>, LocationSelecti
     }
 
     // MARK: - LocationSelectionMapViewModelDelegate
-    func didCompleteWithLocation(_ location: LocationSelection?) {
+    func didCompleteWithLocation(_ location: OldLocationSelection?) {
         if let location = location as? T {
             self.selectedValue = location
             updateHandler?()
