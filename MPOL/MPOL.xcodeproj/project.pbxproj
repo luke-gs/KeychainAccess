@@ -56,6 +56,7 @@
 		207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */; };
 		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
 		207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */; };
+		207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */; };
 		208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */; };
 		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
 		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
@@ -339,6 +340,7 @@
 		207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = OrganisationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VehicleSearchHelp.html; sourceTree = "<group>"; };
+		207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeManager+HTML.swift"; sourceTree = "<group>"; };
 		208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PersonSearchHelp.html; sourceTree = "<group>"; };
 		208A85BF2161ECFB00FEC69B /* LightModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = LightModeStyle.css; sourceTree = "<group>"; };
 		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
@@ -746,6 +748,27 @@
 			path = Description;
 			sourceTree = "<group>";
 		};
+		207A0FFC21632F7900153AC3 /* HTML */ = {
+			isa = PBXGroup;
+			children = (
+				208A85BF2161ECFB00FEC69B /* LightModeStyle.css */,
+				208A85C12161ED5500FEC69B /* DarkModeStyle.css */,
+				208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */,
+				207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */,
+				207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */,
+				207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */,
+			);
+			path = HTML;
+			sourceTree = "<group>";
+		};
+		207A0FFD21632FD400153AC3 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
 			isa = PBXGroup;
 			children = (
@@ -1098,6 +1121,7 @@
 		96B7758B2141E66200836B83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				207A0FFD21632FD400153AC3 /* Theme */,
 				96B774BB2140F8EE00836B83 /* Entity Creation */,
 				96B774922140F8EE00836B83 /* Entity Details */,
 				12EB8099202AAC0000405F5C /* Events */,
@@ -1313,12 +1337,7 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				208A85BF2161ECFB00FEC69B /* LightModeStyle.css */,
-				208A85C12161ED5500FEC69B /* DarkModeStyle.css */,
-				208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */,
-				207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */,
-				207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */,
-				207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */,
+				207A0FFC21632F7900153AC3 /* HTML */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				1987C2AB20846766007F7273 /* Localizable.strings */,
@@ -1896,6 +1915,7 @@
 				96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */,
 				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
 				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
+				207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */,
 				96B7756E2140F8EE00836B83 /* TrafficHistory.swift in Sources */,
 				12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,

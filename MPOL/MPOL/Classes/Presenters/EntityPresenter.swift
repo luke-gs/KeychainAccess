@@ -115,10 +115,8 @@ public class EntityPresenter: Presenter {
             return UIViewController()
         case .help(let type):
             let htmlVC: HTMLTextViewController
-            // styles
-            let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
-            let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
-            let styleMap: [UserInterfaceStyle: URL] = [.light: lightURL, .dark: darkURL]
+            
+            let styleMap = ThemeManager.htmlStyleMap
             
             switch type {
             case .person:
