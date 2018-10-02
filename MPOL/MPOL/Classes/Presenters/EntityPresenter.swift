@@ -114,25 +114,32 @@ public class EntityPresenter: Presenter {
             }
             return UIViewController()
         case .help(let type):
-            let content: HelpContent
-
+            let htmlVC: HTMLTextViewController
+            // styles
+            let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
+            let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
+            let styleURL: [UserInterfaceStyle: URL] = [.light: lightURL, .dark: darkURL]
+            
             switch type {
             case .person:
                 let url = Bundle.main.url(forResource: "PersonSearchHelp", withExtension: "html")!
-                let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
-                let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
-                let htmlVC = try! HTMLTextViewController.init(title: "PersonSearchHelp", htmlURL: url, lightStyleURL: lightURL, darkStyleURL: darkURL, actions: nil)
-                return htmlVC
-                
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("PersonSearchHelp", comment: ""),
+                                                          htmlURL: url, styleURL: styleURL, actions: nil)
             case .vehicle:
-                content = HelpContent(filename: "VehicleSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "VehicleSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("VehicleSearchHelp", comment: ""),
+                                                          htmlURL: url, styleURL: styleURL, actions: nil)
             case .location:
-                content = HelpContent(filename: "LocationSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "LocationSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("LocationSearchHelp", comment: ""),
+                                                          htmlURL: url, styleURL: styleURL, actions: nil)
             case .organisation:
-                content = HelpContent(filename: "OrganisationSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "OrganisationSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("OrganisationSearchHelp", comment: ""),
+                                                          htmlURL: url, styleURL: styleURL, actions: nil)
             }
             
-            return HelpViewController(content: content)
+            return htmlVC
 
         case .createEntity(let type):
             let title: String

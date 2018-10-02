@@ -24,10 +24,11 @@ public extension Settings {
             
             let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
             let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
+            let styleURL: [UserInterfaceStyle: URL] = [.light: lightURL, .dark: darkURL]
+            
             let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                             htmlURL: TermsAndConditions.url,
-                                                            lightStyleURL: lightURL,
-                                                            darkStyleURL: darkURL,
+                                                            styleURL: styleURL,
                                                             actions: nil)
 
             tsAndCsVC.title = "Terms and Conditions"

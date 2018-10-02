@@ -53,6 +53,9 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */; };
+		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
+		207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */; };
 		208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */; };
 		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
 		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
@@ -333,6 +336,9 @@
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = OrganisationSearchHelp.html; sourceTree = "<group>"; };
+		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
+		207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VehicleSearchHelp.html; sourceTree = "<group>"; };
 		208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PersonSearchHelp.html; sourceTree = "<group>"; };
 		208A85BF2161ECFB00FEC69B /* LightModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = LightModeStyle.css; sourceTree = "<group>"; };
 		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
@@ -1310,6 +1316,9 @@
 				208A85BF2161ECFB00FEC69B /* LightModeStyle.css */,
 				208A85C12161ED5500FEC69B /* DarkModeStyle.css */,
 				208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */,
+				207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */,
+				207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */,
+				207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				1987C2AB20846766007F7273 /* Localizable.strings */,
@@ -1508,11 +1517,14 @@
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
 				208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */,
 				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
+				207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */,
 				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
 				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
 				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
+				207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */,
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
+				207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */,
 				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
 				BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */,
 				445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */,
