@@ -123,23 +123,32 @@ public class EntityPresenter: Presenter {
             switch type {
             case .person:
                 let url = Bundle.main.url(forResource: "PersonSearchHelp", withExtension: "html")!
-                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("PersonSearchHelp", comment: ""),
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Person Search", comment: ""),
                                                           htmlURL: url, styleURL: styleURL, actions: nil)
             case .vehicle:
                 let url = Bundle.main.url(forResource: "VehicleSearchHelp", withExtension: "html")!
-                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("VehicleSearchHelp", comment: ""),
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Vehicle Search", comment: ""),
                                                           htmlURL: url, styleURL: styleURL, actions: nil)
             case .location:
                 let url = Bundle.main.url(forResource: "LocationSearchHelp", withExtension: "html")!
-                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("LocationSearchHelp", comment: ""),
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Location Search", comment: ""),
                                                           htmlURL: url, styleURL: styleURL, actions: nil)
             case .organisation:
                 let url = Bundle.main.url(forResource: "OrganisationSearchHelp", withExtension: "html")!
-                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("OrganisationSearchHelp", comment: ""),
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Organisation Search", comment: ""),
                                                           htmlURL: url, styleURL: styleURL, actions: nil)
             }
             
-            return htmlVC
+            htmlVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",
+                                                                         style: .plain,
+                                                                         target: htmlVC,
+                                                                         action: #selector(UIViewController.dismissAnimated))
+            
+            
+            let navVC = ModalNavigationController(rootViewController: htmlVC)
+            navVC.modalPresentationStyle = .pageSheet
+            
+            return navVC
 
         case .createEntity(let type):
             let title: String
