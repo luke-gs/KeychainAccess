@@ -88,6 +88,7 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
 		47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */; };
+		96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */; };
 		96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2020D0B25600B82A53 /* NotificationService.swift */; };
 		96728C2520D0B25600B82A53 /* APNS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
@@ -378,6 +379,7 @@
 		529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-release.xcconfig"; sourceTree = "<group>"; };
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
+		96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionCore.swift; sourceTree = "<group>"; };
 		96728C1E20D0B25600B82A53 /* APNS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "APNS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96728C2020D0B25600B82A53 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		96728C2220D0B25600B82A53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -800,6 +802,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		96300ED82163207B00CF3B6F /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		96728C1F20D0B25600B82A53 /* APNS Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -1086,6 +1096,7 @@
 		96B7758B2141E66200836B83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				96300ED82163207B00CF3B6F /* Location */,
 				96B774BB2140F8EE00836B83 /* Entity Creation */,
 				96B774922140F8EE00836B83 /* Entity Details */,
 				12EB8099202AAC0000405F5C /* Events */,
@@ -1870,6 +1881,7 @@
 				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
 				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
 				96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */,
+				96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */,
 				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
 				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
 				96B7756E2140F8EE00836B83 /* TrafficHistory.swift in Sources */,

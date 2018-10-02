@@ -19,6 +19,13 @@ public class TrafficStopPresenter: Presenter {
 
         case .trafficStopCreate(let completionHandler):
 
+            let locationSelectionViewModel = LocationSelectionMapViewModel(
+            locationSelectionType: LocationSelectionCore.self, selectedLocation: nil) { (searchText, cancelToken) -> Promise<[MPOLKitEntityProtocol]> in
+                return APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: searchText), withCancellationToken: cancelToken).mapValues {
+                    return $0
+                }
+            }
+
             // Likely from manifest in real client
             let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { AnyPickable($0.rawValue) }
             let primaryCodeOptions = ["Traffic", "Crash", "Other"].map { AnyPickable($0) }
@@ -26,7 +33,8 @@ public class TrafficStopPresenter: Presenter {
 
             let viewModel = CreateTrafficStopViewModel(priorityOptions: priorityOptions,
                                                        primaryCodeOptions: primaryCodeOptions,
-                                                       secondaryCodeOptions: secondaryCodeOptions)
+                                                       secondaryCodeOptions: secondaryCodeOptions,
+                                                       locationSelectionViewModel: locationSelectionViewModel)
 
             let viewController = CreateTrafficStopViewController(viewModel: viewModel)
             viewController.submitHandler = { viewModel in
