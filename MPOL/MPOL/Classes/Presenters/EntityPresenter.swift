@@ -118,25 +118,25 @@ public class EntityPresenter: Presenter {
             // styles
             let lightURL = Bundle.main.url(forResource: "LightModeStyle", withExtension: "css")!
             let darkURL = Bundle.main.url(forResource: "DarkModeStyle", withExtension: "css")!
-            let styleURL: [UserInterfaceStyle: URL] = [.light: lightURL, .dark: darkURL]
+            let styleMap: [UserInterfaceStyle: URL] = [.light: lightURL, .dark: darkURL]
             
             switch type {
             case .person:
                 let url = Bundle.main.url(forResource: "PersonSearchHelp", withExtension: "html")!
                 htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Person Search", comment: ""),
-                                                          htmlURL: url, styleURL: styleURL, actions: nil)
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             case .vehicle:
                 let url = Bundle.main.url(forResource: "VehicleSearchHelp", withExtension: "html")!
                 htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Vehicle Search", comment: ""),
-                                                          htmlURL: url, styleURL: styleURL, actions: nil)
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             case .location:
                 let url = Bundle.main.url(forResource: "LocationSearchHelp", withExtension: "html")!
                 htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Location Search", comment: ""),
-                                                          htmlURL: url, styleURL: styleURL, actions: nil)
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             case .organisation:
                 let url = Bundle.main.url(forResource: "OrganisationSearchHelp", withExtension: "html")!
                 htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Organisation Search", comment: ""),
-                                                          htmlURL: url, styleURL: styleURL, actions: nil)
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             }
             
             htmlVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",
