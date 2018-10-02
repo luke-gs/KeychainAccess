@@ -11,7 +11,7 @@ import PublicSafetyKit
 
 class VoiceSearchWorkflowManager: NSObject {
 
-    private let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 1.5))
+    private let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2))
     private lazy var speechSynthetizer: AVSpeechSynthesizer = {
         let synthetizer = AVSpeechSynthesizer()
         synthetizer.delegate = self
