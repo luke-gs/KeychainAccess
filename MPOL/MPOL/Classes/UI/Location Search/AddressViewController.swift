@@ -73,6 +73,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 }
                 .width(.column(2))
             builder += TextFieldFormItem(title: NSLocalizedString("Street Name", comment: ""))
+                .required()
                 .text(self.viewModel.streetName)
                 .onValueChanged { [unowned self] in
                     self.viewModel.streetName = $0
@@ -85,6 +86,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 }
                 .width(.column(2))
             builder += TextFieldFormItem(title: NSLocalizedString("Suburb", comment: ""))
+                .required()
                 .text(self.viewModel.suburb)
                 .onValueChanged { [unowned self] in
                     self.viewModel.suburb = $0
@@ -144,7 +146,9 @@ public class AddressViewController: SubmissionFormBuilderViewController {
             // only display when involvment exists
             builder += ValueFormItem(title: NSLocalizedString("Involvement/s", comment: ""),
                                      value: text)
+                .isRequired(true)
                 .accessory(ItemAccessory.disclosure)
+                .width(.column(1))
         }
     }
     
