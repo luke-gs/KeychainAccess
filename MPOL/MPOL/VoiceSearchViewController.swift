@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  VoiceSearchViewController.swift
 //
 //  Created by Herli Halim on 16/8/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -14,6 +14,12 @@ class VoiceSearchViewController: FormBuilderViewController {
         super.viewDidLoad()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Event", style: .plain, target: self, action: nil)
+
+        // Styling
+        loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.mic)
+
+        loadingManager.noContentView.actionButton.tintColor = view.backgroundColor
+        loadingManager.noContentView.actionButton.setTitleColor(view.tintColor, for: .normal)
 
         loadingManager.state = .noContent
     }
@@ -32,27 +38,16 @@ extension VoiceSearchViewController {
     }
 
     func didEndRecognisingSpeechWithFinalResult(_ result: String?) {
-        self.loadingManager.noContentView.subtitleLabel.text = result
-        self.loadingManager.noContentView.actionButton.setTitle("Cancel Voice Search", for: .normal)
-
-        UIView.animate(withDuration: 0.2) {
-            self.view.backgroundColor = .white
-
-            self.loadingManager.noContentView.titleLabel.text = "Say \"Bumblebee\" to start"
+        if let result = result {
+            self.loadingManager.noContentView.subtitleLabel.text = "\"\(result)\""
         }
     }
 
     func recognisedSpeechWithResult(_ result: String) {
-        self.loadingManager.noContentView.subtitleLabel.text = result
+        self.loadingManager.noContentView.subtitleLabel.text = "\"\(result)\""
     }
 
     func didEndRecognisingSpeechWithError(_ error: Error) {
         self.loadingManager.noContentView.subtitleLabel.text = error.localizedDescription
-
-        UIView.animate(withDuration: 0.2) {
-            self.view.backgroundColor = .white
-
-            self.loadingManager.noContentView.titleLabel.text = "Say \"Bumblebee\" to start"
-        }
     }
 }
