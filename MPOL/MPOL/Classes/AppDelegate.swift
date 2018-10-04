@@ -59,7 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         landingPresenter = LandingPresenter()
         landingPresenter.wantsBiometricAuthentication = true
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter(), TaskListPresenter(), TaskItemPresenter(), BookOnPresenter(), TrafficStopPresenter(), CreateTaskPresenter()])
+        let presenter = PresenterGroup(presenters: [SystemPresenter(),
+                                                    landingPresenter,
+                                                    EntityPresenter(),
+                                                    EventPresenter(),
+                                                    TaskListPresenter(),
+                                                    TaskItemPresenter(),
+                                                    BookOnPresenter(),
+                                                    TrafficStopPresenter(),
+                                                    CreateTaskPresenter(),
+                                                    LocationSelectionPresenter()])
         
         let director = Director(presenter: presenter)
         Director.shared = director

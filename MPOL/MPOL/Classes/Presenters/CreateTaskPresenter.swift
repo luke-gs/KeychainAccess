@@ -39,9 +39,9 @@ public class CreateTaskPresenter: Presenter {
                 return Promise<Void>()
             }
             
-            viewController.closeHandler = { submitted in
+            viewController.closeHandler = { [weak viewController] submitted in
                 // By default just dismiss the dialog
-                viewController.dismissAnimated()
+                viewController?.dismissAnimated()
             }
             
             return viewController
@@ -51,9 +51,9 @@ public class CreateTaskPresenter: Presenter {
             viewModel.allowedEntityTypes = [Person.self, Vehicle.self]
             
             let viewController = EntitySummarySelectionViewController(viewModel: viewModel)
-            viewController.selectionHandler = { entity in
+            viewController.selectionHandler = { [weak viewController] entity in
                 // Close UI and call completion handler
-                viewController.navigationController?.popViewController(animated: true)
+                viewController?.navigationController?.popViewController(animated: true)
                 completionHandler?(entity)
             }
             return viewController
@@ -72,8 +72,13 @@ public class CreateTaskPresenter: Presenter {
         let presentable = presentable as! CreateTaskScreen
         
         switch presentable {
-        case .createTaskMain, .createTaskAddEntity(_):
+        case .createTaskMain:
+            let container = ModalNavigationController(rootViewController: to)
+            from.present(container, size: CGSize(width: 512, height: 650))
+
+        case .createTaskAddEntity(_):
             from.navigationController?.pushViewController(to, animated: true)
+
         case .createTaskSearchEntity:
             from.dismiss(animated: true) {
                 let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"))

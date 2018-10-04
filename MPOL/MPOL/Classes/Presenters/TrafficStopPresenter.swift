@@ -19,13 +19,6 @@ public class TrafficStopPresenter: Presenter {
 
         case .trafficStopCreate(let completionHandler):
 
-            let locationSelectionViewModel = LocationSelectionMapViewModel(
-            locationSelectionType: LocationSelectionCore.self, selectedLocation: nil) { (searchText, cancelToken) -> Promise<[MPOLKitEntityProtocol]> in
-                return APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: searchText), withCancellationToken: cancelToken).mapValues {
-                    return $0
-                }
-            }
-
             // Likely from manifest in real client
             let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { AnyPickable($0.rawValue) }
             let primaryCodeOptions = ["Traffic", "Crash", "Other"].map { AnyPickable($0) }
@@ -34,16 +27,16 @@ public class TrafficStopPresenter: Presenter {
             let viewModel = CreateTrafficStopViewModel(priorityOptions: priorityOptions,
                                                        primaryCodeOptions: primaryCodeOptions,
                                                        secondaryCodeOptions: secondaryCodeOptions,
-                                                       locationSelectionViewModel: locationSelectionViewModel)
+                                                       currentLocationGenerator: { return LocationSelectionCore.reverseGeocode() })
 
             let viewController = CreateTrafficStopViewController(viewModel: viewModel)
             viewController.submitHandler = { viewModel in
                 // TODO: send to network
                 return Promise<Void>()
             }
-            viewController.closeHandler = { submitted in
+            viewController.closeHandler = { [weak viewController] submitted in
                 // Close UI and call completion handler
-                viewController.navigationController?.popViewController(animated: true)
+                viewController?.navigationController?.popViewController(animated: true)
                 completionHandler?(submitted ? viewModel : nil)
             }
             return viewController
@@ -53,9 +46,9 @@ public class TrafficStopPresenter: Presenter {
             viewModel.allowedEntityTypes = [Person.self, Vehicle.self]
 
             let viewController = EntitySummarySelectionViewController(viewModel: viewModel)
-            viewController.selectionHandler = { entity in
+            viewController.selectionHandler = { [weak viewController] entity in
                 // Close UI and call completion handler
-                viewController.navigationController?.popViewController(animated: true)
+                viewController?.navigationController?.popViewController(animated: true)
                 completionHandler?(entity)
             }
             return viewController

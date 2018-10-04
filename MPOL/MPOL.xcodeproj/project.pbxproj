@@ -223,6 +223,7 @@
 		96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759F214206F100836B83 /* ABNParserDefinition.swift */; };
 		96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
+		96E5EE7A216580880096D448 /* LocationSelectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E5EE79216580880096D448 /* LocationSelectionPresenter.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
 		AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B0C20BF9981009862FD /* PersonSearchReport.swift */; };
@@ -530,6 +531,7 @@
 		96B7759F214206F100836B83 /* ABNParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNParserDefinition.swift; sourceTree = "<group>"; };
 		96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNACNWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
+		96E5EE79216580880096D448 /* LocationSelectionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionPresenter.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
 		AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
@@ -1375,6 +1377,7 @@
 				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
 				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
 				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
+				96E5EE79216580880096D448 /* LocationSelectionPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -1920,6 +1923,7 @@
 				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
+				96E5EE7A216580880096D448 /* LocationSelectionPresenter.swift in Sources */,
 				96B775192140F8EE00836B83 /* SupportSetting.swift in Sources */,
 				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
 				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
