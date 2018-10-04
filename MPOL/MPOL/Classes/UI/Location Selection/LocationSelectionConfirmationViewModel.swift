@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
-public class AddressViewModel {
+public class LocationSelectionConfirmationViewModel {
     
     public let fullAddress: String?
     public let coords: String?
@@ -17,18 +17,20 @@ public class AddressViewModel {
     public var propertyNumber: String?
     public var streetNumber: String?
     public var streetName: String?
+    public var postcode: String?
+    public var remarks: String?
+    
+    // DropDown value
     public var streetType: AnyPickable?
     public var suburb: AnyPickable?
     public var state: AnyPickable?
-    public var postcode: String?
+    public var involvement: AnyPickable?
     
     // DropDown options
     public var streetTypeOptions: [AnyPickable]?
     public var suburbOptions: [AnyPickable]?
     public var stateOptions: [AnyPickable]?
     
-    public var remarks: String?
-    public var involvement: AnyPickable?
     public var involvementOptions: [AnyPickable]?
     
     

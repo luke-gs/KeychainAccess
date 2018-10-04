@@ -9,14 +9,13 @@ import Foundation
 import PublicSafetyKit
 import PromiseKit
 
-public class AddressViewController: SubmissionFormBuilderViewController {
+public class LocationSelectionConfirmationViewController: FormBuilderViewController {
     
-    public var submitHandler: ((AddressViewModel) -> Promise<Void>)?
-    public var closeHandler: ((Bool) -> Void)?
+    public var doneHandler: ((LocationSelectionConfirmationViewModel) -> Void)?
     
-    public let viewModel: AddressViewModel
+    public let viewModel: LocationSelectionConfirmationViewModel
     
-    public init(viewModel: AddressViewModel) {
+    public init(viewModel: LocationSelectionConfirmationViewModel) {
         self.viewModel = viewModel
         super.init()
         
@@ -32,12 +31,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
         super.viewDidLoad()
         
         title = NSLocalizedString("Select Location", comment: "")
-    }
-    
-    // MARK: - SubmissiomFormBuilderViewController
-    
-    public override var submitText: String {
-        return AssetManager.shared.string(forKey: .submitFormDone)
+        self.navigationItem.setRightBarButton(UIBarButtonItem.init(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(performDoneAction)), animated: true)
     }
     
     public override func construct(builder: FormBuilder) {
@@ -148,24 +142,19 @@ public class AddressViewController: SubmissionFormBuilderViewController {
             }
             .width(.column(1))
         
-        if self.viewModel.involvement != nil || self.viewModel.isEditable {
-            // only display when involvment exists or it is an editable form
+        if let options = self.viewModel.involvementOptions {
+            // only display when involvment's options exist
             builder += DropDownFormItem()
                 .title(NSLocalizedString("Involvement/s", comment: ""))
-                .options(self.viewModel.involvementOptions!)
+                .options(options)
                 .selectedValue([self.viewModel.involvement ?? AnyPickable("")])
                 .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
         }
     }
-    
-    public override func performSubmit() -> Promise<Void> {
-        return submitHandler?(self.viewModel) ?? Promise<Void>()
+    // MARK: - Done Action
+    @objc public func performDoneAction() {
+        self.doneHandler?(self.viewModel)
     }
-    
-    public override func performClose(submitted: Bool) {
-        closeHandler?(submitted)
-    }
-    
 }
