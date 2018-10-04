@@ -28,8 +28,15 @@ public class LocationSelectionPresenter: Presenter {
 
             let viewController = LocationSelectionLandingViewController(viewModel: viewModel)
             viewController.selectionHandler = { [weak viewController] selectedLocation in
+                guard let `viewController` = viewController else { return }
                 completionHandler?(selectedLocation)
-                viewController?.navigationController?.popViewController(animated: true)
+
+                // Pop to view controller before this one, regardless of whether there are more VCs on stack
+                if let viewControllers = viewController.navigationController?.viewControllers,
+                    let index = viewControllers.firstIndex(of: viewController) {
+                    let previousVC = viewControllers[index - 1]
+                    viewController.navigationController?.popToViewController(previousVC, animated: true)
+                }
             }
 
             viewController.cancelHandler = { [weak viewController] in
@@ -50,13 +57,13 @@ public class LocationSelectionPresenter: Presenter {
             viewModel.selectedLocation = selectedLocation
 
             let viewController = LocationSelectionFullMapViewController(viewModel: viewModel)
-            viewController.selectionHandler = { [weak viewController] selectedLocation in
+            viewController.selectionHandler = { selectedLocation in
+                // Do not pop this view controller, will be double popped by locationSelectionLanding handler
                 completionHandler?(selectedLocation)
-                viewController?.navigationController?.popViewController(animated: true)
             }
             return viewController
 
-        case .locationSelectionFinal(_, let completionHandler):
+        case .locationSelectionFinal(_, _):
             MPLUnimplemented()
         }
     }

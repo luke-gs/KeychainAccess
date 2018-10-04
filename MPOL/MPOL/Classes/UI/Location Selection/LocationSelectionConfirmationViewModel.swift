@@ -32,8 +32,7 @@ public class LocationSelectionConfirmationViewModel {
     public var stateOptions: [AnyPickable]?
     
     public var involvementOptions: [AnyPickable]?
-    
-    
+
     public let isEditable: Bool
     
     public init(fullAddress: String? = nil,
