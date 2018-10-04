@@ -8,6 +8,7 @@
 
 import Foundation
 import DemoAppKit
+import PromiseKit
 
 public class TaskListPresenter: Presenter {
 
@@ -34,9 +35,6 @@ public class TaskListPresenter: Presenter {
 
             tasksSplitViewController = tasksSplitViewModel.createViewController()
             return tasksSplitViewController
-
-        case .createIncident:
-            return CreateIncidentViewModel().createViewController()
 
         case .mapFilter(let delegate):
             return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)

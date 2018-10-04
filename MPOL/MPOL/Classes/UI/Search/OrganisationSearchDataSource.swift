@@ -151,7 +151,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
         let parser = ABNACNWildcardParserDefinition()
         definitionSelector.register(definition: parser, withValidation: { query in
             let trimmedVal = query.trimmingCharacters(in: parser.allowedCharacterSet)
-            return trimmedVal.isEmpty && query.count < 11
+            return trimmedVal.isEmpty && query.count <= ABNACNWildcardParserDefinition.LongestPossibleQueryLength
         })
         
         definitionSelector.register(definition: OrganisationParserDefinition(), withValidation: { query in
