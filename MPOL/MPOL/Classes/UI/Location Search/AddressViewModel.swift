@@ -23,13 +23,13 @@ public class AddressViewModel {
     public var postcode: String?
     
     // DropDown options
-    public var streetTypeOptions: [AnyPickable]
-    public var suburbOptions: [AnyPickable]
-    public var stateOptions: [AnyPickable]
+    public var streetTypeOptions: [AnyPickable]?
+    public var suburbOptions: [AnyPickable]?
+    public var stateOptions: [AnyPickable]?
     
     public var remarks: String?
     public var involvement: AnyPickable?
-    public var involvementOptions: [AnyPickable]
+    public var involvementOptions: [AnyPickable]?
     
     
     public let isEditable: Bool
@@ -44,10 +44,10 @@ public class AddressViewModel {
                 state: AnyPickable? = nil,
                 postcode: String? = nil,
                 involvement: AnyPickable? = nil,
-                streetTypeOptions: [AnyPickable],
-                suburbOptions: [AnyPickable],
-                stateOptions: [AnyPickable],
-                involvementOptions: [AnyPickable],
+                streetTypeOptions: [AnyPickable]? = nil,
+                suburbOptions: [AnyPickable]? = nil,
+                stateOptions: [AnyPickable]? = nil,
+                involvementOptions: [AnyPickable]? = nil,
                 isEditable: Bool = false) {
         self.fullAddress = fullAddress
         self.coords = coords

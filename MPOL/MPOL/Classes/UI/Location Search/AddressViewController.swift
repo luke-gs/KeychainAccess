@@ -69,7 +69,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
             builder += TextFieldFormItem(title: NSLocalizedString("Street Number / Range", comment: ""))
                 .text(self.viewModel.streetNumber)
                 .onValueChanged { [unowned self] in
-                    self.viewModel.remarks = $0
+                    self.viewModel.streetNumber = $0
                 }
                 .width(.column(2))
             builder += TextFieldFormItem(title: NSLocalizedString("Street Name", comment: ""))
@@ -80,7 +80,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 }
                 .width(.column(2))
             builder += DropDownFormItem(title: NSLocalizedString("Street Type", comment: ""))
-                .options(self.viewModel.streetTypeOptions)
+                .options(self.viewModel.streetTypeOptions!)
                 .selectedValue([self.viewModel.streetType ?? AnyPickable("")])
                 .allowsMultipleSelection(false)
                 .onValueChanged { [unowned self] in
@@ -88,7 +88,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 }
                 .width(.column(2))
             builder += DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
-                .options(self.viewModel.suburbOptions)
+                .options(self.viewModel.suburbOptions!)
                 .selectedValue([self.viewModel.suburb ?? AnyPickable("")])
                 .allowsMultipleSelection(false)
                 .onValueChanged { [unowned self] in
@@ -96,7 +96,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 }
                 .width(.column(2))
             builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))
-                .options(self.viewModel.stateOptions)
+                .options(self.viewModel.stateOptions!)
                 .selectedValue([self.viewModel.state ?? AnyPickable("")])
                 .allowsMultipleSelection(false)
                 .onValueChanged { [unowned self] in
@@ -152,7 +152,7 @@ public class AddressViewController: SubmissionFormBuilderViewController {
             // only display when involvment exists or it is an editable form
             builder += DropDownFormItem()
                 .title(NSLocalizedString("Involvement/s", comment: ""))
-                .options(self.viewModel.involvementOptions)
+                .options(self.viewModel.involvementOptions!)
                 .selectedValue([self.viewModel.involvement ?? AnyPickable("")])
                 .required()
                 .accessory(ItemAccessory.disclosure)
