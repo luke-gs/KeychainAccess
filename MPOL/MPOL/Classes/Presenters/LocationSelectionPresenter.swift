@@ -40,11 +40,20 @@ public class LocationSelectionPresenter: Presenter {
             // Special modalPresentationStyle for form item to use push during presentation
             viewController.modalPresentationStyle = .none
 
+            // Remove text for back button in next screens
+            viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
             return viewController
 
-        case .locationSelectionMap(_, let completionHandler):
-            let viewModel = LocationSelectionFullMapViewModel()
-            let viewController = LocationSelectionFullMapViewController()
+        case .locationSelectionMap(let selectedLocation, let completionHandler):
+            let viewModel = LocationSelectionFullMapViewModel(locationSelectionType: LocationSelectionCore.self)
+            viewModel.selectedLocation = selectedLocation
+
+            let viewController = LocationSelectionFullMapViewController(viewModel: viewModel)
+            viewController.selectionHandler = { [weak viewController] selectedLocation in
+                completionHandler?(selectedLocation)
+                viewController?.navigationController?.popViewController(animated: true)
+            }
             return viewController
 
         case .locationSelectionFinal(_, let completionHandler):
