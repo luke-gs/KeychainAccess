@@ -17,14 +17,19 @@ public class AddressViewModel {
     public var propertyNumber: String?
     public var streetNumber: String?
     public var streetName: String?
-    public var streetType: String?
-    public var suburb: String?
-    public var state: String?
+    public var streetType: AnyPickable?
+    public var suburb: AnyPickable?
+    public var state: AnyPickable?
     public var postcode: String?
     
-    // user input
+    // DropDown options
+    public var streetTypeOptions: [AnyPickable]
+    public var suburbOptions: [AnyPickable]
+    public var stateOptions: [AnyPickable]
+    
     public var remarks: String?
     public var involvement: AnyPickable?
+    public var involvementOptions: [AnyPickable]
     
     
     public let isEditable: Bool
@@ -34,11 +39,15 @@ public class AddressViewModel {
                 propertyNumber: String? = nil,
                 streetNumber: String? = nil,
                 streetName: String? = nil,
-                streetType: String? = nil,
-                suburb: String? = nil,
-                state: String? = nil,
+                streetType: AnyPickable? = nil,
+                suburb: AnyPickable? = nil,
+                state: AnyPickable? = nil,
                 postcode: String? = nil,
                 involvement: AnyPickable? = nil,
+                streetTypeOptions: [AnyPickable],
+                suburbOptions: [AnyPickable],
+                stateOptions: [AnyPickable],
+                involvementOptions: [AnyPickable],
                 isEditable: Bool = false) {
         self.fullAddress = fullAddress
         self.coords = coords
@@ -50,7 +59,10 @@ public class AddressViewModel {
         self.state = state
         self.postcode = postcode
         self.involvement = involvement
+        self.streetTypeOptions = streetTypeOptions
+        self.suburbOptions = suburbOptions
+        self.stateOptions = stateOptions
+        self.involvementOptions = involvementOptions
         self.isEditable = isEditable
     }
-    
 }

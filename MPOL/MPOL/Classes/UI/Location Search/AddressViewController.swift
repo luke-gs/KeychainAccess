@@ -79,23 +79,28 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                     self.viewModel.streetName = $0
                 }
                 .width(.column(2))
-            builder += TextFieldFormItem(title: NSLocalizedString("Street Type", comment: ""))
-                .text(self.viewModel.streetType)
+            builder += DropDownFormItem(title: NSLocalizedString("Street Type", comment: ""))
+                .options(self.viewModel.streetTypeOptions)
+                .selectedValue([self.viewModel.streetType ?? AnyPickable("")])
+                .allowsMultipleSelection(false)
                 .onValueChanged { [unowned self] in
-                    self.viewModel.streetType = $0
+                    self.viewModel.streetType = $0?.first
                 }
                 .width(.column(2))
-            builder += TextFieldFormItem(title: NSLocalizedString("Suburb", comment: ""))
-                .required()
-                .text(self.viewModel.suburb)
+            builder += DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
+                .options(self.viewModel.suburbOptions)
+                .selectedValue([self.viewModel.suburb ?? AnyPickable("")])
+                .allowsMultipleSelection(false)
                 .onValueChanged { [unowned self] in
-                    self.viewModel.suburb = $0
+                    self.viewModel.suburb = $0?.first
                 }
                 .width(.column(2))
-            builder += TextFieldFormItem(title: NSLocalizedString("State", comment: ""))
-                .text(self.viewModel.state)
+            builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))
+                .options(self.viewModel.stateOptions)
+                .selectedValue([self.viewModel.state ?? AnyPickable("")])
+                .allowsMultipleSelection(false)
                 .onValueChanged { [unowned self] in
-                    self.viewModel.state = $0
+                    self.viewModel.state = $0?.first
                 }
                 .width(.column(2))
             builder += TextFieldFormItem(title: NSLocalizedString("Postcode", comment: ""))
@@ -120,15 +125,15 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 .width(.column(2))
                 .separatorColor(.clear)
             builder += ValueFormItem(title: NSLocalizedString("Street Type", comment: ""),
-                                     value: self.viewModel.streetType)
+                                     value: self.viewModel.streetType?.title)
                 .width(.column(2))
                 .separatorColor(.clear)
             builder += ValueFormItem(title: NSLocalizedString("Suburb", comment: ""),
-                                     value: self.viewModel.suburb)
+                                     value: self.viewModel.suburb?.title)
                 .width(.column(2))
                 .separatorColor(.clear)
             builder += ValueFormItem(title: NSLocalizedString("State", comment: ""),
-                                     value: self.viewModel.state)
+                                     value: self.viewModel.state?.title)
                 .width(.column(2))
                 .separatorColor(.clear)
             builder += ValueFormItem(title: NSLocalizedString("Postcode", comment: ""),
@@ -142,14 +147,25 @@ public class AddressViewController: SubmissionFormBuilderViewController {
                 self.viewModel.remarks = $0
             }
             .width(.column(1))
-        if let text = self.viewModel.involvement?.title {
-            // only display when involvment exists
-            builder += ValueFormItem(title: NSLocalizedString("Involvement/s", comment: ""),
-                                     value: text)
-                .isRequired(true)
+        
+        if self.viewModel.involvement != nil || self.viewModel.isEditable {
+            // only display when involvment exists or it is an editable form
+            builder += DropDownFormItem()
+                .title(NSLocalizedString("Involvement/s", comment: ""))
+                .options(self.viewModel.involvementOptions)
+                .selectedValue([self.viewModel.involvement ?? AnyPickable("")])
+                .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
         }
+    }
+    
+    public override func performSubmit() -> Promise<Void> {
+        return submitHandler?(self.viewModel) ?? Promise<Void>()
+    }
+    
+    public override func performClose(submitted: Bool) {
+        closeHandler?(submitted)
     }
     
 }
