@@ -10,6 +10,12 @@ import PatternKit
 
 class VoiceSearchViewController: FormBuilderViewController {
 
+    public var delegate: VoiceSearchViewControllerDelegate?
+
+    required convenience init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,11 +26,17 @@ class VoiceSearchViewController: FormBuilderViewController {
 
         loadingManager.noContentView.actionButton.tintColor = view.backgroundColor
         loadingManager.noContentView.actionButton.setTitleColor(view.tintColor, for: .normal)
+        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
 
         loadingManager.state = .noContent
     }
 
     override func construct(builder: FormBuilder) { }
+
+    @objc private func didTapCancelButton() {
+        delegate?.cancelSearch()
+        self.dismissAnimated()
+    }
 }
 
 extension VoiceSearchViewController {
@@ -51,3 +63,8 @@ extension VoiceSearchViewController {
         self.loadingManager.noContentView.subtitleLabel.text = error.localizedDescription
     }
 }
+
+public protocol VoiceSearchViewControllerDelegate: class {
+    func cancelSearch()
+}
+

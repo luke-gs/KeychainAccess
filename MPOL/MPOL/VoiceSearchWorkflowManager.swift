@@ -9,7 +9,9 @@ import AVFoundation
 import VoiceSearchManager
 import PublicSafetyKit
 
-class VoiceSearchWorkflowManager: NSObject {
+class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
+
+    var viewController: VoiceSearchViewController = VoiceSearchViewController()
 
     private let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2))
     private lazy var speechSynthetizer: AVSpeechSynthesizer = {
@@ -24,6 +26,7 @@ class VoiceSearchWorkflowManager: NSObject {
     private override init() {
         super.init()
         voiceSearchManager.delegate = self
+        viewController.delegate = self
     }
 
     func startListening() {
@@ -65,6 +68,11 @@ class VoiceSearchWorkflowManager: NSObject {
         speechSynthetizer.speak(utterance)
 
     }
+
+    func cancelSearch() {
+        voiceSearchManager.cancel()
+    }
+
 }
 
 extension VoiceSearchWorkflowManager: AVSpeechSynthesizerDelegate {
@@ -79,22 +87,20 @@ extension VoiceSearchWorkflowManager: AVSpeechSynthesizerDelegate {
 
 extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
-    static var viewController: VoiceSearchViewController = VoiceSearchViewController()
-
     var shouldBeginListening: Bool {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.window?.rootViewController?.presentedViewController == nil
     }
 
     func voiceSearchManagerWillStartRecognisingSpeech(_ manager: VoiceSearchManager) {
-        let vc = VoiceSearchWorkflowManager.viewController
+        let vc = viewController
         vc.willStartRecognisingSpeech()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.rootViewController?.present(vc, animated: false, completion: nil)
     }
 
     func voiceSearchManager(_ manager: VoiceSearchManager, recognisedSpeechWithResult result: String) {
-        let vc = VoiceSearchWorkflowManager.viewController
+        let vc = viewController
         vc.recognisedSpeechWithResult(result)
     }
 
@@ -105,7 +111,7 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
         var text = result
         var rightNow = false
 
-        let vc = VoiceSearchWorkflowManager.viewController
+        let vc = viewController
         vc.didEndRecognisingSpeechWithFinalResult(result)
         vc.dismiss(animated: false)
 
@@ -139,12 +145,11 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
     }
 
     func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithError error: Error) {
-        let vc = VoiceSearchWorkflowManager.viewController
+        let vc = viewController
 
         vc.didEndRecognisingSpeechWithError(error)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             vc.dismiss(animated: false)
         }
     }
-
 }
