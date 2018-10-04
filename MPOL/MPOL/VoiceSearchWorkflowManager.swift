@@ -106,14 +106,17 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
     func voiceSearchManager(_ manager: VoiceSearchManager, didEndRecognisingSpeechWithFinalResult result: String?) {
 
+        guard let result = result, !result.isEmpty else {
+            viewController.dismiss(animated: true)
+            return
+        }
+
         let trans = VehicleRegistrationResultTransformer()
 
-        var text = result
         var rightNow = false
 
-        let vc = viewController
-        vc.didEndRecognisingSpeechWithFinalResult(result)
-        vc.dismiss(animated: false)
+        viewController.didEndRecognisingSpeechWithFinalResult(result)
+        viewController.dismiss(animated: false)
 
         // Change to immediate search for now, to be defined later.
         rightNow = true
@@ -130,9 +133,9 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
         */
 
-        if let value = text {
-            text = trans.transform(value)
-        }
+
+        let text = trans.transform(result)
+
 
         let searchable = Searchable(text: text, type: "Vehicle")
         if rightNow {
