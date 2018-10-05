@@ -236,6 +236,8 @@
 		AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */; };
 		AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = AA1E7BB72119145B0086AA70 /* termsandconditions.html */; };
 		AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */; };
+		AA359C452165ED940035A472 /* PersonAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA359C442165ED940035A472 /* PersonAlias.swift */; };
+		AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA359C462165F08B0035A472 /* OrganisationAlias.swift */; };
 		AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513821180E1A00621E58 /* TermsAndConditions.swift */; };
 		AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513A21180E6200621E58 /* WhatsNew.swift */; };
 		AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */; };
@@ -545,6 +547,8 @@
 		AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficStopPresenter.swift; sourceTree = "<group>"; };
 		AA1E7BB72119145B0086AA70 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAdditionalActionBuilding.swift; sourceTree = "<group>"; };
+		AA359C442165ED940035A472 /* PersonAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonAlias.swift; sourceTree = "<group>"; };
+		AA359C462165F08B0035A472 /* OrganisationAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationAlias.swift; sourceTree = "<group>"; };
 		AA3E513821180E1A00621E58 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
 		AA3E513A21180E6200621E58 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
@@ -1197,6 +1201,8 @@
 				96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */,
 				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
 				96B774F62140F8EE00836B83 /* Vehicle.swift */,
+				AA359C442165ED940035A472 /* PersonAlias.swift */,
+				AA359C462165F08B0035A472 /* OrganisationAlias.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1747,6 +1753,7 @@
 			files = (
 				96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				96B775662140F8EE00836B83 /* Address.swift in Sources */,
+				AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */,
 				96B7754C2140F8EE00836B83 /* AddressFormatter.swift in Sources */,
 				96B775632140F8EE00836B83 /* Alert.swift in Sources */,
 				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
@@ -1911,6 +1918,7 @@
 				AA1C0B1120BF9981009862FD /* PersonSearchReportViewController.swift in Sources */,
 				AA1C0B1020BF9981009862FD /* PersonSearchReportViewModel.swift in Sources */,
 				96B775552140F8EE00836B83 /* PersonSearchRequest.swift in Sources */,
+				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,

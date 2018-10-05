@@ -33,12 +33,6 @@ open class Alias: NSObject, Serialisable {
     open var source: MPOLSource?
     
     open var type: String?
-    open var firstName: String?
-    open var lastName: String?
-    open var middleNames: String?
-    open var dateOfBirth: Date?
-    open var ethnicity: String?
-    open var title: String?
     open var jurisdiction: String?
     
     public required init(id: String = UUID().uuidString) {
@@ -66,12 +60,6 @@ open class Alias: NSObject, Serialisable {
         source = unboxer.unbox(key: "source")
 
         type = unboxer.unbox(key: "nameType")
-        firstName = unboxer.unbox(key: "givenName")
-        middleNames = unboxer.unbox(key: "middleNames")
-        lastName = unboxer.unbox(key: "familyName")
-        dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Alias.dateTransformer)
-        ethnicity = unboxer.unbox(key: "ethnicity")
-        title = unboxer.unbox(key: "title")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
         super.init()
     }
@@ -95,12 +83,6 @@ open class Alias: NSObject, Serialisable {
         }
 
         type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
-        firstName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.firstName.rawValue) as String?
-        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.middleNames.rawValue) as String?
-        lastName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.lastName.rawValue) as String?
-        dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateOfBirth.rawValue) as Date?
-        ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
-        title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
         jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
     
@@ -116,46 +98,10 @@ open class Alias: NSObject, Serialisable {
         aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
         aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
         aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
-
         aCoder.encode(type, forKey: CodingKey.type.rawValue)
-        aCoder.encode(firstName, forKey: CodingKey.firstName.rawValue)
-        aCoder.encode(middleNames, forKey: CodingKey.middleNames.rawValue)
-        aCoder.encode(lastName, forKey: CodingKey.lastName.rawValue)
-        aCoder.encode(dateOfBirth, forKey: CodingKey.dateOfBirth.rawValue)
-        aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
-        aCoder.encode(title, forKey: CodingKey.title.rawValue)
-        aCoder.encode(title, forKey: CodingKey.jurisdiction.rawValue)
+        aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
     
-    
-    // TEMP?
-    open var formattedName: String? {
-        var formattedName: String = ""
-        
-        if let lastName = self.lastName?.ifNotEmpty() {
-            formattedName += lastName
-            
-            if firstName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
-                formattedName += ", "
-            }
-        }
-        if let givenName = self.firstName?.ifNotEmpty() {
-            formattedName += givenName
-            
-            if middleNames?.isEmpty ?? true == false {
-                formattedName += " "
-            }
-        }
-        
-        if let firstMiddleNameInitial = middleNames?.first {
-            formattedName.append(firstMiddleNameInitial)
-            formattedName += "."
-        }
-        
-        return formattedName
-
-    }
-
     private enum CodingKey: String {
         case version
         case id
@@ -168,14 +114,7 @@ open class Alias: NSObject, Serialisable {
         case entityType
         case isSummary
         case source
-
         case type
-        case firstName
-        case middleNames
-        case lastName
-        case dateOfBirth
-        case ethnicity
-        case title
         case jurisdiction
     }
 }

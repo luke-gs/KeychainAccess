@@ -237,7 +237,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     }
 }
 
-fileprivate extension Alias {
+fileprivate extension PersonAlias {
     
     func formattedDOBAgeGender() -> String? {
         if let dob = dateOfBirth {
