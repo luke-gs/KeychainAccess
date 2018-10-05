@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Register bundles used by pattern kit containing assets
         AssetManager.shared.register(bundle: Bundle(for: SketchPen.self), priority: .sketchKit)
         AssetManager.shared.register(bundle: Bundle(for: FormBuilder.self), priority: .patternKit)
-        AssetManager.shared.register(bundle: Bundle(for: BiometricUserHandler.self), priority: .publicSafteyKit)
+        AssetManager.shared.register(bundle: Bundle(for: LoginViewController.self), priority: .publicSafteyKit)
 
         // Access the keyboard input manager to start it managing all text entry.
         _ = KeyboardInputManager.shared
