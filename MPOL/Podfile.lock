@@ -73,8 +73,8 @@ DEPENDENCIES:
   - PatternKit (from `../../mPolKit-iOS`)
   - PublicSafetyKit (from `../../mPolKit-iOS`)
   - SketchKit (from `../../mPolKit-iOS`)
-  - VoiceSearchManager (from `../../VoiceSearchManager-iOS`)
-  - VoiceSearchManager/VehicleRegistrationTransformer (from `../../VoiceSearchManager-iOS`)
+  - VoiceSearchManager (from `https://github.com/campbell-graham/VoiceSearchManager-iOS`)
+  - VoiceSearchManager/VehicleRegistrationTransformer (from `https://github.com/campbell-graham/VoiceSearchManager-iOS`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -105,7 +105,12 @@ EXTERNAL SOURCES:
   SketchKit:
     :path: "../../mPolKit-iOS"
   VoiceSearchManager:
-    :path: "../../VoiceSearchManager-iOS"
+    :git: https://github.com/campbell-graham/VoiceSearchManager-iOS
+
+CHECKOUT OPTIONS:
+  VoiceSearchManager:
+    :commit: d988b143ac1f3571856f786d8c8337248c5e9725
+    :git: https://github.com/campbell-graham/VoiceSearchManager-iOS
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -124,9 +129,9 @@ SPEC CHECKSUMS:
   PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23
   SketchKit: 440c6e6b6ba7c6a1a4f4a69ea9cf5f8cff981ddc
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
-  VoiceSearchManager: 88ed211c24b873b3367d2b8402b7183c26e5c24a
+  VoiceSearchManager: f6431ba649a2d33790659ea9108abfb5f87eab59
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: b20e506581db523d516058675ab9bd63de631755
+PODFILE CHECKSUM: c0ff2bb2795c571b1df6a097d53f7c4d621b338b
 
 COCOAPODS: 1.5.3
