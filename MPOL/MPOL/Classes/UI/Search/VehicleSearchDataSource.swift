@@ -190,7 +190,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
         helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
 
-        voiceSearchButton.addTarget(self, action: #selector(didTapVoiceSearchButton), for: .touchUpInside)
+        voiceSearchButton.addTarget(self, action: #selector(didTapVoiceSearchButton(_:)), for: .touchUpInside)
         voiceSearchButton.setImage(AssetManager.shared.image(forKey: .commsMicrophone), for: .normal)
 
         return [voiceSearchButton, helpButton]
@@ -330,7 +330,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         updatingDelegate?.present(EntityScreen.help(type: .vehicle))
     }
 
-    @objc private func didTapVoiceSearchButton() {
+    @objc private func didTapVoiceSearchButton(_ button: UIButton) {
         VoiceSearchWorkflowManager.shared.beginVoiceSearch()
     }
 
