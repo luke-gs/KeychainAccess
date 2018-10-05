@@ -27,7 +27,7 @@ public extension Settings {
         whatsNewVC.navigationItem.rightBarButtonItem = nil
         whatsNewVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain,
                                                                       target: whatsNewVC, action: #selector(UIViewController.dismissAnimated))
-        let navVC = ThemedNavigationController(rootViewController: whatsNewVC)
+        let navVC = ModalNavigationController(rootViewController: whatsNewVC)
         navVC.modalPresentationStyle = .pageSheet
 
         viewController.present(navVC, animated: true, completion: nil)

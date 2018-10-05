@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for an enum representing resource status
-public protocol CADResourceStatusType: CADEnumStringType {
+public protocol CADResourceStatusType: CADEnumStringType, CreateTaskStatusItem {
 
     // MARK: - Static
 

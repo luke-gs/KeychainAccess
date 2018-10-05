@@ -114,20 +114,39 @@ public class EntityPresenter: Presenter {
             }
             return UIViewController()
         case .help(let type):
-            let content: HelpContent
-
+            let htmlVC: HTMLTextViewController
+            
+            let styleMap = ThemeManager.htmlStyleMap
+            
             switch type {
             case .person:
-                content = HelpContent(filename: "PersonSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "PersonSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Person Search", comment: ""),
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             case .vehicle:
-                content = HelpContent(filename: "VehicleSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "VehicleSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Vehicle Search", comment: ""),
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             case .location:
-                content = HelpContent(filename: "LocationSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "LocationSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Location Search", comment: ""),
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             case .organisation:
-                content = HelpContent(filename: "OrganisationSearchHelp", bundle: Bundle.main)
+                let url = Bundle.main.url(forResource: "OrganisationSearchHelp", withExtension: "html")!
+                htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Organisation Search", comment: ""),
+                                                          htmlURL: url, styleMap: styleMap, actions: nil)
             }
             
-            return HelpViewController(content: content)
+            htmlVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",
+                                                                         style: .plain,
+                                                                         target: htmlVC,
+                                                                         action: #selector(UIViewController.dismissAnimated))
+            
+            
+            let navVC = ModalNavigationController(rootViewController: htmlVC)
+            navVC.modalPresentationStyle = .pageSheet
+            
+            return navVC
 
         case .createEntity(let type):
             let title: String

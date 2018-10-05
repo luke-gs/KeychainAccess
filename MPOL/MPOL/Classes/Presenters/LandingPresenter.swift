@@ -80,12 +80,15 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let declineAction = DialogAction(title: NSLocalizedString("Decline", comment: "T&C - Decline"), handler: didDeclineConditions(_ :))
 
             do {
-                let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
+                let styleMap = ThemeManager.htmlStyleMap
+                
+                let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                                 htmlURL: TermsAndConditions.url,
+                                                                styleMap: styleMap,
                                                                 actions: [declineAction, acceptAction])
                 tsAndCsVC.title = "Terms and Conditions"
 
-                let navController = ThemedNavigationController(rootViewController: tsAndCsVC)
+                let navController = ModalNavigationController(rootViewController: tsAndCsVC)
                 navController.modalPresentationStyle = .pageSheet
                 return navController
             } catch {

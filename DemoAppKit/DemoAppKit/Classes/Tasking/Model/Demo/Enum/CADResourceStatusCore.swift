@@ -50,8 +50,8 @@ public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
     public static let incidentCases: [CADResourceStatusType] = [
         CADResourceStatusCore.proceeding,
         CADResourceStatusCore.atIncident,
-        CADResourceStatusCore.finalise,
-        CADResourceStatusCore.inquiries2
+        CADResourceStatusCore.inquiries2,
+        CADResourceStatusCore.finalise
     ]
 
     /// All cases unrelated to a current incident, in order of display
