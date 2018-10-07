@@ -11,6 +11,21 @@ import PromiseKit
 
 public class LocationSelectionPresenter: Presenter {
 
+    private func confirmAndCompleteSelection(_ selectedLocation: LocationSelectionType, viewController: UIViewController, completionHandler: ((LocationSelectionType?) -> Void)?) {
+
+        // Present the confirmation screen, and when it is done, close all pushed views and call the completion handler
+        Director.shared.present(LocationSelectionScreen.locationSelectionFinal(selectedLocation, completionHandler: { updatedSelectedLocation in
+            // Pop to view controller before this one, regardless of whether there are more VCs on stack
+            if let viewControllers = viewController.navigationController?.viewControllers,
+                let index = viewControllers.firstIndex(of: viewController) {
+                let previousVC = viewControllers[index - 1]
+                viewController.navigationController?.popToViewController(previousVC, animated: true)
+            }
+            completionHandler?(updatedSelectedLocation)
+        }), fromViewController: viewController)
+
+    }
+
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
 
@@ -27,16 +42,9 @@ public class LocationSelectionPresenter: Presenter {
             viewModel.selectedLocation = selectedLocation
 
             let viewController = LocationSelectionLandingViewController(viewModel: viewModel)
-            viewController.selectionHandler = { [weak viewController] selectedLocation in
+            viewController.selectionHandler = { [weak self, weak viewController] selectedLocation in
                 guard let `viewController` = viewController else { return }
-                completionHandler?(selectedLocation)
-
-                // Pop to view controller before this one, regardless of whether there are more VCs on stack
-                if let viewControllers = viewController.navigationController?.viewControllers,
-                    let index = viewControllers.firstIndex(of: viewController) {
-                    let previousVC = viewControllers[index - 1]
-                    viewController.navigationController?.popToViewController(previousVC, animated: true)
-                }
+                self?.confirmAndCompleteSelection(selectedLocation, viewController: viewController, completionHandler: completionHandler)
             }
 
             viewController.cancelHandler = { [weak viewController] in
@@ -58,13 +66,19 @@ public class LocationSelectionPresenter: Presenter {
 
             let viewController = LocationSelectionFullMapViewController(viewModel: viewModel)
             viewController.selectionHandler = { selectedLocation in
-                // Do not pop this view controller, will be double popped by locationSelectionLanding handler
+                // Do not pop this view controller, will be double/triple popped by locationSelectionLanding handler
                 completionHandler?(selectedLocation)
             }
             return viewController
 
-        case .locationSelectionFinal(_, _):
-            MPLUnimplemented()
+        case .locationSelectionFinal(let selectedLocation, let completionHandler):
+            let viewModel = LocationSelectionConfirmationViewModel(locationSelection: selectedLocation)
+            let viewController = LocationSelectionConfirmationViewController(viewModel: viewModel)
+            viewController.doneHandler = { _ in
+                // Do not pop this view controller, will be double/triple popped by locationSelectionLanding handler
+                completionHandler?(selectedLocation)
+            }
+            return viewController
         }
     }
 

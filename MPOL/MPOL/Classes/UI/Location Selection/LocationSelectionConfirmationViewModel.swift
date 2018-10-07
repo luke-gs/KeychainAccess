@@ -66,4 +66,12 @@ public class LocationSelectionConfirmationViewModel {
         self.involvementOptions = involvementOptions
         self.isEditable = isEditable
     }
+
+    public convenience init(locationSelection: LocationSelectionType, isEditable: Bool = false) {
+        let coordinateText = "\(locationSelection.coordinate.latitude), \(locationSelection.coordinate.longitude)"
+
+        self.init(fullAddress: locationSelection.displayText,
+                  coords: coordinateText,
+                  isEditable: isEditable)
+    }
 }

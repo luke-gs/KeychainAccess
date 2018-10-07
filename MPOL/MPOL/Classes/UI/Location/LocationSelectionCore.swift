@@ -12,6 +12,8 @@ import PublicSafetyKit
 public class LocationSelectionCore: LocationSelectionType {
     public var coordinate: CLLocationCoordinate2D
     public var displayText: String?
+
+    public var placemark: CLPlacemark?
     public var searchResult: LookupAddress?
 
     public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
@@ -21,6 +23,7 @@ public class LocationSelectionCore: LocationSelectionType {
 
     public required init?(placemark: CLPlacemark) {
         guard let coordinate = placemark.location?.coordinate else { return nil }
+        self.placemark = placemark
         self.coordinate = coordinate
 
         if let formattedAddress = placemark.addressDictionary?["FormattedAddressLines"] as? [String] {
@@ -28,12 +31,13 @@ public class LocationSelectionCore: LocationSelectionType {
         }
     }
 
-    public required convenience init?(searchResult: MPOLKitEntityProtocol) {
+    public required init?(searchResult: MPOLKitEntityProtocol) {
         guard let lookupAddress = searchResult as? LookupAddress else { return nil }
 
         // TODO: use address formatter?
-        self.init(coordinate: lookupAddress.coordinate, displayText: lookupAddress.fullAddress)
         self.searchResult = lookupAddress
+        self.coordinate = lookupAddress.coordinate
+        self.displayText = lookupAddress.fullAddress
     }
 }
 
