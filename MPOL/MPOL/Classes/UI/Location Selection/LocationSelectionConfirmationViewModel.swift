@@ -54,6 +54,27 @@ public class LocationSelectionConfirmationViewModel {
                 // self.suburb = placemark.subLocality
                 // self.state = placemark.region
             }
+
+            if let searchResult = locationSelection.searchResult {
+                self.propertyNumber = searchResult.unitNumber
+                self.streetNumber = searchResult.streetNumber
+                self.streetName = searchResult.streetName
+                self.postcode = searchResult.postalCode
+            }
         }
+    }
+}
+
+fileprivate extension LookupAddress {
+    var streetNumber: String? {
+        var components: [String] = []
+        if let streetNumberFirst = streetNumberFirst, streetNumberFirst.isEmpty == false {
+            components.append(streetNumberFirst)
+        }
+
+        if let streetNumberEnd = streetNumberLast, streetNumberEnd.isEmpty == false {
+            components.append(streetNumberEnd)
+        }
+        return components.joined(separator: "-")
     }
 }
