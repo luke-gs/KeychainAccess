@@ -72,7 +72,13 @@ public class LocationSelectionPresenter: Presenter {
             return viewController
 
         case .locationSelectionFinal(let selectedLocation, let completionHandler):
-            let viewModel = LocationSelectionConfirmationViewModel(locationSelection: selectedLocation)
+            let viewModel = LocationSelectionConfirmationViewModel(locationSelection: selectedLocation, isEditable: true)
+            viewModel.streetTypeOptions = [AnyPickable("Road"), AnyPickable("Avenue"), AnyPickable("Lane")]
+            viewModel.suburbOptions = [AnyPickable("Collingwood"), AnyPickable("Fitzory"), AnyPickable("Carlton")]
+            viewModel.stateOptions = [AnyPickable("VIC"), AnyPickable("ACT"), AnyPickable("QLD"), AnyPickable("TAS")]
+            viewModel.typeOptions = [AnyPickable("Event Location")]
+            viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
+
             let viewController = LocationSelectionConfirmationViewController(viewModel: viewModel)
             viewController.doneHandler = { _ in
                 // Do not pop this view controller, will be double/triple popped by locationSelectionLanding handler

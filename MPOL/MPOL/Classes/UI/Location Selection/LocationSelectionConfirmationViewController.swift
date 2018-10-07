@@ -44,7 +44,7 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             .separatorColor(.clear)
         
         builder += ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""),
-                                 value: self.viewModel.coords)
+                                 value: self.viewModel.coordinateText)
             .width(.column(1))
             .separatorColor(.clear)
         
@@ -73,36 +73,47 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                     self.viewModel.streetName = $0
                 }
                 .width(.column(2))
-            builder += DropDownFormItem(title: NSLocalizedString("Street Type", comment: ""))
-                .options(self.viewModel.streetTypeOptions!)
-                .selectedValue([self.viewModel.streetType ?? AnyPickable("")])
-                .allowsMultipleSelection(false)
-                .onValueChanged { [unowned self] in
-                    self.viewModel.streetType = $0?.first
-                }
-                .width(.column(2))
-            builder += DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
-                .options(self.viewModel.suburbOptions!)
-                .selectedValue([self.viewModel.suburb ?? AnyPickable("")])
-                .allowsMultipleSelection(false)
-                .onValueChanged { [unowned self] in
-                    self.viewModel.suburb = $0?.first
-                }
-                .width(.column(2))
-            builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))
-                .options(self.viewModel.stateOptions!)
-                .selectedValue([self.viewModel.state ?? AnyPickable("")])
-                .allowsMultipleSelection(false)
-                .onValueChanged { [unowned self] in
-                    self.viewModel.state = $0?.first
-                }
-                .width(.column(2))
+
+            if let streetTypeOptions = self.viewModel.streetTypeOptions {
+                builder += DropDownFormItem(title: NSLocalizedString("Street Type", comment: ""))
+                    .options(streetTypeOptions)
+                    .selectedValue([self.viewModel.streetType].removeNils())
+                    .allowsMultipleSelection(false)
+                    .onValueChanged { [unowned self] in
+                        self.viewModel.streetType = $0?.first
+                    }
+                    .width(.column(2))
+            }
+
+            if let suburbOptions = self.viewModel.suburbOptions {
+                builder += DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
+                    .options(suburbOptions)
+                    .selectedValue([self.viewModel.suburb].removeNils())
+                    .allowsMultipleSelection(false)
+                    .onValueChanged { [unowned self] in
+                        self.viewModel.suburb = $0?.first
+                    }
+                    .width(.column(2))
+            }
+
+            if let stateOptions = self.viewModel.stateOptions {
+                builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))
+                    .options(stateOptions)
+                    .selectedValue([self.viewModel.state].removeNils())
+                    .allowsMultipleSelection(false)
+                    .onValueChanged { [unowned self] in
+                        self.viewModel.state = $0?.first
+                    }
+                    .width(.column(2))
+            }
+
             builder += TextFieldFormItem(title: NSLocalizedString("Postcode", comment: ""))
                 .text(self.viewModel.postcode)
                 .onValueChanged { [unowned self] in
                     self.viewModel.postcode = $0
                 }
                 .width(.column(2))
+
         } else {
             // non-editable
             
@@ -142,12 +153,12 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             }
             .width(.column(1))
         
-        if let options = self.viewModel.involvementOptions {
-            // only display when involvment's options exist
+        // Only display location type if title and options are defined
+        if let title = viewModel.typeTitle, let options = self.viewModel.typeOptions {
             builder += DropDownFormItem()
-                .title(NSLocalizedString("Involvement/s", comment: ""))
+                .title(title)
                 .options(options)
-                .selectedValue([self.viewModel.involvement ?? AnyPickable("")])
+                .selectedValue([self.viewModel.type].removeNils())
                 .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
