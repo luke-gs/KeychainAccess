@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121777B020631BF6007189A7 /* EventsListViewController.swift */; };
+		05F2A841DF06C289F75527F9 /* Pods_MPOLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */; };
 		127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventsListViewModel.swift */; };
 		127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F2202AB1F0007D0BBB /* EventBuilder.swift */; };
 		127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */; };
@@ -53,6 +53,16 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */; };
+		2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */; };
+		207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */; };
+		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
+		207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */; };
+		207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */; };
+		208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */; };
+		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
+		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
+		20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C97904215C93610067977B /* CreateTaskPresenter.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
 		371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */; };
@@ -71,6 +81,7 @@
 		3727C4C32088193000F7A887 /* Offence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BF2088193000F7A887 /* Offence.swift */; };
 		3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */; };
 		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
+		3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3792073521521FBE0071F119 /* AddressFormItemFactory.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
 		37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */; };
 		37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A22105A4E400860B6D /* AlertsFormItem.swift */; };
@@ -90,6 +101,128 @@
 		96728C2520D0B25600B82A53 /* APNS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
 		96728C3020D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
+		96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */; };
+		96B7747B2140F51900836B83 /* VINParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774722140F51900836B83 /* VINParserDefinitionsTests.swift */; };
+		96B7747C2140F51900836B83 /* LicenceSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774732140F51900836B83 /* LicenceSearchParametersTests.swift */; };
+		96B7747E2140F51900836B83 /* RegistrationParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774752140F51900836B83 /* RegistrationParserDefinitionsTests.swift */; };
+		96B7747F2140F51900836B83 /* VehicleSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774762140F51900836B83 /* VehicleSearchParametersTests.swift */; };
+		96B774802140F51900836B83 /* EngineNumberParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774772140F51900836B83 /* EngineNumberParserDefinitionsTests.swift */; };
+		96B774812140F51900836B83 /* PersonSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774782140F51900836B83 /* PersonSearchParametersTests.swift */; };
+		96B774822140F51900836B83 /* LicenceParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774792140F51900836B83 /* LicenceParserDefinitionsTests.swift */; };
+		96B774832140F51900836B83 /* PersonParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7747A2140F51900836B83 /* PersonParserDefinitionsTests.swift */; };
+		96B775182140F8EE00836B83 /* ManifestSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774872140F8EE00836B83 /* ManifestSetting.swift */; };
+		96B775192140F8EE00836B83 /* SupportSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774882140F8EE00836B83 /* SupportSetting.swift */; };
+		96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7748A2140F8EE00836B83 /* DefaultFilterRules.swift */; };
+		96B7751B2140F8EE00836B83 /* PersonFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7748B2140F8EE00836B83 /* PersonFetchParameter.swift */; };
+		96B7751C2140F8EE00836B83 /* VehicleFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7748C2140F8EE00836B83 /* VehicleFetchParameter.swift */; };
+		96B7751D2140F8EE00836B83 /* ManifestCollection+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7748E2140F8EE00836B83 /* ManifestCollection+Search.swift */; };
+		96B7751E2140F8EE00836B83 /* ApiManager+Manifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7748F2140F8EE00836B83 /* ApiManager+Manifest.swift */; };
+		96B775202140F8EE00836B83 /* OrganisationInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774942140F8EE00836B83 /* OrganisationInfoViewModel.swift */; };
+		96B775212140F8EE00836B83 /* VehicleInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774962140F8EE00836B83 /* VehicleInfoViewModel.swift */; };
+		96B775222140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774982140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift */; };
+		96B775232140F8EE00836B83 /* RetrievedEventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774992140F8EE00836B83 /* RetrievedEventSummaryViewController.swift */; };
+		96B775242140F8EE00836B83 /* EntityAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7749A2140F8EE00836B83 /* EntityAssociationsViewModel.swift */; };
+		96B775252140F8EE00836B83 /* AlertSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7749C2140F8EE00836B83 /* AlertSummaryViewModel.swift */; };
+		96B775262140F8EE00836B83 /* AlertSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7749D2140F8EE00836B83 /* AlertSummaryViewController.swift */; };
+		96B775272140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7749F2140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift */; };
+		96B775282140F8EE00836B83 /* PersonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A02140F8EE00836B83 /* PersonInfoViewModel.swift */; };
+		96B775292140F8EE00836B83 /* PersonOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A12140F8EE00836B83 /* PersonOrdersViewModel.swift */; };
+		96B7752A2140F8EE00836B83 /* PersonDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A22140F8EE00836B83 /* PersonDescriptionsViewController.swift */; };
+		96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A32140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift */; };
+		96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A42140F8EE00836B83 /* PersonDescriptionViewModel.swift */; };
+		96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A62140F8EE00836B83 /* EntityLocationInformationViewController.swift */; };
+		96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A72140F8EE00836B83 /* LocationInfoViewModel.swift */; };
+		96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774A82140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift */; };
+		96B775302140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774AA2140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift */; };
+		96B775312140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774AB2140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift */; };
+		96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774AC2140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift */; };
+		96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774AD2140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift */; };
+		96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774AE2140F8EE00836B83 /* PersonTrafficHistoryViewController.swift */; };
+		96B775352140F8EE00836B83 /* EntityAlertsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774AF2140F8EE00836B83 /* EntityAlertsViewModel.swift */; };
+		96B775362140F8EE00836B83 /* OrderSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774B22140F8EE00836B83 /* OrderSummaryViewController.swift */; };
+		96B775372140F8EE00836B83 /* OrderSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774B32140F8EE00836B83 /* OrderSummaryViewModel.swift */; };
+		96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774B52140F8EE00836B83 /* EntityDetailFormViewModel.swift */; };
+		96B775392140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774B62140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift */; };
+		96B7753A2140F8EE00836B83 /* EntityDetailFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774B72140F8EE00836B83 /* EntityDetailFormViewController.swift */; };
+		96B7753B2140F8EE00836B83 /* CriminalHistorySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774B92140F8EE00836B83 /* CriminalHistorySummaryViewController.swift */; };
+		96B7753C2140F8EE00836B83 /* CriminalHistorySummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774BA2140F8EE00836B83 /* CriminalHistorySummaryViewModel.swift */; };
+		96B7753D2140F8EE00836B83 /* VehicleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */; };
+		96B7753E2140F8EE00836B83 /* PersonEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */; };
+		96B7753F2140F8EE00836B83 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */; };
+		96B775402140F8EE00836B83 /* User+VersionAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */; };
+		96B775412140F8EE00836B83 /* UserPreferenceManager+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C22140F8EE00836B83 /* UserPreferenceManager+Shared.swift */; };
+		96B775422140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */; };
+		96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */; };
+		96B775442140F8EE00836B83 /* OfficerSearchDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C72140F8EE00836B83 /* OfficerSearchDisplayable.swift */; };
+		96B775452140F8EE00836B83 /* Person+EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C82140F8EE00836B83 /* Person+EntitySummaryDisplayable.swift */; };
+		96B775462140F8EE00836B83 /* Organisation+EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774C92140F8EE00836B83 /* Organisation+EntitySummaryDisplayable.swift */; };
+		96B775472140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774CA2140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift */; };
+		96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774CB2140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift */; };
+		96B775492140F8EE00836B83 /* OfficerSummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774CC2140F8EE00836B83 /* OfficerSummaryDisplayable.swift */; };
+		96B7754A2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774CD2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift */; };
+		96B7754B2140F8EE00836B83 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D02140F8EE00836B83 /* PersonImageSizing.swift */; };
+		96B7754C2140F8EE00836B83 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D22140F8EE00836B83 /* AddressFormatter.swift */; };
+		96B7754D2140F8EE00836B83 /* DateSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D32140F8EE00836B83 /* DateSorting.swift */; };
+		96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D42140F8EE00836B83 /* EntityImageSizing.swift */; };
+		96B7754F2140F8EE00836B83 /* OrganisationFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D72140F8EE00836B83 /* OrganisationFetchRequest.swift */; };
+		96B775502140F8EE00836B83 /* LocationMapSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D82140F8EE00836B83 /* LocationMapSearchRequest.swift */; };
+		96B775512140F8EE00836B83 /* OfficerSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774D92140F8EE00836B83 /* OfficerSearchRequest.swift */; };
+		96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774DA2140F8EE00836B83 /* LocationFetchRequest.swift */; };
+		96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774DB2140F8EE00836B83 /* EventSubmissionRequest.swift */; };
+		96B775542140F8EE00836B83 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774DC2140F8EE00836B83 /* VehicleSearchRequest.swift */; };
+		96B775552140F8EE00836B83 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774DD2140F8EE00836B83 /* PersonSearchRequest.swift */; };
+		96B775562140F8EE00836B83 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774DE2140F8EE00836B83 /* PersonFetchRequest.swift */; };
+		96B775572140F8EE00836B83 /* VehicleFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774DF2140F8EE00836B83 /* VehicleFetchRequest.swift */; };
+		96B775582140F8EE00836B83 /* OfficerSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E12140F8EE00836B83 /* OfficerSearchParameters.swift */; };
+		96B775592140F8EE00836B83 /* VehicleSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E22140F8EE00836B83 /* VehicleSearchParameters.swift */; };
+		96B7755A2140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E32140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift */; };
+		96B7755B2140F8EE00836B83 /* PersonSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E42140F8EE00836B83 /* PersonSearchParameters.swift */; };
+		96B7755C2140F8EE00836B83 /* OrganisationSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E52140F8EE00836B83 /* OrganisationSearchParameters.swift */; };
+		96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E62140F8EE00836B83 /* LicenceSearchParameters.swift */; };
+		96B7755E2140F8EE00836B83 /* VehicleRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E82140F8EE00836B83 /* VehicleRetrieveStrategy.swift */; };
+		96B7755F2140F8EE00836B83 /* PersonRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774E92140F8EE00836B83 /* PersonRetrieveStrategy.swift */; };
+		96B775602140F8EE00836B83 /* OrganisationRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774EA2140F8EE00836B83 /* OrganisationRetrieveStrategy.swift */; };
+		96B775612140F8EE00836B83 /* LocationRetrieveStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774EB2140F8EE00836B83 /* LocationRetrieveStrategy.swift */; };
+		96B775622140F8EE00836B83 /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774EF2140F8EE00836B83 /* PhoneNumber.swift */; };
+		96B775632140F8EE00836B83 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F02140F8EE00836B83 /* Alert.swift */; };
+		96B775642140F8EE00836B83 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F12140F8EE00836B83 /* CriminalHistory.swift */; };
+		96B775652140F8EE00836B83 /* AssociationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F22140F8EE00836B83 /* AssociationReason.swift */; };
+		96B775662140F8EE00836B83 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F32140F8EE00836B83 /* Address.swift */; };
+		96B775672140F8EE00836B83 /* Officer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F42140F8EE00836B83 /* Officer.swift */; };
+		96B775682140F8EE00836B83 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F52140F8EE00836B83 /* Entity.swift */; };
+		96B775692140F8EE00836B83 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F62140F8EE00836B83 /* Vehicle.swift */; };
+		96B7756A2140F8EE00836B83 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F72140F8EE00836B83 /* Person.swift */; };
+		96B7756B2140F8EE00836B83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F82140F8EE00836B83 /* Order.swift */; };
+		96B7756C2140F8EE00836B83 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F92140F8EE00836B83 /* Alias.swift */; };
+		96B7756D2140F8EE00836B83 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */; };
+		96B7756E2140F8EE00836B83 /* TrafficHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FB2140F8EE00836B83 /* TrafficHistory.swift */; };
+		96B7756F2140F8EE00836B83 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FC2140F8EE00836B83 /* Email.swift */; };
+		96B775702140F8EE00836B83 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FD2140F8EE00836B83 /* Media.swift */; };
+		96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */; };
+		96B775722140F8EE00836B83 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FF2140F8EE00836B83 /* Identifiable.swift */; };
+		96B775732140F8EE00836B83 /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775002140F8EE00836B83 /* EventSubmissionResponse.swift */; };
+		96B775742140F8EE00836B83 /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775012140F8EE00836B83 /* PersonDescription.swift */; };
+		96B775822140F8EE00836B83 /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775102140F8EE00836B83 /* MPOLSource.swift */; };
+		96B775832140F8EE00836B83 /* Organisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775112140F8EE00836B83 /* Organisation.swift */; };
+		96B775842140F8EE00836B83 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775122140F8EE00836B83 /* Licence.swift */; };
+		96B775852140F8EE00836B83 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775132140F8EE00836B83 /* Contact.swift */; };
+		96B775862140F8EE00836B83 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775152140F8EE00836B83 /* LoginCredentials.swift */; };
+		96B775872140F8EE00836B83 /* LoginStyleSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775162140F8EE00836B83 /* LoginStyleSetup.swift */; };
+		96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775892140FA6600836B83 /* EventsListViewController.swift */; };
+		96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77593214206F100836B83 /* FixedLengthNumberParserDefinition.swift */; };
+		96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77594214206F100836B83 /* RegistrationParserDefinition.swift */; };
+		96B775A3214206F100836B83 /* LicenceWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77595214206F100836B83 /* LicenceWildcardParserDefinition.swift */; };
+		96B775A4214206F100836B83 /* VINParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77596214206F100836B83 /* VINParserDefinition.swift */; };
+		96B775A5214206F100836B83 /* WildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77597214206F100836B83 /* WildcardParserDefinition.swift */; };
+		96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77598214206F100836B83 /* PersonSearchDateParser.swift */; };
+		96B775A7214206F100836B83 /* LicenceParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77599214206F100836B83 /* LicenceParserDefinition.swift */; };
+		96B775A8214206F100836B83 /* RangeParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759A214206F100836B83 /* RangeParserDefinition.swift */; };
+		96B775A9214206F100836B83 /* ACNParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759B214206F100836B83 /* ACNParserDefinition.swift */; };
+		96B775AA214206F100836B83 /* OrganisationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759C214206F100836B83 /* OrganisationParserDefinition.swift */; };
+		96B775AB214206F100836B83 /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759D214206F100836B83 /* PersonParserDefinition.swift */; };
+		96B775AC214206F100836B83 /* EngineNumberParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759E214206F100836B83 /* EngineNumberParserDefinition.swift */; };
+		96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759F214206F100836B83 /* ABNParserDefinition.swift */; };
+		96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
@@ -100,21 +233,24 @@
 		AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1320BF9993009862FD /* VehicleTowReportViewModel.swift */; };
 		AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1420BF9993009862FD /* VehicleTowReportViewController.swift */; };
 		AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */; };
+		AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */; };
 		AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = AA1E7BB72119145B0086AA70 /* termsandconditions.html */; };
 		AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */; };
+		AA359C452165ED940035A472 /* PersonAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA359C442165ED940035A472 /* PersonAlias.swift */; };
+		AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA359C462165F08B0035A472 /* OrganisationAlias.swift */; };
 		AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513821180E1A00621E58 /* TermsAndConditions.swift */; };
 		AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513A21180E6200621E58 /* WhatsNew.swift */; };
 		AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */; };
 		AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E5148211815F300621E58 /* WhatsNewSetting.swift */; };
 		AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */; };
+		AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D5453214794EF00162017 /* AddressOptionHandler.swift */; };
+		AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
 		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
-		BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; };
-		BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F51F60F64A0057048E /* LandingPresenter.swift */; };
 		EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194DC1FC5098200A2980B /* EventPresenter.swift */; };
 		EA8923550DA023B64142DEF7 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98286F47FF0E675D611C2782 /* Pods_MPOL.framework */; };
@@ -136,6 +272,13 @@
 			remoteGlobalIDString = 96728C1D20D0B25600B82A53;
 			remoteInfo = "APNS Extension";
 		};
+		96B774682140F4C500836B83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCD4EA811E515ACE000B993D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCD4EA881E515ACE000B993D;
+			remoteInfo = MPOL;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -150,21 +293,9 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BCEEA5631F03205800C884A4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		121777B020631BF6007189A7 /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsListViewController.swift; path = MPOL/Events/EventsListViewController.swift; sourceTree = SOURCE_ROOT; };
 		127801F0202AAF09007D0BBB /* EventsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewModel.swift; sourceTree = "<group>"; };
 		127801F2202AB1F0007D0BBB /* EventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBuilder.swift; sourceTree = "<group>"; };
 		127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDetailViewModel.swift; sourceTree = "<group>"; };
@@ -194,7 +325,6 @@
 		12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		12EF65FE2087071800739924 /* OfficerListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListReport.swift; sourceTree = "<group>"; };
 		12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultOfficerListViewController.swift; sourceTree = "<group>"; };
-		12EF6618208990B800739924 /* EventEntityDetailReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDetailReport.swift; sourceTree = "<group>"; };
 		12EF662C208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
 		12EF662E208D7D2F00739924 /* EventEntityRelationshipsReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityRelationshipsReport.swift; sourceTree = "<group>"; };
 		12EF662F208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityRelationshipsViewModel.swift; sourceTree = "<group>"; };
@@ -206,11 +336,22 @@
 		12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionReport.swift; sourceTree = "<group>"; };
 		1900374421081DC80030B15C /* DemoPrepopulate */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DemoPrepopulate; sourceTree = "<group>"; };
 		19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+RecentlyDataPrepopulation.swift"; sourceTree = "<group>"; };
-		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
+		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1988306B20BB77B5006FE165 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewModel.swift; sourceTree = "<group>"; };
+		2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewController.swift; sourceTree = "<group>"; };
+		207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = OrganisationSearchHelp.html; sourceTree = "<group>"; };
+		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
+		207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VehicleSearchHelp.html; sourceTree = "<group>"; };
+		207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeManager+HTML.swift"; sourceTree = "<group>"; };
+		208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PersonSearchHelp.html; sourceTree = "<group>"; };
+		208A85BF2161ECFB00FEC69B /* LightModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = LightModeStyle.css; sourceTree = "<group>"; };
+		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
+		2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
+		20C97904215C93610067977B /* CreateTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskPresenter.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
 		371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsReport.swift; sourceTree = "<group>"; };
@@ -230,6 +371,7 @@
 		3727C4BF2088193000F7A887 /* Offence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offence.swift; sourceTree = "<group>"; };
 		3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffencePointAndFineTotalsView.swift; sourceTree = "<group>"; };
 		3745B13F20B3C14F008AA94F /* IncidentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAction.swift; sourceTree = "<group>"; };
+		3792073521521FBE0071F119 /* AddressFormItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormItemFactory.swift; sourceTree = "<group>"; };
 		379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
 		37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryAlertsSearchResultViewModel.swift; sourceTree = "<group>"; };
 		37F048A22105A4E400860B6D /* AlertsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFormItem.swift; sourceTree = "<group>"; };
@@ -240,6 +382,7 @@
 		37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.debug.xcconfig"; sourceTree = "<group>"; };
 		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
 		445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocationSearchHelp.json; sourceTree = "<group>"; };
 		445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OrganisationSearchHelp.json; sourceTree = "<group>"; };
@@ -250,10 +393,11 @@
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
 		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
+		495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-release.xcconfig"; sourceTree = "<group>"; };
+		512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-release.xcconfig"; sourceTree = "<group>"; };
 		529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-release.xcconfig"; sourceTree = "<group>"; };
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
-		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		96728C1E20D0B25600B82A53 /* APNS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "APNS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96728C2020D0B25600B82A53 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		96728C2220D0B25600B82A53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -265,6 +409,130 @@
 		96728C3520D0D08000B82A53 /* APNSConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		96728C3620D0D08000B82A53 /* APNSConfig-external-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		96728C3D20D2025200B82A53 /* APNS Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "APNS Extension.entitlements"; sourceTree = "<group>"; };
+		96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+DataMigration.swift"; sourceTree = "<group>"; };
+		96B774632140F4C400836B83 /* MPOLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96B774672140F4C500836B83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96B774722140F51900836B83 /* VINParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		96B774732140F51900836B83 /* LicenceSearchParametersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceSearchParametersTests.swift; sourceTree = "<group>"; };
+		96B774752140F51900836B83 /* RegistrationParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		96B774762140F51900836B83 /* VehicleSearchParametersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParametersTests.swift; sourceTree = "<group>"; };
+		96B774772140F51900836B83 /* EngineNumberParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		96B774782140F51900836B83 /* PersonSearchParametersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchParametersTests.swift; sourceTree = "<group>"; };
+		96B774792140F51900836B83 /* LicenceParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		96B7747A2140F51900836B83 /* PersonParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		96B774872140F8EE00836B83 /* ManifestSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestSetting.swift; sourceTree = "<group>"; };
+		96B774882140F8EE00836B83 /* SupportSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportSetting.swift; sourceTree = "<group>"; };
+		96B7748A2140F8EE00836B83 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
+		96B7748B2140F8EE00836B83 /* PersonFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchParameter.swift; sourceTree = "<group>"; };
+		96B7748C2140F8EE00836B83 /* VehicleFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchParameter.swift; sourceTree = "<group>"; };
+		96B7748E2140F8EE00836B83 /* ManifestCollection+Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManifestCollection+Search.swift"; sourceTree = "<group>"; };
+		96B7748F2140F8EE00836B83 /* ApiManager+Manifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApiManager+Manifest.swift"; sourceTree = "<group>"; };
+		96B774942140F8EE00836B83 /* OrganisationInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationInfoViewModel.swift; sourceTree = "<group>"; };
+		96B774962140F8EE00836B83 /* VehicleInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewModel.swift; sourceTree = "<group>"; };
+		96B774982140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedEventSummaryViewModel.swift; sourceTree = "<group>"; };
+		96B774992140F8EE00836B83 /* RetrievedEventSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedEventSummaryViewController.swift; sourceTree = "<group>"; };
+		96B7749A2140F8EE00836B83 /* EntityAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewModel.swift; sourceTree = "<group>"; };
+		96B7749C2140F8EE00836B83 /* AlertSummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewModel.swift; sourceTree = "<group>"; };
+		96B7749D2140F8EE00836B83 /* AlertSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertSummaryViewController.swift; sourceTree = "<group>"; };
+		96B7749F2140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewModel.swift; sourceTree = "<group>"; };
+		96B774A02140F8EE00836B83 /* PersonInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewModel.swift; sourceTree = "<group>"; };
+		96B774A12140F8EE00836B83 /* PersonOrdersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewModel.swift; sourceTree = "<group>"; };
+		96B774A22140F8EE00836B83 /* PersonDescriptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescriptionsViewController.swift; sourceTree = "<group>"; };
+		96B774A32140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewModel.swift; sourceTree = "<group>"; };
+		96B774A42140F8EE00836B83 /* PersonDescriptionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescriptionViewModel.swift; sourceTree = "<group>"; };
+		96B774A62140F8EE00836B83 /* EntityLocationInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityLocationInformationViewController.swift; sourceTree = "<group>"; };
+		96B774A72140F8EE00836B83 /* LocationInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoViewModel.swift; sourceTree = "<group>"; };
+		96B774A82140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityRetrievedEventsViewModel.swift; sourceTree = "<group>"; };
+		96B774AA2140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
+		96B774AB2140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
+		96B774AC2140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
+		96B774AD2140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
+		96B774AE2140F8EE00836B83 /* PersonTrafficHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewController.swift; sourceTree = "<group>"; };
+		96B774AF2140F8EE00836B83 /* EntityAlertsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewModel.swift; sourceTree = "<group>"; };
+		96B774B22140F8EE00836B83 /* OrderSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewController.swift; sourceTree = "<group>"; };
+		96B774B32140F8EE00836B83 /* OrderSummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewModel.swift; sourceTree = "<group>"; };
+		96B774B52140F8EE00836B83 /* EntityDetailFormViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewModel.swift; sourceTree = "<group>"; };
+		96B774B62140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailFilterableFormViewModel.swift; sourceTree = "<group>"; };
+		96B774B72140F8EE00836B83 /* EntityDetailFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewController.swift; sourceTree = "<group>"; };
+		96B774B92140F8EE00836B83 /* CriminalHistorySummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistorySummaryViewController.swift; sourceTree = "<group>"; };
+		96B774BA2140F8EE00836B83 /* CriminalHistorySummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistorySummaryViewModel.swift; sourceTree = "<group>"; };
+		96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleEditViewController.swift; sourceTree = "<group>"; };
+		96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonEditViewController.swift; sourceTree = "<group>"; };
+		96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppGroupLandingPresenter.swift; sourceTree = "<group>"; };
+		96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+VersionAccessors.swift"; sourceTree = "<group>"; };
+		96B774C22140F8EE00836B83 /* UserPreferenceManager+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserPreferenceManager+Shared.swift"; sourceTree = "<group>"; };
+		96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Entity+EntityDetailDisplayable.swift"; sourceTree = "<group>"; };
+		96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityThumbnailView+Configuration.swift"; sourceTree = "<group>"; };
+		96B774C72140F8EE00836B83 /* OfficerSearchDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchDisplayable.swift; sourceTree = "<group>"; };
+		96B774C82140F8EE00836B83 /* Person+EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Person+EntitySummaryDisplayable.swift"; sourceTree = "<group>"; };
+		96B774C92140F8EE00836B83 /* Organisation+EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Organisation+EntitySummaryDisplayable.swift"; sourceTree = "<group>"; };
+		96B774CA2140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Vehicle+EntitySummaryDisplayable.swift"; sourceTree = "<group>"; };
+		96B774CB2140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Address+EntityMapSummaryDisplayable.swift"; sourceTree = "<group>"; };
+		96B774CC2140F8EE00836B83 /* OfficerSummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSummaryDisplayable.swift; sourceTree = "<group>"; };
+		96B774CD2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedEntitySummaryDisplayable.swift; sourceTree = "<group>"; };
+		96B774D02140F8EE00836B83 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
+		96B774D22140F8EE00836B83 /* AddressFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
+		96B774D32140F8EE00836B83 /* DateSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSorting.swift; sourceTree = "<group>"; };
+		96B774D42140F8EE00836B83 /* EntityImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityImageSizing.swift; sourceTree = "<group>"; };
+		96B774D72140F8EE00836B83 /* OrganisationFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationFetchRequest.swift; sourceTree = "<group>"; };
+		96B774D82140F8EE00836B83 /* LocationMapSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSearchRequest.swift; sourceTree = "<group>"; };
+		96B774D92140F8EE00836B83 /* OfficerSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchRequest.swift; sourceTree = "<group>"; };
+		96B774DA2140F8EE00836B83 /* LocationFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFetchRequest.swift; sourceTree = "<group>"; };
+		96B774DB2140F8EE00836B83 /* EventSubmissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubmissionRequest.swift; sourceTree = "<group>"; };
+		96B774DC2140F8EE00836B83 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
+		96B774DD2140F8EE00836B83 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
+		96B774DE2140F8EE00836B83 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
+		96B774DF2140F8EE00836B83 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
+		96B774E12140F8EE00836B83 /* OfficerSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchParameters.swift; sourceTree = "<group>"; };
+		96B774E22140F8EE00836B83 /* VehicleSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParameters.swift; sourceTree = "<group>"; };
+		96B774E32140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapRadiusSearchParameters.swift; sourceTree = "<group>"; };
+		96B774E42140F8EE00836B83 /* PersonSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchParameters.swift; sourceTree = "<group>"; };
+		96B774E52140F8EE00836B83 /* OrganisationSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationSearchParameters.swift; sourceTree = "<group>"; };
+		96B774E62140F8EE00836B83 /* LicenceSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceSearchParameters.swift; sourceTree = "<group>"; };
+		96B774E82140F8EE00836B83 /* VehicleRetrieveStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleRetrieveStrategy.swift; sourceTree = "<group>"; };
+		96B774E92140F8EE00836B83 /* PersonRetrieveStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonRetrieveStrategy.swift; sourceTree = "<group>"; };
+		96B774EA2140F8EE00836B83 /* OrganisationRetrieveStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationRetrieveStrategy.swift; sourceTree = "<group>"; };
+		96B774EB2140F8EE00836B83 /* LocationRetrieveStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationRetrieveStrategy.swift; sourceTree = "<group>"; };
+		96B774EF2140F8EE00836B83 /* PhoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
+		96B774F02140F8EE00836B83 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		96B774F12140F8EE00836B83 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
+		96B774F22140F8EE00836B83 /* AssociationReason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationReason.swift; sourceTree = "<group>"; };
+		96B774F32140F8EE00836B83 /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		96B774F42140F8EE00836B83 /* Officer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Officer.swift; sourceTree = "<group>"; };
+		96B774F52140F8EE00836B83 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		96B774F62140F8EE00836B83 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		96B774F72140F8EE00836B83 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		96B774F82140F8EE00836B83 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		96B774F92140F8EE00836B83 /* Alias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
+		96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
+		96B774FB2140F8EE00836B83 /* TrafficHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistory.swift; sourceTree = "<group>"; };
+		96B774FC2140F8EE00836B83 /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
+		96B774FD2140F8EE00836B83 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelephoneNumber.swift; sourceTree = "<group>"; };
+		96B774FF2140F8EE00836B83 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		96B775002140F8EE00836B83 /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
+		96B775012140F8EE00836B83 /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
+		96B775102140F8EE00836B83 /* MPOLSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
+		96B775112140F8EE00836B83 /* Organisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organisation.swift; sourceTree = "<group>"; };
+		96B775122140F8EE00836B83 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
+		96B775132140F8EE00836B83 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		96B775152140F8EE00836B83 /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
+		96B775162140F8EE00836B83 /* LoginStyleSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginStyleSetup.swift; sourceTree = "<group>"; };
+		96B775892140FA6600836B83 /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
+		96B77593214206F100836B83 /* FixedLengthNumberParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedLengthNumberParserDefinition.swift; sourceTree = "<group>"; };
+		96B77594214206F100836B83 /* RegistrationParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinition.swift; sourceTree = "<group>"; };
+		96B77595214206F100836B83 /* LicenceWildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceWildcardParserDefinition.swift; sourceTree = "<group>"; };
+		96B77596214206F100836B83 /* VINParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinition.swift; sourceTree = "<group>"; };
+		96B77597214206F100836B83 /* WildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WildcardParserDefinition.swift; sourceTree = "<group>"; };
+		96B77598214206F100836B83 /* PersonSearchDateParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDateParser.swift; sourceTree = "<group>"; };
+		96B77599214206F100836B83 /* LicenceParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceParserDefinition.swift; sourceTree = "<group>"; };
+		96B7759A214206F100836B83 /* RangeParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeParserDefinition.swift; sourceTree = "<group>"; };
+		96B7759B214206F100836B83 /* ACNParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACNParserDefinition.swift; sourceTree = "<group>"; };
+		96B7759C214206F100836B83 /* OrganisationParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationParserDefinition.swift; sourceTree = "<group>"; };
+		96B7759D214206F100836B83 /* PersonParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinition.swift; sourceTree = "<group>"; };
+		96B7759E214206F100836B83 /* EngineNumberParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinition.swift; sourceTree = "<group>"; };
+		96B7759F214206F100836B83 /* ABNParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNParserDefinition.swift; sourceTree = "<group>"; };
+		96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNACNWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
@@ -276,13 +544,18 @@
 		AA1C0B1320BF9993009862FD /* VehicleTowReportViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReportViewModel.swift; sourceTree = "<group>"; };
 		AA1C0B1420BF9993009862FD /* VehicleTowReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReportViewController.swift; sourceTree = "<group>"; };
 		AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSelectionAction.swift; sourceTree = "<group>"; };
+		AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficStopPresenter.swift; sourceTree = "<group>"; };
 		AA1E7BB72119145B0086AA70 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAdditionalActionBuilding.swift; sourceTree = "<group>"; };
+		AA359C442165ED940035A472 /* PersonAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonAlias.swift; sourceTree = "<group>"; };
+		AA359C462165F08B0035A472 /* OrganisationAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationAlias.swift; sourceTree = "<group>"; };
 		AA3E513821180E1A00621E58 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
 		AA3E513A21180E6200621E58 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
 		AA3E5148211815F300621E58 /* WhatsNewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSetting.swift; sourceTree = "<group>"; };
 		AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationSearchDataSource.swift; sourceTree = "<group>"; };
+		AA5D5453214794EF00162017 /* AddressOptionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressOptionHandler.swift; sourceTree = "<group>"; };
+		AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTimeAccessoryView.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -292,6 +565,8 @@
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.release.xcconfig"; sourceTree = "<group>"; };
+		D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D55548341F4DC664F254C922 /* Pods-APNS Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-mpol-debug.xcconfig"; sourceTree = "<group>"; };
 		DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-mpol-release.xcconfig"; sourceTree = "<group>"; };
@@ -309,6 +584,7 @@
 		EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
 		EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
 		EAE9F6C821365D32004D9DE8 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
+		ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,13 +596,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96B774602140F4C400836B83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05F2A841DF06C289F75527F9 /* Pods_MPOLTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCD4EA861E515ACE000B993D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */,
-				397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */,
 				EA8923550DA023B64142DEF7 /* Pods_MPOL.framework in Frameworks */,
+				397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,32 +627,20 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
-		12ADD42F1F32C0FA00CA8B4D /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
-				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
-				AA3E513821180E1A00621E58 /* TermsAndConditions.swift */,
-				AA3E513A21180E6200621E58 /* WhatsNew.swift */,
-				AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				37F3A3BC2084754A0077998C /* Entities */,
+				12ABD571207F1FE9004D0C9F /* Location */,
+				12EF65F92087071800739924 /* Officers */,
 				379869B220C4BE8C00E1FEAF /* Summary */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
-				121777B020631BF6007189A7 /* EventsListViewController.swift */,
+				96B775892140FA6600836B83 /* EventsListViewController.swift */,
 				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
 				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
-				37F3A3BC2084754A0077998C /* Entities */,
-				12ABD571207F1FE9004D0C9F /* Location */,
-				12EF65F92087071800739924 /* Officers */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -377,8 +648,11 @@
 		12EF65C12086D52200739924 /* Incidents */ = {
 			isa = PBXGroup;
 			children = (
-				AA7B25D220B27F43005A23F0 /* Entities */,
 				37235FA420AE736E0021850B /* Domestic Violence */,
+				AA7B25D220B27F43005A23F0 /* Entities */,
+				12EF65D42086D52200739924 /* Street Check */,
+				12EF65C22086D52200739924 /* Traffic Infringement */,
+				3745B13F20B3C14F008AA94F /* IncidentAction.swift */,
 				12EF65D12086D52200739924 /* IncidentDetailViewModel.swift */,
 				12EF65D32086D52200739924 /* IncidentListReport.swift */,
 				12EF65D22086D52200739924 /* IncidentListViewController.swift */,
@@ -386,10 +660,7 @@
 				12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */,
 				12EF65D82086D52200739924 /* IncidentSelectViewController.swift */,
 				12EF65DA2086D52200739924 /* IncidentTypes.swift */,
-				12EF65D42086D52200739924 /* Street Check */,
-				12EF65C22086D52200739924 /* Traffic Infringement */,
 				371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */,
-				3745B13F20B3C14F008AA94F /* IncidentAction.swift */,
 			);
 			path = Incidents;
 			sourceTree = "<group>";
@@ -397,10 +668,10 @@
 		12EF65C22086D52200739924 /* Traffic Infringement */ = {
 			isa = PBXGroup;
 			children = (
-				12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */,
-				12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */,
 				12EF65C32086D52200739924 /* Offences */,
 				12EF65C82086D52200739924 /* Service */,
+				12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */,
+				12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */,
 			);
 			path = "Traffic Infringement";
 			sourceTree = "<group>";
@@ -412,9 +683,9 @@
 				3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */,
 				3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */,
 				3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */,
-				3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */,
 				12EF65C42086D52200739924 /* TrafficInfringementOffencesReport.swift */,
 				12EF65C52086D52200739924 /* TrafficInfringementOffencesViewController.swift */,
+				3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */,
 			);
 			path = Offences;
 			sourceTree = "<group>";
@@ -422,8 +693,8 @@
 		12EF65C82086D52200739924 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */,
 				AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */,
+				12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */,
 				AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */,
 			);
 			path = Service;
@@ -432,11 +703,11 @@
 		12EF65D42086D52200739924 /* Street Check */ = {
 			isa = PBXGroup;
 			children = (
-				12EF65D52086D52200739924 /* InterceptReportIncidentBuilder.swift */,
-				12EF65D62086D52200739924 /* InterceptReportScreenBuilder.swift */,
+				371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */,
 				371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */,
 				371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */,
-				371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */,
+				12EF65D52086D52200739924 /* InterceptReportIncidentBuilder.swift */,
+				12EF65D62086D52200739924 /* InterceptReportScreenBuilder.swift */,
 			);
 			path = "Street Check";
 			sourceTree = "<group>";
@@ -444,11 +715,11 @@
 		12EF65F92087071800739924 /* Officers */ = {
 			isa = PBXGroup;
 			children = (
-				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
-				12EF65FC2087071800739924 /* OfficerListViewModel.swift */,
-				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
-				12EF65FE2087071800739924 /* OfficerListReport.swift */,
 				12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */,
+				12EF65FE2087071800739924 /* OfficerListReport.swift */,
+				12EF65FC2087071800739924 /* OfficerListViewModel.swift */,
+				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
+				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
 			);
 			path = Officers;
 			sourceTree = "<group>";
@@ -456,11 +727,11 @@
 		12EF662B208D7D2F00739924 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				12EF6631208D7D2F00739924 /* Description */,
+				12EF662D208D7D2F00739924 /* Relationship */,
 				12EF6635208D7D2F00739924 /* EventEntityDetailReport.swift */,
 				12EF662C208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift */,
 				12EF6634208D7D2F00739924 /* EventEntityDetailViewModel.swift */,
-				12EF6631208D7D2F00739924 /* Description */,
-				12EF662D208D7D2F00739924 /* Relationship */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -485,10 +756,39 @@
 			path = Description;
 			sourceTree = "<group>";
 		};
+		2004A74921645C0100B17C59 /* Location Selection */ = {
+			isa = PBXGroup;
+			children = (
+				2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */,
+				2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */,
+			);
+			path = "Location Selection";
+			sourceTree = "<group>";
+		};
+		207A0FFC21632F7900153AC3 /* HTML */ = {
+			isa = PBXGroup;
+			children = (
+				208A85BF2161ECFB00FEC69B /* LightModeStyle.css */,
+				208A85C12161ED5500FEC69B /* DarkModeStyle.css */,
+				208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */,
+				207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */,
+				207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */,
+				207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */,
+			);
+			path = HTML;
+			sourceTree = "<group>";
+		};
+		207A0FFD21632FD400153AC3 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
 			isa = PBXGroup;
 			children = (
-				37235FB520AE759B0021850B /* Property.swift */,
 				37235FA620AE738D0021850B /* DomesticViolenceGeneralDetailsReport.swift */,
 				37235FA520AE738D0021850B /* DomesticViolenceGeneralDetailsViewController.swift */,
 				37235FA820AE738D0021850B /* DomesticViolenceGeneralDetailsViewModel.swift */,
@@ -497,6 +797,7 @@
 				37235FAA20AE738D0021850B /* DomesticViolencePropertyViewController.swift */,
 				37235FA920AE738D0021850B /* DomesticViolencePropertyViewModel.swift */,
 				37235FAC20AE738E0021850B /* DomesticViolenceScreenBuilder.swift */,
+				37235FB520AE759B0021850B /* Property.swift */,
 			);
 			path = "Domestic Violence";
 			sourceTree = "<group>";
@@ -509,32 +810,13 @@
 			path = Summary;
 			sourceTree = "<group>";
 		};
-		37F048A12105A4CB00860B6D /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
-				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		37F1B3AF20CF9676007F263B /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				37F048A12105A4CB00860B6D /* UI */,
-				37F1B3B020CF9694007F263B /* SearchNoContentView.swift */,
-				37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
 		37F3A3BC2084754A0077998C /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				12EF662B208D7D2F00739924 /* Detail */,
 				37F3A3BD208475650077998C /* EventEntitiesListReport.swift */,
 				37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */,
 				37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */,
-				12EF662B208D7D2F00739924 /* Detail */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -544,10 +826,16 @@
 			children = (
 				D55548341F4DC664F254C922 /* Pods-APNS Extension.debug.xcconfig */,
 				4497AC4175CD3574373AA8DE /* Pods-APNS Extension.external-debug.xcconfig */,
-				54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */,
-				E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */,
-				529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */,
 				832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */,
+				54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */,
+				529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */,
+				E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */,
+				3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */,
+				ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */,
+				512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */,
+				2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */,
+				495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */,
+				C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -556,9 +844,10 @@
 			isa = PBXGroup;
 			children = (
 				BCEEA5601F03205800C884A4 /* ClientKit.framework */,
-				397B77001E52CEDA00696677 /* UserNotifications.framework */,
-				98286F47FF0E675D611C2782 /* Pods_MPOL.framework */,
 				DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */,
+				98286F47FF0E675D611C2782 /* Pods_MPOL.framework */,
+				D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */,
+				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -567,26 +856,391 @@
 			isa = PBXGroup;
 			children = (
 				96728C3D20D2025200B82A53 /* APNS Extension.entitlements */,
-				96728C2020D0B25600B82A53 /* NotificationService.swift */,
 				96728C2220D0B25600B82A53 /* Info.plist */,
+				96728C2020D0B25600B82A53 /* NotificationService.swift */,
 			);
 			path = "APNS Extension";
 			sourceTree = "<group>";
 		};
-		96BE10E820803F4B005D4BAA /* Recovered References */ = {
+		96B774642140F4C500836B83 /* MPOLTests */ = {
 			isa = PBXGroup;
 			children = (
-				9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */,
-				12EF6618208990B800739924 /* EventEntityDetailReport.swift */,
+				96B774712140F51900836B83 /* Classes */,
+				96B774672140F4C500836B83 /* Info.plist */,
 			);
-			name = "Recovered References";
+			path = MPOLTests;
+			sourceTree = "<group>";
+		};
+		96B774712140F51900836B83 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				96B774772140F51900836B83 /* EngineNumberParserDefinitionsTests.swift */,
+				96B774792140F51900836B83 /* LicenceParserDefinitionsTests.swift */,
+				96B774732140F51900836B83 /* LicenceSearchParametersTests.swift */,
+				96B7747A2140F51900836B83 /* PersonParserDefinitionsTests.swift */,
+				96B774782140F51900836B83 /* PersonSearchParametersTests.swift */,
+				96B774752140F51900836B83 /* RegistrationParserDefinitionsTests.swift */,
+				96B774762140F51900836B83 /* VehicleSearchParametersTests.swift */,
+				96B774722140F51900836B83 /* VINParserDefinitionsTests.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		96B774842140F57F00836B83 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
+				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
+				96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */,
+				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
+				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
+				EAE9F6C421365D32004D9DE8 /* Demo */,
+				96B774EE2140F8EE00836B83 /* Model */,
+				96BE10E92080406E005D4BAA /* Notifications */,
+				EAAFAD511F665B8A00AA2F94 /* Presenters */,
+				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
+				96B7758B2141E66200836B83 /* UI */,
+				96B7758D2141E9BF00836B83 /* User Preferences */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		96B7748D2140F8EE00836B83 /* Manifest */ = {
+			isa = PBXGroup;
+			children = (
+				96B7748F2140F8EE00836B83 /* ApiManager+Manifest.swift */,
+				96B7748E2140F8EE00836B83 /* ManifestCollection+Search.swift */,
+			);
+			path = Manifest;
+			sourceTree = "<group>";
+		};
+		96B774922140F8EE00836B83 /* Entity Details */ = {
+			isa = PBXGroup;
+			children = (
+				96B7749B2140F8EE00836B83 /* AlertSummary */,
+				96B774B42140F8EE00836B83 /* Base Classes */,
+				96B774B82140F8EE00836B83 /* CriminalHistorySummary */,
+				96B774C62140F8EE00836B83 /* Entity Summary */,
+				96B774972140F8EE00836B83 /* Event Summary */,
+				96B774A52140F8EE00836B83 /* Location */,
+				96B774B12140F8EE00836B83 /* OrderSummary */,
+				96B774932140F8EE00836B83 /* Organization */,
+				96B7749E2140F8EE00836B83 /* Person */,
+				96B774A92140F8EE00836B83 /* Section Data Sources */,
+				96B774952140F8EE00836B83 /* Vehicle */,
+				96B774C42140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift */,
+				96B774AF2140F8EE00836B83 /* EntityAlertsViewModel.swift */,
+				96B7749A2140F8EE00836B83 /* EntityAssociationsViewModel.swift */,
+				96B774A82140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift */,
+				96B774C52140F8EE00836B83 /* EntityThumbnailView+Configuration.swift */,
+				96B774AE2140F8EE00836B83 /* PersonTrafficHistoryViewController.swift */,
+			);
+			path = "Entity Details";
+			sourceTree = "<group>";
+		};
+		96B774932140F8EE00836B83 /* Organization */ = {
+			isa = PBXGroup;
+			children = (
+				96B774942140F8EE00836B83 /* OrganisationInfoViewModel.swift */,
+			);
+			path = Organization;
+			sourceTree = "<group>";
+		};
+		96B774952140F8EE00836B83 /* Vehicle */ = {
+			isa = PBXGroup;
+			children = (
+				96B774962140F8EE00836B83 /* VehicleInfoViewModel.swift */,
+			);
+			path = Vehicle;
+			sourceTree = "<group>";
+		};
+		96B774972140F8EE00836B83 /* Event Summary */ = {
+			isa = PBXGroup;
+			children = (
+				96B774992140F8EE00836B83 /* RetrievedEventSummaryViewController.swift */,
+				96B774982140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift */,
+			);
+			path = "Event Summary";
+			sourceTree = "<group>";
+		};
+		96B7749B2140F8EE00836B83 /* AlertSummary */ = {
+			isa = PBXGroup;
+			children = (
+				96B7749D2140F8EE00836B83 /* AlertSummaryViewController.swift */,
+				96B7749C2140F8EE00836B83 /* AlertSummaryViewModel.swift */,
+			);
+			path = AlertSummary;
+			sourceTree = "<group>";
+		};
+		96B7749E2140F8EE00836B83 /* Person */ = {
+			isa = PBXGroup;
+			children = (
+				96B7749F2140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift */,
+				96B774A22140F8EE00836B83 /* PersonDescriptionsViewController.swift */,
+				96B774A42140F8EE00836B83 /* PersonDescriptionViewModel.swift */,
+				96B774A02140F8EE00836B83 /* PersonInfoViewModel.swift */,
+				96B774A12140F8EE00836B83 /* PersonOrdersViewModel.swift */,
+				96B774A32140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift */,
+			);
+			path = Person;
+			sourceTree = "<group>";
+		};
+		96B774A52140F8EE00836B83 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				96B774A62140F8EE00836B83 /* EntityLocationInformationViewController.swift */,
+				96B774A72140F8EE00836B83 /* LocationInfoViewModel.swift */,
+				3792073521521FBE0071F119 /* AddressFormItemFactory.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		96B774A92140F8EE00836B83 /* Section Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+				96B774AC2140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift */,
+				96B774AA2140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift */,
+				96B774AD2140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift */,
+				96B774AB2140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift */,
+			);
+			path = "Section Data Sources";
+			sourceTree = "<group>";
+		};
+		96B774B12140F8EE00836B83 /* OrderSummary */ = {
+			isa = PBXGroup;
+			children = (
+				96B774B22140F8EE00836B83 /* OrderSummaryViewController.swift */,
+				96B774B32140F8EE00836B83 /* OrderSummaryViewModel.swift */,
+			);
+			path = OrderSummary;
+			sourceTree = "<group>";
+		};
+		96B774B42140F8EE00836B83 /* Base Classes */ = {
+			isa = PBXGroup;
+			children = (
+				96B774B62140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift */,
+				96B774B72140F8EE00836B83 /* EntityDetailFormViewController.swift */,
+				96B774B52140F8EE00836B83 /* EntityDetailFormViewModel.swift */,
+			);
+			path = "Base Classes";
+			sourceTree = "<group>";
+		};
+		96B774B82140F8EE00836B83 /* CriminalHistorySummary */ = {
+			isa = PBXGroup;
+			children = (
+				96B774B92140F8EE00836B83 /* CriminalHistorySummaryViewController.swift */,
+				96B774BA2140F8EE00836B83 /* CriminalHistorySummaryViewModel.swift */,
+			);
+			path = CriminalHistorySummary;
+			sourceTree = "<group>";
+		};
+		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
+			isa = PBXGroup;
+			children = (
+				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
+				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
+			);
+			path = "Entity Creation";
+			sourceTree = "<group>";
+		};
+		96B774C62140F8EE00836B83 /* Entity Summary */ = {
+			isa = PBXGroup;
+			children = (
+				96B774CB2140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift */,
+				96B774CD2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift */,
+				96B774C72140F8EE00836B83 /* OfficerSearchDisplayable.swift */,
+				96B774CC2140F8EE00836B83 /* OfficerSummaryDisplayable.swift */,
+				96B774C92140F8EE00836B83 /* Organisation+EntitySummaryDisplayable.swift */,
+				96B774C82140F8EE00836B83 /* Person+EntitySummaryDisplayable.swift */,
+				96B774CA2140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift */,
+			);
+			path = "Entity Summary";
+			sourceTree = "<group>";
+		};
+		96B774CF2140F8EE00836B83 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AA5D5453214794EF00162017 /* AddressOptionHandler.swift */,
+				96B774D22140F8EE00836B83 /* AddressFormatter.swift */,
+				96B774D32140F8EE00836B83 /* DateSorting.swift */,
+				96B774D42140F8EE00836B83 /* EntityImageSizing.swift */,
+				96B774D02140F8EE00836B83 /* PersonImageSizing.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		96B774D62140F8EE00836B83 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				96B774DB2140F8EE00836B83 /* EventSubmissionRequest.swift */,
+				96B774DA2140F8EE00836B83 /* LocationFetchRequest.swift */,
+				96B774D82140F8EE00836B83 /* LocationMapSearchRequest.swift */,
+				96B774D92140F8EE00836B83 /* OfficerSearchRequest.swift */,
+				96B774D72140F8EE00836B83 /* OrganisationFetchRequest.swift */,
+				96B774DE2140F8EE00836B83 /* PersonFetchRequest.swift */,
+				96B774DD2140F8EE00836B83 /* PersonSearchRequest.swift */,
+				96B774DF2140F8EE00836B83 /* VehicleFetchRequest.swift */,
+				96B774DC2140F8EE00836B83 /* VehicleSearchRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		96B774E02140F8EE00836B83 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				96B774E62140F8EE00836B83 /* LicenceSearchParameters.swift */,
+				96B774E32140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift */,
+				96B774E12140F8EE00836B83 /* OfficerSearchParameters.swift */,
+				96B774E52140F8EE00836B83 /* OrganisationSearchParameters.swift */,
+				96B7748B2140F8EE00836B83 /* PersonFetchParameter.swift */,
+				96B774E42140F8EE00836B83 /* PersonSearchParameters.swift */,
+				96B7748C2140F8EE00836B83 /* VehicleFetchParameter.swift */,
+				96B774E22140F8EE00836B83 /* VehicleSearchParameters.swift */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
+		96B774E72140F8EE00836B83 /* RetrievalStrategies */ = {
+			isa = PBXGroup;
+			children = (
+				96B774EB2140F8EE00836B83 /* LocationRetrieveStrategy.swift */,
+				96B774EA2140F8EE00836B83 /* OrganisationRetrieveStrategy.swift */,
+				96B774E92140F8EE00836B83 /* PersonRetrieveStrategy.swift */,
+				96B774E82140F8EE00836B83 /* VehicleRetrieveStrategy.swift */,
+			);
+			path = RetrievalStrategies;
+			sourceTree = "<group>";
+		};
+		96B774EE2140F8EE00836B83 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				96B7748D2140F8EE00836B83 /* Manifest */,
+				96B7758E2141EA9900836B83 /* Objects */,
+				96B774E02140F8EE00836B83 /* Parameters */,
+				96B77592214206F100836B83 /* Parsing */,
+				96B774D62140F8EE00836B83 /* Requests */,
+				96B7758F2141EAB400836B83 /* Responses */,
+				96B774E72140F8EE00836B83 /* RetrievalStrategies */,
+				96B7748A2140F8EE00836B83 /* DefaultFilterRules.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		96B775142140F8EE00836B83 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				96B775152140F8EE00836B83 /* LoginCredentials.swift */,
+				96B775162140F8EE00836B83 /* LoginStyleSetup.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		96B7758B2141E66200836B83 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2004A74921645C0100B17C59 /* Location Selection */,
+				207A0FFD21632FD400153AC3 /* Theme */,
+				96B774BB2140F8EE00836B83 /* Entity Creation */,
+				96B774922140F8EE00836B83 /* Entity Details */,
+				12EB8099202AAC0000405F5C /* Events */,
+				12EF65C12086D52200739924 /* Incidents */,
+				96B775142140F8EE00836B83 /* Login */,
+				96B7758C2141E75200836B83 /* Search */,
+				AA3E51452118153E00621E58 /* Settings */,
+				96B774CF2140F8EE00836B83 /* Utilities */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		96B7758C2141E75200836B83 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */,
+				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
+				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
+				37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */,
+				AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */,
+				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
+				37F1B3B020CF9694007F263B /* SearchNoContentView.swift */,
+				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		96B7758D2141E9BF00836B83 /* User Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				96B774C12140F8EE00836B83 /* User+VersionAccessors.swift */,
+				96B774C22140F8EE00836B83 /* UserPreferenceManager+Shared.swift */,
+			);
+			path = "User Preferences";
+			sourceTree = "<group>";
+		};
+		96B7758E2141EA9900836B83 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				96B774F32140F8EE00836B83 /* Address.swift */,
+				96B774F02140F8EE00836B83 /* Alert.swift */,
+				96B774F92140F8EE00836B83 /* Alias.swift */,
+				96B774F22140F8EE00836B83 /* AssociationReason.swift */,
+				96B775132140F8EE00836B83 /* Contact.swift */,
+				96B774F12140F8EE00836B83 /* CriminalHistory.swift */,
+				96B774FC2140F8EE00836B83 /* Email.swift */,
+				96B774F52140F8EE00836B83 /* Entity.swift */,
+				96B774FF2140F8EE00836B83 /* Identifiable.swift */,
+				96B775122140F8EE00836B83 /* Licence.swift */,
+				96B774FD2140F8EE00836B83 /* Media.swift */,
+				96B775102140F8EE00836B83 /* MPOLSource.swift */,
+				96B774F42140F8EE00836B83 /* Officer.swift */,
+				96B774F82140F8EE00836B83 /* Order.swift */,
+				96B775112140F8EE00836B83 /* Organisation.swift */,
+				96B774F72140F8EE00836B83 /* Person.swift */,
+				96B775012140F8EE00836B83 /* PersonDescription.swift */,
+				96B774EF2140F8EE00836B83 /* PhoneNumber.swift */,
+				96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */,
+				96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */,
+				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
+				96B774F62140F8EE00836B83 /* Vehicle.swift */,
+				AA359C442165ED940035A472 /* PersonAlias.swift */,
+				AA359C462165F08B0035A472 /* OrganisationAlias.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		96B7758F2141EAB400836B83 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				96B775002140F8EE00836B83 /* EventSubmissionResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		96B77592214206F100836B83 /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */,
+				96B7759F214206F100836B83 /* ABNParserDefinition.swift */,
+				96B7759B214206F100836B83 /* ACNParserDefinition.swift */,
+				96B7759E214206F100836B83 /* EngineNumberParserDefinition.swift */,
+				96B77593214206F100836B83 /* FixedLengthNumberParserDefinition.swift */,
+				96B77599214206F100836B83 /* LicenceParserDefinition.swift */,
+				96B77595214206F100836B83 /* LicenceWildcardParserDefinition.swift */,
+				96B7759C214206F100836B83 /* OrganisationParserDefinition.swift */,
+				96B7759D214206F100836B83 /* PersonParserDefinition.swift */,
+				96B77598214206F100836B83 /* PersonSearchDateParser.swift */,
+				96B7759A214206F100836B83 /* RangeParserDefinition.swift */,
+				96B77594214206F100836B83 /* RegistrationParserDefinition.swift */,
+				96B77596214206F100836B83 /* VINParserDefinition.swift */,
+				96B77597214206F100836B83 /* WildcardParserDefinition.swift */,
+			);
+			path = Parsing;
 			sourceTree = "<group>";
 		};
 		96BE10E92080406E005D4BAA /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */,
 				96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */,
+				96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -594,9 +1248,9 @@
 		AA1C0B0920BF993D009862FD /* AdditionalActions */ = {
 			isa = PBXGroup;
 			children = (
-				AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */,
-				AA1C0B0B20BF9955009862FD /* VehicleTow */,
 				AA1C0B0A20BF994C009862FD /* PersonSearch */,
+				AA1C0B0B20BF9955009862FD /* VehicleTow */,
+				AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */,
 			);
 			path = AdditionalActions;
 			sourceTree = "<group>";
@@ -624,7 +1278,11 @@
 		AA3E51452118153E00621E58 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				96B774872140F8EE00836B83 /* ManifestSetting.swift */,
+				96B774882140F8EE00836B83 /* SupportSetting.swift */,
+				AA3E513821180E1A00621E58 /* TermsAndConditions.swift */,
 				AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */,
+				AA3E513A21180E6200621E58 /* WhatsNew.swift */,
 				AA3E5148211815F300621E58 /* WhatsNewSetting.swift */,
 			);
 			path = Settings;
@@ -643,22 +1301,23 @@
 		BCD4EA801E515ACE000B993D = {
 			isa = PBXGroup;
 			children = (
-				BCD4EA8B1E515ACE000B993D /* MPOL */,
 				96728C1F20D0B25600B82A53 /* APNS Extension */,
-				BCD4EA8A1E515ACE000B993D /* Products */,
-				81566B659C78AD148E9B8520 /* Frameworks */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
-				3C534FA68E46E1F1622CC13C /* Pods */,
 				1900374421081DC80030B15C /* DemoPrepopulate */,
-				96BE10E820803F4B005D4BAA /* Recovered References */,
+				81566B659C78AD148E9B8520 /* Frameworks */,
+				BCD4EA8B1E515ACE000B993D /* MPOL */,
+				96B774642140F4C500836B83 /* MPOLTests */,
+				3C534FA68E46E1F1622CC13C /* Pods */,
+				BCD4EA8A1E515ACE000B993D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
 		BCD4EA8A1E515ACE000B993D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BCD4EA891E515ACE000B993D /* PS Core.app */,
 				96728C1E20D0B25600B82A53 /* APNS Extension.appex */,
+				96B774632140F4C400836B83 /* MPOLTests.xctest */,
+				BCD4EA891E515ACE000B993D /* PS Core.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -666,26 +1325,10 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
-				EAE9F6B821365AB8004D9DE8 /* Task */,
-				AA3E51452118153E00621E58 /* Settings */,
-				37F1B3AF20CF9676007F263B /* Search */,
-				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
-				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
-				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
-				19003746210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift */,
-				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
-				12EB8099202AAC0000405F5C /* Events */,
-				12EF65C12086D52200739924 /* Incidents */,
-				BCD4EA981E515ACE000B993D /* Info.plist */,
-				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
-				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
-				1987C2AB20846766007F7273 /* Localizable.strings */,
-				397B76FF1E52C23600696677 /* MPOL.entitlements */,
-				96BE10E92080406E005D4BAA /* Notifications */,
-				EAAFAD511F665B8A00AA2F94 /* Presenters */,
+				96B774842140F57F00836B83 /* Classes */,
 				EA3C89041F32E31500F38461 /* Resources */,
-				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
-				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
+				BCD4EA981E515ACE000B993D /* Info.plist */,
+				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 			);
 			path = MPOL;
 			sourceTree = "<group>";
@@ -714,11 +1357,16 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AA1E7BB72119145B0086AA70 /* termsandconditions.html */,
-				1988306B20BB77B5006FE165 /* Settings.bundle */,
-				445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */,
+				207A0FFC21632F7900153AC3 /* HTML */,
+				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
+				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
+				1987C2AB20846766007F7273 /* Localizable.strings */,
+				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
 				445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */,
 				445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */,
+				445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */,
+				1988306B20BB77B5006FE165 /* Settings.bundle */,
+				AA1E7BB72119145B0086AA70 /* termsandconditions.html */,
 				445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */,
 			);
 			path = Resources;
@@ -727,39 +1375,26 @@
 		EAAFAD511F665B8A00AA2F94 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
-				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
+				96B774BF2140F8EE00836B83 /* AppGroupLandingPresenter.swift */,
+				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
+				20C97904215C93610067977B /* CreateTaskPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
 				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
+				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
+				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
+				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
+				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
 			);
 			path = Presenters;
-			sourceTree = "<group>";
-		};
-		EAE9F6B821365AB8004D9DE8 /* Task */ = {
-			isa = PBXGroup;
-			children = (
-				EAE9F6C421365D32004D9DE8 /* Demo */,
-				EAE9F6B921365AB8004D9DE8 /* Presenter */,
-			);
-			path = Task;
-			sourceTree = "<group>";
-		};
-		EAE9F6B921365AB8004D9DE8 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
-				EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */,
-				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
-			);
-			path = Presenter;
 			sourceTree = "<group>";
 		};
 		EAE9F6C421365D32004D9DE8 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				EAE9F6C521365D32004D9DE8 /* DemoSync.json */,
-				EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */,
 				EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */,
 				EAE9F6C821365D32004D9DE8 /* DemoManifest.json */,
+				EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */,
+				EAE9F6C521365D32004D9DE8 /* DemoSync.json */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -785,6 +1420,25 @@
 			productReference = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		96B774622140F4C400836B83 /* MPOLTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96B7746A2140F4C500836B83 /* Build configuration list for PBXNativeTarget "MPOLTests" */;
+			buildPhases = (
+				6A98BC1170BFFDF8C7F61C36 /* [CP] Check Pods Manifest.lock */,
+				96B7745F2140F4C400836B83 /* Sources */,
+				96B774602140F4C400836B83 /* Frameworks */,
+				96B774612140F4C400836B83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				96B774692140F4C500836B83 /* PBXTargetDependency */,
+			);
+			name = MPOLTests;
+			productName = MPOLTests;
+			productReference = 96B774632140F4C400836B83 /* MPOLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BCD4EA881E515ACE000B993D /* MPOL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCD4EA9B1E515ACE000B993D /* Build configuration list for PBXNativeTarget "MPOL" */;
@@ -793,7 +1447,6 @@
 				BCD4EA851E515ACE000B993D /* Sources */,
 				BCD4EA861E515ACE000B993D /* Frameworks */,
 				BCD4EA871E515ACE000B993D /* Resources */,
-				BCEEA5631F03205800C884A4 /* Embed Frameworks */,
 				DB3E2AE81F568C8D00E35300 /* ShellScript */,
 				D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */,
 				3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */,
@@ -816,7 +1469,7 @@
 		BCD4EA811E515ACE000B993D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Gridstone;
 				TargetAttributes = {
@@ -829,6 +1482,12 @@
 								enabled = 1;
 							};
 						};
+					};
+					96B774622140F4C400836B83 = {
+						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = QJQ4TBYRPA;
+						ProvisioningStyle = Automatic;
+						TestTargetID = BCD4EA881E515ACE000B993D;
 					};
 					BCD4EA881E515ACE000B993D = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -870,6 +1529,7 @@
 			targets = (
 				BCD4EA881E515ACE000B993D /* MPOL */,
 				96728C1D20D0B25600B82A53 /* APNS Extension */,
+				96B774622140F4C400836B83 /* MPOLTests */,
 			);
 		};
 /* End PBXProject section */
@@ -882,24 +1542,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96B774612140F4C400836B83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCD4EA871E515ACE000B993D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
+				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
+				208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */,
+				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
+				207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */,
+				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
+				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
+				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
+				207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */,
+				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
+				207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */,
+				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
+				BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */,
+				445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */,
+				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
 				1988307020BB82FE006FE165 /* Settings.bundle in Resources */,
-				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
-				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
-				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
-				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
-				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
-				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
-				445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */,
-				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
+				208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */,
 				AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */,
-				BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */,
+				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -934,6 +1607,24 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6A98BC1170BFFDF8C7F61C36 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MPOLTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8B71FE9FF7FFCA71C69316A1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -964,6 +1655,7 @@
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DemoAppKit/DemoAppKit.framework",
+				"${BUILT_PRODUCTS_DIR}/HyperioniOS/HyperioniOS.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PatternKit/PatternKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
@@ -972,7 +1664,6 @@
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
-				"${BUILT_PRODUCTS_DIR}/HyperioniOS/HyperioniOS.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKitAppExtension/CoreKitAppExtension.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -982,6 +1673,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DemoAppKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyperioniOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PatternKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
@@ -990,7 +1682,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyperioniOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKitAppExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1036,8 +1727,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96728C3020D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
 				96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */,
+				96728C3020D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96B7745F2140F4C400836B83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96B774802140F51900836B83 /* EngineNumberParserDefinitionsTests.swift in Sources */,
+				96B774822140F51900836B83 /* LicenceParserDefinitionsTests.swift in Sources */,
+				96B7747C2140F51900836B83 /* LicenceSearchParametersTests.swift in Sources */,
+				96B774832140F51900836B83 /* PersonParserDefinitionsTests.swift in Sources */,
+				96B774812140F51900836B83 /* PersonSearchParametersTests.swift in Sources */,
+				96B7747E2140F51900836B83 /* RegistrationParserDefinitionsTests.swift in Sources */,
+				96B7747F2140F51900836B83 /* VehicleSearchParametersTests.swift in Sources */,
+				96B7747B2140F51900836B83 /* VINParserDefinitionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,103 +1751,226 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */,
-				37235FB120AE738E0021850B /* DomesticViolencePropertyViewModel.swift in Sources */,
-				3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */,
-				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
-				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
-				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
-				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
-				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
-				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
-				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
-				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
-				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
-				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
-				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
+				96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */,
+				96B775662140F8EE00836B83 /* Address.swift in Sources */,
+				AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */,
+				96B7754C2140F8EE00836B83 /* AddressFormatter.swift in Sources */,
+				96B775632140F8EE00836B83 /* Alert.swift in Sources */,
+				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
+				96B775262140F8EE00836B83 /* AlertSummaryViewController.swift in Sources */,
+				96B775252140F8EE00836B83 /* AlertSummaryViewModel.swift in Sources */,
+				96B7756C2140F8EE00836B83 /* Alias.swift in Sources */,
+				96B7751E2140F8EE00836B83 /* ApiManager+Manifest.swift in Sources */,
+				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
+				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
+				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
+				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
+				96B7753F2140F8EE00836B83 /* AppGroupLandingPresenter.swift in Sources */,
+				96B7754A2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift in Sources */,
+				96B775652140F8EE00836B83 /* AssociationReason.swift in Sources */,
+				EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */,
+				37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */,
+				96B775852140F8EE00836B83 /* Contact.swift in Sources */,
+				96B775642140F8EE00836B83 /* CriminalHistory.swift in Sources */,
+				96B7753B2140F8EE00836B83 /* CriminalHistorySummaryViewController.swift in Sources */,
+				96B7753C2140F8EE00836B83 /* CriminalHistorySummaryViewModel.swift in Sources */,
+				96B7754D2140F8EE00836B83 /* DateSorting.swift in Sources */,
+				AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */,
 				379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
-				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
+				AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */,
+				AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */,
+				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
+				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
+				96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */,
+				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
+				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
+				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
+				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
+				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
+				37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */,
+				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
+				37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */,
+				37235FAF20AE738E0021850B /* DomesticViolencePropertyReport.swift in Sources */,
+				37235FB220AE738E0021850B /* DomesticViolencePropertyViewController.swift in Sources */,
+				37235FB120AE738E0021850B /* DomesticViolencePropertyViewModel.swift in Sources */,
+				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
+				96B7756F2140F8EE00836B83 /* Email.swift in Sources */,
+				96B775A7214206F100836B83 /* LicenceParserDefinition.swift in Sources */,
+				96B775422140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift in Sources */,
+				96B775682140F8EE00836B83 /* Entity.swift in Sources */,
+				96B775352140F8EE00836B83 /* EntityAlertsViewModel.swift in Sources */,
+				96B775242140F8EE00836B83 /* EntityAssociationsViewModel.swift in Sources */,
+				3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */,
+				AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */,
+				96B775392140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift in Sources */,
+				2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */,
+				96B7753A2140F8EE00836B83 /* EntityDetailFormViewController.swift in Sources */,
+				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
+				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
+				96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */,
+				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
+				96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */,
+				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
+				AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */,
+				96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */,
+				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
+				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
+				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
+				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
+				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
+				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
 				12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */,
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
-				37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */,
-				AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */,
-				AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */,
-				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
-				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
-				37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */,
-				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
-				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
-				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
-				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
-				AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */,
-				371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */,
-				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
-				AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */,
-				AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */,
-				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
-				AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */,
-				37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */,
-				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
-				12EF65DC2086D52200739924 /* TrafficInfringementOffencesViewController.swift in Sources */,
-				AA1C0B1020BF9981009862FD /* PersonSearchReportViewModel.swift in Sources */,
-				AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */,
-				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
-				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
-				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
-				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
-				AA1C0B1120BF9981009862FD /* PersonSearchReportViewController.swift in Sources */,
-				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
-				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
-				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
-				AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */,
-				AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */,
-				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
-				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
-				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
-				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
-				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
-				371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */,
-				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
-				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
-				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
-				371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */,
-				12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */,
-				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
-				12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */,
-				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
-				EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */,
-				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
-				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
-				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
-				37235FB220AE738E0021850B /* DomesticViolencePropertyViewController.swift in Sources */,
-				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
-				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
-				12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */,
-				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
-				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
-				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
-				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
-				12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */,
-				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
-				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
-				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
-				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
-				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
-				AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */,
-				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
-				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
-				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
-				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
-				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
-				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
-				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
-				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
-				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
-				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
-				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
+				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
-				37235FAF20AE738E0021850B /* DomesticViolencePropertyReport.swift in Sources */,
+				96B775AB214206F100836B83 /* PersonParserDefinition.swift in Sources */,
+				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
+				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
+				96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */,
+				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
+				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
+				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
+				2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */,
+				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
+				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
+				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
+				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
+				96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */,
+				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
+				96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */,
+				96B775732140F8EE00836B83 /* EventSubmissionResponse.swift in Sources */,
+				96B775722140F8EE00836B83 /* Identifiable.swift in Sources */,
+				3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */,
+				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
+				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
+				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
+				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
+				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
+				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
+				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
+				371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */,
+				371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */,
+				371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */,
+				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
+				12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */,
+				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
+				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
+				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
+				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
+				96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */,
+				96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */,
+				96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */,
+				96B7755A2140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift in Sources */,
+				96B775502140F8EE00836B83 /* LocationMapSearchRequest.swift in Sources */,
+				96B775A4214206F100836B83 /* VINParserDefinition.swift in Sources */,
+				96B775612140F8EE00836B83 /* LocationRetrieveStrategy.swift in Sources */,
+				96B775862140F8EE00836B83 /* LoginCredentials.swift in Sources */,
+				96B775872140F8EE00836B83 /* LoginStyleSetup.swift in Sources */,
+				96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */,
+				96B7751D2140F8EE00836B83 /* ManifestCollection+Search.swift in Sources */,
+				96B775182140F8EE00836B83 /* ManifestSetting.swift in Sources */,
+				96B775702140F8EE00836B83 /* Media.swift in Sources */,
+				96B775822140F8EE00836B83 /* MPOLSource.swift in Sources */,
+				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
+				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
+				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
+				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
+				96B775672140F8EE00836B83 /* Officer.swift in Sources */,
+				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
+				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
+				12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */,
+				96B775442140F8EE00836B83 /* OfficerSearchDisplayable.swift in Sources */,
+				96B775582140F8EE00836B83 /* OfficerSearchParameters.swift in Sources */,
+				96B775512140F8EE00836B83 /* OfficerSearchRequest.swift in Sources */,
+				12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */,
+				AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */,
+				96B775492140F8EE00836B83 /* OfficerSummaryDisplayable.swift in Sources */,
+				96B7756B2140F8EE00836B83 /* Order.swift in Sources */,
+				96B775362140F8EE00836B83 /* OrderSummaryViewController.swift in Sources */,
+				96B775372140F8EE00836B83 /* OrderSummaryViewModel.swift in Sources */,
+				96B775462140F8EE00836B83 /* Organisation+EntitySummaryDisplayable.swift in Sources */,
+				96B775832140F8EE00836B83 /* Organisation.swift in Sources */,
+				96B775302140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift in Sources */,
+				96B7754F2140F8EE00836B83 /* OrganisationFetchRequest.swift in Sources */,
+				96B775202140F8EE00836B83 /* OrganisationInfoViewModel.swift in Sources */,
+				96B775602140F8EE00836B83 /* OrganisationRetrieveStrategy.swift in Sources */,
+				AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */,
+				96B7755C2140F8EE00836B83 /* OrganisationSearchParameters.swift in Sources */,
+				96B775452140F8EE00836B83 /* Person+EntitySummaryDisplayable.swift in Sources */,
+				96B7756A2140F8EE00836B83 /* Person.swift in Sources */,
+				96B775272140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift in Sources */,
+				96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */,
+				96B775742140F8EE00836B83 /* PersonDescription.swift in Sources */,
+				96B7752A2140F8EE00836B83 /* PersonDescriptionsViewController.swift in Sources */,
+				96B775A3214206F100836B83 /* LicenceWildcardParserDefinition.swift in Sources */,
+				96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */,
+				96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */,
+				96B7753E2140F8EE00836B83 /* PersonEditViewController.swift in Sources */,
+				96B7751B2140F8EE00836B83 /* PersonFetchParameter.swift in Sources */,
+				96B775562140F8EE00836B83 /* PersonFetchRequest.swift in Sources */,
+				96B7754B2140F8EE00836B83 /* PersonImageSizing.swift in Sources */,
+				96B775282140F8EE00836B83 /* PersonInfoViewModel.swift in Sources */,
+				96B775292140F8EE00836B83 /* PersonOrdersViewModel.swift in Sources */,
+				96B7755F2140F8EE00836B83 /* PersonRetrieveStrategy.swift in Sources */,
+				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
+				96B7755B2140F8EE00836B83 /* PersonSearchParameters.swift in Sources */,
+				AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */,
+				AA1C0B1120BF9981009862FD /* PersonSearchReportViewController.swift in Sources */,
+				AA1C0B1020BF9981009862FD /* PersonSearchReportViewModel.swift in Sources */,
+				96B775552140F8EE00836B83 /* PersonSearchRequest.swift in Sources */,
+				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
+				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
+				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
+				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,
+				96B775622140F8EE00836B83 /* PhoneNumber.swift in Sources */,
+				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
+				96B7756D2140F8EE00836B83 /* RetrievedEvent.swift in Sources */,
+				96B775232140F8EE00836B83 /* RetrievedEventSummaryViewController.swift in Sources */,
+				96B775A5214206F100836B83 /* WildcardParserDefinition.swift in Sources */,
+				96B775222140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift in Sources */,
+				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
+				96B775AA214206F100836B83 /* OrganisationParserDefinition.swift in Sources */,
+				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
+				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
+				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
+				96B775192140F8EE00836B83 /* SupportSetting.swift in Sources */,
+				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
+				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
+				96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */,
+				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
+				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
+				207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */,
+				96B7756E2140F8EE00836B83 /* TrafficHistory.swift in Sources */,
+				12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */,
+				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
+				12EF65DC2086D52200739924 /* TrafficInfringementOffencesViewController.swift in Sources */,
+				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
+				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
+				AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */,
+				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
+				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
+				96B775402140F8EE00836B83 /* User+VersionAccessors.swift in Sources */,
+				96B775412140F8EE00836B83 /* UserPreferenceManager+Shared.swift in Sources */,
+				96B775472140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
+				96B775692140F8EE00836B83 /* Vehicle.swift in Sources */,
+				96B775312140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift in Sources */,
+				96B7753D2140F8EE00836B83 /* VehicleEditViewController.swift in Sources */,
+				96B7751C2140F8EE00836B83 /* VehicleFetchParameter.swift in Sources */,
+				96B775572140F8EE00836B83 /* VehicleFetchRequest.swift in Sources */,
+				96B775A9214206F100836B83 /* ACNParserDefinition.swift in Sources */,
+				96B775212140F8EE00836B83 /* VehicleInfoViewModel.swift in Sources */,
+				96B7755E2140F8EE00836B83 /* VehicleRetrieveStrategy.swift in Sources */,
+				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
+				96B775592140F8EE00836B83 /* VehicleSearchParameters.swift in Sources */,
+				96B775542140F8EE00836B83 /* VehicleSearchRequest.swift in Sources */,
+				96B775A8214206F100836B83 /* RangeParserDefinition.swift in Sources */,
 				AA1C0B1520BF9993009862FD /* VehicleTowReport.swift in Sources */,
+				AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */,
+				AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */,
+				AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */,
+				AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */,
+				20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */,
+				96B775AC214206F100836B83 /* EngineNumberParserDefinition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1152,6 +1981,11 @@
 			isa = PBXTargetDependency;
 			target = 96728C1D20D0B25600B82A53 /* APNS Extension */;
 			targetProxy = 96728C2320D0B25600B82A53 /* PBXContainerItemProxy */;
+		};
+		96B774692140F4C500836B83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCD4EA881E515ACE000B993D /* MPOL */;
+			targetProxy = 96B774682140F4C500836B83 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1636,6 +2470,150 @@
 			};
 			name = "External-Release";
 		};
+		96B7746B2140F4C500836B83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D68E7FFE7D0E20AE4F1CBA3 /* Pods-MPOLTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MPOLTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.MPOLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PS Core.app/PS Core";
+			};
+			name = Debug;
+		};
+		96B7746C2140F4C500836B83 /* External-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MPOLTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.MPOLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PS Core.app/PS Core";
+			};
+			name = "External-Debug";
+		};
+		96B7746D2140F4C500836B83 /* Internal-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MPOLTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.MPOLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PS Core.app/PS Core";
+			};
+			name = "Internal-Debug";
+		};
+		96B7746E2140F4C500836B83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C037EFC149C8674B1B167030 /* Pods-MPOLTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MPOLTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.MPOLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PS Core.app/PS Core";
+			};
+			name = Release;
+		};
+		96B7746F2140F4C500836B83 /* Internal-Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MPOLTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.MPOLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PS Core.app/PS Core";
+			};
+			name = "Internal-Release";
+		};
+		96B774702140F4C500836B83 /* External-Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MPOLTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridstone.MPOLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PS Core.app/PS Core";
+			};
+			name = "External-Release";
+		};
 		BCD4EA991E515ACE000B993D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */;
@@ -1810,6 +2788,19 @@
 				96728C2920D0B25600B82A53 /* Release */,
 				96728C2A20D0B25600B82A53 /* Internal-Release */,
 				96728C2B20D0B25600B82A53 /* External-Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96B7746A2140F4C500836B83 /* Build configuration list for PBXNativeTarget "MPOLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96B7746B2140F4C500836B83 /* Debug */,
+				96B7746C2140F4C500836B83 /* External-Debug */,
+				96B7746D2140F4C500836B83 /* Internal-Debug */,
+				96B7746E2140F4C500836B83 /* Release */,
+				96B7746F2140F4C500836B83 /* Internal-Release */,
+				96B774702140F4C500836B83 /* External-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

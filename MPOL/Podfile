@@ -7,14 +7,13 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 workspace 'MPOL'
 project 'MPOL.xcodeproj', 'External-Debug' => :debug, 'Internal-Debug' => :debug
-project '../ClientKit/ClientKit.xcodeproj'
 
 def all_kits
     pod 'CoreKit',         :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'SketchKit',       :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'PatternKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'PublicSafetyKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
-    pod 'DemoAppKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'DemoAppKit',      :path => '..', :inhibit_warnings => false
 end
 
 def core_app_extension
@@ -22,20 +21,16 @@ def core_app_extension
     pod 'CoreKitAppExtension', :path => '../../mPolKit-iOS'
 end
 
-target 'ClientKit' do
-    project '../ClientKit/ClientKit.xcodeproj'
-    all_kits
-    
-    target 'ClientKitTests' do
-        inherit! :search_paths
-    end
-end
-
 target 'MPOL' do
     project 'MPOL.xcodeproj'
     all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
+    
+    target 'MPOLTests' do
+      inherit! :search_paths
+      # Pods for testing
+    end    
 end
 
 target 'APNS Extension' do
