@@ -113,36 +113,14 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
         let trans = VehicleRegistrationResultTransformer()
 
-        var rightNow = false
-
         viewController.didEndRecognisingSpeechWithFinalResult(result)
         viewController.dismiss(animated: false)
 
-        // Change to immediate search for now, to be defined later.
-        rightNow = true
-        /*
-        if let currentRecognition = result {
-            let words = currentRecognition.components(separatedBy: " ")
-            if let lastWord = words.last {
-                if lastWord.localizedCaseInsensitiveCompare("search") == .orderedSame {
-                    text = words.dropLast().joined(separator: " ")
-                    rightNow = true
-                }
-            }
-        }
-
-        */
-
-
         let text = trans.transform(result)
 
-
         let searchable = Searchable(text: text, type: "Vehicle")
-        if rightNow {
-            searchable.options = [100: "OK"]
-        }
 
-        let activity = SearchActivity.searchEntity(term: searchable)
+        let activity = SearchActivity.searchEntity(term: searchable, shouldSearchImmediately: true)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         try? appDelegate.searchLauncher.launch(activity, using: appDelegate.navigator)
     }

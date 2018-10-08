@@ -344,11 +344,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // the handling is successfully completed or not.
         switch shortcutItem.type {
         case SupportedShortcut.searchPerson.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"))
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"), shouldSearchImmediately: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.searchVehicle.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"))
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"), shouldSearchImmediately: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.launchTasks.type:
@@ -371,9 +371,9 @@ extension AppDelegate: SearchActivityHandlerDelegate {
 
         // FIXME: Probably need something that knows how to coordinate all of these `from` and `to` businesses.
         switch launchedSearchActivity {
-        case .searchEntity(let term):
+        case .searchEntity(let term, let shouldSearchImmediately):
             landingPresenter.switchTo(.search)
-            landingPresenter.searchViewController.beginSearch(with: term)
+            landingPresenter.searchViewController.beginSearch(with: term, shouldSearchImmediately: shouldSearchImmediately)
         case .viewDetails(let id, let entityType, let source):
 
             let entity: Entity?
