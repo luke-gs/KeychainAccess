@@ -248,7 +248,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     override init() {
         super.init()
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "searchImmediately"), object: nil, queue: OperationQueue.main) { _ in
+        NotificationCenter.default.addObserver(forName: SearchViewController.searchImmediately, object: nil, queue: OperationQueue.main) { _ in
             self.performSearch()
         }
 
