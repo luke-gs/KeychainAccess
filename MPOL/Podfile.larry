@@ -26,6 +26,10 @@ target 'MPOL' do
     all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
+    pod 'Firebase/Core'
+  	pod 'Firebase/MLVision'
+	pod 'Firebase/MLVisionTextModel'
+    
     pod 'VoiceSearchManager', :git => "https://github.com/campbell-graham/VoiceSearchManager-iOS"
     pod 'VoiceSearchManager/VehicleRegistrationTransformer', :git => "https://github.com/campbell-graham/VoiceSearchManager-iOS"
 

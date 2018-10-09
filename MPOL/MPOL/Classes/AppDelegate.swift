@@ -13,6 +13,7 @@ import DemoAppKit
 import PromiseKit
 import Lottie
 import Alamofire
+import Firebase
 import VoiceSearchManager
 
 #if INTERNAL || EXTERNAL
@@ -96,12 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupNavigator()
         startPrepopulationProcessIfNecessary()
 
-        NotificationCenter.default.addObserver(forName: .userSessionStarted, object: nil, queue: OperationQueue.main) { _ in
-            VoiceSearchWorkflowManager.shared.startListening()
-        }
-        NotificationCenter.default.addObserver(forName: .userSessionEnded, object: nil, queue: OperationQueue.main) { _ in
-            VoiceSearchWorkflowManager.shared.stopListening()
-        }
+        FirebaseApp.configure()
 
         return true
     }

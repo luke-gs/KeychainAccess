@@ -19,8 +19,8 @@ public class CreateTaskPresenter: Presenter {
         case .createTaskMain:
         
             let priorityOptions = CADClientModelTypes.incidentGrade.allCases.map { AnyPickable($0.rawValue) }
-            let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map( { AnyPickable($0) } )
-            let secondaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map( { AnyPickable($0) } )
+            let primaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map { AnyPickable($0) }
+            let secondaryCodeOptions = CADStateManager.shared.manifestEntries(for: .incidentType).rawValues().map { AnyPickable($0) }
             
             // Populate status in the form
             let statusItems = CADClientModelTypes.resourceStatus?.incidentCases
@@ -60,7 +60,7 @@ public class CreateTaskPresenter: Presenter {
             
             
         case .createTaskSearchEntity:
-            //TODO: Will redirect to search, return dummy VC here
+            // TODO: Will redirect to search, return dummy VC here
             return UIViewController()
         
         }

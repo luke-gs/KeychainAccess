@@ -133,8 +133,15 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         guard let aliases = organisation.aliases else { return [title] }
         
         return [title] + aliases.map {
-            let formTitle = $0.dateCreated != nil ? NSLocalizedString("Recorded on \($0.dateCreated!)", comment: "") : NSLocalizedString("", comment: "")
-            return ValueFormItem(title: formTitle, value: $0.formattedName).width(.column(3)) as FormItem
+            
+            var formTitle: String?
+            
+            if let dateCreated = $0.dateCreated {
+                formTitle = NSLocalizedString("Recorded on \(DateFormatter.preferredDateStyle.string(from: dateCreated))", comment: "")
+            } else {
+                formTitle = NSLocalizedString("", comment: "")
+            }
+            return ValueFormItem(title: formTitle, value: $0.alias).width(.column(1)) as FormItem
         }
     }
     

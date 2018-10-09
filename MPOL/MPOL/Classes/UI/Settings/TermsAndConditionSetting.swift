@@ -21,8 +21,12 @@ public extension Settings {
     private static func presentVC(_ viewController: UIViewController, completion: SettingUIUpdateClosure) {
 
         do {
-            let tsAndCsVC = try HTMLPresenterViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
+
+            let styleMap = ThemeManager.htmlStyleMap
+            
+            let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                             htmlURL: TermsAndConditions.url,
+                                                            styleMap: styleMap,
                                                             actions: nil)
 
             tsAndCsVC.title = "Terms and Conditions"

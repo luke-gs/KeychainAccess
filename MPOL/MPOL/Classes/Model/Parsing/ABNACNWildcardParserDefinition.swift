@@ -22,8 +22,10 @@ public enum ABNACNWildcardParserError: LocalizedError {
 public class ABNACNWildcardParserDefinition: WildcardParserDefinition {
     public static let ABNACNWildcardNumberKey = "ABNACNWildcardNumber"
     
+    static public let LongestPossibleQueryLength = 11
+    
     public init() {
-        super.init(range: 0...11,
+        super.init(range: 0...ABNACNWildcardParserDefinition.LongestPossibleQueryLength,
                    definitionKey: ABNACNWildcardParserDefinition.ABNACNWildcardNumberKey,
                    allowedCharacterSet: .decimalDigits,
                    errorClosure: { (query, requiredLengthRange) -> LocalizedError in
