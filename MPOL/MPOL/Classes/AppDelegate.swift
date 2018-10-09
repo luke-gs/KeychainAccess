@@ -13,6 +13,7 @@ import DemoAppKit
 import PromiseKit
 import Lottie
 import Alamofire
+import Firebase
 
 #if INTERNAL || EXTERNAL
     import HockeySDK
@@ -102,6 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         setupNavigator()
         startPrepopulationProcessIfNecessary()
+
+        FirebaseApp.configure()
 
         return true
     }

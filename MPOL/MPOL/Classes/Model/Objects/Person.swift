@@ -77,7 +77,7 @@ open class Person: Entity, Identifiable {
     open var contacts: [Contact]?
     open var licences: [Licence]?
     open var descriptions: [PersonDescription]?
-    open var aliases: [Alias]?
+    open var aliases: [PersonAlias]?
 
     open var orders: [Order]?
 
@@ -116,7 +116,7 @@ open class Person: Entity, Identifiable {
         contacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.contacts.rawValue) as? [Contact]
         licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.licences.rawValue) as? [Licence]
         descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.descriptions.rawValue) as? [PersonDescription]
-        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [Alias]
+        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [PersonAlias]
         orders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [Order]
 
         offenderCharges = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderCharge]
