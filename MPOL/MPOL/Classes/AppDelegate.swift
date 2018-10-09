@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Register bundles used by pattern kit containing assets
+        AssetManager.shared.register(bundle: Bundle(for: AssetManager.self), priority: .coreKit)
         AssetManager.shared.register(bundle: Bundle(for: SketchPen.self), priority: .sketchKit)
         AssetManager.shared.register(bundle: Bundle(for: FormBuilder.self), priority: .patternKit)
         AssetManager.shared.register(bundle: Bundle(for: LoginViewController.self), priority: .publicSafteyKit)
