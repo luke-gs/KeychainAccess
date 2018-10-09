@@ -8,12 +8,8 @@
 import UIKit
 import MapKit
 
-/// Currently an event location is the same as any location selection
-public class EventLocation: OldLocationSelection {
-}
-
 /// Data model for a generic location selection including lat/lon and an address string
-public class OldLocationSelection: NSObject, NSSecureCoding {
+public class EventLocation: NSObject, NSSecureCoding {
 
     // MARK: - PUBLIC
 
@@ -25,6 +21,11 @@ public class OldLocationSelection: NSObject, NSSecureCoding {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
         self.addressString = addressString
+    }
+
+    public convenience init?(locationSelection: LocationSelectionType?) {
+        guard let locationSelection = locationSelection else { return nil }
+        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText)
     }
 
     /// Convenience init for a placemark
@@ -68,14 +69,14 @@ public class OldLocationSelection: NSObject, NSSecureCoding {
 
     // MARK: - Equality
 
-    public static func ==(lhs: OldLocationSelection, rhs: OldLocationSelection) -> Bool {
+    public static func ==(lhs: EventLocation, rhs: EventLocation) -> Bool {
         return lhs.latitude == rhs.latitude
             && lhs.longitude == rhs.longitude
             && lhs.addressString == rhs.addressString
     }
 
     open override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? OldLocationSelection else { return false }
+        guard let object = object as? EventLocation else { return false }
         return self.latitude == object.latitude
             && self.longitude == object.longitude
             && self.addressString == object.addressString

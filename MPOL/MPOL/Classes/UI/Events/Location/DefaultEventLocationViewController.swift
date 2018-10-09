@@ -49,20 +49,18 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.enforceLinearLayout = .always
 
-        let viewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.eventLocation,
-                                                   typeCollection: ManifestCollection.eventLocationInvolvementType)
-
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)
         
-        builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
+        // TODO: pass ManifestCollection.eventLocationInvolvementType in screen enum context
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
             .title("Event Location")
-            .selectedValue(self.viewModel.report.eventLocation)
+            .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
             .required()
             .onValueChanged({ (location) in
                 if let location = location {
-                    self.viewModel.report.eventLocation = location
+                    self.viewModel.report.eventLocation = EventLocation(locationSelection: location)
                     self.updateAnnotation()
                     self.updateRegion()
                 }

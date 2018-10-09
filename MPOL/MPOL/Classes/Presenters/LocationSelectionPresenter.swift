@@ -52,6 +52,14 @@ public class LocationSelectionPresenter: Presenter {
                 viewController?.navigationController?.popViewController(animated: true)
             }
 
+//            // If used in a form action, the presentation is done based on modalPresentationStyle returned in this VC
+//            if from.presentingViewController != nil {
+//                // Push within existing modal navigation for all screens
+//                viewController.modalPresentationStyle = .none
+//            } else {
+//                // Present in a modal form sheet
+//            }
+
             // Special modalPresentationStyle for form item to use push during presentation
             viewController.modalPresentationStyle = .none
 

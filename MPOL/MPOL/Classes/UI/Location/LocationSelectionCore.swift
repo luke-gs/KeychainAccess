@@ -7,6 +7,7 @@
 
 import MapKit
 import PublicSafetyKit
+import DemoAppKit
 
 /// Demo app implementation for a location selection
 public class LocationSelectionCore: LocationSelectionType {
@@ -38,6 +39,11 @@ public class LocationSelectionCore: LocationSelectionType {
         self.searchResult = lookupAddress
         self.coordinate = lookupAddress.coordinate
         self.displayText = lookupAddress.fullAddress
+    }
+
+    public convenience init?(eventLocation: EventLocation?) {
+        guard let eventLocation = eventLocation else { return nil }
+        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
     }
 }
 
