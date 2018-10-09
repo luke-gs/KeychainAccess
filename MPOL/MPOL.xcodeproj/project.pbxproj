@@ -53,6 +53,8 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */; };
+		2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */; };
 		207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */; };
 		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
 		207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */; };
@@ -81,6 +83,9 @@
 		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
 		3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3792073521521FBE0071F119 /* AddressFormItemFactory.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
+		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
+		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
+		37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37CAF6102165C0BE007C449D /* GoogleService-Info.plist */; };
 		37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */; };
 		37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A22105A4E400860B6D /* AlertsFormItem.swift */; };
 		37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */; };
@@ -234,6 +239,8 @@
 		AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */; };
 		AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = AA1E7BB72119145B0086AA70 /* termsandconditions.html */; };
 		AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */; };
+		AA359C452165ED940035A472 /* PersonAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA359C442165ED940035A472 /* PersonAlias.swift */; };
+		AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA359C462165F08B0035A472 /* OrganisationAlias.swift */; };
 		AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513821180E1A00621E58 /* TermsAndConditions.swift */; };
 		AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513A21180E6200621E58 /* WhatsNew.swift */; };
 		AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */; };
@@ -337,6 +344,8 @@
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewModel.swift; sourceTree = "<group>"; };
+		2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewController.swift; sourceTree = "<group>"; };
 		207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = OrganisationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VehicleSearchHelp.html; sourceTree = "<group>"; };
@@ -367,6 +376,9 @@
 		3745B13F20B3C14F008AA94F /* IncidentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAction.swift; sourceTree = "<group>"; };
 		3792073521521FBE0071F119 /* AddressFormItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormItemFactory.swift; sourceTree = "<group>"; };
 		379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
+		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		37C433912163339800544AA7 /* LicenceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceScanner.swift; sourceTree = "<group>"; };
+		37CAF6102165C0BE007C449D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryAlertsSearchResultViewModel.swift; sourceTree = "<group>"; };
 		37F048A22105A4E400860B6D /* AlertsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFormItem.swift; sourceTree = "<group>"; };
 		37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAlertsCell.swift; sourceTree = "<group>"; };
@@ -541,6 +553,8 @@
 		AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficStopPresenter.swift; sourceTree = "<group>"; };
 		AA1E7BB72119145B0086AA70 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		AA2FF14B20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAdditionalActionBuilding.swift; sourceTree = "<group>"; };
+		AA359C442165ED940035A472 /* PersonAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonAlias.swift; sourceTree = "<group>"; };
+		AA359C462165F08B0035A472 /* OrganisationAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationAlias.swift; sourceTree = "<group>"; };
 		AA3E513821180E1A00621E58 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
 		AA3E513A21180E6200621E58 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
@@ -746,6 +760,15 @@
 				12EF6632208D7D2F00739924 /* EventEntityDescriptionViewModel.swift */,
 			);
 			path = Description;
+			sourceTree = "<group>";
+		};
+		2004A74921645C0100B17C59 /* Location Selection */ = {
+			isa = PBXGroup;
+			children = (
+				2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */,
+				2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */,
+			);
+			path = "Location Selection";
 			sourceTree = "<group>";
 		};
 		207A0FFC21632F7900153AC3 /* HTML */ = {
@@ -1121,6 +1144,7 @@
 		96B7758B2141E66200836B83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2004A74921645C0100B17C59 /* Location Selection */,
 				207A0FFD21632FD400153AC3 /* Theme */,
 				96B774BB2140F8EE00836B83 /* Entity Creation */,
 				96B774922140F8EE00836B83 /* Entity Details */,
@@ -1137,6 +1161,8 @@
 		96B7758C2141E75200836B83 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				37C433902163339700544AA7 /* CameraManager.swift */,
+				37C433912163339800544AA7 /* LicenceScanner.swift */,
 				AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */,
 				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
 				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
@@ -1183,6 +1209,8 @@
 				96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */,
 				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
 				96B774F62140F8EE00836B83 /* Vehicle.swift */,
+				AA359C442165ED940035A472 /* PersonAlias.swift */,
+				AA359C462165F08B0035A472 /* OrganisationAlias.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1281,6 +1309,7 @@
 		BCD4EA801E515ACE000B993D = {
 			isa = PBXGroup;
 			children = (
+				37CAF6102165C0BE007C449D /* GoogleService-Info.plist */,
 				96728C1F20D0B25600B82A53 /* APNS Extension */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
 				1900374421081DC80030B15C /* DemoPrepopulate */,
@@ -1540,6 +1569,7 @@
 				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
 				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
+				37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */,
 				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
 				207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */,
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
@@ -1576,10 +1606,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVTextDetectorResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVTextDetectorResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1635,15 +1667,21 @@
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DemoAppKit/DemoAppKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/HyperioniOS/HyperioniOS.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PatternKit/PatternKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/PublicSafetyKit/PublicSafetyKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SketchKit/SketchKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKitAppExtension/CoreKitAppExtension.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1653,15 +1691,21 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DemoAppKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyperioniOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PatternKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PublicSafetyKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SketchKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKitAppExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1733,6 +1777,7 @@
 			files = (
 				96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				96B775662140F8EE00836B83 /* Address.swift in Sources */,
+				AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */,
 				96B7754C2140F8EE00836B83 /* AddressFormatter.swift in Sources */,
 				96B775632140F8EE00836B83 /* Alert.swift in Sources */,
 				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
@@ -1765,6 +1810,7 @@
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
 				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
+				37C433922163339800544AA7 /* CameraManager.swift in Sources */,
 				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
 				37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */,
 				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
@@ -1782,6 +1828,7 @@
 				3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */,
 				AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */,
 				96B775392140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift in Sources */,
+				2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */,
 				96B7753A2140F8EE00836B83 /* EntityDetailFormViewController.swift in Sources */,
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
 				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
@@ -1808,6 +1855,7 @@
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
+				2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */,
 				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
@@ -1831,6 +1879,7 @@
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
 				12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
+				37C433932163339800544AA7 /* LicenceScanner.swift in Sources */,
 				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
 				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
@@ -1895,6 +1944,7 @@
 				AA1C0B1120BF9981009862FD /* PersonSearchReportViewController.swift in Sources */,
 				AA1C0B1020BF9981009862FD /* PersonSearchReportViewModel.swift in Sources */,
 				96B775552140F8EE00836B83 /* PersonSearchRequest.swift in Sources */,
+				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,

@@ -32,7 +32,7 @@ open class Organisation: Entity {
     open var type: String?
     
     open var tradingAs: String?
-    open var aliases: [Alias]?
+    open var aliases: [OrganisationAlias]?
     
     open override class var localizedDisplayName: String {
         return NSLocalizedString("Organisation", comment: "")
@@ -66,7 +66,7 @@ open class Organisation: Entity {
         abn = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.abn.rawValue) as String?
         type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
         tradingAs = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.tradingAs.rawValue) as String?
-        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.aliases.rawValue) as? [Alias]
+        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.aliases.rawValue) as? [OrganisationAlias]
     }
     
     open override func encode(with aCoder: NSCoder) {
