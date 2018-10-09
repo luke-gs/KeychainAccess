@@ -54,7 +54,7 @@ open class CADStateManagerCore: CADStateManagerBase {
 
             // TODO: remove this when we have a real CAD system
             if let lastBookOn = self.lastBookOn, let resource = self.currentResource {
-                let officerIds = lastBookOn.employees.map({ return $0.payrollId })
+                let officerIds = lastBookOn.employees.map { $0.payrollId }
 
                 // Update callsign for new officer list
                 resource.payrollIds = officerIds
@@ -186,9 +186,9 @@ open class CADStateManagerCore: CADStateManagerBase {
         if let username = identifier ?? UserSession.current.user?.username {
             let request = CADGetDetailsRequestCore(identifier: username)
             // Provide specific core model type information to generic call via map with explicit type
-            return apiManager.cadEmployeeDetails(with: request).map({ (details: CADEmployeeDetailsCore) -> CADEmployeeDetailsType in
+            return apiManager.cadEmployeeDetails(with: request).map { (details: CADEmployeeDetailsCore) -> CADEmployeeDetailsType in
                 return details
-            })
+            }
         }
         return Promise(error: CADStateManagerError.notLoggedIn)
     }
@@ -197,18 +197,18 @@ open class CADStateManagerCore: CADStateManagerBase {
     open override func getIncidentDetails(identifier: String) -> Promise<CADIncidentDetailsType> {
         let request = CADGetDetailsRequestCore(identifier: identifier)
         // Provide specific core model type information to generic call via map with explicit type
-        return apiManager.cadIncidentDetails(with: request).map({ (details: CADIncidentCore) -> CADIncidentDetailsType in
+        return apiManager.cadIncidentDetails(with: request).map { (details: CADIncidentCore) -> CADIncidentDetailsType in
             return details
-        })
+        }
     }
 
     /// Fetch details for a specific resource
     open override func getResourceDetails(identifier: String) -> Promise<CADResourceDetailsType> {
         let request = CADGetDetailsRequestCore(identifier: identifier)
         // Provide specific core model type information to generic call via map with explicit type
-        return apiManager.cadResourceDetails(with: request).map({ (details: CADResourceCore) -> CADResourceDetailsType in
+        return apiManager.cadResourceDetails(with: request).map { (details: CADResourceCore) -> CADResourceDetailsType in
             return details
-        })
+        }
     }
 
     // MARK: - Sync

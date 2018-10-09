@@ -15,6 +15,7 @@ public enum EntityScreen: Presentable {
     case help(type: EntityType)
     case createEntity(type: EntityType)
     case entityDetails(entity: Entity, delegate: SearchDelegate?)
+    case scanner
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -23,6 +24,9 @@ public enum EntityScreen: Presentable {
 }
 
 public class EntityPresenter: Presenter {
+
+    private let scanner = LicenceScanner()
+    private let cameraManager = CameraManager()
 
     public init() {}
 
@@ -171,6 +175,14 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
             
+        case .scanner:
+            cameraManager.finishPickingClosure = { image in
+                self.scanner.startScan(with: image) { text in
+                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"))
+                    try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
+                }
+            }
+            return cameraManager.pickerController()
         }
     }
 

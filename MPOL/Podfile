@@ -26,6 +26,9 @@ target 'MPOL' do
     all_kits
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
+    pod 'Firebase/Core'
+    pod 'Firebase/MLVision'
+    pod 'Firebase/MLVisionTextModel'
     
     target 'MPOLTests' do
       inherit! :search_paths

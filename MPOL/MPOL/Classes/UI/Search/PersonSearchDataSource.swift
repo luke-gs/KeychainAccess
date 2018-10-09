@@ -22,9 +22,15 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
+        let scanButton = UIButton(type: .system)
+
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
         helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
-        return [helpButton]
+
+        scanButton.addTarget(self, action: #selector(didTapScanButton(_:)), for: .touchUpInside)
+        scanButton.setImage(AssetManager.shared.image(forKey: .contentScan), for: .normal)
+
+        return [scanButton, helpButton]
     }
 
     private var text: String? {
@@ -111,6 +117,11 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     @objc private func didTapHelpButton(_ button: UIButton) {
         updatingDelegate?.present(EntityScreen.help(type: .person))
     }
+
+    @objc private func didTapScanButton(_ button: UIButton) {
+        updatingDelegate?.present(EntityScreen.scanner)
+    }
+
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         do {

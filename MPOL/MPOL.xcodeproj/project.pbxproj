@@ -83,6 +83,9 @@
 		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
 		3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3792073521521FBE0071F119 /* AddressFormItemFactory.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
+		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
+		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
+		37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37CAF6102165C0BE007C449D /* GoogleService-Info.plist */; };
 		37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */; };
 		37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A22105A4E400860B6D /* AlertsFormItem.swift */; };
 		37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */; };
@@ -373,6 +376,9 @@
 		3745B13F20B3C14F008AA94F /* IncidentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAction.swift; sourceTree = "<group>"; };
 		3792073521521FBE0071F119 /* AddressFormItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormItemFactory.swift; sourceTree = "<group>"; };
 		379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
+		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		37C433912163339800544AA7 /* LicenceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceScanner.swift; sourceTree = "<group>"; };
+		37CAF6102165C0BE007C449D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryAlertsSearchResultViewModel.swift; sourceTree = "<group>"; };
 		37F048A22105A4E400860B6D /* AlertsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFormItem.swift; sourceTree = "<group>"; };
 		37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAlertsCell.swift; sourceTree = "<group>"; };
@@ -1155,6 +1161,8 @@
 		96B7758C2141E75200836B83 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				37C433902163339700544AA7 /* CameraManager.swift */,
+				37C433912163339800544AA7 /* LicenceScanner.swift */,
 				AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */,
 				37F048A22105A4E400860B6D /* AlertsFormItem.swift */,
 				37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */,
@@ -1301,6 +1309,7 @@
 		BCD4EA801E515ACE000B993D = {
 			isa = PBXGroup;
 			children = (
+				37CAF6102165C0BE007C449D /* GoogleService-Info.plist */,
 				96728C1F20D0B25600B82A53 /* APNS Extension */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
 				1900374421081DC80030B15C /* DemoPrepopulate */,
@@ -1560,6 +1569,7 @@
 				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
 				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
+				37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */,
 				EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */,
 				207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */,
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
@@ -1596,10 +1606,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVTextDetectorResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVTextDetectorResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1655,15 +1667,21 @@
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DemoAppKit/DemoAppKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/HyperioniOS/HyperioniOS.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PatternKit/PatternKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/PublicSafetyKit/PublicSafetyKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SketchKit/SketchKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKitAppExtension/CoreKitAppExtension.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1673,15 +1691,21 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DemoAppKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyperioniOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PatternKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PublicSafetyKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SketchKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKitAppExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1786,6 +1810,7 @@
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
 				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
+				37C433922163339800544AA7 /* CameraManager.swift in Sources */,
 				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
 				37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */,
 				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
@@ -1854,6 +1879,7 @@
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
 				12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
+				37C433932163339800544AA7 /* LicenceScanner.swift in Sources */,
 				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
 				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
