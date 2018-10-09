@@ -43,32 +43,6 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
        try? voiceSearchManager.startRecognitionTask()
     }
 
-    func speak(_ text: String) {
-
-        return
-        
-        if voiceSearchManager.isActive {
-            voiceSearchManager.pause()
-        }
-        let audioSession = AVAudioSession.sharedInstance()
-
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-            try audioSession.setMode(AVAudioSessionModeSpokenAudio)
-            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
-
-        } catch {
-            print(#function, error)
-        }
-
-        let utterance = AVSpeechUtterance(string: text)
-        if speechSynthetizer.isSpeaking {
-            speechSynthetizer.stopSpeaking(at: .immediate)
-        }
-        speechSynthetizer.speak(utterance)
-
-    }
-
     func cancelSearch() {
         voiceSearchManager.cancel()
     }
