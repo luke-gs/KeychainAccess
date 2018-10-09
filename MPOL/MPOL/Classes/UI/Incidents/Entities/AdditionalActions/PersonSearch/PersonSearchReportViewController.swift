@@ -193,6 +193,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
 
         let viewModel = OfficerSearchViewModel()
         let officerSearchController = SearchDisplayableViewController<PersonSearchReportViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        viewModel.delegate = officerSearchController
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismiss))
         officerSearchController.delegate = self
 
@@ -218,6 +219,9 @@ extension PersonSearchReportViewController: SearchDisplayableDelegate {
             viewModel.report.officers.append(object)
             reloadForm()
         }
+
+        // add officer to recently used
+        try? UserPreferenceManager.shared.addRecentId(object.id, forKey: .recentOfficers, trimToMaxElements: 5)
         
         viewController.dismiss(animated: true, completion: nil)
     }

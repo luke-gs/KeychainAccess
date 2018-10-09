@@ -19,6 +19,8 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
     public override func viewController() -> UIViewController {
 
         let officerSearchController = SearchDisplayableViewController<OfficerSelectionAction, OfficerSearchViewModel>(viewModel: viewModel)
+        viewModel.delegate = officerSearchController
+        viewModel.fetchRecentOfficers()
         officerSearchController.delegate = self
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",                     style: .plain, target: officerSearchController,
             action: #selector(UIViewController.dismissAnimated))
@@ -39,7 +41,9 @@ extension OfficerSelectionAction: SearchDisplayableDelegate {
         self.selectedValue = object
         self.updateHandler?()
 
-        try? UserPreferenceManager.shared.addRecentId(object.id, forKey: .recentOfficers)
+        // add officer to recently used
+        try? UserPreferenceManager.shared.addRecentId(object.id, forKey: .recentOfficers, trimToMaxElements: 5)
+        
 
         viewController.dismiss(animated: true, completion: nil)
     }

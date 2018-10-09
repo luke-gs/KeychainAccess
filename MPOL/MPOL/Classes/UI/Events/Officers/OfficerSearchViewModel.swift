@@ -19,6 +19,10 @@ public class OfficerFetchRequest: EntityDetailFetchRequest<Officer> {
 
 }
 
+public protocol OfficerSearchViewModelDelegate {
+    func itemsDidUpdate()
+}
+
 
 class OfficerSearchViewModel: SearchDisplayableViewModel {
     typealias Object = Officer
@@ -28,45 +32,23 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     var hasSections: Bool = true
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object]
+    public private(set) var items: [Object] {
+        didSet {
+            delegate?.itemsDidUpdate()
+        }
+    }
     var searchText: String?
+    var delegate: OfficerSearchViewModelDelegate?
 
     public init(items: [Object]? = nil) {
 
         if let items = items {
             self.items = items
         } else {
-            #if EXTERNAL
-                // Fake officers used for the purposes of demos.
-                let fakeOfficerOne = Officer(id: "SmithJacksonGS007")
-                fakeOfficerOne.familyName = "Smith"
-                fakeOfficerOne.givenName = "Jackson"
-                fakeOfficerOne.employeeNumber = "#GS007"
-                let fakeOfficerTwo = Officer(id: "JohnsonCarlGS008")
-                fakeOfficerTwo.familyName = "Johnson"
-                fakeOfficerTwo.givenName = "Carl"
-                fakeOfficerTwo.employeeNumber = "#GS008"
-                self.items = [fakeOfficerOne, fakeOfficerTwo]
-            #else
-
             self.items = []
 
-            if let officerIds: [String] = UserPreferenceManager.shared.preference(for: .recentOfficers)?.codables() {
-                if !officerIds.isEmpty {
-
-                    let request = OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: officerIds[0]))
-                    request.fetch().done { officer in
-                        print(officer)
-                        self.items = [officer]
-                    }.catch { error in
-                        print(error)
-                    }
-                }
-            }
-
-            #endif
+            fetchRecentOfficers()
         }
-
     }
 
     func numberOfSections() -> Int {
@@ -155,5 +137,38 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     func emptyStateText() -> String? {
         return "No Recently Used Officers"
+    }
+
+    func fetchRecentOfficers() {
+
+        let userPreferenceManager = UserPreferenceManager.shared
+        if let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables() {
+            if !officerIds.isEmpty {
+
+                self.items = []
+
+                let x = officerIds.map {
+                    OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: $0)).fetchPromise()
+                }
+
+                when(resolved: x).done { results in
+
+                    results.forEach { result in
+                        switch result {
+                            case .fulfilled(let officer):
+                                self.items.append(officer)
+                            case .rejected(let error):
+                                print(error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension SearchDisplayableViewController: OfficerSearchViewModelDelegate where T.Object == Officer {
+    public func itemsDidUpdate() {
+        reloadForm()
     }
 }

@@ -48,6 +48,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
         let viewModel = OfficerSearchViewModel()
         let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        viewModel.delegate = officerSearchController
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
 
@@ -141,6 +142,9 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
     public typealias Object = Officer
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
+
+        // add officer to recently used
+        try? UserPreferenceManager.shared.addRecentId(object.id, forKey: .recentOfficers, trimToMaxElements: 5)
 
         let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
         let officer = displayable.officer
