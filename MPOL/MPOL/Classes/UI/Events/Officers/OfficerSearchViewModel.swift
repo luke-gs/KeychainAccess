@@ -172,3 +172,7 @@ extension SearchDisplayableViewController: OfficerSearchViewModelDelegate where 
         reloadForm()
     }
 }
+
+extension UserPreferenceKey {
+    public static let recentOfficers = UserPreferenceKey("recentOfficers")
+}
