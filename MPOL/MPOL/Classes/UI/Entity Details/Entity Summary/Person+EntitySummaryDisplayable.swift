@@ -90,7 +90,25 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
     
     private func formattedDOBAgeGender() -> String? {
-        if let dob = person.dateOfBirth {
+        if let _ = person.dateOfDeath {
+            // show deceased instead of DOB
+            var dodString = NSLocalizedString("Deceased", comment: "")
+            var yearComponent: DateComponents?
+            
+            if let dob = person.dateOfBirth {
+                yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
+            }
+            
+            if let year = yearComponent?.year, let gender = person.gender {
+                dodString += " (\(year) \(gender.description))"
+            } else if let year = yearComponent?.year {
+                dodString += " (\(year))"
+            } else if let gender = person.gender {
+                dodString += " (\(gender.description))"
+            }
+            
+            return dodString
+        } else if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
             
             var dobString = DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
