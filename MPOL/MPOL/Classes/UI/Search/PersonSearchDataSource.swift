@@ -22,15 +22,18 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
-        let scanButton = UIButton(type: .system)
-
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
         helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
 
-        scanButton.addTarget(self, action: #selector(didTapScanButton(_:)), for: .touchUpInside)
-        scanButton.setImage(AssetManager.shared.image(forKey: .contentScan), for: .normal)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let scanButton = UIButton(type: .system)
+            scanButton.addTarget(self, action: #selector(didTapScanButton(_:)), for: .touchUpInside)
+            scanButton.setImage(AssetManager.shared.image(forKey: .contentScan), for: .normal)
 
-        return [scanButton, helpButton]
+            return [scanButton, helpButton]
+        }
+
+        return [helpButton]
     }
 
     private var text: String? {
