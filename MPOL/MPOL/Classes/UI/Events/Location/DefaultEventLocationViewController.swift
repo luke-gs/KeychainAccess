@@ -52,8 +52,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)
         
-        // TODO: pass ManifestCollection.eventLocationInvolvementType in screen enum context
-        builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .title("Event Location")
             .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))

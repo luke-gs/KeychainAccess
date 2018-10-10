@@ -35,7 +35,8 @@ public class LocationSelectionConfirmationViewModel {
     public var suburbOptions: [AnyPickable]? = nil
     public var stateOptions: [AnyPickable]? = nil
 
-    public let isEditable: Bool
+    // Whether the address fields are user editable
+    public var isEditable: Bool
     
     public init(locationSelection: LocationSelectionType, isEditable: Bool = false) {
         let coordinateText = "\(locationSelection.coordinate.latitude), \(locationSelection.coordinate.longitude)"

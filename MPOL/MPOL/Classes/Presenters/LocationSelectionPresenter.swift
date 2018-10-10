@@ -13,12 +13,17 @@ public class LocationSelectionPresenter: Presenter {
 
     // MARK: - PUBLIC
 
+    /// Workflow id for events
+    public static let eventWorkflowId = "event"
+
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
 
         switch presentable {
 
-        case .locationSelectionLanding(let selectedLocation, let completionHandler):
+        case .locationSelectionLanding(let workflowId, let selectedLocation, let completionHandler):
+
+            self.workflowId = workflowId
 
             // Create view model with closure for typeahead search
             let viewModel = LocationSelectionLandingViewModel(locationSelectionType: LocationSelectionCore.self, selectedLocation: nil) { (searchText, cancelToken) -> Promise<[MPOLKitEntityProtocol]> in
@@ -77,12 +82,19 @@ public class LocationSelectionPresenter: Presenter {
             return viewController
 
         case .locationSelectionFinal(let selectedLocation, let completionHandler):
-            let viewModel = LocationSelectionConfirmationViewModel(locationSelection: selectedLocation, isEditable: true)
+            let viewModel = LocationSelectionConfirmationViewModel(locationSelection: selectedLocation)
             viewModel.streetTypeOptions = StreetType.all.map { return AnyPickable($0) }
             viewModel.stateOptions = StateType.all.map { return AnyPickable($0) }
             viewModel.suburbOptions = [AnyPickable("Collingwood"), AnyPickable("Fitzory"), AnyPickable("Carlton")]
-            viewModel.typeOptions = [AnyPickable("Event Location")]
-            viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
+
+            if workflowId == LocationSelectionPresenter.eventWorkflowId {
+                // Add location type to final confirmation screen
+                if let manifestItems = Manifest.shared.entries(for: ManifestCollection.eventLocationInvolvementType) {
+                    viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
+                    viewModel.typeOptions = manifestItems.map { AnyPickable(PickableManifestEntry($0)) }
+                }
+                viewModel.isEditable = true
+            }
 
             let viewController = LocationSelectionConfirmationViewController(viewModel: viewModel)
             viewController.doneHandler = { _ in
@@ -112,6 +124,9 @@ public class LocationSelectionPresenter: Presenter {
     }
 
     // MARK: - PRIVATE
+
+    /// The ID of the current location selection workflow
+    private var workflowId: String?
 
     /// Unwind the presentation of the location selection view controllers
     private func unwindViewController(_ viewController: UIViewController) {

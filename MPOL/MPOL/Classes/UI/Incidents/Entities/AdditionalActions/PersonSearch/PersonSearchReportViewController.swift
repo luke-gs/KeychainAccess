@@ -87,8 +87,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             })
 
         // locationPickerformitem
-        // TODO: pass ManifestCollection.eventLocationInvolvementType in screen enum context
-        builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .required()
             .width(.column(1))
             .title("Location")

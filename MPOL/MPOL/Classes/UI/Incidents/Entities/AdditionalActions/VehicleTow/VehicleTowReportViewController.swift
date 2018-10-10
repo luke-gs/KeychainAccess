@@ -38,8 +38,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .separatorColor(.clear)
 
         // locationPickerformitem
-        // TODO: pass ManifestCollection.eventLocationInvolvementType in screen enum context
-        builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .required()
             .width(.column(1))
             .title("Where was the Vehicle Towed from?")
