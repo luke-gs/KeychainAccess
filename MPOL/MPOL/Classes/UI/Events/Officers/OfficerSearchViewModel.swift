@@ -11,19 +11,6 @@ import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
 
-public class OfficerFetchRequest: EntityDetailFetchRequest<Officer> {
-
-    public override func fetchPromise() -> Promise<Officer> {
-        return APIManager.shared.fetchEntityDetails(in: source, with: request)
-    }
-
-}
-
-public protocol OfficerSearchViewModelDelegate {
-    func itemsDidUpdate()
-}
-
-
 class OfficerSearchViewModel: SearchDisplayableViewModel {
     typealias Object = Officer
 
@@ -32,23 +19,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     var hasSections: Bool = true
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object] {
-        didSet {
-            delegate?.itemsDidUpdate()
-        }
-    }
+    public private(set) var items: [Object]
     var searchText: String?
-    var delegate: OfficerSearchViewModelDelegate?
 
     public init(items: [Object]? = nil) {
 
-        if let items = items {
-            self.items = items
-        } else {
-            self.items = []
-
-            fetchRecentOfficers()
-        }
+        self.items = items ?? []
     }
 
     func numberOfSections() -> Int {
@@ -139,40 +115,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return "No Recently Used Officers"
     }
 
-    func fetchRecentOfficers() {
-
-        let userPreferenceManager = UserPreferenceManager.shared
-        if let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables() {
-            if !officerIds.isEmpty {
-
-                self.items = []
-
-                let x = officerIds.map {
-                    OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: $0)).fetchPromise()
-                }
-
-                when(resolved: x).done { results in
-
-                    results.forEach { result in
-                        switch result {
-                            case .fulfilled(let officer):
-                                self.items.append(officer)
-                            case .rejected(let error):
-                                print(error)
-                        }
-                    }
-                }
-            }
-        }
+    func removeAllItems() {
+        items.removeAll()
     }
-}
 
-extension SearchDisplayableViewController: OfficerSearchViewModelDelegate where T.Object == Officer {
-    public func itemsDidUpdate() {
-        reloadForm()
+    func appendItem(_ item: Object) {
+        items.append(item)
     }
-}
-
-extension UserPreferenceKey {
-    public static let recentOfficers = UserPreferenceKey("recentOfficers")
 }

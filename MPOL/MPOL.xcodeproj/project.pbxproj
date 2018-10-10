@@ -227,6 +227,7 @@
 		96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759F214206F100836B83 /* ABNParserDefinition.swift */; };
 		96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
+		AA10BB31216D99A100BC4071 /* OfficerSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10BB30216D99A100BC4071 /* OfficerSearchViewController.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
 		AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B0C20BF9981009862FD /* PersonSearchReport.swift */; };
@@ -541,6 +542,7 @@
 		96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNACNWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA10BB30216D99A100BC4071 /* OfficerSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewController.swift; sourceTree = "<group>"; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
 		AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
 		AA1C0B0C20BF9981009862FD /* PersonSearchReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchReport.swift; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 				12EF65FC2087071800739924 /* OfficerListViewModel.swift */,
 				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
 				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
+				AA10BB30216D99A100BC4071 /* OfficerSearchViewController.swift */,
 			);
 			path = Officers;
 			sourceTree = "<group>";
@@ -1785,6 +1788,7 @@
 				96B775252140F8EE00836B83 /* AlertSummaryViewModel.swift in Sources */,
 				96B7756C2140F8EE00836B83 /* Alias.swift in Sources */,
 				96B7751E2140F8EE00836B83 /* ApiManager+Manifest.swift in Sources */,
+				AA10BB31216D99A100BC4071 /* OfficerSearchViewController.swift in Sources */,
 				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
 				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
