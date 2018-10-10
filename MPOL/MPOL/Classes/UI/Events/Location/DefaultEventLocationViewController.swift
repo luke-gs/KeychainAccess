@@ -43,6 +43,10 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.isUserInteractionEnabled = false
 
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
+
+        // Set initial annotation
+        self.updateAnnotation()
+        self.updateRegion()
     }
 
     override open func construct(builder: FormBuilder) {
@@ -114,18 +118,19 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? MKPointAnnotation {
-            let pinView: PinAnnotationView
-            let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PinAnnotationView {
+            let pinView: LocationSelectionAnnotationView
+            let identifier = LocationSelectionAnnotationView.defaultReuseIdentifier
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationSelectionAnnotationView {
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
             } else {
-                pinView = PinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
+            // Do not show address
+            annotation.title = ""
 
             return pinView
         }
-
         return nil
     }
 
