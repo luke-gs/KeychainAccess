@@ -222,7 +222,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             textField.attributedPlaceholder  = placeholder
 
             return self.additionalSearchButtons
-        }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
+            }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
     }
 
     lazy var navigationButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemTapped))
@@ -364,7 +364,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     private func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
-                self.errorMessage = error.localizedDescription
+                self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .invalidSearchErrorText), "Vehicle")
             } else {
                 let search = Searchable(text: text, options: options?.state(), type: VehicleSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityCarSmall)
                 updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: resultModel)
