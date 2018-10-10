@@ -111,11 +111,11 @@ public class LocationSelectionPresenter: Presenter {
         if let nav = from.navigationController as? ModalNavigationController {
             // Push within existing modal navigation
             nav.pushViewController(to, animated: true)
-
-        } else if let split = from.pushableSplitViewController {
+        } else {
             // Present in a modal form sheet from split view (to get centered popover)
+            let parent = from.pushableSplitViewController ?? from
             let container = ModalNavigationController(rootViewController: to)
-            split.present(container, size: CGSize(width: 512, height: 700))
+            parent.present(container, size: CGSize(width: 512, height: 700))
         }
     }
 
