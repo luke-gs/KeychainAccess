@@ -11,22 +11,7 @@ import PromiseKit
 
 public class LocationSelectionPresenter: Presenter {
 
-    /// Unwind the presentation of the location selection view controllers
-    private func unwindViewController(_ viewController: UIViewController) {
-
-        guard let viewControllers = viewController.navigationController?.viewControllers,
-              let index = viewControllers.firstIndex(of: viewController) else { return }
-
-        // Check whether we are first item in navigation stack and presented
-        if let presenting = viewController.presentingViewController, index == 0 {
-            // Dismiss presented container
-            presenting.dismiss(animated: true, completion: nil)
-        } else {
-            // Pop to view controller before this one in one smooth animation, regardless of how many pushed VCs
-            let previousVC = viewControllers[index - 1]
-            viewController.navigationController?.popToViewController(previousVC, animated: true)
-        }
-    }
+    // MARK: - PUBLIC
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
@@ -51,6 +36,17 @@ public class LocationSelectionPresenter: Presenter {
                 Director.shared.present(LocationSelectionScreen.locationSelectionFinal(selectedLocation, completionHandler: { updatedSelectedLocation in
                     self?.unwindViewController(viewController)
                     completionHandler?(updatedSelectedLocation)
+                }), fromViewController: viewController)
+            }
+
+            viewController.mapHandler = { [weak viewController] in
+                guard let `viewController` = viewController else { return }
+
+                // Present the full map
+                Director.shared.present(LocationSelectionScreen.locationSelectionMap(viewModel.selectedLocation, completionHandler: { selectedLocation in
+                    if let selectedLocation = selectedLocation {
+                        viewController.selectionHandler?(selectedLocation)
+                    }
                 }), fromViewController: viewController)
             }
 
@@ -114,4 +110,24 @@ public class LocationSelectionPresenter: Presenter {
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is LocationSelectionScreen.Type
     }
+
+    // MARK: - PRIVATE
+
+    /// Unwind the presentation of the location selection view controllers
+    private func unwindViewController(_ viewController: UIViewController) {
+
+        guard let viewControllers = viewController.navigationController?.viewControllers,
+            let index = viewControllers.firstIndex(of: viewController) else { return }
+
+        // Check whether we are first item in navigation stack and presented
+        if let presenting = viewController.presentingViewController, index == 0 {
+            // Dismiss presented container
+            presenting.dismiss(animated: true, completion: nil)
+        } else {
+            // Pop to view controller before this one in one smooth animation, regardless of how many pushed VCs
+            let previousVC = viewControllers[index - 1]
+            viewController.navigationController?.popToViewController(previousVC, animated: true)
+        }
+    }
+
 }

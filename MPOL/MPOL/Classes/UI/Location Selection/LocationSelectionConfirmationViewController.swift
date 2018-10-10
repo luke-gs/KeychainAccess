@@ -159,6 +159,7 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 .title(title)
                 .options(options)
                 .selectedValue([viewModel.type].removeNils())
+                .allowsMultipleSelection(true)
                 .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
