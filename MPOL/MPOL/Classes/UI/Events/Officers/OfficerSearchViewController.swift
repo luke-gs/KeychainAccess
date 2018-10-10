@@ -17,31 +17,11 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
         fetchRecentOfficers()
     }
 
-    override open func construct(builder: FormBuilder) {
-        builder.enforceLinearLayout = .always
-        builder.title = viewModel.title
+    override func cellSelectedAt(_ indexPath: IndexPath) {
+        super.cellSelectedAt(indexPath)
 
-        for section in 0..<viewModel.numberOfSections() {
-            if viewModel.hasSections == true && viewModel.isSectionHidden(section) == false {
-                builder += LargeTextHeaderFormItem(text: viewModel.title(for: section))
-                    .separatorColor(.clear)
-            }
-            for row in 0..<viewModel.numberOfRows(in: section) {
-                let indexPath = IndexPath(row: row, section: section)
-                builder += SubtitleFormItem(title: viewModel.title(for: indexPath),
-                                            subtitle: viewModel.description(for: indexPath),
-                                            image: viewModel.image(for: indexPath),
-                                            style: .default)
-                    .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
-                    .onSelection { [unowned self] cell in
-
-                        // add officer to recently used
-                        try? UserPreferenceManager.shared.addRecentId(self.viewModel.object(for: indexPath).id, forKey: .recentOfficers, trimToMaxElements: 5)
-                        
-                        self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
-                }
-            }
-        }
+        // add officer to recently used
+        try? UserPreferenceManager.shared.addRecentId(self.viewModel.object(for: indexPath).id, forKey: .recentOfficers, trimToMaxElements: 5)
     }
 
     private func fetchRecentOfficers() {
