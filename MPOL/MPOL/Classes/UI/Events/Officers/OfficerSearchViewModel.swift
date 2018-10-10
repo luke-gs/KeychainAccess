@@ -28,7 +28,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func numberOfSections() -> Int {
-        return 1
+        return items.isEmpty ? 0 : 1
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -108,7 +108,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func loadingStateText() -> String? {
-        return "Searching"
+        return "Retrieving Officers"
     }
 
     func emptyStateText() -> String? {

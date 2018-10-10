@@ -52,6 +52,7 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
 
                 viewModel.removeAllItems()
 
+                self.loadingManager.state = .loading
                 let officerRequests = officerIds.map {
                     OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: $0)).fetchPromise()
                 }
@@ -66,6 +67,7 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
                             print(error)
                         }
                     }
+                    self.loadingManager.state = .loaded
                     self.reloadForm()
                 }
             }
