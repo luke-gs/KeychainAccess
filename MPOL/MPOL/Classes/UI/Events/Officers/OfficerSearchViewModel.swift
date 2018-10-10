@@ -122,4 +122,10 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     func appendItem(_ item: Object) {
         items.append(item)
     }
+
+    func appendItems(_ items: [Object]) {
+        items.forEach { item in
+            appendItem(item)
+        }
+    }
 }
