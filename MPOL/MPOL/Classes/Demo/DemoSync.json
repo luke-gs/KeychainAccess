@@ -566,7 +566,8 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "dateOfBirth": "1988-02-27", 
+          "dateOfBirth": "1988-02-27",
+          "dateOfDeath": "2020-02-27", 
           "familyName": "Lazeron", 
           "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
           "gender": "M", 
