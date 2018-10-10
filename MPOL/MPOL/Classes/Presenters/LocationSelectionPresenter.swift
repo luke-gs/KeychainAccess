@@ -11,19 +11,21 @@ import PromiseKit
 
 public class LocationSelectionPresenter: Presenter {
 
-    private func confirmAndCompleteSelection(_ selectedLocation: LocationSelectionType, viewController: UIViewController, completionHandler: ((LocationSelectionType?) -> Void)?) {
+    /// Unwind the presentation of the location selection view controllers
+    private func unwindViewController(_ viewController: UIViewController) {
 
-        // Present the confirmation screen, and when it is done, close all pushed views and call the completion handler
-        Director.shared.present(LocationSelectionScreen.locationSelectionFinal(selectedLocation, completionHandler: { updatedSelectedLocation in
-            // Pop to view controller before this one, regardless of whether there are more VCs on stack
-            if let viewControllers = viewController.navigationController?.viewControllers,
-                let index = viewControllers.firstIndex(of: viewController) {
-                let previousVC = viewControllers[index - 1]
-                viewController.navigationController?.popToViewController(previousVC, animated: true)
-            }
-            completionHandler?(updatedSelectedLocation)
-        }), fromViewController: viewController)
+        guard let viewControllers = viewController.navigationController?.viewControllers,
+              let index = viewControllers.firstIndex(of: viewController) else { return }
 
+        // Check whether we are first item in navigation stack and presented
+        if let presenting = viewController.presentingViewController, index == 0 {
+            // Dismiss presented container
+            presenting.dismiss(animated: true, completion: nil)
+        } else {
+            // Pop to view controller before this one in one smooth animation, regardless of how many pushed VCs
+            let previousVC = viewControllers[index - 1]
+            viewController.navigationController?.popToViewController(previousVC, animated: true)
+        }
     }
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
@@ -44,24 +46,19 @@ public class LocationSelectionPresenter: Presenter {
             let viewController = LocationSelectionLandingViewController(viewModel: viewModel)
             viewController.selectionHandler = { [weak self, weak viewController] selectedLocation in
                 guard let `viewController` = viewController else { return }
-                self?.confirmAndCompleteSelection(selectedLocation, viewController: viewController, completionHandler: completionHandler)
+
+                // Present the confirmation screen, and when it is done, close all pushed views and call the completion handler
+                Director.shared.present(LocationSelectionScreen.locationSelectionFinal(selectedLocation, completionHandler: { updatedSelectedLocation in
+                    self?.unwindViewController(viewController)
+                    completionHandler?(updatedSelectedLocation)
+                }), fromViewController: viewController)
             }
 
-            viewController.cancelHandler = { [weak viewController] in
+            viewController.cancelHandler = { [weak self, weak viewController] in
+                guard let `viewController` = viewController else { return }
+                self?.unwindViewController(viewController)
                 completionHandler?(nil)
-                viewController?.navigationController?.popViewController(animated: true)
             }
-
-//            // If used in a form action, the presentation is done based on modalPresentationStyle returned in this VC
-//            if from.presentingViewController != nil {
-//                // Push within existing modal navigation for all screens
-//                viewController.modalPresentationStyle = .none
-//            } else {
-//                // Present in a modal form sheet
-//            }
-
-            // Special modalPresentationStyle for form item to use push during presentation
-            viewController.modalPresentationStyle = .none
 
             // Remove text for back button in next screens
             viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -101,8 +98,17 @@ public class LocationSelectionPresenter: Presenter {
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
-        // Push within existing modal navigation for all screens
-        from.navigationController?.pushViewController(to, animated: true)
+
+        // Check if coming from modal dialog
+        if let nav = from.navigationController as? ModalNavigationController {
+            // Push within existing modal navigation
+            nav.pushViewController(to, animated: true)
+
+        } else if let split = from.pushableSplitViewController {
+            // Present in a modal form sheet from split view (to get centered popover)
+            let container = ModalNavigationController(rootViewController: to)
+            split.present(container, size: CGSize(width: 512, height: 700))
+        }
     }
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
