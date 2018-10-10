@@ -225,9 +225,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%1$d RESULT SELECTED</string>
+			<string>%1$d Result Selected</string>
 			<key>other</key>
-			<string>%1$d RESULTS SELECTED</string>
+			<string>%1$d Results Selected</string>
 		</dict>
 	</dict>
 	<key>%d Order(s)</key>
