@@ -168,7 +168,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         }
     }
 
-    private func performSearch() {
+    public func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
                 self.errorMessage = error.localizedDescription

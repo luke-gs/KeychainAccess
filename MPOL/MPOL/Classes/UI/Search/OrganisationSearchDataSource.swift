@@ -266,7 +266,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
         return false
     }
     
-    private func performSearch() {
+    public func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
                 self.errorMessage = error.localizedDescription

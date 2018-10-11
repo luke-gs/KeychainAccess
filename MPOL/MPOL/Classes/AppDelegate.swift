@@ -369,7 +369,15 @@ extension AppDelegate: SearchActivityHandlerDelegate {
         switch launchedSearchActivity {
         case .searchEntity(let term, let shouldSearchImmediately):
             landingPresenter.switchTo(.search)
-            landingPresenter.searchViewController.beginSearch(with: term, shouldSearchImmediately: shouldSearchImmediately)
+            landingPresenter.searchViewController.beginSearch(with: term)
+
+            // If should search immediately, tell the appropriate datasource to perform the search.
+            if shouldSearchImmediately {
+                if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
+                    ds.performSearch()
+                }
+            }
+            
         case .viewDetails(let id, let entityType, let source):
 
             let entity: Entity?
