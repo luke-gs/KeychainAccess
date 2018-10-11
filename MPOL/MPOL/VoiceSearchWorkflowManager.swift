@@ -13,6 +13,7 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
 
     var viewController: VoiceSearchViewController = VoiceSearchViewController()
 
+    // Set this to provide a custom keyword for the voiceSearchManager. Is "Bumblebee" by default.
     public var porcupineManagerConfig: PorcupineManagerConfiguration? {
         didSet {
             voiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2), porcupineManagerConfig: porcupineManagerConfig)
