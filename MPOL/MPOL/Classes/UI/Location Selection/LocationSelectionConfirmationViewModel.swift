@@ -36,14 +36,16 @@ public class LocationSelectionConfirmationViewModel {
     public var stateOptions: [AnyPickable]? = nil
 
     // Whether the address fields are user editable
-    public var isEditable: Bool
-    
-    public init(locationSelection: LocationSelectionType, isEditable: Bool = false) {
+    public var isEditable: Bool = false
+
+    // Whether address components are enforced
+    public var requiredFields: Bool = false
+
+    public init(locationSelection: LocationSelectionType) {
         let coordinateText = "\(locationSelection.coordinate.latitude), \(locationSelection.coordinate.longitude)"
 
         self.fullAddress = locationSelection.displayText
         self.coordinateText = coordinateText
-        self.isEditable = isEditable
 
         if let locationSelection = locationSelection as? LocationSelectionCore {
             if let placemark = locationSelection.placemark {

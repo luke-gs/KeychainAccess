@@ -67,7 +67,6 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 }
                 .width(.column(2))
             builder += TextFieldFormItem(title: NSLocalizedString("Street Name", comment: ""))
-                .required()
                 .text(viewModel.streetName)
                 .onValueChanged { [weak self] in
                     self?.viewModel.streetName = $0
@@ -86,7 +85,7 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             }
 
             if let suburbOptions = viewModel.suburbOptions {
-                builder += DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
+                let suburbItem = DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
                     .options(suburbOptions)
                     .selectedValue([viewModel.suburb].removeNils())
                     .allowsMultipleSelection(false)
@@ -94,6 +93,11 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                         self?.viewModel.suburb = $0?.first
                     }
                     .width(.column(2))
+
+                if viewModel.requiredFields {
+                    suburbItem.required()
+                }
+                builder += suburbItem
             }
 
             if let stateOptions = viewModel.stateOptions {
