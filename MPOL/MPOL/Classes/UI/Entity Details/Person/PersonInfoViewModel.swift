@@ -44,6 +44,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .category(displayable.category)
             .title(displayable.title)
             .subtitle(displayable.detail1)
+            .subtitleColor(displayable.subtitleColor)
             .detail(detail)
             .buttonTitle(buttonTitle)
             .borderColor(displayable.borderColor)
