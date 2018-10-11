@@ -364,7 +364,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     private func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
-                self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .invalidSearchErrorText), "Vehicle")
+                self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .searchInvalidTextError), "Vehicle")
             } else {
                 let search = Searchable(text: text, options: options?.state(), type: VehicleSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityCarSmall)
                 updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: resultModel)
