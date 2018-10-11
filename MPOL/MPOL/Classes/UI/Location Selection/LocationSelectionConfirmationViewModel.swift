@@ -11,60 +11,71 @@ import PublicSafetyKit
 public class LocationSelectionConfirmationViewModel {
     
     public let fullAddress: String?
-    public let coords: String?
+    public let coordinateText: String?
     
     // details
-    public var propertyNumber: String?
-    public var streetNumber: String?
-    public var streetName: String?
-    public var postcode: String?
-    public var remarks: String?
+    public var propertyNumber: String? = nil
+    public var streetNumber: String? = nil
+    public var streetName: String? = nil
+    public var postcode: String? = nil
+    public var remarks: String? = nil
     
     // DropDown value
-    public var streetType: AnyPickable?
-    public var suburb: AnyPickable?
-    public var state: AnyPickable?
-    public var involvement: AnyPickable?
-    
+    public var streetType: AnyPickable? = nil
+    public var suburb: AnyPickable? = nil
+    public var state: AnyPickable? = nil
+
+    // The location type, workflow specific
+    public var type: AnyPickable? = nil
+    public var typeTitle: String? = nil
+    public var typeOptions: [AnyPickable]? = nil
+
     // DropDown options
-    public var streetTypeOptions: [AnyPickable]?
-    public var suburbOptions: [AnyPickable]?
-    public var stateOptions: [AnyPickable]?
+    public var streetTypeOptions: [AnyPickable]? = nil
+    public var suburbOptions: [AnyPickable]? = nil
+    public var stateOptions: [AnyPickable]? = nil
+
+    // Whether the address fields are user editable
+    public var isEditable: Bool
     
-    public var involvementOptions: [AnyPickable]?
-    
-    
-    public let isEditable: Bool
-    
-    public init(fullAddress: String? = nil,
-                coords: String? = nil,
-                propertyNumber: String? = nil,
-                streetNumber: String? = nil,
-                streetName: String? = nil,
-                streetType: AnyPickable? = nil,
-                suburb: AnyPickable? = nil,
-                state: AnyPickable? = nil,
-                postcode: String? = nil,
-                involvement: AnyPickable? = nil,
-                streetTypeOptions: [AnyPickable]? = nil,
-                suburbOptions: [AnyPickable]? = nil,
-                stateOptions: [AnyPickable]? = nil,
-                involvementOptions: [AnyPickable]? = nil,
-                isEditable: Bool = false) {
-        self.fullAddress = fullAddress
-        self.coords = coords
-        self.propertyNumber = propertyNumber
-        self.streetNumber = streetNumber
-        self.streetName = streetName
-        self.streetType = streetType
-        self.suburb = suburb
-        self.state = state
-        self.postcode = postcode
-        self.involvement = involvement
-        self.streetTypeOptions = streetTypeOptions
-        self.suburbOptions = suburbOptions
-        self.stateOptions = stateOptions
-        self.involvementOptions = involvementOptions
+    public init(locationSelection: LocationSelectionType, isEditable: Bool = false) {
+        let coordinateText = "\(locationSelection.coordinate.latitude), \(locationSelection.coordinate.longitude)"
+
+        self.fullAddress = locationSelection.displayText
+        self.coordinateText = coordinateText
         self.isEditable = isEditable
+
+        if let locationSelection = locationSelection as? LocationSelectionCore {
+            if let placemark = locationSelection.placemark {
+                self.streetNumber = placemark.subThoroughfare
+                self.streetName = placemark.thoroughfare
+                self.postcode = placemark.postalCode
+                // TODO: set picker items from text strings
+                // self.streetType = streetType
+                // self.suburb = placemark.subLocality
+                // self.state = placemark.region
+            }
+
+            if let searchResult = locationSelection.searchResult {
+                self.propertyNumber = searchResult.unitNumber
+                self.streetNumber = searchResult.streetNumber
+                self.streetName = searchResult.streetName
+                self.postcode = searchResult.postalCode
+            }
+        }
+    }
+}
+
+fileprivate extension LookupAddress {
+    var streetNumber: String? {
+        var components: [String] = []
+        if let streetNumberFirst = streetNumberFirst, streetNumberFirst.isEmpty == false {
+            components.append(streetNumberFirst)
+        }
+
+        if let streetNumberEnd = streetNumberLast, streetNumberEnd.isEmpty == false {
+            components.append(streetNumberEnd)
+        }
+        return components.joined(separator: "-")
     }
 }
