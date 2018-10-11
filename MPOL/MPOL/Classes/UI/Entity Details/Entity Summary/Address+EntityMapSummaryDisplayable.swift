@@ -46,6 +46,8 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
         return address.alertLevel?.color
     }
     
+    public var subtitleColor: UIColor? = nil
+    
     public var badge: UInt {
         return 0
     }

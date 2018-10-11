@@ -45,6 +45,10 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return nil
     }
     
+    public var subtitleColor: UIColor? {
+        return UIColor.red
+    }
+    
     public var badge: UInt {
         return person.actionCount
     }
@@ -149,6 +153,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .category(category)
             .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
             .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .subtitleTextColor(UIColor.red)
             .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)
             .badgeColor(borderColor)
@@ -190,6 +195,14 @@ public struct PersonDetailsDisplayable: EntitySummaryDisplayable {
 
     public var iconColor: UIColor? {
         return displayable.iconColor
+    }
+    
+    public var subtitleColor: UIColor? {
+        if person.dateOfDeath != nil {
+            return UIColor.red
+        } else {
+            return nil
+        }
     }
 
     public var badge: UInt {

@@ -19,7 +19,7 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
         MPLUnimplemented()
     }
     
-    public init(association: CADAssociationType, category: String?, entityType: EntityType, title: String?, detail1: String?, detail2: String?, borderColor: UIColor?, iconColor: UIColor? = nil, badge: UInt) {
+    public init(association: CADAssociationType, category: String?, entityType: EntityType, title: String?, detail1: String?, detail2: String?, borderColor: UIColor?, iconColor: UIColor? = nil, subtitleColor: UIColor? = nil, badge: UInt) {
         self.association = association
         self.category = category
         self.entityType = entityType
@@ -29,6 +29,7 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
         self.detail2 = detail2
         self.borderColor = borderColor
         self.badge = badge
+        self.subtitleColor = subtitleColor
     }
     
     public var association: CADAssociationType
@@ -46,6 +47,8 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
     public var borderColor: UIColor?
     
     public var iconColor: UIColor?
+    
+    public var subtitleColor: UIColor?
 
     public var badge: UInt
     

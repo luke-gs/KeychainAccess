@@ -25,6 +25,7 @@ public class PatrolAssociationsViewModel: AssociationsViewModel {
                 detail2: person.fullAddress,
                 borderColor: person.alertLevel?.color,
                 iconColor: nil,
+                subtitleColor: UIColor.red,
                 badge: 0)
         }
 

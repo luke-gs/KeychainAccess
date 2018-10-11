@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.5.1)
   - Cache (4.1.2)
-  - Cluster (2.1.1)
+  - Cluster (2.2.9)
   - CoreKit (0.0.1):
     - Alamofire (= 4.5.1)
     - Cache (~> 4.1.2)
@@ -118,7 +118,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - PatternKit (0.0.1):
-    - Cluster (= 2.1.1)
+    - Cluster (= 2.2.9)
     - CoreKit
     - lottie-ios (= 2.1.3)
     - SketchKit
@@ -201,7 +201,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
-  Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
+  Cluster: 20155f2635cc603ac9164680c3a7d1fdf83ff187
   CoreKit: f2ee81b46eae79422fe3d08047841a1830c3db81
   CoreKitAppExtension: c24f3ac21c6992dda5bc2c0bcebf805ff4692b9b
   DemoAppKit: c18cc3f491feeb0a017c4fb4c9e1372671e2937b
@@ -223,7 +223,7 @@ SPEC CHECKSUMS:
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  PatternKit: 1ccb78b25c7372c229b1ac649b68851b8445cabf
+  PatternKit: d58542fcf3612b9cd617e48bf6074fcee1912953
   PromiseKit: ae3616f45d7bb9bf4ff1e91abc9b7a8c48a340e0
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23

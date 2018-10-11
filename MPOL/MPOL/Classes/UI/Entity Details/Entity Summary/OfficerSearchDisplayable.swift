@@ -32,6 +32,8 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     public var borderColor: UIColor?
 
     public var iconColor: UIColor?
+    
+    public var subtitleColor: UIColor? = nil
 
     public var badge: UInt {
         return 0
