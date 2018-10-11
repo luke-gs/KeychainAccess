@@ -11,9 +11,7 @@
 		127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventsListViewModel.swift */; };
 		127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F2202AB1F0007D0BBB /* EventBuilder.swift */; };
 		127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */; };
-		12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */; };
 		12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */; };
-		12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */; };
 		12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
@@ -98,8 +96,8 @@
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
 		445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */; };
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
-		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
 		47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */; };
+		96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */; };
 		96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2020D0B25600B82A53 /* NotificationService.swift */; };
 		96728C2520D0B25600B82A53 /* APNS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
@@ -227,6 +225,7 @@
 		96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7759F214206F100836B83 /* ABNParserDefinition.swift */; };
 		96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
+		96E5EE7A216580880096D448 /* LocationSelectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E5EE79216580880096D448 /* LocationSelectionPresenter.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
 		AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B0C20BF9981009862FD /* PersonSearchReport.swift */; };
@@ -302,9 +301,7 @@
 		127801F0202AAF09007D0BBB /* EventsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewModel.swift; sourceTree = "<group>"; };
 		127801F2202AB1F0007D0BBB /* EventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBuilder.swift; sourceTree = "<group>"; };
 		127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDetailViewModel.swift; sourceTree = "<group>"; };
-		12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationSearchViewController.swift; sourceTree = "<group>"; };
 		12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
-		12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSearchViewModel.swift; sourceTree = "<group>"; };
 		12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
@@ -398,12 +395,12 @@
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
-		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
 		495449F5AA1F6664A1E1F17A /* Pods-MPOLTests.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-release.xcconfig"; sourceTree = "<group>"; };
 		512B3576E818FC7A05B15DE0 /* Pods-MPOLTests.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-release.xcconfig"; sourceTree = "<group>"; };
 		529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-release.xcconfig"; sourceTree = "<group>"; };
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
+		96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionCore.swift; sourceTree = "<group>"; };
 		96728C1E20D0B25600B82A53 /* APNS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "APNS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96728C2020D0B25600B82A53 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		96728C2220D0B25600B82A53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -540,6 +537,7 @@
 		96B7759F214206F100836B83 /* ABNParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNParserDefinition.swift; sourceTree = "<group>"; };
 		96B775A0214206F100836B83 /* ABNACNWildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABNACNWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
+		96E5EE79216580880096D448 /* LocationSelectionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionPresenter.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
 		AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
@@ -625,10 +623,8 @@
 		12ABD571207F1FE9004D0C9F /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */,
 				12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */,
 				12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */,
-				12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -645,7 +641,6 @@
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
 				96B775892140FA6600836B83 /* EventsListViewController.swift */,
 				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
-				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
 				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
 			);
 			path = Events;
@@ -856,6 +851,14 @@
 				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96300ED82163207B00CF3B6F /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		96728C1F20D0B25600B82A53 /* APNS Extension */ = {
@@ -1144,6 +1147,7 @@
 		96B7758B2141E66200836B83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				96300ED82163207B00CF3B6F /* Location */,
 				2004A74921645C0100B17C59 /* Location Selection */,
 				207A0FFD21632FD400153AC3 /* Theme */,
 				96B774BB2140F8EE00836B83 /* Entity Creation */,
@@ -1393,6 +1397,7 @@
 				EAE9F6BA21365AB8004D9DE8 /* TaskItemPresenter.swift */,
 				EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */,
 				AA1C6ADC2159D1E7003F8B37 /* TrafficStopPresenter.swift */,
+				96E5EE79216580880096D448 /* LocationSelectionPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -1803,7 +1808,6 @@
 				379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
 				AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */,
 				AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */,
-				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
 				96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
@@ -1856,7 +1860,6 @@
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
 				2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */,
-				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
@@ -1882,7 +1885,6 @@
 				37C433932163339800544AA7 /* LicenceScanner.swift in Sources */,
 				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
 				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
-				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */,
 				96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */,
 				96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */,
@@ -1959,10 +1961,12 @@
 				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
+				96E5EE7A216580880096D448 /* LocationSelectionPresenter.swift in Sources */,
 				96B775192140F8EE00836B83 /* SupportSetting.swift in Sources */,
 				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
 				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
 				96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */,
+				96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */,
 				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
 				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
 				207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */,

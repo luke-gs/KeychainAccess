@@ -26,16 +26,17 @@ public class TrafficStopPresenter: Presenter {
 
             let viewModel = CreateTrafficStopViewModel(priorityOptions: priorityOptions,
                                                        primaryCodeOptions: primaryCodeOptions,
-                                                       secondaryCodeOptions: secondaryCodeOptions)
+                                                       secondaryCodeOptions: secondaryCodeOptions,
+                                                       currentLocationGenerator: { return LocationSelectionCore.reverseGeocode() })
 
             let viewController = CreateTrafficStopViewController(viewModel: viewModel)
             viewController.submitHandler = { viewModel in
                 // TODO: send to network
                 return Promise<Void>()
             }
-            viewController.closeHandler = { submitted in
+            viewController.closeHandler = { [weak viewController] submitted in
                 // Close UI and call completion handler
-                viewController.navigationController?.popViewController(animated: true)
+                viewController?.navigationController?.popViewController(animated: true)
                 completionHandler?(submitted ? viewModel : nil)
             }
             return viewController
@@ -45,9 +46,9 @@ public class TrafficStopPresenter: Presenter {
             viewModel.allowedEntityTypes = [Person.self, Vehicle.self]
 
             let viewController = EntitySummarySelectionViewController(viewModel: viewModel)
-            viewController.selectionHandler = { entity in
+            viewController.selectionHandler = { [weak viewController] entity in
                 // Close UI and call completion handler
-                viewController.navigationController?.popViewController(animated: true)
+                viewController?.navigationController?.popViewController(animated: true)
                 completionHandler?(entity)
             }
             return viewController
