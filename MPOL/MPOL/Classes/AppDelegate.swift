@@ -15,6 +15,7 @@ import Lottie
 import Alamofire
 import Firebase
 import VoiceSearchManager
+import Porcupine_iOS
 
 #if INTERNAL || EXTERNAL
     import HockeySDK
@@ -103,6 +104,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func updateAppForUserSession() {
+
+        //Add custom "Vancouver" config for workflow manager.
+        #if targetEnvironment(simulator)
+        let keywordFilePath = Bundle.main.path(forResource: "vancouver_mac", ofType: "ppn")
+        #else
+        let keywordFilePath = Bundle.main.path(forResource: "vancouver_ios", ofType: "ppn")
+        #endif
+        let modelFilePath =  Bundle(for: PorcupineManager.self).path(forResource: "porcupine_params", ofType: "pv")
+
+        let customConfig = PorcupineManagerConfiguration(keywordFilePath: keywordFilePath!, modelFilePath: modelFilePath!, wakeword: "Vancouver")
+
+        VoiceSearchWorkflowManager.shared.porcupineManagerConfig = customConfig
 
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {

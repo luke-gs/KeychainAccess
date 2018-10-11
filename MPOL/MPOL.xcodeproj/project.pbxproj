@@ -83,6 +83,8 @@
 		3727C4C32088193000F7A887 /* Offence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BF2088193000F7A887 /* Offence.swift */; };
 		3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */; };
 		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
+		378EAF0F216EFA3900960370 /* vancouver_mac.ppn in Resources */ = {isa = PBXBuildFile; fileRef = 378EAF0D216EFA3900960370 /* vancouver_mac.ppn */; };
+		378EAF10216EFA3900960370 /* vancouver_ios.ppn in Resources */ = {isa = PBXBuildFile; fileRef = 378EAF0E216EFA3900960370 /* vancouver_ios.ppn */; };
 		3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3792073521521FBE0071F119 /* AddressFormItemFactory.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
 		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
@@ -378,6 +380,8 @@
 		3727C4BF2088193000F7A887 /* Offence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offence.swift; sourceTree = "<group>"; };
 		3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffencePointAndFineTotalsView.swift; sourceTree = "<group>"; };
 		3745B13F20B3C14F008AA94F /* IncidentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAction.swift; sourceTree = "<group>"; };
+		378EAF0D216EFA3900960370 /* vancouver_mac.ppn */ = {isa = PBXFileReference; lastKnownFileType = file; path = vancouver_mac.ppn; sourceTree = "<group>"; };
+		378EAF0E216EFA3900960370 /* vancouver_ios.ppn */ = {isa = PBXFileReference; lastKnownFileType = file; path = vancouver_ios.ppn; sourceTree = "<group>"; };
 		3792073521521FBE0071F119 /* AddressFormItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormItemFactory.swift; sourceTree = "<group>"; };
 		379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
 		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
@@ -810,6 +814,15 @@
 				37235FB520AE759B0021850B /* Property.swift */,
 			);
 			path = "Domestic Violence";
+			sourceTree = "<group>";
+		};
+		378EAF0C216EFA2700960370 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				378EAF0E216EFA3900960370 /* vancouver_ios.ppn */,
+				378EAF0D216EFA3900960370 /* vancouver_mac.ppn */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		379869B220C4BE8C00E1FEAF /* Summary */ = {
@@ -1372,6 +1385,7 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				378EAF0C216EFA2700960370 /* Search */,
 				207A0FFC21632F7900153AC3 /* HTML */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
@@ -1570,6 +1584,7 @@
 			files = (
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
 				208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */,
+				378EAF0F216EFA3900960370 /* vancouver_mac.ppn in Resources */,
 				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
 				207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */,
 				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
@@ -1587,6 +1602,7 @@
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
 				1988307020BB82FE006FE165 /* Settings.bundle in Resources */,
 				208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */,
+				378EAF10216EFA3900960370 /* vancouver_ios.ppn in Resources */,
 				AA1E7BB82119145C0086AA70 /* termsandconditions.html in Resources */,
 				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
 			);

@@ -13,7 +13,14 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
 
     var viewController: VoiceSearchViewController = VoiceSearchViewController()
 
-    private let voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2))
+    public var porcupineManagerConfig: PorcupineManagerConfiguration? {
+        didSet {
+            voiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2), porcupineManagerConfig: porcupineManagerConfig)
+            voiceSearchManager.delegate = self
+        }
+    }
+    private var voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2))
+
     private lazy var speechSynthetizer: AVSpeechSynthesizer = {
         let synthetizer = AVSpeechSynthesizer()
         synthetizer.delegate = self
