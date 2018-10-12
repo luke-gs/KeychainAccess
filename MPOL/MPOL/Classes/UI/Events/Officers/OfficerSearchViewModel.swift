@@ -115,17 +115,47 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return "No Recently Used Officers"
     }
 
-    func removeAllItems() {
-        items.removeAll()
-    }
+    public func fetchRecentOfficers() -> Promise<Void>{
 
-    func appendItem(_ item: Object) {
-        items.append(item)
-    }
+        return Promise { seal in
 
-    func appendItems(_ items: [Object]) {
-        items.forEach { item in
-            appendItem(item)
+            let userPreferenceManager = UserPreferenceManager.shared
+
+            guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
+            !officerIds.isEmpty else {
+                seal.fulfill(())
+                return
+            }
+
+
+            items.removeAll()
+
+            let requestClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+                OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                    return Promise<MPOLKitEntity>.value(officer)
+                })
+            }
+
+            RecentlyUsedEntityManager.shared.entities(forIds: officerIds, entityTypeRequest: requestClosure).done { result in
+
+                if let officers = result as? [Officer] {
+                    self.items = officers
+                }
+                seal.fulfill(())
+            }.cauterize()
         }
     }
+
+    public func cellSelectedAt(_ indexPath: IndexPath) {
+
+        // add officer to recently used
+        let officer = object(for: indexPath)
+        try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
+        RecentlyUsedEntityManager.shared.add(officer)
+    }
 }
+
+extension UserPreferenceKey {
+    public static let recentOfficers = UserPreferenceKey("recentOfficers")
+}
+

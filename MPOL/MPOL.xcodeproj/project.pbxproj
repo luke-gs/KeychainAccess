@@ -251,6 +251,8 @@
 		AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
 		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
+		AAB34283216EF3A50065266E /* RecentlyUsedEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB34282216EF3A50065266E /* RecentlyUsedEntityManager.swift */; };
+		AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB34284216F0A490065266E /* OfficerFetchRequest.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
@@ -566,6 +568,8 @@
 		AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTimeAccessoryView.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
+		AAB34282216EF3A50065266E /* RecentlyUsedEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyUsedEntityManager.swift; sourceTree = "<group>"; };
+		AAB34284216F0A490065266E /* OfficerFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerFetchRequest.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* PS Core.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1090,6 +1094,7 @@
 				96B774DD2140F8EE00836B83 /* PersonSearchRequest.swift */,
 				96B774DF2140F8EE00836B83 /* VehicleFetchRequest.swift */,
 				96B774DC2140F8EE00836B83 /* VehicleSearchRequest.swift */,
+				AAB34284216F0A490065266E /* OfficerFetchRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1131,6 +1136,7 @@
 				96B7758F2141EAB400836B83 /* Responses */,
 				96B774E72140F8EE00836B83 /* RetrievalStrategies */,
 				96B7748A2140F8EE00836B83 /* DefaultFilterRules.swift */,
+				AAB34282216EF3A50065266E /* RecentlyUsedEntityManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1792,6 +1798,7 @@
 				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
 				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
+				AAB34283216EF3A50065266E /* RecentlyUsedEntityManager.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				96B7753F2140F8EE00836B83 /* AppGroupLandingPresenter.swift in Sources */,
 				96B7754A2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift in Sources */,
@@ -1949,6 +1956,7 @@
 				AA1C0B1020BF9981009862FD /* PersonSearchReportViewModel.swift in Sources */,
 				96B775552140F8EE00836B83 /* PersonSearchRequest.swift in Sources */,
 				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
+				AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */,
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,
