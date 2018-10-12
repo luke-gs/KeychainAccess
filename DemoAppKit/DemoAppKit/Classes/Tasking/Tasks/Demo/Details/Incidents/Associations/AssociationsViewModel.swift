@@ -20,13 +20,13 @@ public class AssociationsViewModel: CADFormCollectionViewModel<AssociationItemVi
     }
 
     open func formattedDOBAgeGender(_ person: CADAssociatedPersonType) -> String? {
-        if let _ = person.dateOfDeath {
+        if let dod = person.dateOfDeath {
             // show deceased instead of DOB
             var dodString = NSLocalizedString("Deceased", comment: "")
             var yearComponent: DateComponents?
             
             if let dob = person.dateOfBirth {
-                yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
+                yearComponent = Calendar.current.dateComponents([.year], from: dob, to: dod)
             }
             
             if let year = yearComponent?.year, let gender = person.gender {
