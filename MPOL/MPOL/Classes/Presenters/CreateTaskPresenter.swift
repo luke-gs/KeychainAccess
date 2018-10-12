@@ -36,7 +36,7 @@ public class CreateTaskPresenter: Presenter {
             let viewController = CreateTaskViewController(viewModel: viewModel)
             viewController.submitHandler = { viewModel in
                 // TODO: send to network
-                return Promise<Void>()
+                return after(seconds: 1).done {}
             }
             
             viewController.closeHandler = { [weak viewController] submitted in
