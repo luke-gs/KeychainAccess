@@ -174,7 +174,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     private func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
-                self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .searchInvalidTextError), "Person")
+                self.errorMessage = error.localizedDescription
             } else {
                 // Generate Searchable
                 let search = Searchable(text: text, options: nil, type: PersonSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityPerson)
