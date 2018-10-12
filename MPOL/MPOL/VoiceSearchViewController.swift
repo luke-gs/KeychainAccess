@@ -34,7 +34,7 @@ class VoiceSearchViewController: FormBuilderViewController {
     override func construct(builder: FormBuilder) { }
 
     @objc private func didTapCancelButton() {
-        delegate?.cancelSearch()
+        delegate?.cancelVoiceSearch()
         self.dismissAnimated()
     }
 }
@@ -65,6 +65,6 @@ extension VoiceSearchViewController {
 }
 
 public protocol VoiceSearchViewControllerDelegate: class {
-    func cancelSearch()
+    func cancelVoiceSearch()
 }
 
