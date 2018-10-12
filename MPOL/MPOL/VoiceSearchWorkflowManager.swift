@@ -69,7 +69,7 @@ extension VoiceSearchWorkflowManager: AVSpeechSynthesizerDelegate {
 
 extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
-    var shouldBeginListening: Bool {
+    func voiceSearchManagerShouldBeginListening(_ manager: VoiceSearchManager) -> Bool {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.window?.rootViewController?.presentedViewController == nil
     }
