@@ -17,6 +17,14 @@ public class RecentlyUsedEntityManager {
     private var entityBucket = EntityBucket()
     private var fetchRequests = [String: (MPOLKitEntity) -> (Promise<Any>)]()
 
+    /// This function uses provided ids and closure to return all associated entities stored both locally and remotley.
+    /// Expired local entities will be replaced with their up to date remote copies.
+    ///
+    /// Returns: A promise of an array of all entities matching the given id's
+    ///
+    /// Paramaters:
+    /// ids - an array of entity ids we want to retrieve
+    /// entityFetchRequest - a closure that can retrieve an entity of a specific type using its id
     public func entities(forIds ids: [String], entityTypeRequest: ((String) -> Promise<MPOLKitEntity>)) -> Promise<[MPOLKitEntity]?> {
 
         return Promise { seal in
@@ -74,11 +82,15 @@ public class RecentlyUsedEntityManager {
         }
     }
 
-    public func add(_ entity: MPOLKitEntity) {
+    /// This function adds an entity to the local recentlyUsedEntity cache
+    /// The entity will be given an expiry date before being added to the cache.
+    ///
+    /// Paramaters:
+    /// entity - the entity to add to the local cache
+    /// expiry - the number of minutes in which the entity data will be considered stale
+    public func add(_ entity: MPOLKitEntity, withExpiry expiry: Int = RecentlyUsedEntityManager.StandardShelfLife) {
 
-        //TODO: update when we get an actual expiry date for the data
-        entity.expiryDate = Date().adding(minutes: RecentlyUsedEntityManager.StandardShelfLife)
-
+        entity.expiryDate = Date().adding(minutes: expiry)
         entityBucket.add(entity)
     }
 }
