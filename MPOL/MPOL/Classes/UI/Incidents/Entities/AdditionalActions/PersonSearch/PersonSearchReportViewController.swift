@@ -98,7 +98,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
 
 
         builder += LargeTextHeaderFormItem(text: "Searching Officers")
-            .sectionIsRequired(true)
+            .isRequired(true)
             .separatorColor(.clear)
             .actionButton(title: "Add") { button in
                 self.addTapped()

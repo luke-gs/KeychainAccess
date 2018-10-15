@@ -58,7 +58,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
                                       subtitle: property.property?.type,
                                       detail: property.involvements?.joined(separator: ", "),
                                       image: nil)
-                .accessory(FormAccessoryView(style: .pencil))
+                .accessory(ItemAccessory.pencil)
                 .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
                     self.viewModel.report.propertyList.remove(at: indexPath.row)
                     self.updateLoadingManagerState()

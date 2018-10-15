@@ -134,7 +134,7 @@ open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
         summaryView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
         summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
     }
-    
+
 }
 
 extension TasksListIncidentCollectionViewCell: ColumnContainerViewDataSource {

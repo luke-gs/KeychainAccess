@@ -12,7 +12,7 @@ import PublicSafetyKit
 @objc(MPLTelephoneNumber)
 open class TelephoneNumber: NSObject, Serialisable {
 
-    open let id: String
+    public let id: String
     
     open var suffix: String?
     open var cityCode: String?
@@ -77,8 +77,8 @@ open class TelephoneNumber: NSObject, Serialisable {
         aCoder.encode(countryCode, forKey: CodingKey.countryCode.rawValue)
     }
     
-    open static var supportsSecureCoding: Bool { return true }
-    open static var modelVersion: Int { return 0 }
+    public static var supportsSecureCoding: Bool { return true }
+    public static var modelVersion: Int { return 0 }
 
     private enum CodingKey: String {
         case version

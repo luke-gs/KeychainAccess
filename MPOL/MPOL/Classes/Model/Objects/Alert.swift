@@ -163,7 +163,7 @@ open class Alert: NSObject, Serialisable {
     }
     
     // MARK: - Model Versionable
-    open static var modelVersion: Int {
+    public static var modelVersion: Int {
         return 0
     }
 }

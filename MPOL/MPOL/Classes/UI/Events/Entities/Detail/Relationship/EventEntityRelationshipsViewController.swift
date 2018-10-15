@@ -47,11 +47,10 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
             builder += dataSource.entities.map { entity in
                 return viewModel.displayable(for: entity)
                     .summaryListFormItem()
+                    .styleIdentifier(DemoAppKitStyler.associationStyle)
                     .badgeColor(nil)
                     .badge(0)
                     .detail(viewModel.relationshipStatus(forEntity: entity))
-                    .detailFont(UIFont.systemFont(ofSize: 11, weight: .semibold))
-                    .detailColorKey(.primaryText)
                     .onSelection({ (cell) in
                         guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
                         self.collectionView?.deselectItem(at: indexPath, animated: true)

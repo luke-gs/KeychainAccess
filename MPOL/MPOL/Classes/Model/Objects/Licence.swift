@@ -12,7 +12,7 @@ import PublicSafetyKit
 @objc(MPLLicence)
 open class Licence: NSObject, Serialisable {
 
-    open let id: String
+    public let id: String
     
     open var dateCreated: Date?
     open var dateUpdated: Date?
@@ -134,12 +134,12 @@ open class Licence: NSObject, Serialisable {
 
     }
     
-    open static var supportsSecureCoding: Bool {
+    public static var supportsSecureCoding: Bool {
         return true
     }
 
     // MARK: - Model Versionable
-    open static var modelVersion: Int {
+    public static var modelVersion: Int {
         return 0
     }
 
@@ -177,7 +177,7 @@ extension Licence {
     @objc(MPLLicenceClass)
     public class LicenceClass: NSObject, Serialisable {
         
-        open let id: String
+        public let id: String
         
         open var dateCreated: Date?
         open var dateUpdated: Date?
@@ -195,11 +195,11 @@ extension Licence {
         open var classDescription: String?
         open var conditions: [Condition]?
         
-        open static var supportsSecureCoding: Bool {
+        public static var supportsSecureCoding: Bool {
             return true
         }
 
-        open static var modelVersion: Int {
+        public static var modelVersion: Int {
             return 0
         }
 
@@ -297,7 +297,7 @@ extension Licence {
     @objc(MPLCondition)
     public class Condition: NSObject, Serialisable {
         
-        open let id: String
+        public let id: String
         
         open var dateCreated: Date?
         open var dateUpdated: Date?
@@ -311,11 +311,11 @@ extension Licence {
         
         open var condition: String?
         
-        open static var supportsSecureCoding: Bool {
+        public static var supportsSecureCoding: Bool {
             return true
         }
 
-        open static var modelVersion: Int {
+        public static var modelVersion: Int {
             return 0
         }
 

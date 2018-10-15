@@ -93,6 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let window = UIWindow()
         self.window = window
 
+        setupFormStyles()
         applyCurrentTheme()
 
         updateAppForUserSession()
@@ -318,6 +319,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window?.tintColor = theme.color(forKey: .tint)
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
+    }
+
+    private func setupFormStyles() {
+        DemoAppKitStyler.configureSharedStyles()
     }
 
     private func setupNavigator() {

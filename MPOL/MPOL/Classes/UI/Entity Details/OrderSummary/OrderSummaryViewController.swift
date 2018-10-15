@@ -34,13 +34,13 @@ public class OrderSummaryViewController: FormBuilderViewController {
             .layoutMargins(UIEdgeInsets(top: 4, left: 48, bottom: 16, right: 48))
 
         builder += RowDetailFormItem(title: viewModel.statusLabel, detail: viewModel.statusValue)
-            .separatorColor(.clear)
+            .separatorStyle(.none)
 
         builder += RowDetailFormItem(title: viewModel.issuingAuthorityLabel, detail: viewModel.issuingAuthorityValue)
-            .separatorColor(.clear)
+            .separatorStyle(.none)
 
         builder += RowDetailFormItem(title: viewModel.dateIssuedLabel, detail: viewModel.dateIssuedValue)
-            .separatorColor(.clear)
+            .separatorStyle(.none)
 
         builder += RowDetailFormItem(title: viewModel.dateOfExpiryLabel, detail: viewModel.dateOfExpiryValue)
 

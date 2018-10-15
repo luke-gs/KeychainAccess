@@ -88,8 +88,9 @@ open class ClusterTasksViewController: FormBuilderViewController {
                     })
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ [weak self] (cell, theme) in
-                        self?.apply(theme: theme, to: cell)
+                    .onStyled({ [unowned self] (cell) in
+                        let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
+                        self.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (cell) in
                         if let viewModel = item.createItemViewModel() {

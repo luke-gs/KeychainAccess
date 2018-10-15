@@ -102,11 +102,6 @@ open class BookOnLandingViewModel {
     open func apply(theme: Theme, to cell: CollectionViewFormCell) {
         if let cell = cell as? CallsignCollectionViewCell {
             cell.apply(theme: theme)
-        } else if let cell = cell as? CollectionViewFormValueFieldCell {
-            cell.valueLabel.textColor = theme.color(forKey: .primaryText)
-        } else if let cell = cell as? CollectionViewFormSubtitleCell {
-            cell.titleLabel.textColor = theme.color(forKey: .primaryText)
-            cell.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
         }
     }
     

@@ -248,6 +248,7 @@
 		96BE88762126597000F57FF0 /* DemoAppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88752126597000F57FF0 /* DemoAppKitTests.swift */; };
 		96BE88782126597000F57FF0 /* DemoAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE886A2126597000F57FF0 /* DemoAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9BE14571DCC92580D7D72CB0 /* Pods_DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837172668652E1ABE842ACD1 /* Pods_DemoAppKit.framework */; };
+		EADF5B0921521E6B00121461 /* DemoAppKitStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADF5B0821521E6B00121461 /* DemoAppKitStyler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -509,6 +510,7 @@
 		96BE88752126597000F57FF0 /* DemoAppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppKitTests.swift; sourceTree = "<group>"; };
 		96BE88772126597000F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98DE0B0AD5CC2728A2EDA96E /* Pods-DemoAppKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EADF5B0821521E6B00121461 /* DemoAppKitStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppKitStyler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -555,6 +557,7 @@
 			isa = PBXGroup;
 			children = (
 				96B8061E212D1953005A72A0 /* DemoAppKitImports.swift */,
+				EADF5B0721521E4E00121461 /* Theme */,
 				204B57A621532704006745D5 /* Extensions */,
 				96B8061F212D1953005A72A0 /* Presenter */,
 				96B80621212D1953005A72A0 /* Search */,
@@ -1441,6 +1444,14 @@
 			path = DemoAppKitTests;
 			sourceTree = "<group>";
 		};
+		EADF5B0721521E4E00121461 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				EADF5B0821521E6B00121461 /* DemoAppKitStyler.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		FB3EEA76A60FE5209959C592 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1654,6 +1665,7 @@
 				96B807C8212D1954005A72A0 /* ManifestCollection+CAD.swift in Sources */,
 				96B807BC212D1954005A72A0 /* TasksListContainerViewController.swift in Sources */,
 				96B80838212D1954005A72A0 /* CADStateManagerType.swift in Sources */,
+				EADF5B0921521E6B00121461 /* DemoAppKitStyler.swift in Sources */,
 				96B807E0212D1954005A72A0 /* ClusterTasksViewModel.swift in Sources */,
 				96B8075C212D1954005A72A0 /* DefaultEventDateTimeViewModel.swift in Sources */,
 				96B807B7212D1954005A72A0 /* TasksListViewModel.swift in Sources */,

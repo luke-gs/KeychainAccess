@@ -52,10 +52,10 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
         builder += reports.enumerated().map { (itemIndex, report) in
             return viewModel.displayable(for: report.entity)
                 .summaryListFormItem()
+                .styleIdentifier(DemoAppKitStyler.eventEntityStyle)
                 .badgeColor(nil)
                 .badge(0)
                 .detail(viewModel.relationshipStatusFor(itemIndex))
-                .detailColorKey(viewModel.invalidRelationshipsColor())
                 .onSelection { cell in
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
                     self.showDetailsFor(self.viewModel.reportFor(indexPath))
