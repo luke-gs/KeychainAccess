@@ -8,7 +8,6 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import Cache
 
 public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {
     public static let intrinsicHeight: CGFloat = 96

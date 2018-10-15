@@ -5,7 +5,6 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Cache
 import Foundation
 
 /// Incident Displayable used to map against the OOTB
