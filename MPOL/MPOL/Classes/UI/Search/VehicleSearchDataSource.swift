@@ -222,7 +222,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             textField.attributedPlaceholder  = placeholder
 
             return self.additionalSearchButtons
-            }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
+        }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
     }
 
     lazy var navigationButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemTapped))
