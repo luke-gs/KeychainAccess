@@ -130,13 +130,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
             items.removeAll()
 
-            let requestClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-                OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                    return Promise<MPOLKitEntity>.value(officer)
-                })
-            }
-
-            RecentlyUsedEntityManager.shared.entities(forIds: officerIds, entityTypeRequest: requestClosure).done { result in
+            RecentlyUsedEntityManager.shared.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { result in
 
                 if let officers = result as? [Officer] {
                     self.items = officers
