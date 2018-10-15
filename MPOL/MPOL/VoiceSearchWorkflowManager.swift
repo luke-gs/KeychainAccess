@@ -51,7 +51,7 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
        try? voiceSearchManager.startRecognitionTask()
     }
 
-    func voiceSearchControllerCancelRecognitionTask() {
+    func voiceSearchViewControllerCancelRecognitionTask(_ controller: VoiceSearchViewController) {
         voiceSearchManager.cancelRecognitionTask()
     }
 

@@ -8,7 +8,7 @@
 import UIKit
 import PatternKit
 
-class VoiceSearchViewController: FormBuilderViewController {
+public class VoiceSearchViewController: FormBuilderViewController {
 
     public var delegate: VoiceSearchViewControllerDelegate?
 
@@ -16,7 +16,7 @@ class VoiceSearchViewController: FormBuilderViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Event", style: .plain, target: self, action: nil)
@@ -31,10 +31,10 @@ class VoiceSearchViewController: FormBuilderViewController {
         loadingManager.state = .noContent
     }
 
-    override func construct(builder: FormBuilder) { }
+    public override func construct(builder: FormBuilder) { }
 
     @objc private func didTapCancelButton() {
-        delegate?.cancelVoiceSearch()
+        delegate?.voiceSearchViewControllerCancelRecognitionTask(self)
         self.dismissAnimated()
     }
 }
@@ -65,6 +65,6 @@ extension VoiceSearchViewController {
 }
 
 public protocol VoiceSearchViewControllerDelegate: class {
-    func cancelVoiceSearch()
+    func voiceSearchViewControllerCancelRecognitionTask(_ controller: VoiceSearchViewController)
 }
 
