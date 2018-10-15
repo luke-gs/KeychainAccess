@@ -8,6 +8,7 @@
 
 import PublicSafetyKit
 import PromiseKit
+import DemoAppKit
 
 open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationMapDisplayable {
 
@@ -51,7 +52,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         
         builder.title = title
         
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("DETAILS", comment: ""), separatorColor: .clear)
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
         
         builder += addressBlocks(for: organisation, viewController: viewController)
         
@@ -95,7 +96,8 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         }
         
         return [
-            DetailLinkFormItem()
+            DetailFormItem()
+                .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
                 .title(title)
                 .subtitle(address.fullAddress)
                 .width(.column(1))

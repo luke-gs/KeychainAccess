@@ -52,7 +52,8 @@ open class ActivityLogViewController: FormBuilderViewController {
                     .onConfigured({ (cell) in
                         self.decorate(cell: cell, with: item)
                     })
-                    .onThemeChanged({ (cell, theme) in
+                    .onStyled({ (cell) in
+                        let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                         self.apply(theme: theme, to: cell)
                     })
                     .onSelection({ (cell) in

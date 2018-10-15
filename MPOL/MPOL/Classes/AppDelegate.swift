@@ -10,6 +10,7 @@ import UIKit
 import UserNotifications
 import PublicSafetyKit
 import DemoAppKit
+import SketchKit
 import PromiseKit
 import Lottie
 import Alamofire
@@ -32,7 +33,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        MPOLKitInitialize()
+        // Register bundles used by pattern kit containing assets
+        AssetManager.shared.register(bundle: Bundle(for: AssetManager.self), priority: .coreKit)
+        AssetManager.shared.register(bundle: Bundle(for: SketchPen.self), priority: .sketchKit)
+        AssetManager.shared.register(bundle: Bundle(for: FormBuilder.self), priority: .patternKit)
+        AssetManager.shared.register(bundle: Bundle(for: LoginViewController.self), priority: .publicSafteyKit)
+
+        // Access the keyboard input manager to start it managing all text entry.
+        _ = KeyboardInputManager.shared
+
+        // Preload MPOL animations
+        LOTAnimationView.preloadMPOLAnimations()
+
         performDataMigrationIfNecessary()
 
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
@@ -60,7 +72,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         landingPresenter = LandingPresenter()
         landingPresenter.wantsBiometricAuthentication = true
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter(), TaskListPresenter(), TaskItemPresenter(), BookOnPresenter(), TrafficStopPresenter(), CreateTaskPresenter()])
+        let presenter = PresenterGroup(presenters: [SystemPresenter(),
+                                                    landingPresenter,
+                                                    EntityPresenter(),
+                                                    EventPresenter(),
+                                                    TaskListPresenter(),
+                                                    TaskItemPresenter(),
+                                                    BookOnPresenter(),
+                                                    TrafficStopPresenter(),
+                                                    CreateTaskPresenter(),
+                                                    LocationSelectionPresenter()])
         
         let director = Director(presenter: presenter)
         Director.shared = director
@@ -72,6 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let window = UIWindow()
         self.window = window
 
+        setupFormStyles()
         applyCurrentTheme()
 
         updateAppForUserSession()
@@ -297,6 +319,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window?.tintColor = theme.color(forKey: .tint)
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
+    }
+
+    private func setupFormStyles() {
+        DemoAppKitStyler.configureSharedStyles()
     }
 
     private func setupNavigator() {

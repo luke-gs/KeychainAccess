@@ -33,11 +33,7 @@ public class IncidentSummaryFormItem: BaseFormItem {
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         return 64
     }
-    
-    public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
-        let cell = cell as! TasksListIncidentCollectionViewCell
-        cell.apply(theme: theme)
-    }
+
 }
 
 // MARK: - Chaining methods

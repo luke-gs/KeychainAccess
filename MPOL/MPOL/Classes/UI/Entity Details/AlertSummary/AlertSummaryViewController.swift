@@ -29,8 +29,6 @@ public class AlertSummaryViewController: FormBuilderViewController {
         builder.enforceLinearLayout = .always
 
         builder += ImageDetailFormItem(image: viewModel.alertimage, title: viewModel.levelText, description: viewModel.titleText)
-            .separatorColor(.clear)
-            .descriptionColorKey(.primaryText)
 
         builder += RowDetailFormItem(title: viewModel.dateLabel, detail: viewModel.dateIssued)
         builder += LabelFormItem(text: viewModel.description)

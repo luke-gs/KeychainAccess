@@ -23,7 +23,7 @@ open class TasksMapViewController: MapViewController {
 
     public let viewModel: TasksMapViewModel
 
-    open let clusterManager: ClusterManager = {
+    public let clusterManager: ClusterManager = {
         let clusterManager = ClusterManager()
         clusterManager.cellSize = nil
         clusterManager.minCountForClustering = 2

@@ -77,8 +77,9 @@ extension InterceptReportGeneralDetailsReport: Summarisable {
     
     public var formItems: [FormItem] {
         var items = [FormItem]()
-        items.append(RowDetailFormItem(title: "Subject", detail: selectedSubject ?? "Required").detailColorKey(selectedSubject == nil ? .redText : nil))
-        items.append(RowDetailFormItem(title: "Seconday Subject", detail: selectedSecondarySubject ?? "Required").detailColorKey(selectedSecondarySubject == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Subject", detail: selectedSubject ?? "Required")
+            .styleIdentifier(selectedSubject == nil ? DemoAppKitStyler.summaryRequiredStyle : nil))
+        items.append(RowDetailFormItem(title: "Seconday Subject", detail: selectedSecondarySubject ?? "Required").styleIdentifier(selectedSecondarySubject == nil ? DemoAppKitStyler.summaryRequiredStyle : nil))
         if let remarks = remarks {
             items.append(RowDetailFormItem(title: "Remarks", detail: remarks))
         }

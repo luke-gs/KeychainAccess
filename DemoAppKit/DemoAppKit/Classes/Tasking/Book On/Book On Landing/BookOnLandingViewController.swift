@@ -108,9 +108,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
                 .height(.fixed(44))
-                .onThemeChanged({ (cell, theme) in
-                    self.viewModel.apply(theme: theme, to: cell)
-                })
                 .contentMode(.center)
                 .onSelection({ [weak self] _ in
                     let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self, formSheet: false)
@@ -131,7 +128,8 @@ open class BookOnLandingViewController: FormBuilderViewController {
                 .onConfigured({ (cell) in
                     self.viewModel.decorate(cell: cell, with: item)
                 })
-                .onThemeChanged({ (cell, theme) in
+                .onStyled({ (cell) in
+                    let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                     self.viewModel.apply(theme: theme, to: cell)
                 })
                 .onSelection({ [weak self] (cell) in

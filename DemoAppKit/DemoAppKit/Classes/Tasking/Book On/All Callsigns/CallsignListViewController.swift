@@ -89,7 +89,7 @@ open class CallsignListViewController: CADFormCollectionViewController<BookOnLan
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
-        cell.accessoryView = FormAccessoryView(style: .disclosure)
+        cell.accessoryView = FormAccessoryImageView(style: .disclosure)
         
         if let cell = cell as? CallsignCollectionViewCell {
             cell.decorate(with: viewModel)
@@ -97,7 +97,7 @@ open class CallsignListViewController: CADFormCollectionViewController<BookOnLan
             cell.subtitleLabel.text = viewModel.subtitle
             cell.imageView.image = viewModel.image
             cell.imageView.tintColor = viewModel.imageColor
-            cell.accessoryView = FormAccessoryView(style: .disclosure)
+            cell.accessoryView = FormAccessoryImageView(style: .disclosure)
         }
     }
     

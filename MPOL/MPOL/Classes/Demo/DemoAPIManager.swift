@@ -20,7 +20,7 @@ enum APIError: Error {
 /// Instead, i created a CADAPIManager protocol that the state manager uses rather than a subclassed APIManager.
 open class DemoAPIManager: CADAPIManagerType {
 
-    open static let shared = DemoAPIManager()
+    public static let shared = DemoAPIManager()
 
     let delayTime: TimeInterval = 1
 

@@ -43,11 +43,6 @@ public class TrafficHistoryOverviewFormItem: BaseFormItem {
         return TrafficHistoryCollectionViewCell.minimumContentHeight(withDetail: text, inWidth: contentWidth, compatibleWith: traitCollection)
     }
     
-    public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
-        let cell = cell as! TrafficHistoryCollectionViewCell
-        cell.applyTheme(theme: theme)
-    }
-
 }
 
 // MARK: - Chaining methods

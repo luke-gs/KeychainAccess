@@ -43,26 +43,27 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.isUserInteractionEnabled = false
 
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
+
+        // Set initial annotation
+        self.updateAnnotation()
+        self.updateRegion()
     }
 
     override open func construct(builder: FormBuilder) {
         builder.title = "Locations"
         builder.enforceLinearLayout = .always
 
-        let viewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.eventLocation,
-                                                   typeCollection: ManifestCollection.eventLocationInvolvementType)
-
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)
         
-        builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .title("Event Location")
-            .selectedValue(self.viewModel.report.eventLocation)
+            .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
             .required()
             .onValueChanged({ (location) in
                 if let location = location {
-                    self.viewModel.report.eventLocation = location
+                    self.viewModel.report.eventLocation = EventLocation(locationSelection: location)
                     self.updateAnnotation()
                     self.updateRegion()
                 }
@@ -117,18 +118,19 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? MKPointAnnotation {
-            let pinView: PinAnnotationView
-            let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PinAnnotationView {
+            let pinView: LocationSelectionAnnotationView
+            let identifier = LocationSelectionAnnotationView.defaultReuseIdentifier
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationSelectionAnnotationView {
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
             } else {
-                pinView = PinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
+            // Do not show address
+            annotation.title = ""
 
             return pinView
         }
-
         return nil
     }
 

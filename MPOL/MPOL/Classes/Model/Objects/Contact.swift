@@ -26,7 +26,7 @@ open class Contact: NSObject, Serialisable {
         }
     }
     
-    open let id: String
+    public let id: String
     
     open var dateCreated: Date?
     open var dateUpdated: Date?
@@ -125,12 +125,12 @@ open class Contact: NSObject, Serialisable {
         aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
     
-    open static var supportsSecureCoding: Bool {
+    public static var supportsSecureCoding: Bool {
         return true
     }
 
     // MARK: - Model Versionable
-    open static var modelVersion: Int {
+    public static var modelVersion: Int {
         return 0
     }
  

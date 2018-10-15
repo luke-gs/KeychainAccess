@@ -6,6 +6,7 @@
 //
 
 import PublicSafetyKit
+import DemoAppKit
 
 public protocol AssociatedEntitySummaryDisplayable: EntitySummaryDisplayable {
     var association: String? { get }
@@ -32,9 +33,8 @@ extension AssociatedEntitySummaryDisplayable {
     
     public func associatedSummaryListFormItem() -> SummaryListFormItem {
         return summaryListFormItem()
+            .styleIdentifier(DemoAppKitStyler.associationStyle)
             .detail(association)
-            .detailFont(UIFont.boldSystemFont(ofSize: 11))
-            .detailColorKey(.primaryText)
     }
     
     public func associatedSummaryFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {

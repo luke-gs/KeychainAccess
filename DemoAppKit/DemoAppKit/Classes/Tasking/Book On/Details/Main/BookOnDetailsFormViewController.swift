@@ -203,7 +203,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
                                                     image: officer.thumbnail())
                 .width(.column(1))
                 .height(.fixed(60))
-                .accessory(FormAccessoryView(style: .pencil))
+                .accessory(ItemAccessory.pencil)
                 .editActions(editActions)
                 .onSelection { [unowned self] cell in
                     let screen = self.viewModel.officerDetailsScreen(at: index)

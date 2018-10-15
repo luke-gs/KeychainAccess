@@ -13,7 +13,7 @@ import Unbox
 open class AssociationReason: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
-    open let id: String
+    public let id: String
     
     open var effectiveDate: Date?
     open var reason: String?
@@ -41,7 +41,7 @@ open class AssociationReason: NSObject, Serialisable {
         aCoder.encode(reason, forKey: CodingKey.reason.rawValue)
     }
     
-    open static var supportsSecureCoding: Bool { return true }
+    public static var supportsSecureCoding: Bool { return true }
     
     private enum CodingKey: String {
         case id
