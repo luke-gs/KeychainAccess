@@ -8,6 +8,7 @@
 
 import Foundation
 import PublicSafetyKit
+import DemoAppKit
 
 open class PersonInfoViewModel: EntityDetailFormViewModel {
 
@@ -165,7 +166,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
                 }()
 
-                builder += DetailLinkFormItem()
+                builder += DetailFormItem()
+                    .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
                     .title(title)
                     .subtitle(subtitle)
                     .detail(detail)

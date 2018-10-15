@@ -20,9 +20,9 @@ open class Media: NSObject, Serialisable {
     
     open class var supportsSecureCoding: Bool { return true }
 
-    open static var modelVersion: Int { return 0 }
+    public static var modelVersion: Int { return 0 }
 
-    open let id: String
+    public let id: String
 
     open var dateCreated: Date?
     open var dateUpdated: Date?

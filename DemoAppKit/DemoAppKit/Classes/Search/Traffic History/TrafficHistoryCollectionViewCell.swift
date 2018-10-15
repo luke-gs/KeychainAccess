@@ -107,7 +107,7 @@ public class TrafficHistoryCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Theme
     
-    public func applyTheme(theme: Theme) {
+    public func apply(theme: Theme) {
         stackView.arrangedSubviews.forEach { (view) in
             if let view = view as? DemeritPinView {
                 view.subtitle.textColor = theme.color(forKey: Theme.ColorKey.primaryText)

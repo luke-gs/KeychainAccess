@@ -39,8 +39,8 @@ open class PersonDescription: NSObject, Serialisable {
 
     open var jurisdiction: String?
     
-    open static var supportsSecureCoding: Bool { return true }
-    open static var modelVersion: Int { return 0 }
+    public static var supportsSecureCoding: Bool { return true }
+    public static var modelVersion: Int { return 0 }
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

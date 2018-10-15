@@ -51,6 +51,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     public init(viewModel: TasksListViewModel) {
         self.viewModel = viewModel
+
         super.init()
     }
     
@@ -67,6 +68,11 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+
+        let styler = Styler()
+        styler.mainStyle = DemoAppKitStyler(interfaceStyle: .dark)
+
+        builder.styler = styler
 
         createSubviews()
         createConstraints()
@@ -178,8 +184,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                     })
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ [weak self] (cell, theme) in
-                        self?.apply(theme: theme, to: cell)
+                    .onStyled({ [unowned self] (cell) in
+                        let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
+                        self.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (cell) in
                         // Set item as read and reload the section

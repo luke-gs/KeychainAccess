@@ -46,7 +46,7 @@ open class CriminalHistory: Entity {
 
     }
 
-    override open static var modelVersion: Int {
+    override open class var modelVersion: Int {
         return 1
     }
 

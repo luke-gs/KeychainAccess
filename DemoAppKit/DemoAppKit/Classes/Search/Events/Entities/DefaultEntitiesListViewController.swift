@@ -68,13 +68,11 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
                 builder += SubItemFormItem()
+                    .styleIdentifier(!action.evaluator.isComplete ? DemoAppKitStyler.additionalActionStyle : nil)
                     .separatorColor(.clear)
                     .title(action.additionalActionType.rawValue)
                     .detail(action.evaluator.isComplete ? "Complete" : "Incomplete")
-                    .detailFont(UIFont.systemFont(ofSize: 13, weight: .semibold))
-                    .detailColorKey(action.evaluator.isComplete ? .secondaryText : .redText)
                     .image(AssetManager.shared.image(forKey: .documentFilled))
-                    .imageTintColorKey(.primaryText)
                     .selectionStyle(.none)
                     .actionButton(title: "Open", handler: { (sender) in
                         self.presentAdditionalAction(reports: action.reports)

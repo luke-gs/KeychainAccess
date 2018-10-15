@@ -8,6 +8,7 @@
 import UIKit
 import PromiseKit
 import PublicSafetyKit
+import DemoAppKit
 
 public struct AddressFormItemFactory {
 
@@ -50,6 +51,7 @@ public struct AddressFormItemFactory {
 
         if let detail = detail {
             return DetailFormItem()
+                .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
                 .title(StringSizing(string: title ?? "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .subtitle(StringSizing(string: addressText(for: address), font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote)))
@@ -63,6 +65,7 @@ public struct AddressFormItemFactory {
             }
         } else {
             return ValueFormItem()
+                .styleIdentifier(DemoAppKitStyler.valueLinkStyle)
                 .title(StringSizing(string: title ?? "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .value(StringSizing(string: addressText(for: address), font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .width(.column(1))
