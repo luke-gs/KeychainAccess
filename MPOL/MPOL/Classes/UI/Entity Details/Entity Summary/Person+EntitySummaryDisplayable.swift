@@ -142,7 +142,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return lastReason.formattedReason()
     }
 
-    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, userInterfaceStyle: UserInterfaceStyle) -> SummaryThumbnailFormItem {
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, userInterfaceStyle: UserInterfaceStyle = .light) -> SummaryThumbnailFormItem {
         
         let formItem = SummaryThumbnailFormItem()
             .style(style)
