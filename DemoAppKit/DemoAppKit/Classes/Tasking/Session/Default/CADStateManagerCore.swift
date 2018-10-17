@@ -50,7 +50,6 @@ open class CADStateManagerCore: CADStateManagerBase {
 
             // Store recent IDs
             try? UserPreferenceManager.shared.addRecentId(request.callsign, forKey: .recentCallsigns)
-            //try? UserPreferenceManager.shared.addRecentIds(request.employees.map { $0.payrollId }, forKey: .recentCADOfficers)
 
             // TODO: remove this when we have a real CAD system
             if let lastBookOn = self.lastBookOn, let resource = self.currentResource {
