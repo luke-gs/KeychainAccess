@@ -115,7 +115,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return "No Recently Used Officers"
     }
 
-    public func fetchRecentOfficers() -> Promise<Void>{
+    public func fetchRecentOfficers() -> Promise<Void> {
 
         return Promise { seal in
 

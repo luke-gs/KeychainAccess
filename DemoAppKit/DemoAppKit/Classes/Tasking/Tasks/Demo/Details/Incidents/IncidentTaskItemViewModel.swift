@@ -132,7 +132,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         let incident = self.incidentDetailsOrSummary
         if CADStateManager.shared.lastBookOn != nil && incident?.patrolGroup == CADStateManager.shared.patrolGroup {
             let currentIncidentId = CADStateManager.shared.currentIncident?.incidentNumber
-            if let incident = incident, (incident.incidentNumber == currentIncidentId || currentIncidentId == nil) {
+            if let incident = incident, incident.incidentNumber == currentIncidentId || currentIncidentId == nil {
                 return true
             }
         }
