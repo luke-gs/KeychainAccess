@@ -25,6 +25,7 @@ open class Entity: MPOLKitEntity {
     open var createdBy: String?
     open var updatedBy: String?
     open var effectiveDate: Date?
+    open var expiryDate: Date?
     open var entityType: String?
     open var isSummary: Bool = false
     open var arn: String?
@@ -65,6 +66,7 @@ open class Entity: MPOLKitEntity {
         createdBy = unboxer.unbox(key: "createdBy")
         updatedBy = unboxer.unbox(key: "updatedBy")
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Entity.dateTransformer)
+        expiryDate = unboxer.unbox(key: "expiryDate", formatter: ISO8601DateTransformer.shared)
         entityType = unboxer.unbox(key: "entityType")
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         arn = unboxer.unbox(key: "arn")
@@ -100,6 +102,7 @@ open class Entity: MPOLKitEntity {
         createdBy = aDecoder.decodeObject(of: NSString.self, forKey: Coding.createdBy.rawValue) as String?
         updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: Coding.updatedBy.rawValue) as String?
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.effectiveDate.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.expiryDate.rawValue) as Date?
         entityType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.entityType.rawValue) as String?
         isSummary = aDecoder.decodeBool(forKey: Coding.isSummary.rawValue)
         arn = aDecoder.decodeObject(of: NSString.self, forKey: Coding.arn.rawValue) as String?
@@ -139,6 +142,7 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(createdBy, forKey: Coding.createdBy.rawValue)
         aCoder.encode(updatedBy, forKey: Coding.updatedBy.rawValue)
         aCoder.encode(effectiveDate, forKey: Coding.effectiveDate.rawValue)
+        aCoder.encode(expiryDate, forKey: Coding.expiryDate.rawValue)
         aCoder.encode(entityType, forKey: Coding.entityType.rawValue)
         aCoder.encode(isSummary, forKey: Coding.isSummary.rawValue)
         aCoder.encode(arn, forKey: Coding.arn.rawValue)
@@ -214,6 +218,7 @@ private enum Coding: String {
     case createdBy = "createdBy"
     case updatedBy = "updatedBy"
     case effectiveDate = "effectiveDate"
+    case expiryDate = "expiryDate"
     case entityType = "entityType"
     case isSummary = "isSummary"
     case arn = "arn"
