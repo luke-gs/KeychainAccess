@@ -142,7 +142,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return lastReason.formattedReason()
     }
 
-    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, userInterfaceStyle: UserInterfaceStyle) -> SummaryThumbnailFormItem {
         
         let formItem = SummaryThumbnailFormItem()
             .style(style)
@@ -157,9 +157,20 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .borderColor(borderColor)
             .imageTintColor(iconColor)
         
-        if person.isDeceased {
-            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDeceasedStyle)
-        }
+            switch userInterfaceStyle {
+                case .light:
+                    if person.isDeceased {
+                        formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDeceasedStyle)
+                    }
+                case .dark:
+                    if person.isDeceased {
+                        formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDarkDeceasedStyle)
+                    } else {
+                        formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDarkStyle)
+                    }
+                default:
+                    break
+            }
         
         return formItem
     }
