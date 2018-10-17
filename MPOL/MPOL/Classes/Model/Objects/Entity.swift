@@ -66,7 +66,7 @@ open class Entity: MPOLKitEntity {
         createdBy = unboxer.unbox(key: "createdBy")
         updatedBy = unboxer.unbox(key: "updatedBy")
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Entity.dateTransformer)
-        expiryDate = unboxer.unbox(key: "expiryDate", formatter: ISO8601DateTransformer.shared)
+        expiryDate = unboxer.unbox(key: "expiryDate", formatter: Entity.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         arn = unboxer.unbox(key: "arn")
