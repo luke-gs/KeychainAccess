@@ -9,6 +9,8 @@ import Foundation
 import PublicSafetyKit
 import DemoAppKit
 
+import AVFoundation
+
 public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntitySummarySearchResultViewModel<T>, SearchAlertsViewModelable, SearchAlertsDelegate {
 
     public var alertEntities: [Entity] = []

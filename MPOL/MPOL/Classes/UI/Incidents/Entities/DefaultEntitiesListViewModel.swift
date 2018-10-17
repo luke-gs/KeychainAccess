@@ -23,11 +23,13 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
     }
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
-        switch entity{
+        switch entity {
         case is Person:
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
+        case is Organisation:
+            return OrganisationSummaryDisplayable(entity)
         default:
             fatalError("No valid displayable for entity: \(entity.id)")
         }

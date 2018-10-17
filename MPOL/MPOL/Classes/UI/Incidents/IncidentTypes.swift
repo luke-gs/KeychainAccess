@@ -33,25 +33,31 @@ extension IncidentType {
     }
 
     func involvements(for entity: MPOLKitEntity) -> [String] {
-        switch self {
-            case .interceptReport, .domesticViolence:
-                if entity is Person {
-                    return ["Respondent", "Aggrieved", "Claimant", "Custody", "Informant", "Interviewed", "Named Person", "Subject", "Witness"]
+        switch entity {
+            case is Person:
+                if let items = Manifest.shared.entries(for: .eventPersonInvolvementType)?.rawValues() {
+                    return items
                 }
-                if entity is Vehicle {
-                    return ["Involved in Offence","Involved in Crash","Damaged", "Towed", "Abandoned", "Defective"]
+
+                fatalError("Manifest items not found for \(ManifestCollection.eventPersonInvolvementType.rawValue)")
+
+            case is Vehicle:
+                if let items = Manifest.shared.entries(for: .eventVehicleInvolvementType)?.rawValues() {
+                    return items
                 }
-            case .trafficInfringement:
-                if entity is Person {
-                    return ["Involved in Offence", "Involved in Crash", "Driver"]
+
+                fatalError("Manifest items not found for \(ManifestCollection.eventVehicleInvolvementType.rawValue)")
+
+            case is Organisation:
+                if let items = Manifest.shared.entries(for: .eventOrganisationInvolvementType)?.rawValues() {
+                    return items
                 }
-                if entity is Vehicle {
-                    return ["Damaged", "Towed", "Abandoned", "Defective", "Used"]
-                }
+
+                fatalError("Manifest items not found for \(ManifestCollection.eventOrganisationInvolvementType.rawValue)")
+
             default:
-                break
+                fatalError("Unrecognised entity type found when fetching event involvements.")
         }
-        fatalError("No Involvements for IncidentType")
     }
 }
 
