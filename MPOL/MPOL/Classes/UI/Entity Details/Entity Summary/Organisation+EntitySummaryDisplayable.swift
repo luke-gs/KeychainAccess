@@ -44,8 +44,6 @@ public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, Assoc
         return organisation.alertLevel?.color
     }
     
-    public var subtitleColor: UIColor? = nil
-    
     public var badge: UInt {
         return organisation.actionCount
     }
@@ -116,8 +114,6 @@ public struct OrganisationDetailsDisplayable: EntitySummaryDisplayable {
     public var iconColor: UIColor? {
         return summaryDisplayable.iconColor
     }
-    
-    public var subtitleColor: UIColor? = nil
     
     public var badge: UInt {
         return summaryDisplayable.badge

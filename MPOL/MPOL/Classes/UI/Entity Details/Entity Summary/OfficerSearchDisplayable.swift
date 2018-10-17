@@ -32,17 +32,13 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     public var borderColor: UIColor?
 
     public var iconColor: UIColor?
-    
-    public var subtitleColor: UIColor? = nil
 
     public var badge: UInt {
         return 0
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        if let image = image {
-            return image
-        }
+        if let image = image { return image }
         let imageSizing = EntityImageSizing(entity: officer)
         return imageSizing
     }

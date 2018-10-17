@@ -45,8 +45,6 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return vehicle.alertLevel?.color
     }
     
-    public var subtitleColor: UIColor? = nil
-    
     public var badge: UInt {
         return vehicle.actionCount
     }
@@ -117,8 +115,6 @@ public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
     public var iconColor: UIColor? {
         return summaryDisplayable.iconColor
     }
-    
-    public var subtitleColor: UIColor? = nil
 
     public var badge: UInt {
         return summaryDisplayable.badge
