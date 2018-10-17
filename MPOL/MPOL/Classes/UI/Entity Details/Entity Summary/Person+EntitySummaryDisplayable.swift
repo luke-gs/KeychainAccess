@@ -45,10 +45,6 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return nil
     }
     
-    public var subtitleColor: UIColor? {
-        return person.dateOfDeath != nil ? UIColor.red : nil
-    }
-    
     public var badge: UInt {
         return person.actionCount
     }
@@ -147,19 +143,25 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
-        return SummaryThumbnailFormItem()
+        
+        let formItem = SummaryThumbnailFormItem()
             .style(style)
             .width(.column(2))
             .category(category)
             .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
             .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
-            .subtitleTextColor(subtitleColor)
             .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
             .borderColor(borderColor)
             .imageTintColor(iconColor)
+        
+        if person.isDeceased {
+            formItem.styleIdentifier(ThemedFormStyler.summaryThumbnailDeceasedStyle)
+        }
+        
+        return formItem
     }
 }
 
@@ -195,10 +197,6 @@ public struct PersonDetailsDisplayable: EntitySummaryDisplayable {
 
     public var iconColor: UIColor? {
         return displayable.iconColor
-    }
-    
-    public var subtitleColor: UIColor? {
-        return person.dateOfDeath != nil ? UIColor.red : nil
     }
 
     public var badge: UInt {

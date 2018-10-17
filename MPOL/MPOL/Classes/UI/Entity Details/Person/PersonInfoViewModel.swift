@@ -40,12 +40,11 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         
         let displayable = PersonDetailsDisplayable(person)
 
-        builder += SummaryDetailFormItem()
+        let detailFormItem = SummaryDetailFormItem()
             .separatorColor(.clear)
             .category(displayable.category)
             .title(displayable.title)
             .subtitle(displayable.detail1)
-            .subtitleColor(displayable.subtitleColor)
             .detail(detail)
             .buttonTitle(buttonTitle)
             .borderColor(displayable.borderColor)
@@ -55,6 +54,11 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .onButtonTapped {
                 self.didTapAdditionalDetails()
             }
+        if person.isDeceased {
+            detailFormItem.styleIdentifier(ThemedFormStyler.summaryDetailDeceasedStyle)
+        }
+        
+        builder += detailFormItem
         
         // ---------- LICENCE ----------
         
