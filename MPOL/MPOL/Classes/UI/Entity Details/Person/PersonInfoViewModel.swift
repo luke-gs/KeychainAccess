@@ -54,10 +54,15 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .onButtonTapped {
                 self.didTapAdditionalDetails()
             }
+
+        // Apply red text if deceased person
         if person.isDeceased {
-            detailFormItem.styleIdentifier(PublicSafetyKitStyler.summaryDetailDeceasedStyle)
+            detailFormItem.onStyled { cell in
+                guard let cell = cell as? EntityDetailCollectionViewCell else { return }
+                cell.subtitleLabel.textColor = .orangeRed
+            }
         }
-        
+
         builder += detailFormItem
         
         // ---------- LICENCE ----------

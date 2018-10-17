@@ -142,7 +142,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return lastReason.formattedReason()
     }
 
-    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, userInterfaceStyle: UserInterfaceStyle =  ThemeManager.shared.currentInterfaceStyle) -> SummaryThumbnailFormItem {
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, containerType: EntitySummaryContainerType) -> SummaryThumbnailFormItem {
         
         let formItem = SummaryThumbnailFormItem()
             .style(style)
@@ -156,22 +156,21 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
             .borderColor(borderColor)
             .imageTintColor(iconColor)
-        
-            switch userInterfaceStyle {
-                case .light:
-                    if person.isDeceased {
-                        formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDeceasedStyle)
-                    }
-                case .dark:
-                    if person.isDeceased {
-                        formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDarkDeceasedStyle)
-                    } else {
-                        formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDarkStyle)
-                    }
-                default:
-                    break
+
+        // Apply red text if deceased person
+        if person.isDeceased {
+            formItem.onStyled { cell in
+                guard let cell = cell as? EntityCollectionViewCell else { return }
+                cell.subtitleLabel.textColor = .orangeRed
             }
-        
+        }
+
+        switch containerType {
+        case .header:
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailHeaderStyle)
+        default:
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailListStyle)
+        }
         return formItem
     }
 }

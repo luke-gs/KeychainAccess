@@ -38,7 +38,7 @@ extension AssociatedEntitySummaryDisplayable {
     }
     
     public func associatedSummaryFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
-        let formItem = summaryThumbnailFormItem(with: style, userInterfaceStyle: ThemeManager.shared.currentInterfaceStyle)
+        let formItem = summaryThumbnailFormItem(with: style)
         guard let association = association else { return formItem }
         let associationValue = StringSizing(string: association, font: UIFont.boldSystemFont(ofSize: 11))
         return formItem
