@@ -185,9 +185,15 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
+        let voiceSearchButton = UIButton(type: .system)
+
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
         helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
-        return [helpButton]
+
+        voiceSearchButton.addTarget(self, action: #selector(didTapVoiceSearchButton(_:)), for: .touchUpInside)
+        voiceSearchButton.setImage(AssetManager.shared.image(forKey: .commsMicrophone), for: .normal)
+
+        return [voiceSearchButton, helpButton]
     }
 
     private var text: String? {
@@ -315,6 +321,10 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         updatingDelegate?.present(EntityScreen.help(type: .vehicle))
     }
 
+    @objc private func didTapVoiceSearchButton(_ button: UIButton) {
+        VoiceSearchWorkflowManager.shared.beginVoiceSearch()
+    }
+
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
         do {
             guard let searchTerm = text, let vehicleIdentifier = (options as? VehicleSearchOptions)?.vehicleIdentifier, let vehicleType = (options as? VehicleSearchOptions)?.vehicleType, let state = (options as? VehicleSearchOptions)?.state else {
@@ -361,7 +371,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         }
     }
 
-    private func performSearch() {
+    public func performSearch() {
         generateResultModel(text) { (resultModel, error) in
             if let error = error {
                 self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .searchInvalidTextError), "Vehicle")

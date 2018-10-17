@@ -15,6 +15,8 @@ import PromiseKit
 import Lottie
 import Alamofire
 import Firebase
+import VoiceSearchManager
+import Porcupine_iOS
 
 #if INTERNAL || EXTERNAL
     import HockeySDK
@@ -28,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
     var navigator: AppURLNavigator!
+    
 
     var plugins: [Plugin]?
 
@@ -124,6 +127,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     private func updateAppForUserSession() {
 
+        //Add custom "Vancouver" config for workflow manager.
+        #if targetEnvironment(simulator)
+        let keywordFilePath = Bundle.main.path(forResource: "vancouver_mac", ofType: "ppn")
+        #else
+        let keywordFilePath = Bundle.main.path(forResource: "vancouver_ios", ofType: "ppn")
+        #endif
+        let modelFilePath =  Bundle(for: PorcupineManager.self).path(forResource: "porcupine_params", ofType: "pv")
+
+        let customConfig = PorcupineManagerConfiguration(keywordFilePath: keywordFilePath!, modelFilePath: modelFilePath!, wakeword: "Vancouver")
+
+        VoiceSearchWorkflowManager.shared.porcupineManagerConfig = customConfig
+
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
@@ -131,6 +146,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 NotificationManager.shared.registerPushToken()
                 UserPreferenceManager.shared.fetchSharedUserPreferences()
             }
+            VoiceSearchWorkflowManager.shared.startListening()
+        } else {
+            VoiceSearchWorkflowManager.shared.stopListening()
         }
 
         // Update screen if necessary
@@ -215,8 +233,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
-        let promise: Promise<Void>
 
+        let promise: Promise<Void>
+        
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken, let savedToken = UserSession.current.token {
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token)).done { token -> Void in
@@ -334,7 +353,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navigator.register(searchHandler)
     }
 
-    private lazy var searchLauncher: SearchActivityLauncher = {
+    lazy var searchLauncher: SearchActivityLauncher = {
         return SearchActivityLauncher()
     }()
 
@@ -360,11 +379,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // the handling is successfully completed or not.
         switch shortcutItem.type {
         case SupportedShortcut.searchPerson.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"))
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"), shouldSearchImmediately: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.searchVehicle.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"))
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"), shouldSearchImmediately: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.launchTasks.type:
@@ -387,9 +406,17 @@ extension AppDelegate: SearchActivityHandlerDelegate {
 
         // FIXME: Probably need something that knows how to coordinate all of these `from` and `to` businesses.
         switch launchedSearchActivity {
-        case .searchEntity(let term):
+        case .searchEntity(let term, let shouldSearchImmediately):
             landingPresenter.switchTo(.search)
             landingPresenter.searchViewController.beginSearch(with: term)
+
+            // If should search immediately, tell the appropriate datasource to perform the search.
+            if shouldSearchImmediately {
+                if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
+                    ds.performSearch()
+                }
+            }
+            
         case .viewDetails(let id, let entityType, let source):
 
             let entity: Entity?

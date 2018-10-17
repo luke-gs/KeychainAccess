@@ -72,7 +72,7 @@ public class TrafficStopPresenter: Presenter {
         case .trafficStopSearchEntity:
             // Dismiss current modal and go to search tab
             from.dismiss(animated: true) {
-                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"))
+                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"), shouldSearchImmediately: false)
                 do {
                     try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
                 }  catch {

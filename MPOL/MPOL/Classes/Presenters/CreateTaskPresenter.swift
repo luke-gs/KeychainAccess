@@ -82,7 +82,7 @@ public class CreateTaskPresenter: Presenter {
 
         case .createTaskSearchEntity:
             from.dismiss(animated: true) {
-                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"))
+                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"), shouldSearchImmediately: false)
                 do {
                     try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
                 }  catch {
