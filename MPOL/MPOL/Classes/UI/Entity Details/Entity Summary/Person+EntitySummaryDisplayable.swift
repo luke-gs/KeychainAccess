@@ -158,7 +158,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .imageTintColor(iconColor)
         
         if person.isDeceased {
-            formItem.styleIdentifier(ThemedFormStyler.summaryThumbnailDeceasedStyle)
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailDeceasedStyle)
         }
         
         return formItem

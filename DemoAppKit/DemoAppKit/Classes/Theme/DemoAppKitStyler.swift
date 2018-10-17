@@ -10,7 +10,7 @@ import Foundation
 import PublicSafetyKit
 import PatternKit
 
-public class DemoAppKitStyler: ThemedFormStyler {
+public class DemoAppKitStyler: PublicSafetyKitStyler {
 
     public override func applyThemeToFormItem(_ item: BaseFormItem) {
         super.applyThemeToFormItem(item)

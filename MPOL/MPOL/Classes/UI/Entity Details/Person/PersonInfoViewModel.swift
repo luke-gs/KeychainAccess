@@ -55,7 +55,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 self.didTapAdditionalDetails()
             }
         if person.isDeceased {
-            detailFormItem.styleIdentifier(ThemedFormStyler.summaryDetailDeceasedStyle)
+            detailFormItem.styleIdentifier(PublicSafetyKitStyler.summaryDetailDeceasedStyle)
         }
         
         builder += detailFormItem
