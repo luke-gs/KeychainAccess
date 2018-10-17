@@ -30,8 +30,8 @@ target 'MPOL' do
   	pod 'Firebase/MLVision'
 	pod 'Firebase/MLVisionTextModel'
     
-    pod 'VoiceSearchManager', :git => "https://github.com/campbell-graham/VoiceSearchManager-iOS"
-    pod 'VoiceSearchManager/VehicleRegistrationTransformer', :git => "https://github.com/campbell-graham/VoiceSearchManager-iOS"
+    pod 'VoiceSearchManager'
+    pod 'VoiceSearchManager/VehicleRegistrationTransformer'
 
     target 'MPOLTests' do
       inherit! :search_paths
