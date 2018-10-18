@@ -38,13 +38,12 @@ public class OfficerParserDefinition: QueryParserDefinition {
         ]
     }
 
-    private var localizedKeyTitles: [String : String] {
+    private var localizedKeyTitles: [String: String] {
         return [
-            OfficerParserDefinition.SurnameKey:      NSLocalizedString("Surname", comment: "") as String,
-            OfficerParserDefinition.GivenNameKey:    NSLocalizedString("Given Name", comment: "") as String
+            OfficerParserDefinition.SurnameKey: NSLocalizedString("Surname", comment: "") as String,
+            OfficerParserDefinition.GivenNameKey: NSLocalizedString("Given Name", comment: "") as String
         ]
     }
-
 
     // MARK: - Public Static Constants
 
@@ -72,4 +71,3 @@ public class OfficerParserDefinition: QueryParserDefinition {
         return leftover.count == 0
     }
 }
-

@@ -10,11 +10,11 @@ import Foundation
 import PublicSafetyKit
 
 open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
-    
+
     private var person: Person? {
         return entity as? Person
     }
-    
+
     private var criminalHistory: [CriminalHistory] {
         var history: [CriminalHistory] = offenderCharges
         history.append(contentsOf: offenderConvictions)
@@ -28,9 +28,9 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     private var offenderConvictions: [OffenderConviction] {
         return person?.offenderConvictions ?? []
     }
-    
+
     // MARK: - EntityDetailFormViewModel
-    
+
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
 
         builder.title = title
@@ -40,7 +40,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         if !offenderCharges.isEmpty {
             builder += LargeTextHeaderFormItem(text: headerForCharges())
                 .separatorColor(.clear)
-            
+
             for item in offenderCharges {
 
                 let display = OffenderChargeDisplay(item)
@@ -67,18 +67,18 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
                     })
             }
         }
-        
+
         delegate?.updateLoadingState(filteredCriminalHistory.isEmpty ? .noContent : .loaded)
     }
-    
+
     open override var title: String? {
         return NSLocalizedString("Criminal History", comment: "")
     }
-    
+
     open override var noContentTitle: String? {
         return NSLocalizedString("No Records Found", comment: "")
     }
-    
+
     open override var noContentSubtitle: String? {
         if criminalHistory.isEmpty {
             return NSLocalizedString("There is no Criminal History information available", comment: "")
@@ -86,17 +86,17 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
             return NSLocalizedString("This filter has no matching Criminal History", comment: "")
         }
     }
-    
+
     open override  var sidebarImage: UIImage? {
         return AssetManager.shared.image(forKey: .list)
     }
-    
+
     open override var sidebarCount: UInt? {
         return UInt(criminalHistory.count)
     }
-    
+
     // MARK: - Filtering
-    
+
     fileprivate var filterDateRange: FilterDateRange?
     fileprivate var sorting: DateSorting = .newest
 
@@ -132,23 +132,23 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         history.append(contentsOf: filteredOffenderConvictions)
         return history
     }
-    
+
     open override var isFilterApplied: Bool {
         return filterDateRange != nil || sorting != .newest
     }
-    
+
     open override var filterOptions: [FilterOption] {
         let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
         let sorting = FilterList(title: NSLocalizedString("Sort By", comment: ""), displayStyle: .list, options: DateSorting.allCases, selectedIndexes: DateSorting.allCases.indexes(where: { self.sorting == $0 }))
-        
+
         return [dateRange, sorting]
     }
-    
+
     open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
         controller.presentingViewController?.dismiss(animated: true)
-        
+
         guard applyingChanges else { return }
-        
+
         controller.filterOptions.forEach {
             switch $0 {
             case let filterList as FilterList where filterList.options.first is DateSorting:
@@ -163,7 +163,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
                 break
             }
         }
-        
+
         delegate?.updateBarButtonItems()
         delegate?.reloadData()
     }
@@ -175,11 +175,11 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     open func headerForCharges() -> String? {
         return String.localizedStringWithFormat(NSLocalizedString("%d Charge(s)", comment: ""), filteredOffenderCharges.count)
     }
-    
+
     open func title(for item: CriminalHistory) -> String? {
         return item.primaryCharge?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", comment: "")
     }
-    
+
     open func subtitle(for item: CriminalHistory) -> String? {
         let lastOccurred: String
         if let date = item.occurredDate {
@@ -224,7 +224,7 @@ public struct OffenderConvictionDisplay: DetailDisplayable, FormItemable {
         } else {
             dateString = NSLocalizedString("Unknown date", comment: "Unknown date")
         }
-        
+
         let locationString = offenderConviction.jurisdiction != nil ? " (\(offenderConviction.jurisdiction!))": ""
         return String(format: NSLocalizedString("Convicted by %@ on %@%@", comment: ""), courtName, dateString, locationString).sizing(withNumberOfLines: 0)
     }
@@ -241,7 +241,6 @@ public struct OffenderChargeDisplay: DetailDisplayable, FormItemable {
     public init(_ offenderCharge: OffenderCharge) {
         self.offenderCharge = offenderCharge
     }
-
 
     public var title: StringSizing? {
         let title = offenderCharge.primaryCharge?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", comment: "")

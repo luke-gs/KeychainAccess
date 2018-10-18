@@ -34,7 +34,7 @@ public class TrafficInfringementOffencesViewModel {
     public func addOffence(offence: Offence) {
         report.offences.append(offence)
     }
-    
+
     public func hasOffences() -> Bool {
         return report.offences.count > 0
     }

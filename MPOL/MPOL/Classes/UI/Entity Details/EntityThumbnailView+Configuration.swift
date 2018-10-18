@@ -10,9 +10,9 @@ import PublicSafetyKit
 import UIKit
 
 extension EntityThumbnailView {
-    
+
     // MARK: - Configuration
-    
+
     public func configure(for entity: EntitySummaryDisplayable?, size: ThumbnailSize) {
 
         if let entity = entity, let thumbnail = entity.thumbnail(ofSize: size) {
@@ -20,8 +20,8 @@ extension EntityThumbnailView {
         } else {
             imageView.image = nil
         }
-        
+
         borderColor = entity?.borderColor
     }
-    
+
 }

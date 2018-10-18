@@ -10,50 +10,50 @@ import PublicSafetyKit
 import PromiseKit
 
 public class LocationSelectionConfirmationViewController: FormBuilderViewController {
-    
+
     public var doneHandler: ((LocationSelectionConfirmationViewModel) -> Void)?
-    
+
     public let viewModel: LocationSelectionConfirmationViewModel
-    
+
     public init(viewModel: LocationSelectionConfirmationViewModel) {
         self.viewModel = viewModel
         super.init()
-        
+
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     // MARK: - View lifecycle
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = NSLocalizedString("Select Location", comment: "")
         self.navigationItem.setRightBarButton(UIBarButtonItem.init(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(performDoneAction)), animated: true)
     }
-    
+
     public override func construct(builder: FormBuilder) {
-        
+
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "")).separatorColor(.clear)
-        
+
         builder += ValueFormItem(title: NSLocalizedString("Address", comment: ""),
                                  value: viewModel.fullAddress)
             .width(.column(1))
             .separatorColor(.clear)
-        
+
         builder += ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""),
                                  value: viewModel.coordinateText)
             .width(.column(1))
             .separatorColor(.clear)
-        
+
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Location Information", comment: "")).separatorColor(.clear)
-        
+
         // editable
-        
+
         if viewModel.isEditable {
-            
+
             builder += TextFieldFormItem(title: NSLocalizedString("Unit / House / Apt. Number", comment: ""))
                 .text(viewModel.propertyNumber)
                 .onValueChanged { [weak self] in
@@ -120,7 +120,7 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
 
         } else {
             // non-editable
-            
+
             builder += ValueFormItem(title: NSLocalizedString("Unit / House / Apt. Number", comment: ""),
                                      value: viewModel.propertyNumber)
                 .width(.column(2))
@@ -150,13 +150,13 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 .width(.column(2))
                 .separatorColor(.clear)
         }
-        
+
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .onValueChanged { [weak self] in
                 self?.viewModel.remarks = $0
             }
             .width(.column(1))
-        
+
         // Only display location type if title and options are defined
         if let title = viewModel.typeTitle, let options = viewModel.typeOptions {
             builder += DropDownFormItem()

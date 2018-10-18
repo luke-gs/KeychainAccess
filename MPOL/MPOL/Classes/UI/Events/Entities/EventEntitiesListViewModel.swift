@@ -10,7 +10,7 @@ import PublicSafetyKit
 import DemoAppKit
 
 public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
-    
+
     public let report: EventEntitiesListReport
     public var evaluator: Evaluator { return report.evaluator }
 

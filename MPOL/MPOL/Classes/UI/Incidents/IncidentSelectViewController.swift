@@ -13,7 +13,7 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
 
     open var tableView: UITableView!
     // TODO: Implement this to use the New Incident Type
-    open var didSelectIncident: ((IncidentType?) -> ())?
+    open var didSelectIncident: ((IncidentType?) -> Void)?
 
     // MARK: - Initializers
 
@@ -61,7 +61,7 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
 
     override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
+        coordinator.animate(alongsideTransition: { (_) in
             self.setupNavigationBarButtons()
         }, completion: nil)
     }
@@ -84,7 +84,7 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
 
@@ -193,7 +193,7 @@ extension IncidentSelectViewController: UITableViewDelegate, UITableViewDataSour
 }
 
 // Local enum for getting titles, counts etc. for each section in the table view
-fileprivate enum IncidentListSection: Int {
+private enum IncidentListSection: Int {
     case browse
     case recentlyUsed
 
@@ -265,7 +265,7 @@ public enum NewIncidentType {
             if entity is Person {
                 return ["Respondent", "Aggrieved", "Claimant", "Custody", "Informant", "Interviewed", "Named Person", "Subject", "Witness"]
             } else if entity is Vehicle {
-                return ["Involved in Offence","Involved in Crash","Damaged", "Towed", "Abandoned", "Defective"]
+                return ["Involved in Offence", "Involved in Crash", "Damaged", "Towed", "Abandoned", "Defective"]
             }
         case .trafficInfringement:
             if entity is Person {

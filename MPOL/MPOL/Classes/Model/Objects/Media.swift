@@ -17,7 +17,7 @@ open class Media: NSObject, Serialisable {
     open class var serverTypeRepresentation: String {
         return "media"
     }
-    
+
     open class var supportsSecureCoding: Bool { return true }
 
     public static var modelVersion: Int { return 0 }
@@ -32,17 +32,16 @@ open class Media: NSObject, Serialisable {
     open var expiryDate: Date?
     open var entityType: String?
     open var isSummary: Bool = false
-    
+
     open var mimeType: String?
     open var uri: URL?
     open var name: String?
     open var mediaDescription: String?
     open var width: Double
     open var height: Double
-    
+
     open var source: MPOLSource?
 
-    
     public required init(unboxer: Unboxer) throws {
         id            = unboxer.unbox(key: "id") ?? UUID().uuidString
         dateCreated   = unboxer.unbox(key: "dateCreated", formatter: Media.dateTransformer)
@@ -53,7 +52,7 @@ open class Media: NSObject, Serialisable {
         expiryDate    = unboxer.unbox(key: "expiryDate", formatter: Media.dateTransformer)
         entityType    = unboxer.unbox(key: "entityType")
         isSummary     = unboxer.unbox(key: "isSummary") ?? false
-        
+
         mimeType      = unboxer.unbox(key: "mimeType")
         uri           = unboxer.unbox(key: "url")
         name          = unboxer.unbox(key: "name")
@@ -64,7 +63,7 @@ open class Media: NSObject, Serialisable {
 
         super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
         isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
@@ -92,7 +91,7 @@ open class Media: NSObject, Serialisable {
         mediaDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.mediaDescription.rawValue) as String?
 
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Media.modelVersion, forKey: CodingKey.version.rawValue)
 
@@ -134,5 +133,5 @@ open class Media: NSObject, Serialisable {
         case height
         case width
     }
-    
+
 }

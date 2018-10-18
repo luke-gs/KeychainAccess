@@ -17,7 +17,7 @@ open class RangeParserDefinition: QueryParserDefinition {
     public let allowedCharacterSet: CharacterSet
 
     private let whitespacesAndNewlinesCharacterSet = CharacterSet.whitespacesAndNewlines
-    
+
     // Only used in the creation of the token definition + Validation so should be private
     private var range: CountableClosedRange<Int>
     private var errorClosure: InvalidLengthErrorClosure
@@ -28,18 +28,18 @@ open class RangeParserDefinition: QueryParserDefinition {
         self.tokenDefinitions = []
         self.allowedCharacterSet = allowedCharacterSet
         self.definitionKey = definitionKey
-        
+
         let definition = QueryTokenDefinition(key: definitionKey, required: true, typeCheck: { [allowedCharacterSet] token -> Bool in
             let extra = token.trimmingCharacters(in: allowedCharacterSet)
             return extra.count == 0
             }, validate: validationClosure)
-        
+
         tokenDefinitions.append(definition)
 
     }
-    
+
     /// Validation closure that is used with the default token definition to allow subclassing.
-    open func validationClosure(_ token: String, _ index: Int,  _ map: [String:String]) throws {
+    open func validationClosure(_ token: String, _ index: Int, _ map: [String: String]) throws {
         let length = token.count
         if range.contains(length) == false {
             throw errorClosure(token, range)
@@ -50,5 +50,5 @@ open class RangeParserDefinition: QueryParserDefinition {
     open func tokensFrom(query: String) -> [String] {
         return [query.trimmingCharacters(in: whitespacesAndNewlinesCharacterSet)]
     }
-    
+
 }

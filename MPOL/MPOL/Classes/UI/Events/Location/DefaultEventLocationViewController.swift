@@ -55,7 +55,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)
-        
+
         builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .title("Event Location")
             .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))

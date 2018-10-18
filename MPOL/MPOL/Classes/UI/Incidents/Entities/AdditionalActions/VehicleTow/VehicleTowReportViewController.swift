@@ -60,7 +60,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .onValueChanged({ values in
                 self.viewModel.report.towReason = values?.first
             })
-        
+
         builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel()))
             .width(.column(2))
             .title("Officer Authorising Tow")
@@ -88,7 +88,6 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .onValueChanged({ (date) in
                 self.viewModel.report.date = date
             })
-
 
         builder += LargeTextHeaderFormItem(text: "Vehicle Hold")
             .separatorColor(.clear)
@@ -126,7 +125,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
 
         builder += LargeTextHeaderFormItem(text: "Media")
             .separatorColor(.clear)
-            .actionButton(title: "Manage") { button in
+            .actionButton(title: "Manage") { _ in
                 if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                     self.present(viewController, animated: true, completion: nil)
                 }

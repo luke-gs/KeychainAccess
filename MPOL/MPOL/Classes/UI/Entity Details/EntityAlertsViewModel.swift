@@ -10,25 +10,25 @@ import Foundation
 import PublicSafetyKit
 
 open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
-    
+
     open var alerts: [Alert] {
         return entity?.alerts ?? []
     }
-    
+
     // MARK: - EntityDetailFormViewModel
-    
+
     open override var entity: Entity? {
         didSet {
             delegate?.updateSidebarAlertColor(entity?.alertLevel?.color)
         }
     }
-    
+
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
         builder.title = title
         builder.enforceLinearLayout = .always
-        
+
         let filteredAlerts = self.filteredAlerts
-        
+
         for alerts in filteredAlerts {
             if !alerts.isEmpty {
                 builder += LargeTextHeaderFormItem(text: header(for: alerts))
@@ -47,18 +47,18 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
                 }
             }
         }
-        
+
         delegate?.updateLoadingState(filteredAlerts.isEmpty ? .noContent : .loaded)
     }
-    
+
     open override var title: String? {
         return NSLocalizedString("Alerts", comment: "")
     }
-    
+
     open override var noContentTitle: String? {
         return NSLocalizedString("No Alerts Found", comment: "")
     }
-    
+
     open override var noContentSubtitle: String? {
         if alerts.isEmpty {
             let name: String
@@ -67,44 +67,44 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
             } else {
                 name = NSLocalizedString("entity", comment: "")
             }
-            
+
             return String(format: NSLocalizedString("This %@ has no alerts", comment: ""), name)
         } else {
             return NSLocalizedString("This filter has no matching alerts", comment: "")
         }
     }
-    
+
     open override var sidebarImage: UIImage? {
         return AssetManager.shared.image(forKey: .alertFilled)
     }
-    
+
     open override var sidebarCount: UInt? {
         return UInt(alerts.count)
     }
-    
+
     // MARK: - Filtering
-    
+
     private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
     private var filterDateRange: FilterDateRange?
     private var dateSorting: DateSorting = .newest
-    
+
     open var filteredAlerts: [[Alert]] {
         var filtered = self.alerts
-        
+
         // Always filtering by alert level (default is all levels)
         var filters: [FilterDescriptor<Alert>] = [FilterValueDescriptor<Alert, Alert.Level>(key: { $0.level }, values: self.filteredAlertLevels)]
-        
+
         // Apply date range filter if applicable
         if let dateRange = self.filterDateRange {
             filters.append(FilterRangeDescriptor<Alert, Date>(key: { $0.effectiveDate }, start: dateRange.startDate, end: dateRange.endDate))
         }
-        
+
         // Always sorting (default is newest - oldest)
         let sort = SortDescriptor<Alert>(ascending: dateSorting == .oldest) { $0.effectiveDate }
-        
+
         filtered = filtered.filter(using: filters)
         filtered = filtered.sorted(using: [sort])
-        
+
         // Group alerts by alert level
         var map: [Alert.Level: [Alert]] = [:]
         filtered.forEach { alert in
@@ -115,33 +115,33 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
                 map[level] = [alert]
             }
         }
-        
+
         // Sort grouped alerts by alert level (highest to lowest)
         let sectionSort = SortDescriptor<Array<Alert>>(ascending: false) { $0.first?.level?.rawValue }
         return Array(map.values).sorted(using: [sectionSort])
     }
-    
+
     open override var isFilterApplied: Bool {
         let isFilteredByAlertLevel = filteredAlertLevels != Set(Alert.Level.allCases)
         return isFilteredByAlertLevel || filterDateRange != nil
     }
-    
+
     open override var filterOptions: [FilterOption] {
         let alertLevels: [Alert.Level] = Alert.Level.all
-        
+
         let filterLevels = FilterList(title: NSLocalizedString("Alert Types", comment: ""), displayStyle: .checkbox, options: alertLevels, selectedIndexes: alertLevels.indexes(where: { filteredAlertLevels.contains($0) }))
         let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
         let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedIndexes: [DateSorting.allCases.index(of: dateSorting) ?? 0])
-        
+
         return [filterLevels, dateRange, sorting]
 
     }
-    
+
     open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
         controller.presentingViewController?.dismiss(animated: true)
-        
+
         guard applyingChanges else { return }
-        
+
         controller.filterOptions.forEach {
             switch $0 {
             case let filterList as FilterList where filterList.options.first is Alert.Level:
@@ -162,33 +162,33 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
                 break
             }
         }
-        
+
         delegate?.updateBarButtonItems()
         delegate?.reloadData()
     }
-    
+
     // MARK: - Internal
-    
+
     private var statusDotCache: [Alert.Level: UIImage] = [:]
-    
+
     private func header(for alerts: [Alert]) -> String? {
         if let level = alerts.first?.level, let levelDescription = level.localizedDescription() {
             return "\(alerts.count) \(levelDescription) "
         }
-        
+
         return nil
     }
-    
+
     private func subtitle(for alert: Alert) -> String? {
         if let date = alert.effectiveDate {
-            
+
             let locationString = alert.jurisdiction != nil ? " (\(alert.jurisdiction!))" : ""
             return NSLocalizedString("Issued on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
         } else {
             return NSLocalizedString("Issued date unknown", comment: "")
         }
     }
-    
+
     private func image(for alert: Alert) -> UIImage? {
         if let level = alert.level {
             if let cachedImage = statusDotCache[level] {
@@ -199,10 +199,10 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
                 return image
             }
         }
-        
+
         return nil
     }
-    
+
     private func detail(for alert: Alert) -> StringSizable? {
         let details = alert.details ?? NSLocalizedString("No Description", comment: "")
         return details.sizing(withNumberOfLines: 2)
@@ -218,5 +218,5 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
 
         viewController.present(navController, animated: true, completion: nil)
     }
-    
+
 }

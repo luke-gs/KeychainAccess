@@ -12,32 +12,32 @@ import MapKit
 
 public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, AssociatedEntitySummaryDisplayable {
     public let address: Address
-    
+
     public init(_ entity: MPOLKitEntity) {
         address = entity as! Address
     }
-    
+
     public var category: String? {
         return address.source?.localizedBarTitle
     }
-    
+
     public var title: String? {
         return AddressFormatter(style: .short).formattedString(from: address)
     }
-    
+
     public var detail1: String? {
         let values: [String?] = [address.suburb?.capitalized, address.state?.uppercased(), address.postcode]
         return values.joined(separator: " ")
     }
-    
+
     public var detail2: String? {
         return nil
     }
-    
+
     public var association: String? {
         return address.formattedAssociationReasonsString()
     }
-    
+
     public var borderColor: UIColor? {
         return address.associatedAlertLevel?.color
     }
@@ -45,7 +45,7 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
     public var iconColor: UIColor? {
         return address.alertLevel?.color
     }
-    
+
     public var badge: UInt {
         return 0
     }
@@ -60,7 +60,7 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
         }
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
-    
+
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let imageKey: AssetManager.ImageKey
 
@@ -78,7 +78,7 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
         }
         return nil
     }
-    
+
     private func formattedAssociationReason() -> String? {
         guard let lastReason = address.associatedReasons?.last else { return nil }
         return lastReason.formattedReason()

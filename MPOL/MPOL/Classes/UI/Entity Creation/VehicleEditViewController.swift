@@ -115,5 +115,3 @@ public class VehicleEditViewController: FormBuilderViewController {
     }
 
 }
-
-

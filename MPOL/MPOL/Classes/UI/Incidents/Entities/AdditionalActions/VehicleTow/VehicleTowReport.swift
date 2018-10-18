@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 }
 
 public class VehicleTowReport: ActionReportable, MediaContainer {
-    
+
     public let weakAdditionalAction: Weak<AdditionalAction>
     public let weakIncident: Weak<Incident>
 

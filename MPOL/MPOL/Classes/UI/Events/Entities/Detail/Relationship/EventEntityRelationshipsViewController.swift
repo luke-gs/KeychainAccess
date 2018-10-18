@@ -10,28 +10,28 @@ import PublicSafetyKit
 import DemoAppKit
 
 class EventEntityRelationshipsViewController: FormBuilderViewController, EvaluationObserverable {
-    
+
     let viewModel: EventEntityRelationshipsViewModel
-    
+
     required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
     public required init(viewModel: EventEntityRelationshipsViewModel) {
         self.viewModel = viewModel
         super.init()
-        
+
         self.title = "Relationships"
-        
+
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.association)!
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
-        
+
         loadingManager.noContentView.titleLabel.text = "No Entities"
         loadingManager.noContentView.subtitleLabel.text = "There are no relationships that need to be defined"
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
-        
+
         viewModel.report.evaluator.addObserver(self)
     }
 
@@ -80,7 +80,6 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
             let reasons = controller.objects.enumerated()
                 .filter({ indexes.contains($0.offset) })
                 .compactMap({ $0.element.title})
-            
 
             self.viewModel.applyRelationship(relatedEntity: entity, reasons: reasons)
             self.reloadForm()
@@ -95,7 +94,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
     @objc private func cancelTapped() {
         dismissAnimated()
     }
-    
+
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor

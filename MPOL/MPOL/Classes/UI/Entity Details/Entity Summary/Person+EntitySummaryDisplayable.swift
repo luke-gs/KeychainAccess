@@ -20,23 +20,23 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public var category: String? {
         return person.source?.localizedBarTitle
     }
-    
+
     public var title: String? {
         return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
-    
+
     public var detail1: String? {
         return formattedDOBAgeGender()
     }
-    
+
     public var detail2: String? {
         return formattedAddress()
     }
-    
+
     public var association: String? {
         return person.formattedAssociationReasonsString()
     }
-    
+
     public var borderColor: UIColor? {
         return person.alertLevel?.color
     }
@@ -44,7 +44,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public var iconColor: UIColor? {
         return nil
     }
-    
+
     public var badge: UInt {
         return person.actionCount
     }
@@ -58,43 +58,43 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     // MARK: - Private
-    
+
     private var formattedName: String? {
         var formattedName: String = ""
-        
+
         if person.isAlias ?? false {
             formattedName += "@ "
         }
-        
+
         if let surname = person.familyName?.ifNotEmpty() {
             formattedName += surname
-            
+
             if person.givenName?.isEmpty ?? true == false || person.middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
             }
         }
         if let givenName = person.givenName?.ifNotEmpty() {
             formattedName += givenName
-            
+
             if person.middleNames?.isEmpty ?? true == false {
                 formattedName += " "
             }
         }
-        
+
         if let firstMiddleNameInitial = person.middleNames?.first {
             formattedName.append(firstMiddleNameInitial)
             formattedName += "."
         }
-        
+
         return formattedName
     }
-    
+
     private func formattedDOBAgeGender() -> String? {
         if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
-            
+
             var dobString = DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
-            
+
             if let gender = person.gender {
                 dobString += " \(gender.description))"
             } else {
@@ -107,7 +107,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             return NSLocalizedString("DOB and gender unknown", comment: "")
         }
     }
-    
+
     private func formattedAddress(withNewLine: Bool = false) -> String? {
         guard let address = person.addresses?.first else { return nil }
         guard let shortAddressForm = AddressFormatter(style: .short).formattedString(from: address) else { return nil }
@@ -118,7 +118,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         }
         return shortAddressForm + ", " + components.joined(separator: " ")
     }
-    
+
     private func formattedAssociationReason() -> String? {
         guard let lastReason = person.associatedReasons?.last else { return nil }
         return lastReason.formattedReason()

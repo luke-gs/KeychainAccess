@@ -46,4 +46,3 @@ public class LocationSelectionCore: LocationSelectionType {
         self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
     }
 }
-

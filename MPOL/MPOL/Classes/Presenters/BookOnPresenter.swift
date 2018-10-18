@@ -54,7 +54,7 @@ public class BookOnPresenter: Presenter {
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
         }
-        
+
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {

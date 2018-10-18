@@ -30,13 +30,13 @@ open class Entity: MPOLKitEntity {
     open var isSummary: Bool = false
     open var arn: String?
     open var jurisdiction: String?
-    
+
     open var source: MPOLSource?
     open var alertLevel: Alert.Level?
     open var associatedAlertLevel: Alert.Level?
-    
+
     open var actionCount: UInt = 0
-    
+
     open var alerts: [Alert]?
     open var associatedPersons: [Person]?
     open var associatedVehicles: [Vehicle]?
@@ -46,7 +46,7 @@ open class Entity: MPOLKitEntity {
     open var associatedReasons: [AssociationReason]?
 
     open var externalIdentifiers: [MPOLSource: String]?
-    
+
     // MARK: - Temp properties
     open var lastUpdated: Date? {
         return dateUpdated ?? dateCreated ?? nil
@@ -55,12 +55,12 @@ open class Entity: MPOLKitEntity {
     override public init(id: String) {
         super.init(id: id)
     }
-    
+
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     // MARK: - Unboxable
     public required init(unboxer: Unboxer) throws {
-        
+
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Entity.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Entity.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -71,7 +71,7 @@ open class Entity: MPOLKitEntity {
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         arn = unboxer.unbox(key: "arn")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
-        
+
         source = unboxer.unbox(key: "source")
         alertLevel = unboxer.unbox(key: "alertLevel")
         associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
@@ -165,37 +165,35 @@ open class Entity: MPOLKitEntity {
         if let alertLevel = alertLevel {
             aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
         }
-        
+
         if let associatedAlertLevel = associatedAlertLevel {
             aCoder.encode(associatedAlertLevel.rawValue, forKey: Coding.associatedAlertLevel.rawValue)
         }
 
         aCoder.encode(type(of: self).modelVersion, forKey: MPL_archieveModelVersionKey)
     }
-    
-    
+
     // MARK: - Model Versionable
-    
+
     open class var modelVersion: Int {
         return 0
     }
-    
-    
+
     // MARK: - Display
-    
+
     // TEMPORARY
 //    open func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
 //        return nil
 //    }
-    
+
     open var summary: String {
         return "-"
     }
-    
+
     open var summaryDetail1: String? {
         return "-"
     }
-    
+
     open var summaryDetail2: String? {
         return "-"
     }

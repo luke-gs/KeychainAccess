@@ -61,11 +61,11 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         super.viewDidAppear(animated)
         viewModel.report.viewed = true
     }
-    
+
     open override func construct(builder: FormBuilder) {
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
-        
+
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in
@@ -81,11 +81,11 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }, size: image?.size ?? .zero))
-                .onSelection({ (cell) in
+                .onSelection({ (_) in
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
                 })
-                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (_, indexPath) in
                     self.viewModel.removeOfficer(at: indexPath)
                     self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()

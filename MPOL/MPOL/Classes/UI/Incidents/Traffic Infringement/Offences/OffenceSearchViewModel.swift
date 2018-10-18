@@ -9,7 +9,7 @@ import Foundation
 import PromiseKit
 import PublicSafetyKit
 
-public class OffenceSearchViewModel : SearchDisplayableViewModel {
+public class OffenceSearchViewModel: SearchDisplayableViewModel {
     public typealias Object = Offence
 
     public var title: String = "Add Offence"
@@ -76,7 +76,7 @@ public class OffenceSearchViewModel : SearchDisplayableViewModel {
             //if string is empty, set filtered back to base copy
             filteredItems = self.items
         } else {
-            filteredItems = items.filter{$0.title.lowercased().contains(searchString.lowercased())}
+            filteredItems = items.filter {$0.title.lowercased().contains(searchString.lowercased())}
         }
     }
 

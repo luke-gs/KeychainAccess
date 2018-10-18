@@ -65,7 +65,7 @@ public class TrafficStopPresenter: Presenter {
         switch presentable {
 
         // Push within existing modal
-        case .trafficStopCreate(_), .trafficStopAddEntity(_):
+        case .trafficStopCreate, .trafficStopAddEntity:
             from.navigationController?.pushViewController(to, animated: true)
 
         // Search app
@@ -75,7 +75,7 @@ public class TrafficStopPresenter: Presenter {
                 let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"), shouldSearchImmediately: false)
                 do {
                     try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
-                }  catch {
+                } catch {
                     AlertQueue.shared.addSimpleAlert(title: "An Error Has Occurred", message: "Failed To Launch Entity Search")
                 }
             }
@@ -90,5 +90,3 @@ public class TrafficStopPresenter: Presenter {
         return presentableType is  TrafficStopScreen.Type
     }
 }
-
-

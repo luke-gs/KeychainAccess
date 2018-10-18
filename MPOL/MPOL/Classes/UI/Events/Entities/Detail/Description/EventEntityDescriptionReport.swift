@@ -31,11 +31,11 @@ public class EventEntityDescriptionReport: EventReportable {
         }
     }
 
-    //MARK: Eval
+    // MARK: Eval
     public var evaluator: Evaluator = Evaluator()
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
-    //MARK: Coding
+    // MARK: Coding
     public static var supportsSecureCoding: Bool = true
     required public init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
     public func encode(with aCoder: NSCoder) { }

@@ -143,4 +143,3 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 extension UserPreferenceKey {
     public static let recentOfficers = UserPreferenceKey("recentOfficers")
 }
-

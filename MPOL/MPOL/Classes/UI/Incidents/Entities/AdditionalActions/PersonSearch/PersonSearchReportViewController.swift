@@ -96,11 +96,10 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
                 self.viewModel.report.location = EventLocation(locationSelection: location)
             })
 
-
         builder += LargeTextHeaderFormItem(text: "Searching Officers")
             .isRequired(true)
             .separatorColor(.clear)
-            .actionButton(title: "Add") { button in
+            .actionButton(title: "Add") { _ in
                 self.addTapped()
             }
 
@@ -115,7 +114,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
                 .imageStyle(.circle)
-                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                     self.viewModel.report.officers.remove(at: index)
                     self.reloadForm()
                 })])
@@ -215,7 +214,7 @@ extension PersonSearchReportViewController: SearchDisplayableDelegate {
             viewModel.report.officers.append(object)
             reloadForm()
         }
-        
+
         viewController.dismiss(animated: true, completion: nil)
     }
 }

@@ -21,7 +21,7 @@ open class IncidentListReport: EventReportable, SideBarHeaderUpdateable {
             evaluator.updateEvaluation(for: .viewed)
         }
     }
-    
+
     public var incidents: [Incident] = [] {
         didSet {
             event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map { $0.displayable?.title }.joined(separator: ", ")

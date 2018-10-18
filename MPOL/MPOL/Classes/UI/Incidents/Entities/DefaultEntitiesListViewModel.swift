@@ -9,7 +9,7 @@ import PublicSafetyKit
 import DemoAppKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
-    
+
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
     var entityPickerViewModel: EntityPickerViewModel = DefaultEntityPickerViewModel()

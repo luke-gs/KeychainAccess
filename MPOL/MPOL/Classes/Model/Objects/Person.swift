@@ -40,7 +40,7 @@ open class Person: Entity, Identifiable {
         case female = "F"
         case male = "M"
         case other = "O"
-        
+
         public var description: String {
             switch self {
             case .female:
@@ -51,18 +51,18 @@ open class Person: Entity, Identifiable {
                 return "Unknown"
             }
         }
-        
+
         public var title: String? { return description }
-        
+
         public var subtitle: String? { return nil }
-        
+
         public static let allCases: [Gender] = [.female, .male, .other]
     }
-    
+
     open override class var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
     }
-    
+
     open var givenName: String?
     open var familyName: String?
     open var middleNames: String?
@@ -70,10 +70,10 @@ open class Person: Entity, Identifiable {
     open var dateOfBirth: Date?
     open var dateOfDeath: Date?
     open var yearOnlyDateOfBirth: Bool?
-    
+
     open var gender: Gender?
     open var thumbnailUrl: URL?
-    
+
     open var contacts: [Contact]?
     open var licences: [Licence]?
     open var descriptions: [PersonDescription]?
@@ -90,15 +90,15 @@ open class Person: Entity, Identifiable {
     open var thumbnail: UIImage?
 
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
-        if let initials = self.initials?.ifNotEmpty() {            
+        if let initials = self.initials?.ifNotEmpty() {
             return UIImage.thumbnail(withInitials: initials)
         }
         return UIImage()
     }()
-    
+
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
-    
+
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         givenName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.givenName.rawValue) as String?
@@ -127,11 +127,11 @@ open class Person: Entity, Identifiable {
     public required override init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
-    
+
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
-    
+
     public required init(unboxer: Unboxer) throws {
-        
+
         try super.init(unboxer: unboxer)
 
         givenName = unboxer.unbox(key: "givenName")
@@ -141,12 +141,12 @@ open class Person: Entity, Identifiable {
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Person.dateTransformer)
         dateOfDeath = unboxer.unbox(key: "dateOfDeath", formatter: Person.dateTransformer)
         yearOnlyDateOfBirth = unboxer.unbox(key: "yearOnlyDateOfBirth")
-        
+
         gender = unboxer.unbox(key: "gender")
         if let urlString: String = unboxer.unbox(key: "thumbnailUrl") {
             thumbnailUrl = URL(string: urlString)
         }
-        
+
         licences = unboxer.unbox(key: "licences")
         contacts = unboxer.unbox(key: "contactDetails")
         descriptions = unboxer.unbox(key: "descriptions")
@@ -159,7 +159,7 @@ open class Person: Entity, Identifiable {
         offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
         trafficHistory = unboxer.unbox(key: Coding.trafficHistory.rawValue)
     }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(givenName, forKey: Coding.givenName.rawValue)
@@ -181,7 +181,7 @@ open class Person: Entity, Identifiable {
         aCoder.encode(offenderConvictions, forKey: Coding.offenderConvictions.rawValue)
         aCoder.encode(trafficHistory, forKey: Coding.trafficHistory.rawValue)
     }
-    
+
     // MARK: - Model Versionable
     override open class var modelVersion: Int {
         return 0

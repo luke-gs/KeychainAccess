@@ -53,7 +53,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         LocationManager.shared.requestLocation().done(calculateETAandDistanceFromCurrentLocation).cauterize()
     }
 
-    // MARK - Private
+    // MARK: - Private
 
     private func suitableForHabitationText(for address: Address) -> String {
         // Data is not available yet.
