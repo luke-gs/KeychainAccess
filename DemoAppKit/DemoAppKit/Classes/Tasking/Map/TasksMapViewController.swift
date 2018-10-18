@@ -25,7 +25,6 @@ open class TasksMapViewController: MapViewController {
 
     public let clusterManager: ClusterManager = {
         let clusterManager = ClusterManager()
-        clusterManager.cellSize = nil
         clusterManager.minCountForClustering = 2
         clusterManager.shouldRemoveInvisibleAnnotations = false
         clusterManager.clusterPosition = .average
@@ -150,7 +149,7 @@ open class TasksMapViewController: MapViewController {
     open func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // Animate and reload clusters
         UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
-            self.clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+            self.clusterManager.reload(mapView: mapView)
         }, completion: nil)
 
         if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
@@ -218,7 +217,7 @@ open class TasksMapViewController: MapViewController {
             UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
                 // Cluster manager crashes app if visible map rect origin is < 0. Most likely Tim Cook's direct fault. 
                 if self.mapView.visibleMapRect.origin.x >= 0 && self.mapView.visibleMapRect.origin.y >= 0 {
-                    self.clusterManager.reload(self.mapView, visibleMapRect: self.mapView.visibleMapRect)
+                    self.clusterManager.reload(mapView: self.mapView)
                 }
             }, completion: nil)
         } else {
