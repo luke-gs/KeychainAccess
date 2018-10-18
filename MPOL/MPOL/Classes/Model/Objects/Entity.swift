@@ -170,7 +170,7 @@ open class Entity: MPOLKitEntity {
             aCoder.encode(associatedAlertLevel.rawValue, forKey: Coding.associatedAlertLevel.rawValue)
         }
 
-        aCoder.encode(type(of: self).modelVersion, forKey: MPL_archieveModelVersionKey)
+        aCoder.encode(type(of: self).modelVersion, forKey: MPLArchiveModelVersionKey)
     }
 
     // MARK: - Model Versionable
@@ -208,7 +208,7 @@ open class Entity: MPOLKitEntity {
 }
 
 // FIXME: This and archieving model version could probably be moved to the Kit.
-public let MPL_archieveModelVersionKey = "modelVersion"
+public let MPLArchiveModelVersionKey = "modelVersion"
 
 private enum Coding: String {
     case dateCreated = "dateCreated"
