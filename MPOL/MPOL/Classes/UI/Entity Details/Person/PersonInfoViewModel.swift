@@ -40,7 +40,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         
         let displayable = PersonDetailsDisplayable(person)
 
-        builder += SummaryDetailFormItem()
+        let detailFormItem = SummaryDetailFormItem()
             .separatorColor(.clear)
             .category(displayable.category)
             .title(displayable.title)
@@ -54,6 +54,16 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .onButtonTapped {
                 self.didTapAdditionalDetails()
             }
+
+        // Apply red text if deceased person
+        if person.isDeceased {
+            detailFormItem.onStyled { cell in
+                guard let cell = cell as? EntityDetailCollectionViewCell else { return }
+                cell.subtitleLabel.textColor = .orangeRed
+            }
+        }
+
+        builder += detailFormItem
         
         // ---------- LICENCE ----------
         
@@ -157,8 +167,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let detail: StringSizing = {
                     let detail: String
                     if let date = contact.dateCreated {
-                        let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))": ""
-                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""),  DateFormatter.preferredDateStyle.string(from: date), locationString)
+                        let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))" : ""
+                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }

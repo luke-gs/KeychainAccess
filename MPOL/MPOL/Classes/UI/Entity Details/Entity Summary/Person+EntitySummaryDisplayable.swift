@@ -90,7 +90,25 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
     
     private func formattedDOBAgeGender() -> String? {
-        if let dob = person.dateOfBirth {
+        if let dod = person.dateOfDeath {
+            // show deceased instead of DOB
+            var dodString = NSLocalizedString("Deceased", comment: "")
+            var yearComponent: DateComponents?
+            
+            if let dob = person.dateOfBirth {
+                yearComponent = Calendar.current.dateComponents([.year], from: dob, to: dod)
+            }
+            
+            if let year = yearComponent?.year, let gender = person.gender {
+                dodString += " (\(year) \(gender.description))"
+            } else if let year = yearComponent?.year {
+                dodString += " (\(year))"
+            } else if let gender = person.gender {
+                dodString += " (\(gender.description))"
+            }
+            
+            return dodString
+        } else if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
             
             var dobString = DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
@@ -124,8 +142,9 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return lastReason.formattedReason()
     }
 
-    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
-        return SummaryThumbnailFormItem()
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, containerType: EntitySummaryContainerType) -> SummaryThumbnailFormItem {
+        
+        let formItem = SummaryThumbnailFormItem()
             .style(style)
             .width(.column(2))
             .category(category)
@@ -137,6 +156,22 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
             .borderColor(borderColor)
             .imageTintColor(iconColor)
+
+        // Apply red text if deceased person
+        if person.isDeceased {
+            formItem.onStyled { cell in
+                guard let cell = cell as? EntityCollectionViewCell else { return }
+                cell.subtitleLabel.textColor = .orangeRed
+            }
+        }
+
+        switch containerType {
+        case .header:
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailHeaderStyle)
+        default:
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailListStyle)
+        }
+        return formItem
     }
 }
 
