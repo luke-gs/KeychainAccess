@@ -20,7 +20,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     public let additionalActionManager = AdditionalActionManager()
 
     public let weakEvent: Weak<Event>
-    public weak var displayable: IncidentListDisplayable!
+    public var displayable: IncidentListDisplayable!
 
     private(set) public var reports: [IncidentReportable] = [IncidentReportable]() {
         didSet {
