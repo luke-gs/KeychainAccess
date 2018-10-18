@@ -1,14 +1,20 @@
 included:
   - MPOL/Classes
-force_cast: warning
-force_try:
-  severity: warning
-line_length:
-  warning: 150
-  error: 300
 function_body_length:
-  - 100 # warning
-  - 200 # error
-identifier_name:
-  min_length: 2
-
+  - 150 # warning
+  - 300 # error
+disabled_rules:
+  - cyclomatic_complexity # Function should have complexity 10 or less
+  - file_length # File should contain 400 lines or less
+  - for_where # `where` clauses are preferred over a single `if` inside a `for`
+  - force_cast # Force casts should be avoided
+  - force_try # Force tries should be avoided
+  - identifier_name # Variable name should be between 3 and 40 characters long
+  - large_tuple # Tuples should have at most 2 members
+  - line_length # Line should be 120 characters or less
+  - multiple_closures_with_trailing_closure # Trailing closure syntax should not be used when passing more than one closure argument
+  - nesting # Types should be nested at most 1 level deep
+  - redundant_string_enum_value # String enum values can be omitted when they are equal to the enumcase name
+  - todo # TODOs should be resolved
+  - type_body_length # Type body should span 200 lines or less excluding comments and whitespace
+  - type_name # Type name should be between 3 and 40 characters lon
