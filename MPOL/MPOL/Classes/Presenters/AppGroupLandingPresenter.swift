@@ -38,7 +38,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     public override init() {
         super.init()
-        registerRecentlyUsedEntityManagerFetchRequests()
         NotificationCenter.default.addObserver(self, selector: #selector(logOff), name: LogOffManager.logOffWasRequestedNotification, object: nil)
     }
 
@@ -368,38 +367,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             UserSession.current.endSession()
             self.updateInterfaceForUserSession(animated: true)
         }
-    }
-
-    private func registerRecentlyUsedEntityManagerFetchRequests() {
-
-        let personFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-            PersonFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Person>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                return Promise<MPOLKitEntity>.value(officer)
-            })
-        }
-
-        let officerFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-            OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                return Promise<MPOLKitEntity>.value(officer)
-            })
-        }
-
-        let vehicleFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-            VehicleFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Vehicle>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                return Promise<MPOLKitEntity>.value(officer)
-            })
-        }
-
-        let locationFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-            LocationFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Address>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                return Promise<MPOLKitEntity>.value(officer)
-            })
-        }
-
-        RecentlyUsedEntityManager.shared.registerFetchRequest(personFetchClosure, forServerType: Person.serverTypeRepresentation)
-        RecentlyUsedEntityManager.shared.registerFetchRequest(officerFetchClosure, forServerType: Officer.serverTypeRepresentation)
-        RecentlyUsedEntityManager.shared.registerFetchRequest(vehicleFetchClosure, forServerType: Vehicle.serverTypeRepresentation)
-        RecentlyUsedEntityManager.shared.registerFetchRequest(locationFetchClosure, forServerType: Address.serverTypeRepresentation)
     }
 }
 
