@@ -148,7 +148,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         // TODO: remove this when we have a real CAD system
         currentResource?.status = CADResourceStatusCore.onAir
         if let syncDetails = lastSync as? CADSyncResponseCore, let incidentNumber = currentIncident?.incidentNumber {
-            
+
             // Remove incident from any assigned resource
             let resources = resourcesForIncident(incidentNumber: incidentNumber)
             for resource in resources {
@@ -247,7 +247,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
         return super.syncDetails(force: force)
     }
-    
+
     open override func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
         return firstly {
             return apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: patrolGroup))
@@ -289,7 +289,7 @@ open class CADStateManagerCore: CADStateManagerBase {
     }
 
     // MARK: - Notifications
-    
+
     /// Adds scheduled local notification and clears any conflicting ones.
     open func updateScheduledNotifications() {
         NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)

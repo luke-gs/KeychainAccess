@@ -46,7 +46,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         }
         return officerInfoSubtitle
     }
-    
+
     open var officerInfoSubtitle: String {
         return [rank, officerId, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
     }
@@ -100,7 +100,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     public static func ==(lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
         return lhs.officerId == rhs.officerId
     }
-    
+
     public func thumbnail() -> UIImage? {
         if let initials = initials?.ifNotEmpty() {
             return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
@@ -108,9 +108,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
                                                                                   style: .fixed(size: CGSize(width: 48, height: 48),
                                                                                                 padding: CGSize(width: 14, height: 14))
             )
- 
-        
-        
+
         } else {
             return AssetManager.shared.image(forKey: .entityPerson)?.withCircleBackground(tintColor: nil,
                                                                                          circleColor: .disabledGray,

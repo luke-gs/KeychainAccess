@@ -28,7 +28,7 @@ public protocol EntityPickerTypeDefiniton {
 }
 
 /// Struct with the definition for picking involvements for an Entity.
-internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
+internal struct InvolvementPickerDefinition: EntityPickerTypeDefiniton {
 
     var context: DefaultEntitiesListViewController
     var entity: MPOLKitEntity
@@ -87,7 +87,7 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
 }
 
 /// Struct with the definition for picking additional actions for an Entity.
-internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
+internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
 
     var context: DefaultEntitiesListViewController
     var entity: MPOLKitEntity
@@ -144,5 +144,3 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
         }
     }
 }
-
-

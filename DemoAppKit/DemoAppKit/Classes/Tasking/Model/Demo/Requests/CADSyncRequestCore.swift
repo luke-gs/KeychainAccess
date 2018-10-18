@@ -16,7 +16,7 @@ open class CADSyncPatrolGroupRequestCore: CADSyncPatrolGroupRequestType {
     }
 
     // MARK: - Request Parameters
-    
+
     /// The patrol group to return results for
     open var patrolGroup: String
 
@@ -37,14 +37,14 @@ open class CADSyncBoundingBoxRequestCore: CADSyncBoundingBoxRequestType {
     open var northWestLongitude: CLLocationDegrees
     open var southEastLatitude: CLLocationDegrees
     open var southEastLongitude: CLLocationDegrees
-    
+
     public init(northWestLatitude: CLLocationDegrees, northWestLongitude: CLLocationDegrees, southEastLatitude: CLLocationDegrees, southEastLongitude: CLLocationDegrees) {
         self.northWestLatitude = northWestLatitude
         self.northWestLongitude = northWestLongitude
         self.southEastLatitude = southEastLatitude
         self.southEastLongitude = southEastLongitude
     }
-    
+
     public convenience init(northWestCoordinate: CLLocationCoordinate2D, southEastCoordinate: CLLocationCoordinate2D) {
         self.init(northWestLatitude: northWestCoordinate.latitude,
                   northWestLongitude: northWestCoordinate.longitude,

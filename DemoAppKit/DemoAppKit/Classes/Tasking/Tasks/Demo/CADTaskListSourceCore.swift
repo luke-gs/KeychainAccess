@@ -37,7 +37,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         case .incident:
             return NSLocalizedString("Incidents", comment: "Incidents navigation title")
         case .patrol:
-            return NSLocalizedString("Patrol",    comment: "Patrol navigation title")
+            return NSLocalizedString("Patrol", comment: "Patrol navigation title")
         case .broadcast:
             return NSLocalizedString("Broadcast", comment: "Broadcast navigation title")
         case .resource:
@@ -63,7 +63,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     public func sourceItem(filterViewModel: TasksMapFilterViewModel) -> SourceItem {
         let modelItems = self.filteredItems(filterViewModel: filterViewModel)
         let count = modelItems.count
-        var color: UIColor? = nil
+        var color: UIColor?
 
         switch self {
         case .incident:
@@ -126,7 +126,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                     priorityFilter = true
                     resourcedFilter = true
                 }
-                
+
                 // If status is not in filter options always show
                 let isOther = !incident.status.isFilterable
                 let isCurrent = incident.status == CADClientModelTypes.incidentStatus.currentCase
@@ -162,7 +162,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 guard resource.status.shownOnMap else { return false }
 
                 let isDuress = resource.status.isDuress
-                
+
                 if let filterViewModel = filterViewModel as? TasksMapFilterViewModelCore {
                     let isTasked = resource.currentIncident != nil
 
@@ -261,7 +261,6 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
             return ResourceTaskItemViewModel(callsign: identifier)
         }
     }
-
 
     // MARK: - Cache
 

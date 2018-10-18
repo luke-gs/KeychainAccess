@@ -10,14 +10,14 @@ import Foundation
 
 public struct TasksListInformationRowViewModel {
     public static var blank = TasksListInformationRowViewModel(image: nil, title: nil)
-    
+
     public let image: UIImage?
     public let title: String?
     public let detail: String?
     public let tintColor: UIColor?
     public let useBoldTitleText: Bool
     public let useBoldDetailText: Bool
-    
+
     public init(image: UIImage?, title: String?, detail: String? = nil, tintColor: UIColor? = nil, useBoldTitleText: Bool = false, useBoldDetailText: Bool = false) {
         self.image = image
         self.title = title
@@ -26,7 +26,7 @@ public struct TasksListInformationRowViewModel {
         self.useBoldTitleText = useBoldTitleText
         self.useBoldDetailText = useBoldDetailText
     }
-    
+
     public init(with resource: CADResourceType) {
         let inDuress = resource.status.isDuress
         self.init(image: resource.type.icon,
@@ -36,5 +36,5 @@ public struct TasksListInformationRowViewModel {
                   useBoldTitleText: false,
                   useBoldDetailText: inDuress)
     }
-    
+
 }

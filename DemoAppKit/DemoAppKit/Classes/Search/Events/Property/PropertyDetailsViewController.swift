@@ -46,7 +46,7 @@ public class PropertyDetailsViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
         builder.title = title
-        viewModel.plugins?.forEach{builder += $0.decorator.formItems()}
+        viewModel.plugins?.forEach {builder += $0.decorator.formItems()}
     }
 
     @objc public func doneHandler() {

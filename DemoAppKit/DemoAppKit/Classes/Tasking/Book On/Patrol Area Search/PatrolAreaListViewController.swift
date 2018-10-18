@@ -22,7 +22,7 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
 
         // Set delegate to internal selection handler
         delegate = PatrolAreaListViewControllerSelectionHandler(self)
-        
+
         if let selectedIndex = viewModel.indexOfSelectedItem() {
             DispatchQueue.main.async {
                 self.collectionView?.scrollToItem(at: IndexPath(item: selectedIndex, section: 0), at: .centeredVertically, animated: false)
@@ -45,7 +45,7 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
                     .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
-                    .onSelection { [unowned self] cell in
+                    .onSelection { [unowned self] _ in
                         self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
                 }
             }

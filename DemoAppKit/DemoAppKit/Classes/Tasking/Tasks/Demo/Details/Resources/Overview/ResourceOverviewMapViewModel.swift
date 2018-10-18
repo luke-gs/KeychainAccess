@@ -10,14 +10,14 @@ import UIKit
 import MapKit
 
 open class ResourceOverviewMapViewModel: TasksMapViewModel {
-    
+
     public var resource: CADResourceType?
-    
+
     open func reloadFromModel(_ model: CADResourceType) {
         self.resource = model
         loadTasks()
     }
-    
+
     override open func loadTasks() {
         guard let resource = resource else { return }
 

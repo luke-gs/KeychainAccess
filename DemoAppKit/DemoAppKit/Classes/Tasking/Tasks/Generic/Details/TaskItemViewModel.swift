@@ -21,13 +21,13 @@ open class TaskItemViewModel {
 
     /// The last time the details object was loaded from the network
     open var lastDetailLoadTime: Date?
-    
+
     /// The task item details that have been loaded
     open var taskItemDetails: CADTaskListItemModelType?
 
     /// The identifier for the task item
     open var taskItemIdentifier: String
-    
+
     /// The navigation title for this type of task item details
     open var navTitle: String?
 
@@ -39,13 +39,13 @@ open class TaskItemViewModel {
 
     /// Icon image color (not the background!)
     open var iconTintColor: UIColor?
-    
+
     /// Color to use for the icon image background and status text
     open var color: UIColor?
-    
+
     /// Status text to display below the icon (e.g. 'In Duress')
     open var statusText: String?
-    
+
     /// Name of the item (e.g. 'P08')
     open var itemName: String?
 
@@ -60,7 +60,7 @@ open class TaskItemViewModel {
 
     /// The compact subtitle shown in compact glass bar (e.g. 'Respond to this incident')
     open var compactSubtitle: String?
-    
+
     /// The text to show for the last update
     open func lastUpdatedText() -> String? {
         if let lastDetailLoadTime = lastDetailLoadTime?.elapsedTimeIntervalForHuman() {
@@ -90,7 +90,7 @@ open class TaskItemViewModel {
     open func createViewController() -> UIViewController {
         MPLRequiresConcreteImplementation()
     }
-    
+
     public init(taskItemIdentifier: String) {
         self.taskItemIdentifier = taskItemIdentifier
         self.showCompactGlassBar = false
@@ -126,7 +126,7 @@ open class TaskItemViewModel {
     open func allowChangeResourceStatus() -> Bool {
         return false
     }
-    
+
     // Called when a user pulls to refresh on the sidebar
     open func refreshTask() -> Promise<Void> {
         return loadTask()

@@ -42,7 +42,6 @@ open class CADPatrolCore: Codable, CADPatrolDetailsType {
 
     public var narrative: [CADActivityLogItemType]
 
-
     // MARK: - Generated
 
     open var createdAtString: String? {
@@ -105,4 +104,3 @@ open class CADPatrolCore: Codable, CADPatrolDetailsType {
         MPLUnimplemented()
     }
 }
-

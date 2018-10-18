@@ -14,7 +14,6 @@ public protocol TasksSplitViewModelDelegate: PopoverPresenter {
     func sectionsUpdated()
 }
 
-
 open class TasksSplitViewModel {
 
     /// Delegate for UI updates
@@ -62,19 +61,19 @@ open class TasksSplitViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Tasks", comment: "Tasks navigation title")
     }
-    
+
     /// Title for the master view to be displayed in the segmented control
     open func masterSegmentTitle() -> String {
         return NSLocalizedString("List", comment: "Task list segment title")
     }
-    
+
     /// Title for the detail view to be displayed in the segmented control
     open func detailSegmentTitle() -> String {
         return NSLocalizedString("Map", comment: "Map list segment title")
     }
-    
+
     // MARK: - Filter
-    
+
     /// Applies the filter to the map and task list
     open func applyFilter() {
         delegate?.dismiss(animated: true, completion: nil)
@@ -91,7 +90,6 @@ open class TasksSplitViewModel {
         }
     }
 }
-
 
 extension TasksSplitViewModel: MapFilterViewControllerDelegate {
     public func didSelectDone() {

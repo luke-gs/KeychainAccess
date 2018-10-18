@@ -137,7 +137,7 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
         let header = LargeTextHeaderFormItem(text: "Media")
             .separatorColor(.clear)
-            .actionButton(title: "Manage", handler: { [mediaItem, context] button in
+            .actionButton(title: "Manage", handler: { [mediaItem, context] _ in
                 if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                     context.present(viewController, animated: true, completion: nil)
                 }
@@ -170,7 +170,7 @@ public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
     public func formItems() -> [FormItem] {
         guard let report = report.object else { return [] }
         guard let details = report.property?.detailNames else { return [] }
-        return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + details.compactMap{formItem(for: $0)}
+        return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + details.compactMap {formItem(for: $0)}
     }
 
     // MARK: Private
@@ -198,4 +198,3 @@ public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
         }
     }
 }
-

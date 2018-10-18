@@ -96,4 +96,3 @@ extension DefaultDateTimeReport: Summarisable {
         return items
     }
 }
-

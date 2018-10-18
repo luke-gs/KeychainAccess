@@ -9,23 +9,23 @@
 import UIKit
 
 open class AssociationsViewController: CADFormCollectionViewController<AssociationItemViewModel>, TaskDetailsLoadable {
-    
+
     private let styleItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .navBarThumbnailSelected), style: .plain, target: nil, action: nil)
 
     override public init(viewModel: CADFormCollectionViewModel<AssociationItemViewModel>) {
         super.init(viewModel: viewModel)
-        
+
         // TODO: Add red dot
         sidebarItem.image = AssetManager.shared.image(forKey: .association)
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
-        
+
         navigationItem.rightBarButtonItem = styleItem
-        
+
         styleItem.target = self
         styleItem.action = #selector(toggleStyle)
         styleItem.imageInsets = .zero
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -35,14 +35,14 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
         collectionView?.register(EntityCollectionViewCell.self)
         collectionView?.register(EntityListCollectionViewCell.self)
     }
-    
+
     override open func reloadContent() {
         super.reloadContent()
 
         // Update sidebar count when data changes
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
-    
+
     // MARK: - Thumbnail support
 
     private var style: EntityDisplayStyle = .grid {
@@ -55,16 +55,16 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
             }
         }
     }
-    
+
     @objc private func toggleStyle() {
         style = style == .grid ? . list : .grid
     }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         let isCompact = traitCollection.horizontalSizeClass == .compact
-        
+
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
             if style == .grid && !isCompact {
                 collectionView?.reloadData()
@@ -72,8 +72,7 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
             navigationItem.rightBarButtonItems = isCompact ? nil : [styleItem]
         }
     }
-    
-    
+
     // MARK: - Override
 
     open override func cellType() -> CollectionViewFormCell.Type {
@@ -113,7 +112,6 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
             return super.collectionView(collectionView, cellForItemAt: indexPath)
         }
 
-
         let cell = collectionView.dequeueReusableCell(of: cellType(for: item.entityType), for: indexPath)
         decorate(cell: cell, with: item)
         return cell
@@ -139,7 +137,6 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
             Director.shared.present(TaskItemScreen.associationDetails(association: item.association), fromViewController: self)
         }
     }
-
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {

@@ -10,30 +10,29 @@ import UIKit
 
 open class IncidentResourcesViewController: FormBuilderViewController, TaskDetailsLoadable {
     public let viewModel: CADFormCollectionViewModel<IncidentResourceItemViewModel>
-    
+
     public init(viewModel: CADFormCollectionViewModel<IncidentResourceItemViewModel>) {
         self.viewModel = viewModel
         super.init()
-        
+
         title = viewModel.navTitle()
         sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
-        
+
         sectionsUpdated()
     }
-    
-    
+
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title, style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
@@ -56,7 +55,7 @@ open class IncidentResourcesViewController: FormBuilderViewController, TaskDetai
                                 }.onTappedMessage { _ in
                                     CommsButtonHandler.didSelectMessage(for: officer.contactNumber)
                                 }
-                            
+
                             if self.traitCollection.horizontalSizeClass == .compact {
                                 cell.accessoryView = FormAccessoryView(style: .overflow)
                                     .onTapped { _ in
@@ -77,7 +76,7 @@ open class IncidentResourcesViewController: FormBuilderViewController, TaskDetai
             }
         }
     }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         reloadForm()

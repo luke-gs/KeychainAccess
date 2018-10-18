@@ -10,15 +10,15 @@ import UIKit
 
 open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
     public let viewModel: TaskDetailsOverviewViewModel
-    
+
     public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
             if let title = section.title {
@@ -27,7 +27,7 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
             }
             for item in section.items {
                 if item.isAddress {
-                    
+
                     builder += ValueFormItem(title: item.title,
                                              value: item.value != nil
                                                 ? NSAttributedString.stringWithTint(string: item.value!)
@@ -36,7 +36,7 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
                         .onSelection { cell in
                             item.selectAction?(cell)
                         }
-                    
+
                 } else {
                     builder += ValueFormItem(title: item.title,
                                              value: StringSizing(string: item.value ?? "Unknown"),

@@ -91,11 +91,11 @@ open class ManageCallsignStatusViewModel {
 
     @objc private func callsignChanged() {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? CADClientModelTypes.resourceStatus.defaultCase
-        
+
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()
     }
-    
+
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = ManageCallsignStatusViewController(viewModel: self)
@@ -140,7 +140,7 @@ open class ManageCallsignStatusViewModel {
             }
         }
     }
-    
+
     // MARK: - Data
 
     open func callsignSectionsForState() -> [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] {
@@ -159,7 +159,7 @@ open class ManageCallsignStatusViewModel {
         sections.append(CADFormCollectionSectionViewModel(
             title: NSLocalizedString("General", comment: "General status header text"),
             items: generalItems))
-        
+
         return sections
     }
 

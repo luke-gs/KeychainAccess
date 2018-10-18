@@ -16,16 +16,16 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
 
     // MARK: - Request Parameters
 
-    open var callsign : String!
-    open var category : String?
-    open var driverEmployeeNumber : String?
-    open var employees : [CADOfficerType] = []
-    open var equipment : [CADEquipmentType] = []
-    open var odometer : Int?
-    open var remarks : String?
+    open var callsign: String!
+    open var category: String?
+    open var driverEmployeeNumber: String?
+    open var employees: [CADOfficerType] = []
+    open var equipment: [CADEquipmentType] = []
+    open var odometer: Int?
+    open var remarks: String?
     open var serial: String?
-    open var shiftEnd : Date?
-    open var shiftStart : Date?
+    open var shiftEnd: Date?
+    open var shiftStart: Date?
 
     // MARK: - CodableRequestParameters
 

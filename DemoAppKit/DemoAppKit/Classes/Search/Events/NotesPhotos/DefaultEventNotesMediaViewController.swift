@@ -9,15 +9,15 @@
 import UIKit
 
 open class DefaultEventNotesMediaViewController: FormBuilderViewController, EvaluationObserverable {
-    
+
     var viewModel: DefaultEventNotesMediaViewModel
     weak var delegate: EventSubmitter?
-    
+
     public init(viewModel: DefaultEventNotesMediaViewModel) {
         self.viewModel = viewModel
         super.init()
         viewModel.report?.evaluator.addObserver(self)
-        
+
         sidebarItem.regularTitle = "Notes and Media"
         sidebarItem.compactTitle = "Notes and Media"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
@@ -33,11 +33,11 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
             navigationItem.rightBarButtonItem = nil
         }
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
-    
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.report?.viewed = true
@@ -48,7 +48,7 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
             navigationItem.rightBarButtonItem = nil
         }
     }
-    
+
     override open func construct(builder: FormBuilder) {
         builder.title = sidebarItem.regularTitle
         builder.enforceLinearLayout = .always
@@ -80,14 +80,14 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
         }
         builder += LargeTextHeaderFormItem(text: "Media")
             .separatorColor(.clear)
-            .actionButton(title: "Manage", handler: { button in
+            .actionButton(title: "Manage", handler: { _ in
                 if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                     self.present(viewController, animated: true, completion: nil)
                 }
             })
         builder += mediaItem
     }
-    
+
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor

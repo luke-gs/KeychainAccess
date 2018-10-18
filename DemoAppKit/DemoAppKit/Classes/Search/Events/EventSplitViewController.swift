@@ -13,7 +13,7 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
     public let viewModel: EventDetailViewModelType
     public var delegate: EventsSubmissionDelegate?
     public var loadingViewBuilder: LoadingViewBuilder<Response>?
-    
+
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public required init(viewModel: EventDetailViewModelType) {
         self.viewModel = viewModel
@@ -24,14 +24,14 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
                 vc.delegate = self
             }
         }
-        
+
         self.title = viewModel.title
         regularSidebarViewController.headerView = viewModel.headerView
         regularSidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit",
                                                                                          style: .plain,
                                                                                          target: self,
                                                                                          action: #selector(presentEventSummary))
-        
+
         viewModel.headerUpdated = { [weak self] in
             let selectedRow = self?.regularSidebarViewController.sidebarTableView?.indexPathForSelectedRow
             self?.regularSidebarViewController.sidebarTableView?.reloadData()
@@ -60,7 +60,7 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
                 self.eventSubmittedFor(eventId: self.viewModel.event.id, result: nil, error: error)
         }
     }
-    
+
     private func eventSubmittedFor(eventId: String, result: Response?, error: Error?) {
         let title = error != nil ? "Submission Failed" : result?.title
         let detail = error?.localizedDescription ?? result?.detail

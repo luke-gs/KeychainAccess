@@ -60,7 +60,6 @@ public class EventLocation: NSObject, NSSecureCoding {
         addressString = aDecoder.decodeObject(of: NSString.self, forKey: Coding.addressString.rawValue) as String?
     }
 
-
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(latitude, forKey: Coding.latitude.rawValue)
         aCoder.encode(longitude, forKey: Coding.longitude.rawValue)

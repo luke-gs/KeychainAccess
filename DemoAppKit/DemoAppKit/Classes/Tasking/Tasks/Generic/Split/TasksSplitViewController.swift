@@ -17,10 +17,10 @@ public protocol TasksSplitViewControllerDelegate {
 
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
 open class TasksSplitViewController: MPOLSplitViewController {
-    
+
     public static var defaultSplitWidth: CGFloat = 320
     public let extendedNavbarHeight: CGFloat = 44
-    
+
     public let viewModel: TasksSplitViewModel
 
     public let masterVC: UIViewController
@@ -47,12 +47,12 @@ open class TasksSplitViewController: MPOLSplitViewController {
         masterRightButtonItems = masterVC.navigationItem.rightBarButtonItems
         segmentedControl = UISegmentedControl(items: [viewModel.masterSegmentTitle(), viewModel.detailSegmentTitle()])
         segmentedControl.selectedSegmentIndex = 0
-        
+
         super.init(masterViewController: masterVC, detailViewControllers: [detailVC])
 
         // Configure split to keep showing task list when compact
         shouldHideMasterWhenCompact = false
-        
+
         // Change view when changing segmented control value
         segmentedControl.addTarget(self, action: #selector(didChangeSegmentedControl), for: .valueChanged)
 
@@ -60,7 +60,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
         navBarExtension.translatesAutoresizingMaskIntoConstraints = false
         navBarExtension.contentView = segmentedControl
         masterNavController.view.addSubview(navBarExtension)
-        
+
         compactNavBarExtension = navBarExtension
 
         NSLayoutConstraint.activate([
@@ -68,14 +68,14 @@ open class TasksSplitViewController: MPOLSplitViewController {
             navBarExtension.leadingAnchor.constraint(equalTo: masterNavController.view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: masterNavController.view.trailingAnchor),
             navBarExtension.heightAnchor.constraint(equalToConstant: extendedNavbarHeight),
-            
+
             segmentedControl.topAnchor.constraint(equalTo: navBarExtension.topAnchor, constant: 8),
             segmentedControl.leadingAnchor.constraint(equalTo: navBarExtension.leadingAnchor, constant: 24),
             segmentedControl.trailingAnchor.constraint(equalTo: navBarExtension.trailingAnchor, constant: -24),
-            segmentedControl.bottomAnchor.constraint(equalTo: navBarExtension.bottomAnchor, constant: -10),
-        ])        
+            segmentedControl.bottomAnchor.constraint(equalTo: navBarExtension.bottomAnchor, constant: -10)
+        ])
     }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         compactNavBarExtension?.isHidden = !isCompact()
@@ -101,7 +101,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
         syncIntervalTimer?.invalidate()
         syncIntervalTimer = nil
     }
-    
+
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let height = isCompact() ? extendedNavbarHeight : 0
@@ -146,7 +146,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
         if oldWidth == UISplitViewControllerAutomaticDimension {
             oldWidth = 0
         }
-        
+
         (detailVC as? TasksSplitViewControllerDelegate)?.willChangeSplitWidth(from: oldWidth, to: width)
         if animated {
             // Animate the split moving
@@ -232,4 +232,3 @@ extension TasksSplitViewController: TasksSplitViewModelDelegate {
         updateSyncIntervalText()
     }
 }
-

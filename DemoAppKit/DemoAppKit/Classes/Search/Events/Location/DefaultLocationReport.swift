@@ -44,7 +44,6 @@ open class DefaultLocationReport: EventReportable {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
     }
 
-
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(eventLocation, forKey: Coding.eventLocation.rawValue)
         aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
@@ -65,4 +64,3 @@ extension DefaultLocationReport: Summarisable {
         return items
     }
 }
-

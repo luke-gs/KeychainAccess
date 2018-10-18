@@ -9,7 +9,7 @@
 import UIKit
 
 open class OfficerListViewController: SearchDisplayableViewController<OfficerListViewControllerSelectionHandler, OfficerListViewModel> {
-        
+
     public required init(viewModel: OfficerListViewModel) {
         super.init(viewModel: viewModel)
 
@@ -40,7 +40,7 @@ open class OfficerListViewController: SearchDisplayableViewController<OfficerLis
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
                     .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
-                    .onSelection { [unowned self] cell in
+                    .onSelection { [unowned self] _ in
                         self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
                 }
             }
@@ -51,19 +51,19 @@ open class OfficerListViewController: SearchDisplayableViewController<OfficerLis
 
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
+
         if let cell = cell as? CollectionViewFormCell {
             cell.separatorColor = ThemeManager.shared.theme(for: .current).color(forKey: .legacySeparator)
         }
     }
-    
+
     override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
         if let header = view as? CollectionViewFormHeaderView {
             header.separatorColor = ThemeManager.shared.theme(for: .current).color(forKey: .legacySeparator)
         }
     }
-    
+
     @objc public func cancelTapped() {
         navigationController?.popViewController(animated: true)
     }

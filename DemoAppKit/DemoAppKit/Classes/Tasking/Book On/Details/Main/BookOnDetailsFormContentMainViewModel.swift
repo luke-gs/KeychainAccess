@@ -122,4 +122,3 @@ extension Array where Element == CADEquipmentType {
         }
     }
 }
-

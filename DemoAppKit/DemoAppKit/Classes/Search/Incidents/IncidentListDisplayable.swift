@@ -28,13 +28,11 @@ open class IncidentListDisplayable: NSSecureCoding {
 
     public init(title: String? = nil,
                 subtitle: String? = nil,
-                icon: UIImage? = nil)
-    {
+                icon: UIImage? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.icon = icon
     }
-
 
     //Coding
 
@@ -116,7 +114,7 @@ public protocol IncidentDetailViewModelType: Evaluatable {
 
     /// Completion used to tell the SplitviewController to reload
     /// so that the side bar will be reloaded to use new header
-    var headerUpdated: (()->())? { get set }
+    var headerUpdated: (()->Void)? { get set }
 
     /// Initialiser
     ///
@@ -125,4 +123,3 @@ public protocol IncidentDetailViewModelType: Evaluatable {
     ///   - builder: The screen builder
     init(incident: Incident, builder: IncidentScreenBuilding)
 }
-

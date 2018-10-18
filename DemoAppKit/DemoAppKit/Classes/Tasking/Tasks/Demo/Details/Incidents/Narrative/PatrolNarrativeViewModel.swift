@@ -24,4 +24,3 @@ open class PatrolNarrativeViewModel: NarrativeViewModel {
         sections = sortedSectionsByDate(from: activityLogItemsViewModels)
     }
 }
-

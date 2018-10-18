@@ -6,12 +6,12 @@
 //
 
 public class PropertyDetailsViewModel {
-    
+
     public var report = PropertyDetailsReport()
-    public var completion: ((PropertyDetailsReport) -> ())?
+    public var completion: ((PropertyDetailsReport) -> Void)?
     let involvements: [String]
     let properties: [Property]
-    var updateDoneButton: (()->())?
+    var updateDoneButton: (()->Void)?
 
     public var plugins: [FormBuilderPlugin]?
 
@@ -31,12 +31,10 @@ public class PropertyDetailsViewModel {
 
         updateDoneButton?()
 
-        let keys = property.detailNames?.compactMap{$0.title}
+        let keys = property.detailNames?.compactMap {$0.title}
         guard let validKeys = keys else { return }
         let values = Array(repeating: "", count: validKeys.count)
         report.details = Dictionary(uniqueKeysWithValues: zip(validKeys, values))
 
     }
 }
-
-

@@ -15,4 +15,3 @@ public class EventType: ExtensibleKey<String> {
     // Define default EventTypes
     public static let blank = EventType("blank")
 }
-

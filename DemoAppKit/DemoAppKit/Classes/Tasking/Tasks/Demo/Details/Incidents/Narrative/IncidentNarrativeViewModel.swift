@@ -9,7 +9,7 @@
 import UIKit
 
 open class IncidentNarrativeViewModel: NarrativeViewModel {
-    
+
     open override func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let incident = model as? CADIncidentDetailsType else { return }
 
@@ -20,7 +20,7 @@ open class IncidentNarrativeViewModel: NarrativeViewModel {
                                      title: item.title,
                                      subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }
-        
+
         sections = sortedSectionsByDate(from: activityLogItemsViewModels)
     }
 }

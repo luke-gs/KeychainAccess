@@ -10,26 +10,26 @@ import UIKit
 import PromiseKit
 
 open class OfficerDetailsViewController: FormBuilderViewController {
-    
+
     public static var contactPhoneValidation: (specification: Specification, message: String) = (
         specification: AustralianPhoneSpecification(),
         message: NSLocalizedString("Contact number must be a valid Australian phone number", comment: "")
     )
-    
+
     // MARK: - View Model
-    
+
     private var viewModel: OfficerDetailsViewModel
-    
+
     // MARK: - Setup
-    
+
     public init(viewModel: OfficerDetailsViewModel) {
         self.viewModel = viewModel
         super.init()
-        
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -38,7 +38,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     open func updateTitleState() {
         self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
     }
-    
+
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateTitleState()
@@ -46,17 +46,17 @@ open class OfficerDetailsViewController: FormBuilderViewController {
 
     override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
+        coordinator.animate(alongsideTransition: { (_) in
             self.updateTitleState()
         }, completion: nil)
     }
-    
+
     // MARK: - Form
-    
+
     override open func construct(builder: FormBuilder) {
-        
+
         builder += HeaderFormItem(text: NSLocalizedString("Selected Officer", comment: "").uppercased(), style: .plain)
-    
+
         builder += BookOnDetailsOfficerFormItem(title: viewModel.content.title,
                                                     subtitle: viewModel.content.officerInfoSubtitle,
                                                     status: viewModel.content.driverStatus,
@@ -64,7 +64,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                 .width(.column(1))
                 .height(.fixed(60))
 
-        
         builder += HeaderFormItem(text: NSLocalizedString("OFFICER DETAILS", comment: ""), style: .plain)
 
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
@@ -77,7 +76,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                 self?.viewModel.content.licenceTypeId = $0?.first?.entry.id
                 self?.updateTitleState()
             }
-        
+
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
             .text(viewModel.content.contactNumber)
@@ -88,7 +87,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .onValueChanged { [weak self] in
                 self?.viewModel.content.contactNumber = $0
         }
-        
+
         builder += TextFieldFormItem(title: NSLocalizedString("Radio ID", comment: ""), text: nil)
             .width(.column(2))
             .text(viewModel.content.radioId)
@@ -111,7 +110,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .onValueChanged { [weak self] in
                 self?.viewModel.content.remarks = $0
             }
-        
+
         builder += OptionFormItem(title: NSLocalizedString("This officer is the driver", comment: ""))
             .width(.column(1))
             .isChecked(viewModel.content.isDriver.isTrue)
@@ -120,16 +119,16 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                 self?.reloadForm()
             }
     }
-    
+
     @objc func doneButtonTapped () {
         #if DEBUG
             // Skip validation when debug, to keep devs happy
             viewModel.saveForm()
             if view != nil { return }
         #endif
-        
+
         let result = builder.validate()
-        
+
         switch result {
         case .invalid(_, let message):
             builder.validateAndUpdateUI()
@@ -138,10 +137,9 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             viewModel.saveForm()
         }
     }
-    
+
     @objc func cancelButtonTapped() {
         viewModel.cancelForm()
         navigationController?.popViewController(animated: true)
     }
 }
-

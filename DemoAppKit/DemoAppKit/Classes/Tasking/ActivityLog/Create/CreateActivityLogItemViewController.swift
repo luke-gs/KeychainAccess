@@ -80,7 +80,6 @@ open class CreateActivityLogItemViewController: SubmissionFormBuilderViewControl
             self.viewModel.endTime = $0
         })
 
-
         builder += startTimeItem
         builder += endTimeItem
 
