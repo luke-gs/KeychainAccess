@@ -52,8 +52,7 @@ extension LoadingViewController {
     /// - Returns: The promise that will be fulfilled
     @discardableResult
     public static func presentWith(_ builder: LoadingViewBuilder<T>,
-                                   from presentingViewController: UIViewController)
-        -> Promise<T>? {
+                                   from presentingViewController: UIViewController) -> Promise<T>? {
         let vc = LoadingViewController(builder: builder)
         vc.modalPresentationStyle = .formSheet
         vc.modalTransitionStyle = .crossDissolve
@@ -65,8 +64,8 @@ extension LoadingViewController {
 
         builder.request?().done { result in
             builder.pendingPromise?.1.fulfill(result)
-            }.catch { error in
-                builder.pendingPromise?.1.reject(error)
+        }.catch { error in
+            builder.pendingPromise?.1.reject(error)
         }
         return builder.pendingPromise?.0
     }
