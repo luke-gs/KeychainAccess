@@ -8,8 +8,9 @@
 
 import PublicSafetyKit
 
+// swiftlint:disable class_delegate_protocol
 /// A delegate for updating the view (PopoverPresenter so we can present new views from view model)
-public protocol EntityDetailFormViewModelDelegate: class, PopoverPresenter, NavigationPresenter {
+public protocol EntityDetailFormViewModelDelegate: PopoverPresenter, NavigationPresenter {
 
     /// Update the sidebar count
     func updateSidebarItemCount(_ count: UInt?)
@@ -29,6 +30,7 @@ public protocol EntityDetailFormViewModelDelegate: class, PopoverPresenter, Navi
     /// Update bar buttons
     func updateBarButtonItems()
 }
+// swiftlint:enable class_delegate_protocol
 
 /// A blank implementation to avoid optional def in the protocol
 extension EntityDetailFormViewModelDelegate {

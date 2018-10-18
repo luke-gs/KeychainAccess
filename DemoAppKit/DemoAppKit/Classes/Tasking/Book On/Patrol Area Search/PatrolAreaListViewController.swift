@@ -9,6 +9,9 @@ import UIKit
 
 open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolAreaListViewControllerSelectionHandler, PatrolAreaListViewModel> {
 
+    // Strong reference to selection handler
+    private var selectionHandler: PatrolAreaListViewControllerSelectionHandler? = nil
+
     // MARK: - Setup
 
     public required init(viewModel: PatrolAreaListViewModel) {
@@ -21,7 +24,8 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
         super.viewDidLoad()
 
         // Set delegate to internal selection handler
-        delegate = PatrolAreaListViewControllerSelectionHandler(self)
+        selectionHandler = PatrolAreaListViewControllerSelectionHandler(self)
+        delegate = selectionHandler
 
         if let selectedIndex = viewModel.indexOfSelectedItem() {
             DispatchQueue.main.async {
@@ -69,13 +73,14 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
 // Separate class for SearchDisplayableDelegate implementation, due to cyclic reference in generic type inference
 open class PatrolAreaListViewControllerSelectionHandler: SearchDisplayableDelegate {
     public typealias Object = CustomSearchDisplayable
-    private var listViewController: PatrolAreaListViewController
+    private weak var listViewController: PatrolAreaListViewController?
 
     init(_ listViewController: PatrolAreaListViewController) {
         self.listViewController = listViewController
     }
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
+        guard let listViewController = listViewController else { return }
         if let patrolArea = object as? PatrolAreaListItemViewModel {
             listViewController.viewModel.selectedPatrolArea = patrolArea.patrolArea
             listViewController.reloadForm()

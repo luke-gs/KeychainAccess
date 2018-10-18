@@ -79,10 +79,6 @@ public class TrafficStopPresenter: Presenter {
                     AlertQueue.shared.addSimpleAlert(title: "An Error Has Occurred", message: "Failed To Launch Entity Search")
                 }
             }
-
-        // Default presentation, based on container class (eg push if in navigation controller)
-        default:
-            from.show(to, sender: from)
         }
     }
 

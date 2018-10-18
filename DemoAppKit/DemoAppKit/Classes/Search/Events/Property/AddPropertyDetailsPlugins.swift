@@ -18,7 +18,7 @@ public protocol FormBuilderPlugin {
 
 // General section
 
-public struct AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, SearchDisplayableDelegate {
+public class AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, SearchDisplayableDelegate {
     let viewModel: Weak<PropertyDetailsViewModel>
     let context: Weak<UIViewController>
 

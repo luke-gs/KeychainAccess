@@ -10,6 +10,9 @@ import UIKit
 
 open class OfficerListViewController: SearchDisplayableViewController<OfficerListViewControllerSelectionHandler, OfficerListViewModel> {
 
+    // Strong reference to selection handler
+    private var selectionHandler: OfficerListViewControllerSelectionHandler? = nil
+
     public required init(viewModel: OfficerListViewModel) {
         super.init(viewModel: viewModel)
 
@@ -20,7 +23,8 @@ open class OfficerListViewController: SearchDisplayableViewController<OfficerLis
         super.viewDidLoad()
 
         // Set delegate to internal selection handler
-        delegate = OfficerListViewControllerSelectionHandler(self)
+        selectionHandler = OfficerListViewControllerSelectionHandler(self)
+        delegate = selectionHandler
 
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
     }
@@ -78,13 +82,14 @@ extension OfficerListViewController: OfficerListViewModelDelegate {
 // Separate class for SearchDisplayableDelegate implementation, due to cyclic reference in generic type inference
 open class OfficerListViewControllerSelectionHandler: SearchDisplayableDelegate {
     public typealias Object = CustomSearchDisplayable
-    private var listViewController: OfficerListViewController
+    private weak var listViewController: OfficerListViewController?
 
     init(_ listViewController: OfficerListViewController) {
         self.listViewController = listViewController
     }
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
+        guard let listViewController = listViewController else { return }
         if let officer = object as? OfficerListItemViewModel {
             listViewController.present(listViewController.viewModel.officerDetailsScreen(for: officer))
         }

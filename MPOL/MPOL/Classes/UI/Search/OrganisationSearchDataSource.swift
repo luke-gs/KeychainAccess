@@ -265,7 +265,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
     public func performSearch() {
         generateResultModel(text) { (resultModel, error) in
-            if let error = error {
+            if error != nil {
                  self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .searchInvalidTextError), "Organisation")
             } else {
                 // Generate Searchable
