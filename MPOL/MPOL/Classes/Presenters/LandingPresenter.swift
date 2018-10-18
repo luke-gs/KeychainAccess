@@ -178,59 +178,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             self.tabBarController = tabBarController
 
-            // Set up entity summary and presentable
-            let entityFormatter = EntitySummaryDisplayFormatter.default
-
-            entityFormatter.registerEntityType(Person.self,
-                                               forSummary: .function { return PersonSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-
-            entityFormatter.registerEntityType(Vehicle.self,
-                                               forSummary: .function { return VehicleSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-            
-            entityFormatter.registerEntityType(Organisation.self,
-                                               forSummary: .function { return OrganisationSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-
-            entityFormatter.registerEntityType(Address.self,
-                                               forSummary: .function { return AddressSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-
-            //  Register fetchClosures to retrieve entities from remote
-
-            let personFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-                PersonFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Person>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                    return Promise<MPOLKitEntity>.value(officer)
-                })
-            }
-
-            RecentlyUsedEntityManager.default.registerFetchRequest(personFetchClosure, forServerType: Person.serverTypeRepresentation)
-
-            let officerFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-                OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                    return Promise<MPOLKitEntity>.value(officer)
-                })
-            }
-
-            RecentlyUsedEntityManager.default.registerFetchRequest(officerFetchClosure, forServerType: Officer.serverTypeRepresentation)
-
-            let vehicleFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-                VehicleFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Vehicle>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                    return Promise<MPOLKitEntity>.value(officer)
-                })
-            }
-
-            RecentlyUsedEntityManager.default.registerFetchRequest(vehicleFetchClosure, forServerType: Vehicle.serverTypeRepresentation)
-
-            let locationFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
-                LocationFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Address>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
-                    return Promise<MPOLKitEntity>.value(officer)
-                })
-            }
-
-            RecentlyUsedEntityManager.default.registerFetchRequest(locationFetchClosure, forServerType: Address.serverTypeRepresentation)
-
+            registerEntityPresentables(withDelegate: searchViewController)
+            registerEntityFetchClosures()
 
             self.searchViewController = searchViewController
             self.tabBarController = tabBarController
@@ -367,6 +316,65 @@ public class LandingPresenter: AppGroupLandingPresenter {
         settingsVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: settingsVC, action: #selector(UIViewController.dismissAnimated))
 
         tabBarController?.show(settingsNavController, sender: self)
+    }
+
+    private func registerEntityPresentables(withDelegate delegate: SearchDelegate) {
+
+        // Set up entity summary and presentable
+        let entityFormatter = EntitySummaryDisplayFormatter.default
+
+        entityFormatter.registerEntityType(Person.self,
+                                           forSummary: .function { return PersonSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+
+        entityFormatter.registerEntityType(Vehicle.self,
+                                           forSummary: .function { return VehicleSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+
+        entityFormatter.registerEntityType(Organisation.self,
+                                           forSummary: .function { return OrganisationSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+
+        entityFormatter.registerEntityType(Address.self,
+                                           forSummary: .function { return AddressSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+    }
+
+    private func registerEntityFetchClosures() {
+
+        //  Register fetchClosures to retrieve entities from remote
+
+        let personFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            PersonFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Person>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(personFetchClosure, forServerType: Person.serverTypeRepresentation)
+
+        let officerFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(officerFetchClosure, forServerType: Officer.serverTypeRepresentation)
+
+        let vehicleFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            VehicleFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Vehicle>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(vehicleFetchClosure, forServerType: Vehicle.serverTypeRepresentation)
+
+        let locationFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            LocationFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Address>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(locationFetchClosure, forServerType: Address.serverTypeRepresentation)
     }
 }
 
