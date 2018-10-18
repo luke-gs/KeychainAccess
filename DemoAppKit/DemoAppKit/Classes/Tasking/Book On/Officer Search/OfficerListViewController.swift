@@ -11,7 +11,7 @@ import UIKit
 open class OfficerListViewController: SearchDisplayableViewController<OfficerListViewControllerSelectionHandler, OfficerListViewModel> {
 
     // Strong reference to selection handler
-    private var selectionHandler: OfficerListViewControllerSelectionHandler? = nil
+    private var selectionHandler: OfficerListViewControllerSelectionHandler?
 
     public required init(viewModel: OfficerListViewModel) {
         super.init(viewModel: viewModel)

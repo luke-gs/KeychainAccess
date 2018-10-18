@@ -10,7 +10,7 @@ import UIKit
 open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolAreaListViewControllerSelectionHandler, PatrolAreaListViewModel> {
 
     // Strong reference to selection handler
-    private var selectionHandler: PatrolAreaListViewControllerSelectionHandler? = nil
+    private var selectionHandler: PatrolAreaListViewControllerSelectionHandler?
 
     // MARK: - Setup
 

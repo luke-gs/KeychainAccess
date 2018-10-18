@@ -40,7 +40,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     }
 
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
+                       selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident

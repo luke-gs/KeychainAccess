@@ -282,7 +282,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
     /// Return the sectioned incidents for given filter and search text
     public func taskListSections(for incidents: [CADIncidentType], filter: ((CADIncidentType) -> Bool)?, searchText: String?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        var sectionedIncidents: [String: Array<CADIncidentType>] = [:]
+        var sectionedIncidents: [String: [CADIncidentType]] = [:]
 
         // Map incidents to sections
         for incident in incidents {
@@ -327,7 +327,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     /// Return the sectioned patrols for given filter and search text
     public func taskListSections(for patrols: [CADPatrolType], filter: ((CADPatrolType) -> Bool)?, searchText: String?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
 
-        var sectionedPatrols: [String: Array<CADPatrolType>] = [:]
+        var sectionedPatrols: [String: [CADPatrolType]] = [:]
 
         // Map incidents to sections
         for patrol in patrols {
@@ -372,7 +372,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     /// Return the sectioned broadcasts for given filter and search text
     public func taskListSections(for broadcasts: [CADBroadcastType], filter: ((CADBroadcastType) -> Bool)?, searchText: String?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
 
-        var sectionedBroadcasts: [String: Array<CADBroadcastType>] = [:]
+        var sectionedBroadcasts: [String: [CADBroadcastType]] = [:]
 
         // Map incidents to sections
         for broadcast in broadcasts {
@@ -423,7 +423,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         let tasked = NSLocalizedString("Tasked", comment: "")
         let untasked = NSLocalizedString("Untasked", comment: "")
 
-        var sectionedResources: [String: Array<CADResourceType>] = [
+        var sectionedResources: [String: [CADResourceType]] = [
             duress: [],
             tasked: [],
             untasked: []

@@ -85,10 +85,10 @@ open class AssociationsViewController: CADFormCollectionViewController<Associati
     private func cellType(for entityType: AssociationItemViewModel.EntityType) -> CollectionViewFormCell.Type {
 
         switch entityType {
-            case .person:
-                return cellType()
-            default:
-                return EntityListCollectionViewCell.self
+        case .person:
+            return cellType()
+        default:
+            return EntityListCollectionViewCell.self
         }
     }
 

@@ -9,11 +9,13 @@
 import UIKit
 import PromiseKit
 
+// swiftlint:disable class_delegate_protocol
 public protocol TaskItemViewModelDelegate: PopoverPresenter {
     func didUpdateModel()
     func setLoadingState(_ state: LoadingStateManager.State)
     func setLoadingState(_ state: LoadingStateManager.State, error: Error?)
 }
+// swiftlint:enable class_delegate_protocol
 
 open class TaskItemViewModel {
 

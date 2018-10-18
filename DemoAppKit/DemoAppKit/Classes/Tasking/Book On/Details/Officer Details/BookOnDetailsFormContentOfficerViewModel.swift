@@ -30,14 +30,12 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var isDriver: Bool?
 
     open var licenceTypeEntry: PickableManifestEntry? {
-        get {
-            if let licenceTypeId = licenceTypeId {
-                if let entry = Manifest.shared.entry(withID: licenceTypeId) {
-                    return PickableManifestEntry(entry)
-                }
+        if let licenceTypeId = licenceTypeId {
+            if let entry = Manifest.shared.entry(withID: licenceTypeId) {
+                return PickableManifestEntry(entry)
             }
-            return nil
         }
+        return nil
     }
 
     open var subtitle: String {

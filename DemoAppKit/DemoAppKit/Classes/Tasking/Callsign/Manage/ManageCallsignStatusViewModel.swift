@@ -22,10 +22,12 @@ public struct ManageCallsignStatusItemViewModel {
     }
 }
 
+// swiftlint:disable class_delegate_protocol
 /// Protocol for UI backing view model
 public protocol ManageCallsignStatusViewModelDelegate: PopoverPresenter, NavigationPresenter {
     func callsignDidChange()
 }
+// swiftlint:enable class_delegate_protocol
 
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel {
@@ -55,12 +57,10 @@ open class ManageCallsignStatusViewModel {
 
     /// The action buttons to display below status items
     public var actionButtons: [String] {
-        get {
-            return [
-                ActionButton.viewCallsign.title,
-                ActionButton.manageCallsign.title
-            ]
-        }
+        return [
+            ActionButton.viewCallsign.title,
+            ActionButton.manageCallsign.title
+        ]
     }
 
     public var shouldShowIncident: Bool {
@@ -130,13 +130,11 @@ open class ManageCallsignStatusViewModel {
                     let viewModel = ResourceTaskItemViewModel(callsign: resource.callsign)
                     delegate?.present(TaskItemScreen.landing(viewModel: viewModel))
                 }
-                break
             case .manageCallsign:
                 if let resource = CADStateManager.shared.currentResource {
                     // Edit the book on details
                     delegate?.present(BookOnScreen.bookOnDetailsForm(resource: resource, formSheet: false))
                 }
-                break
             }
         }
     }

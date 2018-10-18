@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-public protocol TasksSplitViewControllerDelegate {
+public protocol TasksSplitViewControllerDelegate: class {
     func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat)
     func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat)
     func didFinishAnimatingSplitWidth()

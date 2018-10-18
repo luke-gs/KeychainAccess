@@ -8,11 +8,13 @@
 
 import UIKit
 
+// swiftlint:disable class_delegate_protocol
 /// Delegate protocol for updating UI
 public protocol TasksSplitViewModelDelegate: PopoverPresenter {
     /// Called when the sections data is updated
     func sectionsUpdated()
 }
+// swiftlint:enable class_delegate_protocol
 
 open class TasksSplitViewModel {
 

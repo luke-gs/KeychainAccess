@@ -102,7 +102,7 @@ public protocol EventDetailViewModelType: Evaluatable {
     var viewControllers: [UIViewController]? { get }
 
     /// Closure to call when the header gets updated with a new title or subtitle
-    var headerUpdated: (()->Void)? { get set }
+    var headerUpdated: (() -> Void)? { get set }
 
     /// The header to display at the top of the sidebar
     ///

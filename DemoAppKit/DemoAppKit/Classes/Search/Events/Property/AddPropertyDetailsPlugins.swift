@@ -55,7 +55,7 @@ public class AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, S
 
 public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
     let viewModel: Weak<PropertyDetailsViewModel>
-    let delegate: AddPropertyDelegate
+    private weak var delegate: AddPropertyDelegate?
 
     public init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         self.viewModel = Weak(viewModel)
@@ -73,7 +73,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
-                    delegate.didTapOnPropertyType()
+                    delegate?.didTapOnPropertyType()
             },
 
             ValueFormItem(title: "Sub Type",
@@ -82,7 +82,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .isRequired(true)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
-                    delegate.didTapOnPropertyType()
+                    delegate?.didTapOnPropertyType()
             },
 
             DropDownFormItem(title: "Involvements")

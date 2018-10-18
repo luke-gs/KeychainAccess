@@ -20,7 +20,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
     }
 
     public init(identifier: String, source: CADTaskListSourceType, title: String, subtitle: String, caption: String, resourceImage: UIImage?, statusImage: UIImage?,
-         informationRows: [TasksListInformationRowViewModel]?, incidentViewModel: TasksListIncidentViewModel?) {
+                informationRows: [TasksListInformationRowViewModel]?, incidentViewModel: TasksListIncidentViewModel?) {
         self.resourceImage = resourceImage
         self.statusImage = statusImage
         self.informationRows = informationRows

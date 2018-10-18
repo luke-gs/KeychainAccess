@@ -114,7 +114,7 @@ public protocol IncidentDetailViewModelType: Evaluatable {
 
     /// Completion used to tell the SplitviewController to reload
     /// so that the side bar will be reloaded to use new header
-    var headerUpdated: (()->Void)? { get set }
+    var headerUpdated: (() -> Void)? { get set }
 
     /// Initialiser
     ///

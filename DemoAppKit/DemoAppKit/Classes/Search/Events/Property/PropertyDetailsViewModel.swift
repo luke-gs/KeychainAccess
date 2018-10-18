@@ -11,7 +11,7 @@ public class PropertyDetailsViewModel {
     public var completion: ((PropertyDetailsReport) -> Void)?
     let involvements: [String]
     let properties: [Property]
-    var updateDoneButton: (()->Void)?
+    var updateDoneButton: (() -> Void)?
 
     public var plugins: [FormBuilderPlugin]?
 

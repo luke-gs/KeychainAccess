@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol AddPropertyDelegate {
+public protocol AddPropertyDelegate: class {
     func didTapOnPropertyType()
 }
 

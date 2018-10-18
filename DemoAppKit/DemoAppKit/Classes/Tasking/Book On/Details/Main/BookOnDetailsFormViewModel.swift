@@ -9,11 +9,13 @@
 import UIKit
 import PromiseKit
 
+// swiftlint:disable class_delegate_protocol
 /// Delegate protocol for updating UI
 public protocol BookOnDetailsFormViewModelDelegate: PopoverPresenter {
     /// Called when did update details
     func didUpdateDetails()
 }
+// swiftlint:enable class_delegate_protocol
 
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
