@@ -24,29 +24,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     public init(items: [Object]? = nil) {
 
-        if let items = items {
-            self.items = items
-        } else {
-            #if DEBUG || EXTERNAL
-                // Fake officers used for the purposes of demos.
-                let fakeOfficerOne = Officer(id: "SmithJacksonGS007")
-                fakeOfficerOne.familyName = "Smith"
-                fakeOfficerOne.givenName = "Jackson"
-                fakeOfficerOne.employeeNumber = "#GS007"
-                let fakeOfficerTwo = Officer(id: "JohnsonCarlGS008")
-                fakeOfficerTwo.familyName = "Johnson"
-                fakeOfficerTwo.givenName = "Carl"
-                fakeOfficerTwo.employeeNumber = "#GS008"
-                self.items = [fakeOfficerOne, fakeOfficerTwo]
-            #else
-                self.items = []
-            #endif
-        }
-
+        self.items = items ?? []
     }
 
     func numberOfSections() -> Int {
-        return 1
+        return items.isEmpty ? 0 : 1
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -126,10 +108,39 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func loadingStateText() -> String? {
-        return "Searching"
+        return "Retrieving Officers"
     }
 
     func emptyStateText() -> String? {
         return "No Recently Used Officers"
     }
+
+    public func fetchRecentOfficers() -> Promise<Void> {
+
+        let userPreferenceManager = UserPreferenceManager.shared
+
+        guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
+        !officerIds.isEmpty else {
+            return Promise<Void>()
+        }
+
+        items.removeAll()
+
+        return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+            self?.items = officerIds.compactMap { result[$0] as? Officer }
+        }.map {}
+    }
+
+    public func cellSelectedAt(_ indexPath: IndexPath) {
+
+        // add officer to recently used
+        let officer = object(for: indexPath)
+        try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
+        RecentlyUsedEntityManager.default.add(officer)
+    }
 }
+
+extension UserPreferenceKey {
+    public static let recentOfficers = UserPreferenceKey("recentOfficers")
+}
+
