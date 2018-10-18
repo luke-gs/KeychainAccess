@@ -117,27 +117,18 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
-        return Promise { seal in
+        let userPreferenceManager = UserPreferenceManager.shared
 
-            let userPreferenceManager = UserPreferenceManager.shared
-
-            guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
-            !officerIds.isEmpty else {
-                seal.fulfill(())
-                return
-            }
-
-
-            items.removeAll()
-
-            RecentlyUsedEntityManager.shared.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { result in
-
-                if let officers = result as? [Officer] {
-                    self.items = officers
-                }
-                seal.fulfill(())
-            }.cauterize()
+        guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
+        !officerIds.isEmpty else {
+            return Promise<Void>()
         }
+
+        items.removeAll()
+
+        return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+            self?.items = officerIds.compactMap { result[$0] as? Officer }
+        }.map {}
     }
 
     public func cellSelectedAt(_ indexPath: IndexPath) {
@@ -145,7 +136,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         // add officer to recently used
         let officer = object(for: indexPath)
         try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
-        RecentlyUsedEntityManager.shared.add(officer)
+        RecentlyUsedEntityManager.default.add(officer)
     }
 }
 
