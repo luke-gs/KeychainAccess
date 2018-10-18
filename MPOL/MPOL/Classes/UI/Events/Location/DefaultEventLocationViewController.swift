@@ -61,7 +61,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
             .required()
-            .onValueChanged({ (location) in
+            .onValueChanged({ [weak self] (location) in
+                guard let `self` = self else { return }
                 if let location = location {
                     self.viewModel.report.eventLocation = EventLocation(locationSelection: location)
                     self.updateAnnotation()
