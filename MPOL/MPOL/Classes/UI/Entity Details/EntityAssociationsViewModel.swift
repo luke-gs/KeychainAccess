@@ -222,10 +222,10 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
 
     private func style(for entity: Entity) -> EntityDisplayStyle {
         switch entity {
-            case is Vehicle, is Address:
-                return .list
-            default:
-                return isCompact ? .list : style
+        case is Vehicle, is Address:
+            return .list
+        default:
+            return isCompact ? .list : style
         }
     }
 }

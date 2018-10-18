@@ -24,10 +24,10 @@ extension AssociatedEntitySummaryDisplayable {
 
     public func associatedSummaryFormItem(style: EntityDisplayStyle) -> BaseFormItem {
         switch style {
-            case .list:
-                return associatedSummaryListFormItem()
-            case .grid:
-                return associatedSummaryFormItem(with: .detail)
+        case .list:
+            return associatedSummaryListFormItem()
+        case .grid:
+            return associatedSummaryFormItem(with: .detail)
         }
     }
 

@@ -16,7 +16,7 @@ private enum FilterItem: Int {
 
     var title: String {
         switch self {
-            case .suburbFilter: return NSLocalizedString("Suburb", comment: "")
+        case .suburbFilter: return NSLocalizedString("Suburb", comment: "")
         }
     }
 }
@@ -168,7 +168,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
     var navigationButton: UIBarButtonItem?
 
-    var updatingDelegate: (UIViewController & SearchDataSourceUpdating)?
+    weak var updatingDelegate: (UIViewController & SearchDataSourceUpdating)?
 
     func selectionAction(forFilterAt index: Int) -> SearchOptionAction {
         guard let item = FilterItem(rawValue: index) else { return .none }

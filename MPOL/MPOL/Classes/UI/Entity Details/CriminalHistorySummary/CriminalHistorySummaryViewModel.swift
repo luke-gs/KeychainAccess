@@ -14,12 +14,12 @@ public class CriminalHistorySummaryViewModel {
 
     public var navBarTitle: String {
         switch criminalHistory {
-            case is OffenderCharge:
-                return NSLocalizedString("Charge", comment: "")
-            case is OffenderConviction:
-                return NSLocalizedString("Conviction", comment: "")
-            default:
-                return NSLocalizedString("Criminal History", comment: "")
+        case is OffenderCharge:
+            return NSLocalizedString("Charge", comment: "")
+        case is OffenderConviction:
+            return NSLocalizedString("Conviction", comment: "")
+        default:
+            return NSLocalizedString("Criminal History", comment: "")
         }
     }
 

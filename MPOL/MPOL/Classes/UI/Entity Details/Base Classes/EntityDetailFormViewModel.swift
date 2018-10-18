@@ -9,7 +9,7 @@
 import PublicSafetyKit
 
 /// A delegate for updating the view (PopoverPresenter so we can present new views from view model)
-public protocol EntityDetailFormViewModelDelegate: PopoverPresenter, NavigationPresenter {
+public protocol EntityDetailFormViewModelDelegate: class, PopoverPresenter, NavigationPresenter {
 
     /// Update the sidebar count
     func updateSidebarItemCount(_ count: UInt?)

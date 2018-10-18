@@ -117,7 +117,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         }
 
         // Sort grouped alerts by alert level (highest to lowest)
-        let sectionSort = SortDescriptor<Array<Alert>>(ascending: false) { $0.first?.level?.rawValue }
+        let sectionSort = SortDescriptor<[Alert]>(ascending: false) { $0.first?.level?.rawValue }
         return Array(map.values).sorted(using: [sectionSort])
     }
 

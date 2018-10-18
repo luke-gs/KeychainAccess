@@ -348,8 +348,9 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             default:
                 #if DEBUG
                 fatalError("No parser definition found. Ensure that all combinations are covered.")
-                #endif
+                #else
                 break
+                #endif
             }
 
             if let searchParameters = searchParameters {
