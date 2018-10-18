@@ -73,8 +73,8 @@ public class PersonSearchReport: ActionReportable {
             evaluator.addObserver(additionalAction)
         }
 
-        evaluator.registerKey(.hasRequiredData) {
-
+        evaluator.registerKey(.hasRequiredData) { [weak self] in
+            guard let `self` = self else { return false }
             return self.detainedStart != nil && self.searchStart != nil
                 && self.location != nil && !self.officers.isEmpty
                 && self.legalPower != nil && self.searchReason != nil

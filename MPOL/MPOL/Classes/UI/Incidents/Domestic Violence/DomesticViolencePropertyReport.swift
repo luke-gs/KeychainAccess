@@ -38,8 +38,8 @@ class DomesticViolencePropertyReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
     }
 

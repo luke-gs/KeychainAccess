@@ -44,10 +44,11 @@ open class IncidentListReport: EventReportable, SideBarHeaderUpdateable {
             evaluator.addObserver(event)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
-        evaluator.registerKey(.incidents) {
+        evaluator.registerKey(.incidents) { [weak self] in
+            guard let `self` = self else { return false }
             let eval = self.incidents.reduce(true, { (result, incident) -> Bool in
                 return result && incident.evaluator.isComplete
             })

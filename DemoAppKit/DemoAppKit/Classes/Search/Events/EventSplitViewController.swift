@@ -11,7 +11,8 @@ import PromiseKit
 public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EventSummaryViewControllerDelegate, EventSubmitter {
 
     public let viewModel: EventDetailViewModelType
-    public var delegate: EventsSubmissionDelegate?
+//    public var delegate: EventsSubmissionDelegate?
+    public weak var delegate: EventsSubmissionDelegate?
     public var loadingViewBuilder: LoadingViewBuilder<Response>?
     
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
@@ -75,6 +76,6 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
     }
 }
 
-public protocol EventsSubmissionDelegate {
+public protocol EventsSubmissionDelegate: class {
     func eventSubmittedFor(eventId: String, response: Any?, error: Error?)
 }

@@ -26,8 +26,8 @@ public class EventEntityDescriptionReport: EventReportable {
         self.weakEvent = Weak(event)
         self.entity = entity
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
     }
 

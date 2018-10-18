@@ -38,7 +38,8 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         self.weakEvent = Weak(event)
         self.incidentType = type
         self.id = UUID().uuidString
-        self.evaluator.registerKey(.allValid) {
+        self.evaluator.registerKey(.allValid) { [weak self] in
+            guard let `self` = self else { return false }
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
     }
