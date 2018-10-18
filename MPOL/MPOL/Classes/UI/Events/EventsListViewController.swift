@@ -73,11 +73,8 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
 
     @objc private func createNewEvent() {
         let viewController = IncidentSelectViewController()
-//        viewController.didSelectIncident = { [weak self] incident in
-//            self?.show(with: incident)
-//        }
-        viewController.didSelectIncident = { incident in
-            self.show(with: incident)
+        viewController.didSelectIncident = { [weak self] incident in
+            self?.show(with: incident)
         }
         
         let navigationController = PopoverNavigationController(rootViewController: viewController)
