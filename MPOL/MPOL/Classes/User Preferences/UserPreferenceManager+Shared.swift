@@ -19,7 +19,8 @@ extension UserPreferenceManager {
                                                       .termsAndConditionsVersionAccepted,
                                                       .whatsNewShownVersion,
                                                       .recentCallsigns,
-                                                      .recentOfficers]
+                                                      .recentOfficers,
+                                                      .recentCADOfficers]
         return fetchUserPreferences(application: User.appGroupKey, preferenceKeys: sharedPreferences)
     }
 }

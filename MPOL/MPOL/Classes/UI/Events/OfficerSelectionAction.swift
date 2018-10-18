@@ -18,7 +18,7 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
     public override func viewController() -> UIViewController {
 
-        let officerSearchController = SearchDisplayableViewController<OfficerSelectionAction, OfficerSearchViewModel>(viewModel: viewModel)
+        let officerSearchController = OfficerSearchViewController<OfficerSelectionAction>(viewModel: viewModel)
         officerSearchController.delegate = self
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",                     style: .plain, target: officerSearchController,
             action: #selector(UIViewController.dismissAnimated))
@@ -38,6 +38,7 @@ extension OfficerSelectionAction: SearchDisplayableDelegate {
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
         self.selectedValue = object
         self.updateHandler?()
+
         viewController.dismiss(animated: true, completion: nil)
     }
 }

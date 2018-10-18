@@ -5,8 +5,6 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Cache
-
 /// Event Displayable used to map against the OOTB
 /// Event List UI
 ///

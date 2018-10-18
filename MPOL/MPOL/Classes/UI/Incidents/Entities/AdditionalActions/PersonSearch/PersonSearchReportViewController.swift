@@ -189,7 +189,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
     private func addTapped() {
 
         let viewModel = OfficerSearchViewModel()
-        let officerSearchController = SearchDisplayableViewController<PersonSearchReportViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        let officerSearchController = OfficerSearchViewController<PersonSearchReportViewController>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismiss))
         officerSearchController.delegate = self
 

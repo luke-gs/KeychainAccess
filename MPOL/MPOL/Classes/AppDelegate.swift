@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.plugins = plugins
 
         // Set the application key for app specific user settings
-        User.applicationKey = "Search"
+        User.applicationKey = "PSCore"
 
         // Set the application specific notification handler
         NotificationManager.shared.handler = SearchNotificationHandler()

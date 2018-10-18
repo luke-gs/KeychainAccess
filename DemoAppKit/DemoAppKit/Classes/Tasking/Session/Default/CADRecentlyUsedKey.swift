@@ -13,7 +13,7 @@ extension UserPreferenceKey {
     public static let recentCallsigns = UserPreferenceKey("recentCallsigns")
     
     /// Recently used officers
-    public static let recentOfficers = UserPreferenceKey("recentOfficers")
+    public static let recentCADOfficers = UserPreferenceKey("recentCADOfficers")
 }
 
 public class CADRecentlyUsedKey: ExtensibleKey<String> {
