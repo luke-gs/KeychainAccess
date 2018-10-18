@@ -18,7 +18,10 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
         viewModel.fetchRecentOfficers().done {
             self.loadingManager.state = self.viewModel.numberOfSections() == 0 ? .noContent : .loaded 
             self.reloadForm()
-        }.cauterize()
+        }.catch { error in
+            self.loadingManager.state = .error
+            self.loadingManager.errorView.titleLabel.text = error.localizedDescription
+        }
     }
 
     override func cellSelectedAt(_ indexPath: IndexPath) {
