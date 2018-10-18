@@ -429,9 +429,7 @@ extension AppDelegate: SearchActivityHandlerDelegate {
             case "Address":
                 entity = Address(id: id)
             case "Organisation":
-                // Not supported yet
-                entity = nil
-                print("Not supported yet")
+                entity = Organisation(id: id)
             default:
                 // Do nothing
                 entity = nil
