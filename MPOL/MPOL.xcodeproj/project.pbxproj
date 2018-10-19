@@ -253,7 +253,6 @@
 		AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D5453214794EF00162017 /* AddressOptionHandler.swift */; };
 		AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
-		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB34284216F0A490065266E /* OfficerFetchRequest.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -572,7 +571,6 @@
 		AA5D5453214794EF00162017 /* AddressOptionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressOptionHandler.swift; sourceTree = "<group>"; };
 		AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTimeAccessoryView.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
-		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		AAB34284216F0A490065266E /* OfficerFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerFetchRequest.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* PS Core.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1328,7 +1326,6 @@
 			children = (
 				AA1C0B0920BF993D009862FD /* AdditionalActions */,
 				AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */,
-				AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1487,7 +1484,7 @@
 				BCD4EA851E515ACE000B993D /* Sources */,
 				BCD4EA861E515ACE000B993D /* Frameworks */,
 				BCD4EA871E515ACE000B993D /* Resources */,
-				961F9A9821782AAC00BBF267 /* ShellScript */,
+				961F9A9821782AAC00BBF267 /* Run Swiftlint */,
 				D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */,
 				3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */,
 				96728C2D20D0B25600B82A53 /* Embed App Extensions */,
@@ -1688,7 +1685,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		961F9A9821782AAC00BBF267 /* ShellScript */ = {
+		961F9A9821782AAC00BBF267 /* Run Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			name = "Run Swiftlint";
@@ -1835,7 +1832,6 @@
 				AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */,
 				379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
 				AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */,
-				AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */,
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
 				96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
