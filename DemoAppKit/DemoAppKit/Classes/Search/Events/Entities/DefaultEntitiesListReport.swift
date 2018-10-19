@@ -29,12 +29,14 @@ public class DefaultEntitiesListReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasEntity) {
+        evaluator.registerKey(.hasEntity) { [weak self] in
+            guard let `self` = self else { return false }
             guard let event = self.event else { return false }
             guard let incident = self.incident else { return false }
             return !event.entityManager.relationships(for: incident).isEmpty
         }
-        evaluator.registerKey(.additionalActionsComplete) {
+        evaluator.registerKey(.additionalActionsComplete) { [weak self] in
+            guard let `self` = self else { return false }
             guard let incident = self.incident else { return false }
             return incident.additionalActionManager.allValid
         }

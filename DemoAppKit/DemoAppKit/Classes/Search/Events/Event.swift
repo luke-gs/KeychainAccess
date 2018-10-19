@@ -34,7 +34,8 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     public override init() {
         id = UUID().uuidString
         super.init()
-        evaluator.registerKey(.allValid) {
+        evaluator.registerKey(.allValid) { [weak self] in
+            guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }

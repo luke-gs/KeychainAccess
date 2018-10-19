@@ -54,8 +54,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         setUpdateHeaderDelegate()
 
         event.evaluator.addObserver(self)
-        evaluator.registerKey(.eventReadyToSubmit) {
-            return self.readyToSubmit
+        evaluator.registerKey(.eventReadyToSubmit) { [weak self] in
+            return self?.readyToSubmit ?? false
         }
 
         readyToSubmit = event.evaluator.isComplete

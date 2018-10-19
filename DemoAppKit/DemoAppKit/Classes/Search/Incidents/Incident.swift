@@ -20,7 +20,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     public let additionalActionManager = AdditionalActionManager()
 
     public let weakEvent: Weak<Event>
-    public weak var displayable: IncidentListDisplayable!
+    public var displayable: IncidentListDisplayable!
 
     private(set) public var reports: [IncidentReportable] = [IncidentReportable]() {
         didSet {
@@ -38,7 +38,8 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         self.weakEvent = Weak(event)
         self.incidentType = type
         self.id = UUID().uuidString
-        self.evaluator.registerKey(.allValid) {
+        self.evaluator.registerKey(.allValid) { [weak self] in
+            guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }

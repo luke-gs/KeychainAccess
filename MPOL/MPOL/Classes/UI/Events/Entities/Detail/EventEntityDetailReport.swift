@@ -37,10 +37,10 @@ public class EventEntityDetailReport: EventReportable {
         descriptionReport.evaluator.addObserver(self)
         relationshipsReport.evaluator.addObserver(self)
 
-        evaluator.registerKey(.allValid) {
-            return self.reports.reduce(true, { (result, report) -> Bool in
+        evaluator.registerKey(.allValid) { [weak self] in
+            return self?.reports.reduce(true, { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
-            })
+            }) ?? false
         }
     }
 

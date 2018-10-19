@@ -36,8 +36,8 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         if let event = self.event {
             evaluator.addObserver(event)
         }
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
     }
 

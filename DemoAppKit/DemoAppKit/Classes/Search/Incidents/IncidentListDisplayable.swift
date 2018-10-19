@@ -9,6 +9,8 @@ import Foundation
 
 /// Incident Displayable used to map against the OOTB
 /// Incident List UI
+/// - Warning:
+///     Displayable is strongly owned by Incident
 open class IncidentListDisplayable: NSSecureCoding {
 
     /// A unique ID of the incident metadata

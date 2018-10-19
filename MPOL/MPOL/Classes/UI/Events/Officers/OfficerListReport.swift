@@ -48,7 +48,8 @@ public class OfficerListReport: EventReportable {
             evaluator.addObserver(event)
         }
 
-        evaluator.registerKey(.officers) {
+        evaluator.registerKey(.officers) { [weak self] in
+            guard let `self` = self else { return false }
             return self.viewed == true
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty

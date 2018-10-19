@@ -36,10 +36,12 @@ public class DefaultDateTimeReport: EventReportable {
 
     private func commonInit() {
         if let event = event { evaluator.addObserver(event) }
-        evaluator.registerKey(.reportedOnDateTime) {
+        evaluator.registerKey(.reportedOnDateTime) { [weak self] in
+            guard let `self` = self else { return false }
             return self.reportedOnDateTime != nil
         }
-        evaluator.registerKey(.tookPlaceFromStartDateTime) {
+        evaluator.registerKey(.tookPlaceFromStartDateTime) { [weak self] in
+            guard let `self` = self else { return false }
             return self.tookPlaceFromStartDateTime != nil
         }
     }

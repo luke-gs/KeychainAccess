@@ -28,7 +28,8 @@ public class EventEntitiesListReport: EventReportable, Evaluatable {
 
         evaluator.addObserver(event)
 
-        evaluator.registerKey(.valid) {
+        evaluator.registerKey(.valid) { [weak self] in
+            guard let `self` = self else { return false }
             let reportsValid = self.entityDetailReports.reduce(true, { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
             })

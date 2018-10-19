@@ -64,19 +64,19 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
             return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
                 .editActions(editActions)
                 .accessory(ItemAccessory.disclosure)
-                .onSelection ({ _ in
-                    guard let event = self.viewModel.event(for: displayable) else { return }
-                    self.show(event)
+                .onSelection ({ [weak self] _ in
+                    guard let event = self?.viewModel.event(for: displayable) else { return }
+                    self?.show(event)
                 })
         }
     }
 
     @objc private func createNewEvent() {
         let viewController = IncidentSelectViewController()
-        viewController.didSelectIncident = { incident in
-            self.show(with: incident)
+        viewController.didSelectIncident = { [weak self] incident in
+            self?.show(with: incident)
         }
-
+        
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.wantsTransparentBackground = false
         navigationController.modalPresentationStyle = .formSheet

@@ -26,7 +26,8 @@ open class DefaultLocationReport: EventReportable {
         self.weakEvent = Weak(event)
 
         evaluator.addObserver(event)
-        evaluator.registerKey(.eventLocation) {
+        evaluator.registerKey(.eventLocation) { [weak self] in
+            guard let `self` = self else { return false }
             return self.eventLocation != nil
         }
     }

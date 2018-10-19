@@ -44,7 +44,8 @@ open class InterceptReportGeneralDetailsReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasRequiredData) {
+        evaluator.registerKey(.hasRequiredData) { [weak self] in
+            guard let `self` = self else { return false }
             return self.selectedSubject != nil && self.selectedSecondarySubject != nil
         }
     }

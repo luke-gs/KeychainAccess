@@ -40,7 +40,8 @@ class TrafficInfringementOffencesReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasOffence) {
+        evaluator.registerKey(.hasOffence) { [weak self] in
+            guard let `self` = self else { return false }
             return !self.offences.isEmpty
         }
     }
