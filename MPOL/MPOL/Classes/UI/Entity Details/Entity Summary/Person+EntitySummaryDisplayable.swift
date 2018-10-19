@@ -94,11 +94,11 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             // show deceased instead of DOB
             var dodString = NSLocalizedString("Deceased", comment: "")
             var yearComponent: DateComponents?
-            
+
             if let dob = person.dateOfBirth {
                 yearComponent = Calendar.current.dateComponents([.year], from: dob, to: dod)
             }
-            
+
             if let year = yearComponent?.year, let gender = person.gender {
                 dodString += " (\(year) \(gender.description))"
             } else if let year = yearComponent?.year {
@@ -106,7 +106,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             } else if let gender = person.gender {
                 dodString += " (\(gender.description))"
             }
-            
+
             return dodString
         } else if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
@@ -143,7 +143,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, containerType: EntitySummaryContainerType) -> SummaryThumbnailFormItem {
-        
+
         let formItem = SummaryThumbnailFormItem()
             .style(style)
             .width(.column(2))

@@ -88,7 +88,7 @@ open class Person: Entity, Identifiable {
 
     open var isAlias: Bool?
     open var thumbnail: UIImage?
-    
+
     open var isDeceased: Bool {
         return dateOfDeath != nil
     }

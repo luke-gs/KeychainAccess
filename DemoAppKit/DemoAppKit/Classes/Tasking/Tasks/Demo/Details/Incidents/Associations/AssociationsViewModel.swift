@@ -24,11 +24,11 @@ public class AssociationsViewModel: CADFormCollectionViewModel<AssociationItemVi
             // show deceased instead of DOB
             var dodString = NSLocalizedString("Deceased", comment: "")
             var yearComponent: DateComponents?
-            
+
             if let dob = person.dateOfBirth {
                 yearComponent = Calendar.current.dateComponents([.year], from: dob, to: dod)
             }
-            
+
             if let year = yearComponent?.year, let gender = person.gender {
                 dodString += " (\(year) \(gender.title))"
             } else if let year = yearComponent?.year {
@@ -36,7 +36,7 @@ public class AssociationsViewModel: CADFormCollectionViewModel<AssociationItemVi
             } else if let gender = person.gender {
                 dodString += " (\(gender.title))"
             }
-            
+
             return dodString
         } else if let dob = person.dateOfBirth {
             let ageAndGender = "(\([String(dob.dobAge()), person.gender?.title].joined()))"
