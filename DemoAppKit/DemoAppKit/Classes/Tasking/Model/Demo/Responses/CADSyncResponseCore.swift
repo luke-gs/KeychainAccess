@@ -10,6 +10,12 @@ import UIKit
 
 /// PSCore implementation for response details of sync
 open class CADSyncResponseCore: CADSyncResponseType {
+
+    /// Closure for decoding app specific officers
+    static public var decodeOfficers: ((KeyedDecodingContainer<CADSyncResponseCore.CodingKeys>, CADSyncResponseCore.CodingKeys) throws -> [CADOfficerType])?
+
+    // MARK: - Properties
+
     open var incidents: [CADIncidentType]
     open var officers: [CADOfficerType]
     open var resources: [CADResourceType]
@@ -30,10 +36,12 @@ open class CADSyncResponseCore: CADSyncResponseType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         incidents = try values.decodeIfPresent([CADIncidentCore].self, forKey: .incidents) ?? []
-        officers = try values.decodeIfPresent([CADOfficerCore].self, forKey: .officers) ?? []
         resources = try values.decodeIfPresent([CADResourceCore].self, forKey: .resources) ?? []
         patrols = try values.decodeIfPresent([CADPatrolCore].self, forKey: .patrols) ?? []
         broadcasts = try values.decodeIfPresent([CADBroadcastCore].self, forKey: .broadcasts) ?? []
+
+        // Decode officers using injected closure with explicit type
+        officers = try CADSyncResponseCore.decodeOfficers?(values, .officers) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {
