@@ -126,6 +126,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         let mapViewController = MapViewController()
         addChildViewController(mapViewController, toView: view)
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        mapViewController.mapView.delegate = self
         self.mapViewController = mapViewController
 
         cardView = DraggableCardView(frame: .zero)

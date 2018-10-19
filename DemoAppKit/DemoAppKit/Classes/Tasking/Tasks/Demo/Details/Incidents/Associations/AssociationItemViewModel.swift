@@ -46,7 +46,7 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
     public var borderColor: UIColor?
 
     public var iconColor: UIColor?
-
+    
     public var badge: UInt
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {

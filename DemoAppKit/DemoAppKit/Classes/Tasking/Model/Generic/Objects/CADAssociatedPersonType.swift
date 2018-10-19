@@ -14,6 +14,7 @@ public protocol CADAssociatedPersonType: class, CADAssociationType {
     // MARK: - Network
     var alertLevel: CADAlertLevelType? { get set }
     var dateOfBirth: Date? { get set }
+    var dateOfDeath: Date? { get set }
     var firstName: String? { get set }
     var fullAddress: String? { get set }
     var gender: CADPersonGenderType? { get set }

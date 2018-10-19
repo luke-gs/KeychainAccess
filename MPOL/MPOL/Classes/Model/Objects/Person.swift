@@ -88,6 +88,10 @@ open class Person: Entity, Identifiable {
 
     open var isAlias: Bool?
     open var thumbnail: UIImage?
+    
+    open var isDeceased: Bool {
+        return dateOfDeath != nil
+    }
 
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {

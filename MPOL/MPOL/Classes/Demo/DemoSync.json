@@ -200,7 +200,8 @@
           "thumbnailUrl": "http://client-demo-api.pscore.mobi/ds1/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
         }, 
         {
-          "dateOfBirth": "1988-02-27", 
+          "dateOfBirth": "1988-02-27",
+          "dateOfDeath": "2020-02-27",
           "familyName": "Lazeron", 
           "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
           "gender": "M", 
@@ -477,7 +478,8 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "dateOfBirth": "1988-02-27", 
+          "dateOfBirth": "1988-02-27",
+          "dateOfDeath": "2020-02-27",
           "familyName": "Lazeron", 
           "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
           "gender": "M", 
@@ -566,7 +568,8 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "dateOfBirth": "1988-02-27", 
+          "dateOfBirth": "1988-02-27",
+          "dateOfDeath": "2020-02-27", 
           "familyName": "Lazeron", 
           "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
           "gender": "M", 
