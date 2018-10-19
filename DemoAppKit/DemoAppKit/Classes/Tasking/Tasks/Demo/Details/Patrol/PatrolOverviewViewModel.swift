@@ -9,7 +9,7 @@
 import UIKit
 
 open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
-    
+
     public override init() {
         super.init()
         mapViewModel = PatrolOverviewMapViewModel()
@@ -30,38 +30,37 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                                 self.presentAddressPopover(from: cell)
                                                                               },
                                                                               isAddress: true),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Patrol number",
                                                                               value: patrol.identifier,
                                                                               width: .column(3)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Type",
                                                                               value: patrol.type,
                                                                               width: .column(3)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Subtype",
                                                                               value: patrol.subtype,
                                                                               width: .column(3)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
                                                                               value: patrol.createdAtString ?? "",
                                                                               width: .column(3)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
                                                                               value: patrol.lastUpdated?.elapsedTimeIntervalForHuman() ?? "",
-                                                                              width: .column(3)),
+                                                                              width: .column(3))
                                                 ]),
-            
-            
+
             CADFormCollectionSectionViewModel(title: "Patrol Details",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: nil,
                                                                               value: patrol.details,
-                                                                              width: .column(1)),
+                                                                              width: .column(1))
                                                 ])
         ]
     }
-    
+
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")

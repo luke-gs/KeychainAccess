@@ -62,7 +62,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
             builder += headerItem
             // We only want to allow the user to remove the primary incident if there are any additional incidents
-            let primaryEditActions = viewModel.additionalIncidents?.isEmpty ?? true ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+            let primaryEditActions = viewModel.additionalIncidents?.isEmpty ?? true ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (_, _) in
 
                 guard let incident = self.viewModel.incident(for: primaryIncident), let count = self.viewModel.additionalIncidents?.count else { return }
                 // If there is more than one additional incident, we want the user to choose which incident will become the new primary
@@ -85,7 +85,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                 .imageStyle(.circle)
                 .accessory(ItemAccessory.disclosure)
                 .editActions(primaryEditActions)
-                .onSelection { cell in
+                .onSelection { _ in
                     guard let incident = self.viewModel.incident(for: primaryIncident) else { return }
                     let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
                     self.parent?.navigationController?.pushViewController(vc, animated: true)
@@ -106,13 +106,13 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                     .selectionStyle(.none)
                     .imageStyle(.circle)
                     .accessory(ItemAccessory.disclosure)
-                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (_, _) in
                         guard let incident = self.viewModel.incident(for: displayable) else { return }
                         self.viewModel.removeIncident(incident)
                         self.updateLoadingManager()
                         self.reloadForm()
                     })])
-                    .onSelection { cell in
+                    .onSelection { _ in
                         guard let incident = self.viewModel.incident(for: displayable) else { return }
                         let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
                         self.parent?.navigationController?.pushViewController(vc, animated: true)
@@ -135,7 +135,6 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                                           action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = actionDefinition.completion
-
 
         let navController = PopoverNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet

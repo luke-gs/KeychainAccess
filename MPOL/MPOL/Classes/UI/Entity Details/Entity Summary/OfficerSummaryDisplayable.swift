@@ -20,5 +20,3 @@ public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
         return imageSizing
     }
 }
-
-

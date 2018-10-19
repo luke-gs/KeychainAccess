@@ -78,7 +78,6 @@ public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionV
         MPLCodingNotSupported()
     }
 
-
     // MARK: - UICollectionViewDelegate/DataSource
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {

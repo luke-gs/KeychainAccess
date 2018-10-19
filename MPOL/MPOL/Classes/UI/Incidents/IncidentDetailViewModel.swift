@@ -16,7 +16,7 @@ public class IncidentDetailViewModel: IncidentDetailViewModelType, Evaluatable {
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
     public var evaluator: Evaluator = Evaluator()
-    public var headerUpdated: (() -> ())?
+    public var headerUpdated: (() -> Void)?
 
     public required init(incident: Incident, builder: IncidentScreenBuilding) {
         self.incident = incident
@@ -31,7 +31,7 @@ public class IncidentDetailViewModel: IncidentDetailViewModelType, Evaluatable {
     private func updateHeaderImage(with isComplete: Bool) {
 
         guard let header = headerView as? SidebarHeaderView else { return }
-        
+
         header.titleLabel.text = incident.incidentType.rawValue
         header.subtitleLabel.text =  "Saved as Draft"
         header.subtitleLabel.font =  UIFont.systemFont(ofSize: 13)
@@ -58,4 +58,3 @@ public class IncidentDetailViewModel: IncidentDetailViewModelType, Evaluatable {
     }
 
 }
-

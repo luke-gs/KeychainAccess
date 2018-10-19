@@ -33,7 +33,7 @@ public class TrafficHistory: NSObject, Serialisable {
         isLicenceSurrendered = try unboxer.unbox(key: CodingKeys.isLicenceSurrendered.rawValue)
         demeritPoint = try unboxer.unbox(key: CodingKeys.demeritPoints.rawValue)
         name = unboxer.unbox(key: CodingKeys.name.rawValue)
-        
+
         occurredDate = unboxer.unbox(key: CodingKeys.occurredDate.rawValue, formatter: ISO8601DateTransformer.shared)
         expiryDate = unboxer.unbox(key: CodingKeys.expiryDate.rawValue, formatter: ISO8601DateTransformer.shared)
         issuedDate = unboxer.unbox(key: CodingKeys.issuedDate.rawValue, formatter: ISO8601DateTransformer.shared)
@@ -47,7 +47,7 @@ public class TrafficHistory: NSObject, Serialisable {
               let source = MPOLSource(rawValue: sourceString) else {
             return nil
         }
-        
+
         self.id = id
         self.source = source
         trafficHistoryDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.trafficHistoryDescription.rawValue) as String?

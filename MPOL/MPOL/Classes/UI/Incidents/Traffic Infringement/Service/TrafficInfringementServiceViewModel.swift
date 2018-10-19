@@ -20,7 +20,7 @@ public class TrafficInfringementServiceViewModel {
     }
 
     var currentLoadingManagerState: LoadingStateManager.State {
-        return people.isEmpty ? .noContent : .loaded 
+        return people.isEmpty ? .noContent : .loaded
     }
 
     open var allEmails: [String] {
@@ -115,4 +115,3 @@ public class TrafficInfringementServiceViewModel {
     }
 
 }
-

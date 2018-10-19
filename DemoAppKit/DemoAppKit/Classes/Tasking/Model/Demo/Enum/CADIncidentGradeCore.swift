@@ -52,5 +52,5 @@ public enum CADIncidentGradeCore: String, Codable, CADIncidentGradeType {
             return (.secondaryGray, .secondaryGray, .clear)
         }
     }
-    
+
 }

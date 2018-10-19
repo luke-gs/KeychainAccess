@@ -12,13 +12,13 @@ import DemoAppKit
 public class EventEntitiesListViewController: FormBuilderViewController, EvaluationObserverable {
 
     let viewModel: EventEntitiesListViewModel
-    
+
     public init(viewModel: EventEntitiesListViewModel) {
         self.viewModel = viewModel
         super.init()
-        
+
         self.title = "Entities"
-        
+
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
@@ -27,7 +27,7 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
 
         viewModel.evaluator.addObserver(self)
     }
-    
+
     required convenience public init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
@@ -39,7 +39,7 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
         self.loadingManager.state = viewModel.loadingManagerState()
         reloadForm()
     }
-    
+
     public override func construct(builder: FormBuilder) {
         builder.title = self.title
         builder.enforceLinearLayout = .always
@@ -62,15 +62,15 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
             }
         }
     }
-    
+
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Text and image for "noContent" state
         loadingManager.noContentView.titleLabel.text = "No Entities Added"
         loadingManager.noContentView.subtitleLabel.text = "Entities added to an incident will appear here"
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
-        
+
     }
 
     private func showDetailsFor(_ report: EventEntityDetailReport) {

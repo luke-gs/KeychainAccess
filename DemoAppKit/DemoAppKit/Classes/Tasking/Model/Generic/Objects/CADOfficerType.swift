@@ -34,7 +34,7 @@ public protocol CADOfficerType: class {
 
     /// Default constructor
     init()
-    
+
     /// Copy constructor
     init(officer: CADOfficerType)
 }

@@ -37,11 +37,10 @@ public class InterceptReportGeneralDetailsViewController: FormBuilderViewControl
         loadingManager.state = .loaded
     }
 
-
     override public func construct(builder: FormBuilder) {
         builder.title = title
         builder.enforceLinearLayout = .always
-        
+
         builder += LargeTextHeaderFormItem(text: viewModel.headerFormItemTitle)
             .separatorColor(.clear)
 

@@ -13,7 +13,7 @@ import PublicSafetyKit
 open class Licence: NSObject, Serialisable {
 
     public let id: String
-    
+
     open var dateCreated: Date?
     open var dateUpdated: Date?
     open var createdBy: String?
@@ -23,7 +23,7 @@ open class Licence: NSObject, Serialisable {
     open var entityType: String?
     open var isSummary: Bool = false
     open var source: MPOLSource?
-    
+
     open var number: String?
     open var isSuspended: Bool = false
     open var status: String?
@@ -33,24 +33,24 @@ open class Licence: NSObject, Serialisable {
     open var country: String?
     open var type: String?
     open var remarks: String?
-    
+
     open var licenceClasses: [LicenceClass]?
 
     public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
     }
-    
+
     fileprivate static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
-    
+
     public required init(unboxer: Unboxer) throws {
-        
+
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
-        
+
         self.id = id
-        
+
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -60,7 +60,7 @@ open class Licence: NSObject, Serialisable {
         entityType = unboxer.unbox(key: "entityType")
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
-        
+
         number = unboxer.unbox(key: "licenceNumber")
         isSuspended = unboxer.unbox(key: "isSuspended") ?? false
         status = unboxer.unbox(key: "status")
@@ -70,12 +70,12 @@ open class Licence: NSObject, Serialisable {
         country = unboxer.unbox(key: "country")
         type = unboxer.unbox(key: "licenceType")
         remarks = unboxer.unbox(key: "remarks")
-        
+
         licenceClasses = unboxer.unbox(key: "classes")
-        
+
         super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.id.rawValue) as String?)!
 
@@ -107,7 +107,7 @@ open class Licence: NSObject, Serialisable {
         licenceClasses = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.licenceClasses.rawValue) as? [LicenceClass]
 
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Licence.modelVersion, forKey: CodingKeys.version.rawValue)
         aCoder.encode(id, forKey: CodingKeys.id.rawValue)
@@ -133,7 +133,7 @@ open class Licence: NSObject, Serialisable {
         aCoder.encode(licenceClasses, forKey: CodingKeys.licenceClasses.rawValue)
 
     }
-    
+
     public static var supportsSecureCoding: Bool {
         return true
     }
@@ -171,14 +171,13 @@ open class Licence: NSObject, Serialisable {
     }
 }
 
-
 /// Licence Class
 extension Licence {
     @objc(MPLLicenceClass)
     public class LicenceClass: NSObject, Serialisable {
-        
+
         public let id: String
-        
+
         open var dateCreated: Date?
         open var dateUpdated: Date?
         open var createdBy: String?
@@ -188,13 +187,13 @@ extension Licence {
         open var entityType: String?
         open var isSummary: Bool = false
         open var source: MPOLSource?
-        
+
         open var code: String?
         open var name: String?
         open var proficiency: String?
         open var classDescription: String?
         open var conditions: [Condition]?
-        
+
         public static var supportsSecureCoding: Bool {
             return true
         }
@@ -207,15 +206,15 @@ extension Licence {
             self.id = id
             super.init()
         }
-        
+
         public required init(unboxer: Unboxer) throws {
-            
+
             guard let id: String = unboxer.unbox(key: "id") else {
                 throw ParsingError.missingRequiredField
             }
-            
+
             self.id = id
-            
+
             dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
             dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
             createdBy = unboxer.unbox(key: "createdBy")
@@ -225,13 +224,13 @@ extension Licence {
             entityType = unboxer.unbox(key: "entityType")
             isSummary = unboxer.unbox(key: "isSummary") ?? false
             source = unboxer.unbox(key: "source")
-            
+
             code = unboxer.unbox(key: "code")
             name = unboxer.unbox(key: "name")
             proficiency = unboxer.unbox(key: "proficiency")
             classDescription = unboxer.unbox(key: "description")
             conditions = unboxer.unbox(key: "conditions")
-            
+
             super.init()
         }
 
@@ -292,13 +291,13 @@ extension Licence {
             case conditions
         }
     }
-    
+
     /// Licence Condition
     @objc(MPLCondition)
     public class Condition: NSObject, Serialisable {
-        
+
         public let id: String
-        
+
         open var dateCreated: Date?
         open var dateUpdated: Date?
         open var createdBy: String?
@@ -308,9 +307,9 @@ extension Licence {
         open var entityType: String?
         open var isSummary: Bool = false
         open var source: MPOLSource?
-        
+
         open var condition: String?
-        
+
         public static var supportsSecureCoding: Bool {
             return true
         }
@@ -323,15 +322,15 @@ extension Licence {
             self.id = id
             super.init()
         }
-        
+
         public required init(unboxer: Unboxer) throws {
-            
+
             guard let id: String = unboxer.unbox(key: "id") else {
                 throw ParsingError.missingRequiredField
             }
-            
+
             self.id = id
-            
+
             dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
             dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
             createdBy = unboxer.unbox(key: "createdBy")
@@ -341,9 +340,9 @@ extension Licence {
             entityType = unboxer.unbox(key: "entityType")
             isSummary = unboxer.unbox(key: "isSummary") ?? false
             source = unboxer.unbox(key: "source")
-            
+
             condition = unboxer.unbox(key: "condition")
-            
+
             super.init()
         }
 
@@ -411,5 +410,5 @@ extension Licence {
             case condition
         }
     }
-    
+
 }

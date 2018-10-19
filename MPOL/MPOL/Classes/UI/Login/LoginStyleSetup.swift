@@ -19,7 +19,7 @@ public extension LoginViewController {
             imageView.leftAnchor.constraint(equalTo: titleView.leftAnchor),
             imageView.rightAnchor.constraint(equalTo: titleView.rightAnchor),
             imageView.topAnchor.constraint(equalTo: titleView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+            imageView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor)
         ])
 
         let usernameCred = UsernameCredential(username: username)
@@ -50,7 +50,7 @@ public extension LoginViewController {
 
 public extension LoginContainerViewController {
     public func setupDefaultStyle() {
-        
+
         let versionLabel: UILabel = {
             let label = UILabel(frame: .zero)
             label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)

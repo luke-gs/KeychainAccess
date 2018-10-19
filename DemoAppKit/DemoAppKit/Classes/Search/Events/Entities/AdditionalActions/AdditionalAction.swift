@@ -37,7 +37,7 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
         self.additionalActionType = type
         self.id = UUID().uuidString
         self.evaluator.registerKey(.allValid) {
-            return !self.reports.map{$0.evaluator.isComplete}.contains(false)
+            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }
 
@@ -50,7 +50,6 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
         case reports
         case incident
     }
-
 
     public required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
@@ -66,7 +65,7 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
         aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
     }
 
-    //MARK: Utility
+    // MARK: Utility
 
     public func add(reports: [IncidentReportable]) {
         self.reports.append(contentsOf: reports)
@@ -80,7 +79,7 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
         return reports[index]
     }
 
-    //MARK: Evaluation
+    // MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         allValid = reports.reduce(true, { result, report in
@@ -120,8 +119,5 @@ public protocol AdditionalActionScreenBuilding {
     ///
     /// - Parameter reportables: The array of reports to construct view controllers for
     /// - Returns: An array of viewController constucted for the reports
-    func viewControllers(for reports: [IncidentReportable]) -> [UIViewController] 
+    func viewControllers(for reports: [IncidentReportable]) -> [UIViewController]
 }
-
-
-

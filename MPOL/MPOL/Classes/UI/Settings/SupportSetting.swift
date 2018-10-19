@@ -15,7 +15,7 @@ public extension Settings {
     public static let support = Setting(title: "Support",
                                         subtitle: Settings.formattedSupportString(),
                                         image: nil,
-                                        type: .button(action: { _,_ in }))
+                                        type: .button(action: { _, _ in }))
 
     private static func formattedSupportString() -> String {
         let bundle = Bundle.main

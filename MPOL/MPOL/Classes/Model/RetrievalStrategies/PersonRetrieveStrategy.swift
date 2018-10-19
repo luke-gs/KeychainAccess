@@ -43,7 +43,7 @@ public class PersonRetrieveStrategy: EntityRetrievalStrategy {
             return APIManager.shared.searchEntity(in: source, with: request)
                 .then { result -> Promise<[EntityResultState]> in
                     let people = result.results
-                    let states = people.compactMap{EntityResultState.summary($0)}
+                    let states = people.compactMap {EntityResultState.summary($0)}
                     return Promise.value(states)
             }
         }

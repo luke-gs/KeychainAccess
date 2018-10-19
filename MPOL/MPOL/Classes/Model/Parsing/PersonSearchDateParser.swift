@@ -55,4 +55,3 @@ public struct PersonSearchDateParser {
         return (day: day, month: month, year: year)
     }
 }
-

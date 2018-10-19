@@ -17,7 +17,7 @@ public class PersonParserDefinition: QueryParserDefinition {
 
         surnameDefinition = QueryTokenDefinition(key: PersonParserDefinition.SurnameKey,
                             required: true, typeCheck: PersonParserDefinition.nameTypeCheck,
-                            validate: { (token, index, map) in
+                            validate: { (token, index, _) in
                                 if index != PersonParserDefinition.SurnameIndex {
                                     throw PersonParserError.surnameIsNotFirst(surname: token)
                                 }
@@ -28,7 +28,7 @@ public class PersonParserDefinition: QueryParserDefinition {
 
         givenNameDefinition = QueryTokenDefinition(key: PersonParserDefinition.GivenNameKey,
                                required: false, typeCheck: PersonParserDefinition.nameTypeCheck,
-                               validate: { (token, index, map) in
+                               validate: { (token, _, _) in
                                 if token.count > maxGivenNameLength {
                                     throw PersonParserError.givenNameExceedsMaxLength(givenName: token, maxLength: maxGivenNameLength)
                                 }
@@ -36,7 +36,7 @@ public class PersonParserDefinition: QueryParserDefinition {
 
         middleNamesDefinition = QueryTokenDefinition(key: PersonParserDefinition.MiddleNamesKey,
                                  required: false, typeCheck: PersonParserDefinition.nameTypeCheck,
-                                 validate: { (token, index, map) in
+                                 validate: { (token, _, map) in
                                     if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil {
                                         throw PersonParserError.nameMatchesGenderType(gender: token)
                                     }
@@ -48,11 +48,11 @@ public class PersonParserDefinition: QueryParserDefinition {
                                     }
                                 })
     }
-    
+
     // MARK: - Query Parser Type
-    
+
     static let componentsSeparatorSet =  CharacterSet(charactersIn: ", ")
-    
+
     public func tokensFrom(query: String) -> [String] {
 
         let tokens: [String]
@@ -60,7 +60,7 @@ public class PersonParserDefinition: QueryParserDefinition {
             let surname = String(query[..<range.lowerBound])
             var results = [surname]
             let remaining = String(query[range.upperBound...])
-            results.append(contentsOf: remaining.components(separatedBy: PersonParserDefinition.componentsSeparatorSet))            
+            results.append(contentsOf: remaining.components(separatedBy: PersonParserDefinition.componentsSeparatorSet))
             tokens = results
         } else {
             tokens = query.components(separatedBy: PersonParserDefinition.componentsSeparatorSet)
@@ -68,7 +68,7 @@ public class PersonParserDefinition: QueryParserDefinition {
 
         return tokens.filter({ !$0.isEmpty })
     }
-    
+
     public var tokenDefinitions: [QueryTokenDefinition] {
         return [
             surnameDefinition,
@@ -79,41 +79,40 @@ public class PersonParserDefinition: QueryParserDefinition {
             ageGapDefinition
         ]
     }
-    
-    private var localizedKeyTitles: [String : String] {
+
+    private var localizedKeyTitles: [String: String] {
         return [
-            PersonParserDefinition.SurnameKey:      NSLocalizedString("Surname", comment: "") as String,
-            PersonParserDefinition.GivenNameKey:    NSLocalizedString("Given Name", comment: "") as String,
-            PersonParserDefinition.MiddleNamesKey:  NSLocalizedString("Middle Names", comment: "") as String,
-            PersonParserDefinition.GenderKey:       NSLocalizedString("Gender", comment: "") as String,
-            PersonParserDefinition.DateOfBirthKey:  NSLocalizedString("Date Of Birth", comment: "") as String,
-            PersonParserDefinition.AgeRangeKey:       NSLocalizedString("Age Gap", comment: "") as String
+            PersonParserDefinition.SurnameKey: NSLocalizedString("Surname", comment: "") as String,
+            PersonParserDefinition.GivenNameKey: NSLocalizedString("Given Name", comment: "") as String,
+            PersonParserDefinition.MiddleNamesKey: NSLocalizedString("Middle Names", comment: "") as String,
+            PersonParserDefinition.GenderKey: NSLocalizedString("Gender", comment: "") as String,
+            PersonParserDefinition.DateOfBirthKey: NSLocalizedString("Date Of Birth", comment: "") as String,
+            PersonParserDefinition.AgeRangeKey: NSLocalizedString("Age Gap", comment: "") as String
         ]
     }
-    
-    
+
     // MARK: - Public Static Constants
-    
+
     public static let SurnameKey        = "surname"
     public static let GivenNameKey      = "givenName"
     public static let MiddleNamesKey    = "middleNames"
     public static let GenderKey         = "gender"
     public static let DateOfBirthKey    = "dateOfBirth"
     public static let AgeRangeKey       = "ageRange"
-    
+
     private let genderDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.GenderKey,
                              required: false,
                              typeCheck: genderTypeCheck)
     }()
-    
+
     public static let dobDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.DateOfBirthKey,
                              required: false,
                              typeCheck: { (token) in
                                 return dateOfBirthRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.count)) == 1
         },
-                             validate: { (token, index, map) in
+                             validate: { (token, _, _) in
                                 let stringComponents: (day: String?, month: String?, year: String) = PersonSearchDateParser.dateComponents(from: token)
 
                                 // Day must be DD
@@ -143,43 +142,42 @@ public class PersonParserDefinition: QueryParserDefinition {
                                 if date > Date() { throw PersonParserError.dobDateOutOfBounds(dob: token) }
         })
     }()
-    
+
     private let ageGapDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.AgeRangeKey,
                              required: false,
                              typeCheck: { (token) in
                                 return ageGapRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.count)) == 1
         },
-                             validate: { (token, index, map) in
+                             validate: { (token, _, _) in
                                 // We already know that there is only one match for the token because typeCheck returned true by this point
                                 let match = ageGapRegex.matches(in: token, range: NSRange(location: 0, length: token.count)).first!
-                                
+
                                 // Age range could be xx-yy or just xx.
                                 // 3 capture groups in the regex. Value in 1 & 3 is the interesting bit.
-                                
+
                                 // Get ranges of lower and upper age
                                 let lowerRange = match.range(at: 1)
                                 let upperRange = match.range(at: 3)
-                                
+
                                 if upperRange.location != NSNotFound {
                                     // Get lower and upper age
                                     let lower = Int((token as NSString).substring(with: lowerRange))!
                                     let upper = Int((token as NSString).substring(with: upperRange))!
-                                    
+
                                     if lower > upper {
                                         throw PersonParserError.ageGapWrongOrder(ageGap: token)
                                     }
                                 }
         })
     }()
-    
+
     // MARK: - Private Static Constants
 
     private static let SurnameIndex = 0
-    
+
     private static let ageGapRegex = try! NSRegularExpression(pattern: PersonParserRegexPattern.ageGap.rawValue)
     private static let dateOfBirthRegex = try! NSRegularExpression(pattern: PersonParserRegexPattern.dateOfBirth.rawValue)
-    
 
     private static let nameTypeCheck: (_ string: String) -> Bool = { (token) in
         guard !token.isEmpty else { return false }
@@ -187,18 +185,16 @@ public class PersonParserDefinition: QueryParserDefinition {
         let leftover = token.trimmingCharacters(in: allowedCharacters)
         return leftover.count == 0
     }
-    
-    
+
     private static let genderTypeCheck: (_ string: String) -> Bool = { (token) in
         let checkedToken = token.uppercased()
         return checkedToken == "M" || checkedToken == "F" || checkedToken == "U"
     }
-    
-    
+
     // MARK: - Helper Methods
-    
+
     private static let calendar: Calendar = Calendar(identifier: .gregorian)
-        
+
     private static func validateDate(day: Int, month: Int, year: Int) -> Bool {
         let components = DateComponents(year: year, month: month, day: day)
         guard let resultDate = calendar.date(from: components) else {

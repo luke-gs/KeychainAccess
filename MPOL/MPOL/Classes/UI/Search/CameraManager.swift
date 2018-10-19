@@ -11,7 +11,7 @@ import AVFoundation
 
 public class CameraManager: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    var finishPickingClosure: ((UIImage) -> ())?
+    var finishPickingClosure: ((UIImage) -> Void)?
 
     func pickerController() -> UIImagePickerController {
         let pickerController = UIImagePickerController()
@@ -23,7 +23,7 @@ public class CameraManager: NSObject, UIImagePickerControllerDelegate, UINavigat
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         var originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        
+
         switch originalImage.imageOrientation {
         case .right:
             originalImage = originalImage.rotatedByDegrees(deg: 90)

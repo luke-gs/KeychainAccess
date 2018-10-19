@@ -11,4 +11,3 @@ import Foundation
 /// Annotation view for a broadcast, same as patrol view for now
 open class BroadcastAnnotationView: PatrolAnnotationView {
 }
-

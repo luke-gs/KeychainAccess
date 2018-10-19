@@ -57,7 +57,6 @@ open class CADLocationCore: Codable, CADLocationType {
         }
     }
 
-
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {

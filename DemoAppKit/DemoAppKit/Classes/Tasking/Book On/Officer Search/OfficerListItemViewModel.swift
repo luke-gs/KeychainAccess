@@ -9,13 +9,13 @@
 import UIKit
 
 public struct OfficerListItemViewModel: CustomSearchDisplayable {
-    
+
     public var firstName: String?
     public var lastName: String?
     public var initials: String?
     public var rank: String?
     public var callsign: String
-    
+
     public init(firstName: String?, lastName: String?, initials: String?, rank: String?, callsign: String, section: String?) {
         self.firstName = firstName
         self.lastName = lastName
@@ -24,17 +24,17 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
         self.callsign = callsign
         self.section = section
     }
-    
+
     // MARK: - Searchable
-    
+
     public var title: String? {
         return [firstName, lastName].joined()
     }
-    
+
     public var subtitle: String? {
         return [rank, "#\(callsign)"].joined(separator: ThemeConstants.dividerSeparator)
     }
-    
+
     public var section: String?
     public var image: UIImage? {
         if let initials = initials {
@@ -45,15 +45,15 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
         }
         return nil
     }
-    
+
     public func contains(_ searchText: String) -> Bool {
         let searchStringLowercase = searchText.lowercased()
-        
+
         let matchesFirstName = firstName?.lowercased().hasPrefix(searchStringLowercase)
         let matchesLastName = lastName?.lowercased().hasPrefix(searchStringLowercase)
         let matchesCallsign = callsign.lowercased().hasPrefix(searchStringLowercase)
-        
+
         return matchesFirstName.isTrue || matchesLastName.isTrue || matchesCallsign
     }
-    
+
 }

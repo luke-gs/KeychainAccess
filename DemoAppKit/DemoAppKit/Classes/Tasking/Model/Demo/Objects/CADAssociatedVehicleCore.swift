@@ -19,14 +19,14 @@ open class CADAssoctiatedVehicleCore: Codable, CADAssociatedVehicleType {
 
     open var alertLevel: CADAlertLevelType?
     open var associatedAlertLevel: CADAlertLevelType?
-    open var bodyType : String?
+    open var bodyType: String?
     open var id: String?
-    open var make : String?
-    open var model : String?
+    open var make: String?
+    open var model: String?
     open var primaryColour: String?
     open var plateNumber: String?
     open var source: String?
-    open var year : String?
+    open var year: String?
 
     // MARK: - Codable
 
@@ -61,4 +61,3 @@ open class CADAssoctiatedVehicleCore: Codable, CADAssociatedVehicleType {
         MPLUnimplemented()
     }
 }
-

@@ -27,7 +27,7 @@ open class ActivityLogItemViewModel {
     public func dotImage() -> UIImage {
         return UIImage.statusDot(withColor: dotFillColor, strokeColor: dotStrokeColor)
     }
-    
+
     /// Timestamp string
     open var timestampString: String {
         return ActivityLogItemViewModel.timestampDateFormatter.string(from: timestamp)

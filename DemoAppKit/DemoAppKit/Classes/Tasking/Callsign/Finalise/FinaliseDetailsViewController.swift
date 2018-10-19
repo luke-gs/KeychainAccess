@@ -11,32 +11,32 @@ import UIKit
 class FinaliseDetailsViewController: IntrinsicHeightFormBuilderViewController {
 
     // MARK: - Properties
-    
+
     /// View model of the view controller
     public let viewModel: FinaliseDetailsViewModel
-    
+
     public init(viewModel: FinaliseDetailsViewModel) {
         self.viewModel = viewModel
         super.init()
         setupNavigationBarButtons()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open func setupNavigationBarButtons() {
         // Create cancel button
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped(_:)))
-        
+
         // Create done button
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped(_:)))
     }
-    
+
     /// Form builder implementation
     open override func construct(builder: FormBuilder) {
         builder.title = viewModel.navTitle()
-        
+
         builder += ValueFormItem()
             .title("Primary Code")
             .value(viewModel.primaryCode)
@@ -58,16 +58,15 @@ class FinaliseDetailsViewController: IntrinsicHeightFormBuilderViewController {
             })
             .width(.column(1))
     }
-    
-    
+
     @objc private func cancelButtonTapped(_ button: UIBarButtonItem) {
         viewModel.cancel()
         dismissAnimated()
     }
-    
+
     @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
         let result = builder.validate()
-        
+
         switch result {
         case .invalid(_, let message):
             builder.validateAndUpdateUI()

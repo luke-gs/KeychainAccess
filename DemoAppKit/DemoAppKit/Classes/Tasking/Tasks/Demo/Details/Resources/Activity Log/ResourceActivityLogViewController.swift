@@ -12,10 +12,10 @@ open class ResourceActivityLogViewController: ActivityLogViewController, TaskDet
 
     public init(viewModel: ResourceActivityLogViewModel) {
         super.init(viewModel: viewModel)
-        
+
         sidebarItem.image = AssetManager.shared.image(forKey: .list)
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }

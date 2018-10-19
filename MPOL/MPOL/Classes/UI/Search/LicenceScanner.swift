@@ -10,7 +10,7 @@ import Firebase
 
 public class LicenceScanner {
 
-    public func startScan(with image: UIImage, completion: @escaping ((String) -> ())) {
+    public func startScan(with image: UIImage, completion: @escaping ((String) -> Void)) {
         let vision = Vision.vision()
         let textRecognizer = vision.onDeviceTextRecognizer()
         let visionImage = VisionImage(image: image)

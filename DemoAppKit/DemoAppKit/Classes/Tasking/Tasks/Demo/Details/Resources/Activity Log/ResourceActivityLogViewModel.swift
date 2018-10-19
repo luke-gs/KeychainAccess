@@ -9,18 +9,18 @@
 import UIKit
 
 open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
-    
+
     open private(set) var resource: CADResourceType?
-    
+
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         return ResourceActivityLogViewController(viewModel: self)
     }
-    
+
     open func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let resource = model as? CADResourceDetailsType else { return }
         self.resource = resource
-        
+
         let activityLogItemsViewModels = resource.activityLog.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                             dotStrokeColor: .clear,
@@ -28,20 +28,20 @@ open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsV
                                             title: item.title,
                                             subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }
-        
+
         sections = sortedSectionsByDate(from: activityLogItemsViewModels)
     }
-    
+
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Activity Log", comment: "Activity Log sidebar title")
     }
-    
+
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
         return NSLocalizedString("No Activity Found", comment: "")
     }
-    
+
     override open func noContentSubtitle() -> String? {
         return nil
     }
@@ -51,4 +51,3 @@ open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsV
         return CADStateManager.shared.currentResource?.callsign == resource?.callsign
     }
 }
-

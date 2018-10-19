@@ -16,7 +16,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         self.viewModel = viewModel
         super.init()
         viewModel.report.evaluator.addObserver(self)
-        
+
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!

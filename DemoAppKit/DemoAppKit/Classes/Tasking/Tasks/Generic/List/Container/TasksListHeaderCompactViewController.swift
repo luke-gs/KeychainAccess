@@ -35,7 +35,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
     public let sourceDivider = UIView(frame: .zero)
 
     /// The currently displayed source view controller, if any
-    private var sourceViewController: CompactSidebarSourceViewController? = nil
+    private var sourceViewController: CompactSidebarSourceViewController?
 
     /// The current sources available to display
     public var sourceItems: [SourceItem] = [] {
@@ -125,7 +125,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
         sourceButton.backgroundColor = .lightGray
         sourceButton.setTitleColor(UIColor.black, for: .normal)
         sourceButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        sourceButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        sourceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         sourceButton.layer.cornerRadius = 3
         sourceButton.addTarget(self, action: #selector(didTapSourceButton(_:)), for: .touchUpInside)
         view.addSubview(sourceButton)
@@ -138,7 +138,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
         buttonStackView.setContentCompressionResistancePriority(.required, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
     }
-    
+
     public func createConstraints() {
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: Constants.headerHeight),
@@ -158,7 +158,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
             titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
             buttonStackView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -Constants.buttonPadding),
-            buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
         ])
     }
 
@@ -173,7 +173,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
             buttonStackView.addArrangedSubview(button)
         }
     }
-    
+
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
         sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)

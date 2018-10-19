@@ -13,16 +13,16 @@ fileprivate extension EvaluatorKey {
     static let valid = EvaluatorKey("valid")
 }
 
-public class EventEntitiesListReport : EventReportable, Evaluatable {
+public class EventEntitiesListReport: EventReportable, Evaluatable {
     public let weakEvent: Weak<Event>
-    
+
     public let evaluator: Evaluator = Evaluator()
     public var entityDetailReports: [EventEntityDetailReport] = [EventEntityDetailReport]() {
         didSet {
             evaluator.updateEvaluation(for: .valid)
         }
     }
-    
+
     public init(event: Event) {
         self.weakEvent = Weak(event)
 
@@ -35,13 +35,13 @@ public class EventEntitiesListReport : EventReportable, Evaluatable {
             return !self.entityDetailReports.isEmpty && reportsValid
         }
     }
-    
+
     // MARK: Coding
     public static var supportsSecureCoding: Bool { return true }
     public func encode(with aCoder: NSCoder) {}
 
     public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
-    
+
     // MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
     }

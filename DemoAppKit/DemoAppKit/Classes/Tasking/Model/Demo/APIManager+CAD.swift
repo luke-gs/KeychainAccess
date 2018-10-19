@@ -26,7 +26,7 @@ extension APIManager: CADAPIManagerType {
     open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
 
         var encoding: ParameterEncoding = JSONEncoding.default
-        
+
         // Use explicit path or construct based on type of sync
         var pathTemplate = pathTemplate
         if pathTemplate == nil {
@@ -56,4 +56,3 @@ extension APIManager: CADAPIManagerType {
     }
 
 }
-

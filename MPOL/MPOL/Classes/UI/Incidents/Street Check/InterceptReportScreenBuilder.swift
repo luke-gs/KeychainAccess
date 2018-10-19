@@ -36,6 +36,3 @@ public class InterceptReportScreenBuilder: IncidentScreenBuilding {
 
     public init() {}
 }
-
-
-

@@ -49,7 +49,7 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
     open func createSubviews() {
         var actions = [DialogAction]()
         for (index, buttonText) in viewModel.actionButtons.enumerated() {
-            actions.append(DialogAction(title: buttonText, handler: { [weak self] (action) in
+            actions.append(DialogAction(title: buttonText, handler: { [weak self] (_) in
                 self?.viewModel.didTapActionButtonAtIndex(index)
             }))
         }
@@ -71,7 +71,7 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
 
             buttonsView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
     }
 
@@ -89,7 +89,7 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
                 .separatorStyle(.none)
                 .selectionStyle(.none)
                 .accessory(ItemAccessory.disclosure)
-                .onSelection({ [unowned self] cell in
+                .onSelection({ [unowned self] _ in
                     // Present the incident split view controller
                     if let viewModel = listViewModel.createItemViewModel() {
                         self.present(TaskItemScreen.landing(viewModel: viewModel))
@@ -111,7 +111,7 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
                     let item = CallsignStatusFormItem(text: item.title, image: item.image)
                         .selected(viewModel.callsignViewModel.selectedIndexPath == indexPath)
                         .highlightStyle(.fade)
-                        .onSelection { [weak self] cell in
+                        .onSelection { [weak self] _ in
                             self?.selectCallsignStatus(at: indexPath)
                         }
 
@@ -168,4 +168,3 @@ extension ManageCallsignStatusViewController: CADFormCollectionViewModelDelegate
         reloadForm()
     }
 }
-

@@ -55,7 +55,7 @@ open class CallsignStatusViewController: SubmissionFormBuilderViewController {
                         .selected(viewModel.selectedIndexPath == indexPath)
                         .highlightStyle(.fade)
                         .displayMode(viewModel.displayMode)
-                        .onSelection { [weak self] cell in
+                        .onSelection { [weak self] _ in
                             self?.selectCallsignStatus(at: indexPath)
                     }
                 }
@@ -101,4 +101,3 @@ extension CallsignStatusViewController: CADFormCollectionViewModelDelegate {
         reloadForm()
     }
 }
-

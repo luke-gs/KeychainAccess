@@ -106,4 +106,3 @@ public class PersonSearchReport: ActionReportable {
 extension AdditionalActionType {
     public static let personSearch = AdditionalActionType(rawValue: "Person Search Report")
 }
-

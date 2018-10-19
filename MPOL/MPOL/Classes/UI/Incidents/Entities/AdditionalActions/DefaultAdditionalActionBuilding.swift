@@ -21,7 +21,7 @@ public class DefaultAdditionalActionScreenBuilding: AdditionalActionScreenBuildi
     public func viewControllers(for reports: [IncidentReportable]) -> [UIViewController] {
 
         var viewControllers = [UIViewController]()
-        reports.forEach{
+        reports.forEach {
             switch $0 {
             case is PersonSearchReport:
                 let viewModel = PersonSearchReportViewModel(report: $0 as! PersonSearchReport)

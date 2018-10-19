@@ -19,7 +19,6 @@ public class DomesticViolenceIncidentBuilder: IncidentBuilding {
         incident.add(report: DomesticViolencePropertyReport(event: event, incident: incident))
         incident.add(report: DomesticViolenceGeneralDetailsReport(event: event, incident: incident))
 
-
         let displayable = IncidentListDisplayable(title: type.rawValue,
                                                   subtitle: "Not yet started",
                                                   icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.event))

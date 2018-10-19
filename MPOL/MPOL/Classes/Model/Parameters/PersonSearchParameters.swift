@@ -21,19 +21,19 @@ public class PersonSearchParameters: EntitySearchRequest<Person> {
                                                gender: gender,
                                                dateOfBirth: PersonSearchParameters.formattedDateOfBirthParameter(from: dateOfBirth),
                                                age: age)
-        
+
         super.init(parameters: parameterisable.parameters)
     }
 
     private struct SearchParameters: Parameterisable {
-        
+
         public let familyName: String
         public let givenName: String?
         public let middleNames: String?
         public let gender: String?
         public let dateOfBirth: String?
         public let age: String?
-        
+
         public init(familyName: String, givenName: String? = nil, middleNames: String? = nil, gender: String? = nil, dateOfBirth: String? = nil, age: String? = nil) {
             self.familyName  = familyName
             self.givenName   = givenName
@@ -42,7 +42,7 @@ public class PersonSearchParameters: EntitySearchRequest<Person> {
             self.dateOfBirth = dateOfBirth
             self.age = age
         }
-        
+
         public var parameters: [String: Any] {
             return try! wrap(self)
         }

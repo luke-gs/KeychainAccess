@@ -8,6 +8,7 @@
 import MapKit
 import PublicSafetyKit
 import DemoAppKit
+import Contacts
 
 /// Demo app implementation for a location selection
 public class LocationSelectionCore: LocationSelectionType {
@@ -27,8 +28,9 @@ public class LocationSelectionCore: LocationSelectionType {
         self.placemark = placemark
         self.coordinate = coordinate
 
-        if let formattedAddress = placemark.addressDictionary?["FormattedAddressLines"] as? [String] {
-            self.displayText = formattedAddress.joined(separator: " ")
+        if let address = placemark.postalAddress {
+            let mailingAddress = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
+            self.displayText = mailingAddress.replacingOccurrences(of: "\n", with: ", ")
         }
     }
 
@@ -46,4 +48,3 @@ public class LocationSelectionCore: LocationSelectionType {
         self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
     }
 }
-
