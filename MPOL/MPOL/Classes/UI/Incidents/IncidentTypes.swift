@@ -55,6 +55,13 @@ extension IncidentType {
 
             fatalError("Manifest items not found for \(ManifestCollection.eventOrganisationInvolvementType.rawValue)")
 
+        case is Address:
+            if let items = Manifest.shared.entries(for: .eventLocationInvolvementType)?.rawValues() {
+                return items
+            }
+
+            fatalError("Manifest items not found for \(ManifestCollection.eventLocationInvolvementType.rawValue)")
+
         default:
             fatalError("Unrecognised entity type found when fetching event involvements.")
         }

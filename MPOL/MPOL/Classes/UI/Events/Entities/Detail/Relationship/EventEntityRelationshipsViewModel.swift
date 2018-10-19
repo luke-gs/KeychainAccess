@@ -24,6 +24,10 @@ class EventEntityRelationshipsViewModel {
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
+        case is Organisation:
+            return OrganisationSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("Entity is Not a valid Type")
         }
@@ -97,6 +101,14 @@ class EventEntityRelationshipsViewModel {
         if let entities = entitesFor(Vehicle.self), !entities.isEmpty {
             dataSources.append(EventRelationshipEntityDataSource(header: "Vehicles", entities: entities))
         }
+
+        if let entities = entitesFor(Organisation.self), !entities.isEmpty {
+            dataSources.append(EventRelationshipEntityDataSource(header: "Organisations", entities: entities))
+        }
+
+        if let entities = entitesFor(Address.self), !entities.isEmpty {
+            dataSources.append(EventRelationshipEntityDataSource(header: "Addresses", entities: entities))
+        }
     }
 
     private func entitesFor(_ entityType: Any) -> [MPOLKitEntity]? {
@@ -107,6 +119,10 @@ class EventEntityRelationshipsViewModel {
             relationships = relationships.filter { $0.baseObject is Person }.filter { $0.baseObject != self.report.entity }
         case is Vehicle.Type:
             relationships = relationships.filter { $0.baseObject is Vehicle }.filter { $0.baseObject != self.report.entity }
+        case is Organisation.Type:
+            relationships = relationships.filter { $0.baseObject is Organisation }.filter { $0.baseObject != self.report.entity }
+        case is Address.Type:
+            relationships = relationships.filter { $0.baseObject is Address }.filter { $0.baseObject != self.report.entity }
         default:
             fatalError("No such entity \(entityType)")
         }
