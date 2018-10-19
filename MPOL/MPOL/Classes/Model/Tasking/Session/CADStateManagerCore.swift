@@ -8,6 +8,7 @@
 
 import UIKit
 import PromiseKit
+import DemoAppKit
 
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerBase {
@@ -26,6 +27,18 @@ open class CADStateManagerCore: CADStateManagerBase {
         CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
         CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
         CADClientModelTypes.alertLevel = CADAlertLevelCore.self
+
+        // Register serialisation methods for CAD officers
+        CADBookOnRequestCore.encodeOfficers = { (container, key, officers) in
+            var container = container
+            if let officers = officers as? [CADOfficerCore] {
+                try container.encodeIfPresent(officers, forKey: key)
+            }
+        }
+
+        CADSyncResponseCore.decodeOfficers = { (container, key) in
+            return try container.decodeIfPresent([CADOfficerCore].self, forKey: key) ?? []
+        }
 
         // Default patrol group for demo data
         patrolGroup = "Collingwood"

@@ -186,8 +186,6 @@
 		963E5AD12179796600BC2415 /* CADEquipmentCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E22179796500BC2415 /* CADEquipmentCore.swift */; };
 		963E5AD22179796600BC2415 /* CADIncidentCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E32179796500BC2415 /* CADIncidentCore.swift */; };
 		963E5AD32179796600BC2415 /* CADAssociatedVehicleCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E42179796500BC2415 /* CADAssociatedVehicleCore.swift */; };
-		963E5AD42179796600BC2415 /* CADEmployeeDetailsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E52179796500BC2415 /* CADEmployeeDetailsCore.swift */; };
-		963E5AD52179796600BC2415 /* CADOfficerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E62179796500BC2415 /* CADOfficerCore.swift */; };
 		963E5AD62179796600BC2415 /* CADBroadcastCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E72179796500BC2415 /* CADBroadcastCore.swift */; };
 		963E5AD72179796600BC2415 /* CADIncidentInformantCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59E82179796500BC2415 /* CADIncidentInformantCore.swift */; };
 		963E5AD82179796600BC2415 /* CADBookOffRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59EA2179796500BC2415 /* CADBookOffRequestCore.swift */; };
@@ -233,7 +231,6 @@
 		963E5B002179796600BC2415 /* CreateActivityLogItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A1A2179796500BC2415 /* CreateActivityLogItemViewController.swift */; };
 		963E5B012179796600BC2415 /* CreateActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A1B2179796500BC2415 /* CreateActivityLogItemViewModel.swift */; };
 		963E5B022179796600BC2415 /* CADStateManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A1E2179796500BC2415 /* CADStateManagerBase.swift */; };
-		963E5B032179796600BC2415 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A1F2179796500BC2415 /* CADStateManagerCore.swift */; };
 		963E5B042179796600BC2415 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A202179796500BC2415 /* CADRecentlyUsedKey.swift */; };
 		963E5B052179796600BC2415 /* CADStateManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A212179796500BC2415 /* CADStateManagerType.swift */; };
 		96BE88712126597000F57FF0 /* DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE88672126597000F57FF0 /* DemoAppKit.framework */; };
@@ -436,8 +433,6 @@
 		963E59E22179796500BC2415 /* CADEquipmentCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEquipmentCore.swift; sourceTree = "<group>"; };
 		963E59E32179796500BC2415 /* CADIncidentCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentCore.swift; sourceTree = "<group>"; };
 		963E59E42179796500BC2415 /* CADAssociatedVehicleCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociatedVehicleCore.swift; sourceTree = "<group>"; };
-		963E59E52179796500BC2415 /* CADEmployeeDetailsCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEmployeeDetailsCore.swift; sourceTree = "<group>"; };
-		963E59E62179796500BC2415 /* CADOfficerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerCore.swift; sourceTree = "<group>"; };
 		963E59E72179796500BC2415 /* CADBroadcastCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastCore.swift; sourceTree = "<group>"; };
 		963E59E82179796500BC2415 /* CADIncidentInformantCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentInformantCore.swift; sourceTree = "<group>"; };
 		963E59EA2179796500BC2415 /* CADBookOffRequestCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOffRequestCore.swift; sourceTree = "<group>"; };
@@ -483,7 +478,6 @@
 		963E5A1A2179796500BC2415 /* CreateActivityLogItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewController.swift; sourceTree = "<group>"; };
 		963E5A1B2179796500BC2415 /* CreateActivityLogItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewModel.swift; sourceTree = "<group>"; };
 		963E5A1E2179796500BC2415 /* CADStateManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerBase.swift; sourceTree = "<group>"; };
-		963E5A1F2179796500BC2415 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		963E5A202179796500BC2415 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
 		963E5A212179796500BC2415 /* CADStateManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerType.swift; sourceTree = "<group>"; };
 		96BE88672126597000F57FF0 /* DemoAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DemoAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1237,12 +1231,10 @@
 				963E59E02179796500BC2415 /* CADAssociatedPersonCore.swift */,
 				963E59E42179796500BC2415 /* CADAssociatedVehicleCore.swift */,
 				963E59E72179796500BC2415 /* CADBroadcastCore.swift */,
-				963E59E52179796500BC2415 /* CADEmployeeDetailsCore.swift */,
 				963E59E22179796500BC2415 /* CADEquipmentCore.swift */,
 				963E59E32179796500BC2415 /* CADIncidentCore.swift */,
 				963E59E82179796500BC2415 /* CADIncidentInformantCore.swift */,
 				963E59E12179796500BC2415 /* CADLocationCore.swift */,
-				963E59E62179796500BC2415 /* CADOfficerCore.swift */,
 				963E59DF2179796500BC2415 /* CADPatrolCore.swift */,
 				963E59DD2179796500BC2415 /* CADResourceCore.swift */,
 			);
@@ -1373,7 +1365,6 @@
 			children = (
 				963E5A202179796500BC2415 /* CADRecentlyUsedKey.swift */,
 				963E5A1E2179796500BC2415 /* CADStateManagerBase.swift */,
-				963E5A1F2179796500BC2415 /* CADStateManagerCore.swift */,
 			);
 			path = Default;
 			sourceTree = "<group>";
@@ -1664,7 +1655,6 @@
 				963E5AD62179796600BC2415 /* CADBroadcastCore.swift in Sources */,
 				963E5AE92179796600BC2415 /* CADBroadcastType.swift in Sources */,
 				963E5ADD2179796600BC2415 /* CADClientModelTypes.swift in Sources */,
-				963E5AD42179796600BC2415 /* CADEmployeeDetailsCore.swift in Sources */,
 				963E5AEC2179796600BC2415 /* CADEmployeeDetailsType.swift in Sources */,
 				963E5ADF2179796600BC2415 /* CADEnumIntType.swift in Sources */,
 				963E5AE12179796600BC2415 /* CADEnumStringType.swift in Sources */,
@@ -1682,7 +1672,6 @@
 				963E5AED2179796600BC2415 /* CADIncidentType.swift in Sources */,
 				963E5AD02179796600BC2415 /* CADLocationCore.swift in Sources */,
 				963E5AF02179796600BC2415 /* CADLocationType.swift in Sources */,
-				963E5AD52179796600BC2415 /* CADOfficerCore.swift in Sources */,
 				963E5AEB2179796600BC2415 /* CADOfficerType.swift in Sources */,
 				963E5ACE2179796600BC2415 /* CADPatrolCore.swift in Sources */,
 				963E5AC42179796500BC2415 /* CADPatrolStatusCore.swift in Sources */,
@@ -1696,7 +1685,6 @@
 				963E5AC72179796500BC2415 /* CADResourceUnitCore.swift in Sources */,
 				963E5AE32179796600BC2415 /* CADResourceUnitType.swift in Sources */,
 				963E5B022179796600BC2415 /* CADStateManagerBase.swift in Sources */,
-				963E5B032179796600BC2415 /* CADStateManagerCore.swift in Sources */,
 				963E5B052179796600BC2415 /* CADStateManagerType.swift in Sources */,
 				963E5AC32179796500BC2415 /* CADStatusTabBarController.swift in Sources */,
 				963E5AC22179796500BC2415 /* CADStatusTabBarViewModel.swift in Sources */,

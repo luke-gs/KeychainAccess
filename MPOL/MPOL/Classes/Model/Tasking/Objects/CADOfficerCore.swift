@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DemoAppKit
 
 /// PSCore implementation of class representing an officer
 open class CADOfficerCore: Codable, CADOfficerType {

@@ -12,6 +12,9 @@ import PromiseKit
 /// PSCore implementation of book on request
 open class CADBookOnRequestCore: CADBookOnRequestType {
 
+    /// Closure for encoding app specific officers
+    static public var encodeOfficers: ((KeyedEncodingContainer<CADBookOnRequestCore.CodingKeys>, CADBookOnRequestCore.CodingKeys, [CADOfficerType]) throws -> Void)?
+
     public init() {}
 
     // MARK: - Request Parameters
@@ -37,7 +40,7 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
 
     // MARK: - Codable
 
-    private enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case callsign
         case category
         case driverEmployeeNumber
@@ -55,13 +58,15 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
         try container.encode(callsign, forKey: .callsign)
         try container.encodeIfPresent(category, forKey: .category)
         try container.encodeIfPresent(driverEmployeeNumber, forKey: .driverEmployeeNumber)
-        try container.encodeIfPresent(employees as? [CADOfficerCore], forKey: .employees)
         try container.encodeIfPresent(equipment as? [CADEquipmentCore], forKey: .equipment)
         try container.encodeIfPresent(odometer, forKey: .odometer)
         try container.encodeIfPresent(remarks, forKey: .remarks)
         try container.encodeIfPresent(serial, forKey: .serial)
         try container.encodeIfPresent(shiftEnd, forKey: .shiftEnd)
         try container.encodeIfPresent(shiftStart, forKey: .shiftStart)
+
+        // Encode officers using injected closure with explicit type
+        try CADBookOnRequestCore.encodeOfficers?(container, .employees, employees)
     }
 
 }
