@@ -12,7 +12,7 @@ open class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
     public var status: String?
     public var statusLabelStyle: BookOnDetailsOfficerCell.StatusLabelStyle = .filled
-    
+
     public init(cellType: BookOnDetailsOfficerCell.Type, reuseIdentifier: String) {
         super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)
     }

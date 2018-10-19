@@ -12,15 +12,15 @@ import PromiseKit
 public protocol CADBookOnRequestType: CodableRequestParameters {
 
     // MARK: - Request Parameters
-    var callsign : String! { get }
-    var category : String? { get }
-    var driverEmployeeNumber : String? { get }
-    var employees : [CADOfficerType] { get }
-    var equipment : [CADEquipmentType] { get }
-    var odometer : Int? { get }
-    var remarks : String? { get }
+    var callsign: String! { get }
+    var category: String? { get }
+    var driverEmployeeNumber: String? { get }
+    var employees: [CADOfficerType] { get }
+    var equipment: [CADEquipmentType] { get }
+    var odometer: Int? { get }
+    var remarks: String? { get }
     var serial: String? { get }
-    var shiftEnd : Date? { get }
-    var shiftStart : Date? { get }
+    var shiftEnd: Date? { get }
+    var shiftStart: Date? { get }
 
 }

@@ -22,7 +22,7 @@ open class CADActivityLogItemCore: Codable, CADActivityLogItemType {
     open var title: String?
 
     // MARK: - Generated
-    
+
     open var color: UIColor {
         switch source ?? "" {
         case "Duress":

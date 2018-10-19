@@ -17,7 +17,7 @@ public class DefaultEntitiesListReport: Reportable {
     public let weakIncident: Weak<Incident>
 
     public let evaluator: Evaluator = Evaluator()
-    
+
     public init(event: Event, incident: Incident) {
         self.weakEvent = Weak(event)
         self.weakIncident = Weak(incident)

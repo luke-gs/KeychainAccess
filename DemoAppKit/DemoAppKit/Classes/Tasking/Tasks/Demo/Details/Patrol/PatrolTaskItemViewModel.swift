@@ -28,7 +28,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
             reloadFromModel()
         }
     }
-    
+
     // MARK: - Generated properties
 
     /// Return the loaded details
@@ -82,5 +82,5 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         }
         super.reloadFromModel()
     }
-    
+
 }

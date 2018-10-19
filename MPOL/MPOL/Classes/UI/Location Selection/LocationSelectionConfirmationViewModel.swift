@@ -9,31 +9,31 @@ import Foundation
 import PublicSafetyKit
 
 public class LocationSelectionConfirmationViewModel {
-    
+
     public let fullAddress: String?
     public let coordinateText: String?
-    
+
     // details
-    public var propertyNumber: String? = nil
-    public var streetNumber: String? = nil
-    public var streetName: String? = nil
-    public var postcode: String? = nil
-    public var remarks: String? = nil
-    
+    public var propertyNumber: String?
+    public var streetNumber: String?
+    public var streetName: String?
+    public var postcode: String?
+    public var remarks: String?
+
     // DropDown value
-    public var streetType: AnyPickable? = nil
-    public var suburb: AnyPickable? = nil
-    public var state: AnyPickable? = nil
+    public var streetType: AnyPickable?
+    public var suburb: AnyPickable?
+    public var state: AnyPickable?
 
     // The location type, workflow specific
-    public var type: AnyPickable? = nil
-    public var typeTitle: String? = nil
-    public var typeOptions: [AnyPickable]? = nil
+    public var type: AnyPickable?
+    public var typeTitle: String?
+    public var typeOptions: [AnyPickable]?
 
     // DropDown options
-    public var streetTypeOptions: [AnyPickable]? = nil
-    public var suburbOptions: [AnyPickable]? = nil
-    public var stateOptions: [AnyPickable]? = nil
+    public var streetTypeOptions: [AnyPickable]?
+    public var suburbOptions: [AnyPickable]?
+    public var stateOptions: [AnyPickable]?
 
     // Whether the address fields are user editable
     public var isEditable: Bool = false

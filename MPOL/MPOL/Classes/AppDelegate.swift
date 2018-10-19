@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
     var navigator: AppURLNavigator!
-    
 
     var plugins: [Plugin]?
 
@@ -85,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                                     TrafficStopPresenter(),
                                                     CreateTaskPresenter(),
                                                     LocationSelectionPresenter()])
-        
+
         let director = Director(presenter: presenter)
         Director.shared = director
 
@@ -100,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         applyCurrentTheme()
 
         updateAppForUserSession()
-    
+
         window.makeKeyAndVisible()
 
         #if INTERNAL || EXTERNAL
@@ -187,8 +186,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             removeShortcuts(from: application)
         }
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         if navigator.isRegistered(url) {
             return navigator.handle(url)
         }
@@ -198,7 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // MARK: - APNS
-    
+
     func registerPushNotifications(_ application: UIApplication) {
 
         // Request authorisation to receive PNs, then request token from Apple
@@ -214,7 +213,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // regardless of the use of UNUserNotificationCenter!
 
     /// Called when a remote notification arrives that indicates there is data to be fetched (ie silent push)
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Handle notification (which may trigger network operation), then complete with fetch result
         _ = NotificationManager.shared.didReceiveRemoteNotification(userInfo: userInfo).done { result in
             completionHandler(result)
@@ -235,7 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
 
         let promise: Promise<Void>
-        
+
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken, let savedToken = UserSession.current.token {
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token)).done { token -> Void in
@@ -416,7 +415,7 @@ extension AppDelegate: SearchActivityHandlerDelegate {
                     ds.performSearch()
                 }
             }
-            
+
         case .viewDetails(let id, let entityType, let source):
 
             let entity: Entity?
@@ -429,9 +428,7 @@ extension AppDelegate: SearchActivityHandlerDelegate {
             case "Address":
                 entity = Address(id: id)
             case "Organisation":
-                // Not supported yet
-                entity = nil
-                print("Not supported yet")
+                entity = Organisation(id: id)
             default:
                 // Do nothing
                 entity = nil

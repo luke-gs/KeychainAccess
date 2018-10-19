@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable class_delegate_protocol
 public protocol TasksListHeaderViewModelDelegate: PopoverPresenter {
 
     /// The source items have changed
@@ -22,6 +23,7 @@ public protocol TasksListHeaderViewModelDelegate: PopoverPresenter {
     /// Present a popover from the given bar button item index
     func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool)
 }
+// swiftlint:enable class_delegate_protocol
 
 /// View model for tasks list header view controller
 open class TasksListHeaderViewModel {

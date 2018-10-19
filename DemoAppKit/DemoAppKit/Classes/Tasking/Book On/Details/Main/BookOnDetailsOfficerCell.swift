@@ -10,16 +10,16 @@ import UIKit
 
 /// Csutom collection view form cell for displaying officers
 public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
-    
+
     private struct LayoutConstants {
         static let spacingX: CGFloat = 8
     }
-    
+
     public enum StatusLabelStyle {
         case hollow
         case filled
         case custom(border: UIColor, fill: UIColor, text: UIColor)
-        
+
         public func borderColor(forTheme theme: Theme) -> UIColor? {
             switch self {
             case .hollow:
@@ -30,7 +30,7 @@ public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
                 return border
             }
         }
-        
+
         public func fillColor(forTheme theme: Theme) -> UIColor? {
             switch self {
             case .hollow:
@@ -41,7 +41,7 @@ public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
                 return fill
             }
         }
-        
+
         public func textColor(forTheme theme: Theme) -> UIColor? {
             switch self {
             case .hollow:
@@ -58,7 +58,7 @@ public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
 
     /// Rounded rect showing the officer status
     public let statusLabel = RoundedRectLabel(frame: .zero)
-    
+
     public var statusLabelStyle: StatusLabelStyle = .filled {
         didSet {
             setStatusLabelColors()
@@ -81,7 +81,7 @@ public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
         statusLabel.borderColor = statusLabelStyle.borderColor(forTheme: theme)
         statusLabel.backgroundColor = statusLabelStyle.fillColor(forTheme: theme)
     }
-    
+
     public override func layoutSubviews() {
 
         // Layout rest of cell

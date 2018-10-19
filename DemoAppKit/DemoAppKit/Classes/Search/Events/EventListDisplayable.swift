@@ -43,8 +43,7 @@ open class EventListDisplayable: NSSecureCoding {
                 accessoryTitle: String? = nil,
                 accessorySubtitle: String? = nil,
                 icon: UIImage? = nil,
-                status: EventStatus = .draft)
-    {
+                status: EventStatus = .draft) {
         self.title = title
         self.subtitle = subtitle
         self.accessoryTitle = accessoryTitle
@@ -78,7 +77,6 @@ open class EventListDisplayable: NSSecureCoding {
         status = EventStatus(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.status.rawValue)! as String)!
     }
 
-
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: Coding.id.rawValue)
         aCoder.encode(eventId, forKey: Coding.eventId.rawValue)
@@ -90,7 +88,6 @@ open class EventListDisplayable: NSSecureCoding {
         aCoder.encode(status.rawValue, forKey: Coding.status.rawValue)
     }
 }
-
 
 /// The view model definition for the event details for the OOTB product
 public protocol EventDetailViewModelType: Evaluatable {
@@ -105,7 +102,7 @@ public protocol EventDetailViewModelType: Evaluatable {
     var viewControllers: [UIViewController]? { get }
 
     /// Closure to call when the header gets updated with a new title or subtitle
-    var headerUpdated: (()->())? { get set }
+    var headerUpdated: (() -> Void)? { get set }
 
     /// The header to display at the top of the sidebar
     ///
@@ -141,4 +138,3 @@ public protocol SideBarHeaderUpdateable {
 public protocol SideBarHeaderUpdateDelegate: class {
     func updateHeader(with title: String?, subtitle: String?)
 }
-

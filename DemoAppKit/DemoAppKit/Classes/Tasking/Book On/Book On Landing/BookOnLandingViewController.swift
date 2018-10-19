@@ -9,7 +9,7 @@
 import UIKit
 
 open class BookOnLandingViewController: FormBuilderViewController {
-    
+
     /// Layout sizing constants
     public struct LayoutConstants {
         // MARK: - Margins
@@ -17,26 +17,26 @@ open class BookOnLandingViewController: FormBuilderViewController {
         static let bottomMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 40
     }
-    
+
     // MARK: - Views
-    
+
     open var titleLabel = UILabel()
     open var buttonsView: DialogActionButtonsView!
 
     /// `super.viewModel` typecasted to our type
     open var viewModel: BookOnLandingViewModel
-    
+
     // MARK: - Setup
-    
+
     public init(viewModel: BookOnLandingViewModel) {
         self.viewModel = viewModel
         super.init()
-        
+
         title = viewModel.navTitle()
         setupViews()
         setupConstraints()
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -52,17 +52,17 @@ open class BookOnLandingViewController: FormBuilderViewController {
         view.addSubview(titleLabel)
 
         buttonsView = DialogActionButtonsView(actions: [
-            DialogAction(title: viewModel.stayOffDutyButtonText(), handler: { [weak self] (action) in
+            DialogAction(title: viewModel.stayOffDutyButtonText(), handler: { [weak self] (_) in
                 self?.didSelectStayOffDutyButton()
             }),
-            DialogAction(title: viewModel.allCallsignsButtonText(), handler: { [weak self] (action) in
+            DialogAction(title: viewModel.allCallsignsButtonText(), handler: { [weak self] (_) in
                 self?.didSelectAllCallsignsButton()
             })
         ])
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonsView)
     }
-    
+
     /// Activates view constraints
     open func setupConstraints() {
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
@@ -76,13 +76,13 @@ open class BookOnLandingViewController: FormBuilderViewController {
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+
             buttonsView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
             buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ].removeNils())
     }
-    
+
     open func didSelectStayOffDutyButton() {
         if presentingViewController != nil {
             dismiss(animated: true, completion: nil)
@@ -90,12 +90,12 @@ open class BookOnLandingViewController: FormBuilderViewController {
             statusTabBarController?.selectPreviousTab()
         }
     }
-    
+
     open func didSelectAllCallsignsButton() {
         // Present all callsigns screen
         present(BookOnScreen.callSignList)
     }
-    
+
     // MARK: - Form Builder
     open override func construct(builder: FormBuilder) {
         let patrolAreaSection = viewModel.patrolAreaSection()
@@ -114,7 +114,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
                     self?.present(screen)
                 })
         }
-        
+
         let callsignSection = viewModel.callsignSection()
 
         builder += HeaderFormItem(text: callsignSection.title?.uppercased(),
@@ -132,7 +132,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
                     let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                     self.viewModel.apply(theme: theme, to: cell)
                 })
-                .onSelection({ [weak self] (cell) in
+                .onSelection({ [weak self] (_) in
                     if let screen = self?.viewModel.bookOnScreenForItem(item) {
                         self?.present(screen)
                     }
@@ -146,7 +146,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
         /// Update label based on theme
         titleLabel.textColor = theme.color(forKey: .primaryText)
     }
-    
+
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             // Fix padding being wrong at top due to first header being too large
@@ -157,7 +157,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
 }
 
 extension BookOnLandingViewController: PatrolAreaListViewModelDelegate {
-    
+
     public func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?) {
         if let patrolArea = patrolArea {
             CADStateManager.shared.patrolGroup = patrolArea

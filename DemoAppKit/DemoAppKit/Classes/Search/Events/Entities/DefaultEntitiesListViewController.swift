@@ -57,7 +57,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                         .badge(0)
                         .accessory(accessory)
                         .selectionStyle(.none)
-                        .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                        .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                             self.viewModel.removeEntity(entity)
                             self.updateLoadingManager()
                             self.reloadForm()
@@ -74,15 +74,15 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                     .detail(action.evaluator.isComplete ? "Complete" : "Incomplete")
                     .image(AssetManager.shared.image(forKey: .documentFilled))
                     .selectionStyle(.none)
-                    .actionButton(title: "Open", handler: { (sender) in
+                    .actionButton(title: "Open", handler: { (_) in
                         self.presentAdditionalAction(reports: action.reports)
                     })
-                    .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                    .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                         self.viewModel.removeAdditionalAction(entity: entity, action: action)
                         self.updateLoadingManager()
                         self.reloadForm()
                     })])
-                    .onSelection({ cell in
+                    .onSelection({ _ in
                         self.presentAdditionalAction(reports: action.reports)
                     })
             }
@@ -101,7 +101,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
         let entityPickerViewModel = viewModel.entityPickerViewModel
         entityPickerViewModel.delegate = self
-        
+
         let viewController = EntityPickerViewController(viewModel: entityPickerViewModel)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                                           style: .plain,
@@ -158,7 +158,6 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         let viewController = CustomPickerController(dataSource: dataSource)
 
         viewController.finishUpdateHandler = definition.completion
-
 
         if let navController = presentedViewController as? UINavigationController {
             navController.pushViewController(viewController, animated: false)

@@ -16,7 +16,7 @@ public protocol CADBroadcastType: class, CADTaskListItemModelType {
     var details: String? { get set }
     var identifier: String { get set }
     var lastUpdated: Date? { get set }
-    var location : CADLocationType? { get set }
+    var location: CADLocationType? { get set }
     var title: String? { get set }
     var type: CADBroadcastCategoryType { get set }
 

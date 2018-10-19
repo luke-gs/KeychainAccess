@@ -138,5 +138,5 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
         return false
     }
-    
+
 }

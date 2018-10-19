@@ -13,7 +13,7 @@ import PublicSafetyKit
 open class TelephoneNumber: NSObject, Serialisable {
 
     public let id: String
-    
+
     open var suffix: String?
     open var cityCode: String?
     open var fullNumber: String?
@@ -23,19 +23,18 @@ open class TelephoneNumber: NSObject, Serialisable {
     open var exchange: String?
     open var numberType: String?
     open var countryCode: String?
-    
-    
+
     public init(id: String) {
         self.id = id
         super.init()
     }
-    
+
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
         self.id = id
-    
+
         suffix = unboxer.unbox(key: "suffix")
         cityCode = unboxer.unbox(key: "cityCode")
         fullNumber = unboxer.unbox(key: "fullNumber")
@@ -46,7 +45,7 @@ open class TelephoneNumber: NSObject, Serialisable {
         numberType = unboxer.unbox(key: "numberType")
         countryCode = unboxer.unbox(key: "countryCode")
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
@@ -62,7 +61,7 @@ open class TelephoneNumber: NSObject, Serialisable {
         numberType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.numberType.rawValue) as String?
         countryCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.countryCode.rawValue) as String?
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(TelephoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
@@ -76,7 +75,7 @@ open class TelephoneNumber: NSObject, Serialisable {
         aCoder.encode(numberType, forKey: CodingKey.numberType.rawValue)
         aCoder.encode(countryCode, forKey: CodingKey.countryCode.rawValue)
     }
-    
+
     public static var supportsSecureCoding: Bool { return true }
     public static var modelVersion: Int { return 0 }
 

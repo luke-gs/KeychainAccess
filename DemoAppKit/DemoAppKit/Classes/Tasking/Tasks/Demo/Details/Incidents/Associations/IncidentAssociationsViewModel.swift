@@ -14,7 +14,7 @@ public class IncidentAssociationsViewModel: AssociationsViewModel {
         guard let incident = model as? CADIncidentType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<AssociationItemViewModel>] = []
-        
+
         let personsViewModels = incident.persons.map { person in
             return AssociationItemViewModel(
                 association: person,
@@ -27,7 +27,7 @@ public class IncidentAssociationsViewModel: AssociationsViewModel {
                 iconColor: nil,
                 badge: 0)
         }
-        
+
         let vehiclesViewModels = incident.vehicles.map { vehicle in
             return AssociationItemViewModel(
                 association: vehicle,
@@ -40,12 +40,12 @@ public class IncidentAssociationsViewModel: AssociationsViewModel {
                 iconColor: vehicle.alertLevel?.color,
                 badge: 0)
         }
-        
+
         if personsViewModels.count > 0 {
             let title = String.localizedStringWithFormat(NSLocalizedString("%d Person(s)", comment: ""), personsViewModels.count)
             sections.append(CADFormCollectionSectionViewModel(title: title, items: personsViewModels))
         }
-        
+
         if vehiclesViewModels.count > 0 {
             let title = String.localizedStringWithFormat(NSLocalizedString("%d Vehicle(s)", comment: ""), vehiclesViewModels.count)
             sections.append(CADFormCollectionSectionViewModel(title: title, items: vehiclesViewModels))

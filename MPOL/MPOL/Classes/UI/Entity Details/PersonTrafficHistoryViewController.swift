@@ -70,11 +70,10 @@ open class PersonTrafficHistoryViewController: EntityDetailFormViewController {
             footerView.topAnchor.constraint(equalTo: view.centerYAnchor),
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            footerView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
 
         apply(ThemeManager.shared.theme(for: .current))
-
 
     }
 

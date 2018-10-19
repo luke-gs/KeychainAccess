@@ -27,7 +27,7 @@ public class EntityImageSizing<T: Identifiable>: AsynchronousImageSizing {
         super.init(placeholderImage: thumbnailSizing)
     }
 
-    public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
+    public override func loadImage(completion: @escaping (ImageSizable) -> Void) {
 
         // Code to retrieve image goes here
         /*

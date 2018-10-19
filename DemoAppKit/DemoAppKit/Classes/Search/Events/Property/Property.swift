@@ -20,7 +20,7 @@ public struct Property: Equatable {
     public var subType: String?
     public var detailNames: [PropertyDetail]?
 
-    public var fullType : String {
+    public var fullType: String {
         return [type, subType].joined(separator: " - ")
     }
 
@@ -34,4 +34,3 @@ public struct Property: Equatable {
         return lhs.id == rhs.id
     }
 }
-

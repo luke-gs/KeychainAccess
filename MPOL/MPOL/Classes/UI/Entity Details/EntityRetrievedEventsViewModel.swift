@@ -10,7 +10,6 @@ import PublicSafetyKit
 
 open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
-
     open var events: [RetrievedEvent] {
 
         return entity?.events ?? []
@@ -80,7 +79,6 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
     private var dateSorting: DateSorting = .newest
     var sortingOptions: [DateSorting] = [.newest, .oldest]
-
 
     open var filteredEvents: [RetrievedEvent] {
         var filtered = self.events

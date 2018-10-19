@@ -11,20 +11,20 @@ import PublicSafetyKit
 
 @objc(MPLPhoneNumber)
 open class PhoneNumber: NSObject, Serialisable {
-    
+
     public let id: String
-    
+
     open var type: String?
     open var areaCode: String?
     open var phoneNumber: String?
-    
+
     public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
     }
-    
+
     public required init(unboxer: Unboxer) throws {
-        
+
         // Test data doesn't have id, temporarily removed this
 //        guard let id: String = unboxer.unbox(key: "id") else {
 //            throw ParsingError.missingRequiredField
@@ -35,14 +35,14 @@ open class PhoneNumber: NSObject, Serialisable {
         } else {
             self.id = UUID().uuidString
         }
-        
+
         type = unboxer.unbox(key: "type")
         areaCode = unboxer.unbox(key: "areaCode")
         phoneNumber = unboxer.unbox(key: "phoneNumber")
-        
+
         super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
@@ -52,7 +52,7 @@ open class PhoneNumber: NSObject, Serialisable {
         areaCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.areaCode.rawValue) as String?
         phoneNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.phoneNumber.rawValue) as String?
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(PhoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
@@ -60,14 +60,13 @@ open class PhoneNumber: NSObject, Serialisable {
         aCoder.encode(areaCode, forKey: CodingKey.areaCode.rawValue)
         aCoder.encode(phoneNumber, forKey: CodingKey.phoneNumber.rawValue)
     }
-    
+
     public static var supportsSecureCoding: Bool { return true }
 
     public static var modelVersion: Int { return 0 }
-    
-    
+
     // MARK: - Temp Formatters
-    
+
     func formattedNumber() -> String? {
         if let number = phoneNumber {
             if let areaCode = areaCode {
@@ -78,7 +77,7 @@ open class PhoneNumber: NSObject, Serialisable {
         }
         return nil
     }
-    
+
     func formattedType() -> String {
         guard let type = type else { return "Unknown" }
         switch type {

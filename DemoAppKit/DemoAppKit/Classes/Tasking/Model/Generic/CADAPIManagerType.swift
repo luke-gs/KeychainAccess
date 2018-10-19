@@ -19,7 +19,6 @@ public protocol CADAPIManagerType {
     /// Fetch manifest items
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass>
 
-
     // MARK: - CAD
 
     /// Book on to CAD

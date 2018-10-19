@@ -218,8 +218,6 @@ public class PersonEditViewController: FormBuilderViewController {
             }
 
             self.dismiss(animated: true, completion: nil)
-
-            break
         }
     }
 

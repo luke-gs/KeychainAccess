@@ -11,7 +11,7 @@ import PublicSafetyKit
 import PromiseKit
 
 public class VehicleSearchRequest: AggregatedSearchRequest<Vehicle> {
-    
+
     public init(source: MPOLSource, request: EntitySearchRequest<Vehicle>, sortHandler: ((Vehicle, Vehicle) -> Bool)? = nil) {
         super.init(source: source, request: request, sortHandler: sortHandler)
     }

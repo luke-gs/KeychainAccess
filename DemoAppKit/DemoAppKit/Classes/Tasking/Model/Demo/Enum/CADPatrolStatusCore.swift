@@ -44,4 +44,3 @@ public enum CADPatrolStatusCore: String, Codable, CADPatrolStatusType {
         }
     }
 }
-

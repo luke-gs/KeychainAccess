@@ -9,7 +9,7 @@ import PublicSafetyKit
 import DemoAppKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
-    
+
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
     var entityPickerViewModel: EntityPickerViewModel = DefaultEntityPickerViewModel()
@@ -30,6 +30,8 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
             return VehicleSummaryDisplayable(entity)
         case is Organisation:
             return OrganisationSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("No valid displayable for entity: \(entity.id)")
         }

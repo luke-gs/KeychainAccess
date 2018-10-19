@@ -22,8 +22,8 @@ class DomesticViolenceGeneralDetailsReport: Reportable {
     var childCount: Int = 0
     var childrenToBeNamed: Bool = false
     var associateToBeNamed: Bool = false
-    var details: String? = nil
-    var remarks: String? = nil
+    var details: String?
+    var remarks: String?
 
     public var viewed: Bool = false {
         didSet {

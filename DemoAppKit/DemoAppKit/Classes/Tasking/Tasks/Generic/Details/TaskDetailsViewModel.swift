@@ -36,5 +36,3 @@ extension TaskDetailsViewModel {
         return detailViewController
     }
 }
-
-

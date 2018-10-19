@@ -16,7 +16,7 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
 
         self.loadingManager.state = .loading
         viewModel.fetchRecentOfficers().done {
-            self.loadingManager.state = self.viewModel.numberOfSections() == 0 ? .noContent : .loaded 
+            self.loadingManager.state = self.viewModel.numberOfSections() == 0 ? .noContent : .loaded
             self.reloadForm()
         }.catch { error in
             self.loadingManager.state = .error

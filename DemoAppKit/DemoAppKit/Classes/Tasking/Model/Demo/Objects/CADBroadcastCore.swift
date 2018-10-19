@@ -60,7 +60,6 @@ open class CADBroadcastCore: Codable, CADBroadcastDetailsType {
                                    usesDarkBackground: false)
     }
 
-
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {

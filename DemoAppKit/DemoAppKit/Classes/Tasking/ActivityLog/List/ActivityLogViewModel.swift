@@ -10,19 +10,19 @@ import Foundation
 
 /// View model for the main Activity Log view controller (the one in the tab bar)
 public class ActivityLogViewModel: DatedActivityLogViewModel {
-    
+
     public override init() {
         super.init()
         updateData()
     }
-    
+
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = ActivityLogViewController(viewModel: self)
         delegate = vc
         return vc
     }
-    
+
     /// Update the task list
     public func updateData() {
         // TODO: fetch from network
@@ -56,24 +56,24 @@ public class ActivityLogViewModel: DatedActivityLogViewModel {
                                      dotStrokeColor: .clear,
                                      timestamp: Date().beginningOfDay.adding(hours: 9).adding(minutes: 40),
                                      title: "Search person name: White, Natasha",
-                                     subtitle: "J. Chieng"),
+                                     subtitle: "J. Chieng")
         ]
-        
+
         sections = sortedSectionsByDate(from: viewModels)
     }
-    
+
     // MARK: - Override
-    
+
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Activity Log", comment: "Activity Log navigation title")
     }
-    
+
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
         return NSLocalizedString("No Activity Found", comment: "")
     }
-    
+
     override open func noContentSubtitle() -> String? {
         return nil
     }

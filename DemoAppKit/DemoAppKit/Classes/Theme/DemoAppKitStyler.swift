@@ -10,7 +10,7 @@ import Foundation
 import PublicSafetyKit
 import PatternKit
 
-public class DemoAppKitStyler: ThemedFormStyler {
+public class DemoAppKitStyler: PublicSafetyKitStyler {
 
     public override func applyThemeToFormItem(_ item: BaseFormItem) {
         super.applyThemeToFormItem(item)
@@ -27,18 +27,8 @@ public class DemoAppKitStyler: ThemedFormStyler {
         }
     }
 
-}
-
-extension DemoAppKitStyler {
-
-    public static let detailLinkStyle = "detailLinkStyle"
-    public static let valueLinkStyle = "valueLinkStyle"
-    public static let summaryRequiredStyle = "summaryRequiredStyle"
-    public static let associationStyle = "associationStyle"
-    public static let eventEntityStyle = "eventEntityStyle"
-    public static let additionalActionStyle = "additionalActionStyle"
-
-    public class func configureSharedStyles() {
+    public override class func configureSharedStyles() {
+        super.configureSharedStyles()
         let formStyler = Styler.shared
         formStyler.mainStyle = DemoAppKitStyler()
 
@@ -82,9 +72,17 @@ extension DemoAppKitStyler {
             let cell = item.cell as! SubItemCollectionViewCell
             cell.detailLabel.textColor = theme.color(forKey: .redText)
         }, forKey: DemoAppKitStyler.additionalActionStyle)
-
     }
 
 }
 
+extension DemoAppKitStyler {
 
+    public static let detailLinkStyle = "detailLinkStyle"
+    public static let valueLinkStyle = "valueLinkStyle"
+    public static let summaryRequiredStyle = "summaryRequiredStyle"
+    public static let associationStyle = "associationStyle"
+    public static let eventEntityStyle = "eventEntityStyle"
+    public static let additionalActionStyle = "additionalActionStyle"
+
+}

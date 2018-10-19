@@ -16,7 +16,7 @@ import UIKit
 open class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
     open var containerViewModel: TasksListContainerViewModel?
-    
+
     /// Other sectioned tasks, used when displaying resources outside our patrol group
     open var otherSections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = []
 
@@ -55,7 +55,7 @@ open class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel
     open func otherSectionTitle() -> String {
         return NSLocalizedString("Other areas", comment: "")
     }
-    
+
     open override func numberOfSections() -> Int {
         return sections.count + otherSections.count
     }

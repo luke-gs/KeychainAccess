@@ -19,7 +19,7 @@ public class AlertSummaryViewController: FormBuilderViewController {
         title = "Alert"
         loadingManager.state = .loaded
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }

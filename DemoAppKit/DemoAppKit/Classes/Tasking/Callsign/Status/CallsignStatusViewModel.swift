@@ -38,9 +38,9 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
     }
-    
+
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
+                       selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
@@ -98,7 +98,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
             return Promise(error: NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: message]))
         }
     }
-    
+
     // Prompts the user for more details when tapping on "Traffic Stop" status
     @discardableResult
     open func promptForTrafficStopDetails() -> Promise<CodableRequestParameters> {
@@ -130,11 +130,11 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
         delegate?.present(BookOnScreen.statusChangeReason(completionHandler: completionHandler))
         return promise
     }
-    
+
     // Prompts the user for finalise details
     @discardableResult
     open func promptForFinaliseDetails() -> Promise<(String, String)> {
-        
+
         let (promise, resolver) = Promise<(String, String)>.pending()
         let completionHandler: ((String?, String?) -> Void) = { (secondaryCode, remark) in
             if let secondaryCode = secondaryCode, let remark = remark {

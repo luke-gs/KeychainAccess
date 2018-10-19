@@ -21,22 +21,22 @@ public extension Entity {
 }
 
 extension AssociatedEntitySummaryDisplayable {
-    
+
     public func associatedSummaryFormItem(style: EntityDisplayStyle) -> BaseFormItem {
         switch style {
-            case .list:
-                return associatedSummaryListFormItem()
-            case .grid:
-                return associatedSummaryFormItem(with: .detail)
+        case .list:
+            return associatedSummaryListFormItem()
+        case .grid:
+            return associatedSummaryFormItem(with: .detail)
         }
     }
-    
+
     public func associatedSummaryListFormItem() -> SummaryListFormItem {
         return summaryListFormItem()
             .styleIdentifier(DemoAppKitStyler.associationStyle)
             .detail(association)
     }
-    
+
     public func associatedSummaryFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
         let formItem = summaryThumbnailFormItem(with: style)
         guard let association = association else { return formItem }

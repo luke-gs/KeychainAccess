@@ -15,7 +15,7 @@ open class CADIncidentCore: Codable, CADIncidentDetailsType {
     // MARK: - Network
 
     open var identifier: String
-    
+
     open var incidentNumber: String
 
     open var secondaryCode: String?
@@ -49,8 +49,7 @@ open class CADIncidentCore: Codable, CADIncidentDetailsType {
     open var status: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId],
-            resource.assignedIncidents.contains(identifier)
-        {
+            resource.assignedIncidents.contains(identifier) {
             if resource.currentIncident == identifier {
                 return CADIncidentStatusCore.current
             } else {
@@ -141,4 +140,3 @@ open class CADIncidentCore: Codable, CADIncidentDetailsType {
     }
 
 }
-

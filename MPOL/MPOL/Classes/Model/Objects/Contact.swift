@@ -25,9 +25,9 @@ open class Contact: NSObject, Serialisable {
             }
         }
     }
-    
+
     public let id: String
-    
+
     open var dateCreated: Date?
     open var dateUpdated: Date?
     open var createdBy: String?
@@ -37,12 +37,12 @@ open class Contact: NSObject, Serialisable {
     open var entityType: String?
     open var isSummary: Bool = false
     open var source: MPOLSource?
-    
+
     open var type: Contact.ContactType?
     open var subType: String?
     open var value: String?
     open var jurisdiction: String?
-    
+
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(id: String = UUID().uuidString) {
@@ -51,15 +51,15 @@ open class Contact: NSObject, Serialisable {
 
         super.init()
     }
-    
+
     public required init(unboxer: Unboxer) throws {
-        
+
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
-        
+
         self.id = id
-        
+
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Contact.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Contact.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -69,14 +69,14 @@ open class Contact: NSObject, Serialisable {
         entityType = unboxer.unbox(key: "entityType")
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
-        
+
         type = unboxer.unbox(key: "type")
         subType = unboxer.unbox(key: "contactSubType")
         value = unboxer.unbox(key: "value")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
         super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
         isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
@@ -103,7 +103,7 @@ open class Contact: NSObject, Serialisable {
         value = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.value.rawValue) as String?
         jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Contact.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
@@ -124,7 +124,7 @@ open class Contact: NSObject, Serialisable {
         aCoder.encode(value, forKey: CodingKey.value.rawValue)
         aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
-    
+
     public static var supportsSecureCoding: Bool {
         return true
     }
@@ -133,7 +133,7 @@ open class Contact: NSObject, Serialisable {
     public static var modelVersion: Int {
         return 0
     }
- 
+
 }
 
 private enum CodingKey: String {

@@ -17,22 +17,22 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     open var compactStatusChangeBar: GlassBarView?
 
     public init(viewModel: TaskItemViewModel) {
-        
+
         detailViewModel = viewModel
-        
+
         super.init(detailViewControllers: detailViewModel.detailViewControllers())
-        
+
         title = "Details"
 
         // Add gesture for tapping icon header
         headerView.isUserInteractionEnabled = true
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStatusChangeButton)))
-        
+
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
         regularSidebarViewController.sidebarTableView?.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        
+
         // Add pencil icon
         let circleImage = AssetManager.shared.image(forKey: .edit)?
             .withCircleBackground(tintColor: .primaryGray,
@@ -40,7 +40,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
                                   style: .fixed(size: CGSize(width: 32, height: 32),
                                                 padding: CGSize(width: 20, height: 20)),
                                   shouldCenterImage: true)
-        
+
         pencilCircleView.layer.shadowRadius = 4
         pencilCircleView.layer.shadowOffset = CGSize(width: 0, height: 2)
         pencilCircleView.layer.shadowColor = UIColor.black.cgColor
@@ -49,22 +49,22 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         pencilCircleView.isUserInteractionEnabled = false
         pencilCircleView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(pencilCircleView)
-        
+
         NSLayoutConstraint.activate([
             pencilCircleView.topAnchor.constraint(equalTo: headerView.iconView.topAnchor, constant: -8),
             pencilCircleView.trailingAnchor.constraint(equalTo: headerView.iconView.trailingAnchor, constant: 8),
             pencilCircleView.heightAnchor.constraint(equalToConstant: 32),
-            pencilCircleView.widthAnchor.constraint(equalTo: pencilCircleView.heightAnchor),
+            pencilCircleView.widthAnchor.constraint(equalTo: pencilCircleView.heightAnchor)
         ])
 
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
@@ -78,7 +78,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         if detailViewModel.taskItemDetails == nil {
             detailViewModel.loadTask().catch { [weak self] error in
                 self?.setLoadingState(.error, error: error)
-                
+
             }
         }
     }
@@ -88,7 +88,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         updateHeaderView()
         configureCompactChangeStatusBar()
     }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateHeaderView()
@@ -122,7 +122,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             headerView.iconView.backgroundColor = color
             headerView.captionLabel.textColor = color
         }
-        
+
         // Hide pencil icon if is compact or view model doesn't allow status changes
         pencilCircleView.isHidden = isCompact() || !detailViewModel.allowChangeResourceStatus()
 
@@ -143,33 +143,33 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             compactStatusChangeBar = nil
             return
         }
-        
+
         if compactStatusChangeBar == nil {
             let compactStatusChangeBar = GlassBarView(blurEffectStyle: .prominent)
             compactStatusChangeBar.translatesAutoresizingMaskIntoConstraints = false
             masterNavController.view.addSubview(compactStatusChangeBar)
-            
+
             NSLayoutConstraint.activate([
                 compactStatusChangeBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 compactStatusChangeBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 compactStatusChangeBar.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-                compactStatusChangeBar.heightAnchor.constraint(equalToConstant: 72),
+                compactStatusChangeBar.heightAnchor.constraint(equalToConstant: 72)
             ])
-            
+
             self.compactStatusChangeBar = compactStatusChangeBar
         }
-        
+
         compactStatusChangeBar?.titleLabel.text = detailViewModel.compactTitle
         compactStatusChangeBar?.subtitleLabel.text = detailViewModel.compactSubtitle
         compactStatusChangeBar?.imageView.image = detailViewModel.iconImage
-        
+
         if detailViewModel.allowChangeResourceStatus() == true {
             compactStatusChangeBar?.addTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         } else {
             compactStatusChangeBar?.removeTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         }
     }
-    
+
     @objc open func callsignChanged() {
         detailViewModel.reloadFromModel()
         configureCompactChangeStatusBar()
@@ -179,7 +179,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     @objc open func didTapStatusChangeButton() {
         detailViewModel.didTapTaskStatus()
     }
-    
+
     @objc open func refreshData() {
 
         detailViewModel.refreshTask().done {
@@ -188,11 +188,11 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
     }
-    
+
     open func setLoadingState(_ state: LoadingStateManager.State) {
         self.setLoadingState(state, error: nil)
     }
-    
+
     open func setLoadingState(_ state: LoadingStateManager.State, error: Error?) {
         DispatchQueue.main.async {
             (self.detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
@@ -201,7 +201,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
                     vc.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
                 }
             }
-            
+
             self.allowDetailSelection = state != .loading
         }
     }

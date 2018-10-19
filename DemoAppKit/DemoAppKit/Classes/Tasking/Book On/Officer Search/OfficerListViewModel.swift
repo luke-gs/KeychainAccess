@@ -14,21 +14,21 @@ public protocol OfficerListViewModelDelegate: class {
 }
 
 public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
-    
+
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
-    
+
     public init() {
         super.init(items: [])
         self.items = viewModelData
         title = navTitle()
     }
-    
+
     public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
         title = navTitle()
     }
-    
+
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
         let vc = OfficerListViewController(viewModel: self)
@@ -39,11 +39,11 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Add Officer", comment: "")
     }
-    
+
     open func sectionTitle() -> String {
         return NSLocalizedString("Recently Used", comment: "")
     }
-    
+
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Officers Found", comment: "")
     }
@@ -57,7 +57,7 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
-    
+
     private lazy var viewModelData: [CustomSearchDisplayable] = {
         let section = sectionTitle().uppercased()
         var result: [CustomSearchDisplayable] = []
@@ -83,4 +83,3 @@ extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
         }
     }
 }
-

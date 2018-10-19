@@ -105,7 +105,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         super.viewWillTransition(to: size, with: coordinator)
 
         // Update card position when view size changes
-        coordinator.animate(alongsideTransition: { (context) in
+        coordinator.animate(alongsideTransition: { (_) in
             self.didFinishDragCardView()
         }, completion: nil)
     }
@@ -126,6 +126,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         let mapViewController = MapViewController()
         addChildViewController(mapViewController, toView: view)
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        mapViewController.mapView.delegate = self
         self.mapViewController = mapViewController
 
         cardView = DraggableCardView(frame: .zero)
@@ -158,7 +159,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             formView.topAnchor.constraint(equalTo: cardView.topAnchor),
             formView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             formView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
-            formView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
+            formView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor)
         ])
 
         // Show both map and form
@@ -186,7 +187,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             cardHeightConstraint!,
-            cardBottomConstraint!,
+            cardBottomConstraint!
         ])
 
     }
@@ -325,7 +326,6 @@ extension EntityLocationInformationViewController: EntityDetailFormViewModelDele
         }
         zoom(to: mapDisplayable, animated: true)
     }
-    
 
     open func updateNoContentDetails(title: String?, subtitle: String? = nil) {
         formViewController.updateNoContentDetails(title: title, subtitle: subtitle)

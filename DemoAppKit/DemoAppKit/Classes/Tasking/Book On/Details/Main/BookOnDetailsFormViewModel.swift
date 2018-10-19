@@ -9,11 +9,13 @@
 import UIKit
 import PromiseKit
 
+// swiftlint:disable class_delegate_protocol
 /// Delegate protocol for updating UI
 public protocol BookOnDetailsFormViewModelDelegate: PopoverPresenter {
     /// Called when did update details
     func didUpdateDetails()
 }
+// swiftlint:enable class_delegate_protocol
 
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
@@ -126,7 +128,7 @@ open class BookOnDetailsFormViewModel {
 
     open func officerDetailsScreen(at index: Int? = nil) -> Presentable {
         let officerViewModel: BookOnDetailsFormContentOfficerViewModel
-        
+
         if let index = index, let existingOfficer = content.officers[ifExists: index] {
             officerViewModel = existingOfficer
         } else {
@@ -135,7 +137,7 @@ open class BookOnDetailsFormViewModel {
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
-    
+
     open func officerSearchScreen() -> Presentable {
         return BookOnScreen.officerList(detailsDelegate: self)
     }
@@ -177,7 +179,7 @@ open class BookOnDetailsFormViewModel {
 extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
     public func didFinishEditing(with officer: BookOnDetailsFormContentOfficerViewModel, shouldSave: Bool) {
         guard shouldSave else { return }
-        
+
         if let index = content.officers.index(of: officer) {
             content.officers[index] = officer
         } else {

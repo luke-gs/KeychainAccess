@@ -26,10 +26,9 @@ open class IncidentListViewModel: IncidentListViewModelType {
         return Array(incidentList.dropFirst())
     }
 
-
     // Incident Unique Identification
-    
-    private var incidentCounts: [String:Int] = [:]
+
+    private var incidentCounts: [String: Int] = [:]
 
     public func addCount(to incident: Incident, count: Int) {
         incidentCounts[incident.id] = count
@@ -122,7 +121,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     func removeIncident(_ incident: Incident) {
         report.event?.entityManager.removeAllRelationships(for: incident)
-        report.incidents = report.incidents.filter {$0 != incident } 
+        report.incidents = report.incidents.filter {$0 != incident }
     }
 
     func add(_ incidents: [String]) {
@@ -138,7 +137,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
                 addCount(to: existingIncidentsOfSameType.first!, count: 1)
             }
             if !existingIncidentsOfSameType.isEmpty {
-                if let trailingNumber = existingIncidentsOfSameType.compactMap({count(for: $0)}).max(){
+                if let trailingNumber = existingIncidentsOfSameType.compactMap({count(for: $0)}).max() {
                     addCount(to: incident, count: trailingNumber + 1)
                 }
             }

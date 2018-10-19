@@ -34,7 +34,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
         guard viewModel.isEditing else { return }
 
         let buttonsView = DialogActionButtonsView(actions: [
-            DialogAction(title: viewModel.terminateButtonText(), handler: { [weak self] (action) in
+            DialogAction(title: viewModel.terminateButtonText(), handler: { [weak self] (_) in
                 self?.terminateShift()
             })
         ])
@@ -190,7 +190,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
             })
 
         // Button to delete officer and reload form
-        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
+        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (_, indexPath) in
             self.viewModel.removeOfficer(at: indexPath.row)
             self.reloadForm()
         })
@@ -205,7 +205,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
                 .height(.fixed(60))
                 .accessory(ItemAccessory.pencil)
                 .editActions(editActions)
-                .onSelection { [unowned self] cell in
+                .onSelection { [unowned self] _ in
                     let screen = self.viewModel.officerDetailsScreen(at: index)
                     self.present(screen)
             }

@@ -1,0 +1,30 @@
+included:
+  - MPOL/Classes
+  - ../DemoAppKit/DemoAppKit/Classes
+  - ../../mPolKit-iOS/CoreKit/CoreKit/Classes
+  - ../../mPolKit-iOS/SketchKit/SketchKit/Classes
+  - ../../mPolKit-iOS/PatternKit/PatternKit/Classes
+  - ../../mPolKit-iOS/PublicSafetyKit/PublicSafetyKit/Classes
+function_body_length:
+  - 150 # warning
+  - 300 # error
+disabled_rules:
+  - block_based_kvo # Prefer the new block based KVO API with keypaths when using Swift 3.2 or later
+  - cyclomatic_complexity # Function should have complexity 10 or less
+  - file_length # File should contain 400 lines or less
+  - for_where # `where` clauses are preferred over a single `if` inside a `for`
+  - force_cast # Force casts should be avoided
+  - force_try # Force tries should be avoided
+  - function_parameter_count # Function should have 5 parameters or less
+  - identifier_name # Variable name should be between 3 and 40 characters long
+  - large_tuple # Tuples should have at most 2 members
+  - line_length # Line should be 120 characters or less
+  - multiple_closures_with_trailing_closure # Trailing closure syntax should not be used when passing more than one closure argument
+  - nesting # Types should be nested at most 1 level deep
+  - operator_whitespace # Operators should be surrounded by a single whitespace when defining them
+  - redundant_string_enum_value # String enum values can be omitted when they are equal to the enumcase name
+  - shorthand_operator # Prefer shorthand operators (+=, -=, *=, /=) over doing the operation and assigning
+  - todo # TODOs should be resolved
+  - type_body_length # Type body should span 200 lines or less excluding comments and whitespace
+  - type_name # Type name should be between 3 and 40 characters lon
+  

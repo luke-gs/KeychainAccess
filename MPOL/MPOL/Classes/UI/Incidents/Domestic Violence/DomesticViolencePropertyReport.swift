@@ -55,7 +55,7 @@ class DomesticViolencePropertyReport: Reportable {
     }
 
     public static var supportsSecureCoding: Bool = true
-    
+
     public required init?(coder aDecoder: NSCoder) {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
         weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
@@ -77,4 +77,3 @@ extension DomesticViolencePropertyReport: Summarisable {
         }
     }
 }
-

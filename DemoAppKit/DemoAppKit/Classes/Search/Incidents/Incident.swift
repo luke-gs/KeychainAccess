@@ -40,7 +40,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         self.id = UUID().uuidString
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return !self.reports.map{$0.evaluator.isComplete}.contains(false)
+            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }
 
@@ -61,7 +61,6 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
     }
 
-
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: Coding.id.rawValue)
         aCoder.encode(incidentType.rawValue, forKey: Coding.incidentType.rawValue)
@@ -69,7 +68,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
     }
 
-    //MARK: Utility
+    // MARK: Utility
 
     public func add(reports: [IncidentReportable]) {
         self.reports.append(contentsOf: reports)
@@ -80,10 +79,10 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     }
 
     public func reportable(for reportableType: AnyClass) -> IncidentReportable? {
-        return reports.filter{type(of: $0) == reportableType}.first
+        return reports.filter {type(of: $0) == reportableType}.first
     }
 
-    //MARK: Evaluation
+    // MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         allValid = reports.reduce(true, { result, report in
@@ -133,4 +132,3 @@ public protocol IncidentScreenBuilding {
     /// - Returns: An array of viewController constucted for the reports
     func viewControllers(for reportables: [IncidentReportable]) -> [UIViewController]
 }
-

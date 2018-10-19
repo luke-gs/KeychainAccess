@@ -57,4 +57,3 @@ extension ActionReportable {
         return weakAdditionalAction.object
     }
 }
-

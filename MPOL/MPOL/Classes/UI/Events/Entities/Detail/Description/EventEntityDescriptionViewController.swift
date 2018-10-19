@@ -39,7 +39,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
     override func construct(builder: FormBuilder) {
 
         let displayable = viewModel.displayable()
-        
+
         builder += SummaryDetailFormItem()
             .category(displayable.category)
             .title(displayable.title)
@@ -56,4 +56,3 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 }
-
