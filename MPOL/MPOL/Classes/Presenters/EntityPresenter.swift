@@ -46,9 +46,9 @@ public class EntityPresenter: Presenter {
                 let strat2 = PersonRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = PersonRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entitySelectionViewModel: EntitySummarySelectionViewModel())
 
                 let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
                                                             initialSource: entity.source!,
@@ -67,9 +67,9 @@ public class EntityPresenter: Presenter {
                 let strat2 = VehicleRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = VehicleRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entitySelectionViewModel: EntitySummarySelectionViewModel())
 
                 let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
                                                             initialSource: entity.source!,
@@ -87,9 +87,9 @@ public class EntityPresenter: Presenter {
                 let strat2 = OrganisationRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = OrganisationRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entitySelectionViewModel: EntitySummarySelectionViewModel())
 
                 let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
                                                        initialSource: entity.source!,
