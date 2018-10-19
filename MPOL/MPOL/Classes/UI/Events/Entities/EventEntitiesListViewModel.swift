@@ -41,6 +41,10 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
+        case is Organisation:
+            return OrganisationSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("Entity is Not a valid Type")
         }

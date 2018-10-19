@@ -16,9 +16,7 @@ class DefaultEntityPickerViewModel: EntityPickerViewModel {
 
     public init() {
         headerTitle = "Recently Viewed"
-        entities = UserSession.current.recentlyViewed.entities.filter {
-            return $0 is Person || $0 is Vehicle || $0 is Organisation
-        }
+        entities = UserSession.current.recentlyViewed.entities
     }
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
@@ -29,6 +27,8 @@ class DefaultEntityPickerViewModel: EntityPickerViewModel {
             return VehicleSummaryDisplayable(entity)
         case is Organisation:
             return OrganisationSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("No Displayable for Entity Type")
         }

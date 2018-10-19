@@ -30,6 +30,8 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
             return VehicleSummaryDisplayable(entity)
         case is Organisation:
             return OrganisationSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("No valid displayable for entity: \(entity.id)")
         }
