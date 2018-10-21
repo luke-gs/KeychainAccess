@@ -779,6 +779,7 @@
 		2004A74921645C0100B17C59 /* Location Selection */ = {
 			isa = PBXGroup;
 			children = (
+				96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */,
 				2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */,
 				2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */,
 			);
@@ -879,14 +880,6 @@
 				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		96300ED82163207B00CF3B6F /* Location */ = {
-			isa = PBXGroup;
-			children = (
-				96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */,
-			);
-			path = Location;
 			sourceTree = "<group>";
 		};
 		963E5B062179831A00BC2415 /* Tasking */ = {
@@ -1203,7 +1196,6 @@
 		96B7758B2141E66200836B83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				96300ED82163207B00CF3B6F /* Location */,
 				2004A74921645C0100B17C59 /* Location Selection */,
 				207A0FFD21632FD400153AC3 /* Theme */,
 				96B774BB2140F8EE00836B83 /* Entity Creation */,
