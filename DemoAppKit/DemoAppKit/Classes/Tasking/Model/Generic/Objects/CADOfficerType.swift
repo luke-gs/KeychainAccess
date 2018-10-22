@@ -14,12 +14,12 @@ public protocol CADOfficerType: class {
     // MARK: - Network
     var capabilities: [String] { get set }
     var contactNumber: String? { get set }
-    var firstName: String? { get set }
-    var lastName: String? { get set }
+    var givenName: String? { get set }
+    var familyName: String? { get set }
     var licenceTypeId: String? { get set }
-    var middleName: String? { get set }
+    var middleNames: String? { get set }
     var patrolGroup: String? { get set }
-    var payrollId: String { get set }
+    var employeeNumber: String { get set }
     var radioId: String? { get set }
     var rank: String? { get set }
     var remarks: String? { get set }
