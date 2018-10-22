@@ -11,26 +11,27 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLOfficer)
-open class Officer: MPOLKitEntity, Identifiable {
+open class Officer: MPOLKitEntity, Identifiable, Codable {
 
     override open class var serverTypeRepresentation: String {
         return "officer"
     }
 
-    enum CodingKey: String {
+    private enum CodingKeys: String, CodingKey {
         case givenName
         case familyName
         case middleNames
         case rank
         case region
         case employeeNumber
+        case id
     }
 
     open var givenName: String?
     open var familyName: String?
     open var middleNames: String?
     open var rank: String?
-    open var employeeNumber: String?
+    open var employeeNumber: String = ""
     open var region: String?
 
     // TODO: Proper Involvements
@@ -43,33 +44,61 @@ open class Officer: MPOLKitEntity, Identifiable {
     public required init(unboxer: Unboxer) throws {
         do { try super.init(unboxer: unboxer) }
 
-        givenName = unboxer.unbox(key: CodingKey.givenName.rawValue)
-        middleNames = unboxer.unbox(key: CodingKey.middleNames.rawValue)
-        familyName = unboxer.unbox(key: CodingKey.familyName.rawValue)
-        rank = unboxer.unbox(key: CodingKey.rank.rawValue)
-        employeeNumber = unboxer.unbox(key: CodingKey.employeeNumber.rawValue)
-        region = unboxer.unbox(key: CodingKey.region.rawValue)
+        givenName = unboxer.unbox(key: CodingKeys.givenName.rawValue)
+        middleNames = unboxer.unbox(key: CodingKeys.middleNames.rawValue)
+        familyName = unboxer.unbox(key: CodingKeys.familyName.rawValue)
+        rank = unboxer.unbox(key: CodingKeys.rank.rawValue)
+        employeeNumber = try! unboxer.unbox(key: CodingKeys.employeeNumber.rawValue)
+        region = unboxer.unbox(key: CodingKeys.region.rawValue)
 
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        givenName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.givenName.rawValue) as String?
-        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.middleNames.rawValue) as String?
-        familyName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.familyName.rawValue) as String?
-        rank = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.rank.rawValue) as String?
-        employeeNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.employeeNumber.rawValue) as String?
-        region = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.region.rawValue) as String?
+        givenName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.givenName.rawValue) as String?
+        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.middleNames.rawValue) as String?
+        familyName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.familyName.rawValue) as String?
+        rank = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.rank.rawValue) as String?
+        employeeNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.employeeNumber.rawValue) as String? ?? ""
+        region = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.region.rawValue) as String?
     }
 
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        aCoder.encode(givenName, forKey: CodingKey.givenName.rawValue)
-        aCoder.encode(middleNames, forKey: CodingKey.middleNames.rawValue)
-        aCoder.encode(familyName, forKey: CodingKey.familyName.rawValue)
-        aCoder.encode(rank, forKey: CodingKey.rank.rawValue)
-        aCoder.encode(employeeNumber, forKey: CodingKey.employeeNumber.rawValue)
-        aCoder.encode(region, forKey: CodingKey.region.rawValue)
+        aCoder.encode(givenName, forKey: CodingKeys.givenName.rawValue)
+        aCoder.encode(middleNames, forKey: CodingKeys.middleNames.rawValue)
+        aCoder.encode(familyName, forKey: CodingKeys.familyName.rawValue)
+        aCoder.encode(rank, forKey: CodingKeys.rank.rawValue)
+        aCoder.encode(employeeNumber, forKey: CodingKeys.employeeNumber.rawValue)
+        aCoder.encode(region, forKey: CodingKeys.region.rawValue)
+    }
+
+    public required init(from decoder: Decoder) throws {
+
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        let id = try values.decodeIfPresent(String.self, forKey: .id) ?? UUID().uuidString
+        super.init(id: id)
+        
+        givenName = try values.decodeIfPresent(String.self, forKey: .givenName)
+        familyName = try values.decodeIfPresent(String.self, forKey: .familyName)
+        middleNames = try values.decodeIfPresent(String.self, forKey: .middleNames)
+        rank = try values.decodeIfPresent(String.self, forKey: .rank)
+        region = try values.decodeIfPresent(String.self, forKey: .region)
+        employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber) ?? "" 
+    }
+
+    open func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encodeIfPresent(givenName, forKey: .givenName)
+        try container.encodeIfPresent(familyName, forKey: .familyName)
+        try container.encodeIfPresent(middleNames, forKey: .middleNames)
+        try container.encodeIfPresent(rank, forKey: .rank)
+        try container.encodeIfPresent(region, forKey: .region)
+        try container.encodeIfPresent(employeeNumber, forKey: .employeeNumber)
+        try container.encodeIfPresent(id, forKey: .id)
     }
 
     // MARK: - Equality
