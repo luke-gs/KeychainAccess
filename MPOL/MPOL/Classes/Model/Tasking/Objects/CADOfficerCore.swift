@@ -143,7 +143,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
 
     open override func encode(to encoder: Encoder) throws {
 
-        do { try super.encode(to: encoder) }
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         if capabilities.count > 0 {
