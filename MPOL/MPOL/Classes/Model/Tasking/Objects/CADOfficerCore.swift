@@ -103,7 +103,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
     public required init(unboxer: Unboxer) throws {
         do { try super.init(unboxer: unboxer) }
 
-        capabilities = try! unboxer.unbox(key: CodingKeys.capabilities.rawValue)
+        capabilities = unboxer.unbox(key: CodingKeys.capabilities.rawValue) ?? []
         contactNumber = unboxer.unbox(key: CodingKeys.contactNumber.rawValue)
         licenceTypeId = unboxer.unbox(key: CodingKeys.licenceTypeId.rawValue)
         patrolGroup = unboxer.unbox(key: CodingKeys.patrolGroup.rawValue)

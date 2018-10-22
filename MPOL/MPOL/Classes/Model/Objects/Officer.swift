@@ -48,7 +48,7 @@ open class Officer: MPOLKitEntity, Identifiable, Codable {
         middleNames = unboxer.unbox(key: CodingKeys.middleNames.rawValue)
         familyName = unboxer.unbox(key: CodingKeys.familyName.rawValue)
         rank = unboxer.unbox(key: CodingKeys.rank.rawValue)
-        employeeNumber = try! unboxer.unbox(key: CodingKeys.employeeNumber.rawValue)
+        employeeNumber = unboxer.unbox(key: CodingKeys.employeeNumber.rawValue) ?? ""
         region = unboxer.unbox(key: CodingKeys.region.rawValue)
 
     }
