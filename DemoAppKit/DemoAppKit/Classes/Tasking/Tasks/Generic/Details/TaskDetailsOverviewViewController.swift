@@ -151,10 +151,10 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
         formView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
             formCollectionView.topAnchor.constraint(equalTo: formView.topAnchor),
             formCollectionView.leadingAnchor.constraint(equalTo: formView.leadingAnchor),
@@ -171,7 +171,7 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
             cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
-            cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: contentView.safeAreaOrFallbackBottomAnchor)
+            cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor)
             mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
 
             // Remove existing constraints for map controls by re-adding to view hierarchy
@@ -186,8 +186,8 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
                 mapCenterYConstraint!,
 
                 // Position map controls relative to our view, not map view which might be off screen
-                mapViewController.mapControlView.topAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTopAnchor, constant: 16),
-                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTrailingAnchor, constant: -16),
+                mapViewController.mapControlView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
+                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
 
                 // Position card view at bottom
                 cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -198,10 +198,10 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
         } else {
             // Show just form
             NSLayoutConstraint.activate([
-                cardView.topAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTopAnchor),
+                cardView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
                 cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                cardView.bottomAnchor.constraint(equalTo: contentView.safeAreaOrFallbackBottomAnchor),
+                cardView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
                 cardView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
             ])
         }
