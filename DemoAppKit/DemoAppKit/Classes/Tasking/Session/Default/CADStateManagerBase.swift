@@ -279,12 +279,12 @@ open class CADStateManagerBase: CADStateManagerType {
             }
             officersById.removeAll()
             for officer in syncDetails.officers {
-                officersById[officer.payrollId] = officer
+                officersById[officer.employeeNumber] = officer
             }
 
             // Make sure logged in officer is in cache too
             if let officerDetails = officerDetails {
-                officersById[officerDetails.payrollId] = officerDetails
+                officersById[officerDetails.employeeNumber] = officerDetails
             }
         }
     }

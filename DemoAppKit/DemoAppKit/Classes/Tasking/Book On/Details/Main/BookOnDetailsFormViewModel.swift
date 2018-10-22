@@ -70,7 +70,7 @@ open class BookOnDetailsFormViewModel {
             // Always make sure we are first officer in list when booking on
             if let loggedInOfficer = CADStateManager.shared.officerDetails {
                 // Remove existing
-                if let index = resource.payrollIds.index(of: loggedInOfficer.payrollId) {
+                if let index = resource.payrollIds.index(of: loggedInOfficer.employeeNumber) {
                     content.officers.remove(at: index)
                 }
                 // Insert latest officer details at first position

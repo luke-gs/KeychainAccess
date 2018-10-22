@@ -43,7 +43,7 @@ open class BookOnDetailsFormContentMainViewModel {
 
         // Create the officers, setting is driver based on driverpayrollId
         self.officers = request.employees.map { officer in
-            let isDriver = officer.payrollId == request.driverEmployeeNumber
+            let isDriver = officer.employeeNumber == request.driverEmployeeNumber
             return BookOnDetailsFormContentOfficerViewModel(
                 withModel: officer, initial: false, isDriver: isDriver)
         }

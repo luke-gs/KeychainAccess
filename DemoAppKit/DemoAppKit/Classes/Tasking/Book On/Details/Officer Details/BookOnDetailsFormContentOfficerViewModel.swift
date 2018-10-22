@@ -80,7 +80,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     public init(withModel officer: CADOfficerType, initial: Bool, isDriver: Bool = false) {
         self.title = officer.displayName
         self.rank = officer.rank
-        self.officerId = officer.payrollId
+        self.officerId = officer.employeeNumber
         self.isDriver = isDriver
         self.initials = officer.initials
         self.radioId = officer.radioId

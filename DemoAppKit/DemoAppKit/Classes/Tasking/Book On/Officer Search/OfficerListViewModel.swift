@@ -62,7 +62,7 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
         let section = sectionTitle().uppercased()
         var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
-            let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
+            let viewModel = OfficerListItemViewModel(firstName: officer.givenName, lastName: officer.familyName, initials: officer.initials, rank: officer.rank, callsign: officer.employeeNumber, section: section)
             result.append(viewModel)
         }
         return result
