@@ -136,7 +136,7 @@ open class Address: Entity {
         commonName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.commonName.rawValue) as String?
         fullAddress = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.fullAddress.rawValue) as String?
     }
-
+    
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
@@ -163,6 +163,15 @@ open class Address: Entity {
         aCoder.encode(postcode, forKey: CodingKeys.postcode.rawValue)
         aCoder.encode(commonName, forKey: CodingKeys.commonName.rawValue)
         aCoder.encode(fullAddress, forKey: CodingKeys.fullAddress.rawValue)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 
     open override class var localizedDisplayName: String {

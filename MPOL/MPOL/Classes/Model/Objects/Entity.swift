@@ -133,7 +133,7 @@ open class Entity: MPOLKitEntity {
             associatedAlertLevel = level
         }
     }
-
+    
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
@@ -171,6 +171,15 @@ open class Entity: MPOLKitEntity {
         }
 
         aCoder.encode(type(of: self).modelVersion, forKey: MPLArchiveModelVersionKey)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 
     // MARK: - Model Versionable

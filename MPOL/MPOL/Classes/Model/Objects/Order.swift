@@ -49,6 +49,15 @@ open class Order: Entity {
         aCoder.encode(issuedDate, forKey: CodingKeys.issuedDate.rawValue)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+
     override open class var modelVersion: Int {
         return 1
     }

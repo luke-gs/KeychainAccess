@@ -11,7 +11,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLOfficer)
-open class Officer: MPOLKitEntity, Identifiable, Codable {
+open class Officer: MPOLKitEntity, Identifiable {
 
     override open class var serverTypeRepresentation: String {
         return "officer"
@@ -24,7 +24,6 @@ open class Officer: MPOLKitEntity, Identifiable, Codable {
         case rank
         case region
         case employeeNumber
-        case id
     }
 
     open var givenName: String?
@@ -42,18 +41,18 @@ open class Officer: MPOLKitEntity, Identifiable, Codable {
     }
 
     public required init(unboxer: Unboxer) throws {
-        do { try super.init(unboxer: unboxer) }
 
+        do { try super.init(unboxer: unboxer) }
         givenName = unboxer.unbox(key: CodingKeys.givenName.rawValue)
         middleNames = unboxer.unbox(key: CodingKeys.middleNames.rawValue)
         familyName = unboxer.unbox(key: CodingKeys.familyName.rawValue)
         rank = unboxer.unbox(key: CodingKeys.rank.rawValue)
         employeeNumber = unboxer.unbox(key: CodingKeys.employeeNumber.rawValue) ?? ""
         region = unboxer.unbox(key: CodingKeys.region.rawValue)
-
     }
 
     public required init?(coder aDecoder: NSCoder) {
+
         super.init(coder: aDecoder)
         givenName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.givenName.rawValue) as String?
         middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.middleNames.rawValue) as String?
@@ -75,21 +74,20 @@ open class Officer: MPOLKitEntity, Identifiable, Codable {
 
     public required init(from decoder: Decoder) throws {
 
+        do { try super.init(from: decoder) }
         let values = try decoder.container(keyedBy: CodingKeys.self)
-
-        let id = try values.decodeIfPresent(String.self, forKey: .id) ?? UUID().uuidString
-        super.init(id: id)
         
         givenName = try values.decodeIfPresent(String.self, forKey: .givenName)
         familyName = try values.decodeIfPresent(String.self, forKey: .familyName)
         middleNames = try values.decodeIfPresent(String.self, forKey: .middleNames)
         rank = try values.decodeIfPresent(String.self, forKey: .rank)
         region = try values.decodeIfPresent(String.self, forKey: .region)
-        employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber) ?? "" 
+        employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber) ?? ""
     }
 
-    open func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
 
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encodeIfPresent(givenName, forKey: .givenName)
@@ -98,7 +96,6 @@ open class Officer: MPOLKitEntity, Identifiable, Codable {
         try container.encodeIfPresent(rank, forKey: .rank)
         try container.encodeIfPresent(region, forKey: .region)
         try container.encodeIfPresent(employeeNumber, forKey: .employeeNumber)
-        try container.encodeIfPresent(id, forKey: .id)
     }
 
     // MARK: - Equality

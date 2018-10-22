@@ -163,7 +163,7 @@ open class Person: Entity, Identifiable {
         offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
         trafficHistory = unboxer.unbox(key: Coding.trafficHistory.rawValue)
     }
-
+    
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(givenName, forKey: Coding.givenName.rawValue)
@@ -184,6 +184,15 @@ open class Person: Entity, Identifiable {
         aCoder.encode(offenderCharges, forKey: Coding.offenderCharges.rawValue)
         aCoder.encode(offenderConvictions, forKey: Coding.offenderConvictions.rawValue)
         aCoder.encode(trafficHistory, forKey: Coding.trafficHistory.rawValue)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 
     // MARK: - Model Versionable

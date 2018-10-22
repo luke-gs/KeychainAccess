@@ -35,7 +35,7 @@ open class CriminalHistory: Entity {
 
         super.init(coder: aDecoder)
     }
-
+    
     override open func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
@@ -44,6 +44,15 @@ open class CriminalHistory: Entity {
         aCoder.encode(occurredDate, forKey: CodingKeys.occurredDate.rawValue)
         aCoder.encode(courtName, forKey: CodingKeys.courtName.rawValue)
 
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 
     override open class var modelVersion: Int {
@@ -71,7 +80,16 @@ open class OffenderCharge: CriminalHistory {
         nextCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.nextCourtDate.rawValue) as Date?
         super.init(coder: aDecoder)
     }
+    
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
 
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case nextCourtDate
     }
@@ -90,7 +108,16 @@ open class OffenderConviction: CriminalHistory {
         finalCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.finalCourtDate.rawValue) as Date?
         super.init(coder: aDecoder)
     }
+    
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
 
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case finalCourtDate
     }

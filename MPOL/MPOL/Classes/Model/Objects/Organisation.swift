@@ -66,7 +66,7 @@ open class Organisation: Entity {
         tradingAs = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.tradingAs.rawValue) as String?
         aliases = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.aliases.rawValue) as? [OrganisationAlias]
     }
-
+    
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
@@ -76,5 +76,14 @@ open class Organisation: Entity {
         aCoder.encode(type, forKey: CodingKeys.type.rawValue)
         aCoder.encode(tradingAs, forKey: CodingKeys.tradingAs.rawValue)
         aCoder.encode(aliases, forKey: CodingKeys.aliases.rawValue)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 }
