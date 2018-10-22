@@ -34,6 +34,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
     open var displayName: String {
         var nameComponents = PersonNameComponents()
         nameComponents.givenName = givenName
+        nameComponents.middleName = middleNames
         nameComponents.familyName = familyName
         return CADOfficerCore.nameFormatter.string(from: nameComponents)
     }
