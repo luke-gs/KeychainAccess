@@ -66,7 +66,7 @@ open class Organisation: Entity {
         tradingAs = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.tradingAs.rawValue) as String?
         aliases = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.aliases.rawValue) as? [OrganisationAlias]
     }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 

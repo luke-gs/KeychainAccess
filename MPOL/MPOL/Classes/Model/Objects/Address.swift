@@ -136,7 +136,7 @@ open class Address: Entity {
         commonName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.commonName.rawValue) as String?
         fullAddress = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.fullAddress.rawValue) as String?
     }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 

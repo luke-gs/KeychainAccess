@@ -76,7 +76,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
         viewController.didSelectIncident = { [weak self] incident in
             self?.show(with: incident)
         }
-        
+
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.wantsTransparentBackground = false
         navigationController.modalPresentationStyle = .formSheet

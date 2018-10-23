@@ -233,7 +233,7 @@ open class Vehicle: Entity {
         remarks = unboxer.unbox(key: "remarks")
         isPlate = unboxer.unbox(key: "isPlate")
     }
-    
+
     // TODO: support codable
     required public init(from decoder: Decoder) throws {
         MPLUnimplemented()

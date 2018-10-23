@@ -37,7 +37,7 @@ open class RetrievedEvent: Entity {
         eventDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.eventDescription.rawValue) as String?
         occurredDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.occurred.rawValue) as Date?
     }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 

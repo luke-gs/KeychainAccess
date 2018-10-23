@@ -163,7 +163,7 @@ open class Person: Entity, Identifiable {
         offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
         trafficHistory = unboxer.unbox(key: Coding.trafficHistory.rawValue)
     }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(givenName, forKey: Coding.givenName.rawValue)

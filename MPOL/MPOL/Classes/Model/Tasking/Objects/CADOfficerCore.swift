@@ -129,7 +129,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
 
     public required init(from decoder: Decoder) throws {
 
-        try super.init(from: decoder) 
+        try super.init(from: decoder)
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
         capabilities = try values.decodeIfPresent([String].self, forKey: .capabilities) ?? []

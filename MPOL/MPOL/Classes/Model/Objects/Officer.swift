@@ -87,7 +87,7 @@ open class Officer: MPOLKitEntity, Identifiable {
         region = try values.decodeIfPresent(String.self, forKey: .region)
         employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber) ?? ""
 
-        try super.init(from: decoder) 
+        try super.init(from: decoder)
     }
 
     open override func encode(to encoder: Encoder) throws {

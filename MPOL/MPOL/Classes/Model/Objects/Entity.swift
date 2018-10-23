@@ -133,7 +133,7 @@ open class Entity: MPOLKitEntity {
             associatedAlertLevel = level
         }
     }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 

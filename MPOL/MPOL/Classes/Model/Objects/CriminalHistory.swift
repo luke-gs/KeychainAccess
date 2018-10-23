@@ -35,7 +35,7 @@ open class CriminalHistory: Entity {
 
         super.init(coder: aDecoder)
     }
-    
+
     override open func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
@@ -76,12 +76,12 @@ open class OffenderCharge: CriminalHistory {
         nextCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.nextCourtDate.rawValue) as Date?
         super.init(coder: aDecoder)
     }
-    
+
     // TODO: support codable
     required public init(from decoder: Decoder) throws {
         MPLUnimplemented()
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case nextCourtDate
     }
@@ -100,12 +100,12 @@ open class OffenderConviction: CriminalHistory {
         finalCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.finalCourtDate.rawValue) as Date?
         super.init(coder: aDecoder)
     }
-    
+
     // TODO: support codable
     required public init(from decoder: Decoder) throws {
         MPLUnimplemented()
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case finalCourtDate
     }
