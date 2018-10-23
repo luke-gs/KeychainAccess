@@ -102,7 +102,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
     }
 
     public required init(unboxer: Unboxer) throws {
-        do { try super.init(unboxer: unboxer) }
+        try super.init(unboxer: unboxer)
 
         capabilities = unboxer.unbox(key: CodingKeys.capabilities.rawValue) ?? []
         contactNumber = unboxer.unbox(key: CodingKeys.contactNumber.rawValue)
@@ -129,7 +129,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
 
     public required init(from decoder: Decoder) throws {
 
-        do { try super.init(from: decoder) }
+        try super.init(from: decoder) 
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
         capabilities = try values.decodeIfPresent([String].self, forKey: .capabilities) ?? []

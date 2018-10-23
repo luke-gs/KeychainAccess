@@ -50,7 +50,7 @@ open class Officer: MPOLKitEntity, Identifiable {
         employeeNumber = unboxer.unbox(key: CodingKeys.employeeNumber.rawValue) ?? ""
         region = unboxer.unbox(key: CodingKeys.region.rawValue)
 
-        do { try super.init(unboxer: unboxer) }
+        try super.init(unboxer: unboxer)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -87,7 +87,7 @@ open class Officer: MPOLKitEntity, Identifiable {
         region = try values.decodeIfPresent(String.self, forKey: .region)
         employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber) ?? ""
 
-        do { try super.init(from: decoder) }
+        try super.init(from: decoder) 
     }
 
     open override func encode(to encoder: Encoder) throws {
