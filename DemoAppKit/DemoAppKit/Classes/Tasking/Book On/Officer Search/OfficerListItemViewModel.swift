@@ -10,13 +10,15 @@ import UIKit
 
 public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
+    public var id: String
     public var firstName: String?
     public var lastName: String?
     public var initials: String?
     public var rank: String?
     public var callsign: String?
 
-    public init(firstName: String?, lastName: String?, initials: String?, rank: String?, callsign: String?, section: String?) {
+    public init(id: String, firstName: String?, lastName: String?, initials: String?, rank: String?, callsign: String?, section: String?) {
+        self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.initials = initials

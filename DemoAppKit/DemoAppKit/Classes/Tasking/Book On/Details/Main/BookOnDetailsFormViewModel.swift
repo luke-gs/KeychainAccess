@@ -126,13 +126,13 @@ open class BookOnDetailsFormViewModel {
         return CADStateManager.shared.bookOn(request: bookOnRequest)
     }
 
-    open func officerDetailsScreen(at index: Int? = nil) -> Presentable {
+    open func officerDetailsScreen(at index: Int? = nil, withId id: String) -> Presentable {
         let officerViewModel: BookOnDetailsFormContentOfficerViewModel
 
         if let index = index, let existingOfficer = content.officers[ifExists: index] {
             officerViewModel = existingOfficer
         } else {
-            officerViewModel = BookOnDetailsFormContentOfficerViewModel()
+            officerViewModel = BookOnDetailsFormContentOfficerViewModel(officerId: id)
         }
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)

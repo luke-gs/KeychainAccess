@@ -46,7 +46,7 @@ open class CADOfficerCore: Officer, CADOfficerType {
     }()
 
     open var payrollIdDisplayString: String {
-        return "#\(employeeNumber)"
+        return "#\(employeeNumber ?? "Unknown")"
     }
 
     open var initials: String? {

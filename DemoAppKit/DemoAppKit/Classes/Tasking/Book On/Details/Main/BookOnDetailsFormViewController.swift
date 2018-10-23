@@ -206,7 +206,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
                 .accessory(ItemAccessory.pencil)
                 .editActions(editActions)
                 .onSelection { [unowned self] _ in
-                    let screen = self.viewModel.officerDetailsScreen(at: index)
+                    let screen = self.viewModel.officerDetailsScreen(at: index, withId: officer.officerId)
                     self.present(screen)
             }
         }
