@@ -12,6 +12,7 @@ import Foundation
 public protocol CADOfficerType: class {
 
     // MARK: - Network
+    var id: String { get }
     var capabilities: [String] { get set }
     var contactNumber: String? { get set }
     var givenName: String? { get set }
@@ -33,7 +34,7 @@ public protocol CADOfficerType: class {
     // MARK: - Init
 
     /// Default constructor
-    init()
+    init(id: String)
 
     /// Copy constructor
     init(officer: CADOfficerType)

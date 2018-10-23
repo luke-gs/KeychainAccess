@@ -59,13 +59,13 @@ open class CADOfficerCore: Officer, CADOfficerType {
     // MARK: - Init
 
     /// Default constructor
-    required public init() {
-        super.init()
+    required public override init(id: String) {
+        super.init(id: id)
     }
 
     /// Copy constructor
     public required init(officer: CADOfficerType) {
-        super.init()
+        super.init(id: officer.id)
         self.capabilities = officer.capabilities
         self.contactNumber = officer.contactNumber
         self.givenName = officer.givenName
