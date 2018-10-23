@@ -20,7 +20,7 @@ public protocol CADOfficerType: class {
     var licenceTypeId: String? { get set }
     var middleNames: String? { get set }
     var patrolGroup: String? { get set }
-    var employeeNumber: String { get set }
+    var employeeNumber: String? { get set }
     var radioId: String? { get set }
     var rank: String? { get set }
     var remarks: String? { get set }

@@ -30,14 +30,13 @@ open class Officer: MPOLKitEntity, Identifiable {
     open var familyName: String?
     open var middleNames: String?
     open var rank: String?
-    open var employeeNumber: String
+    open var employeeNumber: String?
     open var region: String?
 
     // TODO: Proper Involvements
     open var involvements: [String] = []
 
     public override init(id: String) {
-        employeeNumber = ""
         super.init(id: id)
     }
 
@@ -47,7 +46,7 @@ open class Officer: MPOLKitEntity, Identifiable {
         middleNames = unboxer.unbox(key: CodingKeys.middleNames.rawValue)
         familyName = unboxer.unbox(key: CodingKeys.familyName.rawValue)
         rank = unboxer.unbox(key: CodingKeys.rank.rawValue)
-        employeeNumber = unboxer.unbox(key: CodingKeys.employeeNumber.rawValue) ?? ""
+        employeeNumber = unboxer.unbox(key: CodingKeys.employeeNumber.rawValue)
         region = unboxer.unbox(key: CodingKeys.region.rawValue)
 
         try super.init(unboxer: unboxer)
@@ -59,7 +58,7 @@ open class Officer: MPOLKitEntity, Identifiable {
         middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.middleNames.rawValue) as String?
         familyName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.familyName.rawValue) as String?
         rank = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.rank.rawValue) as String?
-        employeeNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.employeeNumber.rawValue) as String? ?? ""
+        employeeNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.employeeNumber.rawValue) as String?
         region = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.region.rawValue) as String?
 
         super.init(coder: aDecoder)
@@ -85,7 +84,7 @@ open class Officer: MPOLKitEntity, Identifiable {
         middleNames = try values.decodeIfPresent(String.self, forKey: .middleNames)
         rank = try values.decodeIfPresent(String.self, forKey: .rank)
         region = try values.decodeIfPresent(String.self, forKey: .region)
-        employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber) ?? ""
+        employeeNumber = try values.decodeIfPresent(String.self, forKey: .employeeNumber)
 
         try super.init(from: decoder)
     }

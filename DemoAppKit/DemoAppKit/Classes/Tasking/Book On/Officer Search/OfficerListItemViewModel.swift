@@ -14,9 +14,9 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
     public var lastName: String?
     public var initials: String?
     public var rank: String?
-    public var callsign: String
+    public var callsign: String?
 
-    public init(firstName: String?, lastName: String?, initials: String?, rank: String?, callsign: String, section: String?) {
+    public init(firstName: String?, lastName: String?, initials: String?, rank: String?, callsign: String?, section: String?) {
         self.firstName = firstName
         self.lastName = lastName
         self.initials = initials
@@ -32,7 +32,8 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
     }
 
     public var subtitle: String? {
-        return [rank, "#\(callsign)"].joined(separator: ThemeConstants.dividerSeparator)
+
+        return [rank, "#\(callsign ?? "Unknown")"].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     public var section: String?
@@ -51,9 +52,9 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
         let matchesFirstName = firstName?.lowercased().hasPrefix(searchStringLowercase)
         let matchesLastName = lastName?.lowercased().hasPrefix(searchStringLowercase)
-        let matchesCallsign = callsign.lowercased().hasPrefix(searchStringLowercase)
+        let matchesCallsign = callsign?.lowercased().hasPrefix(searchStringLowercase)
 
-        return matchesFirstName.isTrue || matchesLastName.isTrue || matchesCallsign
+        return matchesFirstName.isTrue || matchesLastName.isTrue || matchesCallsign.isTrue
     }
 
 }
