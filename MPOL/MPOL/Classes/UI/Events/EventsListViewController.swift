@@ -49,8 +49,10 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
         builder.enforceLinearLayout = .always
         
         guard let eventsList = viewModel.eventsList else { return }
-        
-        builder += HeaderFormItem(text: "\(eventsList.count) CURRENT EVENT\(eventsList.count == 1 ? "" : "S")")
+
+        builder += LargeTextHeaderFormItem(text: "Draft (\(eventsList.count))")
+            .separatorColor(.clear)
+            .style(.collapsible)
 
         builder += eventsList.map { displayable in
             let title = displayable.title ?? "Blank"

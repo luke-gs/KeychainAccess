@@ -37,9 +37,15 @@ public class EventsListViewModel {
         return eventsManager.event(for: displayable.eventId)
     }
 
-    func subtitle(for displayable: EventListDisplayable) -> String {
-        let eval = event(for: displayable)?.evaluator.isComplete ?? false
-        return eval ? "READY TO SUBMIT" : "IN PROGRESS"
+    func subtitle(for displayable: EventListDisplayable) -> String? {
+        //TODO: Calculate time here
+        if let event = event(for: displayable) {
+            if let locationReport = event.reports.first(where: {$0 is DefaultLocationReport}) {
+                return event.creationDateString + "\n" + ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
+            }
+        }
+
+        return nil
     }
 
     func image(for displayable: EventListDisplayable) -> UIImage {

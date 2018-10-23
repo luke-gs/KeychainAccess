@@ -5,6 +5,8 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+import PatternKit
+
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
@@ -18,6 +20,15 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
+    private let creationDate: Date
+
+    public var creationDateString: String {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "dd/MM"
+        let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
+        return customFormatter.string(from: creationDate)
+    }
 
     private(set) public var reports: [EventReportable] = [EventReportable]() {
         didSet {
@@ -33,6 +44,7 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
 
     public override init() {
         id = UUID().uuidString
+        creationDate = Date()
         super.init()
         evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
@@ -44,16 +56,19 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     private enum Coding: String {
         case id = "id"
         case reports = "reports"
+        case creationDate = "creationDate"
     }
 
     required public init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
         reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [EventReportable]
+        creationDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.creationDate.rawValue)! as Date
     }
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: Coding.id.rawValue)
         aCoder.encode(reports, forKey: Coding.reports.rawValue)
+        aCoder.encode(creationDate, forKey: Coding.creationDate.rawValue)
     }
 
     //MARK: Utility
