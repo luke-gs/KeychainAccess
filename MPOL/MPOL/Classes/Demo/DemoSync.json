@@ -730,6 +730,7 @@
   ], 
   "officers": [
     {
+      "id": "Bailey777122",
       "capabilities": [
         "Negotiator", 
         "Public Order Qualified"
@@ -747,6 +748,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "Fisher777453",
       "capabilities": [
         "TDD Qualified", 
         "LIDAR Qualified"
@@ -764,6 +766,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "Cooper777032",
       "capabilities": [
         "Negotiator"
       ], 
@@ -780,6 +783,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "Burnell777001",
       "capabilities": [
         "Public Order Qualified"
       ], 
@@ -796,6 +800,7 @@
       "station": "Collingwood Station"
     }, 
     {
+      "id": "Gadget777019",
       "capabilities": [
         "TDD Qualified"
       ], 
@@ -812,6 +817,7 @@
       "station": "Fitzroy"
     }, 
     {
+      "id": "Saltau777202",
       "capabilities": [
         "TDD Qualified", 
         "Negotiator"
@@ -829,6 +835,7 @@
       "station": "Kilmore"
     }, 
     {
+      "id": "Singh777791",
       "capabilities": [
         "Public Order Qualified"
       ], 
@@ -845,6 +852,7 @@
       "station": "Richmond"
     }, 
     {
+      "id": "Smart777199",
       "capabilities": [], 
       "contactNumber": "0202 111 903", 
       "employeeNumber": "777199", 
@@ -859,6 +867,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "SmithGS005",
       "capabilities": [], 
       "contactNumber": "0240 758 258", 
       "employeeNumber": "GS005", 
@@ -873,6 +882,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "JohnsonGS002",
       "capabilities": [], 
       "contactNumber": "0240 547 378", 
       "employeeNumber": "GS002", 
@@ -887,6 +897,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "Garett182732",
       "capabilities": [], 
       "contactNumber": "0202 021 032", 
       "employeeNumber": "182732", 
@@ -901,6 +912,7 @@
       "station": "South Melbourne"
     }, 
     {
+      "id": "Logan183728",
       "capabilities": [], 
       "contactNumber": "0200 513 188", 
       "employeeNumber": "183728", 
@@ -915,6 +927,7 @@
       "station": "South Melbourne"
     }, 
     {
+      "id": "Lopez182992",
       "capabilities": [
         "Negotiator"
       ], 
@@ -931,6 +944,7 @@
       "station": "South Melbourne"
     }, 
     {
+      "id": "Wales188278",
       "capabilities": [
         "TDD Qualified", 
         "LIDAR Qualified"
@@ -948,6 +962,7 @@
       "station": "South Melbourne"
     }, 
     {
+      "id": "Ivenson172645",
       "capabilities": [], 
       "contactNumber": "0182 322 102", 
       "employeeNumber": "172645", 
@@ -962,6 +977,7 @@
       "station": "Collingwood"
     }, 
     {
+      "id": "Dread182638",
       "capabilities": [
         "TDD Qualified"
       ], 
@@ -978,6 +994,7 @@
       "station": "South Melbourne"
     }, 
     {
+      "id": "Singh192632",
       "capabilities": [
         "TDD Qualified", 
         "LIDAR Qualified"
@@ -995,6 +1012,7 @@
       "station": "Fitzroy"
     }, 
     {
+      "id": "Fury782737",
       "capabilities": [], 
       "contactNumber": "0212 421 188", 
       "employeeNumber": "782737", 
