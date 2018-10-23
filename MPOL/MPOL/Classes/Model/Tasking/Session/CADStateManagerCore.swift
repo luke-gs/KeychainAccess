@@ -69,7 +69,7 @@ open class CADStateManagerCore: CADStateManagerBase {
                 let officerIds = lastBookOn.employees.map { $0.id }
 
                 // Update ids for new officer list
-                resource.ids = officerIds
+                resource.officerIds = officerIds
 
                 // Update call sign for new equipment list
                 resource.equipment = lastBookOn.equipment

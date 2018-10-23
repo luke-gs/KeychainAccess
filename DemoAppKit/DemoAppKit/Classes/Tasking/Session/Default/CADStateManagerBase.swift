@@ -314,7 +314,7 @@ open class CADStateManagerBase: CADStateManagerType {
     open func officersForResource(callsign: String) -> [CADOfficerType] {
         var officers: [CADOfficerType] = []
         if let resource = resourcesById[callsign] {
-            for id in resource.ids {
+            for id in resource.officerIds {
                 if let officer = officersById[id] {
                     officers.append(officer)
                 }

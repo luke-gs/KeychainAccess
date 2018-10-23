@@ -63,7 +63,7 @@ open class BookOnDetailsFormContentMainViewModel {
         self.equipment = resource.equipment.quantityPicked()
 
         // Create the officers, setting is driver based on resource driver
-        self.officers = resource.ids.compactMap { id in
+        self.officers = resource.officerIds.compactMap { id in
             let isDriver = id == resource.driver
             if let officer = CADStateManager.shared.officersById[id] {
                 return BookOnDetailsFormContentOfficerViewModel(
