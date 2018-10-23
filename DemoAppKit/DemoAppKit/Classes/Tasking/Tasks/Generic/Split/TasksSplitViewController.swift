@@ -105,11 +105,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let height = isCompact() ? extendedNavbarHeight : 0
-        if #available(iOS 11, *) {
-            masterNavController.additionalSafeAreaInsets.top = height
-        } else {
-            containerMasterViewController.headerOffset = masterNavController.navigationBar.frame.maxY + height
-        }
+        masterNavController.additionalSafeAreaInsets.top = height
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
