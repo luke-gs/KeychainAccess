@@ -39,7 +39,7 @@ open class OfficerDetailsViewModel {
     open func navTitle() -> String {
 
         // Set custom title if logged in officer details
-        if content.officerId == CADStateManager.shared.officerDetails?.employeeNumber {
+        if content.officerId == CADStateManager.shared.officerDetails?.id {
             return NSLocalizedString("My Details", comment: "")
         }
         return content.title ?? ""
