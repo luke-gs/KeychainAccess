@@ -63,7 +63,6 @@ post_install do |installer|
         end
 
         target.build_configurations.each do |config|
-            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.2'
             config.build_settings['ENABLE_BITCODE'] = 'NO'
             if swift_version
                 config.build_settings['SWIFT_VERSION'] = swift_version
