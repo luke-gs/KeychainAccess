@@ -33,6 +33,11 @@ public class EventEntityDetailReport: EventReportable {
 
         descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
+
+        /*
+         for demo purpose, setting viewed to true allow validation to pass straightly
+         without adding relationship.
+        */
         descriptionReport.viewed = true
         relationshipsReport.viewed = true
 
