@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class DefaultEntitiesListViewController: FormBuilderViewController, EvaluationObserverable, EntityPickerDelegate {
+open class DefaultEntitiesListViewController: FormBuilderViewController, EvaluationObserverable {
 
     var viewModel: EntitiesListViewModel
 
@@ -99,16 +99,33 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
     @objc private func newEntityHandler(_ sender: UIButton) {
 
-        let entityPickerViewModel = viewModel.entityPickerViewModel
-        entityPickerViewModel.delegate = self
+        let entitySelectionViewModel = viewModel.entitySelectionViewModel
 
-        let viewController = EntityPickerViewController(viewModel: entityPickerViewModel)
+        let viewController = EntitySummarySelectionViewController(viewModel: entitySelectionViewModel)
+        viewController.selectionHandler = { [weak self] entity in
+
+            guard let `self` = self else { return }
+
+            if !self.viewModel.involvements(for: entity).isEmpty {
+                self.presentPickerViewController(type: .involvement, entity: entity)
+
+            } else if !self.viewModel.additionalActions(for: entity).isEmpty {
+                self.presentPickerViewController(type: .additionalAction, entity: entity)
+
+            } else {
+                self.viewModel.addEntity(entity, with: [], and: [])
+                self.updateLoadingManager()
+                self.reloadForm()
+                self.dismissAnimated()
+            }
+        }
+
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                                           style: .plain,
                                                                           target: self,
                                                                           action: #selector(cancelTapped))
 
-        let navController = PopoverNavigationController(rootViewController: viewController)
+        let navController = ModalNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
 
         present(navController, animated: true, completion: nil)
@@ -133,22 +150,6 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
     func updateLoadingManager() {
         loadingManager.state = viewModel.currentLoadingManagerState
-    }
-
-    public func finishedPicking(_ entity: MPOLKitEntity) {
-
-        if !viewModel.involvements(for: entity).isEmpty {
-            presentPickerViewController(type: .involvement, entity: entity)
-
-        } else if !viewModel.additionalActions(for: entity).isEmpty {
-            presentPickerViewController(type: .additionalAction, entity: entity)
-
-        } else {
-            viewModel.addEntity(entity, with: [], and: [])
-            updateLoadingManager()
-            reloadForm()
-            dismissAnimated()
-        }
     }
 
     public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
