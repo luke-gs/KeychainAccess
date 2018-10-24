@@ -21,7 +21,7 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
 
     open var callsign: String!
     open var category: String?
-    open var driverEmployeeNumber: String?
+    open var driverId: String?
     open var employees: [CADOfficerType] = []
     open var equipment: [CADEquipmentType] = []
     open var odometer: Int?
@@ -43,7 +43,7 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
     public enum CodingKeys: String, CodingKey {
         case callsign
         case category
-        case driverEmployeeNumber
+        case driverId
         case employees
         case equipment
         case odometer
@@ -57,7 +57,7 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(callsign, forKey: .callsign)
         try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(driverEmployeeNumber, forKey: .driverEmployeeNumber)
+        try container.encodeIfPresent(driverId, forKey: .driverId)
         try container.encodeIfPresent(equipment as? [CADEquipmentCore], forKey: .equipment)
         try container.encodeIfPresent(odometer, forKey: .odometer)
         try container.encodeIfPresent(remarks, forKey: .remarks)

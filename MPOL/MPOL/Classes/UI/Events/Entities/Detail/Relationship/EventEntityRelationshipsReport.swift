@@ -30,7 +30,6 @@ public class EventEntityRelationshipsReport: EventReportable {
     public init(event: Event, entity: MPOLKitEntity) {
         self.weakEvent = Weak(event)
         self.entity = entity
-
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }

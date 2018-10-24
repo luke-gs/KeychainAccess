@@ -77,4 +77,9 @@ open class Organisation: Entity {
         aCoder.encode(tradingAs, forKey: CodingKeys.tradingAs.rawValue)
         aCoder.encode(aliases, forKey: CodingKeys.aliases.rawValue)
     }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
 }

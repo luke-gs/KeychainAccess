@@ -70,7 +70,7 @@ open class BookOnDetailsFormViewModel {
             // Always make sure we are first officer in list when booking on
             if let loggedInOfficer = CADStateManager.shared.officerDetails {
                 // Remove existing
-                if let index = resource.payrollIds.index(of: loggedInOfficer.payrollId) {
+                if let index = resource.officerIds.index(of: loggedInOfficer.id) {
                     content.officers.remove(at: index)
                 }
                 // Insert latest officer details at first position
@@ -126,13 +126,13 @@ open class BookOnDetailsFormViewModel {
         return CADStateManager.shared.bookOn(request: bookOnRequest)
     }
 
-    open func officerDetailsScreen(at index: Int? = nil) -> Presentable {
+    open func officerDetailsScreen(at index: Int? = nil, withId id: String) -> Presentable {
         let officerViewModel: BookOnDetailsFormContentOfficerViewModel
 
         if let index = index, let existingOfficer = content.officers[ifExists: index] {
             officerViewModel = existingOfficer
         } else {
-            officerViewModel = BookOnDetailsFormContentOfficerViewModel()
+            officerViewModel = BookOnDetailsFormContentOfficerViewModel(officerId: id)
         }
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)

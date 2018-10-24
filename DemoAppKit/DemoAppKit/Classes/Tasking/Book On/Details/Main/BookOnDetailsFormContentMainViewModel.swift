@@ -43,7 +43,7 @@ open class BookOnDetailsFormContentMainViewModel {
 
         // Create the officers, setting is driver based on driverpayrollId
         self.officers = request.employees.map { officer in
-            let isDriver = officer.payrollId == request.driverEmployeeNumber
+            let isDriver = officer.id == request.driverId
             return BookOnDetailsFormContentOfficerViewModel(
                 withModel: officer, initial: false, isDriver: isDriver)
         }
@@ -63,9 +63,9 @@ open class BookOnDetailsFormContentMainViewModel {
         self.equipment = resource.equipment.quantityPicked()
 
         // Create the officers, setting is driver based on resource driver
-        self.officers = resource.payrollIds.compactMap { payrollId in
-            let isDriver = payrollId == resource.driver
-            if let officer = CADStateManager.shared.officersById[payrollId] {
+        self.officers = resource.officerIds.compactMap { id in
+            let isDriver = id == resource.driver
+            if let officer = CADStateManager.shared.officersById[id] {
                 return BookOnDetailsFormContentOfficerViewModel(
                     withModel: officer, initial: false, isDriver: isDriver)
             }
@@ -83,11 +83,11 @@ open class BookOnDetailsFormContentMainViewModel {
         request.remarks = self.remarks
         request.shiftStart = self.startTime
         request.shiftEnd = self.endTime
-        request.driverEmployeeNumber = self.officers.first { $0.isDriver.isTrue }?.officerId
+        request.driverId = self.officers.first { $0.isDriver.isTrue }?.officerId
 
         // Use the officer view models to apply changes to officers fetched in sync
         request.employees = self.officers.compactMap { officer in
-            if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
+            if let existingOfficer = CADStateManager.shared.officersById[officer.officerId] {
                 let updatedOfficer = CADClientModelTypes.officerDetails.init(officer: existingOfficer)
                 updatedOfficer.licenceTypeId = officer.licenceTypeId
                 updatedOfficer.contactNumber = officer.contactNumber

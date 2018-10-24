@@ -66,10 +66,10 @@ open class CADStateManagerCore: CADStateManagerBase {
 
             // TODO: remove this when we have a real CAD system
             if let lastBookOn = self.lastBookOn, let resource = self.currentResource {
-                let officerIds = lastBookOn.employees.map { $0.payrollId }
+                let officerIds = lastBookOn.employees.map { $0.id }
 
-                // Update callsign for new officer list
-                resource.payrollIds = officerIds
+                // Update ids for new officer list
+                resource.officerIds = officerIds
 
                 // Update call sign for new equipment list
                 resource.equipment = lastBookOn.equipment
@@ -80,7 +80,7 @@ open class CADStateManagerCore: CADStateManagerBase {
                 }
 
                 // Check if logged in officer is no longer in callsign
-                if let officerDetails = self.officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                if let officerDetails = self.officerDetails, !officerIds.contains(officerDetails.id) {
                     // Treat like being booked off, using async to trigger didSet again
                     DispatchQueue.main.async {
                         self.lastBookOn = nil

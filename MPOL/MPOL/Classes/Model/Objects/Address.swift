@@ -165,6 +165,11 @@ open class Address: Entity {
         aCoder.encode(fullAddress, forKey: CodingKeys.fullAddress.rawValue)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     open override class var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")
     }

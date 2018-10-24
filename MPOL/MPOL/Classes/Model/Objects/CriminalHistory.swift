@@ -46,6 +46,11 @@ open class CriminalHistory: Entity {
 
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     override open class var modelVersion: Int {
         return 1
     }
@@ -72,6 +77,11 @@ open class OffenderCharge: CriminalHistory {
         super.init(coder: aDecoder)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     private enum CodingKeys: String, CodingKey {
         case nextCourtDate
     }
@@ -89,6 +99,11 @@ open class OffenderConviction: CriminalHistory {
     public required init?(coder aDecoder: NSCoder) {
         finalCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.finalCourtDate.rawValue) as Date?
         super.init(coder: aDecoder)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
     }
 
     private enum CodingKeys: String, CodingKey {

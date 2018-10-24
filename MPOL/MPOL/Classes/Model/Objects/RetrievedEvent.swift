@@ -47,6 +47,11 @@ open class RetrievedEvent: Entity {
         aCoder.encode(occurredDate, forKey: CodingKeys.occurred.rawValue)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     open override class var modelVersion: Int {
         return 1
     }

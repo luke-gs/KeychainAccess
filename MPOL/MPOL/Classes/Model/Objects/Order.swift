@@ -49,6 +49,11 @@ open class Order: Entity {
         aCoder.encode(issuedDate, forKey: CodingKeys.issuedDate.rawValue)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     override open class var modelVersion: Int {
         return 1
     }

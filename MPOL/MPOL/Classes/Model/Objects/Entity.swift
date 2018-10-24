@@ -173,6 +173,11 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(type(of: self).modelVersion, forKey: MPLArchiveModelVersionKey)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     // MARK: - Model Versionable
 
     open class var modelVersion: Int {

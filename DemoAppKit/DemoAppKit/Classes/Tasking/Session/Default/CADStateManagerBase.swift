@@ -279,12 +279,12 @@ open class CADStateManagerBase: CADStateManagerType {
             }
             officersById.removeAll()
             for officer in syncDetails.officers {
-                officersById[officer.payrollId] = officer
+                officersById[officer.id] = officer
             }
 
             // Make sure logged in officer is in cache too
             if let officerDetails = officerDetails {
-                officersById[officerDetails.payrollId] = officerDetails
+                officersById[officerDetails.id] = officerDetails
             }
         }
     }
@@ -314,8 +314,8 @@ open class CADStateManagerBase: CADStateManagerType {
     open func officersForResource(callsign: String) -> [CADOfficerType] {
         var officers: [CADOfficerType] = []
         if let resource = resourcesById[callsign] {
-            for payrollId in resource.payrollIds {
-                if let officer = officersById[payrollId] {
+            for id in resource.officerIds {
+                if let officer = officersById[id] {
                     officers.append(officer)
                 }
             }

@@ -48,7 +48,7 @@ public protocol CADStateManagerType {
     /// Officers retrieved in last sync, in order
     var officers: [CADOfficerType] { get }
 
-    /// Officers retrieved in last sync, keyed by payrollId
+    /// Officers retrieved in last sync, keyed by id
     var officersById: [String: CADOfficerType] { get }
 
     /// Patrols retrieved in last sync, in order

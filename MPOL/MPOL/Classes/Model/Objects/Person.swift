@@ -186,6 +186,11 @@ open class Person: Entity, Identifiable {
         aCoder.encode(trafficHistory, forKey: Coding.trafficHistory.rawValue)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     // MARK: - Model Versionable
     override open class var modelVersion: Int {
         return 0

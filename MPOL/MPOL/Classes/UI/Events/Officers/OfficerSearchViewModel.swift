@@ -63,11 +63,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let existingSearchable = objectDisplayMap[object] {
             return existingSearchable
         }
-        let searchable = OfficerListItemViewModel(firstName: object.givenName!,
+        let searchable = OfficerListItemViewModel(id: object.id,
+                                                  firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
                                                   rank: object.rank ?? "",
-                                                  callsign: object.employeeNumber!,
+                                                  employeeNumber: object.employeeNumber ?? "",
                                                   section: object.region ?? "")
         objectDisplayMap[object] = searchable
         return searchable

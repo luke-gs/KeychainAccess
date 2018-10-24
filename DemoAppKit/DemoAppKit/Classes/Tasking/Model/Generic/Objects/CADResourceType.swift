@@ -24,7 +24,7 @@ public protocol CADResourceType: class, Codable, CADTaskListItemModelType {
     var location: CADLocationType? { get set }
     var odometer: String? { get set }
     var patrolGroup: String? { get set }
-    var payrollIds: [String] { get set }
+    var officerIds: [String] { get set }
     var remarks: String? { get set }
     var serial: String? { get set }
     var shiftEnd: Date? { get set }
