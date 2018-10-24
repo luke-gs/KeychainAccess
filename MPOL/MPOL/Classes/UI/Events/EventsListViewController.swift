@@ -27,6 +27,11 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
         MPLUnimplemented()
     }
 
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        reloadForm()
+    }
+
     override open func viewDidLoad() {
         super.viewDidLoad()
 
@@ -54,22 +59,26 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
             .separatorColor(.clear)
             .style(.collapsible)
 
-        builder += eventsList.map { displayable in
-            let title = displayable.title ?? "Blank"
-            let subtitle = viewModel.subtitle(for: displayable)
-            let image = viewModel.image(for: displayable)
-            let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
-                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
-                self.updateEmptyState()
-                self.reloadForm()
-            })]
-            return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
-                .editActions(editActions)
-                .accessory(ItemAccessory.disclosure)
-                .onSelection ({ cell in
-                    guard let event = self.viewModel.event(for: displayable) else { return }
-                    self.show(event)
-                })
+        if traitCollection.horizontalSizeClass == .compact {
+            builder += eventsList.map { displayable in
+                let title = displayable.title ?? "Blank"
+                let subtitle = viewModel.subtitle(for: displayable)
+                let image = viewModel.image(for: displayable, isQueued: false)
+                let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                    self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
+                    self.updateEmptyState()
+                    self.reloadForm()
+                })]
+                return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
+                    .editActions(editActions)
+                    .accessory(ItemAccessory.disclosure)
+                    .onSelection ({ cell in
+                        guard let event = self.viewModel.event(for: displayable) else { return }
+                        self.show(event)
+                    })
+            }
+        } else {
+            
         }
     }
 
