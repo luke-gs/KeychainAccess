@@ -52,7 +52,7 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
         let officerViewModel = BookOnDetailsFormContentOfficerViewModel(officerId: officer.id)
         officerViewModel.title = officer.title
         officerViewModel.rank = officer.rank
-        officerViewModel.employeeNumber = officer.callsign
+        officerViewModel.employeeNumber = officer.employeeNumber
         officerViewModel.initials = officer.initials
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
@@ -62,7 +62,7 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
         let section = sectionTitle().uppercased()
         var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
-            let viewModel = OfficerListItemViewModel(id: officer.id, firstName: officer.givenName, lastName: officer.familyName, initials: officer.initials, rank: officer.rank, callsign: officer.employeeNumber, section: section)
+            let viewModel = OfficerListItemViewModel(id: officer.id, firstName: officer.givenName, lastName: officer.familyName, initials: officer.initials, rank: officer.rank, employeeNumber: officer.employeeNumber, section: section)
             result.append(viewModel)
         }
         return result
