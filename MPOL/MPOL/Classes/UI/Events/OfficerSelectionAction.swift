@@ -23,7 +23,7 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: officerSearchController,
             action: #selector(UIViewController.dismissAnimated))
 
-        let navigationController = PopoverNavigationController(rootViewController: officerSearchController)
+        let navigationController = ModalNavigationController(rootViewController: officerSearchController)
         navigationController.modalPresentationStyle = .formSheet
         return navigationController
     }

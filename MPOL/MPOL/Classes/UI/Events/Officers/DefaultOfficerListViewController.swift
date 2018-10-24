@@ -51,9 +51,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
 
-        let navController = UINavigationController(rootViewController: officerSearchController)
+        let navController = ModalNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
-        present(navController, animated: true, completion: nil)
+        present(navController, size: CGSize(width: 512, height: 736), animated: true, completion: nil) 
 
     }
 

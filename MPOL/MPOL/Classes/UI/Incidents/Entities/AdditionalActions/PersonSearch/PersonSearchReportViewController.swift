@@ -194,7 +194,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
 
         let navController = ModalNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
-        present(navController, animated: true, completion: nil)
+        present(navController, size: CGSize(width: 512, height: 736), animated: true, completion: nil) 
 
     }
 
