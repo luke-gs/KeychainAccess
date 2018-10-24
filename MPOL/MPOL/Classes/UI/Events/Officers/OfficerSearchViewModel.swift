@@ -91,8 +91,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? "",
-                                                  employeeNumber: object.employeeNumber ?? "",
+                                                  rank: object.rank ?? "Unknown",
+                                                  employeeNumber: object.employeeNumber ?? "Unknown",
                                                   section: object.region ?? "")
         objectDisplayMap[object] = searchable
         return searchable
