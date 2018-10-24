@@ -9,7 +9,7 @@ import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
 
-public class EventsListViewModel {
+public class EventsListViewModel: EventCardsViewModelable {
 
     public var title: String
     public var eventsManager: EventsManager

@@ -10,7 +10,7 @@ import PublicSafetyKit
 import DemoAppKit
 import PromiseKit
 
-open class EventsListViewController: FormBuilderViewController, EventsManagerDelegate {
+open class EventsListViewController: FormBuilderViewController, EventsManagerDelegate, EventCardsDelegate {
 
     let viewModel: EventsListViewModel
 
@@ -78,7 +78,11 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
                     })
             }
         } else {
-            
+            let eventCardsFormItem = EventCardsFormItem()
+                .separatorColor(.clear)
+            eventCardsFormItem.delegate = self
+            eventCardsFormItem.dataSource = viewModel
+            builder += eventCardsFormItem
         }
     }
 
@@ -112,6 +116,14 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
 
     public func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager) {
         tabBarItem.badgeValue = viewModel.badgeCountString
+    }
+
+    public func didSelectEvent(at index: Int) {
+        if let eventsList = self.viewModel.eventsList {
+            let eventDisplayable = eventsList[index]
+            guard let event = self.viewModel.event(for: eventDisplayable) else { return }
+            self.show(event)
+        }
     }
 }
 

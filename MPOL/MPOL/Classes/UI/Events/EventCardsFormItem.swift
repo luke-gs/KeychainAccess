@@ -11,13 +11,17 @@ import DemoAppKit
 
 public class EventCardsFormItem: BaseFormItem {
 
+    public var dataSource: EventCardsViewModelable?
+    public weak var delegate: EventCardsDelegate?
+
     public init() {
         super.init(cellType: CollectionViewFormEventCardsCell.self, reuseIdentifier: CollectionViewFormEventCardsCell.defaultReuseIdentifier)
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
         guard let cell = cell as? CollectionViewFormEventCardsCell else { return }
-        //Configure cell here
+        cell.dataSource = dataSource
+        cell.delegate = delegate
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
@@ -27,4 +31,12 @@ public class EventCardsFormItem: BaseFormItem {
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         return CollectionViewFormEventCardsCell.intrinsicHeight
     }
+}
+
+public protocol EventCardsViewModelable: class {
+    var eventsList: [EventListDisplayable]? { get }
+}
+
+public protocol EventCardsDelegate: class {
+    func didSelectEvent(at index: Int)
 }
