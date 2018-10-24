@@ -84,6 +84,8 @@
 		378EAF0F216EFA3900960370 /* vancouver_mac.ppn in Resources */ = {isa = PBXBuildFile; fileRef = 378EAF0D216EFA3900960370 /* vancouver_mac.ppn */; };
 		378EAF10216EFA3900960370 /* vancouver_ios.ppn in Resources */ = {isa = PBXBuildFile; fileRef = 378EAF0E216EFA3900960370 /* vancouver_ios.ppn */; };
 		3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3792073521521FBE0071F119 /* AddressFormItemFactory.swift */; };
+		3795949D218023FB00AC4AD4 /* EventCardsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3795949C218023FB00AC4AD4 /* EventCardsFormItem.swift */; };
+		3795949F2180248C00AC4AD4 /* CollectionViewFormEventCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3795949E2180248C00AC4AD4 /* CollectionViewFormEventCardsCell.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
 		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
 		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
@@ -382,6 +384,8 @@
 		378EAF0D216EFA3900960370 /* vancouver_mac.ppn */ = {isa = PBXFileReference; lastKnownFileType = file; path = vancouver_mac.ppn; sourceTree = "<group>"; };
 		378EAF0E216EFA3900960370 /* vancouver_ios.ppn */ = {isa = PBXFileReference; lastKnownFileType = file; path = vancouver_ios.ppn; sourceTree = "<group>"; };
 		3792073521521FBE0071F119 /* AddressFormItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormItemFactory.swift; sourceTree = "<group>"; };
+		3795949C218023FB00AC4AD4 /* EventCardsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCardsFormItem.swift; sourceTree = "<group>"; };
+		3795949E2180248C00AC4AD4 /* CollectionViewFormEventCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormEventCardsCell.swift; sourceTree = "<group>"; };
 		379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
 		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		37C433912163339800544AA7 /* LicenceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceScanner.swift; sourceTree = "<group>"; };
@@ -649,9 +653,11 @@
 				12EF65F92087071800739924 /* Officers */,
 				379869B220C4BE8C00E1FEAF /* Summary */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
+				3795949E2180248C00AC4AD4 /* CollectionViewFormEventCardsCell.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
 				96B775892140FA6600836B83 /* EventsListViewController.swift */,
+				3795949C218023FB00AC4AD4 /* EventCardsFormItem.swift */,
 				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
 			);
@@ -1998,6 +2004,7 @@
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				96E5EE7A216580880096D448 /* LocationSelectionPresenter.swift in Sources */,
 				96B775192140F8EE00836B83 /* SupportSetting.swift in Sources */,
+				3795949F2180248C00AC4AD4 /* CollectionViewFormEventCardsCell.swift in Sources */,
 				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
 				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
 				96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */,
@@ -2029,6 +2036,7 @@
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				96B775592140F8EE00836B83 /* VehicleSearchParameters.swift in Sources */,
 				96B775542140F8EE00836B83 /* VehicleSearchRequest.swift in Sources */,
+				3795949D218023FB00AC4AD4 /* EventCardsFormItem.swift in Sources */,
 				96B775A8214206F100836B83 /* RangeParserDefinition.swift in Sources */,
 				AA1C0B1520BF9993009862FD /* VehicleTowReport.swift in Sources */,
 				AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */,
