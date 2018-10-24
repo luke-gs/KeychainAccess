@@ -49,10 +49,9 @@ public class EventsListViewModel {
     }
 
     func image(for displayable: EventListDisplayable) -> UIImage {
-        let eval = event(for: displayable)?.evaluator.isComplete ?? false
         guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.event)?
-            .withCircleBackground(tintColor: .black,
-                                  circleColor: eval ? .midGreen : .disabledGray,
+            .withCircleBackground(tintColor: .white,
+                                  circleColor: .black,
                                   style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
         return image
     }
