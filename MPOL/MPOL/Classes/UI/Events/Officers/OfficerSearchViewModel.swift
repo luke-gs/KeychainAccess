@@ -28,31 +28,55 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func numberOfSections() -> Int {
-        return items.isEmpty ? 0 : 1
+        return items.isEmpty ? 0 : 2
     }
 
     func numberOfRows(in section: Int) -> Int {
-        return items.count
+
+        switch section {
+        case 0:
+            return officersByType.CADOfficers.count
+        case 1:
+            return officersByType.searchOfficers.count
+        default:
+            return 0
+        }
     }
 
     func isSectionHidden(_ section: Int) -> Bool {
-        return false
+
+        switch section {
+        case 0:
+            return officersByType.CADOfficers.isEmpty
+        case 1:
+            return officersByType.searchOfficers.isEmpty
+        default:
+            return false
+        }
     }
 
     func title(for section: Int) -> String {
-        return "Recently Used"
+
+        switch section {
+        case 0:
+            return "My Call Sign"
+        case 1:
+            return "Recently Used"
+        default:
+            return "Items"
+        }
     }
 
     func title(for indexPath: IndexPath) -> String? {
-        return searchable(for: items[indexPath.item]).title
+        return searchable(for: object(for: indexPath)).title
     }
 
     func description(for indexPath: IndexPath) -> String? {
-        return searchable(for: items[indexPath.item]).subtitle
+        return searchable(for: object(for: indexPath)).subtitle
     }
 
     func image(for indexPath: IndexPath) -> UIImage? {
-        return searchable(for: items[indexPath.item]).image
+        return searchable(for: object(for: indexPath)).image
     }
 
     func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
@@ -75,7 +99,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func object(for indexPath: IndexPath) -> Officer {
-        return items[indexPath.item]
+        switch indexPath.section {
+        case 0:
+            return officersByType.CADOfficers[indexPath.row]
+        default:
+            return officersByType.searchOfficers[indexPath.row]
+        }
     }
 
     func searchTextChanged(to searchString: String) {
@@ -118,6 +147,15 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
+        items.removeAll()
+
+        // Add officers from myCallSign
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees as? [CADOfficerCore] {
+            items = myCallSignOfficers
+        }
+
+        //Add officers from UserPreferences recentlyUsed
+
         let userPreferenceManager = UserPreferenceManager.shared
 
         guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
@@ -125,10 +163,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             return Promise<Void>()
         }
 
-        items.removeAll()
-
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
-            self?.items = officerIds.compactMap { result[$0] as? Officer }
+            self?.items += officerIds.compactMap { result[$0] as? Officer }
+            print("mate")
         }.map {}
     }
 
@@ -138,6 +175,21 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         let officer = object(for: indexPath)
         try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
         RecentlyUsedEntityManager.default.add(officer)
+    }
+
+    private var officersByType: (CADOfficers: [Object], searchOfficers: [Object]) {
+
+        var CADOfficers: [Object] = []
+        var searchOfficers: [Object] = []
+
+        items.forEach { officer in
+            if officer is CADOfficerCore {
+                CADOfficers.append(officer)
+            } else {
+                searchOfficers.append(officer)
+            }
+        }
+        return (CADOfficers: CADOfficers, searchOfficers: searchOfficers)
     }
 }
 
