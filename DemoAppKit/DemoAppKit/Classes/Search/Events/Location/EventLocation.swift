@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import Contacts
 
 /// Data model for a generic location selection including lat/lon and an address string
 public class EventLocation: NSObject, NSSecureCoding {
@@ -35,8 +36,9 @@ public class EventLocation: NSObject, NSSecureCoding {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
 
-        if let formattedAddress = placemark.addressDictionary?["FormattedAddressLines"] as? [String] {
-            self.addressString = formattedAddress.joined(separator: " ")
+        if let address = placemark.postalAddress {
+            let mailingAddress = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
+            self.addressString = mailingAddress.replacingOccurrences(of: "\n", with: ", ")
         }
     }
 

@@ -165,7 +165,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         // Show both map and form
         mapView.translatesAutoresizingMaskIntoConstraints = false
         cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
-        cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+        cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 
         // Remove existing constraints for map controls by re-adding to view hierarchy
@@ -180,8 +180,8 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             mapCenterYConstraint!,
 
             // Position map controls relative to our view, not map view which might be off screen
-            mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
-            mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
+            mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
 
             // Position card view at bottom
             cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

@@ -152,7 +152,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             NSLayoutConstraint.activate([
                 compactStatusChangeBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 compactStatusChangeBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                compactStatusChangeBar.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+                compactStatusChangeBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
                 compactStatusChangeBar.heightAnchor.constraint(equalToConstant: 72)
             ])
 

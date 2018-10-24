@@ -142,7 +142,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
     public func createConstraints() {
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: Constants.headerHeight),
-            sourceButton.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor, constant: Constants.buttonPadding),
+            sourceButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.buttonPadding),
             sourceButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             sourceButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 40),
 
@@ -157,7 +157,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor, constant: -Constants.titleMargin),
             titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
-            buttonStackView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -Constants.buttonPadding),
+            buttonStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.buttonPadding),
             buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
         ])
     }

@@ -19,7 +19,7 @@ s.homepage         = 'https://github.com/Gridstone/mPolKit-iOS'
 s.author           = { 'Trent' => 'trent.fitzgibbon@motorolasolutions.com' }
 s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :tag => s.version.to_s }
 
-s.ios.deployment_target = '10.0'
+s.ios.deployment_target = '11.0'
 
 s.source_files = 'DemoAppKit/DemoAppKit/Classes/**/*'
 s.resources = 'DemoAppKit/DemoAppKit/Resources/**/*'
