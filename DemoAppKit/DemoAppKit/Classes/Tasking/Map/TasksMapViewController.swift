@@ -63,12 +63,10 @@ open class TasksMapViewController: MapViewController {
         navigationItem.title = "Activities"
         mapView.showsCompass = false
 
-        if #available(iOS 11.0, *) {
-            mapView.register(ResourceAnnotationView.self, forAnnotationViewWithReuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
-            mapView.register(IncidentAnnotationView.self, forAnnotationViewWithReuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
-            mapView.register(PatrolAnnotationView.self, forAnnotationViewWithReuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
-            mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
-        }
+        mapView.register(ResourceAnnotationView.self, forAnnotationViewWithReuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
+        mapView.register(IncidentAnnotationView.self, forAnnotationViewWithReuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
+        mapView.register(PatrolAnnotationView.self, forAnnotationViewWithReuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
+        mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
 
         navigationItem.rightBarButtonItem = filterButton
 
@@ -127,21 +125,18 @@ open class TasksMapViewController: MapViewController {
 
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // Keep resource annotations on top by observing changes to the layer's zPosition
-        // This is needed for iOS 11
-        if #available(iOS 11.0, *) {
-            for annotationView in views {
-                if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
-                    zPositionObservers.append(annotationView.layer.observe(\.zPosition, options: [.initial]) { (layer, _) in
-                        if layer.zPosition < 1000 {
-                            layer.zPosition += 1000
+        for annotationView in views {
+            if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
+                zPositionObservers.append(annotationView.layer.observe(\.zPosition, options: [.initial]) { (layer, _) in
+                    if layer.zPosition < 1000 {
+                        layer.zPosition += 1000
 
-                            // Bring duress to front
-                            if (annotationView as? ResourceAnnotationView)?.duress == true {
-                                layer.zPosition += 1000
-                            }
+                        // Bring duress to front
+                        if (annotationView as? ResourceAnnotationView)?.duress == true {
+                            layer.zPosition += 1000
                         }
-                    })
-                }
+                    }
+                })
             }
         }
     }
@@ -154,25 +149,6 @@ open class TasksMapViewController: MapViewController {
 
         if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
             CADStateManager.shared.syncMode = .map(boundingBox: mapView.visibleBoundingBox())
-        }
-
-        // Keep resource annotations on top by bringing subview to front
-        // This is needed for iOS 10
-        if #available(iOS 11.0, *) { return }
-        for annotation in mapView.annotations {
-            guard let annotationView = mapView.view(for: annotation) else { continue }
-            if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
-                annotationView.superview?.bringSubview(toFront: annotationView)
-            }
-        }
-
-        // Bring duress to front
-        for annotation in mapView.annotations {
-            guard (annotation as? ResourceAnnotationView)?.duress == true,
-                let annotationView = mapView.view(for: annotation)
-            else { continue }
-
-            annotationView.superview?.bringSubview(toFront: annotationView)
         }
     }
 
