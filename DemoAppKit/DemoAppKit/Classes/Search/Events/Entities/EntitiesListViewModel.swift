@@ -15,7 +15,7 @@ public protocol EntitiesListViewModel {
 
     var screenBuilding: AdditionalActionScreenBuilding { get }
 
-    var entityPickerViewModel: EntityPickerViewModel { get }
+    var entitySelectionViewModel: EntitySummarySelectionViewModel { get }
 
     var selectedInvolvements: [String]? { get set }
 

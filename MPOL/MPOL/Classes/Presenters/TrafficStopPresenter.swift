@@ -52,10 +52,6 @@ public class TrafficStopPresenter: Presenter {
                 completionHandler?(entity)
             }
             return viewController
-
-        case .trafficStopSearchEntity:
-            // Will redirect to search, return dummy VC here
-            return UIViewController()
         }
     }
 
@@ -67,18 +63,6 @@ public class TrafficStopPresenter: Presenter {
         // Push within existing modal
         case .trafficStopCreate, .trafficStopAddEntity:
             from.navigationController?.pushViewController(to, animated: true)
-
-        // Search app
-        case .trafficStopSearchEntity:
-            // Dismiss current modal and go to search tab
-            from.dismiss(animated: true) {
-                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"), shouldSearchImmediately: false)
-                do {
-                    try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
-                } catch {
-                    AlertQueue.shared.addSimpleAlert(title: "An Error Has Occurred", message: "Failed To Launch Entity Search")
-                }
-            }
         }
     }
 
