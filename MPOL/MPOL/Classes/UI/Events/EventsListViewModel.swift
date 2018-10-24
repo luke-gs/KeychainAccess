@@ -48,10 +48,11 @@ public class EventsListViewModel {
         return nil
     }
 
-    func image(for displayable: EventListDisplayable) -> UIImage {
+    func image(for displayable: EventListDisplayable, isQueued: Bool) -> UIImage {
+        let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
         guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
-            .withCircleBackground(tintColor: .white,
-                                  circleColor: .black,
+            .withCircleBackground(tintColor: isQueued ? (isDark ? .white : .black) : (isDark ? .black : .white),
+                                  circleColor: isQueued ? (isDark ? .darkGray : .disabledGray) : (isDark ? .white : .black),
                                   style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
         return image
     }
