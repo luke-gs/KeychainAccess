@@ -69,6 +69,13 @@ public class EventCardCollectionViewCell: CollectionViewFormCell {
 
     }
 
+    public override func layoutSubviews() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowOpacity = 0.7
+        layer.shadowRadius = 4.0
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

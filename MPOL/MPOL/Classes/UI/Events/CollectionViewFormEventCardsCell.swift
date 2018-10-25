@@ -9,7 +9,7 @@ import Foundation
 import DemoAppKit
 
 public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {
-    public static let intrinsicHeight: CGFloat = 200
+    public static let intrinsicHeight: CGFloat = 220
 
     public weak var dataSource: EventCardsViewModelable? {
         didSet {
