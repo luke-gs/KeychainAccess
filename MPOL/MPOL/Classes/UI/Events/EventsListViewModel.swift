@@ -63,13 +63,25 @@ public class EventsListViewModel: EventCardsViewModelable {
         return values.joined()
     }
 
-    func image(for displayable: EventListDisplayable, isQueued: Bool) -> UIImage {
+    func image(for displayable: EventListDisplayable, eventStatus: EventStatus) -> UIImage {
         let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
-        guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
-            .withCircleBackground(tintColor: isQueued ? (isDark ? .white : .black) : (isDark ? .black : .white),
-                                  circleColor: isQueued ? (isDark ? .darkGray : .disabledGray) : (isDark ? .white : .black),
-                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
-        return image
+
+        var image: UIImage?
+
+        switch eventStatus {
+        case .draft:
+            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
+                .withCircleBackground(tintColor: isDark ? .black : .white, circleColor: isDark ? .white : .black, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        case .queued:
+            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
+                .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        }
+
+        if let image = image {
+            return image
+        }
+
+        fatalError("Image for event could not be generated")
     }
     
     public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
@@ -100,4 +112,9 @@ public class EventsListViewModel: EventCardsViewModelable {
         
         return builder
     }
+}
+
+public enum EventStatus {
+    case draft
+    case queued
 }

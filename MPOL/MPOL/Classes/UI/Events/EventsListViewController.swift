@@ -63,7 +63,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
             builder += eventsList.map { displayable in
                 let title = displayable.title ?? "-"
                 let subtitle = viewModel.subtitle(for: displayable)
-                let image = viewModel.image(for: displayable, isQueued: false)
+                let image = viewModel.image(for: displayable, eventStatus: .draft)
                 let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
                     self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
                     self.updateEmptyState()
