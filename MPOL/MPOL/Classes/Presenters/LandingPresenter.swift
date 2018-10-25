@@ -192,14 +192,21 @@ public class LandingPresenter: AppGroupLandingPresenter {
             // Sync all manifest items
             return Manifest.shared.fetchManifest(collections: nil)
         }.then { _ in
-            // Fetch the current officer details
+            // Fetch the current search officer details
             return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
                                                                 with: CurrentOfficerDetailsFetchRequest())
-
         }.done { officer in
             try! UserSession.current.userStorage?.add(object: officer,
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
+        }.then { _ in
+            // fetch current CAD Officer
+            return CADStateManager.shared.getEmployeeDetails(identifier: nil)
+        }.done { details in
+            // Store cad officer details
+            CADStateManager.shared.officerDetails = details
+            CADStateManager.shared.officersById[details.id] = details
+
         }
     }
 

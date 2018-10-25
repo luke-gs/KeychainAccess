@@ -281,11 +281,6 @@ open class CADStateManagerBase: CADStateManagerType {
             for officer in syncDetails.officers {
                 officersById[officer.id] = officer
             }
-
-            // Make sure logged in officer is in cache too
-            if let officerDetails = officerDetails {
-                officersById[officerDetails.id] = officerDetails
-            }
         }
     }
 

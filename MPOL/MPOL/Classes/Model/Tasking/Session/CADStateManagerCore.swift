@@ -228,13 +228,6 @@ open class CADStateManagerCore: CADStateManagerBase {
     /// Perform initial sync after login or launching app
     open override func syncInitial() -> Promise<Void> {
         return firstly {
-            // Get details about logged in user
-            return getEmployeeDetails()
-        }.map { [unowned self] details -> CADEmployeeDetailsType in
-            // Store officer details
-            self.officerDetails = details
-            return details
-        }.then { [unowned self] _ in
             // Get all new manifest items
             return self.syncManifestItems(collections: nil)
         }.then { [unowned self] _ in

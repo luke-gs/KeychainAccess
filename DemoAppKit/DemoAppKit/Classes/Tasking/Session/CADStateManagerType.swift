@@ -16,7 +16,7 @@ public protocol CADStateManagerType {
     // MARK: - Properties
 
     /// The logged in officer details
-    var officerDetails: CADEmployeeDetailsType? { get }
+    var officerDetails: CADEmployeeDetailsType? { get set }
 
     /// The current patrol group
     var patrolGroup: String? { get set }
@@ -49,7 +49,7 @@ public protocol CADStateManagerType {
     var officers: [CADOfficerType] { get }
 
     /// Officers retrieved in last sync, keyed by id
-    var officersById: [String: CADOfficerType] { get }
+    var officersById: [String: CADOfficerType] { get set }
 
     /// Patrols retrieved in last sync, in order
     var patrols: [CADPatrolType] { get }
