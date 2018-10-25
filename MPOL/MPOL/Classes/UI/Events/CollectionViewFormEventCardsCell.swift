@@ -67,9 +67,13 @@ public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollect
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let dataSource = dataSource, let eventsList = dataSource.eventsList else { return UICollectionViewCell() }
 
-        let event = eventsList[indexPath.item]
+        let eventDisplayable = eventsList[indexPath.item]
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCardCollectionViewCell
+
+        cell.timeLabel.text = dataSource.eventCreationString(for: eventDisplayable)
+        cell.titleLabel.text = eventDisplayable.title
+        cell.addressLabel.text = dataSource.eventLocationString(for: eventDisplayable)
 
         return cell
     }

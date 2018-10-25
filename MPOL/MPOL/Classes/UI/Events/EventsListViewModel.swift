@@ -37,15 +37,29 @@ public class EventsListViewModel: EventCardsViewModelable {
         return eventsManager.event(for: displayable.eventId)
     }
 
-    func subtitle(for displayable: EventListDisplayable) -> String? {
-        //TODO: Calculate time here
+    public func eventCreationString(for displayable: EventListDisplayable) -> String? {
+        guard let event = event(for: displayable) else { return nil }
+        return event.creationDateString
+    }
+
+    public func eventLocationString(for displayable: EventListDisplayable) -> String? {
         if let event = event(for: displayable) {
             if let locationReport = event.reports.first(where: {$0 is DefaultLocationReport}) {
-                return event.creationDateString + "\n" + ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
+                return ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
             }
         }
 
         return nil
+    }
+
+    func subtitle(for displayable: EventListDisplayable) -> String? {
+        let eventCreationString = self.eventCreationString(for: displayable)
+        let eventLocationString = self.eventLocationString(for: displayable)
+        var values = [eventCreationString, eventLocationString].compactMap { $0 }
+        if values.count > 1 {
+            values.insert("\n", at: 1)
+        }
+        return values.joined()
     }
 
     func image(for displayable: EventListDisplayable, isQueued: Bool) -> UIImage {

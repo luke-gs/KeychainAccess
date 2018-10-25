@@ -35,6 +35,8 @@ public class EventCardsFormItem: BaseFormItem {
 
 public protocol EventCardsViewModelable: class {
     var eventsList: [EventListDisplayable]? { get }
+    func eventCreationString(for displayable: EventListDisplayable) -> String?
+    func eventLocationString(for displayable: EventListDisplayable) -> String?
 }
 
 public protocol EventCardsDelegate: class {

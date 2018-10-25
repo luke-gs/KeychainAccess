@@ -21,7 +21,6 @@ public class EventCardCollectionViewCell: CollectionViewFormCell {
 
         // Fake text
         titleLabel.text = "Domestic and Family Violence: Application"
-        timeLabel.text = "Yesterday, 22:14"
         addressLabel.text = "28 Collingwood Street, Collingwood"
 
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
