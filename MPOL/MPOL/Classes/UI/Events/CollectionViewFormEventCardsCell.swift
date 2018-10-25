@@ -9,6 +9,8 @@ import Foundation
 import DemoAppKit
 
 public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {
+
+    // The item size height is 200 but this allows spacing for the shadow
     public static let intrinsicHeight: CGFloat = 220
 
     public weak var dataSource: EventCardsViewModelable? {
@@ -24,25 +26,30 @@ public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollect
     public let layout: UICollectionViewFlowLayout
 
     public override init(frame: CGRect) {
+
+        // Set up layout
         layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 360, height: 200)
         layout.minimumLineSpacing = 24.0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 24.0, bottom: 0, right: 0.0)
         layout.scrollDirection = .horizontal
 
+        // Initialise collection view
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         super.init(frame: frame)
 
+        // Collection view set up
         collectionView.alwaysBounceHorizontal = true
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
 
+        // Add collection view to content view & layout constraints
         contentView.addSubview(collectionView)
-
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -73,7 +80,7 @@ public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollect
 
         cell.timeLabel.text = dataSource.eventCreationString(for: eventDisplayable)
         cell.titleLabel.text = eventDisplayable.title
-        cell.addressLabel.text = dataSource.eventLocationString(for: eventDisplayable)
+        cell.locationLabel.text = dataSource.eventLocationString(for: eventDisplayable)
 
         return cell
     }

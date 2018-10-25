@@ -78,8 +78,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
                     })
             }
         } else {
-            let eventCardsFormItem = EventCardsFormItem()
-                .separatorColor(.clear)
+            let eventCardsFormItem = EventCardsFormItem().separatorColor(.clear)
             eventCardsFormItem.delegate = self
             eventCardsFormItem.dataSource = viewModel
             builder += eventCardsFormItem

@@ -37,18 +37,19 @@ public class EventsListViewModel: EventCardsViewModelable {
         return eventsManager.event(for: displayable.eventId)
     }
 
+    /// Returns the event's date of creation, may be nil.
     public func eventCreationString(for displayable: EventListDisplayable) -> String? {
         guard let event = event(for: displayable) else { return nil }
         return event.creationDateString
     }
 
+    /// Return's the event's location, may be nil.
     public func eventLocationString(for displayable: EventListDisplayable) -> String? {
         if let event = event(for: displayable) {
             if let locationReport = event.reports.first(where: {$0 is DefaultLocationReport}) {
                 return ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
             }
         }
-
         return nil
     }
 
