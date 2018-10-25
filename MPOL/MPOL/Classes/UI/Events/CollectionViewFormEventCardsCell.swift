@@ -31,7 +31,7 @@ public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollect
         layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 360, height: 200)
         layout.minimumLineSpacing = 24.0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 24.0, bottom: 0, right: 0.0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 24.0, bottom: 0, right: 24.0)
         layout.scrollDirection = .horizontal
 
         // Initialise collection view
