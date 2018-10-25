@@ -149,10 +149,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         items.removeAll()
 
-        // Add officers from myCallSign
-        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees as? [CADOfficerCore] {
-            items = myCallSignOfficers
-        }
+        // Add officers from myCallSign except yourself
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap( { $0 as? Object } )
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id})  {
+                items = myCallSignOfficers
+            }
 
         //Add officers from UserPreferences recentlyUsed
 
