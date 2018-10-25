@@ -20,8 +20,10 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
+    
     private let creationDate: Date
 
+    /// The event's date of creation as a relative string, e.g. "Today 10:44"
     public var creationDateString: String {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
