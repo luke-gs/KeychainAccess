@@ -12,12 +12,12 @@ import Foundation
 public protocol CADAssociatedVehicleType: class, CADAssociationType {
 
     // MARK: - Network
-    var alertLevel : CADAlertLevelType? { get set }
+    var alertLevel: CADAlertLevelType? { get set }
     var associatedAlertLevel: CADAlertLevelType? { get set }
-    var bodyType : String? { get set }
-    var make : String? { get set }
-    var model : String? { get set }
+    var bodyType: String? { get set }
+    var make: String? { get set }
+    var model: String? { get set }
     var primaryColour: String? { get set }
-    var plateNumber : String? { get set }
-    var year : String? { get set }
+    var plateNumber: String? { get set }
+    var year: String? { get set }
 }

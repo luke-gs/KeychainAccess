@@ -38,8 +38,8 @@ class DomesticViolencePropertyReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
     }
 
@@ -55,7 +55,7 @@ class DomesticViolencePropertyReport: Reportable {
     }
 
     public static var supportsSecureCoding: Bool = true
-    
+
     public required init?(coder aDecoder: NSCoder) {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
         weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
@@ -77,4 +77,3 @@ extension DomesticViolencePropertyReport: Summarisable {
         }
     }
 }
-

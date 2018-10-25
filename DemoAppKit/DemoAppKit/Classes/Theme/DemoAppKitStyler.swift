@@ -26,48 +26,48 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
         default: break
         }
     }
-    
+
     public override class func configureSharedStyles() {
         super.configureSharedStyles()
         let formStyler = Styler.shared
         formStyler.mainStyle = DemoAppKitStyler()
-        
+
         formStyler.setStyler(ThemedItemStyler<DetailFormItem> { item, theme in
             let cell = item.cell as! CollectionViewFormDetailCell
-            
+
             let primaryText = theme.color(forKey: .primaryText)
             let secondaryText = theme.color(forKey: .secondaryText)
             let tint = theme.color(forKey: .tint)
-            
+
             cell.titleLabel.textColor = secondaryText
             cell.subtitleLabel.textColor = item.onSelection != nil ? tint : primaryText
             cell.detailLabel.textColor = secondaryText
         }, forKey: DemoAppKitStyler.detailLinkStyle)
-        
+
         formStyler.setStyler(ThemedItemStyler<ValueFormItem> { item, theme in
             let cell = item.cell as! CollectionViewFormValueFieldCell
-            
+
             let primaryText = theme.color(forKey: .primaryText)
             let tint = theme.color(forKey: .tint)
-            
+
             cell.valueLabel.textColor = item.onSelection != nil ? tint : primaryText
         }, forKey: DemoAppKitStyler.valueLinkStyle)
-        
+
         formStyler.setStyler(ThemedItemStyler<RowDetailFormItem> { item, theme in
             let cell = item.cell as! CollectionViewFormRowDetailCell
             cell.detailLabel.textColor = theme.color(forKey: .redText)
         }, forKey: DemoAppKitStyler.summaryRequiredStyle)
-        
+
         formStyler.setStyler(ThemedItemStyler<SummaryListFormItem> { item, theme in
             let cell = item.cell as! EntityListCollectionViewCell
             cell.detailLabel.textColor = theme.color(forKey: .primaryText)
         }, forKey: DemoAppKitStyler.associationStyle)
-        
+
         formStyler.setStyler(ThemedItemStyler<SummaryListFormItem> { item, theme in
             let cell = item.cell as! EntityListCollectionViewCell
             cell.detailLabel.textColor = theme.color(forKey: .redText)
         }, forKey: DemoAppKitStyler.eventEntityStyle)
-        
+
         formStyler.setStyler(ThemedItemStyler<SubItemFormItem> { item, theme in
             let cell = item.cell as! SubItemCollectionViewCell
             cell.detailLabel.textColor = theme.color(forKey: .redText)
@@ -86,5 +86,3 @@ extension DemoAppKitStyler {
     public static let additionalActionStyle = "additionalActionStyle"
 
 }
-
-

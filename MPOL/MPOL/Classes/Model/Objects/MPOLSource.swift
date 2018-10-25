@@ -43,7 +43,7 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
 }
 
 extension MPOLSource: UnboxableKey {
-    
+
     public static func transform(unboxedKey: String) -> MPOLSource? {
         return MPOLSource(rawValue: unboxedKey)
     }

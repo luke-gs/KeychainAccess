@@ -47,13 +47,13 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
                     headerView.topAnchor.constraint(equalTo: headerContainerView.topAnchor),
                     headerView.leadingAnchor.constraint(equalTo: headerContainerView.leadingAnchor),
                     headerView.trailingAnchor.constraint(equalTo: headerContainerView.trailingAnchor),
-                    headerView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
+                    headerView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor)
                 ])
             }
             view.setNeedsLayout()
         }
     }
-    
+
     public private(set) var isFullScreen: Bool = false
 
     /// A container view for the header, so layout can be applied relative to it
@@ -129,18 +129,18 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         createSubviews()
         createConstraints()
         updateSourceItems()
-        
+
         if viewModel.allowsSwipeToExpand() {
             setupSwipeGestureRecognizers()
         }
     }
-    
+
     open func setupSwipeGestureRecognizers() {
         // Swipe right to expand the list
         let expandGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
         expandGestureRecognizer.direction = .right
         self.view.addGestureRecognizer(expandGestureRecognizer)
-        
+
         // Swipe left to contract the list
         let contractGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
         contractGestureRecognizer.direction = .left
@@ -152,13 +152,13 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             toggleFullScreen()
         }
     }
-    
+
     @objc func didSwipeRight() {
         if !isFullScreen {
             toggleFullScreen()
         }
     }
-    
+
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -215,7 +215,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
     }
-    
+
     open func createConstraints() {
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -229,7 +229,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
         // Layout sidebar on left, header on top right, list bottom right
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -249,16 +249,16 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             listView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     // We need to use viewWillTransition here, as master VC is not told about all trait collection changes
     override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [unowned self] (context) in
+        coordinator.animate(alongsideTransition: { [unowned self] (_) in
             self.updateConstraintsForSizeChange()
             self.updateNavigationButtons()
             }, completion: nil)
     }
-    
+
     open func updateConstraintsForSizeChange() {
         if let traitCollection = splitViewController?.traitCollection {
             let compact = (traitCollection.horizontalSizeClass == .compact)
@@ -273,12 +273,12 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             headerViewController = viewModel.headerViewModel.createViewController(compact: compact)
         }
     }
-    
+
     @objc public func toggleFullScreen() {
         guard let splitViewController = pushableSplitViewController as? TasksSplitViewController else { return }
         let width = isFullScreen ? TasksSplitViewController.defaultSplitWidth : splitViewController.view.bounds.width
         splitViewController.setMasterWidth(width, animated: true)
-        
+
         // Tell VC that we have toggled
         isFullScreen = !isFullScreen
 
@@ -293,7 +293,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             topController.present(TaskListScreen.mapFilter(delegate: viewModel.splitViewModel))
         }
     }
-    
+
     open func updateNavigationButtons() {
         let buttons = UIViewController.isWindowCompact() ?
             [filterButton] : isFullScreen ?

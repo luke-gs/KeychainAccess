@@ -59,7 +59,7 @@ open class StatusChangeReasonViewController: ThemedPopoverViewController {
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -inset),
 
             placeholder.topAnchor.constraint(equalTo: view.topAnchor, constant: inset),
-            placeholder.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: inset),
+            placeholder.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: inset)
         ])
     }
 

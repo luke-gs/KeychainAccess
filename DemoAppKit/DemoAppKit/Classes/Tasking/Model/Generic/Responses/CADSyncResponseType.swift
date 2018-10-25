@@ -9,9 +9,9 @@ import Foundation
 
 /// Protocol for sync response
 public protocol CADSyncResponseType: Codable {
-    var incidents : [CADIncidentType] { get }
-    var officers : [CADOfficerType] { get }
-    var resources : [CADResourceType] { get }
-    var patrols : [CADPatrolType] { get }
-    var broadcasts : [CADBroadcastType] { get }
+    var incidents: [CADIncidentType] { get }
+    var officers: [CADOfficerType] { get }
+    var resources: [CADResourceType] { get }
+    var patrols: [CADPatrolType] { get }
+    var broadcasts: [CADBroadcastType] { get }
 }

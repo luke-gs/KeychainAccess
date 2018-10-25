@@ -9,10 +9,10 @@ import PublicSafetyKit
 import DemoAppKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
-    
+
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
-    var entityPickerViewModel: EntityPickerViewModel = DefaultEntityPickerViewModel()
+    var entitySelectionViewModel: EntitySummarySelectionViewModel
     var selectedInvolvements: [String]?
     var building: AdditionalActionBuilding = DefaultAdditionalActionBuilding()
     var screenBuilding: AdditionalActionScreenBuilding = DefaultAdditionalActionScreenBuilding()
@@ -20,6 +20,9 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
     required init(report: DefaultEntitiesListReport, incidentType: IncidentType) {
         self.report = report
         self.incidentType = incidentType
+
+        self.entitySelectionViewModel = RecentEntitySummarySelectionViewModel()
+        self.entitySelectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Address.self, Organisation.self]
     }
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {

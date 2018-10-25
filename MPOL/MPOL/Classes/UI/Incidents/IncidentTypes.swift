@@ -34,38 +34,36 @@ extension IncidentType {
 
     func involvements(for entity: MPOLKitEntity) -> [String] {
         switch entity {
-            case is Person:
-                if let items = Manifest.shared.entries(for: .eventPersonInvolvementType)?.rawValues() {
-                    return items
-                }
+        case is Person:
+            if let items = Manifest.shared.entries(for: .eventPersonInvolvementType)?.rawValues() {
+                return items
+            }
 
-                fatalError("Manifest items not found for \(ManifestCollection.eventPersonInvolvementType.rawValue)")
+            fatalError("Manifest items not found for \(ManifestCollection.eventPersonInvolvementType.rawValue)")
 
-            case is Vehicle:
-                if let items = Manifest.shared.entries(for: .eventVehicleInvolvementType)?.rawValues() {
-                    return items
-                }
+        case is Vehicle:
+            if let items = Manifest.shared.entries(for: .eventVehicleInvolvementType)?.rawValues() {
+                return items
+            }
 
-                fatalError("Manifest items not found for \(ManifestCollection.eventVehicleInvolvementType.rawValue)")
+            fatalError("Manifest items not found for \(ManifestCollection.eventVehicleInvolvementType.rawValue)")
 
-            case is Organisation:
-                if let items = Manifest.shared.entries(for: .eventOrganisationInvolvementType)?.rawValues() {
-                    return items
-                }
+        case is Organisation:
+            if let items = Manifest.shared.entries(for: .eventOrganisationInvolvementType)?.rawValues() {
+                return items
+            }
 
-                fatalError("Manifest items not found for \(ManifestCollection.eventOrganisationInvolvementType.rawValue)")
+            fatalError("Manifest items not found for \(ManifestCollection.eventOrganisationInvolvementType.rawValue)")
 
-            case is Address:
-                if let items = Manifest.shared.entries(for: .eventLocationInvolvementType)?.rawValues() {
-                    return items
-                }
+        case is Address:
+            if let items = Manifest.shared.entries(for: .eventLocationInvolvementType)?.rawValues() {
+                return items
+            }
 
-                fatalError("Manifest items not found for \(ManifestCollection.eventLocationInvolvementType.rawValue)")
-            
-            default:
-                fatalError("Unrecognised entity type found when fetching event involvements.")
+            fatalError("Manifest items not found for \(ManifestCollection.eventLocationInvolvementType.rawValue)")
+
+        default:
+            fatalError("Unrecognised entity type found when fetching event involvements.")
         }
     }
 }
-
-

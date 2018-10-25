@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 open class TaskAnnotation: NSObject, MKAnnotation {
-    
+
     open var coordinate: CLLocationCoordinate2D
     open var title: String?
     open var subtitle: String?
@@ -24,7 +24,7 @@ open class TaskAnnotation: NSObject, MKAnnotation {
         self.title = title
         self.subtitle = subtitle
     }
-    
+
     override open func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? TaskAnnotation else { return false }
         return identifier == object.identifier &&

@@ -12,20 +12,23 @@ import PromiseKit
 /// PSCore implementation of book on request
 open class CADBookOnRequestCore: CADBookOnRequestType {
 
+    /// Closure for encoding app specific officers
+    static public var encodeOfficers: ((KeyedEncodingContainer<CADBookOnRequestCore.CodingKeys>, CADBookOnRequestCore.CodingKeys, [CADOfficerType]) throws -> Void)?
+
     public init() {}
 
     // MARK: - Request Parameters
 
-    open var callsign : String!
-    open var category : String?
-    open var driverEmployeeNumber : String?
-    open var employees : [CADOfficerType] = []
-    open var equipment : [CADEquipmentType] = []
-    open var odometer : Int?
-    open var remarks : String?
+    open var callsign: String!
+    open var category: String?
+    open var driverId: String?
+    open var employees: [CADOfficerType] = []
+    open var equipment: [CADEquipmentType] = []
+    open var odometer: Int?
+    open var remarks: String?
     open var serial: String?
-    open var shiftEnd : Date?
-    open var shiftStart : Date?
+    open var shiftEnd: Date?
+    open var shiftStart: Date?
 
     // MARK: - CodableRequestParameters
 
@@ -37,10 +40,10 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
 
     // MARK: - Codable
 
-    private enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case callsign
         case category
-        case driverEmployeeNumber
+        case driverId
         case employees
         case equipment
         case odometer
@@ -54,14 +57,16 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(callsign, forKey: .callsign)
         try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(driverEmployeeNumber, forKey: .driverEmployeeNumber)
-        try container.encodeIfPresent(employees as? [CADOfficerCore], forKey: .employees)
+        try container.encodeIfPresent(driverId, forKey: .driverId)
         try container.encodeIfPresent(equipment as? [CADEquipmentCore], forKey: .equipment)
         try container.encodeIfPresent(odometer, forKey: .odometer)
         try container.encodeIfPresent(remarks, forKey: .remarks)
         try container.encodeIfPresent(serial, forKey: .serial)
         try container.encodeIfPresent(shiftEnd, forKey: .shiftEnd)
         try container.encodeIfPresent(shiftStart, forKey: .shiftStart)
+
+        // Encode officers using injected closure with explicit type
+        try CADBookOnRequestCore.encodeOfficers?(container, .employees, employees)
     }
 
 }

@@ -10,18 +10,17 @@ import Foundation
 import PublicSafetyKit
 import Unbox
 
-
 @objc(MPLAlias)
 open class Alias: NSObject, Serialisable {
-    
+
     public static var supportsSecureCoding: Bool {
         return true
     }
 
     public static var modelVersion: Int { return 0 }
-    
+
     open var id: String
-    
+
     open var dateCreated: Date?
     open var dateUpdated: Date?
     open var createdBy: String?
@@ -31,24 +30,24 @@ open class Alias: NSObject, Serialisable {
     open var entityType: String?
     open var isSummary: Bool = false
     open var source: MPOLSource?
-    
+
     open var type: String?
     open var jurisdiction: String?
-    
+
     public required init(id: String = UUID().uuidString) {
         self.id = id
 
         super.init()
     }
-    
+
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
-    
+
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
         self.id = id
-        
+
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Alias.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Alias.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -63,7 +62,7 @@ open class Alias: NSObject, Serialisable {
         jurisdiction = unboxer.unbox(key: "jurisdiction")
         super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
@@ -85,7 +84,7 @@ open class Alias: NSObject, Serialisable {
         type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
         jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Alias.modelVersion, forKey: CodingKey.version.rawValue)
 
@@ -101,7 +100,7 @@ open class Alias: NSObject, Serialisable {
         aCoder.encode(type, forKey: CodingKey.type.rawValue)
         aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
-    
+
     private enum CodingKey: String {
         case version
         case id

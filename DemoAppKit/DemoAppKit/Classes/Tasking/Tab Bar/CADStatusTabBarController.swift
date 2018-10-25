@@ -10,32 +10,32 @@ import UIKit
 
 /// CAD implementation of status tab bar with callsign status
 open class CADStatusTabBarController: StatusTabBarController {
-    
+
     public let viewModel: CADStatusTabBarViewModel
     open var userCallsignStatusView: UserCallsignStatusView!
-    
+
     open override var defaultSelectedViewControllerIndex: Int {
         return 1
     }
-    
+
     public init(viewModel: CADStatusTabBarViewModel) {
         self.viewModel = viewModel
         super.init()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Add book on status view to status area
         userCallsignStatusView = viewModel.userCallsignStatusViewModel.createView()
         userCallsignStatusView.addTarget(self, action: #selector(selectedCallsignStatusView), for: .touchUpInside)
-        
+
         statusView = userCallsignStatusView
         tabBar.isTranslucent = false
 
@@ -45,7 +45,7 @@ open class CADStatusTabBarController: StatusTabBarController {
             view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
             tabBarContainerController.view.isHidden = true
         }
-        
+
         applyTheme()
     }
 
@@ -53,7 +53,7 @@ open class CADStatusTabBarController: StatusTabBarController {
         super.traitCollectionDidChange(previousTraitCollection)
         statusView?.isHidden = isCompact()
     }
-    
+
     @objc open func syncChanged() {
         if tabBarContainerController.view.isHidden {
             tabBarContainerController.view.isHidden = false
@@ -77,17 +77,17 @@ open class CADStatusTabBarController: StatusTabBarController {
         compactViewControllers?.forEach {
             $0.tabBarItem.isEnabled = enabled
         }
-        
+
         userCallsignStatusView.isEnabled = enabled
     }
-    
+
     @objc open func selectedCallsignStatusView() {
         guard userCallsignStatusView.isEnabled, let screen = viewModel.userCallsignStatusViewModel.screenForAction() else { return }
         selectedViewController?.present(screen)
     }
-    
+
     // MARK: - Private methods
-    
+
     @objc private func applyTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
         let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
@@ -96,4 +96,3 @@ open class CADStatusTabBarController: StatusTabBarController {
         userCallsignStatusView.apply(theme: theme)
     }
 }
-

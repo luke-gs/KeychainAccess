@@ -92,7 +92,7 @@ open class ClusterTasksViewController: FormBuilderViewController {
                         let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                         self.apply(theme: theme, to: cell)
                     })
-                    .onSelection({ [weak self] (cell) in
+                    .onSelection({ [weak self] (_) in
                         if let viewModel = item.createItemViewModel() {
                             self?.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
@@ -103,11 +103,10 @@ open class ClusterTasksViewController: FormBuilderViewController {
 
     open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, didSelectItemAt: indexPath)
-        
+
         // Always deselect row after selection
         collectionView.deselectItem(at: indexPath, animated: true)
     }
-
 
     open func apply(theme: Theme, to cell: CollectionViewFormCell) {
         if let cell = cell as? TasksListResourceCollectionViewCell {

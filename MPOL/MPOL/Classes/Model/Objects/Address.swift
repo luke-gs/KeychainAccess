@@ -41,15 +41,15 @@ open class Address: Entity {
     override open class var serverTypeRepresentation: String {
         return "Location"
     }
-    
+
     open var type: String?
     open var latitude: Double?
     open var longitude: Double?
     open var horizontalAccuracy: Double?
-    
+
     open var altitude: Double?
     open var altitudeAccuracy: Double?
-    
+
     open var sampleTaken: String?
     open var dataAge: Int?
 
@@ -78,17 +78,17 @@ open class Address: Entity {
     }
 
     public required init(unboxer: Unboxer) throws {
-        
+
         try super.init(unboxer: unboxer)
-        
+
         type = unboxer.unbox(key: CodingKeys.type.rawValue)
         latitude = unboxer.unbox(key: "latitude")
         longitude = unboxer.unbox(key: "longitude")
         horizontalAccuracy = unboxer.unbox(key: "horizontalAccuracy")
-        
+
         altitude = unboxer.unbox(key: "altitude")
         altitudeAccuracy = unboxer.unbox(key: "altitudeAccuracy")
-        
+
         sampleTaken = unboxer.unbox(key: "sampleTaken")
         dataAge = unboxer.unbox(key: "dataAge")
 
@@ -109,7 +109,7 @@ open class Address: Entity {
         commonName = unboxer.unbox(key: "commonName")
         fullAddress = unboxer.unbox(key: "fullAddress")
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
@@ -163,6 +163,11 @@ open class Address: Entity {
         aCoder.encode(postcode, forKey: CodingKeys.postcode.rawValue)
         aCoder.encode(commonName, forKey: CodingKeys.commonName.rawValue)
         aCoder.encode(fullAddress, forKey: CodingKeys.fullAddress.rawValue)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
     }
 
     open override class var localizedDisplayName: String {

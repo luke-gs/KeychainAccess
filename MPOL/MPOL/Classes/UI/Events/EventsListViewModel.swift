@@ -32,7 +32,7 @@ public class EventsListViewModel: EventCardsViewModelable {
         self.eventsManager = eventsManager
         self.title = "Events"
     }
-    
+
     public func event(for displayable: EventListDisplayable) -> Event? {
         return eventsManager.event(for: displayable.eventId)
     }
@@ -83,7 +83,7 @@ public class EventsListViewModel: EventCardsViewModelable {
 
         fatalError("Image for event could not be generated")
     }
-    
+
     public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
         let screenBuilder = EventScreenBuilder()
         let incidentsManager = IncidentsManager()
@@ -94,7 +94,7 @@ public class EventsListViewModel: EventCardsViewModelable {
         incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
 
         if let incidentType = incidentType {
-            let _ = incidentsManager.create(incidentType: incidentType, in: event)
+            _ = incidentsManager.create(incidentType: incidentType, in: event)
         }
 
         screenBuilder.incidentsManager = incidentsManager
@@ -109,7 +109,7 @@ public class EventsListViewModel: EventCardsViewModelable {
 
         builder.request = { return APIManager.shared.submitEvent(in: MPOLSource.pscore,
                                                                  with: EventSubmissionRequest()) }
-        
+
         return builder
     }
 }

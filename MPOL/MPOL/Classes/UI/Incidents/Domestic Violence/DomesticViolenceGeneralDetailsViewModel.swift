@@ -29,4 +29,3 @@ public class DomesticViolenceGeneralDetailsViewModel {
         report.evaluator.addObserver(observer)
     }
 }
-

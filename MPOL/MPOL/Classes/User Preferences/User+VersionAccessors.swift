@@ -11,10 +11,10 @@ import PublicSafetyKit
 extension UserPreferenceKey {
     /// The appVersion at the last user login
     public static let highestUsedAppVersion = UserPreferenceKey("highestUsedAppVersion")
-    
+
     /// The last terms and conditions version that was accepted
     public static let termsAndConditionsVersionAccepted = UserPreferenceKey("termsAndConditionsVersionAccepted")
-    
+
     /// The last what's new screen version that was shown
     public static let whatsNewShownVersion = UserPreferenceKey("whatsNewShownVersion")
 }

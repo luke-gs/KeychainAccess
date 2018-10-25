@@ -81,7 +81,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             do {
                 let styleMap = ThemeManager.htmlStyleMap
-                
+
                 let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                                 htmlURL: TermsAndConditions.url,
                                                                 styleMap: styleMap,
@@ -108,7 +108,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
 
-            
             let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
             let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
 
@@ -152,7 +151,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 OrganisationSearchDataSource(),
                 locationDataSource
                 ])
-            
+
             let searchViewController = SearchViewController(viewModel: viewModel)
             // Define a SearchNoContentView and add target to the tasksButton so that it opens CAD
             let searchNoContentView = SearchNoContentView()
@@ -196,14 +195,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
             // Fetch the current officer details
             return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
                                                                 with: CurrentOfficerDetailsFetchRequest())
-            
+
         }.done { officer in
             try! UserSession.current.userStorage?.add(object: officer,
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
         }
     }
-    
+
     override public func logOff() {
         if CADStateManager.shared.lastBookOn != nil {
             AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
@@ -212,12 +211,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
         super.logOff()
     }
-    
+
     override public func onRemoteLogOffCompleted() {
         super.onRemoteLogOffCompleted()
         (UIApplication.shared.delegate as? AppDelegate)?.removeShortcuts()
     }
-    
+
     func switchTo(_ screen: Screen) {
         let selectedIndex: Int
         switch screen {
@@ -388,7 +387,6 @@ extension LandingPresenter: UserCallsignStatusViewModelDelegate {
     }
 
 }
-
 
 // MARK: - UITabBarControllerDelegate
 extension LandingPresenter: UITabBarControllerDelegate {

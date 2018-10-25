@@ -66,7 +66,7 @@ open class TasksListHeaderRegularViewController: UIViewController {
             titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.trailingMargin),
-            buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
         ])
     }
 

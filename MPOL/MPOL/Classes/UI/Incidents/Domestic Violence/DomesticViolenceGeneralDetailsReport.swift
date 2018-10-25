@@ -22,8 +22,8 @@ class DomesticViolenceGeneralDetailsReport: Reportable {
     var childCount: Int = 0
     var childrenToBeNamed: Bool = false
     var associateToBeNamed: Bool = false
-    var details: String? = nil
-    var remarks: String? = nil
+    var details: String?
+    var remarks: String?
 
     public var viewed: Bool = false {
         didSet {
@@ -42,8 +42,8 @@ class DomesticViolenceGeneralDetailsReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
     }
 

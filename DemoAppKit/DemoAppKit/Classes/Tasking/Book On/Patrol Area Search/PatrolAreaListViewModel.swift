@@ -13,26 +13,26 @@ public protocol PatrolAreaListViewModelDelegate: class {
 }
 
 open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
-    
+
     // MARK: - Properties
-    
+
     public var selectedPatrolArea: String?
     public weak var selectionDelegate: PatrolAreaListViewModelDelegate?
-    
+
     // MARK: - Setup
-    
+
     public convenience init() {
         self.init(items: [])
         reloadItems()
     }
-    
+
     public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
-        
+
         title = navTitle()
         hasSections = false
     }
-    
+
     open func reloadItems() {
         var items: [CustomSearchDisplayable] = []
         let patrolAreas = CADStateManager.shared.manifestEntries(for: .patrolGroup)
@@ -45,7 +45,7 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
         }
         self.items = items
     }
-    
+
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
         let vc = PatrolAreaListViewController(viewModel: self)
@@ -55,37 +55,37 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Select Patrol Area", comment: "")
     }
-    
+
     open func doneButtonText() -> String {
         return NSLocalizedString("Done", comment: "")
     }
-    
+
     open func cancelButtonText() -> String {
         return NSLocalizedString("Cancel", comment: "")
     }
-    
+
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
     }
-    
+
     open override func searchAction() -> Promise<Void>? {
         return nil
     }
-    
+
     public func indexOfSelectedItem() -> Int? {
         return items.indexes(where: { $0.title == selectedPatrolArea }).first
     }
-    
+
     open override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         if let selected = selectedPatrolArea {
             return searchable.title == selected ? ItemAccessory.checkmark : nil
         }
-        
+
         return nil
     }
-    
+
     public func doneTapped() {
         selectionDelegate?.patrolAreaListViewModel(self, didSelectPatrolArea: selectedPatrolArea)
     }
-    
+
 }

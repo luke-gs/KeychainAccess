@@ -44,14 +44,15 @@ open class InterceptReportGeneralDetailsReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasRequiredData) {
+        evaluator.registerKey(.hasRequiredData) { [weak self] in
+            guard let `self` = self else { return false }
             return self.selectedSubject != nil && self.selectedSecondarySubject != nil
         }
     }
 
     // Coding
     public static var supportsSecureCoding: Bool = true
-    
+
     private enum Coding: String {
         case incidents
         case event
@@ -74,7 +75,7 @@ open class InterceptReportGeneralDetailsReport: Reportable {
 }
 
 extension InterceptReportGeneralDetailsReport: Summarisable {
-    
+
     public var formItems: [FormItem] {
         var items = [FormItem]()
         items.append(RowDetailFormItem(title: "Subject", detail: selectedSubject ?? "Required")
@@ -86,6 +87,3 @@ extension InterceptReportGeneralDetailsReport: Summarisable {
         return items
     }
 }
-
-
-

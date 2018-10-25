@@ -10,7 +10,6 @@ import PublicSafetyKit
 
 public extension Settings {
 
-
     /// Setting for whats new presentation handling
     ///
     /// Presents the whats new screen

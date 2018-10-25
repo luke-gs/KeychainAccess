@@ -20,7 +20,6 @@ public class PropertyDetailsReport: MediaContainer {
         self.involvements = copyingReport.involvements
         self.media = copyingReport.media
 
-
         // Do a quick check to see that the media items even exist
         // TODO: Create a datastore which doesn't delete items from the system until onDone
         // TODO: FIX THIS SHIT

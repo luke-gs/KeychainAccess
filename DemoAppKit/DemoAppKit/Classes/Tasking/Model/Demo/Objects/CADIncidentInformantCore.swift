@@ -18,9 +18,9 @@ open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
     open var primaryPhone: String?
 
     open var secondaryPhone: String?
-    
+
     open var address: String?
-    
+
     open var shouldFollowUp: Bool?
 
     // MARK: - Codable

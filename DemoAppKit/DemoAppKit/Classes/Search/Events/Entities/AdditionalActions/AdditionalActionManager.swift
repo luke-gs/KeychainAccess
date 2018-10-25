@@ -10,12 +10,12 @@ final public class AdditionalActionManager {
     private let additionalActionRelationshipManager = RelationshipManager<MPOLKitEntity, AdditionalAction>()
 
     public var allValid: Bool {
-        return actions.reduce(true, { (result, action) -> Bool in
+        return actions.reduce(true, { (_, action) -> Bool in
             return action.evaluator.isComplete
         })
     }
 
-    public func actionRelationships(for entity:MPOLKitEntity) -> [Relationship<MPOLKitEntity, AdditionalAction>] {
+    public func actionRelationships(for entity: MPOLKitEntity) -> [Relationship<MPOLKitEntity, AdditionalAction>] {
         return additionalActionRelationshipManager.relationships(for: entity, and: AdditionalAction.self)
     }
 

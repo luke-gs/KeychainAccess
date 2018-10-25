@@ -81,7 +81,7 @@ class OffencePointAndFineTotalsView: UIView {
             //fine title label
             fineTitleLabel.topAnchor.constraint(equalTo: fineValueLabel.bottomAnchor, constant: 14),
             fineTitleLabel.centerXAnchor.constraint(equalTo: fineView.centerXAnchor),
-            fineTitleLabel.bottomAnchor.constraint(equalTo: fineView.bottomAnchor, constant: -36),
+            fineTitleLabel.bottomAnchor.constraint(equalTo: fineView.bottomAnchor, constant: -36)
         ])
     }
 }

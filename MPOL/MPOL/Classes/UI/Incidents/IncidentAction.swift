@@ -33,7 +33,7 @@ protocol IncidentActionDefiniton {
 }
 
 /// Struct with the definition for adding an Incident.
-struct AddIncidentDefinition : IncidentActionDefiniton {
+struct AddIncidentDefinition: IncidentActionDefiniton {
 
     weak var context: IncidentListViewController?
 
@@ -82,7 +82,7 @@ struct AddIncidentDefinition : IncidentActionDefiniton {
 }
 
 /// Struct with the definition for choosing the Primary Incident.
-struct ChoosePrimaryIncidentDefinition : IncidentActionDefiniton {
+struct ChoosePrimaryIncidentDefinition: IncidentActionDefiniton {
 
     weak var context: IncidentListViewController?
 
@@ -92,7 +92,7 @@ struct ChoosePrimaryIncidentDefinition : IncidentActionDefiniton {
 
     var dataSource: CustomSearchPickerDataSource {
         if let context = context {
-            
+
             let dataSource = DefaultSearchDataSource(objects: context.viewModel.incidentList.map {$0.title!},
                                                      selectedObjects: [(context.viewModel.primaryIncident?.title!)!],
                                                      title: "Select Primary Incident")
@@ -131,7 +131,7 @@ struct ChoosePrimaryIncidentDefinition : IncidentActionDefiniton {
 }
 
 /// Struct with the definition for deleting the Primary Incident.
-struct DeletePrimaryIncidentDefinition : IncidentActionDefiniton {
+struct DeletePrimaryIncidentDefinition: IncidentActionDefiniton {
 
     weak var context: IncidentListViewController?
 

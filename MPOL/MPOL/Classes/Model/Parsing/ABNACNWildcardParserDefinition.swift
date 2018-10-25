@@ -10,7 +10,7 @@ import PublicSafetyKit
 
 public enum ABNACNWildcardParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
-    
+
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
@@ -21,9 +21,9 @@ public enum ABNACNWildcardParserError: LocalizedError {
 
 public class ABNACNWildcardParserDefinition: WildcardParserDefinition {
     public static let ABNACNWildcardNumberKey = "ABNACNWildcardNumber"
-    
+
     static public let LongestPossibleQueryLength = 11
-    
+
     public init() {
         super.init(range: 0...ABNACNWildcardParserDefinition.LongestPossibleQueryLength,
                    definitionKey: ABNACNWildcardParserDefinition.ABNACNWildcardNumberKey,

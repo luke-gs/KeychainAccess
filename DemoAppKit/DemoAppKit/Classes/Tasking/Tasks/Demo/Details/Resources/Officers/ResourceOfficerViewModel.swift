@@ -9,14 +9,14 @@
 import UIKit
 
 open class ResourceOfficerViewModel {
-    
+
     public var title: String
     public var subtitle: String
     public var initials: String?
     public var badgeText: String?
     public var commsEnabled: (text: Bool, call: Bool)
     public var contactNumber: String
-    
+
     public init(title: String, subtitle: String, initials: String?, badgeText: String?, commsEnabled: (text: Bool, call: Bool), contactNumber: String) {
         self.title = title
         self.subtitle = subtitle
@@ -25,7 +25,7 @@ open class ResourceOfficerViewModel {
         self.commsEnabled = commsEnabled
         self.contactNumber = contactNumber
     }
-    
+
     convenience public init(officer: CADOfficerType, resource: CADResourceType? = nil) {
         let commsEnabled = officer.contactNumber != nil
 
@@ -38,12 +38,12 @@ open class ResourceOfficerViewModel {
                   subtitle: [officer.rank, officer.payrollIdDisplayString, licenceType]
                     .joined(separator: ThemeConstants.dividerSeparator),
                   initials: officer.initials,
-                  badgeText: resource?.driver == officer.payrollId ? "D": nil,
+                  badgeText: resource?.driver == officer.id ? "D": nil,
                   commsEnabled: (text: false, call: commsEnabled), // TODO: Set text enabled later on
                   contactNumber: officer.contactNumber ?? ""
         )
     }
-    
+
     open func thumbnail() -> ImageLoadable? {
         guard let initials = initials, let image = UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
                                                                                    circleColor: .disabledGray,

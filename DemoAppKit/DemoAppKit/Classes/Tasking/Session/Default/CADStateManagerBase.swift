@@ -122,7 +122,7 @@ open class CADStateManagerBase: CADStateManagerType {
     open var lastSync: CADSyncResponseType?
 
     /// The last synced bounding box
-    open var lastSyncMapBoundingBox: MKMapRect.BoundingBox? = nil
+    open var lastSyncMapBoundingBox: MKMapRect.BoundingBox?
 
     // MARK: - Property changes
 
@@ -141,7 +141,7 @@ open class CADStateManagerBase: CADStateManagerType {
         // Force a sync unless just updating the map bounds
         let force: Bool
         switch (oldValue, syncMode) {
-        case (.map(_), .map(_)):
+        case (.map, .map):
             force = false
         default:
             force = true
@@ -156,7 +156,6 @@ open class CADStateManagerBase: CADStateManagerType {
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }
     }
-
 
     // MARK: - Manifest
 
@@ -182,7 +181,7 @@ open class CADStateManagerBase: CADStateManagerType {
                                                    fetchType: .full)
         }
         return apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
-            return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
+            return Manifest.shared.saveManifest(with: result, at: checkedAtDate)
             }.done { [unowned self] _ in
                 self.lastManifestSyncTime = Date()
         }
@@ -280,12 +279,12 @@ open class CADStateManagerBase: CADStateManagerType {
             }
             officersById.removeAll()
             for officer in syncDetails.officers {
-                officersById[officer.payrollId] = officer
+                officersById[officer.id] = officer
             }
 
             // Make sure logged in officer is in cache too
             if let officerDetails = officerDetails {
-                officersById[officerDetails.payrollId] = officerDetails
+                officersById[officerDetails.id] = officerDetails
             }
         }
     }
@@ -315,8 +314,8 @@ open class CADStateManagerBase: CADStateManagerType {
     open func officersForResource(callsign: String) -> [CADOfficerType] {
         var officers: [CADOfficerType] = []
         if let resource = resourcesById[callsign] {
-            for payrollId in resource.payrollIds {
-                if let officer = officersById[payrollId] {
+            for id in resource.officerIds {
+                if let officer = officersById[id] {
                     officers.append(officer)
                 }
             }
@@ -334,16 +333,16 @@ open class CADStateManagerBase: CADStateManagerType {
         self.pendingSync = nil
         self.isQueuedSync = false
         self.lastSyncMapBoundingBox = nil
-        
+
         self.syncMode = .none
-        
+
         self.incidentsById.removeAll()
         self.resourcesById.removeAll()
         self.officersById.removeAll()
         self.patrolsById.removeAll()
         self.broadcastsById.removeAll()
     }
-    
+
     // MARK: - Subclass
 
     /// Perform initial sync after login or launching app

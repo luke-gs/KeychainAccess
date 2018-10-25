@@ -61,11 +61,11 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         super.viewDidAppear(animated)
         viewModel.report.viewed = true
     }
-    
+
     open override func construct(builder: FormBuilder) {
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
-        
+
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in
@@ -81,11 +81,13 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }, size: image?.size ?? .zero))
-                .onSelection({ (cell) in
+                .onSelection({ [weak self] (_) in
+                    guard let `self` = self else { return }
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
                 })
-                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                    guard let `self` = self else { return }
                     self.viewModel.removeOfficer(at: indexPath)
                     self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()
@@ -109,7 +111,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
-        viewController.finishUpdateHandler = { controller, index in
+        viewController.finishUpdateHandler = { [weak self] controller, index in
+            guard let `self` = self else { return }
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(involvements, to: officer)
             self.reloadForm()
@@ -156,7 +159,8 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
         involvementDataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
         let involvementsViewController = CustomPickerController(dataSource: involvementDataSource)
-        involvementsViewController.finishUpdateHandler = { controller, index in
+        involvementsViewController.finishUpdateHandler = { [weak self] controller, index in
+            guard let `self` = self else { return }
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)

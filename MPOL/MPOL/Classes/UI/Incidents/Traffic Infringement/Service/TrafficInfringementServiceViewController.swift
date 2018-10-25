@@ -62,7 +62,7 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
         if let selectedServiceType = viewModel.report.selectedServiceType {
             builder += LargeTextHeaderFormItem(text: "Details")
                 .separatorColor(.clear)
-            
+
             switch selectedServiceType {
             case .email:
 

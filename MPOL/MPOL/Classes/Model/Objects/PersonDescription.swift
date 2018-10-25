@@ -11,9 +11,9 @@ import PublicSafetyKit
 
 @objc(MPLPersonDescription)
 open class PersonDescription: NSObject, Serialisable {
-    
+
     open var id: String
-    
+
     open var dateCreated: Date?
     open var dateUpdated: Date?
     open var createdBy: String?
@@ -23,7 +23,7 @@ open class PersonDescription: NSObject, Serialisable {
     open var entityType: String?
     open var isSummary: Bool = false
     open var source: MPOLSource?
-    
+
     open var height: Int?
     open var weight: String?
     open var ethnicity: String?
@@ -33,20 +33,20 @@ open class PersonDescription: NSObject, Serialisable {
     open var eyeColour: String?
     open var marks: [String]?
     open var remarks: String?
-    
+
     open var imageThumbnail: Media?
     open var image: Media?
 
     open var jurisdiction: String?
-    
+
     public static var supportsSecureCoding: Bool { return true }
     public static var modelVersion: Int { return 0 }
-    
+
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
         id = unboxer.unbox(key: "id") ?? UUID().uuidString
-        
+
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: PersonDescription.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: PersonDescription.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -56,7 +56,7 @@ open class PersonDescription: NSObject, Serialisable {
         entityType = unboxer.unbox(key: "entityType")
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
-        
+
         height = unboxer.unbox(key: "height")
         weight = unboxer.unbox(key: "weight")
         ethnicity = unboxer.unbox(key: "ethnicity")
@@ -70,20 +70,20 @@ open class PersonDescription: NSObject, Serialisable {
         image = unboxer.unbox(key: "image")
 
         jurisdiction = unboxer.unbox(key: "jurisdiction")
-        
+
         super.init()
     }
-    
+
     public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
-        
+
         super.init()
-        
+
         dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
         dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
@@ -92,7 +92,7 @@ open class PersonDescription: NSObject, Serialisable {
         updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
         entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
         isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
-        
+
         if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
             self.source = MPOLSource(rawValue: source)
         }
@@ -115,7 +115,7 @@ open class PersonDescription: NSObject, Serialisable {
 
         jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
-    
+
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(PersonDescription.modelVersion, forKey: CodingKey.version.rawValue)
 
@@ -147,7 +147,7 @@ open class PersonDescription: NSObject, Serialisable {
 
         aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
-    
+
     public func formatted() -> String? {
         var primaryComponents: [String] = []
         var secondaryComponents: [String] = []
@@ -187,11 +187,11 @@ open class PersonDescription: NSObject, Serialisable {
         if let remarks = remarks?.ifNotEmpty() {
             secondaryComponents.append(String(remarks.first!).uppercased() + String(remarks.dropFirst()))
         }
-        
+
         if primaryComponents.isEmpty && secondaryComponents.isEmpty {
             return nil
         }
-        
+
         let locationString = jurisdiction != nil ? " (\(jurisdiction!))" : ""
 
         return primaryComponents.joined(separator: ", ") + (!primaryComponents.isEmpty ? ". " : "") + secondaryComponents.joined(separator: ", ") + locationString + (!secondaryComponents.isEmpty || !locationString.isEmpty ? "." : "")

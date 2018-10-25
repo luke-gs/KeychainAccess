@@ -10,7 +10,7 @@ import PublicSafetyKit
 import PromiseKit
 
 extension UserPreferenceManager {
-    
+
     /// Fetch user preferences that are used in both applications
     @discardableResult public func fetchSharedUserPreferences() -> Promise<Void> {
         guard UserSession.current.isActive else { return Promise<Void>() }

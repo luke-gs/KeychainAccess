@@ -39,5 +39,3 @@ public class TrafficInfringementScreenBuilder: IncidentScreenBuilding {
 
     public init() {}
 }
-
-

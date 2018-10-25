@@ -33,13 +33,13 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
 
     public func numberOfRows(in section: Int) -> Int {
         let section = sectionOrder[section]
-        return filteredProperties.filter{$0.type == section}.count
+        return filteredProperties.filter {$0.type == section}.count
     }
 
     public func isSectionHidden(_ section: Int) -> Bool {
         guard isSearching == true else { return false }
         let section = sectionOrder[section]
-        return filteredProperties.filter{$0.type == section}.count == 0
+        return filteredProperties.filter {$0.type == section}.count == 0
     }
 
     public func title(for section: Int) -> String {
@@ -52,7 +52,7 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
 
     public func object(for indexPath: IndexPath) -> Property {
         let section = sectionOrder[indexPath.section]
-        return filteredProperties.filter{$0.type == section}[indexPath.row]
+        return filteredProperties.filter {$0.type == section}[indexPath.row]
     }
 
     public func searchable(for object: Property) -> CustomSearchDisplayable {
@@ -66,7 +66,7 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
             return
         }
         isSearching = true
-        filteredProperties = properties.filter{$0.fullType.lowercased().contains(searchString.lowercased())}
+        filteredProperties = properties.filter {$0.fullType.lowercased().contains(searchString.lowercased())}
     }
 
     public func emptyStateText() -> String? {

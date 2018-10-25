@@ -10,7 +10,7 @@ import UIKit
 import PublicSafetyKit
 import DemoAppKit
 
-fileprivate enum FilterItem: Int {
+private enum FilterItem: Int {
     case stateFilter
     case vehicleTypeFilter
     case vehicleSearchType
@@ -26,7 +26,7 @@ fileprivate enum FilterItem: Int {
     }
 }
 
-fileprivate enum VehicleSearchType: String, Pickable {
+private enum VehicleSearchType: String, Pickable {
     case registration = "Registration"
     case vin          = "VIN"
     case engineNumber = "Engine number"
@@ -53,7 +53,7 @@ fileprivate enum VehicleSearchType: String, Pickable {
     }
 }
 
-fileprivate enum VehicleType: String, Pickable {
+private enum VehicleType: String, Pickable {
     case allVehicleTypes = "All"
     case car = "Car"
     case motorcycle = "Motorcycle"
@@ -80,7 +80,7 @@ fileprivate enum VehicleType: String, Pickable {
     static var all: [VehicleType] = [.allVehicleTypes, .car, .motorcycle, .van, .truck, .trailer, .vessel]
 }
 
-fileprivate enum State: String, Pickable {
+private enum State: String, Pickable {
     case allStates = "All"
     case act = "ACT"
     case qld = "QLD"
@@ -128,7 +128,7 @@ fileprivate enum State: String, Pickable {
     static var all: [State] = [.allStates, .act, .qld, .nsw, .nt, .sa, .tas, .vic, .wa]
 }
 
-fileprivate class VehicleSearchOptions: SearchOptions {
+private class VehicleSearchOptions: SearchOptions {
     var vehicleIdentifier: VehicleSearchType = .registration
     var vehicleType: VehicleType = .allVehicleTypes
     var state: State = .allStates
@@ -175,7 +175,7 @@ fileprivate class VehicleSearchOptions: SearchOptions {
     weak var delegate: VehicleSearchOptionsDelegate?
 }
 
-fileprivate protocol VehicleSearchOptionsDelegate: class {
+private protocol VehicleSearchOptionsDelegate: class {
     func vehicleSearchOptionsDidChangeType(_ options: VehicleSearchOptions)
 }
 
@@ -233,7 +233,6 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     lazy var navigationButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemTapped))
 
-
     // MARK: SearchDataSource
     var options: SearchOptions? = VehicleSearchOptions()
 
@@ -264,7 +263,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                                           onSelect: { [weak self] (_, selectedIndexes) in
                                             guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
                                             options.vehicleIdentifier = searchTypes[selectedTypeIndex]
-                                            
+
                                             self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
             })
 
@@ -325,7 +324,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         VoiceSearchWorkflowManager.shared.beginVoiceSearch()
     }
 
-    private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
+    private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> Void)) {
         do {
             guard let searchTerm = text, let vehicleIdentifier = (options as? VehicleSearchOptions)?.vehicleIdentifier, let vehicleType = (options as? VehicleSearchOptions)?.vehicleType, let state = (options as? VehicleSearchOptions)?.state else {
                 throw NSError(domain: "MPOL.VehicleSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
@@ -349,16 +348,16 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             default:
                 #if DEBUG
                 fatalError("No parser definition found. Ensure that all combinations are covered.")
-                #endif
+                #else
                 break
+                #endif
             }
-
 
             if let searchParameters = searchParameters {
                 // Note: generate as many requests as required
                 let request = VehicleSearchRequest(source: .pscore, request: searchParameters)
                 let rdaRequest = VehicleSearchRequest(source: .rda, request: searchParameters)
-                
+
                 let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]))
 
                 resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
@@ -373,7 +372,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     public func performSearch() {
         generateResultModel(text) { (resultModel, error) in
-            if let error = error {
+            if error != nil {
                 self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .searchInvalidTextError), "Vehicle")
             } else {
                 let search = Searchable(text: text, options: options?.state(), type: VehicleSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityCarSmall)

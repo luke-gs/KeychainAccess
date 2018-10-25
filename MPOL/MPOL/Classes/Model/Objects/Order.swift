@@ -41,12 +41,17 @@ open class Order: Entity {
 
     override open func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        
+
         aCoder.encode(type, forKey: CodingKeys.type.rawValue)
         aCoder.encode(status, forKey: CodingKeys.status.rawValue)
         aCoder.encode(issuingAuthority, forKey: CodingKeys.issuingAuthority.rawValue)
         aCoder.encode(orderDescription, forKey: CodingKeys.orderDescription.rawValue)
         aCoder.encode(issuedDate, forKey: CodingKeys.issuedDate.rawValue)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
     }
 
     override open class var modelVersion: Int {

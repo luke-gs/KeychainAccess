@@ -11,7 +11,7 @@ import PublicSafetyKit
 
 public enum EngineNumberParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
-    
+
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):

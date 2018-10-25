@@ -20,7 +20,7 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
         let officerSearchController = OfficerSearchViewController<OfficerSelectionAction>(viewModel: viewModel)
         officerSearchController.delegate = self
-        officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",                     style: .plain, target: officerSearchController,
+        officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: officerSearchController,
             action: #selector(UIViewController.dismissAnimated))
 
         let navigationController = PopoverNavigationController(rootViewController: officerSearchController)

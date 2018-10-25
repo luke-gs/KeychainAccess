@@ -11,13 +11,16 @@ import UIKit
 /// Book on details officer form view model, representing the underlying data for a CADOfficerType
 open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
-    public init() {}
+    public init(officerId: String) {
+        self.officerId = officerId
+    }
 
     // MARK: - Stored properties
 
     open var title: String?
     open var rank: String?
-    open var officerId: String?
+    open var officerId: String
+    open var employeeNumber: String?
     open var licenceTypeId: String?
     open var contactNumber: String?
     open var radioId: String?
@@ -30,14 +33,12 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var isDriver: Bool?
 
     open var licenceTypeEntry: PickableManifestEntry? {
-        get {
-            if let licenceTypeId = licenceTypeId {
-                if let entry = Manifest.shared.entry(withID: licenceTypeId) {
-                    return PickableManifestEntry(entry)
-                }
+        if let licenceTypeId = licenceTypeId {
+            if let entry = Manifest.shared.entry(withID: licenceTypeId) {
+                return PickableManifestEntry(entry)
             }
-            return nil
         }
+        return nil
     }
 
     open var subtitle: String {
@@ -46,9 +47,9 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         }
         return officerInfoSubtitle
     }
-    
+
     open var officerInfoSubtitle: String {
-        return [rank, officerId, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
+        return [rank, employeeNumber, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     open var driverStatus: String? {
@@ -69,6 +70,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.title = officer.title
         self.rank = officer.rank
         self.officerId = officer.officerId
+        self.employeeNumber = officer.employeeNumber
         self.licenceTypeId = officer.licenceTypeId
         self.contactNumber = officer.contactNumber
         self.capabilities = officer.capabilities
@@ -82,7 +84,8 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     public init(withModel officer: CADOfficerType, initial: Bool, isDriver: Bool = false) {
         self.title = officer.displayName
         self.rank = officer.rank
-        self.officerId = officer.payrollId
+        self.officerId = officer.id
+        self.employeeNumber = officer.employeeNumber
         self.isDriver = isDriver
         self.initials = officer.initials
         self.radioId = officer.radioId
@@ -100,7 +103,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     public static func ==(lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
         return lhs.officerId == rhs.officerId
     }
-    
+
     public func thumbnail() -> UIImage? {
         if let initials = initials?.ifNotEmpty() {
             return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
@@ -108,9 +111,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
                                                                                   style: .fixed(size: CGSize(width: 48, height: 48),
                                                                                                 padding: CGSize(width: 14, height: 14))
             )
- 
-        
-        
+
         } else {
             return AssetManager.shared.image(forKey: .entityPerson)?.withCircleBackground(tintColor: nil,
                                                                                          circleColor: .disabledGray,

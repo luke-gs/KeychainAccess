@@ -14,7 +14,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
     open override func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let broadcast = model as? CADBroadcastType else { return }
-        
+
         // Only show map if we have a location
         if broadcast.location?.coordinate != nil {
             let mapViewModel = BroadcastOverviewMapViewModel()
@@ -23,7 +23,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
         } else {
             mapViewModel = nil
         }
-        
+
         location = broadcast.location
 
         let locationItem = broadcast.location?.coordinate != nil ?
@@ -48,30 +48,29 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                                 TaskDetailsOverviewItemViewModel(title: "Broadcast number",
                                                                               value: broadcast.identifier,
                                                                               width: .column(3)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Type",
                                                                               value: broadcast.type.title,
                                                                               width: .column(2)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
                                                                               value: broadcast.createdAtString ?? "Unknown",
                                                                               width: .column(3)),
-                                                
+
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
                                                                               value: broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? broadcast.createdAtString ?? "",
-                                                                              width: .column(2)),
+                                                                              width: .column(2))
                                                 ]),
-            
-            
+
             CADFormCollectionSectionViewModel(title: "Broadcast Details",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: nil,
                                                                               value: broadcast.details,
-                                                                              width: .column(1)),
+                                                                              width: .column(1))
                                                 ])
         ]
     }
-    
+
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")

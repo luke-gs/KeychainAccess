@@ -156,8 +156,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     // MARK: LoginViewController delegate
 
     open func loginViewController(_ controller: LoginViewController, didFinishWithCredentials credentials: [LoginCredential]) {
-        let usernameCred = credentials.filter{$0.name == "Username"}.first
-        let passwordCred = credentials.filter{$0.name == "Password"}.last
+        let usernameCred = credentials.filter {$0.name == "Username"}.first
+        let passwordCred = credentials.filter {$0.name == "Password"}.last
         guard let username = usernameCred?.inputField.textField.text,
             let password = passwordCred?.inputField.textField.text else { return }
         authenticateWithUsername(username, password: password, inController: controller)
@@ -241,7 +241,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
                     // Ask if the user wants to remember their password.
                     if biometricUser.useBiometric == .unknown {
-                        return self.askForBiometricPermission(in: controller, with: lContext).then { promise -> Promise<Void> in
+                        return self.askForBiometricPermission(in: controller, with: lContext).then { _ -> Promise<Void> in
                             // Store the username and password.
                             return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
                                 // Only set it to `agreed` after password saving is successful.
@@ -288,20 +288,20 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     }
 
     // MARK: - Log off
-    
+
     @objc open func logOff() {
-        
+
         // If we have no token we dont need to revoke it
         guard let refreshToken = UserSession.current.token?.refreshToken else {
             onRemoteLogOffCompleted()
             return
         }
-        
+
         // To stop users getting stuck unable to logoff when the request fails
         // we invoke the completion regardless of result.
         _ = APIManager.shared.revokeRefreshToken(refreshToken).ensure(onRemoteLogOffCompleted)
     }
-    
+
     /// Called upon completion of the log out async request, or called immediately if
     /// the refresh token is nil
     open func onRemoteLogOffCompleted() {

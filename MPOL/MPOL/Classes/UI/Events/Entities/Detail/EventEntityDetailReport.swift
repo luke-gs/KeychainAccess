@@ -34,13 +34,20 @@ public class EventEntityDetailReport: EventReportable {
         descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
 
+        /*
+         for demo purpose, setting viewed to true allow validation to pass straightly
+         without adding relationship.
+        */
+        descriptionReport.viewed = true
+        relationshipsReport.viewed = true
+
         descriptionReport.evaluator.addObserver(self)
         relationshipsReport.evaluator.addObserver(self)
 
-        evaluator.registerKey(.allValid) {
-            return self.reports.reduce(true, { (result, report) -> Bool in
+        evaluator.registerKey(.allValid) { [weak self] in
+            return self?.reports.reduce(true, { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
-            })
+            }) ?? false
         }
     }
 

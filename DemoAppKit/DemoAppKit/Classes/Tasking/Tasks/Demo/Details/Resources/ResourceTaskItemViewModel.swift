@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 open class ResourceTaskItemViewModel: TaskItemViewModel {
-    
+
     /// The optional summary loaded during construction
     open var resourceSummary: CADResourceType?
 
@@ -31,7 +31,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
             reloadFromModel()
         }
     }
-    
+
     // MARK: - Generated properties
 
     /// Return the loaded details

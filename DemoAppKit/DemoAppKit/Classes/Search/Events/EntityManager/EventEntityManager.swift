@@ -15,7 +15,7 @@ final public class EventEntityManager {
             entityBucket.delegate = delegate
         }
     }
-    
+
     // MARK: Incident -> Entity
 
     public var incidentRelationships: [Relationship<MPOLKitEntity, Incident>] {
@@ -61,7 +61,6 @@ final public class EventEntityManager {
         relationships.forEach { remove($0.baseObject, from: $0.relatedObject) }
     }
 
-
     // MARK: Entity -> Entity
 
     public var entityRelationships: [Relationship<MPOLKitEntity, MPOLKitEntity>] {
@@ -94,8 +93,8 @@ final public class EventEntityManager {
     }
 
     public func removeAllRelationships(for entity: MPOLKitEntity) {
-        entityRelationshipManager.relationships(for: entity).baseObjectRelationships.forEach{removeRelationship($0)}
-        entityRelationshipManager.relationships(for: entity).relatedObjectRelationships.forEach{removeRelationship($0)}
+        entityRelationshipManager.relationships(for: entity).baseObjectRelationships.forEach {removeRelationship($0)}
+        entityRelationshipManager.relationships(for: entity).relatedObjectRelationships.forEach {removeRelationship($0)}
     }
 
 }

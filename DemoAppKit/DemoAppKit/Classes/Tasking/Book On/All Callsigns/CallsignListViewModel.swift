@@ -36,7 +36,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         super.init()
         sections = sortedSections(from: viewModels)
     }
-    
+
     /// Create the book on view controller for a selected callsign
     open func bookOnScreenForItem(_ indexPath: IndexPath) -> Presentable? {
         if let itemViewModel = item(at: indexPath) {
@@ -44,34 +44,33 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         }
         return nil
     }
-    
+
     /// Create the view controller for this view model
     open func createViewController() -> CallsignListViewController {
         return CallsignListViewController(viewModel: self)
     }
-    
+
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String? {
         return [NSLocalizedString("Patrol Area", comment: ""), CADStateManager.shared.officerDetails?.patrolGroup].joined(separator: ": ")
     }
-    
+
     // MARK: - Override
-    
+
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Select Call Sign", comment: "")
     }
-    
+
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
         return NSLocalizedString("No Call Signs Found", comment: "")
     }
-    
+
     override open func noContentSubtitle() -> String? {
         return nil
     }
-    
-    
+
     /// Applies the search filter with the specified text, and updates the `sections`
     /// array to match. If no results found, an empty array will be set for `sections`.
     open func applyFilter(withText text: String?) {
@@ -79,7 +78,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
             sections = viewModels
             return
         }
-        
+
         // Map sections
         let filteredData = (viewModels.map { section in
             // Map items
@@ -90,19 +89,18 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
                 }
                 return nil
             } as [BookOnLandingCallsignItemViewModel?]).removeNils()
-            
+
             // Return the section if items were found
             if filteredItems.count > 0 {
                 return CADFormCollectionSectionViewModel(title: section.title, items: filteredItems)
             }
-            
+
             return nil
         } as [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>?]).removeNils()
-        
+
         sections = filteredData
     }
-    
-    
+
     /// Sorts sections based on resource status, then alphabetically by callsign
     ///
     /// - Parameter unsorted: The unsorted array

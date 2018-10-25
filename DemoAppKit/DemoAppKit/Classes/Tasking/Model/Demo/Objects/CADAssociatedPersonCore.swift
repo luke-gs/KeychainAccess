@@ -20,7 +20,7 @@ open class CADAssociatedPersonCore: Codable, CADAssociatedPersonType {
     open var alertLevel: CADAlertLevelType?
 
     open var dateOfBirth: Date?
-    
+
     open var dateOfDeath: Date?
 
     open var firstName: String?

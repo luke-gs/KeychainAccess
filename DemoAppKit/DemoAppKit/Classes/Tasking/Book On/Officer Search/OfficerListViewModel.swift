@@ -14,21 +14,21 @@ public protocol OfficerListViewModelDelegate: class {
 }
 
 public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
-    
+
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
-    
+
     public init() {
         super.init(items: [])
         self.items = viewModelData
         title = navTitle()
     }
-    
+
     public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
         title = navTitle()
     }
-    
+
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
         let vc = OfficerListViewController(viewModel: self)
@@ -39,30 +39,30 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Add Officer", comment: "")
     }
-    
+
     open func sectionTitle() -> String {
         return NSLocalizedString("Recently Used", comment: "")
     }
-    
+
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Officers Found", comment: "")
     }
 
     open func officerDetailsScreen(for officer: OfficerListItemViewModel) -> Presentable {
-        let officerViewModel = BookOnDetailsFormContentOfficerViewModel()
+        let officerViewModel = BookOnDetailsFormContentOfficerViewModel(officerId: officer.id)
         officerViewModel.title = officer.title
         officerViewModel.rank = officer.rank
-        officerViewModel.officerId = officer.callsign
+        officerViewModel.employeeNumber = officer.employeeNumber
         officerViewModel.initials = officer.initials
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
-    
+
     private lazy var viewModelData: [CustomSearchDisplayable] = {
         let section = sectionTitle().uppercased()
         var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
-            let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
+            let viewModel = OfficerListItemViewModel(id: officer.id, firstName: officer.givenName, lastName: officer.familyName, initials: officer.initials, rank: officer.rank, employeeNumber: officer.employeeNumber, section: section)
             result.append(viewModel)
         }
         return result
@@ -83,4 +83,3 @@ extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
         }
     }
 }
-

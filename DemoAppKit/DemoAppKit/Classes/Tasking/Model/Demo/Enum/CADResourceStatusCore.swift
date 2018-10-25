@@ -234,7 +234,7 @@ public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
             return (false, false)
         }
     }
-    
+
     /// Convenience for checking if changing to non incident status
     public func isChangingToGeneralStatus(_ newStatus: CADResourceStatusType) -> Bool {
         guard let newStatus = newStatus as? CADResourceStatusCore else { return false }

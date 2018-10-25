@@ -48,8 +48,9 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
         id = UUID().uuidString
         creationDate = Date()
         super.init()
-        evaluator.registerKey(.allValid) {
-            return !self.reports.map{$0.evaluator.isComplete}.contains(false)
+        evaluator.registerKey(.allValid) { [weak self] in
+            guard let `self` = self else { return false }
+            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }
 
@@ -73,7 +74,7 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
         aCoder.encode(creationDate, forKey: Coding.creationDate.rawValue)
     }
 
-    //MARK: Utility
+    // MARK: Utility
 
     public func add(reports: [EventReportable]) {
         self.reports.append(contentsOf: reports)
@@ -84,10 +85,10 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     }
 
     public func reportable(for reportableType: AnyClass) -> EventReportable? {
-        return reports.filter{type(of: $0) == reportableType}.first
+        return reports.filter {type(of: $0) == reportableType}.first
     }
 
-    //MARK: Evaluation
+    // MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         allValid = reports.reduce(true, { result, report in

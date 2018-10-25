@@ -23,7 +23,7 @@ public protocol CADStateManagerType {
 
     /// The current sync mode
     var syncMode: CADSyncMode { get set }
-    
+
     /// The last book on data
     var lastBookOn: CADBookOnRequestType? { get }
 
@@ -48,7 +48,7 @@ public protocol CADStateManagerType {
     /// Officers retrieved in last sync, in order
     var officers: [CADOfficerType] { get }
 
-    /// Officers retrieved in last sync, keyed by payrollId
+    /// Officers retrieved in last sync, keyed by id
     var officersById: [String: CADOfficerType] { get }
 
     /// Patrols retrieved in last sync, in order
@@ -84,7 +84,7 @@ public protocol CADStateManagerType {
 
     /// Sync the latest task summaries
     func syncDetails() -> Promise<Void>
-    
+
     /// Return all resources linked to an incident
     func resourcesForIncident(incidentNumber: String) -> [CADResourceType]
 
@@ -116,7 +116,7 @@ public protocol CADStateManagerType {
     /// Update the status of our callsign
     func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void>
 }
-    
+
 // Extension for default parameters
 extension CADStateManagerType {
 
@@ -202,4 +202,3 @@ public enum CADSyncMode: Equatable {
         }
     }
 }
-

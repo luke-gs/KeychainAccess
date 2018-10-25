@@ -16,46 +16,46 @@ open class TasksListInfoRowView: UIView {
         static let imageSpacing: CGFloat = 12
         static let textSpacing: CGFloat = 8
     }
-    
+
     // MARK: - Views
-    
+
     /// The image view showing the resource
     public let imageView = UIImageView()
-    
+
     /// The title label for callsign
     public let titleLabel = UILabel()
-    
+
     /// The subtitle label for status
     public let subtitleLabel = UILabel()
-    
+
     // MARK: - Setup
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setupViews()
         setupConstraints()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     /// Creates and styles views
     private func setupViews() {
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)
-        
+
         titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
-        
+
         subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(subtitleLabel)
     }
-    
+
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -64,19 +64,19 @@ open class TasksListInfoRowView: UIView {
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             imageView.widthAnchor.constraint(equalToConstant: LayoutConstants.imageSize.width).withPriority(.almostRequired),
             imageView.heightAnchor.constraint(equalToConstant: LayoutConstants.imageSize.height).withPriority(.almostRequired),
-            
+
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: LayoutConstants.imageSpacing).withPriority(.almostRequired),
             titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 35),
             titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            
+
             subtitleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: LayoutConstants.textSpacing).withPriority(.almostRequired),
             subtitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            subtitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            subtitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-    
+
     open func decorate(with viewModel: TasksListInformationRowViewModel) {
         imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = viewModel.tintColor ?? .secondaryGray
@@ -87,5 +87,5 @@ open class TasksListInfoRowView: UIView {
         subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldDetailText ? .semibold : .regular)
         subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
     }
-    
+
 }

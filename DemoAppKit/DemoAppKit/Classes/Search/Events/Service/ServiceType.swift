@@ -12,7 +12,7 @@ public enum ServiceType: Int, OptionDisplayable {
     case mms
     case post
 
-    public var title : String {
+    public var title: String {
         switch self {
         case .email:
             return "Email"

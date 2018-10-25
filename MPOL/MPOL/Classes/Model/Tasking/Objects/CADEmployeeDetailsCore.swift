@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DemoAppKit
 
 /// PSCore implementation of class representing an employee
 open class CADEmployeeDetailsCore: CADOfficerCore, CADEmployeeDetailsType {

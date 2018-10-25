@@ -8,6 +8,7 @@
 
 import UIKit
 import PromiseKit
+import DemoAppKit
 
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerBase {
@@ -26,6 +27,18 @@ open class CADStateManagerCore: CADStateManagerBase {
         CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
         CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
         CADClientModelTypes.alertLevel = CADAlertLevelCore.self
+
+        // Register serialisation methods for CAD officers
+        CADBookOnRequestCore.encodeOfficers = { (container, key, officers) in
+            var container = container
+            if let officers = officers as? [CADOfficerCore] {
+                try container.encodeIfPresent(officers, forKey: key)
+            }
+        }
+
+        CADSyncResponseCore.decodeOfficers = { (container, key) in
+            return try container.decodeIfPresent([CADOfficerCore].self, forKey: key) ?? []
+        }
 
         // Default patrol group for demo data
         patrolGroup = "Collingwood"
@@ -53,10 +66,10 @@ open class CADStateManagerCore: CADStateManagerBase {
 
             // TODO: remove this when we have a real CAD system
             if let lastBookOn = self.lastBookOn, let resource = self.currentResource {
-                let officerIds = lastBookOn.employees.map { $0.payrollId }
+                let officerIds = lastBookOn.employees.map { $0.id }
 
-                // Update callsign for new officer list
-                resource.payrollIds = officerIds
+                // Update ids for new officer list
+                resource.officerIds = officerIds
 
                 // Update call sign for new equipment list
                 resource.equipment = lastBookOn.equipment
@@ -67,7 +80,7 @@ open class CADStateManagerCore: CADStateManagerBase {
                 }
 
                 // Check if logged in officer is no longer in callsign
-                if let officerDetails = self.officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                if let officerDetails = self.officerDetails, !officerIds.contains(officerDetails.id) {
                     // Treat like being booked off, using async to trigger didSet again
                     DispatchQueue.main.async {
                         self.lastBookOn = nil
@@ -148,7 +161,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         // TODO: remove this when we have a real CAD system
         currentResource?.status = CADResourceStatusCore.onAir
         if let syncDetails = lastSync as? CADSyncResponseCore, let incidentNumber = currentIncident?.incidentNumber {
-            
+
             // Remove incident from any assigned resource
             let resources = resourcesForIncident(incidentNumber: incidentNumber)
             for resource in resources {
@@ -247,7 +260,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
         return super.syncDetails(force: force)
     }
-    
+
     open override func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
         return firstly {
             return apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: patrolGroup))
@@ -289,7 +302,7 @@ open class CADStateManagerCore: CADStateManagerBase {
     }
 
     // MARK: - Notifications
-    
+
     /// Adds scheduled local notification and clears any conflicting ones.
     open func updateScheduledNotifications() {
         NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)

@@ -40,7 +40,7 @@ public class OrderSummaryViewModel {
     }
 
     var dateIssuedValue: StringSizable {
-        
+
         if let date = order.issuedDate {
             let formatedDate = DateFormatter.preferredDateStyle.string(from: date)
             return formatedDate.withPreferredFont

@@ -16,4 +16,3 @@ extension AppDelegate {
         NSKeyedUnarchiver.setClass(Officer.self, forClassName: "PS_Core.Officer")
     }
 }
-

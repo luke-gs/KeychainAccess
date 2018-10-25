@@ -16,20 +16,19 @@ open class TasksListIncidentViewModel: TasksListItemViewModel {
     public var badgeText: String? {
         return priority
     }
-    
+
     public var hasResources: Bool {
         return resources?.count ?? 0 > 0
     }
-    
+
     public let badgeTextColor: UIColor?
     public let badgeFillColor: UIColor?
     public let badgeBorderColor: UIColor?
     public var hasUpdates: Bool
-    
+
     public init(identifier: String, source: CADTaskListSourceType, title: String, subtitle: String?, caption: String, priority: String? = nil,
                 description: String? = nil, resources: [TasksListInformationRowViewModel]? = nil, badgeTextColor: UIColor?,
-                badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool)
-    {
+                badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool) {
         self.description = description
         self.resources = resources
         self.priority = priority
@@ -40,12 +39,12 @@ open class TasksListIncidentViewModel: TasksListItemViewModel {
 
         super.init(identifier: identifier, source: source, title: title, subtitle: subtitle, caption: caption)
     }
-    
+
     public convenience init(incident: CADIncidentType, source: CADTaskListSourceType, showsDescription: Bool = true, showsResources: Bool = true, hasUpdates: Bool) {
         let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber).map {
             return TasksListInformationRowViewModel(with: $0)
         }
-        
+
         self.init(
             identifier: incident.incidentNumber,
             source: source,

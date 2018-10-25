@@ -26,7 +26,7 @@ open class CriminalHistory: Entity {
 
         try super.init(unboxer: unboxer)
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         offenceDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.offenceDescription.rawValue) as String?
         primaryCharge = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.primaryCharge.rawValue) as String?
@@ -35,7 +35,7 @@ open class CriminalHistory: Entity {
 
         super.init(coder: aDecoder)
     }
-    
+
     override open func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
@@ -44,6 +44,11 @@ open class CriminalHistory: Entity {
         aCoder.encode(occurredDate, forKey: CodingKeys.occurredDate.rawValue)
         aCoder.encode(courtName, forKey: CodingKeys.courtName.rawValue)
 
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
     }
 
     override open class var modelVersion: Int {
@@ -72,6 +77,11 @@ open class OffenderCharge: CriminalHistory {
         super.init(coder: aDecoder)
     }
 
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
     private enum CodingKeys: String, CodingKey {
         case nextCourtDate
     }
@@ -89,6 +99,11 @@ open class OffenderConviction: CriminalHistory {
     public required init?(coder aDecoder: NSCoder) {
         finalCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.finalCourtDate.rawValue) as Date?
         super.init(coder: aDecoder)
+    }
+
+    // TODO: support codable
+    required public init(from decoder: Decoder) throws {
+        MPLUnimplemented()
     }
 
     private enum CodingKeys: String, CodingKey {

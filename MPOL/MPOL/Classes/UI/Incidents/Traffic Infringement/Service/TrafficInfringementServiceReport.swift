@@ -41,8 +41,8 @@ class TrafficInfringementServiceReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasContactDetails) {
-            return self.hasContactDetails
+        evaluator.registerKey(.hasContactDetails) { [weak self] in
+            return self?.hasContactDetails ?? false
         }
     }
 

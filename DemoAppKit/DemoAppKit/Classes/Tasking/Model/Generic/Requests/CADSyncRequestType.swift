@@ -17,7 +17,7 @@ public protocol CADSyncRequestType: CodableRequestParameters {
 public protocol CADSyncPatrolGroupRequestType: CADSyncRequestType {
 
     // MARK: - Request Parameters
-    var patrolGroup : String { get }
+    var patrolGroup: String { get }
 }
 
 /// Protocol for bounding box sync request
