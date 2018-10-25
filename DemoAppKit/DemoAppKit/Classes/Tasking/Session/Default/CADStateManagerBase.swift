@@ -355,11 +355,6 @@ open class CADStateManagerBase: CADStateManagerType {
         MPLRequiresConcreteImplementation()
     }
 
-    /// Fetch details for a specific employee, or nil for current user
-    open func getEmployeeDetails(identifier: String?) -> Promise<CADEmployeeDetailsType> {
-        MPLRequiresConcreteImplementation()
-    }
-
     /// Fetch details for a specific incident
     open func getIncidentDetails(identifier: String) -> Promise<CADIncidentDetailsType> {
         MPLRequiresConcreteImplementation()

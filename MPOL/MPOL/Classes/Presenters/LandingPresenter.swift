@@ -199,14 +199,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             try! UserSession.current.userStorage?.add(object: officer,
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
-        }.then { _ in
-            // fetch current CAD Officer
-            return CADStateManager.shared.getEmployeeDetails(identifier: nil)
-        }.done { details in
-            // Store cad officer details
-            CADStateManager.shared.officerDetails = details
-            CADStateManager.shared.officersById[details.id] = details
-
         }
     }
 

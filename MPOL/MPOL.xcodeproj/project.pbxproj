@@ -269,7 +269,6 @@
 		EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */; };
 		EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */; };
 		EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C521365D32004D9DE8 /* DemoSync.json */; };
-		EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */; };
 		EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */; };
 		EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C821365D32004D9DE8 /* DemoManifest.json */; };
 /* End PBXBuildFile section */
@@ -601,7 +600,6 @@
 		EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnPresenter.swift; sourceTree = "<group>"; };
 		EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListPresenter.swift; sourceTree = "<group>"; };
 		EAE9F6C521365D32004D9DE8 /* DemoSync.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoSync.json; sourceTree = "<group>"; };
-		EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
 		EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
 		EAE9F6C821365D32004D9DE8 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
 		ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-debug.xcconfig"; sourceTree = "<group>"; };
@@ -1455,7 +1453,6 @@
 			children = (
 				EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */,
 				EAE9F6C821365D32004D9DE8 /* DemoManifest.json */,
-				EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */,
 				EAE9F6C521365D32004D9DE8 /* DemoSync.json */,
 			);
 			path = Demo;
@@ -1620,7 +1617,6 @@
 				378EAF0F216EFA3900960370 /* vancouver_mac.ppn in Resources */,
 				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
 				207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */,
-				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
 				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
 				37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */,

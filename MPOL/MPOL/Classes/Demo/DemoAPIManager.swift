@@ -54,24 +54,6 @@ open class DemoAPIManager: CADAPIManagerType {
         return after(seconds: delayTime).done {}
     }
 
-    open func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
-        if let data = loadDemoFileAsData(name: "DemoOfficer") {
-            let response = try! JSONDecoder.decode(data, to: CADEmployeeDetailsCore.self)
-
-            // update current employee with current search officer details
-            if let currentSearchOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as? Officer {
-                response.givenName = currentSearchOfficer.givenName
-                response.familyName = currentSearchOfficer.familyName
-                response.middleNames = currentSearchOfficer.middleNames
-                response.rank = currentSearchOfficer.rank
-                response.employeeNumber = currentSearchOfficer.employeeNumber
-                response.region = currentSearchOfficer.region
-            }
-            return Promise<CADEmployeeDetailsCore>.value(response) as! Promise<ResponseType>
-        }
-        return Promise<ResponseType>(error: APIError.fileNotFound)
-    }
-
     public func cadIncidentDetails<ResponseType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
         if let incident = CADStateManager.shared.incidentsById[request.identifier] as? CADIncidentCore {
             return after(seconds: delayTime).then {

@@ -16,7 +16,7 @@ public protocol CADStateManagerType {
     // MARK: - Properties
 
     /// The logged in officer details
-    var officerDetails: CADEmployeeDetailsType? { get set }
+    var officerDetails: CADEmployeeDetailsType? { get }
 
     /// The current patrol group
     var patrolGroup: String? { get set }
@@ -49,7 +49,7 @@ public protocol CADStateManagerType {
     var officers: [CADOfficerType] { get }
 
     /// Officers retrieved in last sync, keyed by id
-    var officersById: [String: CADOfficerType] { get set }
+    var officersById: [String: CADOfficerType] { get }
 
     /// Patrols retrieved in last sync, in order
     var patrols: [CADPatrolType] { get }
@@ -95,9 +95,6 @@ public protocol CADStateManagerType {
     func officersForResource(callsign: String) -> [CADOfficerType]
 
     // MARK: - Get Details
-
-    /// Fetch details for a specific employee, or nil for current user
-    func getEmployeeDetails(identifier: String?) -> Promise<CADEmployeeDetailsType>
 
     /// Fetch details for a specific incident
     func getIncidentDetails(identifier: String) -> Promise<CADIncidentDetailsType>

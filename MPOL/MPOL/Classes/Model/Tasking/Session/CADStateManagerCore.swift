@@ -44,6 +44,18 @@ open class CADStateManagerCore: CADStateManagerBase {
         patrolGroup = "Collingwood"
     }
 
+    open override var officerDetails: CADEmployeeDetailsType? {
+        get {
+            // get current search officer
+            if let details = getEmployeeDetails() {
+                officersById[details.id] = details
+                return details
+            }
+            return nil
+        }
+        set {}
+    }
+
     open override func didChangeLastBookOn(from oldValue: CADBookOnRequestType?) {
         super.didChangeLastBookOn(from: oldValue)
         updateScheduledNotifications()
@@ -193,16 +205,30 @@ open class CADStateManagerCore: CADStateManagerBase {
 
     // MARK: - Get Details
 
-    /// Fetch details for a specific employee, or nil for current user
-    open override func getEmployeeDetails(identifier: String? = nil) -> Promise<CADEmployeeDetailsType> {
-        if let username = identifier ?? UserSession.current.user?.username {
-            let request = CADGetDetailsRequestCore(identifier: username)
-            // Provide specific core model type information to generic call via map with explicit type
-            return apiManager.cadEmployeeDetails(with: request).map { (details: CADEmployeeDetailsCore) -> CADEmployeeDetailsType in
-                return details
-            }
+    /// Fetch details for current user
+    open func getEmployeeDetails() -> CADEmployeeDetailsType? {
+        // update current employee with current search officer details
+        guard let currentSearchOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as? Officer else {
+            return nil
         }
-        return Promise(error: CADStateManagerError.notLoggedIn)
+
+        let officer = CADEmployeeDetailsCore(id:  currentSearchOfficer.id)
+        officer.capabilities = []
+        officer.contactNumber = "0425 584 678"
+        officer.givenName = currentSearchOfficer.givenName
+        officer.familyName = currentSearchOfficer.familyName
+        officer.licenceTypeId = "b50862f7-961a-43d6-9111-0f43d0787503"
+        officer.middleNames = currentSearchOfficer.middleNames
+        officer.patrolGroup = "Collingwood"
+        officer.employeeNumber = currentSearchOfficer.employeeNumber
+        officer.radioId = "92757488"
+        officer.rank = currentSearchOfficer.rank
+        officer.remarks = ""
+        officer.station = "Collingwood Station"
+        officer.region = currentSearchOfficer.region
+
+        officersById[officer.id] = officer
+        return officer
     }
 
     /// Fetch details for a specific incident
