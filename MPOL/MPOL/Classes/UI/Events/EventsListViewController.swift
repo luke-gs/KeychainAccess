@@ -61,7 +61,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
 
         if traitCollection.horizontalSizeClass == .compact {
             builder += eventsList.map { displayable in
-                let title = displayable.title ?? "Blank"
+                let title = displayable.title ?? "-"
                 let subtitle = viewModel.subtitle(for: displayable)
                 let image = viewModel.image(for: displayable, isQueued: false)
                 let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in

@@ -11,7 +11,11 @@ import DemoAppKit
 public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {
     public static let intrinsicHeight: CGFloat = 200
 
-    public weak var dataSource: EventCardsViewModelable?
+    public weak var dataSource: EventCardsViewModelable? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
 
     public weak var delegate: EventCardsDelegate?
 
@@ -22,7 +26,7 @@ public class CollectionViewFormEventCardsCell: CollectionViewFormCell, UICollect
     public override init(frame: CGRect) {
         layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 360, height: 200)
-        layout.minimumLineSpacing = 10.0
+        layout.minimumLineSpacing = 24.0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 24.0, bottom: 0, right: 0.0)
         layout.scrollDirection = .horizontal
 
