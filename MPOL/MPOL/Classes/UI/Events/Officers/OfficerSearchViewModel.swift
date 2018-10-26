@@ -67,11 +67,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         }
     }
 
-    func title(for indexPath: IndexPath) -> String? {
-        return searchable(for: object(for: indexPath)).title
+    func title(for indexPath: IndexPath) -> StringSizable? {
+        return (searchable(for: object(for: indexPath)) as! OfficerListItemViewModel).attributedTitle
     }
 
-    func description(for indexPath: IndexPath) -> String? {
+    func description(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
@@ -91,8 +91,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? "Unknown",
-                                                  employeeNumber: object.employeeNumber ?? "Unknown",
+                                                  rank: object.rank,
+                                                  employeeNumber: object.employeeNumber,
                                                   section: object.region ?? "")
         objectDisplayMap[object] = searchable
         return searchable

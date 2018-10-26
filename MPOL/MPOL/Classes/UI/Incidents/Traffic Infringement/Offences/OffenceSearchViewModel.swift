@@ -40,11 +40,11 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
         return ""
     }
 
-    public func title(for indexPath: IndexPath) -> String? {
+    public func title(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).title
     }
 
-    public func description(for indexPath: IndexPath) -> String? {
+    public func description(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
