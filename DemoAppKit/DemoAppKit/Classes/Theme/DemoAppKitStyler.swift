@@ -16,10 +16,6 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
         super.applyThemeToFormItem(item)
 
         switch item {
-        case let item as IncidentSummaryFormItem:
-            guard let cell = item.cell as? TasksListIncidentCollectionViewCell else { return }
-            cell.apply(theme: theme)
-
         case let item as TrafficHistoryOverviewFormItem:
             guard let cell = item.cell as? TrafficHistoryCollectionViewCell else { return }
             cell.apply(theme: theme)
