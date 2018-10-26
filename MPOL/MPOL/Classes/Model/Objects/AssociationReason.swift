@@ -10,17 +10,17 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLAssociationReason)
-open class AssociationReason: NSObject, Serialisable {
-    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+open class AssociationReason: DefaultSerialisable {
 
     // MARK: - Properties
 
-    public let id: String
-
     open var effectiveDate: Date?
+    open var id: String
     open var reason: String?
 
     // MARK: - Unboxable
+
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
         id = unboxer.unbox(key: "id") ?? UUID().uuidString
@@ -30,35 +30,40 @@ open class AssociationReason: NSObject, Serialisable {
         super.init()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
-
-        super.init()
-
-        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
-        reason = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.reason.rawValue) as String?
-    }
-
-    open func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: CodingKey.id.rawValue)
-        aCoder.encode(effectiveDate, forKey: CodingKey.effectiveDate.rawValue)
-        aCoder.encode(reason, forKey: CodingKey.reason.rawValue)
-    }
-
-    public static var supportsSecureCoding: Bool { return true }
-
-    private enum CodingKey: String {
-        case id
-        case effectiveDate
-        case reason
-    }
-
-    // MARK: - Temp Formatters
+    // MARK: - Methods
 
     func formattedReason() -> String? {
         guard let reason = reason else { return nil }
         guard let date = effectiveDate else { return reason }
         return reason + " " +  DateFormatter.preferredDateStyle.string(from: date)
+    }
+
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case effectiveDate
+        case id
+        case reason
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+        reason = try container.decodeIfPresent(String.self, forKey: .reason)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
+        try container.encode(id, forKey: CodingKeys.id)
+        try container.encode(reason, forKey: CodingKeys.reason)
     }
 
 }

@@ -123,7 +123,8 @@ open class Address: Entity {
 
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
-        
+        guard !dataMigrated else { return }
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
         altitude = try container.decodeIfPresent(Double.self, forKey: .altitude)
         altitudeAccuracy = try container.decodeIfPresent(Double.self, forKey: .altitudeAccuracy)
