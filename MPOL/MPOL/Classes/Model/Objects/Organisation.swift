@@ -8,15 +8,6 @@
 import PublicSafetyKit
 import Unbox
 
-private enum CodingKeys: String, CodingKey {
-    case name = "name"
-    case acn = "acn"
-    case abn = "abn"
-    case type = "type"
-    case tradingAs = "tradingAs"
-    case aliases = "aliases"
-}
-
 @objc(MPLOrganisation)
 open class Organisation: Entity {
 
@@ -30,15 +21,18 @@ open class Organisation: Entity {
         return NSLocalizedString("Organisation", comment: "")
     }
 
+    public required override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Properties
 
-    open var name: String?
-    open var acn: String?
     open var abn: String?
-    open var type: String?
-
-    open var tradingAs: String?
+    open var acn: String?
     open var aliases: [OrganisationAlias]?
+    open var name: String?
+    open var tradingAs: String?
+    open var type: String?
 
     // MARK: - Calculated
 
@@ -46,10 +40,6 @@ open class Organisation: Entity {
         guard let tradingAsName = tradingAs else { return name ?? "" }
         guard let name = name else { return tradingAsName }
         return "\(name) trading as \(tradingAsName)"
-    }
-
-    public required override init(id: String = UUID().uuidString) {
-        super.init(id: id)
     }
 
     // MARK: - Unboxable
@@ -65,29 +55,40 @@ open class Organisation: Entity {
 
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        name = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.name.rawValue) as String?
-        acn = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.acn.rawValue) as String?
-        abn = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.abn.rawValue) as String?
-        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
-        tradingAs = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.tradingAs.rawValue) as String?
-        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.aliases.rawValue) as? [OrganisationAlias]
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case abn
+        case acn
+        case aliases
+        case name
+        case tradingAs
+        case type
     }
 
-    open override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
 
-        aCoder.encode(name, forKey: CodingKeys.name.rawValue)
-        aCoder.encode(acn, forKey: CodingKeys.acn.rawValue)
-        aCoder.encode(abn, forKey: CodingKeys.abn.rawValue)
-        aCoder.encode(type, forKey: CodingKeys.type.rawValue)
-        aCoder.encode(tradingAs, forKey: CodingKeys.tradingAs.rawValue)
-        aCoder.encode(aliases, forKey: CodingKeys.aliases.rawValue)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        abn = try container.decodeIfPresent(String.self, forKey: .abn)
+        acn = try container.decodeIfPresent(String.self, forKey: .acn)
+        aliases = try container.decodeIfPresent([OrganisationAlias].self, forKey: .aliases)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        tradingAs = try container.decodeIfPresent(String.self, forKey: .tradingAs)
+        type = try container.decodeIfPresent(String.self, forKey: .type)
     }
 
-    // TODO: support codable
-    required public init(from decoder: Decoder) throws {
-        MPLUnimplemented()
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(abn, forKey: CodingKeys.abn)
+        try container.encode(acn, forKey: CodingKeys.acn)
+        try container.encode(aliases, forKey: CodingKeys.aliases)
+        try container.encode(name, forKey: CodingKeys.name)
+        try container.encode(tradingAs, forKey: CodingKeys.tradingAs)
+        try container.encode(type, forKey: CodingKeys.type)
     }
+
 }
