@@ -49,7 +49,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     open var officerInfoSubtitle: String {
-        return [rank, employeeNumber, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
+        return [rank, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     open var driverStatus: String? {
