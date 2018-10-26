@@ -12,6 +12,11 @@ import PublicSafetyKit
 @objc(MPLLicence)
 open class Licence: DefaultSerialisable {
 
+    public required init(id: String) {
+        self.id = id
+        super.init()
+    }
+
     // MARK: - Properties
 
     open var country: String?
@@ -34,11 +39,6 @@ open class Licence: DefaultSerialisable {
     open var statusFromDate: Date?
     open var type: String?
     open var updatedBy: String?
-
-    public required init(id: String = UUID().uuidString) {
-        self.id = id
-        super.init()
-    }
 
     // MARK: - Unboxable
 

@@ -19,6 +19,10 @@ open class Officer: MPOLKitEntity, Identifiable {
         return "officer"
     }
 
+    public override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Properties
 
     open var employeeNumber: String?
@@ -31,12 +35,6 @@ open class Officer: MPOLKitEntity, Identifiable {
     // MARK: - Transient
 
     open var involvements: [String] = []
-
-    // MARK: - Init
-
-    public override init(id: String) {
-        super.init(id: id)
-    }
 
     // MARK: - Unboxable
 

@@ -39,6 +39,13 @@ open class Alert: DefaultSerialisable {
         public static var all: [Level] = [.high, .medium, .low]
     }
 
+    public init(id: String, level: Alert.Level) {
+        self.id = id
+        self.level = level
+
+        super.init()
+    }
+
     // MARK: - Properties
 
     open var createdBy: String?
@@ -63,15 +70,6 @@ open class Alert: DefaultSerialisable {
             return object.id == self.id
         }
         return super.isEqual(object)
-    }
-
-    // MARK: - Temp
-
-    public init(id: String, level: Alert.Level) {
-        self.id = id
-        self.level = level
-
-        super.init()
     }
 
     // MARK: - Unboxable

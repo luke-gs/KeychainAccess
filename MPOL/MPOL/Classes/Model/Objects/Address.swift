@@ -22,6 +22,10 @@ open class Address: Entity {
         return NSLocalizedString("Location", comment: "")
     }
     
+    public override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Properties
 
     open var altitude: Double?
@@ -52,10 +56,6 @@ open class Address: Entity {
 
     open var reportDate: Date? {
         return dateUpdated ?? dateCreated ?? nil
-    }
-
-    public override init(id: String) {
-        super.init(id: id)
     }
 
     // MARK: - Unboxable

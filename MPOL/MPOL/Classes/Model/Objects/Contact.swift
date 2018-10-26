@@ -26,6 +26,13 @@ open class Contact: DefaultSerialisable {
         }
     }
 
+    public required init(id: String) {
+        self.id = id
+        self.isSummary = false
+
+        super.init()
+    }
+
     // MARK: - Properties
 
     open var createdBy: String?
@@ -46,13 +53,6 @@ open class Contact: DefaultSerialisable {
     // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
-
-    public required init(id: String = UUID().uuidString) {
-        self.id = id
-        self.isSummary = false
-
-        super.init()
-    }
 
     public required init(unboxer: Unboxer) throws {
 
