@@ -183,10 +183,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
                     .onStyled({ [unowned self] (cell) in
-                        var theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
-//                        if cell.traitCollection.horizontalSizeClass == .compact {
-//                            theme = ThemeManager.shared.theme(for: .light)
-//                        }
+                        let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                         self.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (_) in
