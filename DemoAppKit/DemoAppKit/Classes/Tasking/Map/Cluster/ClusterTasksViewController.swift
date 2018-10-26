@@ -113,6 +113,8 @@ open class ClusterTasksViewController: FormBuilderViewController {
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListBasicCollectionViewCell {
             cell.apply(theme: theme)
+        } else if let cell = cell as? TasksListIncidentCollectionViewCell {
+            cell.apply(theme: theme)
         }
     }
 
