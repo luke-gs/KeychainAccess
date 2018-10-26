@@ -53,7 +53,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
         let navController = ModalNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
-        present(navController, size: CGSize(width: 512, height: 736), animated: true, completion: nil) 
+        pushableSplitViewController?.present(navController, size: CGSize(width: 512, height: 736), animated: true, completion: nil) 
 
     }
 
