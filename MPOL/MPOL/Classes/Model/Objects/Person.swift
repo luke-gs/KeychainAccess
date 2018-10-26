@@ -70,13 +70,6 @@ open class Person: Entity, Identifiable {
     // MARK: - Transient
 
     open var thumbnail: UIImage?
-    // open var highestAlertLevel: Alert.Level?
-
-    // MARK: - Calculated
-
-    open var isDeceased: Bool {
-        return dateOfDeath != nil
-    }
 
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {
@@ -84,6 +77,12 @@ open class Person: Entity, Identifiable {
         }
         return UIImage()
     }()
+
+    // MARK: - Calculated
+
+    open var isDeceased: Bool {
+        return dateOfDeath != nil
+    }
 
     // MARK: - Unboxable
 
