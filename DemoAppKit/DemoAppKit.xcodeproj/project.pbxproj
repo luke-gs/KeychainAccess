@@ -55,7 +55,6 @@
 		963E5A4E2179796500BC2415 /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59302179796500BC2415 /* StatusChangeReasonViewController.swift */; };
 		963E5A4F2179796500BC2415 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59312179796500BC2415 /* CallsignStatusViewModel.swift */; };
 		963E5A502179796500BC2415 /* CallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59322179796500BC2415 /* CallsignStatusViewController.swift */; };
-		963E5A512179796500BC2415 /* CompactCallsignContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59342179796500BC2415 /* CompactCallsignContainerViewController.swift */; };
 		963E5A522179796500BC2415 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59362179796500BC2415 /* ManageCallsignStatusViewController.swift */; };
 		963E5A532179796500BC2415 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59372179796500BC2415 /* ManageCallsignStatusViewModel.swift */; };
 		963E5A542179796500BC2415 /* FinaliseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59392179796500BC2415 /* FinaliseDetailsViewController.swift */; };
@@ -302,7 +301,6 @@
 		963E59302179796500BC2415 /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		963E59312179796500BC2415 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		963E59322179796500BC2415 /* CallsignStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewController.swift; sourceTree = "<group>"; };
-		963E59342179796500BC2415 /* CompactCallsignContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactCallsignContainerViewController.swift; sourceTree = "<group>"; };
 		963E59362179796500BC2415 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
 		963E59372179796500BC2415 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		963E59392179796500BC2415 /* FinaliseDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinaliseDetailsViewController.swift; sourceTree = "<group>"; };
@@ -721,7 +719,6 @@
 		963E592E2179796500BC2415 /* Callsign */ = {
 			isa = PBXGroup;
 			children = (
-				963E59332179796500BC2415 /* Container */,
 				963E59382179796500BC2415 /* Finalise */,
 				963E59352179796500BC2415 /* Manage */,
 				963E592F2179796500BC2415 /* Status */,
@@ -737,14 +734,6 @@
 				963E59302179796500BC2415 /* StatusChangeReasonViewController.swift */,
 			);
 			path = Status;
-			sourceTree = "<group>";
-		};
-		963E59332179796500BC2415 /* Container */ = {
-			isa = PBXGroup;
-			children = (
-				963E59342179796500BC2415 /* CompactCallsignContainerViewController.swift */,
-			);
-			path = Container;
 			sourceTree = "<group>";
 		};
 		963E59352179796500BC2415 /* Manage */ = {
@@ -1703,7 +1692,6 @@
 				963E5AB12179796500BC2415 /* ClusterTasksViewController.swift in Sources */,
 				963E5AB02179796500BC2415 /* ClusterTasksViewModel.swift in Sources */,
 				963E5AB22179796500BC2415 /* ClusterTasksViewModelCore.swift in Sources */,
-				963E5A512179796500BC2415 /* CompactCallsignContainerViewController.swift in Sources */,
 				963E5B002179796600BC2415 /* CreateActivityLogItemViewController.swift in Sources */,
 				963E5B012179796600BC2415 /* CreateActivityLogItemViewModel.swift in Sources */,
 				963E5AFC2179796600BC2415 /* DatedActivityLogViewModel.swift in Sources */,
