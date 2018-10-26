@@ -25,6 +25,7 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
         let navigationController = ModalNavigationController(rootViewController: officerSearchController)
         navigationController.modalPresentationStyle = .formSheet
+        navigationController.preferredContentSize = CGSize(width: 512, height: 736)
         return navigationController
     }
 
