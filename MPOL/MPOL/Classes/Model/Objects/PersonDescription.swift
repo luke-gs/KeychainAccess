@@ -10,39 +10,37 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLPersonDescription)
-open class PersonDescription: NSObject, Serialisable {
+open class PersonDescription: DefaultSerialisable {
+
+    public required init(id: String) {
+        self.id = id
+        super.init()
+    }
 
     // MARK: - Properties
 
-    open var id: String
-
+    open var build: String?
+    open var createdBy: String?
     open var dateCreated: Date?
     open var dateUpdated: Date?
-    open var createdBy: String?
-    open var updatedBy: String?
     open var effectiveDate: Date?
-    open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool = false
-    open var source: MPOLSource?
-
-    open var height: Int?
-    open var weight: String?
     open var ethnicity: String?
-    open var race: String?
-    open var build: String?
-    open var hairColour: String?
+    open var expiryDate: Date?
     open var eyeColour: String?
-    open var marks: [String]?
-    open var remarks: String?
-
-    open var imageThumbnail: Media?
+    open var hairColour: String?
+    open var height: Int?
+    open var id: String
     open var image: Media?
-
+    open var imageThumbnail: Media?
+    open var isSummary: Bool = false
     open var jurisdiction: String?
-
-    public static var supportsSecureCoding: Bool { return true }
-    public static var modelVersion: Int { return 0 }
+    open var marks: [String]?
+    open var race: String?
+    open var remarks: String?
+    open var source: MPOLSource?
+    open var updatedBy: String?
+    open var weight: String?
 
     // MARK: - Unboxable
 
@@ -76,80 +74,6 @@ open class PersonDescription: NSObject, Serialisable {
         jurisdiction = unboxer.unbox(key: "jurisdiction")
 
         super.init()
-    }
-
-    public required init(id: String = UUID().uuidString) {
-        self.id = id
-        super.init()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
-
-        super.init()
-
-        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
-        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
-        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
-        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
-        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
-        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
-        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
-
-        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
-            self.source = MPOLSource(rawValue: source)
-        }
-
-        if let height = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKey.height.rawValue) {
-            self.height = height.intValue
-        }
-
-        weight = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.weight.rawValue) as String?
-        ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
-        race = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.race.rawValue) as String?
-        build = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.build.rawValue) as String?
-        hairColour = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.hairColour.rawValue) as String?
-        eyeColour = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.eyeColour.rawValue) as String?
-        marks = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.marks.rawValue) as? [String]
-        remarks = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.remarks.rawValue) as String?
-
-        imageThumbnail = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.imageThumbnail.rawValue)
-        image = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.image.rawValue)
-
-        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
-    }
-
-    open func encode(with aCoder: NSCoder) {
-        aCoder.encode(PersonDescription.modelVersion, forKey: CodingKey.version.rawValue)
-
-        aCoder.encode(id, forKey: CodingKey.id.rawValue)
-        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
-        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
-        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
-        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
-        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
-        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
-        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
-        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
-
-        if let height = height {
-            aCoder.encode(NSNumber(value: height), forKey: CodingKey.height.rawValue)
-        }
-
-        aCoder.encode(weight, forKey: CodingKey.weight.rawValue)
-        aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
-        aCoder.encode(race, forKey: CodingKey.race.rawValue)
-        aCoder.encode(build, forKey: CodingKey.build.rawValue)
-        aCoder.encode(hairColour, forKey: CodingKey.hairColour.rawValue)
-        aCoder.encode(eyeColour, forKey: CodingKey.eyeColour.rawValue)
-        aCoder.encode(marks, forKey: CodingKey.marks.rawValue)
-        aCoder.encode(remarks, forKey: CodingKey.remarks.rawValue)
-
-        aCoder.encode(imageThumbnail, forKey: CodingKey.imageThumbnail.rawValue)
-        aCoder.encode(image, forKey: CodingKey.image.rawValue)
-
-        aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
 
     public func formatted() -> String? {
@@ -201,31 +125,90 @@ open class PersonDescription: NSObject, Serialisable {
         return primaryComponents.joined(separator: ", ") + (!primaryComponents.isEmpty ? ". " : "") + secondaryComponents.joined(separator: ", ") + locationString + (!secondaryComponents.isEmpty || !locationString.isEmpty ? "." : "")
     }
 
-    private enum CodingKey: String {
-        case version
-        case id
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case build
+        case createdBy
         case dateCreated
         case dateUpdated
-        case createdBy
-        case updatedBy
         case effectiveDate
-        case expiryDate
         case entityType
-        case isSummary
-        case source
-
-        case height
-        case weight
         case ethnicity
-        case race
-        case build
-        case hairColour
+        case expiryDate
         case eyeColour
-        case marks
-        case remarks
-        case imageThumbnail
+        case hairColour
+        case height
+        case id
         case image
+        case imageThumbnail
+        case isSummary
         case jurisdiction
+        case marks
+        case race
+        case remarks
+        case source
+        case updatedBy
+        case weight
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        build = try container.decodeIfPresent(String.self, forKey: .build)
+        createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
+        dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
+        dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
+        effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+        entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
+        ethnicity = try container.decodeIfPresent(String.self, forKey: .ethnicity)
+        expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
+        eyeColour = try container.decodeIfPresent(String.self, forKey: .eyeColour)
+        hairColour = try container.decodeIfPresent(String.self, forKey: .hairColour)
+        height = try container.decodeIfPresent(Int.self, forKey: .height)
+        id = try container.decode(String.self, forKey: .id)
+        image = try container.decodeIfPresent(Media.self, forKey: .image)
+        imageThumbnail = try container.decodeIfPresent(Media.self, forKey: .imageThumbnail)
+        isSummary = try container.decode(Bool.self, forKey: .isSummary)
+        jurisdiction = try container.decodeIfPresent(String.self, forKey: .jurisdiction)
+        marks = try container.decodeIfPresent([String].self, forKey: .marks)
+        race = try container.decodeIfPresent(String.self, forKey: .race)
+        remarks = try container.decodeIfPresent(String.self, forKey: .remarks)
+        source = try container.decodeIfPresent(MPOLSource.self, forKey: .source)
+        updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
+        weight = try container.decodeIfPresent(String.self, forKey: .weight)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(build, forKey: CodingKeys.build)
+        try container.encode(createdBy, forKey: CodingKeys.createdBy)
+        try container.encode(dateCreated, forKey: CodingKeys.dateCreated)
+        try container.encode(dateUpdated, forKey: CodingKeys.dateUpdated)
+        try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
+        try container.encode(entityType, forKey: CodingKeys.entityType)
+        try container.encode(ethnicity, forKey: CodingKeys.ethnicity)
+        try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
+        try container.encode(eyeColour, forKey: CodingKeys.eyeColour)
+        try container.encode(hairColour, forKey: CodingKeys.hairColour)
+        try container.encode(height, forKey: CodingKeys.height)
+        try container.encode(id, forKey: CodingKeys.id)
+        try container.encode(image, forKey: CodingKeys.image)
+        try container.encode(imageThumbnail, forKey: CodingKeys.imageThumbnail)
+        try container.encode(isSummary, forKey: CodingKeys.isSummary)
+        try container.encode(jurisdiction, forKey: CodingKeys.jurisdiction)
+        try container.encode(marks, forKey: CodingKeys.marks)
+        try container.encode(race, forKey: CodingKeys.race)
+        try container.encode(remarks, forKey: CodingKeys.remarks)
+        try container.encode(source, forKey: CodingKeys.source)
+        try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
+        try container.encode(weight, forKey: CodingKeys.weight)
     }
 
 }
