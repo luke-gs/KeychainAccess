@@ -64,7 +64,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder.title = "Person"
 
-        builder += HeaderFormItem(text: "DETAILS")
+        builder += LargeTextHeaderFormItem(text: "General").separatorColor(.clear)
 
         builder += TextFieldFormItem()
             .title("First Name")
@@ -74,31 +74,23 @@ public class PersonEditViewController: FormBuilderViewController {
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Middle Name")
+            .title("Middle Name/s")
             .text(initialPerson?.middleNames)
             .onValueChanged { self.finalPerson.middleNames = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Family Name")
+            .title("Last Name")
             .text(initialPerson?.familyName)
             .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Other Given Names")
+            .title("Identification Number")
             .width(.column(4))
 
         let selectedGender = initialPerson?.gender != nil ? [initialPerson!.gender!] : nil
-
-        builder += DropDownFormItem()
-            .title("Gender")
-            .options(Person.Gender.allCases)
-            .selectedValue(selectedGender)
-            .onValueChanged { self.finalPerson.gender = $0?.first }
-            .required()
-            .width(.column(2))
 
         builder += DateFormItem()
             .title("Date Of Birth")
@@ -106,12 +98,29 @@ public class PersonEditViewController: FormBuilderViewController {
             .selectedValue(initialPerson?.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()
-            .width(.column(2))
+            .width(.column(4))
 
-        builder += HeaderFormItem(text: "DESCRIPTION")
+        builder += TextFieldFormItem()
+            .title("Place of Birth")
+            .width(.column(4))
+
+        builder += TextFieldFormItem()
+            .title("Ethnicity")
+            .width(.column(4))
+
+        //TODO: Use Manifest
+        builder += DropDownFormItem()
+            .title("Gender")
+            .options(Person.Gender.allCases)
+            .selectedValue(selectedGender)
+            .onValueChanged { self.finalPerson.gender = $0?.first }
+            .width(.column(4))
+
+        builder += LargeTextHeaderFormItem(text: "Physical Description").separatorColor(.clear)
 
         builder += TextFieldFormItem()
             .title("Height (cm)")
+            .placeholder("0 cm")
             .onValueChanged {
                 if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
                     self.finalDescription.height = value
@@ -121,74 +130,94 @@ public class PersonEditViewController: FormBuilderViewController {
             }
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Height can only be number.")
             .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
-            .width(.column(3))
+            .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Weight (Kg)")
+            .title("Weight (kg)")
+            .placeholder("0 kg")
             .onValueChanged { self.finalDescription.weight = $0 }
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Weight can only be number.")
             .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
-            .width(.column(3))
+            .width(.column(4))
 
         builder += DropDownFormItem()
             .title("Build")
             .options(["Light", "Medium", "Heavy"])
             .onValueChanged { self.finalDescription.build = $0?.first }
-            .width(.column(3))
+            .width(.column(4))
 
+        //TODO: Use Manifest
         builder += DropDownFormItem()
             .title("Race")
             .options(["Asian", "African", "Causcasian", "European", "Aboriginal"])
             .onValueChanged { self.finalDescription.race = $0?.first }
-            .width(.column(3))
-
-        builder += DropDownFormItem()
-            .title("Hair Colour")
-            .options(["Black", "Blond", "Light Brown", "Dark Brown", "Red", "Gray", "White"])
-            .onValueChanged { self.finalDescription.hairColour = $0?.first }
-            .width(.column(3))
+            .width(.column(4))
 
         builder += DropDownFormItem()
             .title("Eye Colour")
             .options(["Black", "Brown", "Blue", "Green", "Gray", "Amber", "Hazel"])
             .onValueChanged { self.finalDescription.eyeColour = $0?.first }
-            .width(.column(3))
+            .width(.column(4))
 
-        builder += HeaderFormItem(text: "ADDRESSES")
-
-        builder += TextFieldFormItem()
-            .title("Residential Address")
-            .required()
-            .width(.column(2))
-
-        builder += TextFieldFormItem()
-            .title("Work Address")
-            .width(.column(2))
-
-        builder += HeaderFormItem(text: "CONTACT DETAILS")
+        builder += DropDownFormItem()
+            .title("Hair Colour")
+            .options(["Black", "Blond", "Light Brown", "Dark Brown", "Red", "Gray", "White"])
+            .onValueChanged { self.finalDescription.hairColour = $0?.first }
+            .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Mobile Number")
-            .onValueChanged { self.mobile.value = $0 }
-            .required()
+            .title("Remarks")
             .width(.column(2))
 
-        builder += TextFieldFormItem()
-            .title("Home Number")
-            .onValueChanged { self.home.value = $0 }
-            .width(.column(2))
+//        builder += HeaderFormItem(text: "ADDRESSES")
+//
+//        builder += TextFieldFormItem()
+//            .title("Residential Address")
+//            .required()
+//            .width(.column(2))
+//
+//        builder += TextFieldFormItem()
+//            .title("Work Address")
+//            .width(.column(2))
+//
+//        builder += HeaderFormItem(text: "CONTACT DETAILS")
+//
+//        builder += TextFieldFormItem()
+//            .title("Mobile Number")
+//            .onValueChanged { self.mobile.value = $0 }
+//            .required()
+//            .width(.column(2))
+//
+//        builder += TextFieldFormItem()
+//            .title("Home Number")
+//            .onValueChanged { self.home.value = $0 }
+//            .width(.column(2))
+//
+//        builder += TextFieldFormItem()
+//            .title("Work Number")
+//            .onValueChanged { self.work.value = $0 }
+//            .width(.column(2))
+//
+//        builder += TextFieldFormItem()
+//            .title("Email Address")
+//            .onValueChanged { self.email.value = $0 }
+//            .width(.column(2))
+//            .softValidate(EmailSpecification(), message: "Invalid email address.")
 
-        builder += TextFieldFormItem()
-            .title("Work Number")
-            .onValueChanged { self.work.value = $0 }
-            .width(.column(2))
+        builder += LargeTextHeaderFormItem(text: "Contact Details")
+            .actionButton(title: "Add", handler: { (button) in
 
-        builder += TextFieldFormItem()
-            .title("Email Address")
-            .onValueChanged { self.email.value = $0 }
-            .width(.column(2))
-            .softValidate(EmailSpecification(), message: "Invalid email address.")
+            })
 
+        builder += LargeTextHeaderFormItem(text: "Aliases")
+            .actionButton(title: "Add", handler: { (button) in
+
+            })
+
+        builder += LargeTextHeaderFormItem(text: "Addresses")
+            .actionButton(title: "Add", handler: { (button) in
+
+            })
     }
 
     // MARK: - Private
