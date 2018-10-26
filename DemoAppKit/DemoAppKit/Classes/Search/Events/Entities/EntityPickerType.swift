@@ -124,7 +124,7 @@ internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
 
             let actionTypes = controller.objects.enumerated()
                 .filter({ indexes.contains($0.offset) })
-                .compactMap({ AdditionalActionType(rawValue: $0.element.title!) })
+                .compactMap({ AdditionalActionType(rawValue: $0.element.title!.sizing().string) })
 
             let actions = actionTypes.map { AdditionalAction(incident: viewModel.report.incident!, type: $0) }
 

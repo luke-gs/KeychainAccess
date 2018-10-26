@@ -52,9 +52,9 @@ open class Person: Entity, Identifiable {
             }
         }
 
-        public var title: String? { return description }
+        public var title: StringSizable? { return description }
 
-        public var subtitle: String? { return nil }
+        public var subtitle: StringSizable? { return nil }
 
         public static let allCases: [Gender] = [.female, .male, .other]
     }

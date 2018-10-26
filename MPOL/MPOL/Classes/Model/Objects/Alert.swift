@@ -168,11 +168,11 @@ open class Alert: NSObject, Serialisable {
 
 extension Alert.Level: Pickable {
 
-    public var title: String? {
+    public var title: StringSizable? {
         return self.localizedDescription()
     }
 
-    public var subtitle: String? {
+    public var subtitle: StringSizable? {
         return nil
     }
 

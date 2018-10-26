@@ -66,7 +66,7 @@ struct AddIncidentDefinition: IncidentActionDefiniton {
     var completion: ((CustomPickerController, IndexSet) -> Void)? {
         if let context = context {
             return { controller, index in
-                let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+                let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
                 context.viewModel.add(incidents)
                 context.updateLoadingManager()
                 context.reloadForm()
@@ -111,7 +111,7 @@ struct ChoosePrimaryIncidentDefinition: IncidentActionDefiniton {
                     .filter({ indexes.contains($0.offset) }).first?.element
 
                 let index = context.viewModel.incidentList.enumerated().first(where: {
-                    return $0.element.title == incidentTitle?.title
+                    return $0.element.title?.sizing() == incidentTitle?.title?.sizing()
                 })?.offset
 
                 if let index = index {
@@ -159,7 +159,7 @@ struct DeletePrimaryIncidentDefinition: IncidentActionDefiniton {
                     .filter({ indexes.contains($0.offset) }).first?.element
 
                 let index = context.viewModel.incidentList.enumerated().first(where: {
-                    return $0.element.title == incidentTitle?.title
+                    return $0.element.title?.sizing() == incidentTitle?.title?.sizing()
                 })?.offset
 
                 if let index = index {

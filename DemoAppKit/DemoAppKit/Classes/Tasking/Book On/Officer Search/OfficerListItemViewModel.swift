@@ -30,23 +30,21 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
     // MARK: - Searchable
 
-    public var title: String? {
+    public var title: StringSizable? {
+
+        // compile title
         let lastNameString = lastName != nil ? "\(lastName!)," : ""
         let employeeNumberString = "(\(employeeNumber))"
-        return [lastNameString, firstName, employeeNumberString].joined()
-    }
+        let title = [lastNameString, firstName, employeeNumberString].joined()
 
-    public var attributedTitle: StringSizable? {
-
-        guard let title = title else { return nil }
-
+        // add unbolded font to employee number
         let employeeNumberCount = employeeNumber.count + 2
         let attributedString = NSMutableAttributedString(string: title)
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15), range: NSRange(location: (title.count - employeeNumberCount), length: employeeNumberCount))
         return attributedString
     }
 
-    public var subtitle: String? {
+    public var subtitle: StringSizable? {
 
         return rank
     }

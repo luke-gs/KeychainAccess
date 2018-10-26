@@ -113,7 +113,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
         viewController.finishUpdateHandler = { [weak self] controller, index in
             guard let `self` = self else { return }
-            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
@@ -161,7 +161,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
         let involvementsViewController = CustomPickerController(dataSource: involvementDataSource)
         involvementsViewController.finishUpdateHandler = { [weak self] controller, index in
             guard let `self` = self else { return }
-            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)
             self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)

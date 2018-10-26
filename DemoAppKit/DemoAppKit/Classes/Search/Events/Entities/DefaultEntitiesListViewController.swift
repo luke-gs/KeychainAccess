@@ -186,10 +186,10 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             self?.dismiss(animated: true, completion: {
                 guard let index = selectedIndexes.first else { return }
                 let item = editItems[index]
-                if item.subtitle == "involvement" {
+                if item.subtitle?.sizing().string == "involvement" {
                     self?.presentPickerViewController(type: .involvement, entity: entity)
                 }
-                if item.subtitle == "action" {
+                if item.subtitle?.sizing().string == "action" {
                     self?.presentPickerViewController(type: .additionalAction, entity: entity)
                 }
             })

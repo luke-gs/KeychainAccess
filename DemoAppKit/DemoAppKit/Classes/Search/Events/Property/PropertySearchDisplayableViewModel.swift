@@ -81,8 +81,8 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
 }
 
 internal struct PropertyDisplayable: CustomSearchDisplayable {
-    public var title: String?
-    public var subtitle: String?
+    public var title: StringSizable?
+    public var subtitle: StringSizable?
     public var section: String?
     public var image: UIImage?
 
@@ -92,6 +92,6 @@ internal struct PropertyDisplayable: CustomSearchDisplayable {
     }
 
     public func contains(_ searchText: String) -> Bool {
-        return title?.contains(searchText) ?? false
+        return title?.sizing().string.contains(searchText) ?? false
     }
 }

@@ -68,7 +68,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func title(for indexPath: IndexPath) -> StringSizable? {
-        return (searchable(for: object(for: indexPath)) as! OfficerListItemViewModel).attributedTitle
+        return searchable(for: object(for: indexPath)).title
     }
 
     func description(for indexPath: IndexPath) -> StringSizable? {

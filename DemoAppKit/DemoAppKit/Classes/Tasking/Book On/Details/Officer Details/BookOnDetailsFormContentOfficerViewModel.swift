@@ -17,7 +17,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
     // MARK: - Stored properties
 
-    open var title: String?
+    open var title: StringSizable?
     open var rank: String?
     open var officerId: String
     open var employeeNumber: String?
