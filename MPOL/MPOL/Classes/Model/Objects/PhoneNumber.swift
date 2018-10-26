@@ -10,15 +10,14 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLPhoneNumber)
-open class PhoneNumber: NSObject, Serialisable {
+open class PhoneNumber: DefaultSerialisable {
 
     // MARK: - Properties
 
-    public let id: String
-
-    open var type: String?
     open var areaCode: String?
     open var phoneNumber: String?
+    open var type: String?
+    open var id: String
 
     public required init(id: String = UUID().uuidString) {
         self.id = id
@@ -28,11 +27,6 @@ open class PhoneNumber: NSObject, Serialisable {
     // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
-
-        // Test data doesn't have id, temporarily removed this
-//        guard let id: String = unboxer.unbox(key: "id") else {
-//            throw ParsingError.missingRequiredField
-//        }
 
         if let id: String = unboxer.unbox(key: "id") {
             self.id = id
@@ -46,28 +40,6 @@ open class PhoneNumber: NSObject, Serialisable {
 
         super.init()
     }
-
-    public required init?(coder aDecoder: NSCoder) {
-        id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
-
-        super.init()
-
-        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
-        areaCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.areaCode.rawValue) as String?
-        phoneNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.phoneNumber.rawValue) as String?
-    }
-
-    open func encode(with aCoder: NSCoder) {
-        aCoder.encode(PhoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
-        aCoder.encode(id, forKey: CodingKey.id.rawValue)
-        aCoder.encode(type, forKey: CodingKey.type.rawValue)
-        aCoder.encode(areaCode, forKey: CodingKey.areaCode.rawValue)
-        aCoder.encode(phoneNumber, forKey: CodingKey.phoneNumber.rawValue)
-    }
-
-    public static var supportsSecureCoding: Bool { return true }
-
-    public static var modelVersion: Int { return 0 }
 
     // MARK: - Temp Formatters
 
@@ -93,11 +65,36 @@ open class PhoneNumber: NSObject, Serialisable {
         }
     }
 
-    private enum CodingKey: String {
-        case version
-        case id
-        case type
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
         case areaCode
         case phoneNumber
+        case type
+        case id
     }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        areaCode = try container.decodeIfPresent(String.self, forKey: .areaCode)
+        phoneNumber = try container.decodeIfPresent(String.self, forKey: .phoneNumber)
+        type = try container.decodeIfPresent(String.self, forKey: .type)
+        id = try container.decode(String.self, forKey: .id)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(areaCode, forKey: CodingKeys.areaCode)
+        try container.encode(phoneNumber, forKey: CodingKeys.phoneNumber)
+        try container.encode(type, forKey: CodingKeys.type)
+        try container.encode(id, forKey: CodingKeys.id)
+    }
+
 }
