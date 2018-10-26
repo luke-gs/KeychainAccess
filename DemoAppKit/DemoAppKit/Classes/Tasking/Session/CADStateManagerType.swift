@@ -16,7 +16,7 @@ public protocol CADStateManagerType {
     // MARK: - Properties
 
     /// The logged in officer details
-    var officerDetails: CADEmployeeDetailsType? { get }
+    var officerDetails: CADOfficerType? { get }
 
     /// The current patrol group
     var patrolGroup: String? { get set }

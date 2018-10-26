@@ -44,7 +44,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         patrolGroup = "Collingwood"
     }
 
-    open override var officerDetails: CADEmployeeDetailsType? {
+    open override var officerDetails: CADOfficerType? {
         get {
             // get current search officer
             if let details = getEmployeeDetails() {
@@ -206,13 +206,13 @@ open class CADStateManagerCore: CADStateManagerBase {
     // MARK: - Get Details
 
     /// Fetch details for current user
-    open func getEmployeeDetails() -> CADEmployeeDetailsType? {
+    open func getEmployeeDetails() -> CADOfficerType? {
         // update current employee with current search officer details
         guard let currentSearchOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as? Officer else {
             return nil
         }
 
-        let officer = CADEmployeeDetailsCore(id:  currentSearchOfficer.id)
+        let officer = CADOfficerCore(id:  currentSearchOfficer.id)
         officer.capabilities = []
         officer.contactNumber = "0425 584 678"
         officer.givenName = currentSearchOfficer.givenName

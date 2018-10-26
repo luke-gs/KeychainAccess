@@ -22,7 +22,7 @@ open class CADStateManagerBase: CADStateManagerType {
     // MARK: - CADStateManagerType Properties
 
     /// The logged in officer details
-    open var officerDetails: CADEmployeeDetailsType?
+    open var officerDetails: CADOfficerType?
 
     /// The patrol group
     open var patrolGroup: String? {

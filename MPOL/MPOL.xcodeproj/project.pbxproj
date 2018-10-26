@@ -102,7 +102,6 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */; };
 		96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */; };
-		963E5B0C2179831A00BC2415 /* CADEmployeeDetailsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B082179831A00BC2415 /* CADEmployeeDetailsCore.swift */; };
 		963E5B0D2179831A00BC2415 /* CADOfficerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B092179831A00BC2415 /* CADOfficerCore.swift */; };
 		963E5B0E2179831A00BC2415 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B0B2179831A00BC2415 /* CADStateManagerCore.swift */; };
 		96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2020D0B25600B82A53 /* NotificationService.swift */; };
@@ -412,7 +411,6 @@
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
 		96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionCore.swift; sourceTree = "<group>"; };
-		963E5B082179831A00BC2415 /* CADEmployeeDetailsCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEmployeeDetailsCore.swift; sourceTree = "<group>"; };
 		963E5B092179831A00BC2415 /* CADOfficerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerCore.swift; sourceTree = "<group>"; };
 		963E5B0B2179831A00BC2415 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		96728C1E20D0B25600B82A53 /* APNS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "APNS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -890,7 +888,6 @@
 		963E5B072179831A00BC2415 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				963E5B082179831A00BC2415 /* CADEmployeeDetailsCore.swift */,
 				963E5B092179831A00BC2415 /* CADOfficerCore.swift */,
 			);
 			path = Objects;
@@ -1856,7 +1853,6 @@
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
 				96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
-				963E5B0C2179831A00BC2415 /* CADEmployeeDetailsCore.swift in Sources */,
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
 				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
