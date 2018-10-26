@@ -14,7 +14,7 @@ open class Address: Entity {
 
     // MARK: - Class
 
-    override open class var serverTypeRepresentation: String {
+    open override class var serverTypeRepresentation: String {
         return "Location"
     }
 
