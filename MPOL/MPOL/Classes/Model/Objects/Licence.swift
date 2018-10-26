@@ -10,33 +10,30 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLLicence)
-open class Licence: NSObject, Serialisable {
+open class Licence: DefaultSerialisable {
 
     // MARK: - Properties
 
-    public let id: String
-
+    open var country: String?
+    open var createdBy: String?
     open var dateCreated: Date?
     open var dateUpdated: Date?
-    open var createdBy: String?
-    open var updatedBy: String?
     open var effectiveDate: Date?
-    open var expiryDate: Date?
     open var entityType: String?
+    open var expiryDate: Date?
+    open var id: String
     open var isSummary: Bool = false
-    open var source: MPOLSource?
-
-    open var number: String?
     open var isSuspended: Bool = false
+    open var licenceClasses: [LicenceClass]?
+    open var number: String?
+    open var remarks: String?
+    open var source: MPOLSource?
+    open var state: String?
     open var status: String?
     open var statusDescription: String?
     open var statusFromDate: Date?
-    open var state: String?
-    open var country: String?
     open var type: String?
-    open var remarks: String?
-
-    open var licenceClasses: [LicenceClass]?
+    open var updatedBy: String?
 
     public required init(id: String = UUID().uuidString) {
         self.id = id
@@ -80,133 +77,109 @@ open class Licence: NSObject, Serialisable {
         super.init()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.id.rawValue) as String?)!
-
-        super.init()
-
-        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.dateCreated.rawValue) as Date?
-        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.dateUpdated.rawValue) as Date?
-        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.effectiveDate.rawValue) as Date?
-        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.expiryDate.rawValue) as Date?
-        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.createdBy.rawValue) as String?
-        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.updatedBy.rawValue) as String?
-        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeBool(forKey: CodingKeys.isSummary.rawValue)
-
-        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.source.rawValue) as String? {
-            self.source = MPOLSource(rawValue: source)
-        }
-
-        number = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.number.rawValue) as String?
-        isSuspended = aDecoder.decodeBool(forKey: CodingKeys.isSuspended.rawValue)
-        status = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.status.rawValue) as String?
-        statusDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.statusDescription.rawValue) as String?
-        statusFromDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.statusFromDate.rawValue) as Date?
-        state = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.state.rawValue) as String?
-        country = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.country.rawValue) as String?
-        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
-        remarks = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.remarks.rawValue) as String?
-
-        licenceClasses = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.licenceClasses.rawValue) as? [LicenceClass]
-
-    }
-
-    open func encode(with aCoder: NSCoder) {
-        aCoder.encode(Licence.modelVersion, forKey: CodingKeys.version.rawValue)
-        aCoder.encode(id, forKey: CodingKeys.id.rawValue)
-        aCoder.encode(dateCreated, forKey: CodingKeys.dateCreated.rawValue)
-        aCoder.encode(dateUpdated, forKey: CodingKeys.dateUpdated.rawValue)
-        aCoder.encode(expiryDate, forKey: CodingKeys.expiryDate.rawValue)
-        aCoder.encode(createdBy, forKey: CodingKeys.createdBy.rawValue)
-        aCoder.encode(updatedBy, forKey: CodingKeys.updatedBy.rawValue)
-        aCoder.encode(entityType, forKey: CodingKeys.entityType.rawValue)
-        aCoder.encode(isSummary, forKey: CodingKeys.isSummary.rawValue)
-        aCoder.encode(source?.rawValue, forKey: CodingKeys.source.rawValue)
-
-        aCoder.encode(number, forKey: CodingKeys.number.rawValue)
-        aCoder.encode(isSuspended, forKey: CodingKeys.isSuspended.rawValue)
-        aCoder.encode(status, forKey: CodingKeys.status.rawValue)
-        aCoder.encode(statusDescription, forKey: CodingKeys.statusDescription.rawValue)
-        aCoder.encode(statusFromDate, forKey: CodingKeys.statusFromDate.rawValue)
-        aCoder.encode(state, forKey: CodingKeys.state.rawValue)
-        aCoder.encode(country, forKey: CodingKeys.country.rawValue)
-        aCoder.encode(type, forKey: CodingKeys.type.rawValue)
-        aCoder.encode(remarks, forKey: CodingKeys.remarks.rawValue)
-
-        aCoder.encode(licenceClasses, forKey: CodingKeys.licenceClasses.rawValue)
-
-    }
-
-    public static var supportsSecureCoding: Bool {
-        return true
-    }
-
-    // MARK: - Model Versionable
-    public static var modelVersion: Int {
-        return 0
-    }
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
-        case version
-        case id
+        case country
+        case createdBy
         case dateCreated
         case dateUpdated
-        case createdBy
-        case updatedBy
-        case expiryDate
         case effectiveDate
         case entityType
+        case expiryDate
+        case id
         case isSummary
-        case source
-
-        case number
         case isSuspended
+        case licenceClasses = "classes"
+        case number
+        case remarks
+        case source
+        case state
         case status
         case statusDescription
         case statusFromDate
-        case state
-        case country
         case type
-        case remarks
+        case updatedBy
+    }
 
-        case licenceClasses = "classes"
-        case restrictions
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        country = try container.decodeIfPresent(String.self, forKey: .country)
+        createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
+        dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
+        dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
+        effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+        entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
+        expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
+        id = try container.decode(String.self, forKey: .id)
+        isSummary = try container.decode(Bool.self, forKey: .isSummary)
+        isSuspended = try container.decode(Bool.self, forKey: .isSuspended)
+        licenceClasses = try container.decodeIfPresent([LicenceClass].self, forKey: .licenceClasses)
+        number = try container.decodeIfPresent(String.self, forKey: .number)
+        remarks = try container.decodeIfPresent(String.self, forKey: .remarks)
+        source = try container.decodeIfPresent(MPOLSource.self, forKey: .source)
+        state = try container.decodeIfPresent(String.self, forKey: .state)
+        status = try container.decodeIfPresent(String.self, forKey: .status)
+        statusDescription = try container.decodeIfPresent(String.self, forKey: .statusDescription)
+        statusFromDate = try container.decodeIfPresent(Date.self, forKey: .statusFromDate)
+        type = try container.decodeIfPresent(String.self, forKey: .type)
+        updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(country, forKey: CodingKeys.country)
+        try container.encode(createdBy, forKey: CodingKeys.createdBy)
+        try container.encode(dateCreated, forKey: CodingKeys.dateCreated)
+        try container.encode(dateUpdated, forKey: CodingKeys.dateUpdated)
+        try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
+        try container.encode(entityType, forKey: CodingKeys.entityType)
+        try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
+        try container.encode(id, forKey: CodingKeys.id)
+        try container.encode(isSummary, forKey: CodingKeys.isSummary)
+        try container.encode(isSuspended, forKey: CodingKeys.isSuspended)
+        try container.encode(licenceClasses, forKey: CodingKeys.licenceClasses)
+        try container.encode(number, forKey: CodingKeys.number)
+        try container.encode(remarks, forKey: CodingKeys.remarks)
+        try container.encode(source, forKey: CodingKeys.source)
+        try container.encode(state, forKey: CodingKeys.state)
+        try container.encode(status, forKey: CodingKeys.status)
+        try container.encode(statusDescription, forKey: CodingKeys.statusDescription)
+        try container.encode(statusFromDate, forKey: CodingKeys.statusFromDate)
+        try container.encode(type, forKey: CodingKeys.type)
+        try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
     }
 }
 
 /// Licence Class
 extension Licence {
     @objc(MPLLicenceClass)
-    public class LicenceClass: NSObject, Serialisable {
+    public class LicenceClass: DefaultSerialisable {
 
-        public let id: String
-
+        open var classDescription: String?
+        open var code: String?
+        open var conditions: [Condition]?
+        open var createdBy: String?
         open var dateCreated: Date?
         open var dateUpdated: Date?
-        open var createdBy: String?
-        open var updatedBy: String?
         open var effectiveDate: Date?
-        open var expiryDate: Date?
         open var entityType: String?
+        open var expiryDate: Date?
+        open var id: String
         open var isSummary: Bool = false
-        open var source: MPOLSource?
-
-        open var code: String?
         open var name: String?
         open var proficiency: String?
-        open var classDescription: String?
-        open var conditions: [Condition]?
+        open var source: MPOLSource?
+        open var updatedBy: String?
 
-        public static var supportsSecureCoding: Bool {
-            return true
-        }
-
-        public static var modelVersion: Int {
-            return 0
-        }
-
-        public required init(id: String = UUID().uuidString) {
+        public required init(id: String) {
             self.id = id
             super.init()
         }
@@ -238,91 +211,89 @@ extension Licence {
             super.init()
         }
 
-        public required init?(coder aDecoder: NSCoder) {
-            self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
+        // MARK: - Codable
 
-            super.init()
-
-            dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
-            dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
-            effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
-            expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
-            createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
-            updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
-            entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-            isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
-
-            if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
-                self.source = MPOLSource(rawValue: source)
-            }
-
-            proficiency = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.proficiency.rawValue) as String?
-            classDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.classDescription.rawValue) as String?
-            conditions = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.status.rawValue) as? [Condition]
-
-        }
-
-        open func encode(with aCoder: NSCoder) {
-            aCoder.encode(LicenceClass.modelVersion, forKey: CodingKey.version.rawValue)
-            aCoder.encode(id, forKey: CodingKey.id.rawValue)
-            aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
-            aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
-            aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
-            aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
-            aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
-            aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
-            aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
-            aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
-            aCoder.encode(proficiency, forKey: CodingKey.proficiency.rawValue)
-            aCoder.encode(classDescription, forKey: CodingKey.classDescription.rawValue)
-            aCoder.encode(conditions, forKey: CodingKey.conditions.rawValue)
-        }
-
-        private enum CodingKey: String {
-            case version
-            case id
+        private enum CodingKeys: String, CodingKey {
+            case classDescription
+            case code
+            case conditions
+            case createdBy
             case dateCreated
             case dateUpdated
-            case createdBy
-            case updatedBy
-            case expiryDate
             case effectiveDate
             case entityType
+            case expiryDate
+            case id
             case isSummary
-            case source
+            case name
             case proficiency
-            case classDescription
-            case conditions
+            case source
+            case updatedBy
+        }
+
+        public required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(String.self, forKey: .id)
+
+            try super.init(from: decoder)
+            guard !dataMigrated else { return }
+
+            classDescription = try container.decodeIfPresent(String.self, forKey: .classDescription)
+            code = try container.decodeIfPresent(String.self, forKey: .code)
+            conditions = try container.decodeIfPresent([Condition].self, forKey: .conditions)
+            createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
+            dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
+            dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
+            effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+            entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
+            expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
+            id = try container.decode(String.self, forKey: .id)
+            isSummary = try container.decode(Bool.self, forKey: .isSummary)
+            name = try container.decodeIfPresent(String.self, forKey: .name)
+            proficiency = try container.decodeIfPresent(String.self, forKey: .proficiency)
+            source = try container.decodeIfPresent(MPOLSource.self, forKey: .source)
+            updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
+        }
+
+        open override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(classDescription, forKey: CodingKeys.classDescription)
+            try container.encode(code, forKey: CodingKeys.code)
+            try container.encode(conditions, forKey: CodingKeys.conditions)
+            try container.encode(createdBy, forKey: CodingKeys.createdBy)
+            try container.encode(dateCreated, forKey: CodingKeys.dateCreated)
+            try container.encode(dateUpdated, forKey: CodingKeys.dateUpdated)
+            try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
+            try container.encode(entityType, forKey: CodingKeys.entityType)
+            try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
+            try container.encode(id, forKey: CodingKeys.id)
+            try container.encode(isSummary, forKey: CodingKeys.isSummary)
+            try container.encode(name, forKey: CodingKeys.name)
+            try container.encode(proficiency, forKey: CodingKeys.proficiency)
+            try container.encode(source, forKey: CodingKeys.source)
+            try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
         }
     }
 
     /// Licence Condition
     @objc(MPLCondition)
-    public class Condition: NSObject, Serialisable {
-
-        public let id: String
-
-        open var dateCreated: Date?
-        open var dateUpdated: Date?
-        open var createdBy: String?
-        open var updatedBy: String?
-        open var effectiveDate: Date?
-        open var expiryDate: Date?
-        open var entityType: String?
-        open var isSummary: Bool = false
-        open var source: MPOLSource?
+    public class Condition: DefaultSerialisable {
 
         open var condition: String?
+        open var createdBy: String?
+        open var dateCreated: Date?
+        open var dateUpdated: Date?
+        open var effectiveDate: Date?
+        open var entityType: String?
+        open var expiryDate: Date?
+        open var id: String
+        open var isSummary: Bool = false
+        open var source: MPOLSource?
+        open var updatedBy: String?
 
-        public static var supportsSecureCoding: Bool {
-            return true
-        }
-
-        public static var modelVersion: Int {
-            return 0
-        }
-
-        public required init(id: String = UUID().uuidString) {
+        public required init(id: String) {
             self.id = id
             super.init()
         }
@@ -364,55 +335,59 @@ extension Licence {
             return value
         }
 
-        public required init?(coder aDecoder: NSCoder) {
-            self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
+        // MARK: - Codable
 
-            super.init()
-
-            dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
-            dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
-            effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
-            expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
-            createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
-            updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
-            entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-            isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
-
-            if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
-                self.source = MPOLSource(rawValue: source)
-            }
-
-            condition = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.condition.rawValue) as String?
-        }
-
-        open func encode(with aCoder: NSCoder) {
-            aCoder.encode(Condition.modelVersion, forKey: CodingKey.version.rawValue)
-            aCoder.encode(id, forKey: CodingKey.id.rawValue)
-            aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
-            aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
-            aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
-            aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
-            aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
-            aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
-            aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
-            aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
-            aCoder.encode(condition, forKey: CodingKey.condition.rawValue)
-        }
-
-        private enum CodingKey: String {
-            case version
-            case id
+        private enum CodingKeys: String, CodingKey {
+            case condition
+            case createdBy
             case dateCreated
             case dateUpdated
-            case createdBy
-            case updatedBy
-            case expiryDate
             case effectiveDate
             case entityType
+            case expiryDate
+            case id
             case isSummary
             case source
-            case condition
+            case updatedBy
         }
+
+        public required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(String.self, forKey: .id)
+
+            try super.init(from: decoder)
+            guard !dataMigrated else { return }
+
+            condition = try container.decodeIfPresent(String.self, forKey: .condition)
+            createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
+            dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
+            dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
+            effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+            entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
+            expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
+            id = try container.decode(String.self, forKey: .id)
+            isSummary = try container.decode(Bool.self, forKey: .isSummary)
+            source = try container.decodeIfPresent(MPOLSource.self, forKey: .source)
+            updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
+        }
+
+        open override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(condition, forKey: CodingKeys.condition)
+            try container.encode(createdBy, forKey: CodingKeys.createdBy)
+            try container.encode(dateCreated, forKey: CodingKeys.dateCreated)
+            try container.encode(dateUpdated, forKey: CodingKeys.dateUpdated)
+            try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
+            try container.encode(entityType, forKey: CodingKeys.entityType)
+            try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
+            try container.encode(id, forKey: CodingKeys.id)
+            try container.encode(isSummary, forKey: CodingKeys.isSummary)
+            try container.encode(source, forKey: CodingKeys.source)
+            try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
+        }
+
     }
 
 }
