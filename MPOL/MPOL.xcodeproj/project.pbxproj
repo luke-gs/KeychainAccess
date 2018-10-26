@@ -204,7 +204,6 @@
 		96B7756C2140F8EE00836B83 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774F92140F8EE00836B83 /* Alias.swift */; };
 		96B7756D2140F8EE00836B83 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */; };
 		96B7756E2140F8EE00836B83 /* TrafficHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FB2140F8EE00836B83 /* TrafficHistory.swift */; };
-		96B7756F2140F8EE00836B83 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FC2140F8EE00836B83 /* Email.swift */; };
 		96B775702140F8EE00836B83 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FD2140F8EE00836B83 /* Media.swift */; };
 		96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */; };
 		96B775722140F8EE00836B83 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B774FF2140F8EE00836B83 /* Identifiable.swift */; };
@@ -524,7 +523,6 @@
 		96B774F92140F8EE00836B83 /* Alias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
 		96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
 		96B774FB2140F8EE00836B83 /* TrafficHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistory.swift; sourceTree = "<group>"; };
-		96B774FC2140F8EE00836B83 /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		96B774FD2140F8EE00836B83 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelephoneNumber.swift; sourceTree = "<group>"; };
 		96B774FF2140F8EE00836B83 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
@@ -1243,7 +1241,6 @@
 				96B774F22140F8EE00836B83 /* AssociationReason.swift */,
 				96B775132140F8EE00836B83 /* Contact.swift */,
 				96B774F12140F8EE00836B83 /* CriminalHistory.swift */,
-				96B774FC2140F8EE00836B83 /* Email.swift */,
 				96B774F52140F8EE00836B83 /* Entity.swift */,
 				96B774FF2140F8EE00836B83 /* Identifiable.swift */,
 				96B775122140F8EE00836B83 /* Licence.swift */,
@@ -1873,7 +1870,6 @@
 				37235FB220AE738E0021850B /* DomesticViolencePropertyViewController.swift in Sources */,
 				37235FB120AE738E0021850B /* DomesticViolencePropertyViewModel.swift in Sources */,
 				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
-				96B7756F2140F8EE00836B83 /* Email.swift in Sources */,
 				96B775A7214206F100836B83 /* LicenceParserDefinition.swift in Sources */,
 				96B775422140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift in Sources */,
 				96B775682140F8EE00836B83 /* Entity.swift in Sources */,

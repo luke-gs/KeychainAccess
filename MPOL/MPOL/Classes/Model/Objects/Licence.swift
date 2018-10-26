@@ -12,6 +12,8 @@ import PublicSafetyKit
 @objc(MPLLicence)
 open class Licence: NSObject, Serialisable {
 
+    // MARK: - Properties
+
     public let id: String
 
     open var dateCreated: Date?
@@ -40,6 +42,8 @@ open class Licence: NSObject, Serialisable {
         self.id = id
         super.init()
     }
+
+    // MARK: - Unboxable
 
     fileprivate static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

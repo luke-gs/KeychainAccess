@@ -13,10 +13,14 @@ import Unbox
 open class AssociationReason: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
+    // MARK: - Properties
+
     public let id: String
 
     open var effectiveDate: Date?
     open var reason: String?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         id = unboxer.unbox(key: "id") ?? UUID().uuidString

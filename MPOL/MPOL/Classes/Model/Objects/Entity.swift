@@ -18,10 +18,6 @@ open class Entity: MPOLKitEntity {
         return NSLocalizedString("Entity", comment: "")
     }
 
-    open class var modelVersion: Int {
-        return 0
-    }
-
     // MARK: - Properties
 
     open var actionCount: UInt = 0
@@ -128,6 +124,10 @@ open class Entity: MPOLKitEntity {
         case source
         case updatedBy
         case version
+    }
+
+    public override init(id: String) {
+        super.init(id: id)
     }
 
     public required init(from decoder: Decoder) throws {

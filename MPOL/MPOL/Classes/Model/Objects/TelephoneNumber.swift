@@ -12,6 +12,8 @@ import PublicSafetyKit
 @objc(MPLTelephoneNumber)
 open class TelephoneNumber: NSObject, Serialisable {
 
+    // MARK: - Properties
+
     public let id: String
 
     open var suffix: String?
@@ -28,6 +30,8 @@ open class TelephoneNumber: NSObject, Serialisable {
         self.id = id
         super.init()
     }
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {

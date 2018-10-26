@@ -11,12 +11,16 @@ import Unbox
 @objc(MPLPersonAlias)
 open class PersonAlias: Alias {
 
+    // MARK: - Properties
+
     open var firstName: String?
     open var lastName: String?
     open var middleNames: String?
     open var dateOfBirth: Date?
     open var ethnicity: String?
     open var title: String?
+
+    // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

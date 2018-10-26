@@ -12,6 +12,8 @@ import Unbox
 @objc(MPLTrafficHistory)
 public class TrafficHistory: NSObject, Serialisable {
 
+    // MARK: - Properties
+
     public let id: String
     public let source: MPOLSource
 
@@ -24,7 +26,8 @@ public class TrafficHistory: NSObject, Serialisable {
     public let expiryDate: Date?
     public let issuedDate: Date?
 
-    // MARK: - Unbox
+    // MARK: - Unboxable
+
     public required init(unboxer: Unboxer) throws {
         id = try unboxer.unbox(key: CodingKeys.id.rawValue)
         source = try unboxer.unbox(key: CodingKeys.source.rawValue)

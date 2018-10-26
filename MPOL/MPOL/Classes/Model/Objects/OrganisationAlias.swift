@@ -11,11 +11,15 @@ import Unbox
 @objc(MPLOrganisationAlias)
 open class OrganisationAlias: Alias {
 
+    // MARK: - Properties
+
     open var alias: String?
 
     public required init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         alias = unboxer.unbox(key: "alias")

@@ -12,6 +12,16 @@ import PublicSafetyKit
 @objc(MPLPerson)
 open class Person: Entity, Identifiable {
 
+    // MARK: - Class
+
+    override open class var serverTypeRepresentation: String {
+        return "person"
+    }
+
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Person", comment: "")
+    }
+
     private enum Coding: String {
         case givenName = "givenName"
         case surname = "surname"
@@ -30,10 +40,6 @@ open class Person: Entity, Identifiable {
         case offenderConvictions
         case orders = "orders"
         case trafficHistory
-    }
-
-    override open class var serverTypeRepresentation: String {
-        return "person"
     }
 
     public enum Gender: String, CustomStringConvertible, UnboxableEnum, Pickable {
@@ -59,9 +65,7 @@ open class Person: Entity, Identifiable {
         public static let allCases: [Gender] = [.female, .male, .other]
     }
 
-    open override class var localizedDisplayName: String {
-        return NSLocalizedString("Person", comment: "")
-    }
+    // MARK: - Properties
 
     open var givenName: String?
     open var familyName: String?
@@ -89,6 +93,8 @@ open class Person: Entity, Identifiable {
     open var isAlias: Bool?
     open var thumbnail: UIImage?
 
+    // MARK: - Calculated
+
     open var isDeceased: Bool {
         return dateOfDeath != nil
     }
@@ -101,7 +107,7 @@ open class Person: Entity, Identifiable {
     }()
 
     // MARK: - ?
-    open var highestAlertLevel: Alert.Level?
+    // open var highestAlertLevel: Alert.Level?
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -131,6 +137,8 @@ open class Person: Entity, Identifiable {
     public required override init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
+
+    // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

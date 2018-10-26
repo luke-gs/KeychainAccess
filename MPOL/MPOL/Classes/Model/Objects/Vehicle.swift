@@ -49,6 +49,8 @@ private enum Coding: String {
 @objc(MPLVehicle)
 open class Vehicle: Entity {
 
+    // MARK: - Class
+
     override open class var serverTypeRepresentation: String {
         return "vehicle"
     }
@@ -60,6 +62,8 @@ open class Vehicle: Entity {
     open override var summary: String {
         return registration ?? NSLocalizedString("Registration Unknown", comment: "")
     }
+
+    // MARK: - Properties
 
     open var vehicleType: String?
     open var registration: String?
@@ -105,6 +109,8 @@ open class Vehicle: Entity {
     public required override init(id: String) {
         super.init(id: id)
     }
+
+    // MARK: - Unboxable
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

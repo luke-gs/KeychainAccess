@@ -13,10 +13,14 @@ import Unbox
 @objc (MPLCrimimalHistory)
 open class CriminalHistory: Entity {
 
+    // MARK: - Properties
+
     let offenceDescription: String?
     let primaryCharge: String?
     let occurredDate: Date?
     let courtName: String?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         offenceDescription = unboxer.unbox(key: CodingKeys.offenceDescription.rawValue)

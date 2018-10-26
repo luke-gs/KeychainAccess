@@ -12,12 +12,16 @@ import Unbox
 @objc(MPLOrder)
 open class Order: Entity {
 
+    // MARK: - Properties
+
     open var type: String?
     open var status: String?
     open var issuingAuthority: String?
     open var orderDescription: String?
 
     open var issuedDate: Date?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         type = unboxer.unbox(key: CodingKeys.type.rawValue)

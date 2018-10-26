@@ -13,11 +13,15 @@ import Unbox
 @objc(MPLRetrievedEvent)
 open class RetrievedEvent: Entity {
 
+    // MARK: - Properties
+
     open var name: String?
     open var type: String?
 
     open var eventDescription: String?
     open var occurredDate: Date?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         name = unboxer.unbox(key: CodingKeys.name.rawValue)

@@ -26,6 +26,8 @@ open class Contact: NSObject, Serialisable {
         }
     }
 
+    // MARK: - Properties
+
     public let id: String
 
     open var dateCreated: Date?
@@ -42,6 +44,8 @@ open class Contact: NSObject, Serialisable {
     open var subType: String?
     open var value: String?
     open var jurisdiction: String?
+
+    // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

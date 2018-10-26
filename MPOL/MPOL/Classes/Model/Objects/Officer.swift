@@ -26,6 +26,8 @@ open class Officer: MPOLKitEntity, Identifiable {
         case employeeNumber
     }
 
+    // MARK: - Properties
+
     open var givenName: String?
     open var familyName: String?
     open var middleNames: String?
@@ -39,6 +41,8 @@ open class Officer: MPOLKitEntity, Identifiable {
     public override init(id: String) {
         super.init(id: id)
     }
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
 

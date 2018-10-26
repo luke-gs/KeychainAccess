@@ -20,9 +20,17 @@ private enum CodingKeys: String, CodingKey {
 @objc(MPLOrganisation)
 open class Organisation: Entity {
 
+    // MARK: - Class
+
     override open class var serverTypeRepresentation: String {
         return "organisation"
     }
+
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Organisation", comment: "")
+    }
+
+    // MARK: - Properties
 
     open var name: String?
     open var acn: String?
@@ -32,9 +40,7 @@ open class Organisation: Entity {
     open var tradingAs: String?
     open var aliases: [OrganisationAlias]?
 
-    open override class var localizedDisplayName: String {
-        return NSLocalizedString("Organisation", comment: "")
-    }
+    // MARK: - Calculated
 
     open override var summary: String {
         guard let tradingAsName = tradingAs else { return name ?? "" }
@@ -45,6 +51,8 @@ open class Organisation: Entity {
     public required override init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         try super.init(unboxer: unboxer)

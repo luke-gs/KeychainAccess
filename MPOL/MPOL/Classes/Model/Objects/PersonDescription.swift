@@ -12,6 +12,8 @@ import PublicSafetyKit
 @objc(MPLPersonDescription)
 open class PersonDescription: NSObject, Serialisable {
 
+    // MARK: - Properties
+
     open var id: String
 
     open var dateCreated: Date?
@@ -41,6 +43,8 @@ open class PersonDescription: NSObject, Serialisable {
 
     public static var supportsSecureCoding: Bool { return true }
     public static var modelVersion: Int { return 0 }
+
+    // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 

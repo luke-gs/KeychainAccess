@@ -12,6 +12,8 @@ import PublicSafetyKit
 @objc(MPLPhoneNumber)
 open class PhoneNumber: NSObject, Serialisable {
 
+    // MARK: - Properties
+
     public let id: String
 
     open var type: String?
@@ -22,6 +24,8 @@ open class PhoneNumber: NSObject, Serialisable {
         self.id = id
         super.init()
     }
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
 

@@ -22,6 +22,8 @@ open class Media: NSObject, Serialisable {
 
     public static var modelVersion: Int { return 0 }
 
+    // MARK: - Properties
+
     public let id: String
 
     open var dateCreated: Date?
@@ -41,6 +43,8 @@ open class Media: NSObject, Serialisable {
     open var height: Double
 
     open var source: MPOLSource?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         id            = unboxer.unbox(key: "id") ?? UUID().uuidString
