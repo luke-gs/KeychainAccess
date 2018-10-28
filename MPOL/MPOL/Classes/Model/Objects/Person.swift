@@ -39,7 +39,6 @@ open class Person: Entity, Identifiable {
     public enum Gender: String, CustomStringConvertible, UnboxableEnum, Pickable {
         case female = "F"
         case male = "M"
-        case other = "O"
 
         public var description: String {
             switch self {
@@ -47,8 +46,6 @@ open class Person: Entity, Identifiable {
                 return "Female"
             case .male:
                 return "Male"
-            case .other:
-                return "Unknown"
             }
         }
 
@@ -56,7 +53,7 @@ open class Person: Entity, Identifiable {
 
         public var subtitle: String? { return nil }
 
-        public static let allCases: [Gender] = [.female, .male, .other]
+        public static let allCases: [Gender] = [.female, .male]
     }
 
     open override class var localizedDisplayName: String {
