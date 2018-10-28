@@ -195,8 +195,9 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         let criminalHistoryVC = CriminalHistorySummaryViewController(viewModel: viewModel)
 
         let navController = ModalNavigationController(rootViewController: criminalHistoryVC)
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
         navController.modalPresentationStyle = .formSheet
-        viewController.present(navController, animated: true, completion: nil)
+        viewController.pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
     }
 
 }

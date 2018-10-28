@@ -73,7 +73,8 @@ public class CreateTaskPresenter: Presenter {
         case .createTaskMain:
             let parent = from.pushableSplitViewController ?? from
             let container = ModalNavigationController(rootViewController: to)
-            parent.present(container, size: CGSize(width: 512, height: 650))
+            container.preferredContentSize = CGSize(width: 512, height: 650)
+            parent.presentModalViewController(container, animated: true, completion: nil)
 
         case .createTaskAddEntity:
             from.navigationController?.pushViewController(to, animated: true)
