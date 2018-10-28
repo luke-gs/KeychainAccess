@@ -150,8 +150,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         items.removeAll()
 
         // Add officers from myCallSign except yourself
-        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap( { $0 as? Object } )
-            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id})  {
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}) {
                 items = myCallSignOfficers
             }
 
@@ -166,7 +166,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
             self?.items += officerIds.compactMap { result[$0] as? Officer }
-            print("mate")
         }.map {}
     }
 
