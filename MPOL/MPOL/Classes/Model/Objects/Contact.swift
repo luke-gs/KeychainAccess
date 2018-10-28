@@ -10,7 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLContact)
-open class Contact: DefaultModel {
+open class Contact: IdentifiableDataModel {
 
     public enum ContactType: String, UnboxableEnum, Codable {
         case phone = "home"

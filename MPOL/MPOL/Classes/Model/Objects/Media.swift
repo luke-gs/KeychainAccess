@@ -11,7 +11,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLMedia)
-open class Media: DefaultModel {
+open class Media: IdentifiableDataModel {
 
     // MARK: - Class
 

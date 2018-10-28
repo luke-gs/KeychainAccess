@@ -10,7 +10,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLTrafficHistory)
-public class TrafficHistory: DefaultModel {
+public class TrafficHistory: IdentifiableDataModel {
 
     // MARK: - Properties
 

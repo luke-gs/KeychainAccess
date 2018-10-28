@@ -10,7 +10,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLAlert)
-open class Alert: DefaultModel {
+open class Alert: IdentifiableDataModel {
 
     public enum Level: Int, UnboxableEnum, Codable {
 

@@ -10,7 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLLicence)
-open class Licence: DefaultModel {
+open class Licence: IdentifiableDataModel {
 
     // MARK: - Properties
 
@@ -144,7 +144,7 @@ open class Licence: DefaultModel {
 /// Licence Class
 extension Licence {
     @objc(MPLLicenceClass)
-    public class LicenceClass: DefaultModel {
+    public class LicenceClass: IdentifiableDataModel {
 
         open var classDescription: String?
         open var code: String?
@@ -245,7 +245,7 @@ extension Licence {
 
     /// Licence Condition
     @objc(MPLCondition)
-    public class Condition: DefaultModel {
+    public class Condition: IdentifiableDataModel {
 
         open var condition: String?
         open var createdBy: String?

@@ -10,7 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLPersonDescription)
-open class PersonDescription: DefaultModel {
+open class PersonDescription: IdentifiableDataModel {
 
     // MARK: - Properties
 

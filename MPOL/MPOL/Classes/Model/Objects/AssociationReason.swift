@@ -10,7 +10,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLAssociationReason)
-open class AssociationReason: DefaultModel {
+open class AssociationReason: IdentifiableDataModel {
 
     // MARK: - Properties
 

@@ -10,7 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLTelephoneNumber)
-open class TelephoneNumber: DefaultModel {
+open class TelephoneNumber: IdentifiableDataModel {
 
     // MARK: - Properties
 

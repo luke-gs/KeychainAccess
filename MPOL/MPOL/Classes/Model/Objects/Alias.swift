@@ -11,7 +11,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLAlias)
-open class Alias: DefaultModel {
+open class Alias: IdentifiableDataModel {
 
     // MARK: - Properties
 
