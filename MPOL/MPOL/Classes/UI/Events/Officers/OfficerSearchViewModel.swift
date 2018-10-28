@@ -91,9 +91,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? "Unknown",
-                                                  employeeNumber: object.employeeNumber ?? "Unknown",
-                                                  section: object.region ?? "")
+                                                  rank: object.rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text"),
+                                                  employeeNumber: object.employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text"),
+                                                  section: object.region ?? NSLocalizedString("Unknown Region", comment: "Unknown Officer Region Text"))
         objectDisplayMap[object] = searchable
         return searchable
     }
