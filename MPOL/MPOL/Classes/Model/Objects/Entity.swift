@@ -188,11 +188,11 @@ open class Entity: MPOLKitEntity {
 
     // MARK: - Methods
 
-    override open func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
-        guard let otherEntity = otherEntity as? Entity else {
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let otherEntity = object as? Entity else {
             return false
         }
-        let isEssentiallyTheSame = super.isEssentiallyTheSameAs(otherEntity: otherEntity)
-        return isEssentiallyTheSame && self.source == otherEntity.source
+        let isEqual = super.isEqual(otherEntity)
+        return isEqual && self.source == otherEntity.source
     }
 }
