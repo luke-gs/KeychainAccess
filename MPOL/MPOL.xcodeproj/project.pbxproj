@@ -1249,15 +1249,15 @@
 				96B774F42140F8EE00836B83 /* Officer.swift */,
 				96B774F82140F8EE00836B83 /* Order.swift */,
 				96B775112140F8EE00836B83 /* Organisation.swift */,
+				AA359C462165F08B0035A472 /* OrganisationAlias.swift */,
 				96B774F72140F8EE00836B83 /* Person.swift */,
+				AA359C442165ED940035A472 /* PersonAlias.swift */,
 				96B775012140F8EE00836B83 /* PersonDescription.swift */,
 				96B774EF2140F8EE00836B83 /* PhoneNumber.swift */,
 				96B774FA2140F8EE00836B83 /* RetrievedEvent.swift */,
 				96B774FE2140F8EE00836B83 /* TelephoneNumber.swift */,
 				96B774FB2140F8EE00836B83 /* TrafficHistory.swift */,
 				96B774F62140F8EE00836B83 /* Vehicle.swift */,
-				AA359C442165ED940035A472 /* PersonAlias.swift */,
-				AA359C462165F08B0035A472 /* OrganisationAlias.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";

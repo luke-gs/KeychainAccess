@@ -11,7 +11,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLAlias)
-open class Alias: DefaultSerialisable {
+open class Alias: DefaultModel {
 
     // MARK: - Properties
 
@@ -21,7 +21,6 @@ open class Alias: DefaultSerialisable {
     open var effectiveDate: Date?
     open var entityType: String?
     open var expiryDate: Date?
-    open var id: String
     open var isSummary: Bool = false
     open var jurisdiction: String?
     open var source: MPOLSource?
@@ -33,11 +32,6 @@ open class Alias: DefaultSerialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
-
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Alias.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Alias.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -50,7 +44,8 @@ open class Alias: DefaultSerialisable {
 
         type = unboxer.unbox(key: "nameType")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
-        super.init()
+
+        try super.init(unboxer: unboxer)
     }
 
     // MARK: - Codable
@@ -62,7 +57,6 @@ open class Alias: DefaultSerialisable {
         case effectiveDate
         case entityType
         case expiryDate
-        case id
         case isSummary
         case jurisdiction
         case source
@@ -71,12 +65,10 @@ open class Alias: DefaultSerialisable {
     }
 
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-
         try super.init(from: decoder)
         guard !dataMigrated else { return }
 
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
         dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
         dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
@@ -92,7 +84,7 @@ open class Alias: DefaultSerialisable {
 
     open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(createdBy, forKey: CodingKeys.createdBy)
         try container.encode(dateCreated, forKey: CodingKeys.dateCreated)
@@ -100,7 +92,6 @@ open class Alias: DefaultSerialisable {
         try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
         try container.encode(entityType, forKey: CodingKeys.entityType)
         try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
-        try container.encode(id, forKey: CodingKeys.id)
         try container.encode(isSummary, forKey: CodingKeys.isSummary)
         try container.encode(jurisdiction, forKey: CodingKeys.jurisdiction)
         try container.encode(source, forKey: CodingKeys.source)

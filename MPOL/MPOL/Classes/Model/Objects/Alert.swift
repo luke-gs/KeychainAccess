@@ -10,7 +10,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLAlert)
-open class Alert: DefaultSerialisable {
+open class Alert: DefaultModel {
 
     public enum Level: Int, UnboxableEnum, Codable {
 
@@ -40,10 +40,8 @@ open class Alert: DefaultSerialisable {
     }
 
     public init(id: String, level: Alert.Level) {
-        self.id = id
         self.level = level
-
-        super.init()
+        super.init(id: id)
     }
 
     // MARK: - Properties
@@ -55,7 +53,6 @@ open class Alert: DefaultSerialisable {
     open var effectiveDate: Date?
     open var entityType: String?
     open var expiryDate: Date?
-    open var id: String
     open var isSummary: Bool = false
     open var jurisdiction: String?
     open var level: Alert.Level?
@@ -63,26 +60,12 @@ open class Alert: DefaultSerialisable {
     open var title: String?
     open var updatedBy: String?
 
-    // MARK: - Equality
-
-    open override func isEqual(_ object: Any?) -> Bool {
-        if let object = object as? Alert {
-            return object.id == self.id
-        }
-        return super.isEqual(object)
-    }
-
     // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     required public init(unboxer: Unboxer) throws {
 
-        guard let id: String = unboxer.unbox(key: "id") else {
-                throw ParsingError.missingRequiredField
-        }
-
-        self.id       = id
         self.level    = unboxer.unbox(key: "alertLevel")
 
         dateCreated   = unboxer.unbox(key: "dateCreated", formatter: Alert.dateTransformer)
@@ -99,7 +82,7 @@ open class Alert: DefaultSerialisable {
         details       = unboxer.unbox(key: "remarks")
         jurisdiction  = unboxer.unbox(key: "jurisdiction")
 
-        super.init()
+        try super.init(unboxer: unboxer)
     }
 
     // MARK: - Codable
@@ -112,7 +95,6 @@ open class Alert: DefaultSerialisable {
         case effectiveDate
         case entityType
         case expiryDate
-        case id
         case isSummary
         case jurisdiction
         case level
@@ -123,12 +105,10 @@ open class Alert: DefaultSerialisable {
     }
 
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-
         try super.init(from: decoder)
         guard !dataMigrated else { return }
 
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
         dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
         dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
@@ -155,7 +135,6 @@ open class Alert: DefaultSerialisable {
         try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
         try container.encode(entityType, forKey: CodingKeys.entityType)
         try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
-        try container.encode(id, forKey: CodingKeys.id)
         try container.encode(isSummary, forKey: CodingKeys.isSummary)
         try container.encode(jurisdiction, forKey: CodingKeys.jurisdiction)
         try container.encode(level, forKey: CodingKeys.level)
@@ -183,4 +162,3 @@ extension Alert.Level: Comparable {
         return lhs.rawValue < rhs.rawValue
     }
 }
-

@@ -62,7 +62,6 @@ open class PersonAlias: Alias {
 
     }
 
-
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {

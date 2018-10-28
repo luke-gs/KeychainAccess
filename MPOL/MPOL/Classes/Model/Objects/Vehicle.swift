@@ -238,4 +238,3 @@ open class Vehicle: Entity {
     }
 
 }
-

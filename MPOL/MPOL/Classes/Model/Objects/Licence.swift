@@ -10,12 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLLicence)
-open class Licence: DefaultSerialisable {
-
-    public required init(id: String) {
-        self.id = id
-        super.init()
-    }
+open class Licence: DefaultModel {
 
     // MARK: - Properties
 
@@ -26,7 +21,6 @@ open class Licence: DefaultSerialisable {
     open var effectiveDate: Date?
     open var entityType: String?
     open var expiryDate: Date?
-    open var id: String
     open var isSummary: Bool = false
     open var isSuspended: Bool = false
     open var licenceClasses: [LicenceClass]?
@@ -45,12 +39,6 @@ open class Licence: DefaultSerialisable {
     fileprivate static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
-
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-
-        self.id = id
 
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
@@ -74,7 +62,7 @@ open class Licence: DefaultSerialisable {
 
         licenceClasses = unboxer.unbox(key: "classes")
 
-        super.init()
+        try super.init(unboxer: unboxer)
     }
 
     // MARK: - Codable
@@ -87,7 +75,6 @@ open class Licence: DefaultSerialisable {
         case effectiveDate
         case entityType
         case expiryDate
-        case id
         case isSummary
         case isSuspended
         case licenceClasses = "classes"
@@ -103,12 +90,10 @@ open class Licence: DefaultSerialisable {
     }
 
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-
         try super.init(from: decoder)
         guard !dataMigrated else { return }
 
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         country = try container.decodeIfPresent(String.self, forKey: .country)
         createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
         dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
@@ -116,7 +101,6 @@ open class Licence: DefaultSerialisable {
         effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
         entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
         expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
-        id = try container.decode(String.self, forKey: .id)
         isSummary = try container.decode(Bool.self, forKey: .isSummary)
         isSuspended = try container.decode(Bool.self, forKey: .isSuspended)
         licenceClasses = try container.decodeIfPresent([LicenceClass].self, forKey: .licenceClasses)
@@ -142,7 +126,6 @@ open class Licence: DefaultSerialisable {
         try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
         try container.encode(entityType, forKey: CodingKeys.entityType)
         try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
-        try container.encode(id, forKey: CodingKeys.id)
         try container.encode(isSummary, forKey: CodingKeys.isSummary)
         try container.encode(isSuspended, forKey: CodingKeys.isSuspended)
         try container.encode(licenceClasses, forKey: CodingKeys.licenceClasses)
@@ -161,7 +144,7 @@ open class Licence: DefaultSerialisable {
 /// Licence Class
 extension Licence {
     @objc(MPLLicenceClass)
-    public class LicenceClass: DefaultSerialisable {
+    public class LicenceClass: DefaultModel {
 
         open var classDescription: String?
         open var code: String?
@@ -172,25 +155,13 @@ extension Licence {
         open var effectiveDate: Date?
         open var entityType: String?
         open var expiryDate: Date?
-        open var id: String
         open var isSummary: Bool = false
         open var name: String?
         open var proficiency: String?
         open var source: MPOLSource?
         open var updatedBy: String?
 
-        public required init(id: String) {
-            self.id = id
-            super.init()
-        }
-
         public required init(unboxer: Unboxer) throws {
-
-            guard let id: String = unboxer.unbox(key: "id") else {
-                throw ParsingError.missingRequiredField
-            }
-
-            self.id = id
 
             dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
             dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
@@ -208,7 +179,7 @@ extension Licence {
             classDescription = unboxer.unbox(key: "description")
             conditions = unboxer.unbox(key: "conditions")
 
-            super.init()
+            try super.init(unboxer: unboxer)
         }
 
         // MARK: - Codable
@@ -223,7 +194,6 @@ extension Licence {
             case effectiveDate
             case entityType
             case expiryDate
-            case id
             case isSummary
             case name
             case proficiency
@@ -232,12 +202,10 @@ extension Licence {
         }
 
         public required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            id = try container.decode(String.self, forKey: .id)
-
             try super.init(from: decoder)
             guard !dataMigrated else { return }
 
+            let container = try decoder.container(keyedBy: CodingKeys.self)
             classDescription = try container.decodeIfPresent(String.self, forKey: .classDescription)
             code = try container.decodeIfPresent(String.self, forKey: .code)
             conditions = try container.decodeIfPresent([Condition].self, forKey: .conditions)
@@ -247,7 +215,6 @@ extension Licence {
             effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
             entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
             expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
-            id = try container.decode(String.self, forKey: .id)
             isSummary = try container.decode(Bool.self, forKey: .isSummary)
             name = try container.decodeIfPresent(String.self, forKey: .name)
             proficiency = try container.decodeIfPresent(String.self, forKey: .proficiency)
@@ -268,7 +235,6 @@ extension Licence {
             try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
             try container.encode(entityType, forKey: CodingKeys.entityType)
             try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
-            try container.encode(id, forKey: CodingKeys.id)
             try container.encode(isSummary, forKey: CodingKeys.isSummary)
             try container.encode(name, forKey: CodingKeys.name)
             try container.encode(proficiency, forKey: CodingKeys.proficiency)
@@ -279,7 +245,7 @@ extension Licence {
 
     /// Licence Condition
     @objc(MPLCondition)
-    public class Condition: DefaultSerialisable {
+    public class Condition: DefaultModel {
 
         open var condition: String?
         open var createdBy: String?
@@ -288,23 +254,11 @@ extension Licence {
         open var effectiveDate: Date?
         open var entityType: String?
         open var expiryDate: Date?
-        open var id: String
         open var isSummary: Bool = false
         open var source: MPOLSource?
         open var updatedBy: String?
 
-        public required init(id: String) {
-            self.id = id
-            super.init()
-        }
-
         public required init(unboxer: Unboxer) throws {
-
-            guard let id: String = unboxer.unbox(key: "id") else {
-                throw ParsingError.missingRequiredField
-            }
-
-            self.id = id
 
             dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
             dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
@@ -318,7 +272,7 @@ extension Licence {
 
             condition = unboxer.unbox(key: "condition")
 
-            super.init()
+            try super.init(unboxer: unboxer)
         }
 
         func displayValue() -> String? {
@@ -345,19 +299,16 @@ extension Licence {
             case effectiveDate
             case entityType
             case expiryDate
-            case id
             case isSummary
             case source
             case updatedBy
         }
 
         public required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            id = try container.decode(String.self, forKey: .id)
-
             try super.init(from: decoder)
             guard !dataMigrated else { return }
 
+            let container = try decoder.container(keyedBy: CodingKeys.self)
             condition = try container.decodeIfPresent(String.self, forKey: .condition)
             createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
             dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
@@ -365,7 +316,6 @@ extension Licence {
             effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
             entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
             expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
-            id = try container.decode(String.self, forKey: .id)
             isSummary = try container.decode(Bool.self, forKey: .isSummary)
             source = try container.decodeIfPresent(MPOLSource.self, forKey: .source)
             updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
@@ -382,7 +332,6 @@ extension Licence {
             try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
             try container.encode(entityType, forKey: CodingKeys.entityType)
             try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
-            try container.encode(id, forKey: CodingKeys.id)
             try container.encode(isSummary, forKey: CodingKeys.isSummary)
             try container.encode(source, forKey: CodingKeys.source)
             try container.encode(updatedBy, forKey: CodingKeys.updatedBy)

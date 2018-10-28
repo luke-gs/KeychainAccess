@@ -10,12 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLPersonDescription)
-open class PersonDescription: DefaultSerialisable {
-
-    public required init(id: String) {
-        self.id = id
-        super.init()
-    }
+open class PersonDescription: DefaultModel {
 
     // MARK: - Properties
 
@@ -30,7 +25,6 @@ open class PersonDescription: DefaultSerialisable {
     open var eyeColour: String?
     open var hairColour: String?
     open var height: Int?
-    open var id: String
     open var image: Media?
     open var imageThumbnail: Media?
     open var isSummary: Bool = false
@@ -42,13 +36,15 @@ open class PersonDescription: DefaultSerialisable {
     open var updatedBy: String?
     open var weight: String?
 
+    public override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
-        id = unboxer.unbox(key: "id") ?? UUID().uuidString
-
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: PersonDescription.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: PersonDescription.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -73,7 +69,7 @@ open class PersonDescription: DefaultSerialisable {
 
         jurisdiction = unboxer.unbox(key: "jurisdiction")
 
-        super.init()
+        try super.init(unboxer: unboxer)
     }
 
     public func formatted() -> String? {
@@ -139,7 +135,6 @@ open class PersonDescription: DefaultSerialisable {
         case eyeColour
         case hairColour
         case height
-        case id
         case image
         case imageThumbnail
         case isSummary
@@ -153,12 +148,10 @@ open class PersonDescription: DefaultSerialisable {
     }
 
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-
         try super.init(from: decoder)
         guard !dataMigrated else { return }
 
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         build = try container.decodeIfPresent(String.self, forKey: .build)
         createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
         dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
@@ -170,7 +163,6 @@ open class PersonDescription: DefaultSerialisable {
         eyeColour = try container.decodeIfPresent(String.self, forKey: .eyeColour)
         hairColour = try container.decodeIfPresent(String.self, forKey: .hairColour)
         height = try container.decodeIfPresent(Int.self, forKey: .height)
-        id = try container.decode(String.self, forKey: .id)
         image = try container.decodeIfPresent(Media.self, forKey: .image)
         imageThumbnail = try container.decodeIfPresent(Media.self, forKey: .imageThumbnail)
         isSummary = try container.decode(Bool.self, forKey: .isSummary)
@@ -198,7 +190,6 @@ open class PersonDescription: DefaultSerialisable {
         try container.encode(eyeColour, forKey: CodingKeys.eyeColour)
         try container.encode(hairColour, forKey: CodingKeys.hairColour)
         try container.encode(height, forKey: CodingKeys.height)
-        try container.encode(id, forKey: CodingKeys.id)
         try container.encode(image, forKey: CodingKeys.image)
         try container.encode(imageThumbnail, forKey: CodingKeys.imageThumbnail)
         try container.encode(isSummary, forKey: CodingKeys.isSummary)

@@ -61,7 +61,6 @@ open class CriminalHistory: Entity {
         try container.encode(primaryCharge, forKey: CodingKeys.primaryCharge)
     }
 
-
 }
 
 open class OffenderCharge: CriminalHistory {

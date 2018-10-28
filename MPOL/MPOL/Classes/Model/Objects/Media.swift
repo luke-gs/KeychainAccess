@@ -11,7 +11,7 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLMedia)
-open class Media: DefaultSerialisable {
+open class Media: DefaultModel {
 
     // MARK: - Class
 
@@ -28,7 +28,6 @@ open class Media: DefaultSerialisable {
     open var entityType: String?
     open var expiryDate: Date?
     open var height: Double = 0
-    open var id: String
     open var isSummary: Bool = false
     open var mediaDescription: String?
     open var mimeType: String?
@@ -43,7 +42,6 @@ open class Media: DefaultSerialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
-        id            = unboxer.unbox(key: "id") ?? UUID().uuidString
         dateCreated   = unboxer.unbox(key: "dateCreated", formatter: Media.dateTransformer)
         dateUpdated   = unboxer.unbox(key: "dateLastUpdated", formatter: Media.dateTransformer)
         createdBy     = unboxer.unbox(key: "createdBy")
@@ -61,7 +59,7 @@ open class Media: DefaultSerialisable {
         source        = unboxer.unbox(key: "source")
         mediaDescription = unboxer.unbox(key: "description")
 
-        super.init()
+        try super.init(unboxer: unboxer)
     }
 
     // MARK: - Codable
@@ -74,7 +72,6 @@ open class Media: DefaultSerialisable {
         case entityType
         case expiryDate
         case height
-        case id
         case isSummary
         case mediaDescription
         case mimeType
@@ -86,12 +83,10 @@ open class Media: DefaultSerialisable {
     }
 
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-
         try super.init(from: decoder)
         guard !dataMigrated else { return }
 
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
         dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
         dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
@@ -99,7 +94,6 @@ open class Media: DefaultSerialisable {
         entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
         expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
         height = try container.decode(Double.self, forKey: .height)
-        id = try container.decode(String.self, forKey: .id)
         isSummary = try container.decode(Bool.self, forKey: .isSummary)
         mediaDescription = try container.decodeIfPresent(String.self, forKey: .mediaDescription)
         mimeType = try container.decodeIfPresent(String.self, forKey: .mimeType)
@@ -121,7 +115,6 @@ open class Media: DefaultSerialisable {
         try container.encode(entityType, forKey: CodingKeys.entityType)
         try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
         try container.encode(height, forKey: CodingKeys.height)
-        try container.encode(id, forKey: CodingKeys.id)
         try container.encode(isSummary, forKey: CodingKeys.isSummary)
         try container.encode(mediaDescription, forKey: CodingKeys.mediaDescription)
         try container.encode(mimeType, forKey: CodingKeys.mimeType)

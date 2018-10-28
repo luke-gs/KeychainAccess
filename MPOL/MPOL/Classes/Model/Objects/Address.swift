@@ -21,7 +21,7 @@ open class Address: Entity {
     open override class var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")
     }
-    
+
     public override init(id: String) {
         super.init(id: id)
     }
