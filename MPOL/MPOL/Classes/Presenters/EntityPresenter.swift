@@ -13,9 +13,11 @@ import DemoAppKit
 public enum EntityScreen: Presentable {
 
     case help(type: EntityType)
-    case createEntity(type: EntityType)
     case entityDetails(entity: Entity, delegate: SearchDelegate?)
     case scanner
+    // entity creation
+    case createEntity(type: EntityType)
+    case createEntityDetail(type: DetailCreationType)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -25,8 +27,12 @@ public enum EntityScreen: Presentable {
 
 public class EntityPresenter: Presenter {
 
+    // MARK: PRIVATE
+
     private let scanner = LicenceScanner()
     private let cameraManager = CameraManager()
+
+    // MARK: PUBLIC
 
     public init() {}
 
@@ -151,6 +157,15 @@ public class EntityPresenter: Presenter {
 
             return navVC
 
+        case .scanner:
+            cameraManager.finishPickingClosure = { image in
+                self.scanner.startScan(with: image) { text in
+                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false)
+                    try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
+                }
+            }
+            return cameraManager.pickerController()
+
         case .createEntity(let type):
             let title: String
 
@@ -174,15 +189,21 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
 
-        case .scanner:
-            cameraManager.finishPickingClosure = { image in
-                self.scanner.startScan(with: image) { text in
-                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false)
-                    try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
-                }
-            }
-            return cameraManager.pickerController()
+        case .createEntityDetail(type: let type):
+            let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type))
+//            let container = ModalNavigationController(rootViewController: detailViewController)
+//            var screenSize: CGSize
+//            switch type {
+//            case .Contact:
+//                screenSize = DetailCreationConstant.ContactScreenSize
+//            case .Alias:
+//                screenSize = DetailCreationConstant.AliasScreenSize
+//            case .Address:
+//                screenSize = DetailCreationConstant.AddressScreenSize
+//            }
+            return detailViewController
         }
+
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
@@ -197,6 +218,18 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
+        case .createEntityDetail(let type):
+            let container = ModalNavigationController(rootViewController: to)
+            var screenSize: CGSize
+            switch type {
+            case .Contact:
+                screenSize = DetailCreationConstant.ContactScreenSize
+            case .Alias:
+                screenSize = DetailCreationConstant.AliasScreenSize
+            case .Address:
+                screenSize = DetailCreationConstant.AddressScreenSize
+            }
+            from.present(container, size: screenSize)
         default:
             from.show(to, sender: from)
         }
@@ -204,5 +237,11 @@ public class EntityPresenter: Presenter {
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is EntityScreen.Type
+    }
+
+    public struct DetailCreationConstant {
+        public static let ContactScreenSize = CGSize(width: 512, height: 256)
+        public static let AliasScreenSize = CGSize(width: 512, height: 328)
+        public static let AddressScreenSize = CGSize(width: 512, height: 376)
     }
 }

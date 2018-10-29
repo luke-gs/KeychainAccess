@@ -47,12 +47,6 @@ public class PersonEditViewController: FormBuilderViewController {
 
     private let numberFormatter = NumberFormatter()
 
-    private struct DetailCreationConstant {
-        static let ContactScreenSize = CGSize(width: 512, height: 256)
-        static let AliasScreenSize = CGSize(width: 512, height: 328)
-        static let AddressScreenSize = CGSize(width: 512, height: 376)
-    }
-
     // MARK: - Initializer
 
     public init(initialPerson: Person? = nil) {
@@ -220,17 +214,17 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: "Contact Details")
             .actionButton(title: "Add", handler: { [unowned self] (button) in
-                self.presentDetailViewController(type: .Contact(.Empty))
+                self.present(EntityScreen.createEntityDetail(type: .Contact(.Empty)))
             })
 
         builder += LargeTextHeaderFormItem(text: "Aliases")
             .actionButton(title: "Add", handler: { (button) in
-                self.presentDetailViewController(type: .Alias(.Empty))
+                self.present(EntityScreen.createEntityDetail(type: .Alias(.Empty)))
             })
 
         builder += LargeTextHeaderFormItem(text: "Addresses")
             .actionButton(title: "Add", handler: { (button) in
-                self.presentDetailViewController(type: .Address(.Empty))
+                self.present(EntityScreen.createEntityDetail(type: .Address(.Empty)))
             })
     }
 
@@ -265,21 +259,4 @@ public class PersonEditViewController: FormBuilderViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-
-    private func presentDetailViewController(type: DetailCreationType) {
-        let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type))
-        let container = ModalNavigationController(rootViewController: detailViewController)
-        var screenSize: CGSize
-        switch type {
-        case .Contact:
-            screenSize = DetailCreationConstant.ContactScreenSize
-        case .Alias:
-            screenSize = DetailCreationConstant.AliasScreenSize
-        case .Address:
-            screenSize = DetailCreationConstant.AddressScreenSize
-        }
-        // TODO: change to use Presenter
-        self.present(container, size: screenSize)
-    }
-
 }
