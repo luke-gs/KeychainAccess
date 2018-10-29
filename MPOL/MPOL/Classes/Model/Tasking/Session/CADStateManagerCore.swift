@@ -44,17 +44,17 @@ open class CADStateManagerCore: CADStateManagerBase {
         patrolGroup = "Collingwood"
     }
 
-    private var currentOfficer: CADOfficerType?
+    private var _officerDetails: CADOfficerType?
 
     open override var officerDetails: CADOfficerType? {
 
-        guard currentOfficer == nil else {
-            return currentOfficer
+        guard _officerDetails == nil else {
+            return _officerDetails
         }
 
         // get current search officer
         if let details = getEmployeeDetails() {
-            currentOfficer = details
+            _officerDetails = details
             return details
         }
         return nil
@@ -346,6 +346,6 @@ open class CADStateManagerCore: CADStateManagerBase {
     /// Clears all session data properties
     @objc open override func clearSession() {
         super.clearSession()
-        self.currentOfficer = nil
+        self._officerDetails = nil
     }
 }
