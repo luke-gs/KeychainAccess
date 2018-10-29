@@ -230,7 +230,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         // TODO: update to use real data (currently using fake data for demo)
         officer.capabilities = []
         officer.contactNumber = "0425 584 678"
-        officer.licenceTypeId = "b50862f7-961a-43d6-9111-0f43d0787503"
+        officer.licenceTypeId = manifestEntries(for: ManifestCollection.officerLicenceType).first?.id
         officer.patrolGroup = "Collingwood"
         officer.radioId = "92757488"
         officer.remarks = ""
