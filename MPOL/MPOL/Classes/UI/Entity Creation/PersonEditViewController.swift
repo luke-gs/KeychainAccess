@@ -230,7 +230,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: "Addresses")
             .actionButton(title: "Add", handler: { (button) in
-                self.presentDetailViewController(type: .Address)
+                self.presentDetailViewController(type: .Address(.Empty))
             })
     }
 

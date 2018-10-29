@@ -7,6 +7,7 @@
 
 import Foundation
 import PublicSafetyKit
+import DemoAppKit
 
 /// Displays creation form for details
 public class DetailCreationViewController: FormBuilderViewController {
@@ -118,8 +119,50 @@ public class DetailCreationViewController: FormBuilderViewController {
             case .Empty:
                 break
             }
-        case .Address:
-            break
+        case .Address(type):
+            title = "Add Address"
+            builder += LargeTextHeaderFormItem()
+                .text("General")
+
+            builder += DropDownFormItem()
+                .title("Type")
+                .options(DetailCreationAddressType.allCase())
+                .required()
+                .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
+                .onValueChanged { [unowned self] value in
+                    if let value = value?.first {
+                        if let addressType = DetailCreationAddressType(rawValue: value) {
+                            self.viewModel.detailType = DetailCreationType.Address(addressType)
+                        } else {
+                            // Use Others for unrecognised types
+                            self.viewModel.detailType = DetailCreationType.Address(.Empty)
+                        }
+                        self.viewModel.selectedType = value
+                    } else {
+                        self.viewModel.detailType = DetailCreationType.Address(.Empty)
+                    }
+                    self.reloadForm()
+                }
+                .width(.column(1))
+
+            builder += TextFieldFormItem()
+                .title("Remarks")
+                .width(.column(1))
+                .onValueChanged {
+                    _ = $0
+            }
+
+            builder += LargeTextHeaderFormItem()
+                .text("Address")
+
+            builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+                .title(AssetManager.shared.string(forKey: .trafficStopLocation))
+                .width(.column(1))
+                .required()
+                .accessory(FormAccessoryView(style: .pencil))
+                .onValueChanged({ [unowned self] (location) in
+                    self.viewModel.selectedLocation = location
+                })
         }
     }
 

@@ -11,7 +11,7 @@ import PublicSafetyKit
 public enum DetailCreationType {
     case Contact(DetailCreationContactType)
     case Alias(DetailCreationAliasType)
-    case Address
+    case Address(DetailCreationAddressType)
 }
 
 /// View Model for detail creation form
@@ -24,6 +24,8 @@ public class DetailCreationViewModel {
 
     /// current selected type of the detail type
     public var selectedType: String?
+    /// The location of the addresses
+    public var selectedLocation: LocationSelectionType?
 
     public init(type: DetailCreationType) {
         detailType = type
@@ -70,5 +72,18 @@ public extension DetailCreationAliasType {
     }
 }
 
-
 // MARK: Address
+
+public enum DetailCreationAddressType: String {
+    // TODO: use Asset Manager
+    case Empty
+    case Residential = "Residential Address"
+    case Work = "Work Address"
+}
+
+public extension DetailCreationAddressType {
+    public static func allCase() -> [String] {
+        return [DetailCreationAddressType.Residential.rawValue,
+                DetailCreationAddressType.Work.rawValue]
+    }
+}

@@ -1095,10 +1095,10 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
-				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
-				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 				208213AD218698BC0039D401 /* DetailCreationViewController.swift */,
 				208213AF2186A2760039D401 /* DetailCreationViewModel.swift */,
+				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
+				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
 			path = "Entity Creation";
 			sourceTree = "<group>";
