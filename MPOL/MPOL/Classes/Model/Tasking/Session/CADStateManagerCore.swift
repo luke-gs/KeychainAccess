@@ -55,7 +55,6 @@ open class CADStateManagerCore: CADStateManagerBase {
         // get current search officer
         if let details = getEmployeeDetails() {
             currentOfficer = details
-            officersById[details.id] = details
             return details
         }
         return nil
