@@ -9,6 +9,7 @@
 import Foundation
 import PublicSafetyKit
 
+/// Displays create person screen
 public class PersonEditViewController: FormBuilderViewController {
 
     // MARK: - Reference
@@ -45,6 +46,12 @@ public class PersonEditViewController: FormBuilderViewController {
     }()
 
     private let numberFormatter = NumberFormatter()
+
+    private struct DetailCreationConstant {
+        static let ContactScreenSize = CGSize(width: 512, height: 256)
+        static let AliasScreenSize = CGSize(width: 512, height: 328)
+        static let AddressScreenSize = CGSize(width: 512, height: 376)
+    }
 
     // MARK: - Initializer
 
@@ -108,7 +115,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .title("Ethnicity")
             .width(.column(4))
 
-        //TODO: Use Manifest
+        // TODO: Use Manifest
         builder += DropDownFormItem()
             .title("Gender")
             .options(Person.Gender.allCases)
@@ -140,30 +147,37 @@ public class PersonEditViewController: FormBuilderViewController {
             .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
             .width(.column(4))
 
-        builder += DropDownFormItem()
-            .title("Build")
-            .options(["Light", "Medium", "Heavy"])
-            .onValueChanged { self.finalDescription.build = $0?.first }
-            .width(.column(4))
+        if let items = Manifest.shared.entries(for: .personBuild)?.rawValues() {
+            builder += DropDownFormItem()
+                .title("Build")
+                .options(items)
+                .onValueChanged { self.finalDescription.build = $0?.first }
+                .width(.column(4))
+        }
 
-        //TODO: Use Manifest
-        builder += DropDownFormItem()
-            .title("Race")
-            .options(["Asian", "African", "Causcasian", "European", "Aboriginal"])
-            .onValueChanged { self.finalDescription.race = $0?.first }
-            .width(.column(4))
+        if let items = Manifest.shared.entries(for: .personRace)?.rawValues() {
+            builder += DropDownFormItem()
+                .title("Race")
+                .options(items)
+                .onValueChanged { self.finalDescription.race = $0?.first }
+                .width(.column(4))
+        }
 
-        builder += DropDownFormItem()
-            .title("Eye Colour")
-            .options(["Black", "Brown", "Blue", "Green", "Gray", "Amber", "Hazel"])
-            .onValueChanged { self.finalDescription.eyeColour = $0?.first }
-            .width(.column(4))
+        if let items = Manifest.shared.entries(for: .personEyeColour)?.rawValues() {
+            builder += DropDownFormItem()
+                .title("Eye Colour")
+                .options(items)
+                .onValueChanged { self.finalDescription.eyeColour = $0?.first }
+                .width(.column(4))
+        }
 
-        builder += DropDownFormItem()
-            .title("Hair Colour")
-            .options(["Black", "Blond", "Light Brown", "Dark Brown", "Red", "Gray", "White"])
-            .onValueChanged { self.finalDescription.hairColour = $0?.first }
-            .width(.column(4))
+        if let items = Manifest.shared.entries(for: .personHairColour)?.rawValues() {
+            builder += DropDownFormItem()
+                .title("Hair Colour")
+                .options(items)
+                .onValueChanged { self.finalDescription.hairColour = $0?.first }
+                .width(.column(4))
+        }
 
         builder += TextFieldFormItem()
             .title("Remarks")
@@ -205,18 +219,18 @@ public class PersonEditViewController: FormBuilderViewController {
 //            .softValidate(EmailSpecification(), message: "Invalid email address.")
 
         builder += LargeTextHeaderFormItem(text: "Contact Details")
-            .actionButton(title: "Add", handler: { (button) in
-
+            .actionButton(title: "Add", handler: { [unowned self] (button) in
+                self.presentDetailViewController(type: .Contact(.Empty))
             })
 
         builder += LargeTextHeaderFormItem(text: "Aliases")
             .actionButton(title: "Add", handler: { (button) in
-
+                self.presentDetailViewController(type: .Alias(.Empty))
             })
 
         builder += LargeTextHeaderFormItem(text: "Addresses")
             .actionButton(title: "Add", handler: { (button) in
-
+                self.presentDetailViewController(type: .Address)
             })
     }
 
@@ -250,6 +264,22 @@ public class PersonEditViewController: FormBuilderViewController {
 
             self.dismiss(animated: true, completion: nil)
         }
+    }
+
+    private func presentDetailViewController(type: DetailCreationType) {
+        let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type))
+        let container = ModalNavigationController(rootViewController: detailViewController)
+        var screenSize: CGSize
+        switch type {
+        case .Contact:
+            screenSize = DetailCreationConstant.ContactScreenSize
+        case .Alias:
+            screenSize = DetailCreationConstant.AliasScreenSize
+        case .Address:
+            screenSize = DetailCreationConstant.AddressScreenSize
+        }
+        // TODO: change to use Presenter
+        self.present(container, size: screenSize)
     }
 
 }
