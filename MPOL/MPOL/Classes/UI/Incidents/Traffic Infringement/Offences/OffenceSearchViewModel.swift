@@ -10,6 +10,7 @@ import PromiseKit
 import PublicSafetyKit
 
 public class OffenceSearchViewModel: SearchDisplayableViewModel {
+
     public typealias Object = Offence
 
     public var title: String = "Add Offence"
@@ -89,7 +90,11 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
         return nil
     }
 
-    public func emptyStateText() -> String? {
+    public func emptyStateTitle() -> String? {
         return "No Recently Used Offences"
+    }
+
+    public func emptyStateSubtitle() -> String? {
+        return nil
     }
 }

@@ -127,8 +127,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return "Retrieving Officers"
     }
 
-    func emptyStateText() -> String? {
+    func emptyStateTitle() -> String? {
         return "No Recently Used Officers"
+    }
+
+    func emptyStateSubtitle() -> String? {
+        return "You can search for an officer by either their Last name, First Name or ID Number"
     }
 
     public func fetchRecentOfficers() -> Promise<Void> {

@@ -70,8 +70,12 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
         filteredProperties = properties.filter {$0.fullType.lowercased().contains(searchString.lowercased())}
     }
 
-    public func emptyStateText() -> String? {
+    public func emptyStateTitle() -> String? {
         return "No Property Found"
+    }
+
+    open func emptyStateSubtitle() -> String? {
+        return nil
     }
 
     public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
