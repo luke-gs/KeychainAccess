@@ -45,7 +45,7 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
     public var subtitle: StringSizable? {
 
-        return [rank, "#\(employeeNumber)"].joined(separator: ThemeConstants.dividerSeparator)
+        return rank
     }
 
     public var section: String?
