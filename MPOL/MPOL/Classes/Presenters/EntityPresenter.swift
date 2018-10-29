@@ -191,16 +191,6 @@ public class EntityPresenter: Presenter {
 
         case .createEntityDetail(type: let type):
             let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type))
-//            let container = ModalNavigationController(rootViewController: detailViewController)
-//            var screenSize: CGSize
-//            switch type {
-//            case .Contact:
-//                screenSize = DetailCreationConstant.ContactScreenSize
-//            case .Alias:
-//                screenSize = DetailCreationConstant.AliasScreenSize
-//            case .Address:
-//                screenSize = DetailCreationConstant.AddressScreenSize
-//            }
             return detailViewController
         }
 
