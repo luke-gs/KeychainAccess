@@ -15,7 +15,7 @@ public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
         let string = !officer.involvements.isEmpty ? officer.involvements.joined(separator: ", ") : "No involvements"
         
         let attributedString = NSMutableAttributedString(string: string)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.skyBlue, range: NSRange(location: 0, length: string.count))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.brightBlue, range: NSRange(location: 0, length: string.count))
         return attributedString
     }
 
