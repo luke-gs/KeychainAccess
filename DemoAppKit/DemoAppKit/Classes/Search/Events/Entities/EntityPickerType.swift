@@ -40,7 +40,7 @@ internal struct InvolvementPickerDefinition: EntityPickerTypeDefiniton {
 
     var dataSource: CustomSearchPickerDataSource {
         let displayable = context.viewModel.displayable(for: entity)
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
                                                      subtitle: "No Involvements Selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .entity,
@@ -99,7 +99,7 @@ internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
 
     var dataSource: CustomSearchPickerDataSource {
         let displayable = context.viewModel.displayable(for: entity)
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
                                                      subtitle: "No Additional Actions Selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .entity,

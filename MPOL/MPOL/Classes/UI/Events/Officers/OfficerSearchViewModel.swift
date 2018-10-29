@@ -54,11 +54,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return sections[section].title
     }
 
-    func title(for indexPath: IndexPath) -> String? {
+    func title(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).title
     }
 
-    func description(for indexPath: IndexPath) -> String? {
+    func description(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
@@ -78,9 +78,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text"),
-                                                  employeeNumber: object.employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text"),
-                                                  section: object.region ?? NSLocalizedString("Unknown Region", comment: "Unknown Officer Region Text"))
+                                                  rank: object.rank,
+                                                  employeeNumber: object.employeeNumber,
+                                                  section: object.region)
         objectDisplayMap[object] = searchable
         return searchable
     }

@@ -73,6 +73,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             builder += SummaryListFormItem()
                 .title(displayable.title)
                 .subtitle(displayable.detail1)
+                .detail(displayable.detail2)
                 .width(.column(1))
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
@@ -100,8 +101,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     public func didSelectOfficer(officer: Officer) {
         guard let displayable = viewModel.displayable(for: officer) else { return }
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
-                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
+                                                     subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
         let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
@@ -148,8 +149,8 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
         let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
         let officer = displayable.officer
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
-                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
+                                                     subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
         let involvementDataSource = DefaultPickableSearchDataSource(

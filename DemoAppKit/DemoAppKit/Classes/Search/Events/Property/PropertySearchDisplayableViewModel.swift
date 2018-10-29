@@ -9,6 +9,7 @@ import UIKit
 import PromiseKit
 
 public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
+
     public typealias Object = Property
 
     public var title: String = "Property"
@@ -46,7 +47,7 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
         return sectionOrder[section]
     }
 
-    public func title(for indexPath: IndexPath) -> String? {
+    public func title(for indexPath: IndexPath) -> StringSizable? {
         return object(for: indexPath).fullType
     }
 
@@ -74,7 +75,7 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
     }
 
     public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
-    public func description(for indexPath: IndexPath) -> String? { return nil }
+    public func description(for indexPath: IndexPath) -> StringSizable? { return nil }
     public func image(for indexPath: IndexPath) -> UIImage? { return nil }
     public func searchAction() -> Promise<Void>? { return nil }
     public func loadingStateText() -> String? { return nil }

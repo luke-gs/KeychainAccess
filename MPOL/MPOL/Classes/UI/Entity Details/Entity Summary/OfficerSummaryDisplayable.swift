@@ -10,8 +10,13 @@ import Foundation
 import PublicSafetyKit
 
 public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
-    override public var detail1: String? {
-        return !officer.involvements.isEmpty ? officer.involvements.joined(separator: ", ") : "No involvements"
+    override public var detail2: StringSizable? {
+
+        let string = !officer.involvements.isEmpty ? officer.involvements.joined(separator: ", ") : "No involvements"
+        
+        let attributedString = NSMutableAttributedString(string: string)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.skyBlue, range: NSRange(location: 0, length: string.count))
+        return attributedString
     }
 
     public override func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
