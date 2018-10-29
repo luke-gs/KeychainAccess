@@ -25,11 +25,15 @@ extension AppDelegate {
         // it's necessary to pre-populate.
 
         let session = UserSession.current
+
         if session.recentlyViewed.entities.isEmpty {
-            if let recentlyViewedPath = Bundle.main.path(forResource: "RecentlyViewed", ofType: nil, inDirectory: "DemoPrepopulate") {
+            if let recentlyViewedPath = Bundle.main.path(forResource: "RecentlyViewed", ofType: "json", inDirectory: "DemoPrepopulate") {
 
                 let url = URL(fileURLWithPath: recentlyViewedPath)
-                if let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(withFile: url.path) as? [MPOLKitEntity] {
+
+                if let recentlyViewedData = try? Data(contentsOf: url),
+                    let entityWrappers = try? JSONDecoder().decode([CodableWrapper].self, from: recentlyViewedData) {
+                    let recentlyViewed: [MPOLKitEntity] = entityWrappers.unwrapped()
                     UserSession.current.recentlyViewed.add(recentlyViewed)
                 }
             }
