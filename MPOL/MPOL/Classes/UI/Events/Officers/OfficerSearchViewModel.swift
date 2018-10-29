@@ -34,7 +34,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if hasSections {
             return items.isEmpty ? 0 : sections.count
         } else {
-            return 1
+            return items.isEmpty ? 0 : 1
         }
     }
 
@@ -128,7 +128,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateText() -> String? {
-        return "No Recently Used Officers"
+        if hasSections {
+            return "No Recently Used Officers"
+        } else {
+            return "No Officers Found"
+        }
     }
 
     public func fetchRecentOfficers() -> Promise<Void> {
