@@ -13,7 +13,7 @@ open class OrganisationAlias: Alias {
 
     // MARK: - Properties
 
-    open var alias: String?
+    public var alias: String?
 
     // MARK: - Unboxable
 

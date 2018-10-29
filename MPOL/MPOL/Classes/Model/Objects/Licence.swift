@@ -14,25 +14,25 @@ open class Licence: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var country: String?
-    open var createdBy: String?
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var effectiveDate: Date?
-    open var entityType: String?
-    open var expiryDate: Date?
-    open var isSummary: Bool = false
-    open var isSuspended: Bool = false
-    open var licenceClasses: [LicenceClass]?
-    open var number: String?
-    open var remarks: String?
-    open var source: MPOLSource?
-    open var state: String?
-    open var status: String?
-    open var statusDescription: String?
-    open var statusFromDate: Date?
-    open var type: String?
-    open var updatedBy: String?
+    public var country: String?
+    public var createdBy: String?
+    public var dateCreated: Date?
+    public var dateUpdated: Date?
+    public var effectiveDate: Date?
+    public var entityType: String?
+    public var expiryDate: Date?
+    public var isSummary: Bool = false
+    public var isSuspended: Bool = false
+    public var licenceClasses: [LicenceClass]?
+    public var number: String?
+    public var remarks: String?
+    public var source: MPOLSource?
+    public var state: String?
+    public var status: String?
+    public var statusDescription: String?
+    public var statusFromDate: Date?
+    public var type: String?
+    public var updatedBy: String?
 
     // MARK: - Unboxable
 
@@ -146,20 +146,20 @@ extension Licence {
     @objc(MPLLicenceClass)
     public class LicenceClass: IdentifiableDataModel {
 
-        open var classDescription: String?
-        open var code: String?
-        open var conditions: [Condition]?
-        open var createdBy: String?
-        open var dateCreated: Date?
-        open var dateUpdated: Date?
-        open var effectiveDate: Date?
-        open var entityType: String?
-        open var expiryDate: Date?
-        open var isSummary: Bool = false
-        open var name: String?
-        open var proficiency: String?
-        open var source: MPOLSource?
-        open var updatedBy: String?
+        public var classDescription: String?
+        public var code: String?
+        public var conditions: [Condition]?
+        public var createdBy: String?
+        public var dateCreated: Date?
+        public var dateUpdated: Date?
+        public var effectiveDate: Date?
+        public var entityType: String?
+        public var expiryDate: Date?
+        public var isSummary: Bool = false
+        public var name: String?
+        public var proficiency: String?
+        public var source: MPOLSource?
+        public var updatedBy: String?
 
         public required init(unboxer: Unboxer) throws {
 
@@ -247,16 +247,16 @@ extension Licence {
     @objc(MPLCondition)
     public class Condition: IdentifiableDataModel {
 
-        open var condition: String?
-        open var createdBy: String?
-        open var dateCreated: Date?
-        open var dateUpdated: Date?
-        open var effectiveDate: Date?
-        open var entityType: String?
-        open var expiryDate: Date?
-        open var isSummary: Bool = false
-        open var source: MPOLSource?
-        open var updatedBy: String?
+        public var condition: String?
+        public var createdBy: String?
+        public var dateCreated: Date?
+        public var dateUpdated: Date?
+        public var effectiveDate: Date?
+        public var entityType: String?
+        public var expiryDate: Date?
+        public var isSummary: Bool = false
+        public var source: MPOLSource?
+        public var updatedBy: String?
 
         public required init(unboxer: Unboxer) throws {
 

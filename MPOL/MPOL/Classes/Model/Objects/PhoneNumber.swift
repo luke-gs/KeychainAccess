@@ -14,9 +14,9 @@ open class PhoneNumber: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var areaCode: String?
-    open var phoneNumber: String?
-    open var type: String?
+    public var areaCode: String?
+    public var phoneNumber: String?
+    public var type: String?
 
     // MARK: - Unboxable
 

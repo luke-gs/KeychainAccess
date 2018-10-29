@@ -49,27 +49,27 @@ open class Person: Entity, Identifiable {
 
     // MARK: - Properties
 
-    open var aliases: [PersonAlias]?
-    open var contacts: [Contact]?
-    open var dateOfBirth: Date?
-    open var dateOfDeath: Date?
-    open var descriptions: [PersonDescription]?
-    open var familyName: String?
-    open var gender: Gender?
-    open var givenName: String?
-    open var isAlias: Bool?
-    open var licences: [Licence]?
-    open var middleNames: String?
-    open var offenderCharges: [OffenderCharge]?
-    open var offenderConvictions: [OffenderConviction]?
-    open var orders: [Order]?
-    open var thumbnailUrl: URL?
-    open var trafficHistory: [TrafficHistory]?
-    open var yearOnlyDateOfBirth: Bool?
+    public var aliases: [PersonAlias]?
+    public var contacts: [Contact]?
+    public var dateOfBirth: Date?
+    public var dateOfDeath: Date?
+    public var descriptions: [PersonDescription]?
+    public var familyName: String?
+    public var gender: Gender?
+    public var givenName: String?
+    public var isAlias: Bool?
+    public var licences: [Licence]?
+    public var middleNames: String?
+    public var offenderCharges: [OffenderCharge]?
+    public var offenderConvictions: [OffenderConviction]?
+    public var orders: [Order]?
+    public var thumbnailUrl: URL?
+    public var trafficHistory: [TrafficHistory]?
+    public var yearOnlyDateOfBirth: Bool?
 
     // MARK: - Transient
 
-    open var thumbnail: UIImage?
+    public var thumbnail: UIImage?
 
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {
@@ -80,7 +80,7 @@ open class Person: Entity, Identifiable {
 
     // MARK: - Calculated
 
-    open var isDeceased: Bool {
+    public var isDeceased: Bool {
         return dateOfDeath != nil
     }
 

@@ -15,10 +15,10 @@ open class CriminalHistory: Entity {
 
     // MARK: - Properties
 
-    open var courtName: String?
-    open var occurredDate: Date?
-    open var offenceDescription: String?
-    open var primaryCharge: String?
+    public var courtName: String?
+    public var occurredDate: Date?
+    public var offenceDescription: String?
+    public var primaryCharge: String?
 
     // MARK: - Unboxable
 

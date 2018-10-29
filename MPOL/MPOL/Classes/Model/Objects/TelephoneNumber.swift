@@ -14,15 +14,15 @@ open class TelephoneNumber: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var areaCode: String?
-    open var cityCode: String?
-    open var countryCode: String?
-    open var exchange: String?
-    open var fullNumber: String?
-    open var numberType: String?
-    open var prefix: String?
-    open var subscriber: String?
-    open var suffix: String?
+    public var areaCode: String?
+    public var cityCode: String?
+    public var countryCode: String?
+    public var exchange: String?
+    public var fullNumber: String?
+    public var numberType: String?
+    public var prefix: String?
+    public var subscriber: String?
+    public var suffix: String?
 
     // MARK: - Unboxable
 

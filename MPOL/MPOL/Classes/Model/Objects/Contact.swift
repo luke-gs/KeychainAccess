@@ -33,19 +33,19 @@ open class Contact: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var createdBy: String?
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var effectiveDate: Date?
-    open var entityType: String?
-    open var expiryDate: Date?
-    open var isSummary: Bool = false
-    open var jurisdiction: String?
-    open var source: MPOLSource?
-    open var subType: String?
-    open var type: Contact.ContactType?
-    open var updatedBy: String?
-    open var value: String?
+    public var createdBy: String?
+    public var dateCreated: Date?
+    public var dateUpdated: Date?
+    public var effectiveDate: Date?
+    public var entityType: String?
+    public var expiryDate: Date?
+    public var isSummary: Bool = false
+    public var jurisdiction: String?
+    public var source: MPOLSource?
+    public var subType: String?
+    public var type: Contact.ContactType?
+    public var updatedBy: String?
+    public var value: String?
 
     // MARK: - Unboxable
 

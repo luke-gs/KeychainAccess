@@ -21,21 +21,21 @@ open class Media: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var createdBy: String?
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var effectiveDate: Date?
-    open var entityType: String?
-    open var expiryDate: Date?
-    open var height: Double = 0
-    open var isSummary: Bool = false
-    open var mediaDescription: String?
-    open var mimeType: String?
-    open var name: String?
-    open var source: MPOLSource?
-    open var updatedBy: String?
-    open var uri: URL?
-    open var width: Double = 0
+    public var createdBy: String?
+    public var dateCreated: Date?
+    public var dateUpdated: Date?
+    public var effectiveDate: Date?
+    public var entityType: String?
+    public var expiryDate: Date?
+    public var height: Double = 0
+    public var isSummary: Bool = false
+    public var mediaDescription: String?
+    public var mimeType: String?
+    public var name: String?
+    public var source: MPOLSource?
+    public var updatedBy: String?
+    public var uri: URL?
+    public var width: Double = 0
 
     // MARK: - Unboxable
 

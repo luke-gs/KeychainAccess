@@ -28,40 +28,40 @@ open class Vehicle: Entity {
 
     // MARK: - Properties
 
-    open var axles: Int?
-    open var bodyType: String?
-    open var chassisNumber: String?
-    open var cylinders: Int?
-    open var engineCapacity: String?
-    open var engineNumber: String?
-    open var enginePower: String?
-    open var interlockDevice: Bool?
-    open var isPlate: Bool?
-    open var isStolen: Bool?
-    open var make: String?
-    open var model: String?
-    open var plateType: String?
-    open var primaryColor: String?
-    open var registration: String?
-    open var registrationCategory: String?
-    open var registrationEffectiveDate: Date?
-    open var registrationExpiryDate: Date?
-    open var registrationPurposeOfUse: String?
-    open var registrationState: String?
-    open var registrationStatus: String?
-    open var remarks: String?
-    open var seatingCapacity: Int?
-    open var secondaryColor: String?
-    open var speedLimiter: Bool?
-    open var speedLimiterSetting: Int?
-    open var transmission: String?
-    open var variant: String?
-    open var vehicleDescription: String?
-    open var vehicleType: String?
-    open var vin: String?
-    open var weight: Int?
-    open var wheels: Int?
-    open var year: String?
+    public var axles: Int?
+    public var bodyType: String?
+    public var chassisNumber: String?
+    public var cylinders: Int?
+    public var engineCapacity: String?
+    public var engineNumber: String?
+    public var enginePower: String?
+    public var interlockDevice: Bool?
+    public var isPlate: Bool?
+    public var isStolen: Bool?
+    public var make: String?
+    public var model: String?
+    public var plateType: String?
+    public var primaryColor: String?
+    public var registration: String?
+    public var registrationCategory: String?
+    public var registrationEffectiveDate: Date?
+    public var registrationExpiryDate: Date?
+    public var registrationPurposeOfUse: String?
+    public var registrationState: String?
+    public var registrationStatus: String?
+    public var remarks: String?
+    public var seatingCapacity: Int?
+    public var secondaryColor: String?
+    public var speedLimiter: Bool?
+    public var speedLimiterSetting: Int?
+    public var transmission: String?
+    public var variant: String?
+    public var vehicleDescription: String?
+    public var vehicleType: String?
+    public var vin: String?
+    public var weight: Int?
+    public var wheels: Int?
+    public var year: String?
 
     // MARK: - Calculated
 

@@ -15,23 +15,23 @@ open class CADOfficerCore: Officer, CADOfficerType {
 
     // MARK: - Network
 
-    open var capabilities: [String] = []
+    public var capabilities: [String] = []
 
-    open var contactNumber: String?
+    public var contactNumber: String?
 
-    open var licenceTypeId: String?
+    public var licenceTypeId: String?
 
-    open var patrolGroup: String?
+    public var patrolGroup: String?
 
-    open var radioId: String?
+    public var radioId: String?
 
-    open var remarks: String?
+    public var remarks: String?
 
-    open var station: String?
+    public var station: String?
 
     // MARK: - Generated
 
-    open var displayName: String {
+    public var displayName: String {
         var nameComponents = PersonNameComponents()
         nameComponents.givenName = givenName
         nameComponents.middleName = middleNames
@@ -45,11 +45,11 @@ open class CADOfficerCore: Officer, CADOfficerType {
         return nameFormatter
     }()
 
-    open var payrollIdDisplayString: String {
+    public var payrollIdDisplayString: String {
         return "#\(employeeNumber ?? "Unknown")"
     }
 
-    open var initials: String? {
+    public var initials: String? {
         if let firstName = givenName, let lastName = familyName {
             return [String(firstName.prefix(1)), String(lastName.prefix(1))].joined(separator: "")
         }

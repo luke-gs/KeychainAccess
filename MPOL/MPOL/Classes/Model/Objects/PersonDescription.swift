@@ -14,27 +14,27 @@ open class PersonDescription: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var build: String?
-    open var createdBy: String?
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var effectiveDate: Date?
-    open var entityType: String?
-    open var ethnicity: String?
-    open var expiryDate: Date?
-    open var eyeColour: String?
-    open var hairColour: String?
-    open var height: Int?
-    open var image: Media?
-    open var imageThumbnail: Media?
-    open var isSummary: Bool = false
-    open var jurisdiction: String?
-    open var marks: [String]?
-    open var race: String?
-    open var remarks: String?
-    open var source: MPOLSource?
-    open var updatedBy: String?
-    open var weight: String?
+    public var build: String?
+    public var createdBy: String?
+    public var dateCreated: Date?
+    public var dateUpdated: Date?
+    public var effectiveDate: Date?
+    public var entityType: String?
+    public var ethnicity: String?
+    public var expiryDate: Date?
+    public var eyeColour: String?
+    public var hairColour: String?
+    public var height: Int?
+    public var image: Media?
+    public var imageThumbnail: Media?
+    public var isSummary: Bool = false
+    public var jurisdiction: String?
+    public var marks: [String]?
+    public var race: String?
+    public var remarks: String?
+    public var source: MPOLSource?
+    public var updatedBy: String?
+    public var weight: String?
 
     public override init(id: String) {
         super.init(id: id)

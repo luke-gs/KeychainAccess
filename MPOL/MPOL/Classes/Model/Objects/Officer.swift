@@ -25,16 +25,16 @@ open class Officer: MPOLKitEntity, Identifiable {
 
     // MARK: - Properties
 
-    open var employeeNumber: String?
-    open var familyName: String?
-    open var givenName: String?
-    open var middleNames: String?
-    open var rank: String?
-    open var region: String?
+    public var employeeNumber: String?
+    public var familyName: String?
+    public var givenName: String?
+    public var middleNames: String?
+    public var rank: String?
+    public var region: String?
 
     // MARK: - Transient
 
-    open var involvements: [String] = []
+    public var involvements: [String] = []
 
     // MARK: - Unboxable
 

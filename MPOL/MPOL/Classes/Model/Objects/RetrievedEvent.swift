@@ -15,10 +15,10 @@ open class RetrievedEvent: Entity {
 
     // MARK: - Properties
 
-    open var eventDescription: String?
-    open var name: String?
-    open var occurredDate: Date?
-    open var type: String?
+    public var eventDescription: String?
+    public var name: String?
+    public var occurredDate: Date?
+    public var type: String?
 
     // MARK: - Unboxable
 

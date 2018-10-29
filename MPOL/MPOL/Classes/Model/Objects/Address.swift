@@ -28,33 +28,33 @@ open class Address: Entity {
 
     // MARK: - Properties
 
-    open var altitude: Double?
-    open var altitudeAccuracy: Double?
-    open var commonName: String?
-    open var country: String?
-    open var county: String?
-    open var dataAge: Int?
-    open var floor: String?
-    open var fullAddress: String?
-    open var horizontalAccuracy: Double?
-    open var latitude: Double?
-    open var longitude: Double?
-    open var postalContainer: String?
-    open var postcode: String?
-    open var sampleTaken: String?
-    open var state: String?
-    open var streetDirectional: String?
-    open var streetName: String?
-    open var streetNumberFirst: String?
-    open var streetNumberLast: String?
-    open var streetType: String?
-    open var suburb: String?
-    open var type: String?
-    open var unit: String?
+    public var altitude: Double?
+    public var altitudeAccuracy: Double?
+    public var commonName: String?
+    public var country: String?
+    public var county: String?
+    public var dataAge: Int?
+    public var floor: String?
+    public var fullAddress: String?
+    public var horizontalAccuracy: Double?
+    public var latitude: Double?
+    public var longitude: Double?
+    public var postalContainer: String?
+    public var postcode: String?
+    public var sampleTaken: String?
+    public var state: String?
+    public var streetDirectional: String?
+    public var streetName: String?
+    public var streetNumberFirst: String?
+    public var streetNumberLast: String?
+    public var streetType: String?
+    public var suburb: String?
+    public var type: String?
+    public var unit: String?
 
     // MARK: - Calculated
 
-    open var reportDate: Date? {
+    public var reportDate: Date? {
         return dateUpdated ?? dateCreated ?? nil
     }
 

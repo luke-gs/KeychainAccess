@@ -14,8 +14,8 @@ open class AssociationReason: IdentifiableDataModel {
 
     // MARK: - Properties
 
-    open var effectiveDate: Date?
-    open var reason: String?
+    public var effectiveDate: Date?
+    public var reason: String?
 
     // MARK: - Unboxable
 

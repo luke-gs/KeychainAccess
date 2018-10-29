@@ -20,44 +20,44 @@ open class Entity: MPOLKitEntity {
 
     // MARK: - Properties
 
-    open var actionCount: UInt = 0
-    open var addresses: [Address]?
-    open var alertLevel: Alert.Level?
-    open var alerts: [Alert]?
-    open var arn: String?
-    open var associatedAlertLevel: Alert.Level?
-    open var associatedPersons: [Person]?
-    open var associatedReasons: [AssociationReason]?
-    open var associatedVehicles: [Vehicle]?
-    open var createdBy: String?
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var effectiveDate: Date?
-    open var entityType: String?
-    open var events: [RetrievedEvent]?
-    open var expiryDate: Date?
-    open var externalIdentifiers: [MPOLSource: String]?
-    open var isSummary: Bool = false
-    open var jurisdiction: String?
-    open var media: [Media]?
-    open var source: MPOLSource?
-    open var updatedBy: String?
+    public var actionCount: UInt = 0
+    public var addresses: [Address]?
+    public var alertLevel: Alert.Level?
+    public var alerts: [Alert]?
+    public var arn: String?
+    public var associatedAlertLevel: Alert.Level?
+    public var associatedPersons: [Person]?
+    public var associatedReasons: [AssociationReason]?
+    public var associatedVehicles: [Vehicle]?
+    public var createdBy: String?
+    public var dateCreated: Date?
+    public var dateUpdated: Date?
+    public var effectiveDate: Date?
+    public var entityType: String?
+    public var events: [RetrievedEvent]?
+    public var expiryDate: Date?
+    public var externalIdentifiers: [MPOLSource: String]?
+    public var isSummary: Bool = false
+    public var jurisdiction: String?
+    public var media: [Media]?
+    public var source: MPOLSource?
+    public var updatedBy: String?
 
     // MARK: - Calculated
 
-    open var lastUpdated: Date? {
+    public var lastUpdated: Date? {
         return dateUpdated ?? dateCreated ?? nil
     }
 
-    open var summary: String {
+    public var summary: String {
         return "-"
     }
 
-    open var summaryDetail1: String? {
+    public var summaryDetail1: String? {
         return "-"
     }
 
-    open var summaryDetail2: String? {
+    public var summaryDetail2: String? {
         return "-"
     }
 

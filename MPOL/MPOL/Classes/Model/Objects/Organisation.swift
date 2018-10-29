@@ -27,12 +27,12 @@ open class Organisation: Entity {
 
     // MARK: - Properties
 
-    open var abn: String?
-    open var acn: String?
-    open var aliases: [OrganisationAlias]?
-    open var name: String?
-    open var tradingAs: String?
-    open var type: String?
+    public var abn: String?
+    public var acn: String?
+    public var aliases: [OrganisationAlias]?
+    public var name: String?
+    public var tradingAs: String?
+    public var type: String?
 
     // MARK: - Calculated
 

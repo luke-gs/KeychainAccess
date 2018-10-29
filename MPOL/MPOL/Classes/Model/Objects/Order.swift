@@ -14,11 +14,11 @@ open class Order: Entity {
 
     // MARK: - Properties
 
-    open var issuedDate: Date?
-    open var issuingAuthority: String?
-    open var orderDescription: String?
-    open var status: String?
-    open var type: String?
+    public var issuedDate: Date?
+    public var issuingAuthority: String?
+    public var orderDescription: String?
+    public var status: String?
+    public var type: String?
 
     // MARK: - Unboxable
 

@@ -13,12 +13,12 @@ open class PersonAlias: Alias {
 
     // MARK: - Properties
 
-    open var dateOfBirth: Date?
-    open var ethnicity: String?
-    open var firstName: String?
-    open var lastName: String?
-    open var middleNames: String?
-    open var title: String?
+    public var dateOfBirth: Date?
+    public var ethnicity: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var middleNames: String?
+    public var title: String?
 
     // MARK: - Unboxable
 
@@ -35,7 +35,7 @@ open class PersonAlias: Alias {
     }
 
     // TEMP?
-    open var formattedName: String? {
+    public var formattedName: String? {
         var formattedName: String = ""
 
         if let lastName = self.lastName?.ifNotEmpty() {
