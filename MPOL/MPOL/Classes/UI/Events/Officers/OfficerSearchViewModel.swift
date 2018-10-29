@@ -24,17 +24,13 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     private var sections: [OfficerSearchSectionViewModel] = []
 
-    public init() {
-
-        sections.append(OfficerSearchSectionViewModel(items: [], title: "My Call Sign"))
-        sections.append(OfficerSearchSectionViewModel(items: [], title: "Recently Used"))
-    }
+    public init() { }
 
     func numberOfSections() -> Int {
         if hasSections {
             return items.isEmpty ? 0 : sections.count
         } else {
-            return 1
+            return items.isEmpty ? 0 : 1
         }
     }
 
@@ -137,13 +133,15 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
-        items.removeAll()
+        items = []
+        sections = []
 
         // Add officers from myCallSign except yourself
         if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
-            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}) {
-                items = myCallSignOfficers
-                sections[0].items = myCallSignOfficers
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
+
+                sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
+                items += myCallSignOfficers
             }
 
         //Add officers from UserPreferences recentlyUsed
@@ -157,8 +155,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
             let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
-            self?.items += recentOfficers
-            self?.sections[1].items = recentOfficers
+
+            if !recentOfficers.isEmpty {
+                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
+                self?.items += recentOfficers
+            }
         }.map {}
     }
 
