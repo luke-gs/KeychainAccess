@@ -44,16 +44,21 @@ open class CADStateManagerCore: CADStateManagerBase {
         patrolGroup = "Collingwood"
     }
 
+    private var currentOfficer: CADOfficerType?
+
     open override var officerDetails: CADOfficerType? {
-        get {
-            // get current search officer
-            if let details = getEmployeeDetails() {
-                officersById[details.id] = details
-                return details
-            }
-            return nil
+
+        guard currentOfficer == nil else {
+            return currentOfficer
         }
-        set {}
+
+        // get current search officer
+        if let details = getEmployeeDetails() {
+            currentOfficer = details
+            officersById[details.id] = details
+            return details
+        }
+        return nil
     }
 
     open override func didChangeLastBookOn(from oldValue: CADBookOnRequestType?) {
@@ -333,5 +338,11 @@ open class CADStateManagerCore: CADStateManagerBase {
                               identifier: CADLocalNotifications.shiftEnding)
         }
 
+    }
+
+    /// Clears all session data properties
+    @objc open override func clearSession() {
+        super.clearSession()
+        self.currentOfficer = nil
     }
 }

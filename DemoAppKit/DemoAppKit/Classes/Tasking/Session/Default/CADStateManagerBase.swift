@@ -17,12 +17,17 @@ open class CADStateManagerBase: CADStateManagerType {
 
     public init(apiManager: CADAPIManagerType) {
         self.apiManager = apiManager
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(clearSession), name: .userSessionEnded, object: nil)
     }
 
     // MARK: - CADStateManagerType Properties
 
     /// The logged in officer details
-    open var officerDetails: CADOfficerType?
+    open var officerDetails: CADOfficerType? {
+        MPLUnimplemented()
+    }
 
     /// The patrol group
     open var patrolGroup: String? {
@@ -319,8 +324,7 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Clears all session data properties
-    open func clearSession() {
-        self.officerDetails = nil
+    @objc open func clearSession() {
         self.patrolGroup = nil
         self.lastBookOn = nil
         self.lastSync = nil
