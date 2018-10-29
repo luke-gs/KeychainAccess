@@ -217,20 +217,24 @@ open class CADStateManagerCore: CADStateManagerBase {
             return nil
         }
 
-        let officer = CADOfficerCore(id:  currentSearchOfficer.id)
-        officer.capabilities = []
-        officer.contactNumber = "0425 584 678"
+        // init CADOfficer using search officer data
+        let officer = CADOfficerCore(id: currentSearchOfficer.id)
         officer.givenName = currentSearchOfficer.givenName
         officer.familyName = currentSearchOfficer.familyName
-        officer.licenceTypeId = "b50862f7-961a-43d6-9111-0f43d0787503"
         officer.middleNames = currentSearchOfficer.middleNames
-        officer.patrolGroup = "Collingwood"
         officer.employeeNumber = currentSearchOfficer.employeeNumber
-        officer.radioId = "92757488"
         officer.rank = currentSearchOfficer.rank
+        officer.region = currentSearchOfficer.region
+
+        // add data for extra CADOfficer fields
+        // TODO: update to use real data (currently using fake data for demo)
+        officer.capabilities = []
+        officer.contactNumber = "0425 584 678"
+        officer.licenceTypeId = "b50862f7-961a-43d6-9111-0f43d0787503"
+        officer.patrolGroup = "Collingwood"
+        officer.radioId = "92757488"
         officer.remarks = ""
         officer.station = "Collingwood Station"
-        officer.region = currentSearchOfficer.region
 
         officersById[officer.id] = officer
         return officer
