@@ -9,9 +9,9 @@ import Foundation
 import PublicSafetyKit
 
 public enum DetailCreationType {
-    case Contact(DetailCreationContactType)
-    case Alias(DetailCreationAliasType)
-    case Address(DetailCreationAddressType)
+    case contact(DetailCreationContactType)
+    case alias(DetailCreationAliasType)
+    case address(DetailCreationAddressType)
 }
 
 /// View Model for detail creation form

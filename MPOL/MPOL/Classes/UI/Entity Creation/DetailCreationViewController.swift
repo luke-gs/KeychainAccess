@@ -36,7 +36,7 @@ public class DetailCreationViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
         switch viewModel.detailType {
-        case .Contact(let type):
+        case .contact(let type):
             // TODO: use Asset Manager
             title = "Add Contact Details"
             builder += DropDownFormItem()
@@ -46,9 +46,9 @@ public class DetailCreationViewController: FormBuilderViewController {
                 .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
                 .onValueChanged { [unowned self] value in
                     if let value = value?.first, let contactType = DetailCreationContactType(rawValue: value) {
-                        self.viewModel.detailType = DetailCreationType.Contact(contactType)
+                        self.viewModel.detailType = DetailCreationType.contact(contactType)
                     } else {
-                        self.viewModel.detailType = DetailCreationType.Contact(.Empty)
+                        self.viewModel.detailType = DetailCreationType.contact(.Empty)
                     }
                     self.viewModel.selectedType = value?.first
                     self.reloadForm()
@@ -60,7 +60,7 @@ public class DetailCreationViewController: FormBuilderViewController {
                     .required()
                     .width(.column(1))
             }
-        case .Alias(let type):
+        case .alias(let type):
             title = "Add Alias"
             builder += DropDownFormItem()
                 .title("Type")
@@ -70,14 +70,14 @@ public class DetailCreationViewController: FormBuilderViewController {
                 .onValueChanged { [unowned self] value in
                     if let value = value?.first {
                         if let aliasType = DetailCreationAliasType(rawValue: value) {
-                            self.viewModel.detailType = DetailCreationType.Alias(aliasType)
+                            self.viewModel.detailType = DetailCreationType.alias(aliasType)
                         } else {
                             // Use Others for unrecognised types
-                            self.viewModel.detailType = DetailCreationType.Alias(.Others)
+                            self.viewModel.detailType = DetailCreationType.alias(.Others)
                         }
 
                     } else {
-                        self.viewModel.detailType = DetailCreationType.Alias(.Empty)
+                        self.viewModel.detailType = DetailCreationType.alias(.Empty)
                     }
                     self.viewModel.selectedType = value?.first
                     self.reloadForm()
@@ -120,7 +120,7 @@ public class DetailCreationViewController: FormBuilderViewController {
             case .Empty:
                 break
             }
-        case .Address(let type):
+        case .address(let type):
             title = "Add Address"
             builder += LargeTextHeaderFormItem()
                 .text("General")
@@ -133,13 +133,13 @@ public class DetailCreationViewController: FormBuilderViewController {
                 .onValueChanged { [unowned self] value in
                     if let value = value?.first {
                         if let addressType = DetailCreationAddressType(rawValue: value) {
-                            self.viewModel.detailType = DetailCreationType.Address(addressType)
+                            self.viewModel.detailType = DetailCreationType.address(addressType)
                         } else {
                             // Use Others for unrecognised types
-                            self.viewModel.detailType = DetailCreationType.Address(.Empty)
+                            self.viewModel.detailType = DetailCreationType.address(.Empty)
                         }
                     } else {
-                        self.viewModel.detailType = DetailCreationType.Address(.Empty)
+                        self.viewModel.detailType = DetailCreationType.address(.Empty)
                     }
                     self.viewModel.selectedType = value?.first
                     self.reloadForm()

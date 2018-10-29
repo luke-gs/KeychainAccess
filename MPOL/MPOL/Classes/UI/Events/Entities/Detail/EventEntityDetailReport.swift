@@ -45,9 +45,9 @@ public class EventEntityDetailReport: EventReportable {
         relationshipsReport.evaluator.addObserver(self)
 
         evaluator.registerKey(.allValid) { [weak self] in
-            return self?.reports.reduce(true, { (result, report) -> Bool in
+            return self?.reports.reduce(true) { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
-            }) ?? false
+            } ?? false
         }
     }
 
@@ -55,7 +55,9 @@ public class EventEntityDetailReport: EventReportable {
     public static var supportsSecureCoding: Bool = true
     public func encode(with aCoder: NSCoder) {}
 
-    required public init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
+    required public init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
 
     // Eval
     public var evaluator: Evaluator = Evaluator()

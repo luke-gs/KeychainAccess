@@ -212,11 +212,11 @@ public class EntityPresenter: Presenter {
             let container = ModalNavigationController(rootViewController: to)
             var screenSize: CGSize
             switch type {
-            case .Contact:
+            case .contact:
                 screenSize = DetailCreationConstant.ContactScreenSize
-            case .Alias:
+            case .alias:
                 screenSize = DetailCreationConstant.AliasScreenSize
-            case .Address:
+            case .address:
                 screenSize = DetailCreationConstant.AddressScreenSize
             }
             from.present(container, size: screenSize)

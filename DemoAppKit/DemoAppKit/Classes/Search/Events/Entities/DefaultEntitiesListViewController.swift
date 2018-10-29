@@ -62,9 +62,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                             self.updateLoadingManager()
                             self.reloadForm()
                         })])
-                        .onSelection({ cell in
-                            self.presentEditViewController( entity: entity, cell: cell)
-                        })
+                        .onSelection { cell in
+                            self.presentEditViewController(entity: entity, cell: cell)
+                        }
 
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
                 builder += SubItemFormItem()
@@ -82,9 +82,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                         self.updateLoadingManager()
                         self.reloadForm()
                     })])
-                    .onSelection({ _ in
+                    .onSelection { _ in
                         self.presentAdditionalAction(reports: action.reports)
-                    })
+                    }
             }
         }
 
@@ -173,7 +173,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         }
     }
 
-    private func presentEditViewController( entity: MPOLKitEntity, cell: CollectionViewFormCell) {
+    private func presentEditViewController(entity: MPOLKitEntity, cell: CollectionViewFormCell) {
 
         let editItems = viewModel.editItems(for: entity)
         let pickerTableViewController = PickerTableViewController(style: .plain, items: editItems)

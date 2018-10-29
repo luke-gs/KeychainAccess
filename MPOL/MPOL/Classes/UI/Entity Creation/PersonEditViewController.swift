@@ -179,17 +179,17 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: "Contact Details")
             .actionButton(title: "Add", handler: { [unowned self] (button) in
-                self.present(EntityScreen.createEntityDetail(type: .Contact(.Empty)))
+                self.present(EntityScreen.createEntityDetail(type: .contact(.Empty)))
             })
 
         builder += LargeTextHeaderFormItem(text: "Aliases")
             .actionButton(title: "Add", handler: { (button) in
-                self.present(EntityScreen.createEntityDetail(type: .Alias(.Empty)))
+                self.present(EntityScreen.createEntityDetail(type: .alias(.Empty)))
             })
 
         builder += LargeTextHeaderFormItem(text: "Addresses")
             .actionButton(title: "Add", handler: { (button) in
-                self.present(EntityScreen.createEntityDetail(type: .Address(.Empty)))
+                self.present(EntityScreen.createEntityDetail(type: .address(.Empty)))
             })
     }
 
