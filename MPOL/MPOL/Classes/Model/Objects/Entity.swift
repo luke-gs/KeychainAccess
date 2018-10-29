@@ -150,7 +150,7 @@ open class Entity: MPOLKitEntity {
         entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
         events = try container.decodeIfPresent([RetrievedEvent].self, forKey: .events)
         expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
-        externalIdentifiers = try container.decode([MPOLSource: String].self, forKey: .externalIdentifiers)
+        externalIdentifiers = try container.decodeIfPresent([MPOLSource: String].self, forKey: .externalIdentifiers)
         isSummary = try container.decode(Bool.self, forKey: .isSummary)
         jurisdiction = try container.decodeIfPresent(String.self, forKey: .jurisdiction)
         media = try container.decodeIfPresent([Media].self, forKey: .media)
