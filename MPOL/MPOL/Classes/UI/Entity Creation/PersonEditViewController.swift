@@ -177,41 +177,6 @@ public class PersonEditViewController: FormBuilderViewController {
             .title("Remarks")
             .width(.column(2))
 
-//        builder += HeaderFormItem(text: "ADDRESSES")
-//
-//        builder += TextFieldFormItem()
-//            .title("Residential Address")
-//            .required()
-//            .width(.column(2))
-//
-//        builder += TextFieldFormItem()
-//            .title("Work Address")
-//            .width(.column(2))
-//
-//        builder += HeaderFormItem(text: "CONTACT DETAILS")
-//
-//        builder += TextFieldFormItem()
-//            .title("Mobile Number")
-//            .onValueChanged { self.mobile.value = $0 }
-//            .required()
-//            .width(.column(2))
-//
-//        builder += TextFieldFormItem()
-//            .title("Home Number")
-//            .onValueChanged { self.home.value = $0 }
-//            .width(.column(2))
-//
-//        builder += TextFieldFormItem()
-//            .title("Work Number")
-//            .onValueChanged { self.work.value = $0 }
-//            .width(.column(2))
-//
-//        builder += TextFieldFormItem()
-//            .title("Email Address")
-//            .onValueChanged { self.email.value = $0 }
-//            .width(.column(2))
-//            .softValidate(EmailSpecification(), message: "Invalid email address.")
-
         builder += LargeTextHeaderFormItem(text: "Contact Details")
             .actionButton(title: "Add", handler: { [unowned self] (button) in
                 self.present(EntityScreen.createEntityDetail(type: .Contact(.Empty)))
