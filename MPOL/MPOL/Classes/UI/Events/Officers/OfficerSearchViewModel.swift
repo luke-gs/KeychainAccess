@@ -19,52 +19,36 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     var hasSections: Bool = true
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object]
+    public private(set) var items: [Object] {
+        didSet {
+            updateSectionItems()
+        }
+    }
     var searchText: String?
+
+    private var sections: [OfficerSearchSectionViewModel] = []
 
     public init(items: [Object]? = nil) {
 
+        sections.append(OfficerSearchSectionViewModel(items: [], title: "My Call Sign"))
+        sections.append(OfficerSearchSectionViewModel(items: [], title: "Recently Used"))
         self.items = items ?? []
     }
 
     func numberOfSections() -> Int {
-        return items.isEmpty ? 0 : 2
+        return items.isEmpty ? 0 : sections.count
     }
 
     func numberOfRows(in section: Int) -> Int {
-
-        switch section {
-        case 0:
-            return officersByType.CADOfficers.count
-        case 1:
-            return officersByType.searchOfficers.count
-        default:
-            return 0
-        }
+        return sections[section].items.count
     }
 
     func isSectionHidden(_ section: Int) -> Bool {
-
-        switch section {
-        case 0:
-            return officersByType.CADOfficers.isEmpty
-        case 1:
-            return officersByType.searchOfficers.isEmpty
-        default:
-            return false
-        }
+        return sections[section].items.isEmpty
     }
 
     func title(for section: Int) -> String {
-
-        switch section {
-        case 0:
-            return "My Call Sign"
-        case 1:
-            return "Recently Used"
-        default:
-            return "Items"
-        }
+        return sections[section].title
     }
 
     func title(for indexPath: IndexPath) -> String? {
@@ -99,12 +83,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func object(for indexPath: IndexPath) -> Officer {
-        switch indexPath.section {
-        case 0:
-            return officersByType.CADOfficers[indexPath.row]
-        default:
-            return officersByType.searchOfficers[indexPath.row]
-        }
+        return sections[indexPath.section].items[indexPath.row]
     }
 
     func searchTextChanged(to searchString: String) {
@@ -177,19 +156,21 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         RecentlyUsedEntityManager.default.add(officer)
     }
 
-    private var officersByType: (CADOfficers: [Object], searchOfficers: [Object]) {
+    private func updateSectionItems() {
 
-        var CADOfficers: [Object] = []
-        var searchOfficers: [Object] = []
+        // clear out section items
+        sections.forEach { section in
+            section.items = []
+        }
 
+        // set section items
         items.forEach { officer in
             if officer is CADOfficerCore {
-                CADOfficers.append(officer)
+                sections[0].items.append(officer)
             } else {
-                searchOfficers.append(officer)
+                sections[1].items.append(officer)
             }
         }
-        return (CADOfficers: CADOfficers, searchOfficers: searchOfficers)
     }
 }
 
