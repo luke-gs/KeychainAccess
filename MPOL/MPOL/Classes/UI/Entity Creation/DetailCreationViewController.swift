@@ -47,10 +47,10 @@ public class DetailCreationViewController: FormBuilderViewController {
                 .onValueChanged { [unowned self] value in
                     if let value = value?.first, let contactType = DetailCreationContactType(rawValue: value) {
                         self.viewModel.detailType = DetailCreationType.Contact(contactType)
-                        self.viewModel.selectedType = value
                     } else {
                         self.viewModel.detailType = DetailCreationType.Contact(.Empty)
                     }
+                    self.viewModel.selectedType = value?.first
                     self.reloadForm()
                 }
                 .width(.column(1))
@@ -75,14 +75,15 @@ public class DetailCreationViewController: FormBuilderViewController {
                             // Use Others for unrecognised types
                             self.viewModel.detailType = DetailCreationType.Alias(.Others)
                         }
-                        self.viewModel.selectedType = value
 
                     } else {
                         self.viewModel.detailType = DetailCreationType.Alias(.Empty)
                     }
+                    self.viewModel.selectedType = value?.first
                     self.reloadForm()
                 }
                 .width(.column(1))
+
             switch type {
             case .Maiden, .PreferredName:
                 builder += TextFieldFormItem()
@@ -119,7 +120,7 @@ public class DetailCreationViewController: FormBuilderViewController {
             case .Empty:
                 break
             }
-        case .Address(type):
+        case .Address(let type):
             title = "Add Address"
             builder += LargeTextHeaderFormItem()
                 .text("General")
@@ -137,32 +138,34 @@ public class DetailCreationViewController: FormBuilderViewController {
                             // Use Others for unrecognised types
                             self.viewModel.detailType = DetailCreationType.Address(.Empty)
                         }
-                        self.viewModel.selectedType = value
                     } else {
                         self.viewModel.detailType = DetailCreationType.Address(.Empty)
                     }
+                    self.viewModel.selectedType = value?.first
                     self.reloadForm()
                 }
                 .width(.column(1))
 
-            builder += TextFieldFormItem()
-                .title("Remarks")
-                .width(.column(1))
-                .onValueChanged {
-                    _ = $0
+            switch type {
+            case .Residential, .Work:
+                builder += TextFieldFormItem()
+                    .title("Remarks")
+                    .width(.column(1))
+                    .onValueChanged {
+                        _ = $0
+                }
+                builder += LargeTextHeaderFormItem()
+                    .text("Address")
+                builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+                    .title(AssetManager.shared.string(forKey: .trafficStopLocation))
+                    .width(.column(1))
+                    .required()
+                    .onValueChanged({ [unowned self] (location) in
+                        self.viewModel.selectedLocation = location
+                    })
+            case .Empty:
+                break
             }
-
-            builder += LargeTextHeaderFormItem()
-                .text("Address")
-
-            builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
-                .title(AssetManager.shared.string(forKey: .trafficStopLocation))
-                .width(.column(1))
-                .required()
-                .accessory(FormAccessoryView(style: .pencil))
-                .onValueChanged({ [unowned self] (location) in
-                    self.viewModel.selectedLocation = location
-                })
         }
     }
 

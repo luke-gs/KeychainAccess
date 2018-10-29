@@ -260,7 +260,7 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.contacts = [mobile, home, work, email]
             }
 
-            //TODO: Add final person to user preferences
+            // TODO: Add final person to user preferences
 
             self.dismiss(animated: true, completion: nil)
         }
