@@ -83,8 +83,7 @@ open class ManageCallsignStatusViewModel {
 
     @objc private func bookonChanged() {
         if CADStateManager.shared.lastBookOn == nil {
-            // Close dialog if we have been booked off. In compact mode, this dialog is not presented,
-            // but it is cleaned up by CompactCallsignContainerViewController observing book off
+            // Close dialog if we have been booked off. In compact mode, this dialog is not presented.
             delegate?.dismiss(animated: true, completion: nil)
         }
     }

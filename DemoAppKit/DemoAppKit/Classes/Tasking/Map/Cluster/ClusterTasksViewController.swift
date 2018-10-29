@@ -89,6 +89,7 @@ open class ClusterTasksViewController: FormBuilderViewController {
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
                     .onStyled({ [unowned self] (cell) in
+                        // override the default theme set by DemoAppKitStyler
                         let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                         self.apply(theme: theme, to: cell)
                     })
@@ -112,6 +113,8 @@ open class ClusterTasksViewController: FormBuilderViewController {
         if let cell = cell as? TasksListResourceCollectionViewCell {
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListBasicCollectionViewCell {
+            cell.apply(theme: theme)
+        } else if let cell = cell as? TasksListIncidentCollectionViewCell {
             cell.apply(theme: theme)
         }
     }
