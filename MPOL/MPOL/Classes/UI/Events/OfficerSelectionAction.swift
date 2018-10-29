@@ -12,8 +12,11 @@ import DemoAppKit
 class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
     let viewModel: OfficerSearchViewModel
-    init(viewModel: OfficerSearchViewModel) {
+    private let preferredSize: CGSize
+
+    init(viewModel: OfficerSearchViewModel, preferredSize: CGSize) {
         self.viewModel = viewModel
+        self.preferredSize = preferredSize
     }
 
     public override func viewController() -> UIViewController {
@@ -25,7 +28,7 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
         let navigationController = ModalNavigationController(rootViewController: officerSearchController)
         navigationController.modalPresentationStyle = .formSheet
-        navigationController.preferredContentSize = CGSize(width: 512, height: 736)
+        navigationController.preferredContentSize = preferredSize
         return navigationController
     }
 

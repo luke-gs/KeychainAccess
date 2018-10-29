@@ -44,16 +44,20 @@ open class CADStateManagerCore: CADStateManagerBase {
         patrolGroup = "Collingwood"
     }
 
+    private var currentOfficer: CADOfficerType?
+
     open override var officerDetails: CADOfficerType? {
-        get {
-            // get current search officer
-            if let details = getEmployeeDetails() {
-                officersById[details.id] = details
-                return details
-            }
-            return nil
+
+        guard currentOfficer == nil else {
+            return currentOfficer
         }
-        set {}
+
+        // get current search officer
+        if let details = getEmployeeDetails() {
+            currentOfficer = details
+            return details
+        }
+        return nil
     }
 
     open override func didChangeLastBookOn(from oldValue: CADBookOnRequestType?) {
@@ -212,20 +216,24 @@ open class CADStateManagerCore: CADStateManagerBase {
             return nil
         }
 
-        let officer = CADOfficerCore(id:  currentSearchOfficer.id)
-        officer.capabilities = []
-        officer.contactNumber = "0425 584 678"
+        // init CADOfficer using search officer data
+        let officer = CADOfficerCore(id: currentSearchOfficer.id)
         officer.givenName = currentSearchOfficer.givenName
         officer.familyName = currentSearchOfficer.familyName
-        officer.licenceTypeId = "b50862f7-961a-43d6-9111-0f43d0787503"
         officer.middleNames = currentSearchOfficer.middleNames
-        officer.patrolGroup = "Collingwood"
         officer.employeeNumber = currentSearchOfficer.employeeNumber
-        officer.radioId = "92757488"
         officer.rank = currentSearchOfficer.rank
+        officer.region = currentSearchOfficer.region
+
+        // add data for extra CADOfficer fields
+        // TODO: update to use real data (currently using fake data for demo)
+        officer.capabilities = []
+        officer.contactNumber = "0425 584 678"
+        officer.licenceTypeId = manifestEntries(for: ManifestCollection.officerLicenceType).first?.id
+        officer.patrolGroup = "Collingwood"
+        officer.radioId = "92757488"
         officer.remarks = ""
         officer.station = "Collingwood Station"
-        officer.region = currentSearchOfficer.region
 
         officersById[officer.id] = officer
         return officer
@@ -333,5 +341,11 @@ open class CADStateManagerCore: CADStateManagerBase {
                               identifier: CADLocalNotifications.shiftEnding)
         }
 
+    }
+
+    /// Clears all session data properties
+    @objc open override func clearSession() {
+        super.clearSession()
+        self.currentOfficer = nil
     }
 }

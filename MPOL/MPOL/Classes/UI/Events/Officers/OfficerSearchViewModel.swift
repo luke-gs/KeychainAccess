@@ -19,59 +19,46 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     var hasSections: Bool = true
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object]
+    public private(set) var items: [Object] = []
     var searchText: String?
 
-    public init(items: [Object]? = nil) {
+    private var sections: [OfficerSearchSectionViewModel] = []
 
-        self.items = items ?? []
+    public init() {
+
+        sections.append(OfficerSearchSectionViewModel(items: [], title: "My Call Sign"))
+        sections.append(OfficerSearchSectionViewModel(items: [], title: "Recently Used"))
     }
 
     func numberOfSections() -> Int {
-        return items.isEmpty ? 0 : 2
+        if hasSections {
+            return items.isEmpty ? 0 : sections.count
+        } else {
+            return 1
+        }
     }
 
     func numberOfRows(in section: Int) -> Int {
-
-        switch section {
-        case 0:
-            return officersByType.CADOfficers.count
-        case 1:
-            return officersByType.searchOfficers.count
-        default:
-            return 0
+        if hasSections {
+            return sections[section].items.count
+        } else {
+            return items.count
         }
     }
 
     func isSectionHidden(_ section: Int) -> Bool {
-
-        switch section {
-        case 0:
-            return officersByType.CADOfficers.isEmpty
-        case 1:
-            return officersByType.searchOfficers.isEmpty
-        default:
-            return false
-        }
+        return sections[section].items.isEmpty
     }
 
     func title(for section: Int) -> String {
-
-        switch section {
-        case 0:
-            return "My Call Sign"
-        case 1:
-            return "Recently Used"
-        default:
-            return "Items"
-        }
+        return sections[section].title
     }
 
-    func title(for indexPath: IndexPath) -> StringSizable? {
+    func title(for indexPath: IndexPath) -> String? {
         return searchable(for: object(for: indexPath)).title
     }
 
-    func description(for indexPath: IndexPath) -> StringSizable? {
+    func description(for indexPath: IndexPath) -> String? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
@@ -91,19 +78,18 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank,
-                                                  employeeNumber: object.employeeNumber,
-                                                  section: object.region ?? "")
+                                                  rank: object.rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text"),
+                                                  employeeNumber: object.employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text"),
+                                                  section: object.region ?? NSLocalizedString("Unknown Region", comment: "Unknown Officer Region Text"))
         objectDisplayMap[object] = searchable
         return searchable
     }
 
     func object(for indexPath: IndexPath) -> Officer {
-        switch indexPath.section {
-        case 0:
-            return officersByType.CADOfficers[indexPath.row]
-        default:
-            return officersByType.searchOfficers[indexPath.row]
+        if hasSections {
+            return sections[indexPath.section].items[indexPath.row]
+        } else {
+            return items[indexPath.row]
         }
     }
 
@@ -150,9 +136,10 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         items.removeAll()
 
         // Add officers from myCallSign except yourself
-        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap( { $0 as? Object } )
-            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id})  {
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}) {
                 items = myCallSignOfficers
+                sections[0].items = myCallSignOfficers
             }
 
         //Add officers from UserPreferences recentlyUsed
@@ -165,8 +152,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         }
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
-            self?.items += officerIds.compactMap { result[$0] as? Officer }
-            print("mate")
+            let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
+            self?.items += recentOfficers
+            self?.sections[1].items = recentOfficers
         }.map {}
     }
 
@@ -176,21 +164,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         let officer = object(for: indexPath)
         try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
         RecentlyUsedEntityManager.default.add(officer)
-    }
-
-    private var officersByType: (CADOfficers: [Object], searchOfficers: [Object]) {
-
-        var CADOfficers: [Object] = []
-        var searchOfficers: [Object] = []
-
-        items.forEach { officer in
-            if officer is CADOfficerCore {
-                CADOfficers.append(officer)
-            } else {
-                searchOfficers.append(officer)
-            }
-        }
-        return (CADOfficers: CADOfficers, searchOfficers: searchOfficers)
     }
 }
 
