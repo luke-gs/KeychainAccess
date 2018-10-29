@@ -12,7 +12,10 @@
 /// encoded to/decoded from a database
 /// instead of inflating a whole event object
 /// just to show in the list
-open class EventListDisplayable: NSSecureCoding {
+
+import PublicSafetyKit
+
+open class EventListDisplayable: NSSecureCoding, Draftable {
 
     /// A unique ID of the event metadata
     open var id: String = UUID().uuidString
@@ -35,17 +38,27 @@ open class EventListDisplayable: NSSecureCoding {
     /// The accessory subtitle to display on the right of the cell
     open var accessorySubtitle: String?
 
+    /// The creation date of the event
+    open var creationDateString: String?
+
+    /// Additional detail for the event, typically its address of occurance
+    open var additionalDetail: String?
+
     /// The status of the event
     open var status: EventStatus
 
     public init(title: String? = nil,
                 subtitle: String? = nil,
+                creationDateString: String? = nil,
+                additionalDetail: String? = nil,
                 accessoryTitle: String? = nil,
                 accessorySubtitle: String? = nil,
                 icon: UIImage? = nil,
                 status: EventStatus = .draft) {
         self.title = title
         self.subtitle = subtitle
+        self.creationDateString = creationDateString
+        self.additionalDetail = additionalDetail
         self.accessoryTitle = accessoryTitle
         self.accessorySubtitle = accessorySubtitle
         self.status = status
