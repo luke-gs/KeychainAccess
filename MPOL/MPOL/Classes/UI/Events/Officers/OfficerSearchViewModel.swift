@@ -133,16 +133,15 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
-        items.removeAll()
-        sections.removeAll()
+        items = []
+        sections = []
 
         // Add officers from myCallSign except yourself
         if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
             .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
 
-                sections.append(OfficerSearchSectionViewModel(items: [], title: "My Call Sign"))
-                items = myCallSignOfficers
-                sections.first?.items = myCallSignOfficers
+                sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
+                items += myCallSignOfficers
             }
 
         //Add officers from UserPreferences recentlyUsed
@@ -158,9 +157,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
 
             if !recentOfficers.isEmpty {
-                self?.sections.append(OfficerSearchSectionViewModel(items: [], title: "Recently Used"))
+                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
                 self?.items += recentOfficers
-                self?.sections.last?.items = recentOfficers
             }
         }.map {}
     }
