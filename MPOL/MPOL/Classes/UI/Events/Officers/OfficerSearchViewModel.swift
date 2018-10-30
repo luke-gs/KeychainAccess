@@ -144,11 +144,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateText() -> String? {
-        if hasSections {
-            return "No Recently Used Officers"
-        } else {
-            return "No Officers Found"
-        }
+        return "No Recently Used Officers"
     }
 }
 
