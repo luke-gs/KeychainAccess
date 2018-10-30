@@ -13,7 +13,7 @@ public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
     override public var detail2: StringSizable? {
 
         let string = !officer.involvements.isEmpty ? officer.involvements.joined(separator: ", ") : "No involvements"
-        
+
         let attributedString = NSMutableAttributedString(string: string)
         attributedString.addAttribute(.foregroundColor, value: UIColor.brightBlue, range: NSRange(location: 0, length: string.count))
         return attributedString
