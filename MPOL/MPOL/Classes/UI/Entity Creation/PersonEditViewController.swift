@@ -69,20 +69,20 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("First Name")
-            .text(initialPerson?.givenName)
+            .text(finalPerson.givenName ?? initialPerson?.givenName)
             .onValueChanged { self.finalPerson.givenName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title("Middle Name/s")
-            .text(initialPerson?.middleNames)
+            .text(finalPerson.middleNames ?? initialPerson?.middleNames)
             .onValueChanged { self.finalPerson.middleNames = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title("Last Name")
-            .text(initialPerson?.familyName)
+            .text(finalPerson.familyName ?? initialPerson?.familyName)
             .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
             .width(.column(4))
@@ -96,7 +96,7 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += DateFormItem()
             .title("Date Of Birth")
             .dateFormatter(.preferredDateStyle)
-            .selectedValue(initialPerson?.dateOfBirth)
+            .selectedValue(finalPerson.dateOfBirth ?? initialPerson?.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()
             .width(.column(4))
@@ -109,7 +109,6 @@ public class PersonEditViewController: FormBuilderViewController {
             .title("Ethnicity")
             .width(.column(4))
 
-        // TODO: Use Manifest
         builder += DropDownFormItem()
             .title("Gender")
             .options(Person.Gender.allCases)
@@ -121,6 +120,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Height (cm)")
+            .text(finalDescription.height != nil ? String(finalDescription.height!) : nil)
             .placeholder("0 cm")
             .onValueChanged {
                 if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
@@ -135,6 +135,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Weight (kg)")
+            .text(finalDescription.weight != nil ? String(finalDescription.weight!) : nil)
             .placeholder("0 kg")
             .onValueChanged { self.finalDescription.weight = $0 }
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Weight can only be number.")
@@ -145,6 +146,7 @@ public class PersonEditViewController: FormBuilderViewController {
             builder += DropDownFormItem()
                 .title("Build")
                 .options(items)
+                .selectedValue(finalDescription.build != nil ? [finalDescription.build!] : nil)
                 .onValueChanged { self.finalDescription.build = $0?.first }
                 .width(.column(4))
         }
@@ -153,6 +155,7 @@ public class PersonEditViewController: FormBuilderViewController {
             builder += DropDownFormItem()
                 .title("Race")
                 .options(items)
+                .selectedValue(finalDescription.race != nil ? [finalDescription.race!] : nil)
                 .onValueChanged { self.finalDescription.race = $0?.first }
                 .width(.column(4))
         }
@@ -161,6 +164,7 @@ public class PersonEditViewController: FormBuilderViewController {
             builder += DropDownFormItem()
                 .title("Eye Colour")
                 .options(items)
+                .selectedValue(finalDescription.eyeColour != nil ? [finalDescription.eyeColour!] : nil)
                 .onValueChanged { self.finalDescription.eyeColour = $0?.first }
                 .width(.column(4))
         }
@@ -169,6 +173,7 @@ public class PersonEditViewController: FormBuilderViewController {
             builder += DropDownFormItem()
                 .title("Hair Colour")
                 .options(items)
+                .selectedValue(finalDescription.hairColour != nil ? [finalDescription.hairColour!] : nil)
                 .onValueChanged { self.finalDescription.hairColour = $0?.first }
                 .width(.column(4))
         }
@@ -178,18 +183,56 @@ public class PersonEditViewController: FormBuilderViewController {
             .width(.column(2))
 
         builder += LargeTextHeaderFormItem(text: "Contact Details")
-            .actionButton(title: "Add", handler: { [unowned self] (button) in
-                self.present(EntityScreen.createEntityDetail(type: .contact(.Empty)))
+            .actionButton(title: "Add", handler: { [unowned self] _ in
+                self.present(EntityScreen.createEntityDetail(type: .contact(.empty),
+                                                             delegate: self))
             })
+
+        if let contacts = finalPerson.contacts {
+            for (index, contact) in contacts.enumerated() {
+                builder += TextFieldFormItem()
+                    .title(contact.type?.rawValue)
+                    .text(contact.value)
+                    .width(.column(1))
+                    .onValueChanged { [unowned self] value in
+                        self.finalPerson.contacts?[index].value = value
+                }
+            }
+        }
 
         builder += LargeTextHeaderFormItem(text: "Aliases")
-            .actionButton(title: "Add", handler: { (button) in
-                self.present(EntityScreen.createEntityDetail(type: .alias(.Empty)))
+            .actionButton(title: "Add", handler: { _ in
+                self.present(EntityScreen.createEntityDetail(type: .alias(.empty),
+                                                             delegate: self))
             })
 
+        if let aliases = finalPerson.aliases {
+            for (index, alias) in aliases.enumerated() {
+                if let nickname = alias.nickname {
+                    builder += TextFieldFormItem()
+                        .title(alias.type)
+                        .text(nickname)
+                        .width(.column(1))
+                        .onValueChanged { [unowned self] value in
+                            self.finalPerson.aliases?[index].nickname = value
+                    }
+                } else {
+                    // TODO: how should the creative look when displaying maiden name etc
+                    builder += TextFieldFormItem()
+                        .title(alias.type)
+                        .text((alias.lastName ?? "") + (alias.middleNames ?? "") + (alias.firstName ?? ""))
+                        .width(.column(1))
+                        .onValueChanged { [unowned self] value in
+                            // TODO: add handling
+                    }
+                }
+            }
+        }
+
         builder += LargeTextHeaderFormItem(text: "Addresses")
-            .actionButton(title: "Add", handler: { (button) in
-                self.present(EntityScreen.createEntityDetail(type: .address(.Empty)))
+            .actionButton(title: "Add", handler: { _ in
+                self.present(EntityScreen.createEntityDetail(type: .address(.empty),
+                                                             delegate: self))
             })
     }
 
@@ -212,16 +255,36 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.descriptions = [finalDescription]
             }
 
-            if var contacts = finalPerson.contacts {
-                contacts += [mobile, home, work, email]
-                finalPerson.contacts = contacts
-            } else {
-                finalPerson.contacts = [mobile, home, work, email]
-            }
-
             // TODO: Add final person to user preferences
 
             self.dismiss(animated: true, completion: nil)
         }
     }
+}
+
+extension PersonEditViewController: DetailCreationDelegate {
+
+    public func onCompleteContact(value: Contact) {
+        if finalPerson.contacts != nil {
+            finalPerson.contacts!.append(value)
+        } else {
+            finalPerson.contacts = [value]
+        }
+        reloadForm()
+    }
+
+    public func onCompleteAlias(value: PersonAlias) {
+        if finalPerson.aliases != nil {
+            finalPerson.aliases!.append(value)
+        } else {
+            finalPerson.aliases = [value]
+        }
+        reloadForm()
+    }
+
+    public func onCompleteAddress(value: Address) {
+        // TODO
+        reloadForm()
+    }
+
 }

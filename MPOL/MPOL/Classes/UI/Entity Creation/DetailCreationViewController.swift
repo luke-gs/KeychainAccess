@@ -27,7 +27,6 @@ public class DetailCreationViewController: FormBuilderViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: AssetManager.shared.string(forKey: .submitFormCancel),
                                                            style: .plain, target: self, action: #selector(didTapCancelButton(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: AssetManager.shared.string(forKey: .submitFormDone),
@@ -37,34 +36,49 @@ public class DetailCreationViewController: FormBuilderViewController {
     public override func construct(builder: FormBuilder) {
         switch viewModel.detailType {
         case .contact(let type):
-            // TODO: use Asset Manager
-            title = "Add Contact Details"
+            title = AssetManager.shared.string(forKey: .addContactFormTitle)
+            self.contact = Contact()
             builder += DropDownFormItem()
                 .title("Contact Type")
-                .options(DetailCreationContactType.allCase())
+                .options(DetailCreationContactType.allCase)
                 .required()
                 .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
                 .onValueChanged { [unowned self] value in
                     if let value = value?.first, let contactType = DetailCreationContactType(rawValue: value) {
                         self.viewModel.detailType = DetailCreationType.contact(contactType)
                     } else {
-                        self.viewModel.detailType = DetailCreationType.contact(.Empty)
+                        self.viewModel.detailType = DetailCreationType.contact(.empty)
                     }
                     self.viewModel.selectedType = value?.first
                     self.reloadForm()
                 }
                 .width(.column(1))
-            if type != .Empty {
+            if type != .empty {
                 builder += TextFieldFormItem()
                     .title(type.rawValue)
                     .required()
                     .width(.column(1))
+                    .accessory(ItemAccessory.pencil)
+                    .onValueChanged {
+                        switch type {
+                        case .number:
+                            self.contact?.type = .phone
+                        case .mobile:
+                            self.contact?.type = .mobile
+                        case .email:
+                            self.contact?.type = .email
+                        default:
+                            break
+                        }
+                        self.contact?.value = $0
+                }
             }
         case .alias(let type):
-            title = "Add Alias"
+            title = AssetManager.shared.string(forKey: .addAliasFormTitle)
+            self.personAlias = PersonAlias()
             builder += DropDownFormItem()
                 .title("Type")
-                .options(DetailCreationAliasType.allCase())
+                .options(DetailCreationAliasType.allCase)
                 .required()
                 .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
                 .onValueChanged { [unowned self] value in
@@ -72,12 +86,11 @@ public class DetailCreationViewController: FormBuilderViewController {
                         if let aliasType = DetailCreationAliasType(rawValue: value) {
                             self.viewModel.detailType = DetailCreationType.alias(aliasType)
                         } else {
-                            // Use Others for unrecognised types
-                            self.viewModel.detailType = DetailCreationType.alias(.Others)
+                            // Use others for unrecognised types
+                            self.viewModel.detailType = DetailCreationType.alias(.others)
                         }
-
                     } else {
-                        self.viewModel.detailType = DetailCreationType.alias(.Empty)
+                        self.viewModel.detailType = DetailCreationType.alias(.empty)
                     }
                     self.viewModel.selectedType = value?.first
                     self.reloadForm()
@@ -85,61 +98,65 @@ public class DetailCreationViewController: FormBuilderViewController {
                 .width(.column(1))
 
             switch type {
-            case .Maiden, .PreferredName:
+            case .maiden, .preferredName:
+                self.personAlias?.type = type.rawValue
                 builder += TextFieldFormItem()
                     .title("First Name")
                     .width(.column(1))
                     .required()
                     .onValueChanged {
-                        _ = $0
+                        self.personAlias?.firstName = $0
                 }
                 builder += TextFieldFormItem()
                     .title("Middle Name/s")
                     .width(.column(1))
                     .onValueChanged {
-                        _ = $0
+                        self.personAlias?.middleNames = $0
                 }
                 let lastNameFormItem = TextFieldFormItem()
                     .title("Last Name")
                     .width(.column(1))
                     .onValueChanged {
-                        _ = $0
+                        self.personAlias?.lastName = $0
                 }
-                if type == .Maiden {
+                if type == .maiden {
                     lastNameFormItem.required()
                 }
                 builder += lastNameFormItem
-            case .Nickname, .Others:
+            case .nickname, .formerName, .knownAs, .others:
+                self.personAlias?.type = type.rawValue
                 builder += TextFieldFormItem()
                     .title("Name")
                     .width(.column(1))
                     .required()
                     .onValueChanged {
-                        _ = $0
+                        self.personAlias?.nickname = $0
                 }
-            case .Empty:
+            case .empty:
                 break
             }
         case .address(let type):
-            title = "Add Address"
+            title = AssetManager.shared.string(forKey: .addAddressFormTitle)
+            self.address = Address()
             builder += LargeTextHeaderFormItem()
                 .text("General")
 
             builder += DropDownFormItem()
                 .title("Type")
-                .options(DetailCreationAddressType.allCase())
+                .options(DetailCreationAddressType.allCase)
                 .required()
                 .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
                 .onValueChanged { [unowned self] value in
                     if let value = value?.first {
                         if let addressType = DetailCreationAddressType(rawValue: value) {
                             self.viewModel.detailType = DetailCreationType.address(addressType)
+
                         } else {
                             // Use Others for unrecognised types
-                            self.viewModel.detailType = DetailCreationType.address(.Empty)
+                            self.viewModel.detailType = DetailCreationType.address(.empty)
                         }
                     } else {
-                        self.viewModel.detailType = DetailCreationType.address(.Empty)
+                        self.viewModel.detailType = DetailCreationType.address(.empty)
                     }
                     self.viewModel.selectedType = value?.first
                     self.reloadForm()
@@ -147,36 +164,51 @@ public class DetailCreationViewController: FormBuilderViewController {
                 .width(.column(1))
 
             switch type {
-            case .Residential, .Work:
+            case .residential, .work:
                 builder += TextFieldFormItem()
                     .title("Remarks")
                     .width(.column(1))
                     .onValueChanged {
+                        // TODO: change
                         _ = $0
                 }
                 builder += LargeTextHeaderFormItem()
                     .text("Address")
                 builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
-                    .title(AssetManager.shared.string(forKey: .trafficStopLocation))
+                    .title(AssetManager.shared.string(forKey: .addAddressFormLocation))
                     .width(.column(1))
                     .required()
                     .onValueChanged({ [unowned self] (location) in
                         self.viewModel.selectedLocation = location
                     })
-            case .Empty:
+            case .empty:
                 break
             }
         }
     }
 
-    @objc public func didTapCancelButton(_ button: UIBarButtonItem) {
+    @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 
     @objc open func didTapDoneButton(_ button: UIBarButtonItem) {
+        switch viewModel.detailType {
+        case .contact:
+            viewModel.delegate?.onCompleteContact(value: self.contact!)
+        case .alias:
+            viewModel.delegate?.onCompleteAlias(value: self.personAlias!)
+        case .address:
+            viewModel.delegate?.onCompleteAddress(value: self.address!)
+        }
         dismiss(animated: true, completion: nil)
     }
 
     // MARK: PRIVATE
+
+    private var contact: Contact?
+
+    private var personAlias: PersonAlias?
+
+    private var address: Address?
 
 }

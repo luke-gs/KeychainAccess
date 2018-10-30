@@ -8,6 +8,11 @@
 import Foundation
 import PublicSafetyKit
 
+/// Type of form
+///
+/// - contact: contact form
+/// - alias: alias form
+/// - address: address form
 public enum DetailCreationType {
     case contact(DetailCreationContactType)
     case alias(DetailCreationAliasType)
@@ -27,44 +32,56 @@ public class DetailCreationViewModel {
     /// The location of the addresses
     public var selectedLocation: LocationSelectionType?
 
-    public init(type: DetailCreationType) {
-        detailType = type
+    public weak var delegate: DetailCreationDelegate?
+
+    public init(type: DetailCreationType, delegate: DetailCreationDelegate? = nil) {
+        self.detailType = type
+        self.delegate = delegate
     }
+}
+
+public protocol DetailCreationDelegate: class {
+    func onCompleteContact(value: Contact)
+    func onCompleteAlias(value: PersonAlias)
+    func onCompleteAddress(value: Address)
 }
 
 // MARK: Contact
 
-// TODO: need to support loading from Manefest
 public enum DetailCreationContactType: String {
-    case Empty
-    case Number
-    case Mobile
-    case Email
+    case empty
+    case number
+    case mobile
+    case email
 }
 
 public extension DetailCreationContactType {
 
     /// Returns all contact types in strings except Empty
     /// - Returns: strings of contact types
-    public static func allCase() -> [String] {
-        return [DetailCreationContactType.Number.rawValue,
-                DetailCreationContactType.Mobile.rawValue,
-                DetailCreationContactType.Email.rawValue]
+    public static var allCase: [String] {
+        return [DetailCreationContactType.number.rawValue,
+                DetailCreationContactType.mobile.rawValue,
+                DetailCreationContactType.email.rawValue]
     }
 }
 
 // MARK: Alias
 
 public enum DetailCreationAliasType: String {
-    case Empty
-    case Maiden = "Maiden Name"
-    case PreferredName = "Preferred Name"
-    case Nickname
-    case Others
+    case empty
+    case maiden = "Maiden Name"
+    case preferredName = "Preferred Name"
+    case nickname = "Nickname"
+    case knownAs = "Known As"
+    case formerName = "Former Name"
+    case others = "Others"
 }
-
+// TODO: tightly coupled to manifest & hard-coded enum
 public extension DetailCreationAliasType {
-    public static func allCase() -> [String] {
+    /// Returns all alias types in strings from manifest
+    /// - Returns: strings of alias types
+    public static var allCase: [String] {
         if let items = Manifest.shared.entries(for: .personAliasType)?.rawValues() {
             return items
         }
@@ -75,15 +92,16 @@ public extension DetailCreationAliasType {
 // MARK: Address
 
 public enum DetailCreationAddressType: String {
-    // TODO: use Asset Manager
-    case Empty
-    case Residential = "Residential Address"
-    case Work = "Work Address"
+    case empty
+    case residential = "Residential Address"
+    case work = "Work Address"
 }
 
 public extension DetailCreationAddressType {
-    public static func allCase() -> [String] {
-        return [DetailCreationAddressType.Residential.rawValue,
-                DetailCreationAddressType.Work.rawValue]
+    /// Returns addres types in strings except Empty
+    /// - Returns: strings of address types
+    public static var allCase: [String] {
+        return [DetailCreationAddressType.residential.rawValue,
+                DetailCreationAddressType.work.rawValue]
     }
 }

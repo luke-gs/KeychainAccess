@@ -17,7 +17,7 @@ public enum EntityScreen: Presentable {
     case scanner
     // entity creation
     case createEntity(type: EntityType)
-    case createEntityDetail(type: DetailCreationType)
+    case createEntityDetail(type: DetailCreationType, delegate: DetailCreationDelegate?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -189,8 +189,8 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
 
-        case .createEntityDetail(type: let type):
-            let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type))
+        case .createEntityDetail(let type, let delegate):
+            let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type, delegate: delegate))
             return detailViewController
         }
 
@@ -208,7 +208,7 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
-        case .createEntityDetail(let type):
+        case .createEntityDetail(let type, _):
             let container = ModalNavigationController(rootViewController: to)
             var screenSize: CGSize
             switch type {

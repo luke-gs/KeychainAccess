@@ -17,6 +17,7 @@ open class PersonAlias: Alias {
     open var dateOfBirth: Date?
     open var ethnicity: String?
     open var title: String?
+    open var nickname: String?
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
@@ -31,6 +32,7 @@ open class PersonAlias: Alias {
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: PersonAlias.dateTransformer)
         ethnicity = unboxer.unbox(key: "ethnicity")
         title = unboxer.unbox(key: "title")
+        title = unboxer.unbox(key: "nickname")
         try super.init(unboxer: unboxer)
     }
 
@@ -43,6 +45,7 @@ open class PersonAlias: Alias {
         dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateOfBirth.rawValue) as Date?
         ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
         title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
+        nickname = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.nickname.rawValue) as String?
     }
 
     override open func encode(with aCoder: NSCoder) {
@@ -53,6 +56,7 @@ open class PersonAlias: Alias {
         aCoder.encode(dateOfBirth, forKey: CodingKey.dateOfBirth.rawValue)
         aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
         aCoder.encode(title, forKey: CodingKey.title.rawValue)
+        aCoder.encode(nickname, forKey: CodingKey.nickname.rawValue)
     }
 
     // TEMP?
@@ -90,5 +94,6 @@ open class PersonAlias: Alias {
         case dateOfBirth
         case ethnicity
         case title
+        case nickname
     }
 }
