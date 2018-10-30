@@ -48,7 +48,7 @@ public class DetailCreationViewModel {
 public protocol DetailCreationDelegate: class {
     func onComplete(contact: Contact)
     func onComplete(alias: PersonAlias)
-    func onComplete(type: DetailCreationAddressType ,location: LocationSelectionType, remark: String?)
+    func onComplete(type: DetailCreationAddressType, location: LocationSelectionType, remark: String?)
 }
 
 // MARK: Contact

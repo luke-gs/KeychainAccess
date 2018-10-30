@@ -249,7 +249,7 @@ public class PersonEditViewController: FormBuilderViewController {
                         .text((alias.lastName ?? "") + (alias.middleNames ?? "") + (alias.firstName ?? ""))
                         .required()
                         .width(.column(1))
-                        .onValueChanged { [unowned self] value in
+                        .onValueChanged { [unowned self] _ in
                             // TODO: add handling based on creative
                     }
                 }
@@ -292,14 +292,16 @@ public class PersonEditViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            if var descriptions = finalPerson.descriptions {
-                descriptions.append(finalDescription)
-                finalPerson.descriptions = descriptions
+            if finalPerson.descriptions != nil {
+                finalPerson.descriptions!.append(finalDescription)
             } else {
                 finalPerson.descriptions = [finalDescription]
             }
-            // TODO: Add final person to user storage
-
+            do {
+                try UserSession.current.userStorage?.add(object: finalPerson, key: finalPerson.id, flag: UserStorageFlag.session)
+            } catch {
+                // TODO: Handles error if it cannot be saved
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }
