@@ -26,7 +26,7 @@ public class PersonEditViewController: FormBuilderViewController {
         contact.type = .mobile
         return contact
     }()
-    private var locations: [(DetailCreationAddressType, LocationSelectionType)]?
+    private var locations: [(DetailCreationAddressType, LocationSelectionType, String?)]?
 
     private let home: Contact = {
         let contact = Contact(id: UUID().uuidString)
@@ -264,7 +264,7 @@ public class PersonEditViewController: FormBuilderViewController {
                                                              delegate: self))
             })
         if let _locations = locations {
-            for (index, (type, location)) in _locations.enumerated() {
+            for (index, (type, location, remark)) in _locations.enumerated() {
                 builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
                     .title(type.rawValue)
                     .selectedValue(location)
@@ -272,7 +272,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     .required()
                     .onValueChanged({ [unowned self] (location) in
                         if let location = location {
-                            self.locations?[index] = (type, location)
+                            self.locations?[index] = (type, location, remark)
                         }
                     })
             }
@@ -298,7 +298,7 @@ public class PersonEditViewController: FormBuilderViewController {
             } else {
                 finalPerson.descriptions = [finalDescription]
             }
-            // TODO: Add final person to user preferences
+            // TODO: Add final person to user storage
 
             self.dismiss(animated: true, completion: nil)
         }
@@ -325,11 +325,11 @@ extension PersonEditViewController: DetailCreationDelegate {
         reloadForm()
     }
 
-    public func onComplete(type: DetailCreationAddressType, location: LocationSelectionType) {
+    public func onComplete(type: DetailCreationAddressType, location: LocationSelectionType, remark: String?) {
         if locations != nil {
-            locations!.append((type, location))
+            locations!.append((type, location, remark))
         } else {
-            locations = [(type, location)]
+            locations = [(type, location, remark)]
         }
         reloadForm()
     }

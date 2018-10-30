@@ -170,8 +170,7 @@ public class DetailCreationViewController: FormBuilderViewController {
                     .title("Remarks")
                     .width(.column(1))
                     .onValueChanged {
-                        // TODO: change
-                        _ = $0
+                        self.viewModel.locationRemark = $0
                 }
                 builder += LargeTextHeaderFormItem()
                     .text("Address")
@@ -204,7 +203,9 @@ public class DetailCreationViewController: FormBuilderViewController {
             case .alias:
                 viewModel.delegate?.onComplete(alias: self.viewModel.personAlias!)
             case .address(let type):
-                viewModel.delegate?.onComplete(type: type, location: self.viewModel.selectedLocation!)
+                viewModel.delegate?.onComplete(type: type,
+                                               location: self.viewModel.selectedLocation!,
+                                               remark: self.viewModel.locationRemark)
             }
             dismiss(animated: true, completion: nil)
         }

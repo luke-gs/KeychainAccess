@@ -31,6 +31,7 @@ public class DetailCreationViewModel {
     public var selectedType: String?
     /// The location of the addresses
     public var selectedLocation: LocationSelectionType?
+    public var locationRemark: String?
 
     public var contact: Contact?
 
@@ -47,7 +48,7 @@ public class DetailCreationViewModel {
 public protocol DetailCreationDelegate: class {
     func onComplete(contact: Contact)
     func onComplete(alias: PersonAlias)
-    func onComplete(type: DetailCreationAddressType ,location: LocationSelectionType)
+    func onComplete(type: DetailCreationAddressType ,location: LocationSelectionType, remark: String?)
 }
 
 // MARK: Contact
