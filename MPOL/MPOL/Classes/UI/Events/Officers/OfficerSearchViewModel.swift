@@ -19,8 +19,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     var searchText: String?
     private var sections: [OfficerSearchSectionViewModel] = []
 
-    public init() { }
-
     public func fetchRecentOfficers() -> Promise<Void> {
 
         sections = []
@@ -32,7 +30,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
         }
 
-        //Add officers from UserPreferences recentlyUsed
+        // Add officers from UserPreferences recentlyUsed
 
         let userPreferenceManager = UserPreferenceManager.shared
 
