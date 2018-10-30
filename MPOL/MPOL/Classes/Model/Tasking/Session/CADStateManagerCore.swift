@@ -212,7 +212,7 @@ open class CADStateManagerCore: CADStateManagerBase {
     /// Fetch details for current user
     open func getEmployeeDetails() -> CADOfficerType? {
         // update current employee with current search officer details
-        guard let currentSearchOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as? Officer else {
+        guard let currentSearchOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) else {
             return nil
         }
 
