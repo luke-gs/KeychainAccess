@@ -47,7 +47,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             if !recentOfficers.isEmpty {
                 self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
             }
-            }.map {}
+        }.map {}
     }
 
     public func cellSelectedAt(_ indexPath: IndexPath) {
