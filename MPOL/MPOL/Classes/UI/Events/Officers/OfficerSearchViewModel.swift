@@ -14,45 +14,79 @@ import PromiseKit
 class OfficerSearchViewModel: SearchDisplayableViewModel {
     typealias Object = Officer
 
-    var title: String = "Add Officer"
     var cancelToken: PromiseCancellationToken?
-    var hasSections: Bool = true
-
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object]
     var searchText: String?
+    private var sections: [OfficerSearchSectionViewModel] = []
 
-    public init(items: [Object]? = nil) {
+    public func fetchRecentOfficers() -> Promise<Void> {
 
-        self.items = items ?? []
+        sections = []
+
+        // Add officers from myCallSign except yourself
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
+
+            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
+        }
+
+        // Add officers from UserPreferences recentlyUsed
+
+        let userPreferenceManager = UserPreferenceManager.shared
+
+        guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
+            !officerIds.isEmpty else {
+                return Promise<Void>()
+        }
+
+        return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+            let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
+
+            if !recentOfficers.isEmpty {
+                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
+            }
+        }.map {}
     }
 
+    public func cellSelectedAt(_ indexPath: IndexPath) {
+
+        // add officer to recently used
+        let officer = object(for: indexPath)
+        try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
+        RecentlyUsedEntityManager.default.add(officer)
+    }
+
+    // MARK: - SearchDisplayableViewModel
+
+    var title: String = "Add Officer"
+    var hasSections = true
+
     func numberOfSections() -> Int {
-        return items.isEmpty ? 0 : 1
+        return sections.count
     }
 
     func numberOfRows(in section: Int) -> Int {
-        return items.count
+        return sections[section].items.count
     }
 
     func isSectionHidden(_ section: Int) -> Bool {
-        return false
+        return sections[section].items.isEmpty
     }
 
     func title(for section: Int) -> String {
-        return "Recently Used"
+        return sections[section].title
     }
 
     func title(for indexPath: IndexPath) -> String? {
-        return searchable(for: items[indexPath.item]).title
+        return searchable(for: object(for: indexPath)).title
     }
 
     func description(for indexPath: IndexPath) -> String? {
-        return searchable(for: items[indexPath.item]).subtitle
+        return searchable(for: object(for: indexPath)).subtitle
     }
 
     func image(for indexPath: IndexPath) -> UIImage? {
-        return searchable(for: items[indexPath.item]).image
+        return searchable(for: object(for: indexPath)).image
     }
 
     func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
@@ -67,15 +101,15 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? "",
-                                                  employeeNumber: object.employeeNumber ?? "",
-                                                  section: object.region ?? "")
+                                                  rank: object.rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text"),
+                                                  employeeNumber: object.employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text"),
+                                                  section: object.region ?? NSLocalizedString("Unknown Region", comment: "Unknown Officer Region Text"))
         objectDisplayMap[object] = searchable
         return searchable
     }
 
     func object(for indexPath: IndexPath) -> Officer {
-        return items[indexPath.item]
+        return sections[indexPath.section].items[indexPath.row]
     }
 
     func searchTextChanged(to searchString: String) {
@@ -98,12 +132,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
 
             if let context = self {
-                context.items = $0.results
-
-                // Once we complete a search, remove the sections (i.e. the Recently Used text)
-                if context.hasSections {
-                    context.hasSections = false
-                }
+                context.sections = [OfficerSearchSectionViewModel(items: $0.results, title: "Results")]
             }
         }
     }
@@ -114,30 +143,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     func emptyStateText() -> String? {
         return "No Recently Used Officers"
-    }
-
-    public func fetchRecentOfficers() -> Promise<Void> {
-
-        let userPreferenceManager = UserPreferenceManager.shared
-
-        guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
-        !officerIds.isEmpty else {
-            return Promise<Void>()
-        }
-
-        items.removeAll()
-
-        return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
-            self?.items = officerIds.compactMap { result[$0] as? Officer }
-        }.map {}
-    }
-
-    public func cellSelectedAt(_ indexPath: IndexPath) {
-
-        // add officer to recently used
-        let officer = object(for: indexPath)
-        try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
-        RecentlyUsedEntityManager.default.add(officer)
     }
 }
 

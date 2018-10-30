@@ -71,10 +71,14 @@ open class CADOfficerCore: Officer, CADOfficerType {
         self.givenName = officer.givenName
         self.familyName = officer.familyName
         self.licenceTypeId = officer.licenceTypeId
+        self.middleNames = officer.middleNames
         self.patrolGroup = officer.patrolGroup
+        self.employeeNumber = officer.employeeNumber
         self.radioId = officer.radioId
+        self.rank = officer.rank
         self.remarks = officer.remarks
         self.station = officer.station
+        self.region = officer.region
     }
 
     // MARK: - Codable

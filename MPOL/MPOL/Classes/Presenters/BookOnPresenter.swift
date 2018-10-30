@@ -65,7 +65,8 @@ public class BookOnPresenter: Presenter {
         // Form sheet popover presentation with adjusted background for all views in navigation controller
         case .notBookedOn, .manageBookOn:
             let container = ModalNavigationController(rootViewController: to)
-            from.present(container, size: CGSize(width: 512, height: 650))
+            container.preferredContentSize = CGSize(width: 512, height: 650)
+            from.presentModalViewController(container, animated: true, completion: nil)
 
         // Present form sheet with custom size
         case .statusChangeReason, .finaliseDetails:

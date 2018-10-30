@@ -55,7 +55,9 @@ public class EventEntityDetailReport: EventReportable {
     public static var supportsSecureCoding: Bool = true
     public func encode(with aCoder: NSCoder) {}
 
-    required public init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
+    required public init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
 
     // Eval
     public var evaluator: Evaluator = Evaluator()
