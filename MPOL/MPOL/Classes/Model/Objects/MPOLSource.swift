@@ -9,7 +9,7 @@
 import Unbox
 import PublicSafetyKit
 
-public enum MPOLSource: String, EntitySource, UnboxableEnum {
+public enum MPOLSource: String, EntitySource, UnboxableEnum, Codable {
     case pscore = "ds1"
     case nat = "ds2"
     case rda = "ds3"

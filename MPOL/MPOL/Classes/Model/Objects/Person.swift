@@ -12,31 +12,17 @@ import PublicSafetyKit
 @objc(MPLPerson)
 open class Person: Entity, Identifiable {
 
-    private enum Coding: String {
-        case givenName = "givenName"
-        case surname = "surname"
-        case middleNames = "middleNames"
-        case initials = "initials"
-        case dateOfBirth = "dateOfBirth"
-        case dateOfDeath = "dateOfDeath"
-        case yearOnlyDateOfBirth = "yearOnlyDateOfBirth"
-        case gender = "gender"
-        case thumbnailUrl = "thumbnailUrl"
-        case contacts = "contacts"
-        case licences = "licences"
-        case descriptions = "descriptions"
-        case aliases = "aliases"
-        case offenderCharges
-        case offenderConvictions
-        case orders = "orders"
-        case trafficHistory
-    }
+    // MARK: - Class
 
     override open class var serverTypeRepresentation: String {
         return "person"
     }
 
-    public enum Gender: String, CustomStringConvertible, UnboxableEnum, Pickable {
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Person", comment: "")
+    }
+
+    public enum Gender: String, CustomStringConvertible, UnboxableEnum, Codable, Pickable {
         case female = "F"
         case male = "M"
         case other = "O"
@@ -53,45 +39,37 @@ open class Person: Entity, Identifiable {
         }
 
         public var title: String? { return description }
-
         public var subtitle: String? { return nil }
-
         public static let allCases: [Gender] = [.female, .male, .other]
     }
 
-    open override class var localizedDisplayName: String {
-        return NSLocalizedString("Person", comment: "")
+    public required override init(id: String) {
+        super.init(id: id)
     }
 
-    open var givenName: String?
-    open var familyName: String?
-    open var middleNames: String?
+    // MARK: - Properties
 
-    open var dateOfBirth: Date?
-    open var dateOfDeath: Date?
-    open var yearOnlyDateOfBirth: Bool?
+    public var aliases: [PersonAlias]?
+    public var contacts: [Contact]?
+    public var dateOfBirth: Date?
+    public var dateOfDeath: Date?
+    public var descriptions: [PersonDescription]?
+    public var familyName: String?
+    public var gender: Gender?
+    public var givenName: String?
+    public var isAlias: Bool?
+    public var licences: [Licence]?
+    public var middleNames: String?
+    public var offenderCharges: [OffenderCharge]?
+    public var offenderConvictions: [OffenderConviction]?
+    public var orders: [Order]?
+    public var thumbnailUrl: URL?
+    public var trafficHistory: [TrafficHistory]?
+    public var yearOnlyDateOfBirth: Bool?
 
-    open var gender: Gender?
-    open var thumbnailUrl: URL?
+    // MARK: - Transient
 
-    open var contacts: [Contact]?
-    open var licences: [Licence]?
-    open var descriptions: [PersonDescription]?
-    open var aliases: [PersonAlias]?
-
-    open var orders: [Order]?
-
-    open var offenderCharges: [OffenderCharge]?
-    open var offenderConvictions: [OffenderConviction]?
-
-    open var trafficHistory: [TrafficHistory]?
-
-    open var isAlias: Bool?
-    open var thumbnail: UIImage?
-
-    open var isDeceased: Bool {
-        return dateOfDeath != nil
-    }
+    public var thumbnail: UIImage?
 
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {
@@ -100,37 +78,13 @@ open class Person: Entity, Identifiable {
         return UIImage()
     }()
 
-    // MARK: - ?
-    open var highestAlertLevel: Alert.Level?
+    // MARK: - Calculated
 
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        givenName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.givenName.rawValue) as String?
-        familyName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.surname.rawValue) as String?
-        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: Coding.middleNames.rawValue) as String?
-        dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfBirth.rawValue) as Date?
-        dateOfDeath = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfDeath.rawValue) as Date?
-        yearOnlyDateOfBirth = aDecoder.decodeObject(forKey: Coding.yearOnlyDateOfBirth.rawValue) as! Bool?
-
-        if let gender = aDecoder.decodeObject(of: NSString.self, forKey: Coding.gender.rawValue) as String? {
-            self.gender = Gender(rawValue: gender)
-        }
-        thumbnailUrl = aDecoder.decodeObject(of: NSURL.self, forKey: Coding.thumbnailUrl.rawValue) as URL?
-
-        contacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.contacts.rawValue) as? [Contact]
-        licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.licences.rawValue) as? [Licence]
-        descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.descriptions.rawValue) as? [PersonDescription]
-        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [PersonAlias]
-        orders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [Order]
-
-        offenderCharges = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderCharge]
-        offenderConvictions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderConviction]
-        trafficHistory = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.trafficHistory.rawValue) as? [TrafficHistory]
+    public var isDeceased: Bool {
+        return dateOfDeath != nil
     }
 
-    public required override init(id: String = UUID().uuidString) {
-        super.init(id: id)
-    }
+    // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
@@ -157,43 +111,80 @@ open class Person: Entity, Identifiable {
         aliases = unboxer.unbox(key: "aliases")
 
         isAlias = unboxer.unbox(key: "isAlias")
-        orders = unboxer.unbox(key: Coding.orders.rawValue)
+        orders = unboxer.unbox(key: CodingKeys.orders.rawValue)
 
-        offenderCharges = unboxer.unbox(key: Coding.offenderCharges.rawValue)
-        offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
-        trafficHistory = unboxer.unbox(key: Coding.trafficHistory.rawValue)
+        offenderCharges = unboxer.unbox(key: CodingKeys.offenderCharges.rawValue)
+        offenderConvictions = unboxer.unbox(key: CodingKeys.offenderConvictions.rawValue)
+        trafficHistory = unboxer.unbox(key: CodingKeys.trafficHistory.rawValue)
     }
 
-    open override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(givenName, forKey: Coding.givenName.rawValue)
-        aCoder.encode(familyName, forKey: Coding.surname.rawValue)
-        aCoder.encode(middleNames, forKey: Coding.middleNames.rawValue)
-        aCoder.encode(dateOfBirth, forKey: Coding.dateOfBirth.rawValue)
-        aCoder.encode(dateOfDeath, forKey: Coding.dateOfDeath.rawValue)
-        if yearOnlyDateOfBirth != nil {
-            aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.yearOnlyDateOfBirth.rawValue)
-        }
-        aCoder.encode(gender?.rawValue, forKey: Coding.gender.rawValue)
-        aCoder.encode(thumbnailUrl, forKey: Coding.thumbnailUrl.rawValue)
-        aCoder.encode(contacts, forKey: Coding.contacts.rawValue)
-        aCoder.encode(licences, forKey: Coding.licences.rawValue)
-        aCoder.encode(descriptions, forKey: Coding.descriptions.rawValue)
-        aCoder.encode(aliases, forKey: Coding.aliases.rawValue)
-        aCoder.encode(orders, forKey: Coding.orders.rawValue)
-        aCoder.encode(offenderCharges, forKey: Coding.offenderCharges.rawValue)
-        aCoder.encode(offenderConvictions, forKey: Coding.offenderConvictions.rawValue)
-        aCoder.encode(trafficHistory, forKey: Coding.trafficHistory.rawValue)
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case aliases
+        case contacts
+        case dateOfBirth
+        case dateOfDeath
+        case descriptions
+        case familyName = "surname"
+        case gender
+        case givenName
+        case isAlias
+        case licences
+        case middleNames
+        case offenderCharges
+        case offenderConvictions
+        case orders
+        case thumbnailUrl
+        case trafficHistory
+        case yearOnlyDateOfBirth
     }
 
-    // TODO: support codable
-    required public init(from decoder: Decoder) throws {
-        MPLUnimplemented()
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        aliases = try container.decodeIfPresent([PersonAlias].self, forKey: .aliases)
+        contacts = try container.decodeIfPresent([Contact].self, forKey: .contacts)
+        dateOfBirth = try container.decodeIfPresent(Date.self, forKey: .dateOfBirth)
+        dateOfDeath = try container.decodeIfPresent(Date.self, forKey: .dateOfDeath)
+        descriptions = try container.decodeIfPresent([PersonDescription].self, forKey: .descriptions)
+        familyName = try container.decodeIfPresent(String.self, forKey: .familyName)
+        gender = try container.decodeIfPresent(Gender.self, forKey: .gender)
+        givenName = try container.decodeIfPresent(String.self, forKey: .givenName)
+        isAlias = try container.decodeIfPresent(Bool.self, forKey: .isAlias)
+        licences = try container.decodeIfPresent([Licence].self, forKey: .licences)
+        middleNames = try container.decodeIfPresent(String.self, forKey: .middleNames)
+        offenderCharges = try container.decodeIfPresent([OffenderCharge].self, forKey: .offenderCharges)
+        offenderConvictions = try container.decodeIfPresent([OffenderConviction].self, forKey: .offenderConvictions)
+        orders = try container.decodeIfPresent([Order].self, forKey: .orders)
+        thumbnailUrl = try container.decodeIfPresent(URL.self, forKey: .thumbnailUrl)
+        trafficHistory = try container.decodeIfPresent([TrafficHistory].self, forKey: .trafficHistory)
+        yearOnlyDateOfBirth = try container.decodeIfPresent(Bool.self, forKey: .yearOnlyDateOfBirth)
     }
 
-    // MARK: - Model Versionable
-    override open class var modelVersion: Int {
-        return 0
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(aliases, forKey: CodingKeys.aliases)
+        try container.encode(contacts, forKey: CodingKeys.contacts)
+        try container.encode(dateOfBirth, forKey: CodingKeys.dateOfBirth)
+        try container.encode(dateOfDeath, forKey: CodingKeys.dateOfDeath)
+        try container.encode(descriptions, forKey: CodingKeys.descriptions)
+        try container.encode(familyName, forKey: CodingKeys.familyName)
+        try container.encode(gender, forKey: CodingKeys.gender)
+        try container.encode(givenName, forKey: CodingKeys.givenName)
+        try container.encode(isAlias, forKey: CodingKeys.isAlias)
+        try container.encode(licences, forKey: CodingKeys.licences)
+        try container.encode(middleNames, forKey: CodingKeys.middleNames)
+        try container.encode(offenderCharges, forKey: CodingKeys.offenderCharges)
+        try container.encode(offenderConvictions, forKey: CodingKeys.offenderConvictions)
+        try container.encode(orders, forKey: CodingKeys.orders)
+        try container.encode(thumbnailUrl, forKey: CodingKeys.thumbnailUrl)
+        try container.encode(trafficHistory, forKey: CodingKeys.trafficHistory)
+        try container.encode(yearOnlyDateOfBirth, forKey: CodingKeys.yearOnlyDateOfBirth)
     }
 
 }

@@ -47,7 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Preload MPOL animations
         LOTAnimationView.preloadMPOLAnimations()
 
-        performDataMigrationIfNecessary()
+        // Register Codable types before loading any stored objects
+        registerCodableWrapperTypes()
 
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
