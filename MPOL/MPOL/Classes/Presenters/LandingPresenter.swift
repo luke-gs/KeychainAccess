@@ -159,13 +159,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
-            //let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: eventsManager))
-            let draftListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), title: "Events")
+            let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), title: "Events")
 
-            draftListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+            eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
-            let eventListNavController = UINavigationController(rootViewController: draftListVC)
+            let eventListNavController = UINavigationController(rootViewController: eventsListVC)
 
             let bookOnViewController = self.bookOnViewController
             let taskingViewController = self.taskingViewController

@@ -15,7 +15,7 @@
 
 import PublicSafetyKit
 
-open class EventListDisplayable: NSSecureCoding, Draftable {
+open class EventListDisplayable: NSSecureCoding {
 
     /// A unique ID of the event metadata
     open var id: String = UUID().uuidString

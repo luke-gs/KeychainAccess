@@ -12,27 +12,6 @@ final public class EventsManager: DraftableManager {
 
     public var displayableBucket: ObjectBucket<EventListDisplayable> = ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
 
-    public var items: [Draftable]? {
-        return displayableBucket.objects
-    }
-
-    public func primaryDetailForItem(at index: Int) -> String? {
-        if let event = eventBucket.objects?[index] {
-            return event.creationDateString
-        }
-
-        return nil
-    }
-
-    public func secondaryDetailForItem(at index: Int) -> String? {
-        if let event = eventBucket.objects?[index] {
-            if let report = event.reports.first(where: {$0 is DefaultLocationReport}) {
-                return (report as! DefaultLocationReport).eventLocation?.addressString ?? "Unknown"
-            }
-        }
-        return nil
-    }
-
     public var eventBuilder: EventBuilding
 
     public required init(eventBuilder: EventBuilding) {
@@ -80,15 +59,40 @@ final public class EventsManager: DraftableManager {
 
     // Mark: - DraftableManager
 
-    public func createItem() {
-
-    }
-
-    public func remove(at index: Int) {
-
+    public var draftItems: [Draftable] {
+        return eventBucket.objects?.compactMap { EventDraftable(event: $0) } ?? []
     }
 }
 
 public protocol EventsManagerDelegate: class {
     func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager)
+}
+
+fileprivate class EventDraftable: Draftable {
+
+    private var event: Event
+
+    public var title: String? {
+        return event.displayable?.title
+    }
+
+    public var detail1: String? {
+        return event.creationDateString
+    }
+
+    public var detail2: String? {
+        if let locationReport = event.reports.first(where: {$0 is DefaultLocationReport}) {
+            return ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
+        }
+        return nil
+    }
+
+    public var status: DraftableStatus {
+        return event.displayable?.status == .queued ? .queued : .draft
+    }
+
+    init(event: Event) {
+        self.event = event
+    }
+
 }
