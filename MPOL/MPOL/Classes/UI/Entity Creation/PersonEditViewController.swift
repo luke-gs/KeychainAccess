@@ -21,29 +21,7 @@ public class PersonEditViewController: FormBuilderViewController {
     private let finalPerson = Person()
     private let finalDescription = PersonDescription()
 
-    private let mobile: Contact = {
-        let contact = Contact()
-        contact.type = .mobile
-        return contact
-    }()
-
-    private let home: Contact = {
-        let contact = Contact()
-        contact.type = .phone
-        return contact
-    }()
-
-    private let work: Contact = {
-        let contact = Contact()
-        contact.type = .phone
-        return contact
-    }()
-
-    private let email: Contact = {
-        let contact = Contact()
-        contact.type = .email
-        return contact
-    }()
+    private var locations: [(DetailCreationAddressType, LocationSelectionType)]?
 
     private let numberFormatter = NumberFormatter()
 
@@ -89,9 +67,11 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Identification Number")
+            .text(finalPerson.identificationNumber ?? initialPerson?.identificationNumber)
             .width(.column(4))
-
-        let selectedGender = initialPerson?.gender != nil ? [initialPerson!.gender!] : nil
+            .onValueChanged { [unowned self] value in
+                self.finalPerson.identificationNumber = value
+        }
 
         builder += DateFormItem()
             .title("Date Of Birth")
@@ -103,16 +83,26 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Place of Birth")
+            .text(finalPerson.placeOfBirth ?? initialPerson?.placeOfBirth)
             .width(.column(4))
+            .onValueChanged { [unowned self] value in
+                self.finalPerson.placeOfBirth = value
+        }
 
         builder += TextFieldFormItem()
             .title("Ethnicity")
+            .text(finalDescription.ethnicity)
             .width(.column(4))
+            .onValueChanged { [unowned self] value in
+                self.finalDescription.ethnicity = value
+        }
 
         builder += DropDownFormItem()
             .title("Gender")
             .options(Person.Gender.allCases)
-            .selectedValue(selectedGender)
+            .selectedValue(finalPerson.gender != nil
+                ? [finalPerson.gender!]
+                : (initialPerson?.gender != nil ? [initialPerson!.gender!] : nil))
             .onValueChanged { self.finalPerson.gender = $0?.first }
             .width(.column(4))
 
@@ -180,7 +170,11 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Remarks")
+            .text(finalDescription.remarks)
             .width(.column(2))
+            .onValueChanged { self.finalDescription.remarks = $0 }
+
+        // Contact Section
 
         builder += LargeTextHeaderFormItem(text: "Contact Details")
             .actionButton(title: "Add", handler: { [unowned self] _ in
@@ -190,15 +184,23 @@ public class PersonEditViewController: FormBuilderViewController {
 
         if let contacts = finalPerson.contacts {
             for (index, contact) in contacts.enumerated() {
-                builder += TextFieldFormItem()
+                let formItem = TextFieldFormItem()
                     .title(contact.type?.rawValue)
                     .text(contact.value)
                     .width(.column(1))
+                    .accessory(ItemAccessory.pencil)
+                    .required()
                     .onValueChanged { [unowned self] value in
                         self.finalPerson.contacts?[index].value = value
                 }
+                if contact.type == .email {
+                    formItem.softValidate(EmailSpecification(), message: "Invalid email address")
+                }
+                builder += formItem
             }
         }
+
+        // Alias Section
 
         builder += LargeTextHeaderFormItem(text: "Aliases")
             .actionButton(title: "Add", handler: { _ in
@@ -212,28 +214,47 @@ public class PersonEditViewController: FormBuilderViewController {
                     builder += TextFieldFormItem()
                         .title(alias.type)
                         .text(nickname)
+                        .required()
                         .width(.column(1))
                         .onValueChanged { [unowned self] value in
                             self.finalPerson.aliases?[index].nickname = value
                     }
                 } else {
-                    // TODO: how should the creative look when displaying maiden name etc
+                    // TODO: how should the creative look when displaying maiden name, etc
                     builder += TextFieldFormItem()
                         .title(alias.type)
                         .text((alias.lastName ?? "") + (alias.middleNames ?? "") + (alias.firstName ?? ""))
+                        .required()
                         .width(.column(1))
                         .onValueChanged { [unowned self] value in
-                            // TODO: add handling
+                            // TODO: add handling based on creative
                     }
                 }
             }
         }
+
+        // Address Section
 
         builder += LargeTextHeaderFormItem(text: "Addresses")
             .actionButton(title: "Add", handler: { _ in
                 self.present(EntityScreen.createEntityDetail(type: .address(.empty),
                                                              delegate: self))
             })
+        if let _locations = locations {
+            for (index, (type, location)) in _locations.enumerated() {
+                builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+                    .title(type.rawValue)
+                    .selectedValue(location)
+                    .width(.column(1))
+                    .required()
+                    .onValueChanged({ [unowned self] (location) in
+                        if let location = location {
+                            self.locations?[index] = (type, location)
+                        }
+                    })
+            }
+        }
+
     }
 
     // MARK: - Private
@@ -254,7 +275,6 @@ public class PersonEditViewController: FormBuilderViewController {
             } else {
                 finalPerson.descriptions = [finalDescription]
             }
-
             // TODO: Add final person to user preferences
 
             self.dismiss(animated: true, completion: nil)
@@ -264,7 +284,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
 extension PersonEditViewController: DetailCreationDelegate {
 
-    public func onCompleteContact(contact: Contact) {
+    public func onComplete(contact: Contact) {
         if finalPerson.contacts != nil {
             finalPerson.contacts!.append(contact)
         } else {
@@ -273,7 +293,7 @@ extension PersonEditViewController: DetailCreationDelegate {
         reloadForm()
     }
 
-    public func onCompleteAlias(alias: PersonAlias) {
+    public func onComplete(alias: PersonAlias) {
         if finalPerson.aliases != nil {
             finalPerson.aliases!.append(alias)
         } else {
@@ -282,8 +302,12 @@ extension PersonEditViewController: DetailCreationDelegate {
         reloadForm()
     }
 
-    public func onCompleteAddress(address: Address) {
-        // TODO
+    public func onComplete(type: DetailCreationAddressType, location: LocationSelectionType) {
+        if locations != nil {
+            locations!.append((type, location))
+        } else {
+            locations = [(type, location)]
+        }
         reloadForm()
     }
 

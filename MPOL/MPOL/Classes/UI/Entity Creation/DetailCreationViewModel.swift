@@ -32,6 +32,10 @@ public class DetailCreationViewModel {
     /// The location of the addresses
     public var selectedLocation: LocationSelectionType?
 
+    public var contact: Contact?
+
+    public var personAlias: PersonAlias?
+
     public weak var delegate: DetailCreationDelegate?
 
     public init(type: DetailCreationType, delegate: DetailCreationDelegate? = nil) {
@@ -41,18 +45,18 @@ public class DetailCreationViewModel {
 }
 
 public protocol DetailCreationDelegate: class {
-    func onCompleteContact(contact: Contact)
-    func onCompleteAlias(alias: PersonAlias)
-    func onCompleteAddress(address: Address)
+    func onComplete(contact: Contact)
+    func onComplete(alias: PersonAlias)
+    func onComplete(type: DetailCreationAddressType ,location: LocationSelectionType)
 }
 
 // MARK: Contact
 
 public enum DetailCreationContactType: String {
     case empty
-    case number
-    case mobile
-    case email
+    case number = "Number"
+    case mobile = "Mobile Number"
+    case email = "Email"
 }
 
 public extension DetailCreationContactType {

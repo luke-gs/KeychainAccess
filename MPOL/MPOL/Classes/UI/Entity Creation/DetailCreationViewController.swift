@@ -37,7 +37,7 @@ public class DetailCreationViewController: FormBuilderViewController {
         switch viewModel.detailType {
         case .contact(let type):
             title = AssetManager.shared.string(forKey: .addContactFormTitle)
-            self.contact = Contact()
+            self.viewModel.contact = Contact()
             builder += DropDownFormItem()
                 .title("Contact Type")
                 .options(DetailCreationContactType.allCase)
@@ -54,7 +54,7 @@ public class DetailCreationViewController: FormBuilderViewController {
                 }
                 .width(.column(1))
             if type != .empty {
-                builder += TextFieldFormItem()
+                let formItem = TextFieldFormItem()
                     .title(type.rawValue)
                     .required()
                     .width(.column(1))
@@ -62,20 +62,24 @@ public class DetailCreationViewController: FormBuilderViewController {
                     .onValueChanged {
                         switch type {
                         case .number:
-                            self.contact?.type = .phone
+                            self.viewModel.contact?.type = .phone
                         case .mobile:
-                            self.contact?.type = .mobile
+                            self.viewModel.contact?.type = .mobile
                         case .email:
-                            self.contact?.type = .email
+                            self.viewModel.contact?.type = .email
                         default:
                             break
                         }
-                        self.contact?.value = $0
+                        self.viewModel.contact?.value = $0
                 }
+                if type == .email {
+                    formItem.softValidate(EmailSpecification(), message: "Invalid email address")
+                }
+                builder += formItem
             }
         case .alias(let type):
             title = AssetManager.shared.string(forKey: .addAliasFormTitle)
-            self.personAlias = PersonAlias()
+            self.viewModel.personAlias = PersonAlias()
             builder += DropDownFormItem()
                 .title("Type")
                 .options(DetailCreationAliasType.allCase)
@@ -99,45 +103,44 @@ public class DetailCreationViewController: FormBuilderViewController {
 
             switch type {
             case .maiden, .preferredName:
-                self.personAlias?.type = type.rawValue
+                self.viewModel.personAlias?.type = type.rawValue
                 builder += TextFieldFormItem()
                     .title("First Name")
                     .width(.column(1))
                     .required()
                     .onValueChanged {
-                        self.personAlias?.firstName = $0
+                        self.viewModel.personAlias?.firstName = $0
                 }
                 builder += TextFieldFormItem()
                     .title("Middle Name/s")
                     .width(.column(1))
                     .onValueChanged {
-                        self.personAlias?.middleNames = $0
+                        self.viewModel.personAlias?.middleNames = $0
                 }
                 let lastNameFormItem = TextFieldFormItem()
                     .title("Last Name")
                     .width(.column(1))
                     .onValueChanged {
-                        self.personAlias?.lastName = $0
+                        self.viewModel.personAlias?.lastName = $0
                 }
                 if type == .maiden {
                     lastNameFormItem.required()
                 }
                 builder += lastNameFormItem
             case .nickname, .formerName, .knownAs, .others:
-                self.personAlias?.type = type.rawValue
+                self.viewModel.personAlias?.type = type.rawValue
                 builder += TextFieldFormItem()
                     .title("Name")
                     .width(.column(1))
                     .required()
                     .onValueChanged {
-                        self.personAlias?.nickname = $0
+                        self.viewModel.personAlias?.nickname = $0
                 }
             case .empty:
                 break
             }
         case .address(let type):
             title = AssetManager.shared.string(forKey: .addAddressFormTitle)
-            self.address = Address()
             builder += LargeTextHeaderFormItem()
                 .text("General")
 
@@ -150,9 +153,7 @@ public class DetailCreationViewController: FormBuilderViewController {
                     if let value = value?.first {
                         if let addressType = DetailCreationAddressType(rawValue: value) {
                             self.viewModel.detailType = DetailCreationType.address(addressType)
-
                         } else {
-                            // Use Others for unrecognised types
                             self.viewModel.detailType = DetailCreationType.address(.empty)
                         }
                     } else {
@@ -199,22 +200,13 @@ public class DetailCreationViewController: FormBuilderViewController {
         case .valid:
             switch viewModel.detailType {
             case .contact:
-                viewModel.delegate?.onCompleteContact(contact: self.contact!)
+                viewModel.delegate?.onComplete(contact: self.viewModel.contact!)
             case .alias:
-                viewModel.delegate?.onCompleteAlias(alias: self.personAlias!)
-            case .address:
-                viewModel.delegate?.onCompleteAddress(address: self.address!)
+                viewModel.delegate?.onComplete(alias: self.viewModel.personAlias!)
+            case .address(let type):
+                viewModel.delegate?.onComplete(type: type, location: self.viewModel.selectedLocation!)
             }
             dismiss(animated: true, completion: nil)
         }
     }
-
-    // MARK: PRIVATE
-
-    private var contact: Contact?
-
-    private var personAlias: PersonAlias?
-
-    private var address: Address?
-
 }

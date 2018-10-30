@@ -20,6 +20,7 @@ open class Person: Entity, Identifiable {
         case dateOfBirth = "dateOfBirth"
         case dateOfDeath = "dateOfDeath"
         case yearOnlyDateOfBirth = "yearOnlyDateOfBirth"
+        case placeOfBirth = "placeOfBirth"
         case gender = "gender"
         case thumbnailUrl = "thumbnailUrl"
         case contacts = "contacts"
@@ -30,6 +31,7 @@ open class Person: Entity, Identifiable {
         case offenderConvictions
         case orders = "orders"
         case trafficHistory
+        case identificationNumber
     }
 
     override open class var serverTypeRepresentation: String {
@@ -90,6 +92,9 @@ open class Person: Entity, Identifiable {
         return dateOfDeath != nil
     }
 
+    open var identificationNumber: String?
+    open var placeOfBirth: String?
+
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {
             return UIImage.thumbnail(withInitials: initials)
@@ -123,6 +128,8 @@ open class Person: Entity, Identifiable {
         offenderCharges = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderCharge]
         offenderConvictions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderConviction]
         trafficHistory = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.trafficHistory.rawValue) as? [TrafficHistory]
+        identificationNumber = aDecoder.decodeObject(of: NSString.self, forKey: Coding.identificationNumber.rawValue) as String?
+        placeOfBirth = aDecoder.decodeObject(of: NSString.self, forKey: Coding.placeOfBirth.rawValue) as String?
     }
 
     public required override init(id: String = UUID().uuidString) {
@@ -159,6 +166,8 @@ open class Person: Entity, Identifiable {
         offenderCharges = unboxer.unbox(key: Coding.offenderCharges.rawValue)
         offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
         trafficHistory = unboxer.unbox(key: Coding.trafficHistory.rawValue)
+        identificationNumber = unboxer.unbox(key: Coding.identificationNumber.rawValue)
+        placeOfBirth = unboxer.unbox(key: Coding.placeOfBirth.rawValue)
     }
 
     open override func encode(with aCoder: NSCoder) {
@@ -181,6 +190,8 @@ open class Person: Entity, Identifiable {
         aCoder.encode(offenderCharges, forKey: Coding.offenderCharges.rawValue)
         aCoder.encode(offenderConvictions, forKey: Coding.offenderConvictions.rawValue)
         aCoder.encode(trafficHistory, forKey: Coding.trafficHistory.rawValue)
+        aCoder.encode(identificationNumber, forKey: Coding.identificationNumber.rawValue)
+        aCoder.encode(placeOfBirth, forKey: Coding.placeOfBirth.rawValue)
     }
 
     // TODO: support codable
