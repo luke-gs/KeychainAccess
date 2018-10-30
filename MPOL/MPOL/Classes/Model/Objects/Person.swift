@@ -138,7 +138,7 @@ open class Person: Entity, Identifiable {
         case thumbnailUrl
         case trafficHistory
         case yearOnlyDateOfBirth
-        // TODO: backend does not have these
+        // TODO: TBC with backend
         case identificationNumber
         case placeOfBirth
     }
