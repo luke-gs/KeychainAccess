@@ -16,30 +16,21 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     var title: String = "Add Officer"
     var cancelToken: PromiseCancellationToken?
-    var hasSections: Bool = true
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object] = []
     var searchText: String?
 
+    var hasSections = true
     private var sections: [OfficerSearchSectionViewModel] = []
 
     public init() { }
 
     func numberOfSections() -> Int {
-        if hasSections {
-            return items.isEmpty ? 0 : sections.count
-        } else {
-            return items.isEmpty ? 0 : 1
-        }
+        return sections.count
     }
 
     func numberOfRows(in section: Int) -> Int {
-        if hasSections {
-            return sections[section].items.count
-        } else {
-            return items.count
-        }
+        return sections[section].items.count
     }
 
     func isSectionHidden(_ section: Int) -> Bool {
@@ -82,11 +73,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func object(for indexPath: IndexPath) -> Officer {
-        if hasSections {
-            return sections[indexPath.section].items[indexPath.row]
-        } else {
-            return items[indexPath.row]
-        }
+        return sections[indexPath.section].items[indexPath.row]
     }
 
     func searchTextChanged(to searchString: String) {
@@ -109,12 +96,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
 
             if let context = self {
-                context.items = $0.results
-
-                // Once we complete a search, remove the sections (i.e. the Recently Used text)
-                if context.hasSections {
-                    context.hasSections = false
-                }
+                context.sections = [OfficerSearchSectionViewModel(items: $0.results, title: "Results")]
             }
         }
     }
@@ -133,7 +115,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
-        items = []
         sections = []
 
         // Add officers from myCallSign except yourself
@@ -141,7 +122,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
 
                 sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
-                items += myCallSignOfficers
             }
 
         //Add officers from UserPreferences recentlyUsed
@@ -158,7 +138,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
             if !recentOfficers.isEmpty {
                 self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
-                self?.items += recentOfficers
             }
         }.map {}
     }
