@@ -265,9 +265,6 @@ public class PersonEditViewController: FormBuilderViewController {
 extension PersonEditViewController: DetailCreationDelegate {
 
     public func onCompleteContact(contact: Contact) {
-        guard contact.value != nil else {
-            return
-        }
         if finalPerson.contacts != nil {
             finalPerson.contacts!.append(contact)
         } else {
@@ -277,9 +274,6 @@ extension PersonEditViewController: DetailCreationDelegate {
     }
 
     public func onCompleteAlias(alias: PersonAlias) {
-        guard alias.type != nil else {
-            return
-        }
         if finalPerson.aliases != nil {
             finalPerson.aliases!.append(alias)
         } else {

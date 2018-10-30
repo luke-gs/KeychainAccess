@@ -192,15 +192,21 @@ public class DetailCreationViewController: FormBuilderViewController {
     }
 
     @objc open func didTapDoneButton(_ button: UIBarButtonItem) {
-        switch viewModel.detailType {
-        case .contact:
-            viewModel.delegate?.onCompleteContact(contact: self.contact!)
-        case .alias:
-            viewModel.delegate?.onCompleteAlias(alias: self.personAlias!)
-        case .address:
-            viewModel.delegate?.onCompleteAddress(address: self.address!)
+        let result = builder.validate()
+        switch result {
+        case .invalid:
+            builder.validateAndUpdateUI()
+        case .valid:
+            switch viewModel.detailType {
+            case .contact:
+                viewModel.delegate?.onCompleteContact(contact: self.contact!)
+            case .alias:
+                viewModel.delegate?.onCompleteAlias(alias: self.personAlias!)
+            case .address:
+                viewModel.delegate?.onCompleteAddress(address: self.address!)
+            }
+            dismiss(animated: true, completion: nil)
         }
-        dismiss(animated: true, completion: nil)
     }
 
     // MARK: PRIVATE
