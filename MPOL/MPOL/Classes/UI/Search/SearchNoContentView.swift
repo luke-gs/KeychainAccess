@@ -13,7 +13,7 @@ public class SearchNoContentView: LoadingStateNoContentView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
 
-        let officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as? Officer
+        let officer: Officer? = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey)
 
         let hours = Calendar.current.component(.hour, from: Date())
 

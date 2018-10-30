@@ -11,19 +11,23 @@ import Unbox
 @objc(MPLPersonAlias)
 open class PersonAlias: Alias {
 
-    open var firstName: String?
-    open var lastName: String?
-    open var middleNames: String?
-    open var dateOfBirth: Date?
-    open var ethnicity: String?
-    open var title: String?
-    open var nickname: String?
+    // MARK: - Properties
 
-    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    public var dateOfBirth: Date?
+    public var ethnicity: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var middleNames: String?
+    public var title: String?
+    public var nickname: String?
 
-    public required init(id: String = UUID().uuidString) {
+    public override init(id: String) {
         super.init(id: id)
     }
+
+    // MARK: - Unboxable
+
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
         firstName = unboxer.unbox(key: "givenName")
@@ -32,35 +36,12 @@ open class PersonAlias: Alias {
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: PersonAlias.dateTransformer)
         ethnicity = unboxer.unbox(key: "ethnicity")
         title = unboxer.unbox(key: "title")
-        title = unboxer.unbox(key: "nickname")
+        nickname = unboxer.unbox(key: "nickname")
         try super.init(unboxer: unboxer)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        firstName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.firstName.rawValue) as String?
-        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.middleNames.rawValue) as String?
-        lastName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.lastName.rawValue) as String?
-        dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateOfBirth.rawValue) as Date?
-        ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
-        title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
-        nickname = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.nickname.rawValue) as String?
-    }
-
-    override open func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(firstName, forKey: CodingKey.firstName.rawValue)
-        aCoder.encode(middleNames, forKey: CodingKey.middleNames.rawValue)
-        aCoder.encode(lastName, forKey: CodingKey.lastName.rawValue)
-        aCoder.encode(dateOfBirth, forKey: CodingKey.dateOfBirth.rawValue)
-        aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
-        aCoder.encode(title, forKey: CodingKey.title.rawValue)
-        aCoder.encode(nickname, forKey: CodingKey.nickname.rawValue)
-    }
-
     // TEMP?
-    open var formattedName: String? {
+    public var formattedName: String? {
         var formattedName: String = ""
 
         if let lastName = self.lastName?.ifNotEmpty() {
@@ -87,13 +68,44 @@ open class PersonAlias: Alias {
 
     }
 
-    private enum CodingKey: String {
-        case firstName
-        case middleNames
-        case lastName
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
         case dateOfBirth
         case ethnicity
+        case firstName
+        case lastName
+        case middleNames
         case title
+        // TODO: TBC with backend
         case nickname
     }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        dateOfBirth = try container.decodeIfPresent(Date.self, forKey: .dateOfBirth)
+        ethnicity = try container.decodeIfPresent(String.self, forKey: .ethnicity)
+        firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
+        lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
+        middleNames = try container.decodeIfPresent(String.self, forKey: .middleNames)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        nickname = try container.decodeIfPresent(String.self, forKey: .nickname)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(dateOfBirth, forKey: CodingKeys.dateOfBirth)
+        try container.encode(ethnicity, forKey: CodingKeys.ethnicity)
+        try container.encode(firstName, forKey: CodingKeys.firstName)
+        try container.encode(lastName, forKey: CodingKeys.lastName)
+        try container.encode(middleNames, forKey: CodingKeys.middleNames)
+        try container.encode(title, forKey: CodingKeys.title)
+        try container.encode(nickname, forKey: CodingKeys.nickname)
+    }
+
 }

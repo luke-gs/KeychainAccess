@@ -14,31 +14,44 @@ private enum Coding: String {
     case eventNumber = "eventNumber"
 }
 
-public class EventSubmissionResponse: MPOLKitEntityProtocol {
-    public static var serverTypeRepresentation: String = "event"
-    public static var supportsSecureCoding: Bool = true
+public class EventSubmissionResponse: MPOLKitEntity {
 
-    public var id: String = UUID().uuidString
+    // MARK: - Class
+
+    public override class var serverTypeRepresentation: String {
+        return "event"
+    }
+
+    // MARK: - Properties
+
     public var eventNumber: Int
 
-    public func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
-        return otherEntity.id == self.id
-    }
-
-    // MARK: Codable
-    required public init?(coder aDecoder: NSCoder) {
-        eventNumber = aDecoder.decodeInteger(forKey: Coding.eventNumber.rawValue)
-        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(eventNumber, forKey: Coding.eventNumber.rawValue)
-        aCoder.encode(id, forKey: Coding.id.rawValue)
-    }
-
     // MARK: Unboxable
+
     public required init(unboxer: Unboxer) throws {
         eventNumber = try unboxer.unbox(key: "eventNumber")
+
+        try super.init(unboxer: unboxer)
+    }
+
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case eventNumber
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        eventNumber = try container.decode(Int.self, forKey: .eventNumber)
+
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventNumber, forKey: CodingKeys.eventNumber)
     }
 }
 

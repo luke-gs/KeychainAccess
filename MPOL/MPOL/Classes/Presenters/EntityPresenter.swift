@@ -220,7 +220,8 @@ public class EntityPresenter: Presenter {
             case .address:
                 screenSize = DetailCreationConstant.AddressScreenSize
             }
-            from.present(container, size: screenSize)
+            container.preferredContentSize = screenSize
+            from.presentModalViewController(container)
         default:
             from.show(to, sender: from)
         }

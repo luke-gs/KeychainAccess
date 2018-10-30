@@ -37,7 +37,7 @@ public class DetailCreationViewController: FormBuilderViewController {
         switch viewModel.detailType {
         case .contact(let type):
             title = AssetManager.shared.string(forKey: .addContactFormTitle)
-            self.viewModel.contact = Contact()
+            self.viewModel.contact = Contact(id: UUID().uuidString)
             builder += DropDownFormItem()
                 .title("Contact Type")
                 .options(DetailCreationContactType.allCase)
@@ -79,7 +79,7 @@ public class DetailCreationViewController: FormBuilderViewController {
             }
         case .alias(let type):
             title = AssetManager.shared.string(forKey: .addAliasFormTitle)
-            self.viewModel.personAlias = PersonAlias()
+            self.viewModel.personAlias = PersonAlias(id: UUID().uuidString)
             builder += DropDownFormItem()
                 .title("Type")
                 .options(DetailCreationAliasType.allCase)

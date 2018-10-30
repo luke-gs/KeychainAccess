@@ -18,10 +18,33 @@ public class PersonEditViewController: FormBuilderViewController {
 
     // MARK: - Storage
 
-    private let finalPerson = Person()
-    private let finalDescription = PersonDescription()
+    private let finalPerson = Person(id: UUID().uuidString)
+    private let finalDescription = PersonDescription(id: UUID().uuidString)
 
+    private let mobile: Contact = {
+        let contact = Contact(id: UUID().uuidString)
+        contact.type = .mobile
+        return contact
+    }()
     private var locations: [(DetailCreationAddressType, LocationSelectionType)]?
+
+    private let home: Contact = {
+        let contact = Contact(id: UUID().uuidString)
+        contact.type = .phone
+        return contact
+    }()
+
+    private let work: Contact = {
+        let contact = Contact(id: UUID().uuidString)
+        contact.type = .phone
+        return contact
+    }()
+
+    private let email: Contact = {
+        let contact = Contact(id: UUID().uuidString)
+        contact.type = .email
+        return contact
+    }()
 
     private let numberFormatter = NumberFormatter()
 
