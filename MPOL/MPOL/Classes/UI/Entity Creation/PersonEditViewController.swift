@@ -264,25 +264,31 @@ public class PersonEditViewController: FormBuilderViewController {
 
 extension PersonEditViewController: DetailCreationDelegate {
 
-    public func onCompleteContact(value: Contact) {
+    public func onCompleteContact(contact: Contact) {
+        guard contact.value != nil else {
+            return
+        }
         if finalPerson.contacts != nil {
-            finalPerson.contacts!.append(value)
+            finalPerson.contacts!.append(contact)
         } else {
-            finalPerson.contacts = [value]
+            finalPerson.contacts = [contact]
         }
         reloadForm()
     }
 
-    public func onCompleteAlias(value: PersonAlias) {
+    public func onCompleteAlias(alias: PersonAlias) {
+        guard alias.type != nil else {
+            return
+        }
         if finalPerson.aliases != nil {
-            finalPerson.aliases!.append(value)
+            finalPerson.aliases!.append(alias)
         } else {
-            finalPerson.aliases = [value]
+            finalPerson.aliases = [alias]
         }
         reloadForm()
     }
 
-    public func onCompleteAddress(value: Address) {
+    public func onCompleteAddress(address: Address) {
         // TODO
         reloadForm()
     }

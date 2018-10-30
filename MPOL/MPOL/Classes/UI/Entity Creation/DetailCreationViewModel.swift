@@ -41,9 +41,9 @@ public class DetailCreationViewModel {
 }
 
 public protocol DetailCreationDelegate: class {
-    func onCompleteContact(value: Contact)
-    func onCompleteAlias(value: PersonAlias)
-    func onCompleteAddress(value: Address)
+    func onCompleteContact(contact: Contact)
+    func onCompleteAlias(alias: PersonAlias)
+    func onCompleteAddress(address: Address)
 }
 
 // MARK: Contact

@@ -194,11 +194,11 @@ public class DetailCreationViewController: FormBuilderViewController {
     @objc open func didTapDoneButton(_ button: UIBarButtonItem) {
         switch viewModel.detailType {
         case .contact:
-            viewModel.delegate?.onCompleteContact(value: self.contact!)
+            viewModel.delegate?.onCompleteContact(contact: self.contact!)
         case .alias:
-            viewModel.delegate?.onCompleteAlias(value: self.personAlias!)
+            viewModel.delegate?.onCompleteAlias(alias: self.personAlias!)
         case .address:
-            viewModel.delegate?.onCompleteAddress(value: self.address!)
+            viewModel.delegate?.onCompleteAddress(address: self.address!)
         }
         dismiss(animated: true, completion: nil)
     }
