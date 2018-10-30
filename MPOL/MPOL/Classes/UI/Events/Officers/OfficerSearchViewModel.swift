@@ -19,7 +19,47 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     var searchText: String?
     private var sections: [OfficerSearchSectionViewModel] = []
 
-    public init() { }
+    public func fetchRecentOfficers() -> Promise<Void> {
+
+        sections = []
+
+        // Add officers from myCallSign except yourself
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
+
+            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
+        }
+
+        // Add officers from UserPreferences recentlyUsed
+
+        let userPreferenceManager = UserPreferenceManager.shared
+
+        guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
+            !officerIds.isEmpty else {
+                return Promise<Void>()
+        }
+
+        return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+            let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
+
+            if !recentOfficers.isEmpty {
+                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
+            }
+        }.map {}
+    }
+
+    public func cellSelectedAt(_ indexPath: IndexPath) {
+
+        // add officer to recently used
+        let officer = object(for: indexPath)
+        try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
+        RecentlyUsedEntityManager.default.add(officer)
+    }
+
+    // MARK: - SearchDisplayableViewModel
+
+    var title: String = "Add Officer"
+    var hasSections = true
 
     public func fetchRecentOfficers() -> Promise<Void> {
 

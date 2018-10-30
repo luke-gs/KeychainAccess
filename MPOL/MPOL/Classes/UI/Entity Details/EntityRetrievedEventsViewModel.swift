@@ -199,7 +199,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
     private func subtitle(for event: RetrievedEvent) -> String? {
         if let date = event.occurredDate {
-            let locationString = event.jurisdiction != nil ? " (\(event.jurisdiction!))": ""
+            let locationString = event.jurisdiction != nil ? " (\(event.jurisdiction!))" : ""
             return NSLocalizedString("Recorded on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
         } else {
             return NSLocalizedString("Recorded date unknown", comment: "")

@@ -63,7 +63,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                             self.reloadForm()
                         })])
                         .onSelection({ cell in
-                            self.presentEditViewController( entity: entity, cell: cell)
+                            self.presentEditViewController(entity: entity, cell: cell)
                         })
 
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
@@ -173,7 +173,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         }
     }
 
-    private func presentEditViewController( entity: MPOLKitEntity, cell: CollectionViewFormCell) {
+    private func presentEditViewController(entity: MPOLKitEntity, cell: CollectionViewFormCell) {
 
         let editItems = viewModel.editItems(for: entity)
         let pickerTableViewController = PickerTableViewController(style: .plain, items: editItems)
