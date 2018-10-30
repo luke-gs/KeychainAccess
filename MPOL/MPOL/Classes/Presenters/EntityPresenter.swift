@@ -154,6 +154,7 @@ public class EntityPresenter: Presenter {
 
             let navVC = ModalNavigationController(rootViewController: htmlVC)
             navVC.modalPresentationStyle = .pageSheet
+            navVC.preferredContentSize = CGSize(width: 512, height: 736)
 
             return navVC
 
