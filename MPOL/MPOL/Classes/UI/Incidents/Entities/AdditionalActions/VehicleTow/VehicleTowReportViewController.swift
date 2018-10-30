@@ -61,7 +61,8 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
                 self.viewModel.report.towReason = values?.first
             })
 
-        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel()))
+        let officerSelectionVCSize = CGSize(width: 512, height: 736)
+        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel(), preferredSize: officerSelectionVCSize))
             .width(.column(2))
             .title("Officer Authorising Tow")
             .placeholder("Optional")
@@ -70,7 +71,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
                 viewModel.report.authorisingOfficer = officer
             })
 
-        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel()))
+        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel(), preferredSize: officerSelectionVCSize))
             .width(.column(2))
             .title("Who Notified Driver of Tow")
             .placeholder("Optional")

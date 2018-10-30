@@ -12,8 +12,11 @@ import DemoAppKit
 class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
     let viewModel: OfficerSearchViewModel
-    init(viewModel: OfficerSearchViewModel) {
+    private let preferredSize: CGSize
+
+    init(viewModel: OfficerSearchViewModel, preferredSize: CGSize) {
         self.viewModel = viewModel
+        self.preferredSize = preferredSize
     }
 
     public override func viewController() -> UIViewController {
@@ -23,8 +26,9 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: officerSearchController,
             action: #selector(UIViewController.dismissAnimated))
 
-        let navigationController = PopoverNavigationController(rootViewController: officerSearchController)
+        let navigationController = ModalNavigationController(rootViewController: officerSearchController)
         navigationController.modalPresentationStyle = .formSheet
+        navigationController.preferredContentSize = preferredSize
         return navigationController
     }
 

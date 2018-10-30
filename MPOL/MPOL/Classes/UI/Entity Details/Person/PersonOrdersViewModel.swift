@@ -220,6 +220,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
 
         let navController = ModalNavigationController(rootViewController: orderVC)
         navController.modalPresentationStyle = .formSheet
-        viewController.present(navController, animated: true, completion: nil)
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
+        viewController.pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
     }
 }

@@ -102,7 +102,6 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */; };
 		96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */; };
-		963E5B0C2179831A00BC2415 /* CADEmployeeDetailsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B082179831A00BC2415 /* CADEmployeeDetailsCore.swift */; };
 		963E5B0D2179831A00BC2415 /* CADOfficerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B092179831A00BC2415 /* CADOfficerCore.swift */; };
 		963E5B0E2179831A00BC2415 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B0B2179831A00BC2415 /* CADStateManagerCore.swift */; };
 		96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2020D0B25600B82A53 /* NotificationService.swift */; };
@@ -255,6 +254,7 @@
 		AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D5453214794EF00162017 /* AddressOptionHandler.swift */; };
 		AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
+		AA9681CD2186912B0028C74E /* OfficerSearchSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9681CC2186912B0028C74E /* OfficerSearchSectionViewModel.swift */; };
 		AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB34284216F0A490065266E /* OfficerFetchRequest.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -268,7 +268,6 @@
 		EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */; };
 		EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */; };
 		EAE9F6C921365D32004D9DE8 /* DemoSync.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C521365D32004D9DE8 /* DemoSync.json */; };
-		EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */; };
 		EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */; };
 		EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = EAE9F6C821365D32004D9DE8 /* DemoManifest.json */; };
 /* End PBXBuildFile section */
@@ -412,7 +411,6 @@
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
 		96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionCore.swift; sourceTree = "<group>"; };
-		963E5B082179831A00BC2415 /* CADEmployeeDetailsCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEmployeeDetailsCore.swift; sourceTree = "<group>"; };
 		963E5B092179831A00BC2415 /* CADOfficerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerCore.swift; sourceTree = "<group>"; };
 		963E5B0B2179831A00BC2415 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		96728C1E20D0B25600B82A53 /* APNS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "APNS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -575,6 +573,7 @@
 		AA5D5453214794EF00162017 /* AddressOptionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressOptionHandler.swift; sourceTree = "<group>"; };
 		AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTimeAccessoryView.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
+		AA9681CC2186912B0028C74E /* OfficerSearchSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchSectionViewModel.swift; sourceTree = "<group>"; };
 		AAB34284216F0A490065266E /* OfficerFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerFetchRequest.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* PS Core.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -599,7 +598,6 @@
 		EAE9F6BC21365AB8004D9DE8 /* BookOnPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnPresenter.swift; sourceTree = "<group>"; };
 		EAE9F6BD21365AB8004D9DE8 /* TaskListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListPresenter.swift; sourceTree = "<group>"; };
 		EAE9F6C521365D32004D9DE8 /* DemoSync.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoSync.json; sourceTree = "<group>"; };
-		EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
 		EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
 		EAE9F6C821365D32004D9DE8 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
 		ED681D8395AB5426A6FBB91B /* Pods-MPOLTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.external-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.external-debug.xcconfig"; sourceTree = "<group>"; };
@@ -736,6 +734,7 @@
 				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
 				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
 				AA10BB30216D99A100BC4071 /* OfficerSearchViewController.swift */,
+				AA9681CC2186912B0028C74E /* OfficerSearchSectionViewModel.swift */,
 			);
 			path = Officers;
 			sourceTree = "<group>";
@@ -890,7 +889,6 @@
 		963E5B072179831A00BC2415 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				963E5B082179831A00BC2415 /* CADEmployeeDetailsCore.swift */,
 				963E5B092179831A00BC2415 /* CADOfficerCore.swift */,
 			);
 			path = Objects;
@@ -1452,7 +1450,6 @@
 			children = (
 				EAE9F6C721365D32004D9DE8 /* DemoAPIManager.swift */,
 				EAE9F6C821365D32004D9DE8 /* DemoManifest.json */,
-				EAE9F6C621365D32004D9DE8 /* DemoOfficer.json */,
 				EAE9F6C521365D32004D9DE8 /* DemoSync.json */,
 			);
 			path = Demo;
@@ -1617,7 +1614,6 @@
 				378EAF0F216EFA3900960370 /* vancouver_mac.ppn in Resources */,
 				EAE9F6CC21365D32004D9DE8 /* DemoManifest.json in Resources */,
 				207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */,
-				EAE9F6CA21365D32004D9DE8 /* DemoOfficer.json in Resources */,
 				1900374521081DC80030B15C /* DemoPrepopulate in Resources */,
 				208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */,
 				37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */,
@@ -1857,7 +1853,6 @@
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
 				96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
-				963E5B0C2179831A00BC2415 /* CADEmployeeDetailsCore.swift in Sources */,
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
 				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
@@ -2004,6 +1999,7 @@
 				96B775232140F8EE00836B83 /* RetrievedEventSummaryViewController.swift in Sources */,
 				96B775A5214206F100836B83 /* WildcardParserDefinition.swift in Sources */,
 				96B775222140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift in Sources */,
+				AA9681CD2186912B0028C74E /* OfficerSearchSectionViewModel.swift in Sources */,
 				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
 				96B775AA214206F100836B83 /* OrganisationParserDefinition.swift in Sources */,
 				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,

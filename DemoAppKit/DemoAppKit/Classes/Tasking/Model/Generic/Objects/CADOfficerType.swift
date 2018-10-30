@@ -25,6 +25,7 @@ public protocol CADOfficerType: class {
     var rank: String? { get set }
     var remarks: String? { get set }
     var station: String? { get set }
+    var region: String? { get set }
 
     // MARK: - Generated
     var displayName: String { get }

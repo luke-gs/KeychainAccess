@@ -17,12 +17,17 @@ open class CADStateManagerBase: CADStateManagerType {
 
     public init(apiManager: CADAPIManagerType) {
         self.apiManager = apiManager
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(clearSession), name: .userSessionEnded, object: nil)
     }
 
     // MARK: - CADStateManagerType Properties
 
     /// The logged in officer details
-    open var officerDetails: CADEmployeeDetailsType?
+    open var officerDetails: CADOfficerType? {
+        MPLUnimplemented()
+    }
 
     /// The patrol group
     open var patrolGroup: String? {
@@ -281,11 +286,6 @@ open class CADStateManagerBase: CADStateManagerType {
             for officer in syncDetails.officers {
                 officersById[officer.id] = officer
             }
-
-            // Make sure logged in officer is in cache too
-            if let officerDetails = officerDetails {
-                officersById[officerDetails.id] = officerDetails
-            }
         }
     }
 
@@ -324,8 +324,7 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Clears all session data properties
-    open func clearSession() {
-        self.officerDetails = nil
+    @objc open func clearSession() {
         self.patrolGroup = nil
         self.lastBookOn = nil
         self.lastSync = nil
@@ -357,11 +356,6 @@ open class CADStateManagerBase: CADStateManagerType {
 
     /// Sync a map bounding box
     open func syncBoundingBox(_ boundingBox: MKMapRect.BoundingBox, force: Bool = false) -> Promise<Void> {
-        MPLRequiresConcreteImplementation()
-    }
-
-    /// Fetch details for a specific employee, or nil for current user
-    open func getEmployeeDetails(identifier: String?) -> Promise<CADEmployeeDetailsType> {
         MPLRequiresConcreteImplementation()
     }
 
