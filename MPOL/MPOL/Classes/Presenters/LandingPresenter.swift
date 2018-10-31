@@ -174,8 +174,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 }
             }
 
-            let didTapItem: ((EntityDraftListViewController, Int) -> Void) = { vc, offset in
-                guard let event = eventsManager.eventBucket.objects?[offset] else { return }
+            let didTapItem: ((EntityDraftListViewController, Int, String) -> Void) = { vc, offset, id in
+                guard let event = eventsManager.event(for: id) else { return }
                 presentScreen(for: event, from: vc)
             }
 
