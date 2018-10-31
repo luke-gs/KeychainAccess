@@ -12,46 +12,21 @@ import PublicSafetyKit
 /// Displays create person screen
 public class PersonEditViewController: FormBuilderViewController {
 
-    // MARK: - Reference
-
-    public let initialPerson: Person?
-
     // MARK: - Storage
 
-    private let finalPerson = Person(id: UUID().uuidString)
+    private var finalPerson = Person(id: UUID().uuidString)
     private let finalDescription = PersonDescription(id: UUID().uuidString)
 
-    private let mobile: Contact = {
-        let contact = Contact(id: UUID().uuidString)
-        contact.type = .mobile
-        return contact
-    }()
     private var locations: [(DetailCreationAddressType, LocationSelectionType, String?)]?
-
-    private let home: Contact = {
-        let contact = Contact(id: UUID().uuidString)
-        contact.type = .phone
-        return contact
-    }()
-
-    private let work: Contact = {
-        let contact = Contact(id: UUID().uuidString)
-        contact.type = .phone
-        return contact
-    }()
-
-    private let email: Contact = {
-        let contact = Contact(id: UUID().uuidString)
-        contact.type = .email
-        return contact
-    }()
 
     private let numberFormatter = NumberFormatter()
 
     // MARK: - Initializer
 
     public init(initialPerson: Person? = nil) {
-        self.initialPerson = initialPerson
+        if let initialPerson = initialPerson {
+            self.finalPerson = initialPerson
+        }
         super.init()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped(_:)))
@@ -70,27 +45,27 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("First Name", comment: ""))
-            .text(finalPerson.givenName ?? initialPerson?.givenName)
+            .text(finalPerson.givenName)
             .onValueChanged { self.finalPerson.givenName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Middle Name/s", comment: ""))
-            .text(finalPerson.middleNames ?? initialPerson?.middleNames)
+            .text(finalPerson.middleNames)
             .onValueChanged { self.finalPerson.middleNames = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Last Name", comment: ""))
-            .text(finalPerson.familyName ?? initialPerson?.familyName)
+            .text(finalPerson.familyName)
             .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Identification Number", comment: ""))
-            .text(finalPerson.identificationNumber ?? initialPerson?.identificationNumber)
+            .text(finalPerson.identificationNumber)
             .width(.column(4))
             .onValueChanged { [unowned self] value in
                 self.finalPerson.identificationNumber = value
@@ -99,14 +74,14 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += DateFormItem()
             .title(NSLocalizedString("Date Of Birth", comment: ""))
             .dateFormatter(.preferredDateStyle)
-            .selectedValue(finalPerson.dateOfBirth ?? initialPerson?.dateOfBirth)
+            .selectedValue(finalPerson.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Place of Birth", comment: ""))
-            .text(finalPerson.placeOfBirth ?? initialPerson?.placeOfBirth)
+            .text(finalPerson.placeOfBirth)
             .width(.column(4))
             .onValueChanged { [unowned self] value in
                 self.finalPerson.placeOfBirth = value
@@ -125,7 +100,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .options(Person.Gender.allCases)
             .selectedValue(finalPerson.gender != nil
                 ? [finalPerson.gender!]
-                : (initialPerson?.gender != nil ? [initialPerson!.gender!] : nil))
+                : nil)
             .onValueChanged { self.finalPerson.gender = $0?.first }
             .width(.column(4))
 
@@ -257,10 +232,11 @@ public class PersonEditViewController: FormBuilderViewController {
                             self.finalPerson.aliases?[index].nickname = value
                     }
                 } else {
-                    // TODO: how should the creative look when displaying maiden name, etc
                     builder += TextFieldFormItem()
                         .title(alias.type)
-                        .text((alias.lastName ?? "") + (alias.middleNames ?? "") + (alias.firstName ?? ""))
+                        .text((alias.lastName != nil ? "\(alias.lastName!)," : "")
+                            + alias.firstName!
+                            + (alias.middleNames ?? ""))
                         .required()
                         .width(.column(1))
                         .onValueChanged { [unowned self] _ in
