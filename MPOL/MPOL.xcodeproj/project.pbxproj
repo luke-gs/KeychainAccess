@@ -58,7 +58,6 @@
 		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
 		207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */; };
 		207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */; };
-		208213B02186A2760039D401 /* DetailCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208213AF2186A2760039D401 /* DetailCreationViewModel.swift */; };
 		208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */; };
 		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
 		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
@@ -361,7 +360,6 @@
 		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VehicleSearchHelp.html; sourceTree = "<group>"; };
 		207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeManager+HTML.swift"; sourceTree = "<group>"; };
-		208213AF2186A2760039D401 /* DetailCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCreationViewModel.swift; sourceTree = "<group>"; };
 		208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PersonSearchHelp.html; sourceTree = "<group>"; };
 		208A85BF2161ECFB00FEC69B /* LightModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = LightModeStyle.css; sourceTree = "<group>"; };
 		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
@@ -1115,7 +1113,6 @@
 			isa = PBXGroup;
 			children = (
 				20E61AB32189365800B65F43 /* Detail */,
-				208213AF2186A2760039D401 /* DetailCreationViewModel.swift */,
 				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
 				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
@@ -1913,7 +1910,6 @@
 				AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */,
 				96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
-				208213B02186A2760039D401 /* DetailCreationViewModel.swift in Sources */,
 				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,

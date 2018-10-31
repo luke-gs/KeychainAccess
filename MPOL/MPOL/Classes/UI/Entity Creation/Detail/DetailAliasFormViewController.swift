@@ -15,8 +15,14 @@ public class DetailAliasFormViewController: FormBuilderViewController {
 
     public var viewModel: DetailAliasFormViewModel
 
-    public init(viewModel: DetailAliasFormViewModel) {
+    public typealias SubmitHandler = (DetailAliasFormViewModel) -> Void
+
+    /// The handler for submitting the data
+    public var submitHandler: SubmitHandler?
+
+    public init(viewModel: DetailAliasFormViewModel, submitHandler: SubmitHandler?) {
         self.viewModel = viewModel
+        self.submitHandler = submitHandler
         super.init()
     }
 
@@ -106,7 +112,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            viewModel.delegate?.onComplete(alias: self.viewModel.personAlias!)
+            submitHandler?(self.viewModel)
             dismiss(animated: true, completion: nil)
         }
     }

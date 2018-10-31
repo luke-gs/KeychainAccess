@@ -201,8 +201,15 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
             .actionButton(title: "Add", handler: { [unowned self] _ in
-                self.present(EntityScreen.createEntityDetail(type: .contact,
-                                                             delegate: self))
+                self.present(EntityScreen.createEntityContactDetail { [unowned self] viewModel in
+                    guard let contact = viewModel.contact else { return }
+                    if self.finalPerson.contacts != nil {
+                        self.finalPerson.contacts!.append(contact)
+                    } else {
+                        self.finalPerson.contacts = [contact]
+                    }
+                    self.reloadForm()
+                })
             })
 
         if let contacts = finalPerson.contacts {
@@ -227,8 +234,15 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
             .actionButton(title: "Add", handler: { _ in
-                self.present(EntityScreen.createEntityDetail(type: .alias,
-                                                             delegate: self))
+                self.present(EntityScreen.createEntityAliasDetail { [unowned self] viewModel in
+                    guard let personAlias = viewModel.personAlias else { return }
+                    if self.finalPerson.aliases != nil {
+                        self.finalPerson.aliases!.append(personAlias)
+                    } else {
+                        self.finalPerson.aliases = [personAlias]
+                    }
+                    self.reloadForm()
+                })
             })
 
         if let aliases = finalPerson.aliases {
@@ -260,8 +274,15 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
             .actionButton(title: "Add", handler: { _ in
-                self.present(EntityScreen.createEntityDetail(type: .address,
-                                                             delegate: self))
+                self.present(EntityScreen.createEntityAddressDetail { [unowned self] viewModel in
+                    guard let location = viewModel.selectedLocation else { return }
+                    if self.locations != nil {
+                        self.locations!.append((viewModel.detailType, location, viewModel.locationRemark))
+                    } else {
+                        self.locations = [(viewModel.detailType, location, viewModel.locationRemark)]
+                    }
+                    self.reloadForm()
+                })
             })
         if let _locations = locations {
             for (index, (type, location, remark)) in _locations.enumerated() {
@@ -305,35 +326,4 @@ public class PersonEditViewController: FormBuilderViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-}
-
-extension PersonEditViewController: DetailCreationDelegate {
-
-    public func onComplete(contact: Contact) {
-        if finalPerson.contacts != nil {
-            finalPerson.contacts!.append(contact)
-        } else {
-            finalPerson.contacts = [contact]
-        }
-        reloadForm()
-    }
-
-    public func onComplete(alias: PersonAlias) {
-        if finalPerson.aliases != nil {
-            finalPerson.aliases!.append(alias)
-        } else {
-            finalPerson.aliases = [alias]
-        }
-        reloadForm()
-    }
-
-    public func onComplete(type: DetailCreationAddressType, location: LocationSelectionType, remark: String?) {
-        if locations != nil {
-            locations!.append((type, location, remark))
-        } else {
-            locations = [(type, location, remark)]
-        }
-        reloadForm()
-    }
-
 }

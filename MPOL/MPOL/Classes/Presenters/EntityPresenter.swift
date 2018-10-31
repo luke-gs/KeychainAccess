@@ -17,7 +17,9 @@ public enum EntityScreen: Presentable {
     case scanner
     // entity creation
     case createEntity(type: EntityType)
-    case createEntityDetail(type: DetailCreationType, delegate: DetailCreationDelegate?)
+    case createEntityContactDetail(submitHandler: DetailContactFormViewController.SubmitHandler?)
+    case createEntityAliasDetail(submitHandler: DetailAliasFormViewController.SubmitHandler?)
+    case createEntityAddressDetail(submitHandler: DetailAddressFormViewController.SubmitHandler?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -190,15 +192,14 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
 
-        case .createEntityDetail(let type, let delegate):
-            switch type {
-            case .contact:
-                return DetailContactFormViewController(viewModel: DetailContactFormViewModel(type: .empty, delegate: delegate))
-            case .address:
-                return DetailAddressFormViewController(viewModel: DetailAddressFormViewModel(type: .empty, delegate: delegate))
-            case .alias:
-                return DetailAliasFormViewController(viewModel: DetailAliasFormViewModel(type: .empty, delegate: delegate))
-            }
+        case .createEntityAliasDetail(let handler):
+            return DetailAliasFormViewController(viewModel: DetailAliasFormViewModel(), submitHandler: handler)
+
+        case .createEntityAddressDetail(let handler):
+            return DetailAddressFormViewController(viewModel: DetailAddressFormViewModel(), submitHandler: handler)
+
+        case .createEntityContactDetail(let handler):
+            return DetailContactFormViewController(viewModel: DetailContactFormViewModel(), submitHandler: handler)
         }
     }
 
@@ -214,18 +215,17 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
-        case .createEntityDetail(let type, _):
+        case .createEntityAddressDetail:
             let container = ModalNavigationController(rootViewController: to)
-            var screenSize: CGSize
-            switch type {
-            case .contact:
-                screenSize = DetailCreationConstant.ContactScreenSize
-            case .alias:
-                screenSize = DetailCreationConstant.AliasScreenSize
-            case .address:
-                screenSize = DetailCreationConstant.AddressScreenSize
-            }
-            container.preferredContentSize = screenSize
+            container.preferredContentSize = CGSize(width: 512, height: 376)
+            from.presentModalViewController(container)
+        case .createEntityAliasDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 328)
+            from.presentModalViewController(container)
+        case .createEntityContactDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 256)
             from.presentModalViewController(container)
         default:
             from.show(to, sender: from)
@@ -235,21 +235,4 @@ public class EntityPresenter: Presenter {
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is EntityScreen.Type
     }
-
-    public struct DetailCreationConstant {
-        public static let ContactScreenSize = CGSize(width: 512, height: 256)
-        public static let AliasScreenSize = CGSize(width: 512, height: 328)
-        public static let AddressScreenSize = CGSize(width: 512, height: 376)
-    }
-}
-
-/// Type of form
-///
-/// - contact: contact form
-/// - alias: alias form
-/// - address: address form
-public enum DetailCreationType {
-    case contact
-    case alias
-    case address
 }

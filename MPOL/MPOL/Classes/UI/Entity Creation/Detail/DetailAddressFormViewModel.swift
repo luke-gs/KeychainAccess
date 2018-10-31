@@ -37,10 +37,7 @@ public class DetailAddressFormViewModel {
     public var selectedLocation: LocationSelectionType?
     public var locationRemark: String?
 
-    public weak var delegate: DetailCreationDelegate?
-
-    public init(type: DetailCreationAddressType, delegate: DetailCreationDelegate? = nil) {
+    public init(type: DetailCreationAddressType = .empty) {
         self.detailType = type
-        self.delegate = delegate
     }
 }

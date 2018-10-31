@@ -15,8 +15,14 @@ public class DetailContactFormViewController: FormBuilderViewController {
 
     public var viewModel: DetailContactFormViewModel
 
-    public init(viewModel: DetailContactFormViewModel) {
+    public typealias SubmitHandler = (DetailContactFormViewModel) -> Void
+
+    /// The handler for submitting the data
+    public var submitHandler: SubmitHandler?
+
+    public init(viewModel: DetailContactFormViewModel, submitHandler: SubmitHandler?) {
         self.viewModel = viewModel
+        self.submitHandler = submitHandler
         super.init()
     }
 
@@ -86,7 +92,7 @@ public class DetailContactFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            viewModel.delegate?.onComplete(contact: self.viewModel.contact!)
+            submitHandler?(self.viewModel)
             dismiss(animated: true, completion: nil)
         }
     }

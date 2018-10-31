@@ -15,8 +15,14 @@ public class DetailAddressFormViewController: FormBuilderViewController {
 
     public var viewModel: DetailAddressFormViewModel
 
-    public init(viewModel: DetailAddressFormViewModel) {
+    public typealias SubmitHandler = (DetailAddressFormViewModel) -> Void
+
+    /// The handler for submitting the data
+    public var submitHandler: SubmitHandler?
+
+    public init(viewModel: DetailAddressFormViewModel, submitHandler: SubmitHandler?) {
         self.viewModel = viewModel
+        self.submitHandler = submitHandler
         super.init()
     }
 
@@ -88,9 +94,7 @@ public class DetailAddressFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            viewModel.delegate?.onComplete(type: self.viewModel.detailType,
-                                           location: self.viewModel.selectedLocation!,
-                                           remark: self.viewModel.locationRemark)
+            submitHandler?(self.viewModel)
             dismiss(animated: true, completion: nil)
         }
     }

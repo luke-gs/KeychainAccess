@@ -43,10 +43,7 @@ public class DetailAliasFormViewModel {
 
     public var personAlias: PersonAlias?
 
-    public weak var delegate: DetailCreationDelegate?
-
-    public init(type: DetailCreationAliasType, delegate: DetailCreationDelegate? = nil) {
+    public init(type: DetailCreationAliasType = .empty) {
         self.detailType = type
-        self.delegate = delegate
     }
 }

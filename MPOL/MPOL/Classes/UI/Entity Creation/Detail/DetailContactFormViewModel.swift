@@ -40,10 +40,7 @@ public class DetailContactFormViewModel {
 
     public var contact: Contact?
 
-    public weak var delegate: DetailCreationDelegate?
-
-    public init(type: DetailCreationContactType, delegate: DetailCreationDelegate? = nil) {
+    public init(type: DetailCreationContactType = .empty) {
         self.detailType = type
-        self.delegate = delegate
     }
 }
