@@ -191,10 +191,15 @@ public class EntityPresenter: Presenter {
             return viewController
 
         case .createEntityDetail(let type, let delegate):
-            let detailViewController = DetailCreationViewController(viewModel: DetailCreationViewModel(type: type, delegate: delegate))
-            return detailViewController
+            switch type {
+            case .contact:
+                return DetailContactFormViewController(viewModel: DetailContactFormViewModel(type: .empty, delegate: delegate))
+            case .address:
+                return DetailAddressFormViewController(viewModel: DetailAddressFormViewModel(type: .empty, delegate: delegate))
+            case .alias:
+                return DetailAliasFormViewController(viewModel: DetailAliasFormViewModel(type: .empty, delegate: delegate))
+            }
         }
-
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
@@ -236,4 +241,15 @@ public class EntityPresenter: Presenter {
         public static let AliasScreenSize = CGSize(width: 512, height: 328)
         public static let AddressScreenSize = CGSize(width: 512, height: 376)
     }
+}
+
+/// Type of form
+///
+/// - contact: contact form
+/// - alias: alias form
+/// - address: address form
+public enum DetailCreationType {
+    case contact
+    case alias
+    case address
 }

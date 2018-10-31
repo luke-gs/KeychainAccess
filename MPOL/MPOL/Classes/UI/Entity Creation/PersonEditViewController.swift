@@ -201,7 +201,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
             .actionButton(title: "Add", handler: { [unowned self] _ in
-                self.present(EntityScreen.createEntityDetail(type: .contact(.empty),
+                self.present(EntityScreen.createEntityDetail(type: .contact,
                                                              delegate: self))
             })
 
@@ -227,7 +227,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
             .actionButton(title: "Add", handler: { _ in
-                self.present(EntityScreen.createEntityDetail(type: .alias(.empty),
+                self.present(EntityScreen.createEntityDetail(type: .alias,
                                                              delegate: self))
             })
 
@@ -260,7 +260,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
             .actionButton(title: "Add", handler: { _ in
-                self.present(EntityScreen.createEntityDetail(type: .address(.empty),
+                self.present(EntityScreen.createEntityDetail(type: .address,
                                                              delegate: self))
             })
         if let _locations = locations {

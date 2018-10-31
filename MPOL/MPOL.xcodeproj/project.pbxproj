@@ -58,12 +58,17 @@
 		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
 		207A0FFB21631C2C00153AC3 /* VehicleSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */; };
 		207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */; };
-		208213AE218698BC0039D401 /* DetailCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208213AD218698BC0039D401 /* DetailCreationViewController.swift */; };
 		208213B02186A2760039D401 /* DetailCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208213AF2186A2760039D401 /* DetailCreationViewModel.swift */; };
 		208A85BC2161C9F000FEC69B /* PersonSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */; };
 		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
 		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
 		20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C97904215C93610067977B /* CreateTaskPresenter.swift */; };
+		20E61AB52189368600B65F43 /* DetailContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB42189368600B65F43 /* DetailContactFormViewController.swift */; };
+		20E61AB72189369500B65F43 /* DetailAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB62189369500B65F43 /* DetailAliasFormViewController.swift */; };
+		20E61AB9218936AE00B65F43 /* DetailAddressFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB8218936AE00B65F43 /* DetailAddressFormViewController.swift */; };
+		20E61ABB218936BC00B65F43 /* DetailContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABA218936BC00B65F43 /* DetailContactFormViewModel.swift */; };
+		20E61ABD218936C600B65F43 /* DetailAliasFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABC218936C600B65F43 /* DetailAliasFormViewModel.swift */; };
+		20E61ABF218936D200B65F43 /* DetailAddressFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABE218936D200B65F43 /* DetailAddressFormViewModel.swift */; };
 		37097CA921648B000036434C /* VoiceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37097CA821648B000036434C /* VoiceSearchViewController.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
@@ -356,13 +361,18 @@
 		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FFA21631C2C00153AC3 /* VehicleSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VehicleSearchHelp.html; sourceTree = "<group>"; };
 		207A0FFE21632FF000153AC3 /* ThemeManager+HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeManager+HTML.swift"; sourceTree = "<group>"; };
-		208213AD218698BC0039D401 /* DetailCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCreationViewController.swift; sourceTree = "<group>"; };
 		208213AF2186A2760039D401 /* DetailCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCreationViewModel.swift; sourceTree = "<group>"; };
 		208A85BB2161C9F000FEC69B /* PersonSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PersonSearchHelp.html; sourceTree = "<group>"; };
 		208A85BF2161ECFB00FEC69B /* LightModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = LightModeStyle.css; sourceTree = "<group>"; };
 		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
 		2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		20C97904215C93610067977B /* CreateTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskPresenter.swift; sourceTree = "<group>"; };
+		20E61AB42189368600B65F43 /* DetailContactFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContactFormViewController.swift; sourceTree = "<group>"; };
+		20E61AB62189369500B65F43 /* DetailAliasFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAliasFormViewController.swift; sourceTree = "<group>"; };
+		20E61AB8218936AE00B65F43 /* DetailAddressFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddressFormViewController.swift; sourceTree = "<group>"; };
+		20E61ABA218936BC00B65F43 /* DetailContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContactFormViewModel.swift; sourceTree = "<group>"; };
+		20E61ABC218936C600B65F43 /* DetailAliasFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAliasFormViewModel.swift; sourceTree = "<group>"; };
+		20E61ABE218936D200B65F43 /* DetailAddressFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddressFormViewModel.swift; sourceTree = "<group>"; };
 		37097CA821648B000036434C /* VoiceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceSearchViewController.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -806,6 +816,19 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
+		20E61AB32189365800B65F43 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				20E61AB8218936AE00B65F43 /* DetailAddressFormViewController.swift */,
+				20E61ABE218936D200B65F43 /* DetailAddressFormViewModel.swift */,
+				20E61AB62189369500B65F43 /* DetailAliasFormViewController.swift */,
+				20E61ABC218936C600B65F43 /* DetailAliasFormViewModel.swift */,
+				20E61AB42189368600B65F43 /* DetailContactFormViewController.swift */,
+				20E61ABA218936BC00B65F43 /* DetailContactFormViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
 			isa = PBXGroup;
 			children = (
@@ -1091,7 +1114,7 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
-				208213AD218698BC0039D401 /* DetailCreationViewController.swift */,
+				20E61AB32189365800B65F43 /* Detail */,
 				208213AF2186A2760039D401 /* DetailCreationViewModel.swift */,
 				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
 				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
@@ -1902,9 +1925,11 @@
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
 				96B775AB214206F100836B83 /* PersonParserDefinition.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
+				20E61AB52189368600B65F43 /* DetailContactFormViewController.swift in Sources */,
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
 				96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
+				20E61AB9218936AE00B65F43 /* DetailAddressFormViewController.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
 				2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */,
@@ -1935,7 +1960,7 @@
 				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
 				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
 				96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */,
-				208213AE218698BC0039D401 /* DetailCreationViewController.swift in Sources */,
+				20E61ABD218936C600B65F43 /* DetailAliasFormViewModel.swift in Sources */,
 				96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */,
 				96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */,
 				96B7755A2140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift in Sources */,
@@ -1950,6 +1975,7 @@
 				96B775702140F8EE00836B83 /* Media.swift in Sources */,
 				96B775822140F8EE00836B83 /* MPOLSource.swift in Sources */,
 				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
+				20E61ABB218936BC00B65F43 /* DetailContactFormViewModel.swift in Sources */,
 				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
@@ -1970,6 +1996,7 @@
 				96B775832140F8EE00836B83 /* Organisation.swift in Sources */,
 				96B775302140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift in Sources */,
 				96B7754F2140F8EE00836B83 /* OrganisationFetchRequest.swift in Sources */,
+				20E61ABF218936D200B65F43 /* DetailAddressFormViewModel.swift in Sources */,
 				96B775202140F8EE00836B83 /* OrganisationInfoViewModel.swift in Sources */,
 				96B775602140F8EE00836B83 /* OrganisationRetrieveStrategy.swift in Sources */,
 				AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */,
@@ -2001,6 +2028,7 @@
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,
+				20E61AB72189369500B65F43 /* DetailAliasFormViewController.swift in Sources */,
 				96B775622140F8EE00836B83 /* PhoneNumber.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				96B7756D2140F8EE00836B83 /* RetrievedEvent.swift in Sources */,
