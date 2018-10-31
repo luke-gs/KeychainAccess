@@ -66,30 +66,30 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder.title = "Person"
 
-        builder += LargeTextHeaderFormItem(text: "General").separatorColor(.clear)
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("General", comment: "")).separatorColor(.clear)
 
         builder += TextFieldFormItem()
-            .title("First Name")
+            .title(NSLocalizedString("First Name", comment: ""))
             .text(finalPerson.givenName ?? initialPerson?.givenName)
             .onValueChanged { self.finalPerson.givenName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Middle Name/s")
+            .title(NSLocalizedString("Middle Name/s", comment: ""))
             .text(finalPerson.middleNames ?? initialPerson?.middleNames)
             .onValueChanged { self.finalPerson.middleNames = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Last Name")
+            .title(NSLocalizedString("Last Name", comment: ""))
             .text(finalPerson.familyName ?? initialPerson?.familyName)
             .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Identification Number")
+            .title(NSLocalizedString("Identification Number", comment: ""))
             .text(finalPerson.identificationNumber ?? initialPerson?.identificationNumber)
             .width(.column(4))
             .onValueChanged { [unowned self] value in
@@ -97,7 +97,7 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         builder += DateFormItem()
-            .title("Date Of Birth")
+            .title(NSLocalizedString("Date Of Birth", comment: ""))
             .dateFormatter(.preferredDateStyle)
             .selectedValue(finalPerson.dateOfBirth ?? initialPerson?.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
@@ -105,7 +105,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title("Place of Birth")
+            .title(NSLocalizedString("Place of Birth", comment: ""))
             .text(finalPerson.placeOfBirth ?? initialPerson?.placeOfBirth)
             .width(.column(4))
             .onValueChanged { [unowned self] value in
@@ -113,7 +113,7 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         builder += TextFieldFormItem()
-            .title("Ethnicity")
+            .title(NSLocalizedString("Ethnicity", comment: ""))
             .text(finalDescription.ethnicity)
             .width(.column(4))
             .onValueChanged { [unowned self] value in
@@ -121,7 +121,7 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         builder += DropDownFormItem()
-            .title("Gender")
+            .title(NSLocalizedString("Gender", comment: ""))
             .options(Person.Gender.allCases)
             .selectedValue(finalPerson.gender != nil
                 ? [finalPerson.gender!]
@@ -129,7 +129,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .onValueChanged { self.finalPerson.gender = $0?.first }
             .width(.column(4))
 
-        builder += LargeTextHeaderFormItem(text: "Physical Description").separatorColor(.clear)
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Physical Description", comment: "")).separatorColor(.clear)
 
         builder += TextFieldFormItem()
             .title("Height (cm)")
@@ -142,8 +142,8 @@ public class PersonEditViewController: FormBuilderViewController {
                     self.finalDescription.height = nil
                 }
             }
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: "Height can only be number.")
-            .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Height can only be number.", comment: ""))
+            .strictValidate(CountSpecification.max(3), message: NSLocalizedString("Maximum number of characters reached.", comment: ""))
             .width(.column(4))
 
         builder += TextFieldFormItem()
@@ -151,13 +151,13 @@ public class PersonEditViewController: FormBuilderViewController {
             .text(finalDescription.weight != nil ? String(finalDescription.weight!) : nil)
             .placeholder("0 kg")
             .onValueChanged { self.finalDescription.weight = $0 }
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: "Weight can only be number.")
-            .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Weight can only be number.", comment: ""))
+            .strictValidate(CountSpecification.max(3), message: NSLocalizedString("Maximum number of characters reached.", comment: ""))
             .width(.column(4))
 
         if let items = Manifest.shared.entries(for: .personBuild)?.rawValues() {
             builder += DropDownFormItem()
-                .title("Build")
+                .title(NSLocalizedString("Build", comment: ""))
                 .options(items)
                 .selectedValue(finalDescription.build != nil ? [finalDescription.build!] : nil)
                 .onValueChanged { self.finalDescription.build = $0?.first }
@@ -166,7 +166,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         if let items = Manifest.shared.entries(for: .personRace)?.rawValues() {
             builder += DropDownFormItem()
-                .title("Race")
+                .title(NSLocalizedString("Race", comment: ""))
                 .options(items)
                 .selectedValue(finalDescription.race != nil ? [finalDescription.race!] : nil)
                 .onValueChanged { self.finalDescription.race = $0?.first }
@@ -175,7 +175,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         if let items = Manifest.shared.entries(for: .personEyeColour)?.rawValues() {
             builder += DropDownFormItem()
-                .title("Eye Colour")
+                .title(NSLocalizedString("Eye Colour", comment: ""))
                 .options(items)
                 .selectedValue(finalDescription.eyeColour != nil ? [finalDescription.eyeColour!] : nil)
                 .onValueChanged { self.finalDescription.eyeColour = $0?.first }
@@ -184,7 +184,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         if let items = Manifest.shared.entries(for: .personHairColour)?.rawValues() {
             builder += DropDownFormItem()
-                .title("Hair Colour")
+                .title(NSLocalizedString("Hair Colour", comment: ""))
                 .options(items)
                 .selectedValue(finalDescription.hairColour != nil ? [finalDescription.hairColour!] : nil)
                 .onValueChanged { self.finalDescription.hairColour = $0?.first }
@@ -199,7 +199,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         // Contact Section
 
-        builder += LargeTextHeaderFormItem(text: "Contact Details")
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
             .actionButton(title: "Add", handler: { [unowned self] _ in
                 self.present(EntityScreen.createEntityDetail(type: .contact(.empty),
                                                              delegate: self))
@@ -217,7 +217,7 @@ public class PersonEditViewController: FormBuilderViewController {
                         self.finalPerson.contacts?[index].value = value
                 }
                 if contact.type == .email {
-                    formItem.softValidate(EmailSpecification(), message: "Invalid email address")
+                    formItem.softValidate(EmailSpecification(), message: NSLocalizedString("Invalid email address", comment: ""))
                 }
                 builder += formItem
             }
@@ -225,7 +225,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         // Alias Section
 
-        builder += LargeTextHeaderFormItem(text: "Aliases")
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
             .actionButton(title: "Add", handler: { _ in
                 self.present(EntityScreen.createEntityDetail(type: .alias(.empty),
                                                              delegate: self))
@@ -258,7 +258,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         // Address Section
 
-        builder += LargeTextHeaderFormItem(text: "Addresses")
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
             .actionButton(title: "Add", handler: { _ in
                 self.present(EntityScreen.createEntityDetail(type: .address(.empty),
                                                              delegate: self))
