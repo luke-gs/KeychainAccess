@@ -168,32 +168,40 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
                 vc.present(eventCreationNavController, animated: true, completion: nil)
 
-                eventCreationVC.didSelectIncident = { incident in
+                eventCreationVC.didSelectIncident = { incidentType in
                     guard let event = eventsManager.create(eventType: .blank) else { return }
-
-                    let screenBuilder = EventScreenBuilder()
-                    let incidentsManager = IncidentsManager()
-
-                    // Add IncidentBuilders here
-                    incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
-                    incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
-                    incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
-
-                    if let incidentType = incident {
-                        _ = incidentsManager.create(incidentType: incidentType, in: event)
-                    }
-
-                    screenBuilder.incidentsManager = incidentsManager
-
-                    let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
-
-                    let viewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
-
-                    vc.present(viewController, animated: true, completion: nil)
+                    presentScreen(for: event, with: incidentType, from: vc)
                 }
             }
 
-            let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), title: "Events", didTapCreate: didTapCreate)
+            let didTapItem: ((EntityDraftListViewController, Int) -> Void) = { vc, offset in
+                guard let event = eventsManager.eventBucket.objects?[offset] else { return }
+                presentScreen(for: event, from: vc)
+            }
+
+            func presentScreen(for event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
+                let screenBuilder = EventScreenBuilder()
+                let incidentsManager = IncidentsManager()
+
+                // Add IncidentBuilders here
+                incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
+                incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
+                incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
+
+                if let incidentType = incidentType {
+                    _ = incidentsManager.create(incidentType: incidentType, in: event)
+                }
+
+                screenBuilder.incidentsManager = incidentsManager
+
+                let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
+
+                let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
+
+                viewController.present(eventSplitViewController, animated: true, completion: nil)
+            }
+
+            let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), title: "Events", didTapCreate: didTapCreate, didTapItem: didTapItem)
 
             eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
