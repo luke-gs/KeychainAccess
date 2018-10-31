@@ -40,22 +40,25 @@ public class DetailContactFormViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
         title = AssetManager.shared.string(forKey: .addContactFormTitle)
+        if viewModel.contact == nil {
+            viewModel.contact = Contact(id: UUID().uuidString)
+        }
+        viewModel.contact?.type = viewModel.selectedType
         builder += DropDownFormItem()
             .title("Contact Type")
             .options(Contact.ContactType.allCases.map { $0.localizedDescription() })
             .required()
-            .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!.localizedDescription()] : [])
+            .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!.localizedDescription()] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first != nil ? Contact.ContactType.contactType(from: value!.first!) : nil
                 self.reloadForm()
             }
             .width(.column(1))
 
-        viewModel.contact = Contact(id: UUID().uuidString)
-        viewModel.contact?.type = viewModel.selectedType
         if viewModel.selectedType != nil {
             let formItem = TextFieldFormItem()
                 .title(viewModel.selectedType?.localizedDescription())
+                .text(viewModel.contact?.value)
                 .required()
                 .width(.column(1))
                 .accessory(ItemAccessory.pencil)

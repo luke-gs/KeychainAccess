@@ -40,7 +40,9 @@ public class DetailAliasFormViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
         title = AssetManager.shared.string(forKey: .addAliasFormTitle)
-        viewModel.personAlias = PersonAlias(id: UUID().uuidString)
+        if viewModel.personAlias == nil {
+            viewModel.personAlias = PersonAlias(id: UUID().uuidString)
+        }
 
         builder += DropDownFormItem()
             .title("Type")
@@ -56,6 +58,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             viewModel.personAlias?.type = type
             let firstNameFormItem =  TextFieldFormItem()
                 .title("First Name")
+                .text(viewModel.personAlias?.firstName)
                 .width(.column(1))
                 .required()
                 .onValueChanged {
@@ -64,6 +67,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
 
             let middleNameFormItem = TextFieldFormItem()
                 .title("Middle Name/s")
+                .text(viewModel.personAlias?.middleNames)
                 .width(.column(1))
                 .onValueChanged {
                     self.viewModel.personAlias?.middleNames = $0
@@ -71,6 +75,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
 
             let lastNameFormItem = TextFieldFormItem()
                 .title("Last Name")
+                .text(viewModel.personAlias?.lastName)
                 .width(.column(1))
                 .onValueChanged {
                     self.viewModel.personAlias?.lastName = $0

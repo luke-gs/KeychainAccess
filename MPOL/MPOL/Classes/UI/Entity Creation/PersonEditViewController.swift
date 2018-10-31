@@ -176,15 +176,17 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
             .actionButton(title: "Add", handler: { [unowned self] _ in
-                self.present(EntityScreen.createEntityContactDetail { [unowned self] viewModel in
-                    guard let contact = viewModel.contact else { return }
-                    if self.finalPerson.contacts != nil {
-                        self.finalPerson.contacts!.append(contact)
-                    } else {
-                        self.finalPerson.contacts = [contact]
-                    }
-                    self.reloadForm()
-                })
+                self.present(
+                    EntityScreen.createEntityContactDetail(viewModel: DetailContactFormViewModel(),
+                                                           submitHandler: { [unowned self] viewModel in
+                                                            guard let contact = viewModel.contact else { return }
+                                                            if self.finalPerson.contacts != nil {
+                                                                self.finalPerson.contacts!.append(contact)
+                                                            } else {
+                                                                self.finalPerson.contacts = [contact]
+                                                            }
+                                                            self.reloadForm()
+                    }))
             })
 
         if let contacts = finalPerson.contacts {
@@ -198,6 +200,18 @@ public class PersonEditViewController: FormBuilderViewController {
                         self.finalPerson.contacts?.remove(at: index)
                         self.reloadForm()
                     })])
+                    .onSelection { [unowned self] _ in
+                        let viewModel = DetailContactFormViewModel()
+                        viewModel.contact = contact
+                        viewModel.selectedType = contact.type
+                        self.present(
+                            EntityScreen.createEntityContactDetail(viewModel: viewModel,
+                                                                   submitHandler: { [unowned self] viewModel in
+                                                                    guard let contact = viewModel.contact else { return }
+                                                                    self.finalPerson.contacts?[index] = contact
+                                                                    self.reloadForm()
+                            }))
+                    }
                 builder += formItem
             }
         }
@@ -205,48 +219,52 @@ public class PersonEditViewController: FormBuilderViewController {
         // Alias Section
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
-            .actionButton(title: "Add", handler: { _ in
-                self.present(EntityScreen.createEntityAliasDetail { [unowned self] viewModel in
-                    guard let personAlias = viewModel.personAlias else { return }
-                    if self.finalPerson.aliases != nil {
-                        self.finalPerson.aliases!.append(personAlias)
-                    } else {
-                        self.finalPerson.aliases = [personAlias]
-                    }
-                    self.reloadForm()
-                })
+            .actionButton(title: "Add", handler: { [unowned self] _ in
+                self.present(
+                    EntityScreen.createEntityAliasDetail(viewModel: DetailAliasFormViewModel(),
+                                                         submitHandler: { [unowned self] viewModel in
+                                                            guard let personAlias = viewModel.personAlias else { return }
+                                                            if self.finalPerson.aliases != nil {
+                                                                self.finalPerson.aliases!.append(personAlias)
+                                                            } else {
+                                                                self.finalPerson.aliases = [personAlias]
+                                                            }
+                                                            self.reloadForm()
+                    }))
             })
 
         if let aliases = finalPerson.aliases {
             for (index, alias) in aliases.enumerated() {
-                if let nickname = alias.nickname {
-                    builder += TextFieldFormItem()
-                        .title(alias.type)
-                        .text(nickname)
-                        .required()
-                        .width(.column(1))
-                        .onValueChanged { [unowned self] value in
-                            self.finalPerson.aliases?[index].nickname = value
+                let displayName = (alias.lastName != nil ? "\(alias.lastName!)," : "")
+                    + alias.firstName!
+                    + (alias.middleNames ?? "")
+                builder += ValueFormItem()
+                    .title(alias.type)
+                    .value(displayName)
+                    .width(.column(1))
+                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
+                        self.finalPerson.aliases?.remove(at: index)
+                        self.reloadForm()
+                    })])
+                    .onSelection { [unowned self] _ in
+                        let viewModel = DetailAliasFormViewModel()
+                        viewModel.personAlias = alias
+                        viewModel.selectedType = AnyPickable(alias.type!)
+                        self.present(
+                            EntityScreen.createEntityAliasDetail(viewModel: viewModel,
+                                                                 submitHandler: { [unowned self] viewModel in
+                                                                    guard let personAlias = viewModel.personAlias else { return }
+                                                                    self.finalPerson.aliases?[index] = personAlias
+                                                                    self.reloadForm()
+                            }))
                     }
-                } else {
-                    builder += ValueFormItem()
-                        .title(alias.type)
-                        .value((alias.lastName != nil ? "\(alias.lastName!)," : "")
-                            + alias.firstName!
-                            + (alias.middleNames ?? ""))
-                        .width(.column(1))
-                        .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
-                            self.finalPerson.aliases?.remove(at: index)
-                            self.reloadForm()
-                        })])
-                }
             }
         }
 
         // Address Section
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
-            .actionButton(title: "Add", handler: { _ in
+            .actionButton(title: "Add", handler: { [unowned self] _ in
                 self.present(EntityScreen.createEntityAddressDetail { [unowned self] viewModel in
                     guard let location = viewModel.selectedLocation else { return }
                     if self.locations != nil {
