@@ -189,18 +189,15 @@ public class PersonEditViewController: FormBuilderViewController {
 
         if let contacts = finalPerson.contacts {
             for (index, contact) in contacts.enumerated() {
-                let formItem = TextFieldFormItem()
+                let formItem = ValueFormItem()
                     .title(contact.type?.localizedDescription())
-                    .text(contact.value)
+                    .value(contact.value)
                     .width(.column(1))
                     .accessory(ItemAccessory.pencil)
-                    .required()
-                    .onValueChanged { [unowned self] value in
-                        self.finalPerson.contacts?[index].value = value
-                }
-                if contact.type == .email {
-                    formItem.softValidate(EmailSpecification(), message: NSLocalizedString("Invalid email address", comment: ""))
-                }
+                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
+                        self.finalPerson.contacts?.remove(at: index)
+                        self.reloadForm()
+                    })])
                 builder += formItem
             }
         }
@@ -232,16 +229,16 @@ public class PersonEditViewController: FormBuilderViewController {
                             self.finalPerson.aliases?[index].nickname = value
                     }
                 } else {
-                    builder += TextFieldFormItem()
+                    builder += ValueFormItem()
                         .title(alias.type)
-                        .text((alias.lastName != nil ? "\(alias.lastName!)," : "")
+                        .value((alias.lastName != nil ? "\(alias.lastName!)," : "")
                             + alias.firstName!
                             + (alias.middleNames ?? ""))
-                        .required()
                         .width(.column(1))
-                        .onValueChanged { [unowned self] _ in
-                            // TODO: add handling based on creative
-                    }
+                        .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
+                            self.finalPerson.aliases?.remove(at: index)
+                            self.reloadForm()
+                        })])
                 }
             }
         }
@@ -272,6 +269,10 @@ public class PersonEditViewController: FormBuilderViewController {
                             self.locations?[index] = (type, location, remark)
                         }
                     })
+                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
+                        self.locations?.remove(at: index)
+                        self.reloadForm()
+                    })])
             }
         }
 
