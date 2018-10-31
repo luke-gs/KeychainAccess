@@ -182,7 +182,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 }
 
 extension CADResourceCore: Equatable {
-    public static func ==(lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
+    public static func == (lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
         return lhs.callsign == rhs.callsign
     }
 }

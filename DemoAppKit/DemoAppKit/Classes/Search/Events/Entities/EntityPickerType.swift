@@ -76,7 +76,7 @@ internal struct InvolvementPickerDefinition: EntityPickerTypeDefiniton {
                 if !viewModel.additionalActions(for: self.entity).isEmpty {
                     context.presentPickerViewController(type: .additionalAction, entity: self.entity)
                 } else {
-                    viewModel.addEntity(self.entity, with: context.viewModel.selectedInvolvements, and: nil )
+                    viewModel.addEntity(self.entity, with: context.viewModel.selectedInvolvements, and: nil)
                     context.updateLoadingManager()
                     context.reloadForm()
                     context.dismissAnimated()
@@ -135,7 +135,7 @@ internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
                     viewModel.updateActions(for: entity, with: actions)
                 }
             } else {
-                viewModel.addEntity(entity, with: viewModel.selectedInvolvements, and: actions )
+                viewModel.addEntity(entity, with: viewModel.selectedInvolvements, and: actions)
             }
 
             context.updateLoadingManager()

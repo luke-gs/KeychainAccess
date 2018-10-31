@@ -45,7 +45,9 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        if let image = image { return image }
+        if let image = image {
+            return image
+        }
         let imageSizing = EntityImageSizing(entity: officer)
         return imageSizing
     }

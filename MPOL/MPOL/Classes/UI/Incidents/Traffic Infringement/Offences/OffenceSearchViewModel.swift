@@ -54,7 +54,7 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
     }
 
     public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
-        //TODO: Implement a "selectButton" type for ItemAccessory
+        // TODO: Implement a "selectButton" type for ItemAccessory
         return ItemAccessory.disclosure
     }
 
@@ -74,7 +74,7 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
 
     public func searchTextChanged(to searchString: String) {
         if searchString.isEmpty {
-            //if string is empty, set filtered back to base copy
+            // if string is empty, set filtered back to base copy
             filteredItems = self.items
         } else {
             filteredItems = items.filter {$0.title.lowercased().contains(searchString.lowercased())}
@@ -82,7 +82,7 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
     }
 
     public func searchAction() -> Promise<Void>? {
-        //TODO: Implement search action to pull from server, if required
+        // TODO: Implement search action to pull from server, if required
         return nil
     }
 
