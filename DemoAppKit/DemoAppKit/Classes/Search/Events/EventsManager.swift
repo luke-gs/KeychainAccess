@@ -62,8 +62,6 @@ final public class EventsManager: DraftableManager {
     public var draftItems: [Draftable] {
         return eventBucket.objects?.compactMap { EventDraftable(event: $0) } ?? []
     }
-
-    public var draftCreationVC: UIViewController?
 }
 
 public protocol EventsManagerDelegate: class {
