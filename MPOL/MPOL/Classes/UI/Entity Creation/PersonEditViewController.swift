@@ -17,7 +17,7 @@ public class PersonEditViewController: FormBuilderViewController {
     private var finalPerson = Person(id: UUID().uuidString)
     private let finalDescription = PersonDescription(id: UUID().uuidString)
 
-    private var locations: [(AnyPickable, LocationSelectionType, String?)]?
+    private var locations: [(AnyPickable, LocationSelectionType)]?
 
     private let numberFormatter = NumberFormatter()
 
@@ -250,15 +250,15 @@ public class PersonEditViewController: FormBuilderViewController {
                 self.present(EntityScreen.createEntityAddressDetail { [unowned self] viewModel in
                     guard let location = viewModel.selectedLocation else { return }
                     if self.locations != nil {
-                        self.locations!.append((viewModel.selectedType!, location, viewModel.locationRemark))
+                        self.locations!.append((viewModel.selectedType!, location))
                     } else {
-                        self.locations = [(viewModel.selectedType!, location, viewModel.locationRemark)]
+                        self.locations = [(viewModel.selectedType!, location)]
                     }
                     self.reloadForm()
                 })
             })
         if let _locations = locations {
-            for (index, (type, location, remark)) in _locations.enumerated() {
+            for (index, (type, location)) in _locations.enumerated() {
                 builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
                     .title(type.title)
                     .selectedValue(location)
@@ -266,7 +266,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     .required()
                     .onValueChanged { [unowned self] (location) in
                         if let location = location {
-                            self.locations?[index] = (type, location, remark)
+                            self.locations?[index] = (type, location)
                         }
                     }
                     .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in

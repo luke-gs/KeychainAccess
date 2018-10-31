@@ -56,12 +56,6 @@ public class DetailAddressFormViewController: FormBuilderViewController {
 
         guard viewModel.selectedType?.title != nil else { return }
 
-        builder += TextFieldFormItem()
-            .title("Remarks")
-            .width(.column(1))
-            .onValueChanged {
-                self.viewModel.locationRemark = $0
-        }
         builder += LargeTextHeaderFormItem()
             .text("Address")
         builder += PickerFormItem(pickerAction: LocationSelectionFormAction())

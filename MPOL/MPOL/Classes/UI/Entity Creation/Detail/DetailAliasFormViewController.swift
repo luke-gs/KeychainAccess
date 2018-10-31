@@ -75,11 +75,6 @@ public class DetailAliasFormViewController: FormBuilderViewController {
                 .onValueChanged {
                     self.viewModel.personAlias?.lastName = $0
             }
-
-            if type == "Maiden Name" {
-                firstNameFormItem.required()
-                lastNameFormItem.required()
-            }
             builder += firstNameFormItem
             builder += middleNameFormItem
             builder += lastNameFormItem
