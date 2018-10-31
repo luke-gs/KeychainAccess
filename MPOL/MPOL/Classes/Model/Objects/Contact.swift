@@ -12,7 +12,7 @@ import PublicSafetyKit
 @objc(MPLContact)
 open class Contact: IdentifiableDataModel {
 
-    public enum ContactType: String, UnboxableEnum, Codable {
+    public enum ContactType: String, UnboxableEnum, Codable, CaseIterable {
         case phone = "home"
         case mobile = "mobile"
         case email = "email"
@@ -22,6 +22,19 @@ open class Contact: IdentifiableDataModel {
             case .phone: return "Phone"
             case .mobile: return "Mobile"
             case .email: return "Email"
+            }
+        }
+
+        public static func contactType(from LocalizedDescription: String) -> ContactType? {
+            switch LocalizedDescription {
+            case "Phone":
+                return ContactType.phone
+            case "Mobile":
+                return ContactType.mobile
+            case "Email":
+                return ContactType.email
+            default:
+                return nil
             }
         }
     }

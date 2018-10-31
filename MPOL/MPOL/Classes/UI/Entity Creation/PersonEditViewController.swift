@@ -190,7 +190,7 @@ public class PersonEditViewController: FormBuilderViewController {
         if let contacts = finalPerson.contacts {
             for (index, contact) in contacts.enumerated() {
                 let formItem = TextFieldFormItem()
-                    .title(contact.type?.rawValue)
+                    .title(contact.type?.localizedDescription())
                     .text(contact.value)
                     .width(.column(1))
                     .accessory(ItemAccessory.pencil)
