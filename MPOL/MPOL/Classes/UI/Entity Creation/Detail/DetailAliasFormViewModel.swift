@@ -19,4 +19,5 @@ public class DetailAliasFormViewModel {
 
     public var personAlias: PersonAlias?
 
+    public static let aliasOptions = Manifest.shared.entries(for: .personAliasType)!.map { AnyPickable($0.rawValue!) }
 }

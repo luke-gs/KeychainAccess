@@ -42,11 +42,9 @@ public class DetailAliasFormViewController: FormBuilderViewController {
         title = AssetManager.shared.string(forKey: .addAliasFormTitle)
         viewModel.personAlias = PersonAlias(id: UUID().uuidString)
 
-        let aliasOptions = Manifest.shared.entries(for: .personAliasType)!.map { AnyPickable($0.rawValue!) }
-
         builder += DropDownFormItem()
             .title("Type")
-            .options(aliasOptions)
+            .options(DetailAliasFormViewModel.aliasOptions)
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in

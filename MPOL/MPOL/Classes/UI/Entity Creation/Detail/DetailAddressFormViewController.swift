@@ -43,12 +43,9 @@ public class DetailAddressFormViewController: FormBuilderViewController {
         builder += LargeTextHeaderFormItem()
             .text("General")
 
-        let addressOptions = [NSLocalizedString("Residential Address", comment: ""),
-                              NSLocalizedString("Work Address", comment: "")].map { AnyPickable($0) }
-
         builder += DropDownFormItem()
             .title("Type")
-            .options(addressOptions)
+            .options(DetailAddressFormViewModel.addressOptions)
             .required()
             .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
