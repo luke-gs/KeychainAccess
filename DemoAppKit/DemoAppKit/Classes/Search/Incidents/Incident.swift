@@ -5,6 +5,8 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+import Unbox
+
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
@@ -12,9 +14,8 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Incident.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Incident: NSSecureCoding, Evaluatable, Equatable {
+public class Incident: IdentifiableDataModel, Evaluatable {
 
-    public let id: String
     public var incidentType: IncidentType
     public var evaluator: Evaluator = Evaluator()
     public let additionalActionManager = AdditionalActionManager()
@@ -22,8 +23,12 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     public let weakEvent: Weak<Event>
     public var displayable: IncidentListDisplayable!
 
-    private(set) public var reports: [IncidentReportable] = [IncidentReportable]() {
+    private(set) public var reports: [AnyIncidentReportable] = [] {
         didSet {
+            // Pass down the incident
+            for report in reports {
+                report.weakIncident = Weak<Incident>(self)
+            }
             evaluator.updateEvaluation(for: .allValid)
         }
     }
@@ -37,49 +42,54 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     public init(event: Event, type: IncidentType) {
         self.weakEvent = Weak(event)
         self.incidentType = type
-        self.id = UUID().uuidString
+        super.init(id: UUID().uuidString)
+
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }
 
-    // Coding stuff begins
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
-        case id
+    required init(unboxer: Unboxer) throws {
+        MPLUnimplemented()
+    }
+
+    private enum CodingKeys: String, CodingKey {
         case incidentType
         case reports
-        case event
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
-        incidentType = IncidentType(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.incidentType.rawValue)! as String)
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [IncidentReportable]
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
+        reports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+        weakEvent = Weak<Event>(nil)
+
+        try super.init(from: decoder)
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: Coding.id.rawValue)
-        aCoder.encode(incidentType.rawValue, forKey: Coding.incidentType.rawValue)
-        aCoder.encode(reports, forKey: Coding.reports.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(incidentType, forKey: CodingKeys.incidentType)
+        try container.encode(reports, forKey: CodingKeys.reports)
     }
 
     // MARK: Utility
 
     public func add(reports: [IncidentReportable]) {
-        self.reports.append(contentsOf: reports)
+        self.reports.append(contentsOf: reports.map { return AnyIncidentReportable($0) })
     }
 
     public func add(report: IncidentReportable) {
-        reports.append(report)
+        reports.append(AnyIncidentReportable(report))
     }
 
     public func reportable(for reportableType: AnyClass) -> IncidentReportable? {
-        return reports.filter {type(of: $0) == reportableType}.first
+        return reports.filter {type(of: $0) == reportableType}.first?.report
     }
 
     // MARK: Evaluation
@@ -99,7 +109,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
 /// A bunch of incident types
 /// This can later be expanded upon to build different types of events
 /// via the app
-public class IncidentType: ExtensibleKey<String> {
+public class IncidentType: ExtensibleKey<String>, Codable {
 
     //Define default EventTypes
     public static let blank = IncidentType("Blank")

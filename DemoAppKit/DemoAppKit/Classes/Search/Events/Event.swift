@@ -4,6 +4,8 @@
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
+import Unbox
+import PublicSafetyKit
 
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
@@ -12,15 +14,18 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Event.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Event: NSObject, NSSecureCoding, Evaluatable {
+public class Event: IdentifiableDataModel, Evaluatable {
 
-    public let id: String
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
 
-    private(set) public var reports: [EventReportable] = [EventReportable]() {
+    private(set) public var reports: [AnyEventReportable] = [] {
         didSet {
+            // Pass down the event
+            for report in reports {
+                report.weakEvent = Weak<Event>(self)
+            }
             evaluator.updateEvaluation(for: .allValid)
         }
     }
@@ -31,44 +36,26 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
         }
     }
 
-    public override init() {
-        id = UUID().uuidString
-        super.init()
+    public init() {
+        super.init(id: UUID().uuidString)
         evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
     }
 
-    // Codable stuff begins
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
-        case id = "id"
-        case reports = "reports"
-    }
-
-    required public init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [EventReportable]
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: Coding.id.rawValue)
-        aCoder.encode(reports, forKey: Coding.reports.rawValue)
-    }
-
     // MARK: Utility
 
     public func add(reports: [EventReportable]) {
-        self.reports.append(contentsOf: reports)
+        self.reports.append(contentsOf: reports.map { return AnyEventReportable($0) })
     }
 
     public func add(report: EventReportable) {
-        reports.append(report)
+        reports.append(AnyEventReportable(report))
     }
 
     public func reportable(for reportableType: AnyClass) -> EventReportable? {
-        return reports.filter {type(of: $0) == reportableType}.first
+        return reports.filter {type(of: $0) == reportableType}.first?.report
     }
 
     // MARK: Evaluation
@@ -78,4 +65,29 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
             return result && report.evaluator.isComplete
         })
     }
+
+    required init(unboxer: Unboxer) throws {
+        MPLUnimplemented()
+    }
+
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case reports
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        reports = try container.decode([AnyEventReportable].self, forKey: .reports)
+        
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(reports, forKey: CodingKeys.reports)
+    }
+
 }
