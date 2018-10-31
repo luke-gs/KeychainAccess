@@ -41,64 +41,50 @@ public class DetailAliasFormViewController: FormBuilderViewController {
     public override func construct(builder: FormBuilder) {
         title = AssetManager.shared.string(forKey: .addAliasFormTitle)
         self.viewModel.personAlias = PersonAlias(id: UUID().uuidString)
+
+        let aliasOptions = Manifest.shared.entries(for: .personAliasType)!.map { AnyPickable($0.rawValue!) }
+
         builder += DropDownFormItem()
             .title("Type")
-            .options(DetailCreationAliasType.allCase)
+            .options(aliasOptions)
             .required()
             .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
-                if let value = value?.first {
-                    if let aliasType = DetailCreationAliasType(rawValue: value) {
-                        self.viewModel.detailType = aliasType
-                    } else {
-                        // Use others for unrecognised types
-                        self.viewModel.detailType = .others
-                    }
-                } else {
-                    self.viewModel.detailType = .empty
-                }
                 self.viewModel.selectedType = value?.first
                 self.reloadForm()
             }
             .width(.column(1))
-
-        switch self.viewModel.detailType {
-        case .maiden, .preferredName:
-            self.viewModel.personAlias?.type = self.viewModel.detailType.rawValue
-            builder += TextFieldFormItem()
+        if let type = self.viewModel.selectedType?.title {
+            self.viewModel.personAlias?.type = type
+            let firstNameFormItem =  TextFieldFormItem()
                 .title("First Name")
                 .width(.column(1))
                 .required()
                 .onValueChanged {
                     self.viewModel.personAlias?.firstName = $0
             }
-            builder += TextFieldFormItem()
+
+            let middleNameFormItem = TextFieldFormItem()
                 .title("Middle Name/s")
                 .width(.column(1))
                 .onValueChanged {
                     self.viewModel.personAlias?.middleNames = $0
             }
+
             let lastNameFormItem = TextFieldFormItem()
                 .title("Last Name")
                 .width(.column(1))
                 .onValueChanged {
                     self.viewModel.personAlias?.lastName = $0
             }
-            if self.viewModel.detailType == .maiden {
+
+            if type == "Maiden Name" {
+                firstNameFormItem.required()
                 lastNameFormItem.required()
             }
+            builder += firstNameFormItem
+            builder += middleNameFormItem
             builder += lastNameFormItem
-        case .nickname, .formerName, .knownAs, .others:
-            self.viewModel.personAlias?.type = self.viewModel.detailType.rawValue
-            builder += TextFieldFormItem()
-                .title("Name")
-                .width(.column(1))
-                .required()
-                .onValueChanged {
-                    self.viewModel.personAlias?.nickname = $0
-            }
-        case .empty:
-            break
         }
     }
 
