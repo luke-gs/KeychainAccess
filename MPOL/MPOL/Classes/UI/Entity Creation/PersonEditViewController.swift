@@ -264,11 +264,11 @@ public class PersonEditViewController: FormBuilderViewController {
                     .selectedValue(location)
                     .width(.column(1))
                     .required()
-                    .onValueChanged({ [unowned self] (location) in
+                    .onValueChanged { [unowned self] (location) in
                         if let location = location {
                             self.locations?[index] = (type, location, remark)
                         }
-                    })
+                    }
                     .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
                         self.locations?.remove(at: index)
                         self.reloadForm()
