@@ -11,29 +11,36 @@ import Unbox
 @objc(MPLOrganisationAlias)
 open class OrganisationAlias: Alias {
 
-    open var alias: String?
+    // MARK: - Properties
 
-    public required init(id: String = UUID().uuidString) {
-        super.init(id: id)
-    }
+    public var alias: String?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         alias = unboxer.unbox(key: "alias")
         try super.init(unboxer: unboxer)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    // MARK: - Codable
 
-        alias = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.alias.rawValue) as String?
-    }
-
-    override open func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(alias, forKey: CodingKey.alias.rawValue)
-    }
-
-    private enum CodingKey: String {
+    private enum CodingKeys: String, CodingKey {
         case alias
     }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        alias = try container.decodeIfPresent(String.self, forKey: .alias)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(alias, forKey: CodingKeys.alias)
+    }
+
 }

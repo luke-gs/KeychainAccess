@@ -33,9 +33,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     // return color of assossication with highest alert level
     private var highestAssociationAlertColor: UIColor? {
 
-        let associations: [Entity] = persons.compactMap { $0 as Entity } +
-            vehicles.compactMap { $0 as Entity } +
-            locations.compactMap { $0 as Entity }
+        let associations: [Entity] = persons.compactMap { person -> Entity in person as Entity } +
+            vehicles.compactMap { vehicle -> Entity in vehicle as Entity } +
+            locations.compactMap { location -> Entity in location as Entity }
 
         var highestAlertLevel: Alert.Level?
 

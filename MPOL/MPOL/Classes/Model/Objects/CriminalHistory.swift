@@ -13,10 +13,14 @@ import Unbox
 @objc (MPLCrimimalHistory)
 open class CriminalHistory: Entity {
 
-    let offenceDescription: String?
-    let primaryCharge: String?
-    let occurredDate: Date?
-    let courtName: String?
+    // MARK: - Properties
+
+    public var courtName: String?
+    public var occurredDate: Date?
+    public var offenceDescription: String?
+    public var primaryCharge: String?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         offenceDescription = unboxer.unbox(key: CodingKeys.offenceDescription.rawValue)
@@ -27,39 +31,34 @@ open class CriminalHistory: Entity {
         try super.init(unboxer: unboxer)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        offenceDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.offenceDescription.rawValue) as String?
-        primaryCharge = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.primaryCharge.rawValue) as String?
-        occurredDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.occurredDate.rawValue) as Date?
-        courtName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.courtName.rawValue) as String?
-
-        super.init(coder: aDecoder)
-    }
-
-    override open func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-
-        aCoder.encode(offenceDescription, forKey: CodingKeys.offenceDescription.rawValue)
-        aCoder.encode(primaryCharge, forKey: CodingKeys.primaryCharge.rawValue)
-        aCoder.encode(occurredDate, forKey: CodingKeys.occurredDate.rawValue)
-        aCoder.encode(courtName, forKey: CodingKeys.courtName.rawValue)
-
-    }
-
-    // TODO: support codable
-    required public init(from decoder: Decoder) throws {
-        MPLUnimplemented()
-    }
-
-    override open class var modelVersion: Int {
-        return 1
-    }
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
-        case primaryCharge
-        case offenceDescription = "description"
-        case occurredDate = "occurred"
         case courtName
+        case occurredDate = "occurred"
+        case offenceDescription = "description"
+        case primaryCharge
+    }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        courtName = try container.decodeIfPresent(String.self, forKey: .courtName)
+        occurredDate = try container.decodeIfPresent(Date.self, forKey: .occurredDate)
+        offenceDescription = try container.decodeIfPresent(String.self, forKey: .offenceDescription)
+        primaryCharge = try container.decodeIfPresent(String.self, forKey: .primaryCharge)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(courtName, forKey: CodingKeys.courtName)
+        try container.encode(occurredDate, forKey: CodingKeys.occurredDate)
+        try container.encode(offenceDescription, forKey: CodingKeys.offenceDescription)
+        try container.encode(primaryCharge, forKey: CodingKeys.primaryCharge)
     }
 
 }
@@ -72,20 +71,25 @@ open class OffenderCharge: CriminalHistory {
         try super.init(unboxer: unboxer)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        nextCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.nextCourtDate.rawValue) as Date?
-        super.init(coder: aDecoder)
-    }
-
-    // TODO: support codable
-    required public init(from decoder: Decoder) throws {
-        MPLUnimplemented()
-    }
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
         case nextCourtDate
     }
 
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        nextCourtDate = try container.decodeIfPresent(Date.self, forKey: .nextCourtDate)
+
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(nextCourtDate, forKey: CodingKeys.nextCourtDate)
+    }
 }
 
 open class OffenderConviction: CriminalHistory {
@@ -96,17 +100,23 @@ open class OffenderConviction: CriminalHistory {
         try super.init(unboxer: unboxer)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        finalCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.finalCourtDate.rawValue) as Date?
-        super.init(coder: aDecoder)
-    }
-
-    // TODO: support codable
-    required public init(from decoder: Decoder) throws {
-        MPLUnimplemented()
-    }
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
         case finalCourtDate
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        finalCourtDate = try container.decodeIfPresent(Date.self, forKey: .finalCourtDate)
+
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(finalCourtDate, forKey: CodingKeys.finalCourtDate)
     }
 }
