@@ -164,6 +164,7 @@ open class Person: Entity, Identifiable {
         orders = try container.decodeIfPresent([Order].self, forKey: .orders)
         thumbnailUrl = try container.decodeIfPresent(URL.self, forKey: .thumbnailUrl)
         trafficHistory = try container.decodeIfPresent([TrafficHistory].self, forKey: .trafficHistory)
+        yearOnlyDateOfBirth = try container.decodeIfPresent(Bool.self, forKey: .yearOnlyDateOfBirth)
         identificationNumber = try container.decodeIfPresent(String.self, forKey: .identificationNumber)
         placeOfBirth = try container.decodeIfPresent(String.self, forKey: .placeOfBirth)
     }
