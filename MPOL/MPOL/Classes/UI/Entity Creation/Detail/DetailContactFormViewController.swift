@@ -39,13 +39,12 @@ public class DetailContactFormViewController: FormBuilderViewController {
     }
 
     public override func construct(builder: FormBuilder) {
-        title = AssetManager.shared.string(forKey: .addContactFormTitle)
+        title = NSLocalizedString("Add Contact Details", comment: "")
         if viewModel.contact == nil {
             viewModel.contact = Contact(id: UUID().uuidString)
         }
-        viewModel.contact?.type = viewModel.selectedType
         builder += DropDownFormItem()
-            .title("Contact Type")
+            .title(NSLocalizedString("Contact Type", comment: ""))
             .options(Contact.ContactType.allCases.map { $0.localizedDescription() })
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!.localizedDescription()] : [])
@@ -55,21 +54,21 @@ public class DetailContactFormViewController: FormBuilderViewController {
             }
             .width(.column(1))
 
-        if viewModel.selectedType != nil {
-            let formItem = TextFieldFormItem()
-                .title(viewModel.selectedType?.localizedDescription())
-                .text(viewModel.contact?.value)
-                .required()
-                .width(.column(1))
-                .accessory(ItemAccessory.pencil)
-                .onValueChanged {
-                    self.viewModel.contact?.value = $0
-            }
-            if viewModel.selectedType == .email {
-                formItem.softValidate(EmailSpecification(), message: "Invalid email address")
-            }
-            builder += formItem
+        guard let type = viewModel.selectedType else { return }
+        viewModel.contact?.type = type
+        let formItem = TextFieldFormItem()
+            .title(viewModel.selectedType?.localizedDescription())
+            .text(viewModel.contact?.value)
+            .required()
+            .width(.column(1))
+            .accessory(ItemAccessory.pencil)
+            .onValueChanged {
+                self.viewModel.contact?.value = $0
         }
+        if viewModel.selectedType == .email {
+            formItem.softValidate(EmailSpecification(), message: "Invalid email address")
+        }
+        builder += formItem
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
@@ -82,7 +81,7 @@ public class DetailContactFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(self.viewModel)
+            submitHandler?(viewModel)
             dismiss(animated: true, completion: nil)
         }
     }

@@ -39,12 +39,12 @@ public class DetailAddressFormViewController: FormBuilderViewController {
     }
 
     public override func construct(builder: FormBuilder) {
-        title = AssetManager.shared.string(forKey: .addAddressFormTitle)
+        title = NSLocalizedString("Add Address", comment: "")
         builder += LargeTextHeaderFormItem()
-            .text("General")
+            .text(NSLocalizedString("General", comment: ""))
 
         builder += DropDownFormItem()
-            .title("Type")
+            .title(NSLocalizedString("Type", comment: ""))
             .options(DetailAddressFormViewModel.addressOptions)
             .required()
             .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
@@ -57,9 +57,9 @@ public class DetailAddressFormViewController: FormBuilderViewController {
         guard viewModel.selectedType?.title != nil else { return }
 
         builder += LargeTextHeaderFormItem()
-            .text("Address")
+            .text(NSLocalizedString("Address", comment: ""))
         builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
-            .title(AssetManager.shared.string(forKey: .addAddressFormLocation))
+            .title(NSLocalizedString("Location", comment: ""))
             .width(.column(1))
             .required()
             .onValueChanged { [unowned self] (location) in
@@ -77,7 +77,7 @@ public class DetailAddressFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(self.viewModel)
+            submitHandler?(viewModel)
             dismiss(animated: true, completion: nil)
         }
     }

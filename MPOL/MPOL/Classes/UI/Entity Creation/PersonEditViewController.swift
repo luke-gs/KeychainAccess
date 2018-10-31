@@ -39,7 +39,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
 
-        builder.title = "Person"
+        builder.title = NSLocalizedString("Person", comment: "")
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("General", comment: "")).separatorColor(.clear)
 
@@ -167,7 +167,7 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         builder += TextFieldFormItem()
-            .title("Remarks")
+            .title(NSLocalizedString("Remarks", comment: ""))
             .text(finalDescription.remarks)
             .width(.column(2))
             .onValueChanged { self.finalDescription.remarks = $0 }
@@ -175,7 +175,7 @@ public class PersonEditViewController: FormBuilderViewController {
         // Contact Section
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
-            .actionButton(title: "Add", handler: { [unowned self] _ in
+            .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createEntityContactDetail(viewModel: DetailContactFormViewModel(),
                                                            submitHandler: { [unowned self] viewModel in
@@ -196,9 +196,11 @@ public class PersonEditViewController: FormBuilderViewController {
                     .value(contact.value)
                     .width(.column(1))
                     .accessory(ItemAccessory.pencil)
-                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
-                        self.finalPerson.contacts?.remove(at: index)
-                        self.reloadForm()
+                    .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                               color: UIColor.red,
+                                                               handler: { [unowned self] (_, _) in
+                                                                self.finalPerson.contacts?.remove(at: index)
+                                                                self.reloadForm()
                     })])
                     .onSelection { [unowned self] _ in
                         let viewModel = DetailContactFormViewModel()
@@ -219,7 +221,7 @@ public class PersonEditViewController: FormBuilderViewController {
         // Alias Section
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
-            .actionButton(title: "Add", handler: { [unowned self] _ in
+            .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createEntityAliasDetail(viewModel: DetailAliasFormViewModel(),
                                                          submitHandler: { [unowned self] viewModel in
@@ -242,9 +244,11 @@ public class PersonEditViewController: FormBuilderViewController {
                     .title(alias.type)
                     .value(displayName)
                     .width(.column(1))
-                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
-                        self.finalPerson.aliases?.remove(at: index)
-                        self.reloadForm()
+                    .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                               color: UIColor.red,
+                                                               handler: { [unowned self] (_, _) in
+                                                                self.finalPerson.aliases?.remove(at: index)
+                                                                self.reloadForm()
                     })])
                     .onSelection { [unowned self] _ in
                         let viewModel = DetailAliasFormViewModel()
@@ -264,7 +268,7 @@ public class PersonEditViewController: FormBuilderViewController {
         // Address Section
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
-            .actionButton(title: "Add", handler: { [unowned self] _ in
+            .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(EntityScreen.createEntityAddressDetail { [unowned self] viewModel in
                     guard let location = viewModel.selectedLocation else { return }
                     if self.locations != nil {
@@ -287,9 +291,11 @@ public class PersonEditViewController: FormBuilderViewController {
                             self.locations?[index] = (type, location)
                         }
                     }
-                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [unowned self] (_, _) in
-                        self.locations?.remove(at: index)
-                        self.reloadForm()
+                    .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                               color: UIColor.red,
+                                                               handler: { [unowned self] (_, _) in
+                                                                self.locations?.remove(at: index)
+                                                                self.reloadForm()
                     })])
             }
         }

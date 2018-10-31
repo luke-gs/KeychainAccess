@@ -39,13 +39,13 @@ public class DetailAliasFormViewController: FormBuilderViewController {
     }
 
     public override func construct(builder: FormBuilder) {
-        title = AssetManager.shared.string(forKey: .addAliasFormTitle)
+        title = NSLocalizedString("addAliasFormTitle", comment: "")
         if viewModel.personAlias == nil {
             viewModel.personAlias = PersonAlias(id: UUID().uuidString)
         }
 
         builder += DropDownFormItem()
-            .title("Type")
+            .title(NSLocalizedString("Title", comment: ""))
             .options(DetailAliasFormViewModel.aliasOptions)
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
@@ -54,36 +54,37 @@ public class DetailAliasFormViewController: FormBuilderViewController {
                 self.reloadForm()
             }
             .width(.column(1))
-        if let type = viewModel.selectedType?.title {
-            viewModel.personAlias?.type = type
-            let firstNameFormItem =  TextFieldFormItem()
-                .title("First Name")
-                .text(viewModel.personAlias?.firstName)
-                .width(.column(1))
-                .required()
-                .onValueChanged {
-                    self.viewModel.personAlias?.firstName = $0
-            }
 
-            let middleNameFormItem = TextFieldFormItem()
-                .title("Middle Name/s")
-                .text(viewModel.personAlias?.middleNames)
-                .width(.column(1))
-                .onValueChanged {
-                    self.viewModel.personAlias?.middleNames = $0
-            }
+        guard let type = viewModel.selectedType?.title else { return }
 
-            let lastNameFormItem = TextFieldFormItem()
-                .title("Last Name")
-                .text(viewModel.personAlias?.lastName)
-                .width(.column(1))
-                .onValueChanged {
-                    self.viewModel.personAlias?.lastName = $0
-            }
-            builder += firstNameFormItem
-            builder += middleNameFormItem
-            builder += lastNameFormItem
+        viewModel.personAlias?.type = type
+        let firstNameFormItem =  TextFieldFormItem()
+            .title(NSLocalizedString("First Name", comment: ""))
+            .text(viewModel.personAlias?.firstName)
+            .width(.column(1))
+            .required()
+            .onValueChanged {
+                self.viewModel.personAlias?.firstName = $0
         }
+
+        let middleNameFormItem = TextFieldFormItem()
+            .title(NSLocalizedString("Middle Name/s", comment: ""))
+            .text(viewModel.personAlias?.middleNames)
+            .width(.column(1))
+            .onValueChanged {
+                self.viewModel.personAlias?.middleNames = $0
+        }
+
+        let lastNameFormItem = TextFieldFormItem()
+            .title(NSLocalizedString("Last Name", comment: ""))
+            .text(viewModel.personAlias?.lastName)
+            .width(.column(1))
+            .onValueChanged {
+                self.viewModel.personAlias?.lastName = $0
+        }
+        builder += firstNameFormItem
+        builder += middleNameFormItem
+        builder += lastNameFormItem
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
@@ -96,7 +97,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(self.viewModel)
+            submitHandler?(viewModel)
             dismiss(animated: true, completion: nil)
         }
     }
