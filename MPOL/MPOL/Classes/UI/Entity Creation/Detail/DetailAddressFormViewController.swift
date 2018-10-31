@@ -43,44 +43,36 @@ public class DetailAddressFormViewController: FormBuilderViewController {
         builder += LargeTextHeaderFormItem()
             .text("General")
 
+        let addressOptions = [NSLocalizedString("Residential Address", comment: ""),
+                              NSLocalizedString("Work Address", comment: "")].map { AnyPickable($0) }
+
         builder += DropDownFormItem()
             .title("Type")
-            .options(DetailCreationAddressType.allCase)
+            .options(addressOptions)
             .required()
             .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
-                if let value = value?.first {
-                    if let addressType = DetailCreationAddressType(rawValue: value) {
-                        self.viewModel.detailType = addressType
-                    } else {
-                        self.viewModel.detailType = .empty
-                    }
-                } else {
-                    self.viewModel.detailType = .empty
-                }
                 self.viewModel.selectedType = value?.first
                 self.reloadForm()
             }
             .width(.column(1))
-        switch viewModel.detailType {
-        case .residential, .work:
-            builder += TextFieldFormItem()
-                .title("Remarks")
-                .width(.column(1))
-                .onValueChanged {
-                    self.viewModel.locationRemark = $0
-            }
-            builder += LargeTextHeaderFormItem()
-                .text("Address")
-            builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
-                .title(AssetManager.shared.string(forKey: .addAddressFormLocation))
-                .width(.column(1))
-                .required()
-                .onValueChanged({ [unowned self] (location) in
-                    self.viewModel.selectedLocation = location
-                })
-        case .empty:
-            break
+
+        guard viewModel.selectedType?.title != nil else { return }
+
+        builder += TextFieldFormItem()
+            .title("Remarks")
+            .width(.column(1))
+            .onValueChanged {
+                self.viewModel.locationRemark = $0
+        }
+        builder += LargeTextHeaderFormItem()
+            .text("Address")
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+            .title(AssetManager.shared.string(forKey: .addAddressFormLocation))
+            .width(.column(1))
+            .required()
+            .onValueChanged { [unowned self] (location) in
+                self.viewModel.selectedLocation = location
         }
     }
 

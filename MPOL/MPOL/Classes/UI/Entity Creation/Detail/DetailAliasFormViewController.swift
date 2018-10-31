@@ -40,7 +40,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
         title = AssetManager.shared.string(forKey: .addAliasFormTitle)
-        self.viewModel.personAlias = PersonAlias(id: UUID().uuidString)
+        viewModel.personAlias = PersonAlias(id: UUID().uuidString)
 
         let aliasOptions = Manifest.shared.entries(for: .personAliasType)!.map { AnyPickable($0.rawValue!) }
 
@@ -48,14 +48,14 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             .title("Type")
             .options(aliasOptions)
             .required()
-            .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
+            .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first
                 self.reloadForm()
             }
             .width(.column(1))
-        if let type = self.viewModel.selectedType?.title {
-            self.viewModel.personAlias?.type = type
+        if let type = viewModel.selectedType?.title {
+            viewModel.personAlias?.type = type
             let firstNameFormItem =  TextFieldFormItem()
                 .title("First Name")
                 .width(.column(1))

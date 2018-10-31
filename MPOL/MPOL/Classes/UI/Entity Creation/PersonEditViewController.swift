@@ -17,7 +17,7 @@ public class PersonEditViewController: FormBuilderViewController {
     private var finalPerson = Person(id: UUID().uuidString)
     private let finalDescription = PersonDescription(id: UUID().uuidString)
 
-    private var locations: [(DetailCreationAddressType, LocationSelectionType, String?)]?
+    private var locations: [(AnyPickable, LocationSelectionType, String?)]?
 
     private let numberFormatter = NumberFormatter()
 
@@ -253,9 +253,9 @@ public class PersonEditViewController: FormBuilderViewController {
                 self.present(EntityScreen.createEntityAddressDetail { [unowned self] viewModel in
                     guard let location = viewModel.selectedLocation else { return }
                     if self.locations != nil {
-                        self.locations!.append((viewModel.detailType, location, viewModel.locationRemark))
+                        self.locations!.append((viewModel.selectedType!, location, viewModel.locationRemark))
                     } else {
-                        self.locations = [(viewModel.detailType, location, viewModel.locationRemark)]
+                        self.locations = [(viewModel.selectedType!, location, viewModel.locationRemark)]
                     }
                     self.reloadForm()
                 })
@@ -263,7 +263,7 @@ public class PersonEditViewController: FormBuilderViewController {
         if let _locations = locations {
             for (index, (type, location, remark)) in _locations.enumerated() {
                 builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
-                    .title(type.rawValue)
+                    .title(type.title)
                     .selectedValue(location)
                     .width(.column(1))
                     .required()

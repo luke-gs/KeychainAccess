@@ -41,41 +41,41 @@ public class DetailContactFormViewController: FormBuilderViewController {
     public override func construct(builder: FormBuilder) {
         title = AssetManager.shared.string(forKey: .addContactFormTitle)
         self.viewModel.contact = Contact(id: UUID().uuidString)
+
+        let contactOptions = [NSLocalizedString("Number", comment: ""),
+                              NSLocalizedString("Mobile Number", comment: ""),
+                              NSLocalizedString("Email", comment: "")].map { AnyPickable($0) }
+
         builder += DropDownFormItem()
             .title("Contact Type")
-            .options(DetailCreationContactType.allCase)
+            .options(contactOptions)
             .required()
             .selectedValue(self.viewModel.selectedType != nil ? [self.viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
-                if let value = value?.first, let contactType = DetailCreationContactType(rawValue: value) {
-                    self.viewModel.detailType = contactType
-                } else {
-                    self.viewModel.detailType = .empty
-                }
                 self.viewModel.selectedType = value?.first
                 self.reloadForm()
             }
             .width(.column(1))
-        if self.viewModel.detailType != .empty {
+        if viewModel.selectedType != nil {
             let formItem = TextFieldFormItem()
-                .title(self.viewModel.detailType.rawValue)
+                .title(viewModel.selectedType?.title)
                 .required()
                 .width(.column(1))
                 .accessory(ItemAccessory.pencil)
                 .onValueChanged {
-                    switch self.viewModel.detailType {
-                    case .number:
+                    switch self.viewModel.selectedType?.title {
+                    case "Number":
                         self.viewModel.contact?.type = .phone
-                    case .mobile:
+                    case "Mobile Number":
                         self.viewModel.contact?.type = .mobile
-                    case .email:
+                    case "Email":
                         self.viewModel.contact?.type = .email
                     default:
                         break
                     }
                     self.viewModel.contact?.value = $0
             }
-            if self.viewModel.detailType == .email {
+            if viewModel.selectedType?.title == "Email" {
                 formItem.softValidate(EmailSpecification(), message: "Invalid email address")
             }
             builder += formItem
