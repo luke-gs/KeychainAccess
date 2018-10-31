@@ -13,8 +13,8 @@ extension EvaluatorKey {
 }
 
 public class DefaultEntitiesListReport: Reportable {
-    public let weakEvent: Weak<Event>
-    public let weakIncident: Weak<Incident>
+    public var weakEvent: Weak<Event>
+    public var weakIncident: Weak<Incident>
 
     public let evaluator: Evaluator = Evaluator()
 
@@ -28,7 +28,10 @@ public class DefaultEntitiesListReport: Reportable {
         if let incident = self.incident {
             evaluator.addObserver(incident)
         }
+        commonInit()
+    }
 
+    private func commonInit() {
         evaluator.registerKey(.hasEntity) { [weak self] in
             guard let `self` = self else { return false }
             guard let event = self.event else { return false }
@@ -45,20 +48,14 @@ public class DefaultEntitiesListReport: Reportable {
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
     }
 
-    // MARK: CODING
-    private enum Coding: String {
-        case incident
-        case event
+    // MARK: - Codable
+
+    public required init(from decoder: Decoder) throws {
+        weakEvent = Weak<Event>(nil)
+        weakIncident = Weak<Incident>(nil)
+        commonInit()
     }
 
-    public static var supportsSecureCoding: Bool = true
-
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
-    }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
+    open func encode(to encoder: Encoder) throws {
     }
 }

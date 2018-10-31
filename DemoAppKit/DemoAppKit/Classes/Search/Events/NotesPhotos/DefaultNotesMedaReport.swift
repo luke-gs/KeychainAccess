@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 }
 
 public class DefaultNotesMediaReport: EventReportable, MediaContainer {
-    public let weakEvent: Weak<Event>
+    public var weakEvent: Weak<Event>
 
     var viewed: Bool = false {
         didSet {
@@ -41,33 +41,32 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         }
     }
 
-    // Coding
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-
-    private enum Coding: String {
+    private enum CodingKeys: String, CodingKey {
         case media
         case operationName
         case freeText
-        case event
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as! [MediaAsset]
-        operationName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.operationName.rawValue) as String?
-        freeText = aDecoder.decodeObject(of: NSString.self, forKey: Coding.freeText.rawValue) as String?
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        media = try container.decode([MediaAsset].self, forKey: .media)
+        operationName = try container.decodeIfPresent(String.self, forKey: .operationName)
+        freeText = try container.decodeIfPresent(String.self, forKey: .freeText)
+        weakEvent = Weak<Event>(nil)
         commonInit()
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(media, forKey: Coding.media.rawValue)
-        aCoder.encode(operationName, forKey: Coding.operationName.rawValue)
-        aCoder.encode(freeText, forKey: Coding.freeText.rawValue)
+    open func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(media, forKey: CodingKeys.media)
+        try container.encode(operationName, forKey: CodingKeys.operationName)
+        try container.encode(freeText, forKey: CodingKeys.freeText)
     }
 
     // Media
-   public func add(_ media: [MediaAsset]) {
+    public func add(_ media: [MediaAsset]) {
         media.forEach {
             if !self.media.contains($0) {
                 self.media.append($0)

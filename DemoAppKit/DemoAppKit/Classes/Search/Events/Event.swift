@@ -38,6 +38,10 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     public init() {
         super.init(id: UUID().uuidString)
+        commonInit()
+    }
+
+    private func commonInit() {
         evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
@@ -79,8 +83,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         reports = try container.decode([AnyEventReportable].self, forKey: .reports)
-        
+
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

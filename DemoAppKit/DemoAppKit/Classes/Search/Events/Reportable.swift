@@ -29,7 +29,10 @@ extension EventReportable {
     }
 }
 
+/// Conforming to this protocol ensures that you have a weak reference
+/// to the incident object
 public protocol IncidentReportable: Codable, Evaluatable {
+    
     /// A weak reference to the incident object
     var weakIncident: Weak<Incident> { get set }
 }

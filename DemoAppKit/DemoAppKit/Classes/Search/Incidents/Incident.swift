@@ -25,9 +25,12 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     private(set) public var reports: [AnyIncidentReportable] = [] {
         didSet {
-            // Pass down the incident
+            // Pass down the incident and event
             for report in reports {
                 report.weakIncident = Weak<Incident>(self)
+                if let report = report.report as? EventReportable {
+                    report.weakEvent = weakEvent
+                }
             }
             evaluator.updateEvaluation(for: .allValid)
         }
@@ -43,7 +46,10 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         self.weakEvent = Weak(event)
         self.incidentType = type
         super.init(id: UUID().uuidString)
+        commonInit()
+    }
 
+    private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
@@ -68,6 +74,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         weakEvent = Weak<Event>(nil)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

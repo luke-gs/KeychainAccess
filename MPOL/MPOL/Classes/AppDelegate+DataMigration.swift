@@ -16,6 +16,8 @@ extension AppDelegate {
         CodableWrapper.register(Vehicle.self)
         CodableWrapper.register(Organisation.self)
         CodableWrapper.register(Address.self)
+
+        // TODO: add Event reports
     }
 
 }
