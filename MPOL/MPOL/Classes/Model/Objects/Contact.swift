@@ -25,8 +25,8 @@ open class Contact: IdentifiableDataModel {
             }
         }
 
-        public static func contactType(from LocalizedDescription: String) -> ContactType? {
-            switch LocalizedDescription {
+        public static func contactType(from localizedDescription: String) -> ContactType? {
+            switch localizedDescription {
             case "Phone":
                 return ContactType.phone
             case "Mobile":
