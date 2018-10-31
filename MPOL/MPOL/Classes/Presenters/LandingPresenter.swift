@@ -161,6 +161,37 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
             let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), title: "Events")
 
+            let eventCreationVC = IncidentSelectViewController()
+            let eventCreationNavController = PopoverNavigationController(rootViewController: eventCreationVC)
+            eventCreationNavController.wantsTransparentBackground = false
+            eventCreationNavController.modalPresentationStyle = .formSheet
+
+            eventCreationVC.didSelectIncident = { incident in
+                guard let event = eventsManager.create(eventType: .blank) else { return }
+
+                let screenBuilder = EventScreenBuilder()
+                let incidentsManager = IncidentsManager()
+
+                // Add IncidentBuilders here
+                incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
+                incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
+                incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
+
+                if let incidentType = incident {
+                    _ = incidentsManager.create(incidentType: incidentType, in: event)
+                }
+
+                screenBuilder.incidentsManager = incidentsManager
+
+                let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
+
+                let viewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
+
+                eventsListVC.present(viewController, animated: true, completion: nil)
+            }
+
+            eventsManager.draftCreationVC = eventCreationNavController
+
             eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
