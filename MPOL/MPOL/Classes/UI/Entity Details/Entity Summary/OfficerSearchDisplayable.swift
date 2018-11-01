@@ -21,12 +21,12 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
 
     public var title: StringSizable? {
 
-        let lastNameString =  officer.familyName != nil ? "\(officer.familyName!)," : ""
-        let names: String = [lastNameString, officer.givenName].joined(separator: " ")
-        let employeeNumberString = " (\(officer.employeeNumber ?? "Employee Number Unknown"))"
+        // Show employee number in smaller, non-bold font
+        let font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: UIScreen.main.traitCollection)
+        let employeeNumberString = NSMutableAttributedString(" (\(officer.employeeNumber ?? "Employee Number Unknown"))", font: font)
 
-        let result = NSMutableAttributedString(string: names).append(employeeNumberString, font: UIFont.systemFont(ofSize: 15), color: nil)
-        return result
+        let lastNameString =  officer.familyName != nil ? "\(officer.familyName!)," : ""
+        return [lastNameString, officer.givenName, employeeNumberString].joined(separator: " ")
     }
 
     public var detail1: StringSizable? {
