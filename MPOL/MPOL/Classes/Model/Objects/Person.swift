@@ -40,7 +40,7 @@ open class Person: Entity, Identifiable {
 
         public var title: String? { return description }
         public var subtitle: String? { return nil }
-        public static let allCases: [Gender] = [.female, .male]
+        public static let allCases: [Gender] = [.female, .male, .other]
     }
 
     public required override init(id: String) {
