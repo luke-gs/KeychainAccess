@@ -61,6 +61,30 @@ final public class EventsManager: DraftableManager {
     public func deleteDraftItem(at index: Int, with id: String) {
         remove(for: id)
     }
+
+    public var title: String? {
+        return "Events"
+    }
+
+    public var noContentTitle: String? {
+        return "No Events"
+    }
+
+    public var noContentSubtitle: String? {
+        return "You have no Current or Queued Events"
+    }
+
+    public var noContentButtonText: String? {
+        return "Create new Event"
+    }
+
+    public var noContentImage: UIImage? {
+        return AssetManager.shared.image(forKey: AssetManager.ImageKey.iconFolder)
+    }
+
+    public var rightNavBarButtonItemText: String? {
+        return "New Event"
+    }
 }
 
 fileprivate class EventDraftable: Draftable {

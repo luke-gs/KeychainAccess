@@ -201,7 +201,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 viewController.present(eventSplitViewController, animated: true, completion: nil)
             }
 
-            let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), title: "Events", didTapCreate: didTapCreate, didTapItem: didTapItem)
+            let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), didTapCreate: didTapCreate, didTapItem: didTapItem)
 
             eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
