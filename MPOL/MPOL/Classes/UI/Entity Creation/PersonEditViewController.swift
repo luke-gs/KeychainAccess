@@ -229,8 +229,8 @@ public class PersonEditViewController: FormBuilderViewController {
 
         if let aliases = finalPerson.aliases {
             for (index, alias) in aliases.enumerated() {
-                let displayName = (alias.lastName != nil ? "\(alias.lastName!)," : "")
-                    + alias.firstName!
+                let displayName = alias.lastName!
+                    + (alias.firstName ?? "")
                     + (alias.middleNames ?? "")
                 builder += ValueFormItem()
                     .title(alias.type)
