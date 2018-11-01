@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
-public class Offence: Equatable, Hashable {
+public class Offence: Codable, Equatable, Hashable {
 
     public let id: String = UUID().uuidString
     public let title: String

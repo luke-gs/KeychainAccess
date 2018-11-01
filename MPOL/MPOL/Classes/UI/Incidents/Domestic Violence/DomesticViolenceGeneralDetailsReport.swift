@@ -13,11 +13,7 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-class DomesticViolenceGeneralDetailsReport: Reportable {
-    let weakIncident: Weak<Incident>
-    let weakEvent: Weak<Event>
-
-    let evaluator: Evaluator = Evaluator()
+class DomesticViolenceGeneralDetailsReport: DefaultReportable {
 
     var childCount: Int = 0
     var childrenToBeNamed: Bool = false
@@ -31,43 +27,49 @@ class DomesticViolenceGeneralDetailsReport: Reportable {
         }
     }
 
-    init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
-
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+    override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+    // MARK: - Codable
 
+    private enum CodingKeys: String, CodingKey {
+        case childCount
+        case childrenToBeNamed
+        case associateToBeNamed
+        case details
+        case remarks
+        case viewed
     }
 
-    // MARK: CODING
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        childCount = try container.decode(Int.self, forKey: .childCount)
+        childrenToBeNamed = try container.decode(Bool.self, forKey: .childrenToBeNamed)
+        associateToBeNamed = try container.decode(Bool.self, forKey: .associateToBeNamed)
+        details = try container.decodeIfPresent(String.self, forKey: .details)
+        remarks = try container.decodeIfPresent(String.self, forKey: .remarks)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
 
-    private enum Coding: String {
-        case event
-        case incident
+        try super.init(from: decoder)
     }
 
-    public static var supportsSecureCoding: Bool = true
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(childCount, forKey: CodingKeys.childCount)
+        try container.encode(childrenToBeNamed, forKey: CodingKeys.childrenToBeNamed)
+        try container.encode(associateToBeNamed, forKey: CodingKeys.associateToBeNamed)
+        try container.encode(details, forKey: CodingKeys.details)
+        try container.encode(remarks, forKey: CodingKeys.remarks)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
     }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
-    }
+
 }
 
 extension DomesticViolenceGeneralDetailsReport: Summarisable {

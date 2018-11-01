@@ -13,10 +13,9 @@ fileprivate extension EvaluatorKey {
     static let incidents = EvaluatorKey("incidents")
 }
 
-open class IncidentListReport: EventReportable, SideBarHeaderUpdateable {
-    public let weakEvent: Weak<Event>
+open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
-    var viewed: Bool = false {
+    public var viewed: Bool = false {
         didSet {
             evaluator.updateEvaluation(for: .viewed)
         }
@@ -32,17 +31,9 @@ open class IncidentListReport: EventReportable, SideBarHeaderUpdateable {
     }
 
     public weak var delegate: SideBarHeaderUpdateDelegate?
-    private(set) public var evaluator: Evaluator = Evaluator()
 
-    public required init(event: Event) {
-        self.weakEvent = Weak(event)
-        commonInit()
-    }
-
-    private func commonInit() {
-        if let event = event {
-            evaluator.addObserver(event)
-        }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
@@ -56,32 +47,35 @@ open class IncidentListReport: EventReportable, SideBarHeaderUpdateable {
         }
     }
 
-    // MARK: - Coding
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
-        case incidents
-        case event
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        incidents = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.incidents.rawValue) as! [Incident]
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        commonInit()
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(incidents, forKey: Coding.incidents.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-    }
-
     // MARK: - Utility
 
     public func updateEval() {
         evaluator.updateEvaluation(for: [.incidents, .viewed])
     }
 
-    // MARK: - Evaluation
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case incidents
+        case viewed
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        incidents = try container.decode([Incident].self, forKey: .incidents)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
+
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(incidents, forKey: CodingKeys.incidents)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
+    }
+
 }
 
 extension IncidentListReport: Summarisable {

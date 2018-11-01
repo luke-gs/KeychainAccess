@@ -5,7 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-public class PropertyDetailsReport: MediaContainer {
+public class PropertyDetailsReport: Codable, MediaContainer {
     public var property: Property?
     public var details: [String: String] = [:]
     public var involvements: [String]?

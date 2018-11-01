@@ -9,7 +9,7 @@
 import Foundation
 
 /// Default base class for a Reportable
-public class DefaultReportable: Reportable {
+open class DefaultReportable: Reportable {
 
     /// Reference back to the grandparent event
     public var weakEvent: Weak<Event> {
@@ -33,7 +33,7 @@ public class DefaultReportable: Reportable {
     public var evaluator: Evaluator = Evaluator()
 
     // Default init taking event and incident
-    public required init(event: Event, incident: Incident) {
+    public init(event: Event, incident: Incident) {
         self.weakEvent = Weak(event)
         self.weakIncident = Weak(incident)
 

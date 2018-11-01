@@ -19,10 +19,6 @@ open class DefaultLocationReport: DefaultEventReportable {
         }
     }
 
-    public required init(event: Event) {
-        super.init(event: event)
-    }
-
     open override func configure(with event: Event) {
         super.configure(with: event)
 

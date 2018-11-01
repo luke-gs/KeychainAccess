@@ -10,15 +10,7 @@ import Foundation
 import PublicSafetyKit
 import DemoAppKit
 
-public class OfficerListReport: EventReportable {
-    public let weakEvent: Weak<Event>
-
-    public enum CodingKeys: String, CodingKey {
-        case officers
-        case event
-    }
-
-    public let evaluator: Evaluator = Evaluator()
+public class OfficerListReport: DefaultEventReportable {
 
     var viewed: Bool = false {
         didSet {
@@ -32,20 +24,14 @@ public class OfficerListReport: EventReportable {
         }
     }
 
-    public required init(event: Event) {
-        self.weakEvent = Weak(event)
+    public override func configure(with event: Event) {
+        super.configure(with: event)
+
+        let reportingOfficerText = NSLocalizedString("Reporting Officer", comment: "")
 
         if let testOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
-            testOfficer.involvements = ["Reporting Officer"]
+            testOfficer.involvements = [reportingOfficerText]
             officers = [testOfficer]
-        }
-
-        commonInit()
-    }
-
-    private func commonInit() {
-        if let event = event {
-            evaluator.addObserver(event)
         }
 
         evaluator.registerKey(.officers) { [weak self] in
@@ -54,31 +40,33 @@ public class OfficerListReport: EventReportable {
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
                 })
-                && self.officers.flatMap {$0.involvements}.contains(where: {$0.caseInsensitiveCompare("reporting officer") == .orderedSame})
+                && self.officers.flatMap {$0.involvements}.contains(where: {$0.compare(reportingOfficerText) == .orderedSame})
         }
     }
 
-    // Codable
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
-        case event
+    private enum CodingKeys: String, CodingKey {
+        case officers
+        case viewed
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        commonInit()
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        officers = try container.decode([Officer].self, forKey: .officers)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
+
+        try super.init(from: decoder)
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(officers, forKey: CodingKeys.officers)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
     }
 
-    // Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-
-    }
 }
 
 extension OfficerListReport: Summarisable {

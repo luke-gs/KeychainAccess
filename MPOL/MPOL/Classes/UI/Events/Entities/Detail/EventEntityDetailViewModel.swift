@@ -31,11 +31,12 @@ open class EventEntityDetailViewModel {
 
     func headerView() -> UIView {
         let headerView = SidebarHeaderView()
+        guard let entity = report.entity else { return headerView }
 
-        let detailDisplayable = EntityDetailsDisplayable(report.entity)
+        let detailDisplayable = EntityDetailsDisplayable(entity)
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
-        let summaryDisplayable = EntitySummaryDisplayFormatter.default.summaryDisplayForEntity(report.entity)
+        let summaryDisplayable = EntitySummaryDisplayFormatter.default.summaryDisplayForEntity(entity)
         headerView.titleLabel.text = summaryDisplayable?.title
 
         headerView.subtitleLabel.text = "Saved as Draft"

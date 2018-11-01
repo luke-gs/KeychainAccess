@@ -24,7 +24,7 @@ open class DefaultEventReportable: EventReportable {
     public var evaluator: Evaluator = Evaluator()
 
     // Default init taking event
-    public required init(event: Event) {
+    public init(event: Event) {
         self.weakEvent = Weak(event)
 
         configure(with: event)
