@@ -20,12 +20,14 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     public var category: String?
 
     public var title: StringSizable? {
-        guard let title = formattedName else { return NSLocalizedString("Name Unknown", comment: "") }
 
-        let employeeNumberCount = (officer.employeeNumber?.count ?? 0) + 2
-        let attributedString = NSMutableAttributedString(string: title)
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15), range: NSRange(location: (title.count - employeeNumberCount), length: employeeNumberCount))
-        return attributedString
+        let lastNameString =  officer.familyName != nil ? "\(officer.familyName!)," : ""
+        let names: String = [lastNameString, officer.givenName].joined(separator: "")
+        let employeeNumberString = " (\(officer.employeeNumber ?? "Employee Number Unknown"))"
+
+        let result = NSMutableAttributedString(string: names)
+        result.append(employeeNumberString, font: UIFont.systemFont(ofSize: 15), color: nil)
+        return result
     }
 
     public var detail1: StringSizable? {
@@ -51,11 +53,4 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
         let imageSizing = EntityImageSizing(entity: officer)
         return imageSizing
     }
-
-    private var formattedName: String? {
-        let lastNameString = officer.familyName != nil ? "\(officer.familyName!)," : ""
-        let employeeNumberString = "(\(officer.employeeNumber ?? "Employee Number Unknown"))"
-        return [lastNameString, officer.givenName, employeeNumberString].joined()
-    }
-
 }
