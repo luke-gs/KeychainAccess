@@ -25,12 +25,12 @@ open class EventDraftListViewModel: DraftListViewModelable {
         self.manager = manager
     }
 
-    open func image(for item: Draftable, eventStatus: DraftableStatus) -> UIImage {
+    open func image(for item: Draftable, draftStatus: DraftableStatus) -> UIImage {
         let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
 
         var image: UIImage?
 
-        switch eventStatus {
+        switch draftStatus {
         case .draft:
             image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
                 .withCircleBackground(tintColor: isDark ? .black : .white, circleColor: isDark ? .white : .black, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
@@ -79,6 +79,10 @@ open class EventDraftListViewModel: DraftListViewModelable {
 
     public var rightNavBarButtonItemText: String? {
         return "New Event"
+    }
+
+    public var tabBarImageSet: (image: UIImage?, selectedImage: UIImage?)? {
+        return (image: AssetManager.shared.image(forKey: .tabBarEvents), selectedImage: AssetManager.shared.image(forKey: .tabBarEventsSelected))
     }
 
 }
