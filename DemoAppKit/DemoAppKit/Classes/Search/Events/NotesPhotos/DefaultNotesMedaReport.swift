@@ -12,8 +12,7 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-public class DefaultNotesMediaReport: EventReportable, MediaContainer {
-    public var weakEvent: Weak<Event>
+open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
 
     var viewed: Bool = false {
         didSet {
@@ -25,17 +24,13 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
     var operationName: String?
     var freeText: String?
 
-    public var evaluator: Evaluator = Evaluator()
-
     public required init(event: Event) {
-        self.weakEvent = Weak(event)
-        commonInit()
+        super.init(event: event)
     }
 
-    public func commonInit() {
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
+
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
@@ -54,19 +49,21 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         media = try container.decode([MediaAsset].self, forKey: .media)
         operationName = try container.decodeIfPresent(String.self, forKey: .operationName)
         freeText = try container.decodeIfPresent(String.self, forKey: .freeText)
-        weakEvent = Weak<Event>(nil)
-        commonInit()
+
+        try super.init(from: decoder)
     }
 
-    open func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(media, forKey: CodingKeys.media)
         try container.encode(operationName, forKey: CodingKeys.operationName)
         try container.encode(freeText, forKey: CodingKeys.freeText)
+
+        try super.encode(to: encoder)
     }
 
     // Media
-    public func add(_ media: [MediaAsset]) {
+    open func add(_ media: [MediaAsset]) {
         media.forEach {
             if !self.media.contains($0) {
                 self.media.append($0)
@@ -74,17 +71,13 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         }
     }
 
-   public func remove(_ media: [MediaAsset]) {
+   open func remove(_ media: [MediaAsset]) {
         media.forEach { asset in
             if let index = self.media.index(where: { $0 == asset }) {
                 self.media.remove(at: index)
             }
         }
     }
-
-    // Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
 
 extension DefaultNotesMediaReport: Summarisable {

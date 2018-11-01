@@ -207,7 +207,6 @@
 		963E5AE92179796600BC2415 /* CADBroadcastType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E59FF2179796500BC2415 /* CADBroadcastType.swift */; };
 		963E5AEA2179796600BC2415 /* CADAssociationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A002179796500BC2415 /* CADAssociationType.swift */; };
 		963E5AEB2179796600BC2415 /* CADOfficerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A012179796500BC2415 /* CADOfficerType.swift */; };
-		963E5AEC2179796600BC2415 /* CADEmployeeDetailsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A022179796500BC2415 /* CADEmployeeDetailsType.swift */; };
 		963E5AED2179796600BC2415 /* CADIncidentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A032179796500BC2415 /* CADIncidentType.swift */; };
 		963E5AEE2179796600BC2415 /* CADAssociatedVehicleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A042179796500BC2415 /* CADAssociatedVehicleType.swift */; };
 		963E5AEF2179796600BC2415 /* CADEquipmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5A052179796500BC2415 /* CADEquipmentType.swift */; };
@@ -235,6 +234,11 @@
 		96BE88712126597000F57FF0 /* DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BE88672126597000F57FF0 /* DemoAppKit.framework */; };
 		96BE88762126597000F57FF0 /* DemoAppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE88752126597000F57FF0 /* DemoAppKitTests.swift */; };
 		96BE88782126597000F57FF0 /* DemoAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96BE886A2126597000F57FF0 /* DemoAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96C1DD37218BA8BB00FD7CEC /* EventReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD36218BA8BB00FD7CEC /* EventReportable.swift */; };
+		96C1DD39218BA8F400FD7CEC /* IncidentReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD38218BA8F400FD7CEC /* IncidentReportable.swift */; };
+		96C1DD3B218BA91900FD7CEC /* ActionReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD3A218BA91900FD7CEC /* ActionReportable.swift */; };
+		96C1DD3D218BA95F00FD7CEC /* DefaultEventReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD3C218BA95F00FD7CEC /* DefaultEventReportable.swift */; };
+		96C1DD3F218BAAB100FD7CEC /* DefaultReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD3E218BAAB100FD7CEC /* DefaultReportable.swift */; };
 		9BE14571DCC92580D7D72CB0 /* Pods_DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837172668652E1ABE842ACD1 /* Pods_DemoAppKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -453,7 +457,6 @@
 		963E59FF2179796500BC2415 /* CADBroadcastType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastType.swift; sourceTree = "<group>"; };
 		963E5A002179796500BC2415 /* CADAssociationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociationType.swift; sourceTree = "<group>"; };
 		963E5A012179796500BC2415 /* CADOfficerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerType.swift; sourceTree = "<group>"; };
-		963E5A022179796500BC2415 /* CADEmployeeDetailsType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEmployeeDetailsType.swift; sourceTree = "<group>"; };
 		963E5A032179796500BC2415 /* CADIncidentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentType.swift; sourceTree = "<group>"; };
 		963E5A042179796500BC2415 /* CADAssociatedVehicleType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociatedVehicleType.swift; sourceTree = "<group>"; };
 		963E5A052179796500BC2415 /* CADEquipmentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEquipmentType.swift; sourceTree = "<group>"; };
@@ -484,6 +487,11 @@
 		96BE88702126597000F57FF0 /* DemoAppKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BE88752126597000F57FF0 /* DemoAppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppKitTests.swift; sourceTree = "<group>"; };
 		96BE88772126597000F57FF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96C1DD36218BA8BB00FD7CEC /* EventReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventReportable.swift; sourceTree = "<group>"; };
+		96C1DD38218BA8F400FD7CEC /* IncidentReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentReportable.swift; sourceTree = "<group>"; };
+		96C1DD3A218BA91900FD7CEC /* ActionReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionReportable.swift; sourceTree = "<group>"; };
+		96C1DD3C218BA95F00FD7CEC /* DefaultEventReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventReportable.swift; sourceTree = "<group>"; };
+		96C1DD3E218BAAB100FD7CEC /* DefaultReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReportable.swift; sourceTree = "<group>"; };
 		98DE0B0AD5CC2728A2EDA96E /* Pods-DemoAppKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -570,14 +578,6 @@
 		963E58FA2179796500BC2415 /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				963E59002179796500BC2415 /* DateTime */,
-				963E591B2179796500BC2415 /* Entities */,
-				963E59102179796500BC2415 /* EntityManager */,
-				963E590C2179796500BC2415 /* Location */,
-				963E59122179796500BC2415 /* NotesPhotos */,
-				963E59042179796500BC2415 /* Property */,
-				963E59182179796500BC2415 /* Service */,
-				963E59232179796500BC2415 /* Submission */,
 				963E58FE2179796500BC2415 /* Event.swift */,
 				963E58FF2179796500BC2415 /* EventBuilding.swift */,
 				963E59162179796500BC2415 /* EventListDisplayable.swift */,
@@ -587,7 +587,15 @@
 				963E590B2179796500BC2415 /* EventSummaryViewController.swift */,
 				963E58FD2179796500BC2415 /* EventSummaryViewModel.swift */,
 				963E590F2179796500BC2415 /* EventType.swift */,
-				963E58FB2179796500BC2415 /* Reportable.swift */,
+				963E59002179796500BC2415 /* DateTime */,
+				963E591B2179796500BC2415 /* Entities */,
+				963E59102179796500BC2415 /* EntityManager */,
+				963E590C2179796500BC2415 /* Location */,
+				963E59122179796500BC2415 /* NotesPhotos */,
+				963E59042179796500BC2415 /* Property */,
+				96C1DD35218BA83D00FD7CEC /* Reports */,
+				963E59182179796500BC2415 /* Service */,
+				963E59232179796500BC2415 /* Submission */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1286,7 +1294,6 @@
 				963E5A042179796500BC2415 /* CADAssociatedVehicleType.swift */,
 				963E5A002179796500BC2415 /* CADAssociationType.swift */,
 				963E59FF2179796500BC2415 /* CADBroadcastType.swift */,
-				963E5A022179796500BC2415 /* CADEmployeeDetailsType.swift */,
 				963E5A052179796500BC2415 /* CADEquipmentType.swift */,
 				963E59FE2179796500BC2415 /* CADIncidentInformantType.swift */,
 				963E5A032179796500BC2415 /* CADIncidentType.swift */,
@@ -1395,6 +1402,19 @@
 				96BE88772126597000F57FF0 /* Info.plist */,
 			);
 			path = DemoAppKitTests;
+			sourceTree = "<group>";
+		};
+		96C1DD35218BA83D00FD7CEC /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				963E58FB2179796500BC2415 /* Reportable.swift */,
+				96C1DD36218BA8BB00FD7CEC /* EventReportable.swift */,
+				96C1DD38218BA8F400FD7CEC /* IncidentReportable.swift */,
+				96C1DD3A218BA91900FD7CEC /* ActionReportable.swift */,
+				96C1DD3C218BA95F00FD7CEC /* DefaultEventReportable.swift */,
+				96C1DD3E218BAAB100FD7CEC /* DefaultReportable.swift */,
+			);
+			path = Reports;
 			sourceTree = "<group>";
 		};
 		FB3EEA76A60FE5209959C592 /* Frameworks */ = {
@@ -1630,6 +1650,7 @@
 				963E5AC82179796500BC2415 /* CADAlertLevelCore.swift in Sources */,
 				963E5AE22179796600BC2415 /* CADAlertLevelType.swift in Sources */,
 				963E5AF92179796600BC2415 /* CADAPIManagerType.swift in Sources */,
+				96C1DD37218BA8BB00FD7CEC /* EventReportable.swift in Sources */,
 				963E5ACF2179796600BC2415 /* CADAssociatedPersonCore.swift in Sources */,
 				963E5AF22179796600BC2415 /* CADAssociatedPersonType.swift in Sources */,
 				963E5AD32179796600BC2415 /* CADAssociatedVehicleCore.swift in Sources */,
@@ -1644,7 +1665,6 @@
 				963E5AD62179796600BC2415 /* CADBroadcastCore.swift in Sources */,
 				963E5AE92179796600BC2415 /* CADBroadcastType.swift in Sources */,
 				963E5ADD2179796600BC2415 /* CADClientModelTypes.swift in Sources */,
-				963E5AEC2179796600BC2415 /* CADEmployeeDetailsType.swift in Sources */,
 				963E5ADF2179796600BC2415 /* CADEnumIntType.swift in Sources */,
 				963E5AE12179796600BC2415 /* CADEnumStringType.swift in Sources */,
 				963E5AD12179796600BC2415 /* CADEquipmentCore.swift in Sources */,
@@ -1709,8 +1729,10 @@
 				963E5A422179796500BC2415 /* EntitiesListViewModel.swift in Sources */,
 				963E5A412179796500BC2415 /* EntityPickerType.swift in Sources */,
 				963E5A2A2179796500BC2415 /* Event.swift in Sources */,
+				96C1DD3F218BAAB100FD7CEC /* DefaultReportable.swift in Sources */,
 				963E5A2B2179796500BC2415 /* EventBuilding.swift in Sources */,
 				963E5A392179796500BC2415 /* EventEntityManager.swift in Sources */,
+				96C1DD3D218BA95F00FD7CEC /* DefaultEventReportable.swift in Sources */,
 				963E5A3D2179796500BC2415 /* EventListDisplayable.swift in Sources */,
 				963E5A362179796500BC2415 /* EventLocation.swift in Sources */,
 				963E5A282179796500BC2415 /* EventSearchableViewModel.swift in Sources */,
@@ -1771,6 +1793,7 @@
 				963E5AB82179796500BC2415 /* ResourceAnnotationView.swift in Sources */,
 				963E5A592179796500BC2415 /* ResourceOfficerListViewController.swift in Sources */,
 				963E5A5A2179796500BC2415 /* ResourceOfficerListViewModel.swift in Sources */,
+				96C1DD3B218BA91900FD7CEC /* ActionReportable.swift in Sources */,
 				963E5A5B2179796500BC2415 /* ResourceOfficerViewModel.swift in Sources */,
 				963E5A5E2179796500BC2415 /* ResourceOverviewFormViewController.swift in Sources */,
 				963E5A5F2179796500BC2415 /* ResourceOverviewMapViewModel.swift in Sources */,
@@ -1786,6 +1809,7 @@
 				963E5A822179796500BC2415 /* TaskDetailsOverviewViewModel.swift in Sources */,
 				963E5A842179796500BC2415 /* TaskDetailsViewModel.swift in Sources */,
 				963E5AAE2179796500BC2415 /* TaskItemScreen.swift in Sources */,
+				96C1DD39218BA8F400FD7CEC /* IncidentReportable.swift in Sources */,
 				963E5A862179796500BC2415 /* TaskItemSidebarSplitViewController.swift in Sources */,
 				963E5A832179796500BC2415 /* TaskItemViewModel.swift in Sources */,
 				963E5AAD2179796500BC2415 /* TaskListScreen.swift in Sources */,

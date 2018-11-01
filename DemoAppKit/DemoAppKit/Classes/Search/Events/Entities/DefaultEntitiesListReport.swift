@@ -12,26 +12,11 @@ extension EvaluatorKey {
     static let additionalActionsComplete = EvaluatorKey("additionalActionsComplete")
 }
 
-public class DefaultEntitiesListReport: Reportable {
-    public var weakEvent: Weak<Event>
-    public var weakIncident: Weak<Incident>
+public class DefaultEntitiesListReport: DefaultReportable {
 
-    public let evaluator: Evaluator = Evaluator()
+    public override func configure(with event: Event) {
+        super.configure(with: event)
 
-    public init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
-
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
-        commonInit()
-    }
-
-    private func commonInit() {
         evaluator.registerKey(.hasEntity) { [weak self] in
             guard let `self` = self else { return false }
             guard let event = self.event else { return false }
@@ -43,19 +28,5 @@ public class DefaultEntitiesListReport: Reportable {
             guard let incident = self.incident else { return false }
             return incident.additionalActionManager.allValid
         }
-    }
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-    }
-
-    // MARK: - Codable
-
-    public required init(from decoder: Decoder) throws {
-        weakEvent = Weak<Event>(nil)
-        weakIncident = Weak<Incident>(nil)
-        commonInit()
-    }
-
-    open func encode(to encoder: Encoder) throws {
     }
 }

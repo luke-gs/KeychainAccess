@@ -1,0 +1,72 @@
+//
+//  DefaultReportable.swift
+//  DemoAppKit
+//
+//  Created by Trent Fitzgibbon on 2/11/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
+//
+
+import Foundation
+
+/// Default base class for a Reportable
+public class DefaultReportable: Reportable {
+
+    /// Reference back to the grandparent event
+    public var weakEvent: Weak<Event> {
+        didSet {
+            if let event = event, oldValue.object == nil {
+                configure(with: event)
+            }
+        }
+    }
+
+    /// Reference back to the parent incident
+    public var weakIncident: Weak<Incident> {
+        didSet {
+            if let incident = incident, oldValue.object == nil {
+                configure(with: incident)
+            }
+        }
+    }
+
+    /// Evaluator for this report
+    public var evaluator: Evaluator = Evaluator()
+
+    // Default init taking event and incident
+    public required init(event: Event, incident: Incident) {
+        self.weakEvent = Weak(event)
+        self.weakIncident = Weak(incident)
+
+        configure(with: event)
+        configure(with: incident)
+    }
+
+    /// Perform any configuration now that we have an event
+    open func configure(with event: Event) {
+        evaluator.addObserver(event)
+    }
+
+    /// Perform any configuration now that we have an incident
+    open func configure(with incident: Incident) {
+        evaluator.addObserver(incident)
+    }
+
+    // MARK: - Codable
+
+    public required init(from decoder: Decoder) throws {
+        /// Set event and incident to nil initially, until parent passes it to us during it's decode
+        weakEvent = Weak(nil)
+        weakIncident = Weak(nil)
+    }
+
+    open func encode(to encoder: Encoder) throws {
+        // Nothing by default
+    }
+
+    // Evaluation
+
+    open func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        // Nothing by default
+    }
+
+}

@@ -10,8 +10,7 @@ internal extension EvaluatorKey {
     static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
 }
 
-public class DefaultDateTimeReport: EventReportable {
-    public var weakEvent: Weak<Event>
+open class DefaultDateTimeReport: DefaultEventReportable {
 
     public var reportedOnDateTime: Date? {
         didSet {
@@ -27,15 +26,13 @@ public class DefaultDateTimeReport: EventReportable {
 
     public var tookPlaceFromEndDateTime: Date?
 
-    public var evaluator: Evaluator = Evaluator()
-
     public required init(event: Event) {
-        self.weakEvent = Weak(event)
-        commonInit()
+        super.init(event: event)
     }
 
-    private func commonInit() {
-        if let event = event { evaluator.addObserver(event) }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
+
         evaluator.registerKey(.reportedOnDateTime) { [weak self] in
             guard let `self` = self else { return false }
             return self.reportedOnDateTime != nil
@@ -59,20 +56,18 @@ public class DefaultDateTimeReport: EventReportable {
         reportedOnDateTime = try container.decodeIfPresent(Date.self, forKey: .reportedOnDateTime)
         tookPlaceFromStartDateTime = try container.decodeIfPresent(Date.self, forKey: .tookPlaceFromStartDateTime)
         tookPlaceFromEndDateTime = try container.decodeIfPresent(Date.self, forKey: .tookPlaceFromEndDateTime)
-        weakEvent = Weak<Event>(nil)
-        commonInit()
+
+        try super.init(from: decoder)
     }
 
-    open func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(reportedOnDateTime, forKey: CodingKeys.reportedOnDateTime)
         try container.encode(tookPlaceFromStartDateTime, forKey: CodingKeys.tookPlaceFromStartDateTime)
         try container.encode(tookPlaceFromEndDateTime, forKey: CodingKeys.tookPlaceFromEndDateTime)
+
+        try super.encode(to: encoder)
     }
-
-    // Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
 }
 
