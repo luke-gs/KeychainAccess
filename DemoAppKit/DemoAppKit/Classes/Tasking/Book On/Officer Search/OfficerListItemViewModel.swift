@@ -33,10 +33,11 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
         // compile title
         let lastNameString = lastName != nil ? "\(lastName!)," : ""
-        let names = [lastNameString, firstName].joined()
-        let employeeNumberString = NSMutableAttributedString(" (\(employeeNumber))", font: UIFont.systemFont(ofSize: 15))
+        let names = [lastNameString, firstName].joined(separator: " ")
+        let employeeNumberString = " (\(employeeNumber))"
 
-        return NSMutableAttributedString(string: names).append(attributedString: employeeNumberString)
+        let result = NSMutableAttributedString(string: names).append(employeeNumberString, font: UIFont.systemFont(ofSize: 15), color: nil)
+        return result
     }
 
     public var subtitle: StringSizable? {

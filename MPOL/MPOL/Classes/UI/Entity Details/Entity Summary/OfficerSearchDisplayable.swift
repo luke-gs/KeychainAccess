@@ -22,11 +22,10 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     public var title: StringSizable? {
 
         let lastNameString =  officer.familyName != nil ? "\(officer.familyName!)," : ""
-        let names: String = [lastNameString, officer.givenName].joined(separator: "")
+        let names: String = [lastNameString, officer.givenName].joined(separator: " ")
         let employeeNumberString = " (\(officer.employeeNumber ?? "Employee Number Unknown"))"
 
-        let result = NSMutableAttributedString(string: names)
-        result.append(employeeNumberString, font: UIFont.systemFont(ofSize: 15), color: nil)
+        let result = NSMutableAttributedString(string: names).append(employeeNumberString, font: UIFont.systemFont(ofSize: 15), color: nil)
         return result
     }
 
