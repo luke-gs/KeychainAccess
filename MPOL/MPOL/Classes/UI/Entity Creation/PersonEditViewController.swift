@@ -17,7 +17,7 @@ public class PersonEditViewController: FormBuilderViewController {
     private var finalPerson = Person(id: UUID().uuidString)
     private let finalDescription = PersonDescription(id: UUID().uuidString)
 
-    private var locations: [(AnyPickable, LocationSelectionType)]?
+    private var locations: [LocationSelectionCore]?
 
     private let numberFormatter = NumberFormatter()
 
@@ -267,28 +267,25 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
-                self.present(LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.personEditWorkflowId, nil, completionHandler: {
-                    [unowned self] location in
-                    // TODO: add handler 
-//                    guard let location = location else { return }
-//                    if self.locations != nil {
-//                        self.locations!.append(, location)
-//                    } else {
-//                        self.locations = [location]
-//                    }
+                self.present(LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.personEditWorkflowId, nil, completionHandler: { [unowned self] location in
+                    guard let location = location as? LocationSelectionCore else { return }
+                    if self.locations != nil {
+                        self.locations!.append(location)
+                    } else {
+                        self.locations = [location]
+                    }
                 }))
-//                self.present(LocationSelectionFormAction().presentable()!)
             })
         if let _locations = locations {
-            for (index, (type, location)) in _locations.enumerated() {
+            for (index, location) in _locations.enumerated() {
                 builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
-                    .title(type.title)
+                    .title(location.type?.title)
                     .selectedValue(location)
                     .width(.column(1))
                     .required()
                     .onValueChanged { [unowned self] (location) in
-                        if let location = location {
-                            self.locations?[index] = (type, location)
+                        if let location = location as? LocationSelectionCore {
+                            self.locations?[index] = location
                         }
                     }
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),

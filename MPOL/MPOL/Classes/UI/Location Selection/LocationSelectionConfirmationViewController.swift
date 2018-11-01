@@ -167,6 +167,9 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
+                .onValueChanged { [weak self] value in
+                    self?.viewModel.type = value?.first
+            }
         }
     }
     // MARK: - Done Action

@@ -14,6 +14,7 @@ import Contacts
 public class LocationSelectionCore: LocationSelectionType {
     public var coordinate: CLLocationCoordinate2D
     public var displayText: String?
+    public var type: AnyPickable?
 
     public var placemark: CLPlacemark?
     public var searchResult: LookupAddress?
