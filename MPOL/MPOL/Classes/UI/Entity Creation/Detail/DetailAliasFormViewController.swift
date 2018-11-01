@@ -39,7 +39,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
     }
 
     public override func construct(builder: FormBuilder) {
-        title = NSLocalizedString("Add Alias Form Title", comment: "")
+        title = NSLocalizedString("Add Alias", comment: "")
         if viewModel.personAlias == nil {
             viewModel.personAlias = PersonAlias(id: UUID().uuidString)
         }
