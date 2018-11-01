@@ -19,7 +19,6 @@ open class PersonAlias: Alias {
     public var lastName: String?
     public var middleNames: String?
     public var title: String?
-    public var nickname: String?
 
     public override init(id: String) {
         super.init(id: id)
@@ -36,7 +35,6 @@ open class PersonAlias: Alias {
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: PersonAlias.dateTransformer)
         ethnicity = unboxer.unbox(key: "ethnicity")
         title = unboxer.unbox(key: "title")
-        nickname = unboxer.unbox(key: "nickname")
         try super.init(unboxer: unboxer)
     }
 
@@ -77,8 +75,6 @@ open class PersonAlias: Alias {
         case lastName
         case middleNames
         case title
-        // TODO: TBC with backend
-        case nickname
     }
 
     public required init(from decoder: Decoder) throws {
@@ -92,7 +88,6 @@ open class PersonAlias: Alias {
         lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
         middleNames = try container.decodeIfPresent(String.self, forKey: .middleNames)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        nickname = try container.decodeIfPresent(String.self, forKey: .nickname)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -105,7 +100,6 @@ open class PersonAlias: Alias {
         try container.encode(lastName, forKey: CodingKeys.lastName)
         try container.encode(middleNames, forKey: CodingKeys.middleNames)
         try container.encode(title, forKey: CodingKeys.title)
-        try container.encode(nickname, forKey: CodingKeys.nickname)
     }
 
 }
