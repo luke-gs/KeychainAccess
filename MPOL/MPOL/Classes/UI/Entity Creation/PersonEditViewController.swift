@@ -39,7 +39,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
 
-        builder.title = NSLocalizedString("Person", comment: "")
+        builder.title = NSLocalizedString("Create New Person", comment: "")
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("General", comment: "")).separatorColor(.clear)
 
