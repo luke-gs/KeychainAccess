@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		05F2A841DF06C289F75527F9 /* Pods_MPOLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */; };
-		127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventsListViewModel.swift */; };
 		127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F2202AB1F0007D0BBB /* EventBuilder.swift */; };
 		127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */; };
 		12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */; };
@@ -88,6 +87,7 @@
 		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
 		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
 		37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37CAF6102165C0BE007C449D /* GoogleService-Info.plist */; };
+		37D16155218AC43E00DFCB52 /* EventDraftListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */; };
 		37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */; };
 		37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A22105A4E400860B6D /* AlertsFormItem.swift */; };
 		37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */; };
@@ -386,6 +386,7 @@
 		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		37C433912163339800544AA7 /* LicenceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceScanner.swift; sourceTree = "<group>"; };
 		37CAF6102165C0BE007C449D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDraftListViewModel.swift; sourceTree = "<group>"; };
 		37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryAlertsSearchResultViewModel.swift; sourceTree = "<group>"; };
 		37F048A22105A4E400860B6D /* AlertsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFormItem.swift; sourceTree = "<group>"; };
 		37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAlertsCell.swift; sourceTree = "<group>"; };
@@ -653,6 +654,7 @@
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
 				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
+				37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1977,6 +1979,7 @@
 				96B775A3214206F100836B83 /* LicenceWildcardParserDefinition.swift in Sources */,
 				96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */,
 				96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */,
+				37D16155218AC43E00DFCB52 /* EventDraftListViewModel.swift in Sources */,
 				96B7753E2140F8EE00836B83 /* PersonEditViewController.swift in Sources */,
 				96B7751B2140F8EE00836B83 /* PersonFetchParameter.swift in Sources */,
 				96B775562140F8EE00836B83 /* PersonFetchRequest.swift in Sources */,

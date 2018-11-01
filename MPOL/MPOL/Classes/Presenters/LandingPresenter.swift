@@ -160,7 +160,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
 
-            let didTapCreate: ((EntityDraftListViewController) -> Void) = { vc in
+            let didTapCreate: ((DraftListViewController) -> Void) = { vc in
                 let eventCreationVC = IncidentSelectViewController()
                 let eventCreationNavController = PopoverNavigationController(rootViewController: eventCreationVC)
                 eventCreationNavController.wantsTransparentBackground = false
@@ -174,7 +174,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 }
             }
 
-            let didTapItem: ((EntityDraftListViewController, Int, String) -> Void) = { vc, offset, id in
+            let didTapItem: ((DraftListViewController, Int, String) -> Void) = { vc, offset, id in
                 guard let event = eventsManager.event(for: id) else { return }
                 presentScreen(for: event, from: vc)
             }
@@ -201,7 +201,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
             }
 
-            let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), didTapCreate: didTapCreate, didTapItem: didTapItem)
+            let eventsListVC = DraftListViewController(viewModel: EventDraftListViewModel(manager: eventsManager), didTapCreate: didTapCreate, didTapItem: didTapItem)
 
             eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
