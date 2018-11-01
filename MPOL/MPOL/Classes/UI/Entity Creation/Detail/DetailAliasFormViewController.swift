@@ -78,9 +78,14 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             .title(type)
             .text(viewModel.personAlias?.lastName)
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.lastName = $0
+            }
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
             }
         builder += firstNameFormItem
         builder += middleNameFormItem

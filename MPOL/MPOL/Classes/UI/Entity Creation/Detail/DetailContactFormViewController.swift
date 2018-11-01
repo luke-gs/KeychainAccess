@@ -60,10 +60,15 @@ public class DetailContactFormViewController: FormBuilderViewController {
             .title(viewModel.selectedType?.localizedDescription())
             .text(viewModel.contact?.value)
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .accessory(ItemAccessory.pencil)
             .onValueChanged {
                 self.viewModel.contact?.value = $0
+            }
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
             }
         if viewModel.selectedType == .email {
             formItem.softValidate(EmailSpecification(), message: "Invalid email address")
