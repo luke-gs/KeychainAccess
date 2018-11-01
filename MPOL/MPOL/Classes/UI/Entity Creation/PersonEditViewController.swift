@@ -63,14 +63,6 @@ public class PersonEditViewController: FormBuilderViewController {
             .required()
             .width(.column(4))
 
-        builder += TextFieldFormItem()
-            .title(NSLocalizedString("Identification Number", comment: ""))
-            .text(finalPerson.identificationNumber)
-            .width(.column(4))
-            .onValueChanged { [unowned self] value in
-                self.finalPerson.identificationNumber = value
-        }
-
         builder += DateFormItem()
             .title(NSLocalizedString("Date Of Birth", comment: ""))
             .dateFormatter(.preferredDateStyle)

@@ -64,7 +64,6 @@ open class Person: Entity, Identifiable {
     public var trafficHistory: [TrafficHistory]?
     public var yearOnlyDateOfBirth: Bool?
     public var placeOfBirth: String?
-    public var identificationNumber: String?
     // MARK: - Transient
 
     public var thumbnail: UIImage?
@@ -114,7 +113,6 @@ open class Person: Entity, Identifiable {
         offenderCharges = unboxer.unbox(key: CodingKeys.offenderCharges.rawValue)
         offenderConvictions = unboxer.unbox(key: CodingKeys.offenderConvictions.rawValue)
         trafficHistory = unboxer.unbox(key: CodingKeys.trafficHistory.rawValue)
-        identificationNumber = unboxer.unbox(key: CodingKeys.identificationNumber.rawValue)
         placeOfBirth = unboxer.unbox(key: CodingKeys.placeOfBirth.rawValue)
     }
 
@@ -139,7 +137,6 @@ open class Person: Entity, Identifiable {
         case trafficHistory
         case yearOnlyDateOfBirth
         // TODO: TBC with backend
-        case identificationNumber
         case placeOfBirth
     }
 
@@ -165,7 +162,6 @@ open class Person: Entity, Identifiable {
         thumbnailUrl = try container.decodeIfPresent(URL.self, forKey: .thumbnailUrl)
         trafficHistory = try container.decodeIfPresent([TrafficHistory].self, forKey: .trafficHistory)
         yearOnlyDateOfBirth = try container.decodeIfPresent(Bool.self, forKey: .yearOnlyDateOfBirth)
-        identificationNumber = try container.decodeIfPresent(String.self, forKey: .identificationNumber)
         placeOfBirth = try container.decodeIfPresent(String.self, forKey: .placeOfBirth)
     }
 
@@ -190,7 +186,6 @@ open class Person: Entity, Identifiable {
         try container.encode(thumbnailUrl, forKey: CodingKeys.thumbnailUrl)
         try container.encode(trafficHistory, forKey: CodingKeys.trafficHistory)
         try container.encode(yearOnlyDateOfBirth, forKey: CodingKeys.yearOnlyDateOfBirth)
-        try container.encode(identificationNumber, forKey: CodingKeys.identificationNumber)
         try container.encode(placeOfBirth, forKey: CodingKeys.placeOfBirth)
     }
 
