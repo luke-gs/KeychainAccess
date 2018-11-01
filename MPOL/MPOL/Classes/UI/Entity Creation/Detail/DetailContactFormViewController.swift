@@ -71,10 +71,10 @@ public class DetailContactFormViewController: FormBuilderViewController {
         builder += formItem
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Remarks", comment: ""))
-            .text(viewModel.remark)
+            .text(viewModel.contact?.remark)
             .width(.column(1))
             .onValueChanged {
-                self.viewModel.remark = $0
+                self.viewModel.contact?.remark = $0
         }
     }
 

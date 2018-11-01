@@ -158,12 +158,12 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             .width(.column(1))
 
         // Only display location type if title and options are defined
-        if let title = viewModel.typeTitle, let options = viewModel.typeOptions {
+        if let title = viewModel.typeTitle, let options = viewModel.typeOptions, let allowMultipleType = viewModel.allowMultipleTypes {
             builder += DropDownFormItem()
                 .title(title)
                 .options(options)
                 .selectedValue([viewModel.type].removeNils())
-                .allowsMultipleSelection(true)
+                .allowsMultipleSelection(allowMultipleType)
                 .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))

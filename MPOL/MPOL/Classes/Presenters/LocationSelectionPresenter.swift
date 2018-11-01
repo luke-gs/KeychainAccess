@@ -15,6 +15,8 @@ public class LocationSelectionPresenter: Presenter {
 
     /// Workflow id for events
     public static let eventWorkflowId = "event"
+    /// Workflow id for personEdit
+    public static let personEditWorkflowId = "personEdit"
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
@@ -99,6 +101,12 @@ public class LocationSelectionPresenter: Presenter {
                     viewModel.isEditable = true
                     viewModel.requiredFields = true
                 }
+            } else if workflowId == LocationSelectionPresenter.personEditWorkflowId {
+                // Add location type to final confirmation screen
+                viewModel.typeTitle = NSLocalizedString("Type", comment: "")
+                viewModel.typeOptions = ["Residential Address", "Work Address"].map { AnyPickable($0) }
+                viewModel.allowMultipleTypes = false
+                viewModel.isEditable = true
             } else {
                 viewModel.isEditable = true
             }

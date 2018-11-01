@@ -19,7 +19,6 @@ public enum EntityScreen: Presentable {
     case createEntity(type: EntityType)
     case createEntityContactDetail(viewModel: DetailContactFormViewModel, submitHandler: DetailContactFormViewController.SubmitHandler?)
     case createEntityAliasDetail(viewModel: DetailAliasFormViewModel, submitHandler: DetailAliasFormViewController.SubmitHandler?)
-    case createEntityAddressDetail(submitHandler: DetailAddressFormViewController.SubmitHandler?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -197,9 +196,6 @@ public class EntityPresenter: Presenter {
 
         case .createEntityContactDetail(let viewModel, let handler):
             return DetailContactFormViewController(viewModel: viewModel, submitHandler: handler)
-
-        case .createEntityAddressDetail(let handler):
-            return DetailAddressFormViewController(viewModel: DetailAddressFormViewModel(), submitHandler: handler)
         }
     }
 
@@ -215,10 +211,6 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
-        case .createEntityAddressDetail:
-            let container = ModalNavigationController(rootViewController: to)
-            container.preferredContentSize = CGSize(width: 512, height: 376)
-            from.presentModalViewController(container)
         case .createEntityAliasDetail:
             let container = ModalNavigationController(rootViewController: to)
             container.preferredContentSize = CGSize(width: 512, height: 328)

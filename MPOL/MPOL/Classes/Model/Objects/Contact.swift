@@ -19,19 +19,19 @@ open class Contact: IdentifiableDataModel {
 
         public func localizedDescription() -> String {
             switch self {
-            case .phone: return "Phone"
-            case .mobile: return "Mobile"
-            case .email: return "Email"
+            case .phone: return "Contact Number"
+            case .mobile: return "Mobile Number"
+            case .email: return "Email Address"
             }
         }
 
         public static func contactType(from localizedDescription: String) -> ContactType? {
             switch localizedDescription {
-            case "Phone":
+            case "Contact Number":
                 return ContactType.phone
-            case "Mobile":
+            case "Mobile Number":
                 return ContactType.mobile
-            case "Email":
+            case "Email Address":
                 return ContactType.email
             default:
                 return nil
@@ -59,6 +59,7 @@ open class Contact: IdentifiableDataModel {
     public var type: Contact.ContactType?
     public var updatedBy: String?
     public var value: String?
+    public var remark: String?
 
     // MARK: - Unboxable
 
@@ -80,6 +81,7 @@ open class Contact: IdentifiableDataModel {
         subType = unboxer.unbox(key: "contactSubType")
         value = unboxer.unbox(key: "value")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
+        remark = unboxer.unbox(key: "remark")
 
         try super.init(unboxer: unboxer)
     }
@@ -100,6 +102,7 @@ open class Contact: IdentifiableDataModel {
         case type
         case updatedBy
         case value
+        case remark
     }
 
     public required init(from decoder: Decoder) throws {
@@ -120,6 +123,7 @@ open class Contact: IdentifiableDataModel {
         type = try container.decodeIfPresent(Contact.ContactType.self, forKey: .type)
         updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
         value = try container.decodeIfPresent(String.self, forKey: .value)
+        remark = try container.decodeIfPresent(String.self, forKey: .remark)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -139,6 +143,7 @@ open class Contact: IdentifiableDataModel {
         try container.encode(type, forKey: CodingKeys.type)
         try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
         try container.encode(value, forKey: CodingKeys.value)
+        try container.encode(remark, forKey: CodingKeys.remark)
     }
 
 }

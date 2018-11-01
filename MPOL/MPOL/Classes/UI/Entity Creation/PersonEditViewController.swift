@@ -261,15 +261,17 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
-                self.present(EntityScreen.createEntityAddressDetail { [unowned self] viewModel in
-                    guard let location = viewModel.selectedLocation else { return }
-                    if self.locations != nil {
-                        self.locations!.append((viewModel.selectedType!, location))
-                    } else {
-                        self.locations = [(viewModel.selectedType!, location)]
-                    }
-                    self.reloadForm()
-                })
+                self.present(LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.personEditWorkflowId, nil, completionHandler: {
+                    [unowned self] location in
+                    // TODO: add handler 
+//                    guard let location = location else { return }
+//                    if self.locations != nil {
+//                        self.locations!.append(, location)
+//                    } else {
+//                        self.locations = [location]
+//                    }
+                }))
+//                self.present(LocationSelectionFormAction().presentable()!)
             })
         if let _locations = locations {
             for (index, (type, location)) in _locations.enumerated() {

@@ -64,10 +64,8 @@
 		20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C97904215C93610067977B /* CreateTaskPresenter.swift */; };
 		20E61AB52189368600B65F43 /* DetailContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB42189368600B65F43 /* DetailContactFormViewController.swift */; };
 		20E61AB72189369500B65F43 /* DetailAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB62189369500B65F43 /* DetailAliasFormViewController.swift */; };
-		20E61AB9218936AE00B65F43 /* DetailAddressFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB8218936AE00B65F43 /* DetailAddressFormViewController.swift */; };
 		20E61ABB218936BC00B65F43 /* DetailContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABA218936BC00B65F43 /* DetailContactFormViewModel.swift */; };
 		20E61ABD218936C600B65F43 /* DetailAliasFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABC218936C600B65F43 /* DetailAliasFormViewModel.swift */; };
-		20E61ABF218936D200B65F43 /* DetailAddressFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABE218936D200B65F43 /* DetailAddressFormViewModel.swift */; };
 		37097CA921648B000036434C /* VoiceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37097CA821648B000036434C /* VoiceSearchViewController.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
@@ -367,10 +365,8 @@
 		20C97904215C93610067977B /* CreateTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskPresenter.swift; sourceTree = "<group>"; };
 		20E61AB42189368600B65F43 /* DetailContactFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContactFormViewController.swift; sourceTree = "<group>"; };
 		20E61AB62189369500B65F43 /* DetailAliasFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAliasFormViewController.swift; sourceTree = "<group>"; };
-		20E61AB8218936AE00B65F43 /* DetailAddressFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddressFormViewController.swift; sourceTree = "<group>"; };
 		20E61ABA218936BC00B65F43 /* DetailContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContactFormViewModel.swift; sourceTree = "<group>"; };
 		20E61ABC218936C600B65F43 /* DetailAliasFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAliasFormViewModel.swift; sourceTree = "<group>"; };
-		20E61ABE218936D200B65F43 /* DetailAddressFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddressFormViewModel.swift; sourceTree = "<group>"; };
 		37097CA821648B000036434C /* VoiceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceSearchViewController.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -817,8 +813,6 @@
 		20E61AB32189365800B65F43 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				20E61AB8218936AE00B65F43 /* DetailAddressFormViewController.swift */,
-				20E61ABE218936D200B65F43 /* DetailAddressFormViewModel.swift */,
 				20E61AB62189369500B65F43 /* DetailAliasFormViewController.swift */,
 				20E61ABC218936C600B65F43 /* DetailAliasFormViewModel.swift */,
 				20E61AB42189368600B65F43 /* DetailContactFormViewController.swift */,
@@ -1925,7 +1919,6 @@
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
 				96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
-				20E61AB9218936AE00B65F43 /* DetailAddressFormViewController.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
 				2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */,
@@ -1992,7 +1985,6 @@
 				96B775832140F8EE00836B83 /* Organisation.swift in Sources */,
 				96B775302140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift in Sources */,
 				96B7754F2140F8EE00836B83 /* OrganisationFetchRequest.swift in Sources */,
-				20E61ABF218936D200B65F43 /* DetailAddressFormViewModel.swift in Sources */,
 				96B775202140F8EE00836B83 /* OrganisationInfoViewModel.swift in Sources */,
 				96B775602140F8EE00836B83 /* OrganisationRetrieveStrategy.swift in Sources */,
 				AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */,
