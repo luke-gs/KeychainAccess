@@ -289,6 +289,7 @@ public class PersonEditViewController: FormBuilderViewController {
                         if let location = location as? LocationSelectionCore {
                             self.locations?[index] = location
                         }
+                        self.reloadForm()
                     }
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
                                                                color: UIColor.red,
