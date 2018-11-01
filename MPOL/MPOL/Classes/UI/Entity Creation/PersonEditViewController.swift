@@ -279,7 +279,8 @@ public class PersonEditViewController: FormBuilderViewController {
             })
         if let _locations = locations {
             for (index, location) in _locations.enumerated() {
-                builder += PickerFormItem(pickerAction: LocationSelectionFormAction())
+                builder += PickerFormItem(pickerAction:
+                    LocationSelectionFormAction(workflowId: LocationSelectionPresenter.personEditWorkflowId))
                     .title(location.type?.title)
                     .selectedValue(location)
                     .width(.column(1))
