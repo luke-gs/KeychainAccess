@@ -64,7 +64,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.firstName = $0
-        }
+            }
 
         let middleNameFormItem = TextFieldFormItem()
             .title(NSLocalizedString("Middle Name/s", comment: ""))
@@ -72,7 +72,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.middleNames = $0
-        }
+            }
 
         let lastNameFormItem = TextFieldFormItem()
             .title(type)
@@ -81,7 +81,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.lastName = $0
-        }
+            }
         builder += firstNameFormItem
         builder += middleNameFormItem
         builder += lastNameFormItem

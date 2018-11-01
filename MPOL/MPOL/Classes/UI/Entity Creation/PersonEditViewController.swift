@@ -77,7 +77,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .width(.column(4))
             .onValueChanged { [unowned self] value in
                 self.finalPerson.placeOfBirth = value
-        }
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Ethnicity", comment: ""))
@@ -85,7 +85,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .width(.column(4))
             .onValueChanged { [unowned self] value in
                 self.finalDescription.ethnicity = value
-        }
+            }
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("Gender", comment: ""))

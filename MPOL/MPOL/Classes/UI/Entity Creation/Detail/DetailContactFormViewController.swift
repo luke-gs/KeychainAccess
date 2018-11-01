@@ -64,7 +64,7 @@ public class DetailContactFormViewController: FormBuilderViewController {
             .accessory(ItemAccessory.pencil)
             .onValueChanged {
                 self.viewModel.contact?.value = $0
-        }
+            }
         if viewModel.selectedType == .email {
             formItem.softValidate(EmailSpecification(), message: "Invalid email address")
         }
@@ -75,7 +75,7 @@ public class DetailContactFormViewController: FormBuilderViewController {
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.contact?.remark = $0
-        }
+            }
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
