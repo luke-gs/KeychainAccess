@@ -198,7 +198,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
                 let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
 
-                viewController.present(eventSplitViewController, animated: true, completion: nil)
+                viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
             }
 
             let eventsListVC = EntityDraftListViewController(viewModel: EntityDraftListViewModel(manager: eventsManager), didTapCreate: didTapCreate, didTapItem: didTapItem)
