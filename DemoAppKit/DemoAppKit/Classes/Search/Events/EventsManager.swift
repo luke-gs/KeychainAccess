@@ -58,10 +58,8 @@ final public class EventsManager: DraftableManager {
         return eventBucket.objects?.compactMap { EventDraftable(event: $0) } ?? []
     }
 
-    public func deleteDraftItem(at index: Int, with id: String?) {
-        if let id = id {
-            remove(for: id)
-        }
+    public func deleteDraftItem(at index: Int, with id: String) {
+        remove(for: id)
     }
 }
 
