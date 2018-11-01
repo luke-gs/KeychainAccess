@@ -174,6 +174,12 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
     }
     // MARK: - Done Action
     @objc public func performDoneAction() {
-        self.doneHandler?(viewModel)
+        let result = builder.validate()
+        switch result {
+        case .invalid:
+            builder.validateAndUpdateUI()
+        case .valid:
+            doneHandler?(viewModel)
+        }
     }
 }

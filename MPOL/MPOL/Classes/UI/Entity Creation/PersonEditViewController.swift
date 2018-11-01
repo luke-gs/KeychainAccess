@@ -274,6 +274,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     } else {
                         self.locations = [location]
                     }
+                    self.reloadForm()
                 }))
             })
         if let _locations = locations {
