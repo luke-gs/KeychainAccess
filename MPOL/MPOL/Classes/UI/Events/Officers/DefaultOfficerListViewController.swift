@@ -74,6 +74,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                 .title(displayable.title)
                 .subtitle(displayable.detail1)
                 .detail(displayable.detail2)
+                .styleIdentifier(DemoAppKitStyler.associationStyle)
                 .width(.column(1))
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
