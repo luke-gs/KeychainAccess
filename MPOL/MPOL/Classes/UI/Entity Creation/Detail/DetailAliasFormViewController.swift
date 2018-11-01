@@ -39,7 +39,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
     }
 
     public override func construct(builder: FormBuilder) {
-        title = NSLocalizedString("addAliasFormTitle", comment: "")
+        title = NSLocalizedString("Add Alias Form Title", comment: "")
         if viewModel.personAlias == nil {
             viewModel.personAlias = PersonAlias(id: UUID().uuidString)
         }
@@ -62,7 +62,6 @@ public class DetailAliasFormViewController: FormBuilderViewController {
             .title(NSLocalizedString("First Name", comment: ""))
             .text(viewModel.personAlias?.firstName)
             .width(.column(1))
-            .required()
             .onValueChanged {
                 self.viewModel.personAlias?.firstName = $0
         }
@@ -76,8 +75,9 @@ public class DetailAliasFormViewController: FormBuilderViewController {
         }
 
         let lastNameFormItem = TextFieldFormItem()
-            .title(NSLocalizedString("Last Name", comment: ""))
+            .title(type)
             .text(viewModel.personAlias?.lastName)
+            .required()
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.lastName = $0

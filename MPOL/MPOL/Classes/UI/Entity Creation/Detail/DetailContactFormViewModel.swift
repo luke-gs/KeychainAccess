@@ -18,4 +18,6 @@ public class DetailContactFormViewModel {
     public var selectedType: Contact.ContactType?
 
     public var contact: Contact?
+
+    public var remark: String?
 }

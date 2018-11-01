@@ -69,6 +69,13 @@ public class DetailContactFormViewController: FormBuilderViewController {
             formItem.softValidate(EmailSpecification(), message: "Invalid email address")
         }
         builder += formItem
+        builder += TextFieldFormItem()
+            .title(NSLocalizedString("Remarks", comment: ""))
+            .text(viewModel.remark)
+            .width(.column(1))
+            .onValueChanged {
+                self.viewModel.remark = $0
+        }
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
