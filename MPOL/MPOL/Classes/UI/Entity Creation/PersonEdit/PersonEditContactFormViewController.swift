@@ -45,11 +45,11 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
         }
         builder += DropDownFormItem()
             .title(NSLocalizedString("Contact Type", comment: ""))
-            .options(Contact.ContactType.allCases.map { $0.localizedDescription() })
+            .options(Contact.ContactType.allCases.map { $0 })
             .required()
-            .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!.localizedDescription()] : [])
+            .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
-                self.viewModel.selectedType = value?.first != nil ? Contact.ContactType.contactType(from: value!.first!) : nil
+                self.viewModel.selectedType = value?.first
                 self.viewModel.contact?.value = nil
                 self.reloadForm()
             }
