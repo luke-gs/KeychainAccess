@@ -20,7 +20,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
 
-    private(set) public var reports: [AnyEventReportable] = [] {
+    private(set) public var reports: [EventReportable] = [] {
         didSet {
             // Pass down the event
             for report in reports {
@@ -51,15 +51,15 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: Utility
 
     public func add(reports: [EventReportable]) {
-        self.reports.append(contentsOf: reports.map { return AnyEventReportable($0) })
+        self.reports.append(contentsOf: reports)
     }
 
     public func add(report: EventReportable) {
-        reports.append(AnyEventReportable(report))
+        reports.append(report)
     }
 
     public func reportable(for reportableType: AnyClass) -> EventReportable? {
-        return reports.filter {type(of: $0) == reportableType}.first?.report
+        return reports.filter {type(of: $0) == reportableType}.first
     }
 
     // MARK: Evaluation
@@ -82,7 +82,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        reports = try container.decode([AnyEventReportable].self, forKey: .reports)
+        let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
+
+        reports = anyReports.map { $0.report }
 
         try super.init(from: decoder)
         commonInit()
@@ -91,8 +93,20 @@ public class Event: IdentifiableDataModel, Evaluatable {
     open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
 
+        // Convert our array of protocols to concrete classes, for Codable
+        let anyReports = reports.map { return AnyEventReportable($0) }
+
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(reports, forKey: CodingKeys.reports)
+        try container.encode(anyReports, forKey: CodingKeys.reports)
+    }
+
+    open func writeFile() {
+        do {
+            let data = try JSONEncoder().encode(self)
+            try data.write(to: URL(fileURLWithPath: "/Users/trent/Documents/event.json"))
+        } catch let error {
+            print(error)
+        }
     }
 
 }

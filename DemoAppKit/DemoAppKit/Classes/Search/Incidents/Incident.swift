@@ -23,12 +23,12 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     public let weakEvent: Weak<Event>
     public var displayable: IncidentListDisplayable!
 
-    private(set) public var reports: [AnyIncidentReportable] = [] {
+    private(set) public var reports: [IncidentReportable] = [] {
         didSet {
             // Pass down the incident and event
             for report in reports {
                 report.weakIncident = Weak<Incident>(self)
-                if let report = report.report as? EventReportable {
+                if let report = report as? EventReportable {
                     report.weakEvent = weakEvent
                 }
             }
@@ -70,7 +70,10 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
-        reports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+
+        let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+        reports = anyReports.map { $0.report }
+
         weakEvent = Weak<Event>(nil)
 
         try super.init(from: decoder)
@@ -80,23 +83,26 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
 
+        // Convert our array of protocols to concrete classes, for Codable
+        let anyReports = reports.map { return AnyIncidentReportable($0) }
+
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(incidentType, forKey: CodingKeys.incidentType)
-        try container.encode(reports, forKey: CodingKeys.reports)
+        try container.encode(anyReports, forKey: CodingKeys.reports)
     }
 
     // MARK: Utility
 
     public func add(reports: [IncidentReportable]) {
-        self.reports.append(contentsOf: reports.map { return AnyIncidentReportable($0) })
+        self.reports.append(contentsOf: reports)
     }
 
     public func add(report: IncidentReportable) {
-        reports.append(AnyIncidentReportable(report))
+        reports.append(report)
     }
 
     public func reportable(for reportableType: AnyClass) -> IncidentReportable? {
-        return reports.filter {type(of: $0) == reportableType}.first?.report
+        return reports.filter {type(of: $0) == reportableType}.first
     }
 
     // MARK: Evaluation

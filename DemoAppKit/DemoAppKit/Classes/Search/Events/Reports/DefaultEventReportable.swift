@@ -26,7 +26,6 @@ open class DefaultEventReportable: EventReportable {
     // Default init taking event
     public init(event: Event) {
         self.weakEvent = Weak(event)
-
         configure(with: event)
     }
 
