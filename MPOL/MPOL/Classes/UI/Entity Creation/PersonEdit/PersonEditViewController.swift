@@ -184,7 +184,7 @@ public class PersonEditViewController: FormBuilderViewController {
         if let contacts = finalPerson.contacts {
             for (index, contact) in contacts.enumerated() {
                 let formItem = ValueFormItem()
-                    .title(contact.type?.localizedDescription())
+                    .title(contact.type?.title)
                     .value(contact.value)
                     .width(.column(1))
                     .accessory(ItemAccessory.pencil)

@@ -58,7 +58,7 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
         guard let type = viewModel.selectedType else { return }
         viewModel.contact?.type = type
         let formItem = TextFieldFormItem()
-            .title(viewModel.selectedType?.localizedDescription())
+            .title(viewModel.selectedType?.title)
             .text(viewModel.contact?.value)
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
