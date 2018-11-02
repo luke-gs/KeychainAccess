@@ -9,7 +9,7 @@
 import Foundation
 import PublicSafetyKit
 
-open class CreatedEntitySummarySelectionViewModel: EntitySummarySelectionViewModel {
+open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelectionSectionViewModel {
 
     public static let createdEntitiesKey = "createdEntitiesKey"
 
@@ -19,20 +19,16 @@ open class CreatedEntitySummarySelectionViewModel: EntitySummarySelectionViewMod
         reloadEntities()
     }
 
-    open override var sectionTitle: String? {
+    open override var title: String? {
         return AssetManager.shared.string(forKey: .createdEntitySelectionTitle)
-    }
-
-    open override var noContentTitle: String? {
-        return AssetManager.shared.string(forKey: .createdEntitySelectionNoContentTitle)
     }
 
     open func reloadEntities() {
         // Use the created entities as data source
-        let item: [Person]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionViewModel.createdEntitiesKey) ?? nil
+        let item: [Person]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.createdEntitiesKey) ?? nil
         // Update entities and trigger UI update
         if let item = item {
-            updateEntityList(item)
+//            updateEntityList(item)
         }
     }
 }

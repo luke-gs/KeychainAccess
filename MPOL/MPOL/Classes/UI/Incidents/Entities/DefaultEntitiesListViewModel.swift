@@ -22,8 +22,12 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
         self.incidentType = incidentType
 
 //        self.entitySelectionViewModel = RecentEntitySummarySelectionViewModel()
-        self.entitySelectionViewModel = CreatedEntitySummarySelectionViewModel()
-        self.entitySelectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Address.self, Organisation.self]
+        self.entitySelectionViewModel = EntitySummarySelectionViewModel()
+
+        let sectionViewModel = RecentEntitySummarySelectionSectionViewModel()
+        sectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Address.self, Organisation.self]
+        self.entitySelectionViewModel.sections = [sectionViewModel]
+
     }
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
