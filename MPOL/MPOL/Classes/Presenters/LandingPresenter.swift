@@ -181,12 +181,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             func presentScreen(for event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
                 let screenBuilder = EventScreenBuilder()
-                let incidentsManager = IncidentsManager()
-
-                // Add IncidentBuilders here
-                incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
-                incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
-                incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
+                let incidentsManager = IncidentsManager.managerWithPrepopulatedBuilders
 
                 if let incidentType = incidentType {
                     _ = incidentsManager.create(incidentType: incidentType, in: event)
