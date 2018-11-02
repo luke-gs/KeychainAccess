@@ -17,8 +17,8 @@ public enum EntityScreen: Presentable {
     case scanner
     // entity creation
     case createEntity(type: EntityType)
-    case createEntityContactDetail(viewModel: DetailContactFormViewModel, submitHandler: DetailContactFormViewController.SubmitHandler?)
-    case createEntityAliasDetail(viewModel: DetailAliasFormViewModel, submitHandler: DetailAliasFormViewController.SubmitHandler?)
+    case createEntityContactDetail(contact: Contact?, submitHandler: DetailContactFormViewController.SubmitHandler?)
+    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: DetailAliasFormViewController.SubmitHandler?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -191,11 +191,11 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
 
-        case .createEntityAliasDetail(let viewModel, let handler):
-            return DetailAliasFormViewController(viewModel: viewModel, submitHandler: handler)
+        case .createEntityAliasDetail(let alias, let handler):
+            return DetailAliasFormViewController(viewModel: DetailAliasFormViewModel(personAlias: alias), submitHandler: handler)
 
-        case .createEntityContactDetail(let viewModel, let handler):
-            return DetailContactFormViewController(viewModel: viewModel, submitHandler: handler)
+        case .createEntityContactDetail(let contact, let handler):
+            return DetailContactFormViewController(viewModel: DetailContactFormViewModel(contact: contact), submitHandler: handler)
         }
     }
 

@@ -169,7 +169,7 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
-                    EntityScreen.createEntityContactDetail(viewModel: DetailContactFormViewModel(),
+                    EntityScreen.createEntityContactDetail(contact: nil,
                                                            submitHandler: { [unowned self] viewModel in
                                                             guard let contact = viewModel.contact else { return }
                                                             if self.finalPerson.contacts != nil {
@@ -195,11 +195,8 @@ public class PersonEditViewController: FormBuilderViewController {
                                                                 self.reloadForm()
                     })])
                     .onSelection { [unowned self] _ in
-                        let viewModel = DetailContactFormViewModel()
-                        viewModel.contact = contact
-                        viewModel.selectedType = contact.type
                         self.present(
-                            EntityScreen.createEntityContactDetail(viewModel: viewModel,
+                            EntityScreen.createEntityContactDetail(contact: contact,
                                                                    submitHandler: { [unowned self] viewModel in
                                                                     guard let contact = viewModel.contact else { return }
                                                                     self.finalPerson.contacts?[index] = contact
@@ -215,7 +212,7 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
-                    EntityScreen.createEntityAliasDetail(viewModel: DetailAliasFormViewModel(),
+                    EntityScreen.createEntityAliasDetail(alias: nil,
                                                          submitHandler: { [unowned self] viewModel in
                                                             guard let personAlias = viewModel.personAlias else { return }
                                                             if self.finalPerson.aliases != nil {
@@ -249,11 +246,8 @@ public class PersonEditViewController: FormBuilderViewController {
                                                                 self.reloadForm()
                     })])
                     .onSelection { [unowned self] _ in
-                        let viewModel = DetailAliasFormViewModel()
-                        viewModel.personAlias = alias
-                        viewModel.selectedType = AnyPickable(alias.type!)
                         self.present(
-                            EntityScreen.createEntityAliasDetail(viewModel: viewModel,
+                            EntityScreen.createEntityAliasDetail(alias: alias,
                                                                  submitHandler: { [unowned self] viewModel in
                                                                     guard let personAlias = viewModel.personAlias else { return }
                                                                     self.finalPerson.aliases?[index] = personAlias

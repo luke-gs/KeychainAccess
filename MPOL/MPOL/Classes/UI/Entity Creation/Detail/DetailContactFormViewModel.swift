@@ -18,4 +18,9 @@ public class DetailContactFormViewModel {
     public var selectedType: Contact.ContactType?
 
     public var contact: Contact?
+
+    public init(contact: Contact?) {
+        self.contact = contact
+        self.selectedType = contact?.type
+    }
 }
