@@ -15,23 +15,23 @@ open class CADOfficerCore: Officer, CADOfficerType {
 
     // MARK: - Network
 
-    open var capabilities: [String] = []
+    public var capabilities: [String] = []
 
-    open var contactNumber: String?
+    public var contactNumber: String?
 
-    open var licenceTypeId: String?
+    public var licenceTypeId: String?
 
-    open var patrolGroup: String?
+    public var patrolGroup: String?
 
-    open var radioId: String?
+    public var radioId: String?
 
-    open var remarks: String?
+    public var remarks: String?
 
-    open var station: String?
+    public var station: String?
 
     // MARK: - Generated
 
-    open var displayName: String {
+    public var displayName: String {
         var nameComponents = PersonNameComponents()
         nameComponents.givenName = givenName
         nameComponents.middleName = middleNames
@@ -45,11 +45,11 @@ open class CADOfficerCore: Officer, CADOfficerType {
         return nameFormatter
     }()
 
-    open var payrollIdDisplayString: String {
+    public var payrollIdDisplayString: String {
         return "#\(employeeNumber ?? "Unknown")"
     }
 
-    open var initials: String? {
+    public var initials: String? {
         if let firstName = givenName, let lastName = familyName {
             return [String(firstName.prefix(1)), String(lastName.prefix(1))].joined(separator: "")
         }
@@ -71,10 +71,14 @@ open class CADOfficerCore: Officer, CADOfficerType {
         self.givenName = officer.givenName
         self.familyName = officer.familyName
         self.licenceTypeId = officer.licenceTypeId
+        self.middleNames = officer.middleNames
         self.patrolGroup = officer.patrolGroup
+        self.employeeNumber = officer.employeeNumber
         self.radioId = officer.radioId
+        self.rank = officer.rank
         self.remarks = officer.remarks
         self.station = officer.station
+        self.region = officer.region
     }
 
     // MARK: - Codable
@@ -90,17 +94,6 @@ open class CADOfficerCore: Officer, CADOfficerType {
         case station = "station"
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        capabilities = (aDecoder.decodeObject(of: NSArray.self, forKey: CodingKeys.capabilities.rawValue) as? [String]) ?? []
-        contactNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.contactNumber.rawValue) as String?
-        licenceTypeId = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.licenceTypeId.rawValue) as String?
-        patrolGroup = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.patrolGroup.rawValue) as String?
-        radioId = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.radioId.rawValue) as String?
-        remarks = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.remarks.rawValue) as String?
-        station = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.station.rawValue) as String?
-    }
-
     public required init(unboxer: Unboxer) throws {
         try super.init(unboxer: unboxer)
 
@@ -111,20 +104,6 @@ open class CADOfficerCore: Officer, CADOfficerType {
         radioId = unboxer.unbox(key: CodingKeys.radioId.rawValue)
         remarks = unboxer.unbox(key: CodingKeys.remarks.rawValue)
         station = unboxer.unbox(key: CodingKeys.station.rawValue)
-    }
-
-    open override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-
-        if capabilities.count > 0 {
-            aCoder.encode(capabilities, forKey: CodingKeys.capabilities.rawValue)
-        }
-        aCoder.encode(contactNumber, forKey: CodingKeys.contactNumber.rawValue)
-        aCoder.encode(licenceTypeId, forKey: CodingKeys.licenceTypeId.rawValue)
-        aCoder.encode(patrolGroup, forKey: CodingKeys.patrolGroup.rawValue)
-        aCoder.encode(radioId, forKey: CodingKeys.radioId.rawValue)
-        aCoder.encode(remarks, forKey: CodingKeys.remarks.rawValue)
-        aCoder.encode(station, forKey: CodingKeys.station.rawValue)
     }
 
     public required init(from decoder: Decoder) throws {

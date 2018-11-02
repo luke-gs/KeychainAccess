@@ -35,10 +35,10 @@ public class OfficerListReport: EventReportable {
     public required init(event: Event) {
         self.weakEvent = Weak(event)
 
-        let testOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as! Officer
-        testOfficer.involvements = ["Reporting Officer"]
-
-        officers = [testOfficer]
+        if let testOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
+            testOfficer.involvements = ["Reporting Officer"]
+            officers = [testOfficer]
+        }
 
         commonInit()
     }

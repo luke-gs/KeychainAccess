@@ -215,8 +215,9 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
 
         let navController = ModalNavigationController(rootViewController: alertVC)
         navController.modalPresentationStyle = .formSheet
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
 
-        viewController.present(navController, animated: true, completion: nil)
+        viewController.pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
     }
 
 }

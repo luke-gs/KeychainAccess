@@ -195,8 +195,9 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         let criminalHistoryVC = CriminalHistorySummaryViewController(viewModel: viewModel)
 
         let navController = ModalNavigationController(rootViewController: criminalHistoryVC)
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
         navController.modalPresentationStyle = .formSheet
-        viewController.present(navController, animated: true, completion: nil)
+        viewController.pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
     }
 
 }
@@ -225,7 +226,7 @@ public struct OffenderConvictionDisplay: DetailDisplayable, FormItemable {
             dateString = NSLocalizedString("Unknown date", comment: "Unknown date")
         }
 
-        let locationString = offenderConviction.jurisdiction != nil ? " (\(offenderConviction.jurisdiction!))": ""
+        let locationString = offenderConviction.jurisdiction != nil ? " (\(offenderConviction.jurisdiction!))" : ""
         return String(format: NSLocalizedString("Convicted by %@ on %@%@", comment: ""), courtName, dateString, locationString).sizing(withNumberOfLines: 0)
     }
 

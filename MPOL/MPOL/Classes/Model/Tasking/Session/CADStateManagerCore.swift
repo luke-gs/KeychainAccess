@@ -44,6 +44,22 @@ open class CADStateManagerCore: CADStateManagerBase {
         patrolGroup = "Collingwood"
     }
 
+    private var _officerDetails: CADOfficerType?
+
+    open override var officerDetails: CADOfficerType? {
+
+        guard _officerDetails == nil else {
+            return _officerDetails
+        }
+
+        // get current search officer
+        if let details = getEmployeeDetails() {
+            _officerDetails = details
+            return details
+        }
+        return nil
+    }
+
     open override func didChangeLastBookOn(from oldValue: CADBookOnRequestType?) {
         super.didChangeLastBookOn(from: oldValue)
         updateScheduledNotifications()
@@ -193,16 +209,34 @@ open class CADStateManagerCore: CADStateManagerBase {
 
     // MARK: - Get Details
 
-    /// Fetch details for a specific employee, or nil for current user
-    open override func getEmployeeDetails(identifier: String? = nil) -> Promise<CADEmployeeDetailsType> {
-        if let username = identifier ?? UserSession.current.user?.username {
-            let request = CADGetDetailsRequestCore(identifier: username)
-            // Provide specific core model type information to generic call via map with explicit type
-            return apiManager.cadEmployeeDetails(with: request).map { (details: CADEmployeeDetailsCore) -> CADEmployeeDetailsType in
-                return details
-            }
+    /// Fetch details for current user
+    open func getEmployeeDetails() -> CADOfficerType? {
+        // update current employee with current search officer details
+        guard let currentSearchOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) else {
+            return nil
         }
-        return Promise(error: CADStateManagerError.notLoggedIn)
+
+        // init CADOfficer using search officer data
+        let officer = CADOfficerCore(id: currentSearchOfficer.id)
+        officer.givenName = currentSearchOfficer.givenName
+        officer.familyName = currentSearchOfficer.familyName
+        officer.middleNames = currentSearchOfficer.middleNames
+        officer.employeeNumber = currentSearchOfficer.employeeNumber
+        officer.rank = currentSearchOfficer.rank
+        officer.region = currentSearchOfficer.region
+
+        // add data for extra CADOfficer fields
+        // TODO: update to use real data (currently using fake data for demo)
+        officer.capabilities = []
+        officer.contactNumber = "0425 584 678"
+        officer.licenceTypeId = manifestEntries(for: ManifestCollection.officerLicenceType).first?.id
+        officer.patrolGroup = "Collingwood"
+        officer.radioId = "92757488"
+        officer.remarks = ""
+        officer.station = "Collingwood Station"
+
+        officersById[officer.id] = officer
+        return officer
     }
 
     /// Fetch details for a specific incident
@@ -228,13 +262,6 @@ open class CADStateManagerCore: CADStateManagerBase {
     /// Perform initial sync after login or launching app
     open override func syncInitial() -> Promise<Void> {
         return firstly {
-            // Get details about logged in user
-            return getEmployeeDetails()
-        }.map { [unowned self] details -> CADEmployeeDetailsType in
-            // Store officer details
-            self.officerDetails = details
-            return details
-        }.then { [unowned self] _ in
             // Get all new manifest items
             return self.syncManifestItems(collections: nil)
         }.then { [unowned self] _ in
@@ -314,5 +341,11 @@ open class CADStateManagerCore: CADStateManagerBase {
                               identifier: CADLocalNotifications.shiftEnding)
         }
 
+    }
+
+    /// Clears all session data properties
+    @objc open override func clearSession() {
+        super.clearSession()
+        self._officerDetails = nil
     }
 }
