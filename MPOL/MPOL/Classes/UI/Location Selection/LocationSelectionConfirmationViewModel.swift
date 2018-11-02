@@ -29,7 +29,7 @@ public class LocationSelectionConfirmationViewModel {
     public var type: AnyPickable?
     public var typeTitle: String?
     public var typeOptions: [AnyPickable]?
-    public var allowMultipleTypes: Bool? = true
+    public var allowMultipleTypes: Bool = true
 
     // DropDown options
     public var streetTypeOptions: [AnyPickable]?
