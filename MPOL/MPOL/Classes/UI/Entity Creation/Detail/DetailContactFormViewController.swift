@@ -50,6 +50,7 @@ public class DetailContactFormViewController: FormBuilderViewController {
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!.localizedDescription()] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first != nil ? Contact.ContactType.contactType(from: value!.first!) : nil
+                self.viewModel.contact?.value = nil
                 self.reloadForm()
             }
             .width(.column(1))
@@ -72,6 +73,9 @@ public class DetailContactFormViewController: FormBuilderViewController {
             }
         if viewModel.selectedType == .email {
             formItem.softValidate(EmailSpecification(), message: "Invalid email address")
+            formItem.keyboardType(.emailAddress)
+        } else {
+            formItem.keyboardType(.phonePad)
         }
         builder += formItem
         builder += TextFieldFormItem()

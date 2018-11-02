@@ -104,7 +104,7 @@ public class LocationSelectionPresenter: Presenter {
             } else if workflowId == LocationSelectionPresenter.personEditWorkflowId {
                 // Add location type to final confirmation screen
                 viewModel.typeTitle = NSLocalizedString("Type", comment: "")
-                viewModel.typeOptions = ["Residential Address", "Work Address"].map { AnyPickable($0) }
+                viewModel.typeOptions = ["Residential Address", "Work Address", "NFPA"].map { AnyPickable($0) }
                 viewModel.allowMultipleTypes = false
                 viewModel.isEditable = true
             } else {
