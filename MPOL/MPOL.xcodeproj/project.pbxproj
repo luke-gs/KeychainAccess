@@ -810,7 +810,7 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
-		20E61AB32189365800B65F43 /* PersonEdit */ = {
+		20E61AB32189365800B65F43 /* Person Edit */ = {
 			isa = PBXGroup;
 			children = (
 				20E61AB62189369500B65F43 /* PersonEditAliasFormViewController.swift */,
@@ -819,7 +819,7 @@
 				20E61ABA218936BC00B65F43 /* PersonEditContactFormViewModel.swift */,
 				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
 			);
-			path = PersonEdit;
+			path = "Person Edit";
 			sourceTree = "<group>";
 		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
@@ -1107,7 +1107,7 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
-				20E61AB32189365800B65F43 /* PersonEdit */,
+				20E61AB32189365800B65F43 /* Person Edit */,
 				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
 			path = "Entity Creation";
