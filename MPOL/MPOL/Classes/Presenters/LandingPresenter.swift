@@ -161,14 +161,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
 
             let didTapCreate: ((DraftListViewController) -> Void) = { vc in
-                let eventCreationVC = IncidentSelectViewController()
-                let eventCreationNavController = PopoverNavigationController(rootViewController: eventCreationVC)
+                let incidentSelectionViewController = IncidentSelectViewController()
+                let eventCreationNavController = PopoverNavigationController(rootViewController: incidentSelectionViewController)
                 eventCreationNavController.wantsTransparentBackground = false
                 eventCreationNavController.modalPresentationStyle = .formSheet
 
                 vc.present(eventCreationNavController, animated: true, completion: nil)
 
-                eventCreationVC.didSelectIncident = { incidentType in
+                incidentSelectionViewController.didSelectIncident = { incidentType in
                     guard let event = eventsManager.create(eventType: .blank) else { return }
                     presentScreen(for: event, with: incidentType, from: vc)
                 }
