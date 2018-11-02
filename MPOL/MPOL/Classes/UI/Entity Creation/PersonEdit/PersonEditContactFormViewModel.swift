@@ -1,5 +1,5 @@
 //
-//  DetailContactFormViewModel.swift
+//  PersonEditContactFormViewModel.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -10,7 +10,7 @@ import PublicSafetyKit
 import DemoAppKit
 
 /// View Model for detail creation form
-public class DetailContactFormViewModel {
+public class PersonEditContactFormViewModel {
 
     // MARK: PUBLIC
 

@@ -1,5 +1,5 @@
 //
-//  DetailContactFormViewController.swift
+//  PersonEditContactFormViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,18 +9,18 @@ import Foundation
 import PublicSafetyKit
 import DemoAppKit
 
-public class DetailContactFormViewController: FormBuilderViewController {
+public class PersonEditContactFormViewController: FormBuilderViewController {
 
     // MARK: PUBLIC
 
-    public var viewModel: DetailContactFormViewModel
+    public var viewModel: PersonEditContactFormViewModel
 
-    public typealias SubmitHandler = (DetailContactFormViewModel) -> Void
+    public typealias SubmitHandler = (PersonEditContactFormViewModel) -> Void
 
     /// The handler for submitting the data
     public var submitHandler: SubmitHandler?
 
-    public init(viewModel: DetailContactFormViewModel, submitHandler: SubmitHandler?) {
+    public init(viewModel: PersonEditContactFormViewModel, submitHandler: SubmitHandler?) {
         self.viewModel = viewModel
         self.submitHandler = submitHandler
         super.init()

@@ -1,5 +1,5 @@
 //
-//  DetailAliasFormViewModel.swift
+//  PersonEditAliasFormViewModel.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -10,7 +10,7 @@ import PublicSafetyKit
 import DemoAppKit
 
 /// View Model for detail creation form
-public class DetailAliasFormViewModel {
+public class PersonEditAliasFormViewModel {
 
     // MARK: PUBLIC
 

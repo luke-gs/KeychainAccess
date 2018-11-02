@@ -1,5 +1,5 @@
 //
-//  DetailAddressFormViewController.swift
+//  PersonEditAliasFormViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,18 +9,18 @@ import Foundation
 import PublicSafetyKit
 import DemoAppKit
 
-public class DetailAliasFormViewController: FormBuilderViewController {
+public class PersonEditAliasFormViewController: FormBuilderViewController {
 
     // MARK: PUBLIC
 
-    public var viewModel: DetailAliasFormViewModel
+    public var viewModel: PersonEditAliasFormViewModel
 
-    public typealias SubmitHandler = (DetailAliasFormViewModel) -> Void
+    public typealias SubmitHandler = (PersonEditAliasFormViewModel) -> Void
 
     /// The handler for submitting the data
     public var submitHandler: SubmitHandler?
 
-    public init(viewModel: DetailAliasFormViewModel, submitHandler: SubmitHandler?) {
+    public init(viewModel: PersonEditAliasFormViewModel, submitHandler: SubmitHandler?) {
         self.viewModel = viewModel
         self.submitHandler = submitHandler
         super.init()
@@ -46,7 +46,7 @@ public class DetailAliasFormViewController: FormBuilderViewController {
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("Title", comment: ""))
-            .options(DetailAliasFormViewModel.aliasOptions)
+            .options(PersonEditAliasFormViewModel.aliasOptions)
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in

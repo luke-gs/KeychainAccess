@@ -17,8 +17,8 @@ public enum EntityScreen: Presentable {
     case scanner
     // entity creation
     case createEntity(type: EntityType)
-    case createEntityContactDetail(contact: Contact?, submitHandler: DetailContactFormViewController.SubmitHandler?)
-    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: DetailAliasFormViewController.SubmitHandler?)
+    case createEntityContactDetail(contact: Contact?, submitHandler: PersonEditContactFormViewController.SubmitHandler?)
+    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: PersonEditAliasFormViewController.SubmitHandler?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -192,10 +192,10 @@ public class EntityPresenter: Presenter {
             return viewController
 
         case .createEntityAliasDetail(let alias, let handler):
-            return DetailAliasFormViewController(viewModel: DetailAliasFormViewModel(personAlias: alias), submitHandler: handler)
+            return PersonEditAliasFormViewController(viewModel: PersonEditAliasFormViewModel(personAlias: alias), submitHandler: handler)
 
         case .createEntityContactDetail(let contact, let handler):
-            return DetailContactFormViewController(viewModel: DetailContactFormViewModel(contact: contact), submitHandler: handler)
+            return PersonEditContactFormViewController(viewModel: PersonEditContactFormViewModel(contact: contact), submitHandler: handler)
         }
     }
 
