@@ -25,6 +25,10 @@ open class EventDraftListViewModel: DraftListViewModelable {
         self.manager = manager
     }
 
+    public func title(for item: Draftable, at index: Int) -> String? {
+        return item.title
+    }
+
     open func image(for item: Draftable, draftStatus: DraftableStatus) -> UIImage {
         let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
 
