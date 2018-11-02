@@ -314,7 +314,15 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.descriptions = [finalDescription]
             }
             do {
-                try UserSession.current.userStorage?.add(object: finalPerson, key: finalPerson.id, flag: UserStorageFlag.session)
+                var result: [Person]
+                if let entities = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionViewModel.createdEntitiesKey) as [Person]? {
+                    result = entities
+                    result.append(finalPerson)
+                } else {
+                    result = [finalPerson]
+                }
+                try UserSession.current.userStorage?.add(object: result, key: CreatedEntitySummarySelectionViewModel.createdEntitiesKey, flag: UserStorageFlag.session)
+
             } catch {
                 // TODO: Handles error if it cannot be saved
             }

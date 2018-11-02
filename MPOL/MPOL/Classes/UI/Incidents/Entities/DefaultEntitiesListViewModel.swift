@@ -21,7 +21,8 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
         self.report = report
         self.incidentType = incidentType
 
-        self.entitySelectionViewModel = RecentEntitySummarySelectionViewModel()
+//        self.entitySelectionViewModel = RecentEntitySummarySelectionViewModel()
+        self.entitySelectionViewModel = CreatedEntitySummarySelectionViewModel()
         self.entitySelectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Address.self, Organisation.self]
     }
 

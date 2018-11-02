@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CoreKit
+import PublicSafetyKit
 
 open class CreatedEntitySummarySelectionViewModel: EntitySummarySelectionViewModel {
 
@@ -29,7 +29,7 @@ open class CreatedEntitySummarySelectionViewModel: EntitySummarySelectionViewMod
 
     open func reloadEntities() {
         // Use the created entities as data source
-        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionViewModel.createdEntitiesKey) ?? nil
+        let item: [Person]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionViewModel.createdEntitiesKey) ?? nil
         // Update entities and trigger UI update
         if let item = item {
             updateEntityList(item)
