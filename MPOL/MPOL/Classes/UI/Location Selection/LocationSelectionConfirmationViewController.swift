@@ -157,20 +157,29 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             }
             .width(.column(1))
 
-        // Only display location type if title and options are defined
+        // Only display location type if title, options are defined
         if let title = viewModel.typeTitle, let options = viewModel.typeOptions {
             builder += DropDownFormItem()
                 .title(title)
                 .options(options)
                 .selectedValue([viewModel.type].removeNils())
-                .allowsMultipleSelection(true)
+                .allowsMultipleSelection(viewModel.allowMultipleTypes)
                 .required()
                 .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
+                .onValueChanged { [weak self] value in
+                    self?.viewModel.type = value?.first
+            }
         }
     }
     // MARK: - Done Action
     @objc public func performDoneAction() {
-        self.doneHandler?(viewModel)
+        let result = builder.validate()
+        switch result {
+        case .invalid:
+            builder.validateAndUpdateUI()
+        case .valid:
+            doneHandler?(viewModel)
+        }
     }
 }
