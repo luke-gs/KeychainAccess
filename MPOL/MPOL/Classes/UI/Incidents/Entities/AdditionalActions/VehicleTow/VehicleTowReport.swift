@@ -12,39 +12,44 @@ fileprivate extension EvaluatorKey {
     static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
-public class VehicleTowReport: ActionReportable, MediaContainer {
+public class VehicleTowReport: DefaultReportable, ActionReportable, MediaContainer {
 
-    public let weakAdditionalAction: Weak<AdditionalAction>
-    public let weakIncident: Weak<Incident>
+    public var weakAdditionalAction: Weak<AdditionalAction> {
+        didSet {
+            if let additionalAction = additionalAction {
+                evaluator.addObserver(additionalAction)
+            }
+        }
+    }
 
-    public let evaluator: Evaluator = Evaluator()
-
-    var location: EventLocation? {
+    public var location: EventLocation? {
         didSet {
             evaluator.updateEvaluation(for: .hasRequiredData)
         }
     }
-    var towReason: String?
-    var authorisingOfficer: Officer?
-    var notifyingOfficer: Officer?
-    var date: Date?
-    var hold: Bool? {
+    public var towReason: String?
+    public var authorisingOfficer: Officer?
+    public var notifyingOfficer: Officer?
+    public var date: Date?
+    public var hold: Bool? {
         didSet {
             evaluator.updateEvaluation(for: .hasRequiredData)
         }
     }
-    var holdReason: String?
-    var holdRemarks: String?
+    public var holdReason: String?
+    public var holdRemarks: String?
     public var media: [MediaAsset] = []
 
     public init(incident: Incident?, additionalAction: AdditionalAction) {
+        self.weakAdditionalAction = Weak(additionalAction)
+        super.init()
 
         self.weakIncident = Weak(incident)
-        self.weakAdditionalAction = Weak(additionalAction)
+    }
 
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+    public override func configure(with event: Event) {
+        super.configure(with: event)
+
         if let additionalAction = self.additionalAction {
             evaluator.addObserver(additionalAction)
         }
@@ -54,26 +59,6 @@ public class VehicleTowReport: ActionReportable, MediaContainer {
             return self.location != nil
                 && self.hold != nil
         }
-    }
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-    }
-
-    // MARK: CODING
-    private enum Coding: String {
-        case incident
-        case action
-    }
-
-    public static var supportsSecureCoding: Bool = true
-
-    public required init?(coder aDecoder: NSCoder) {
-        weakAdditionalAction = aDecoder.decodeWeakObject(forKey: Coding.action.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
-    }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakAdditionalAction, forKey: Coding.action.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
     }
 
     // Media Container
@@ -92,6 +77,52 @@ public class VehicleTowReport: ActionReportable, MediaContainer {
             }
         }
     }
+
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case location
+        case towReason
+        case authorisingOfficer
+        case notifyingOfficer
+        case date
+        case hold
+        case holdReason
+        case holdRemarks
+        case media
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        location = try container.decode(EventLocation.self, forKey: .location)
+        towReason = try container.decodeIfPresent(String.self, forKey: .towReason)
+        authorisingOfficer = try container.decodeIfPresent(Officer.self, forKey: .authorisingOfficer)
+        notifyingOfficer = try container.decodeIfPresent(Officer.self, forKey: .notifyingOfficer)
+        date = try container.decodeIfPresent(Date.self, forKey: .date)
+        hold = try container.decodeIfPresent(Bool.self, forKey: .hold)
+        holdReason = try container.decodeIfPresent(String.self, forKey: .holdReason)
+        holdRemarks = try container.decodeIfPresent(String.self, forKey: .holdRemarks)
+        media = try container.decode([MediaAsset].self, forKey: .media)
+
+        weakAdditionalAction = Weak(nil)
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(location, forKey: CodingKeys.location)
+        try container.encode(towReason, forKey: CodingKeys.towReason)
+        try container.encode(authorisingOfficer, forKey: CodingKeys.authorisingOfficer)
+        try container.encode(notifyingOfficer, forKey: CodingKeys.notifyingOfficer)
+        try container.encode(date, forKey: CodingKeys.date)
+        try container.encode(hold, forKey: CodingKeys.hold)
+        try container.encode(holdReason, forKey: CodingKeys.holdReason)
+        try container.encode(holdRemarks, forKey: CodingKeys.holdRemarks)
+        try container.encode(media, forKey: CodingKeys.media)
+    }
+
 }
 
 extension AdditionalActionType {

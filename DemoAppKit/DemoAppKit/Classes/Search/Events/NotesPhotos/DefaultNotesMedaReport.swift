@@ -24,6 +24,10 @@ open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
     var operationName: String?
     var freeText: String?
 
+    public override init(event: Event) {
+        super.init(event: event)
+    }
+
     open override func configure(with event: Event) {
         super.configure(with: event)
 

@@ -21,6 +21,10 @@ public class EventEntitiesListReport: DefaultEventReportable {
         }
     }
 
+    public override init(event: Event) {
+        super.init(event: event)
+    }
+
     public override func configure(with event: Event) {
         super.configure(with: event)
 
@@ -42,7 +46,7 @@ public class EventEntitiesListReport: DefaultEventReportable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         entityDetailReports = try container.decode([EventEntityDetailReport].self, forKey: .entityDetailReports)
-        
+
         try super.init(from: decoder)
     }
 

@@ -23,6 +23,10 @@ class DomesticViolencePropertyReport: DefaultReportable {
         }
     }
 
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
+    }
+
     open override func configure(with event: Event) {
         super.configure(with: event)
 

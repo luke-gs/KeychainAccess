@@ -38,6 +38,11 @@ public enum PropertyDetailsType: Codable {
 public struct PropertyDetail: Codable {
     public var title: String
     public var type: PropertyDetailsType
+
+    public init(title: String, type: PropertyDetailsType) {
+        self.title = title
+        self.type = type
+    }
 }
 
 // TODO: Either make this a class or a protocol to be overriden/extend in the app

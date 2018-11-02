@@ -24,6 +24,10 @@ public class OfficerListReport: DefaultEventReportable {
         }
     }
 
+    public override init(event: Event) {
+        super.init(event: event)
+    }
+
     public override func configure(with event: Event) {
         super.configure(with: event)
 

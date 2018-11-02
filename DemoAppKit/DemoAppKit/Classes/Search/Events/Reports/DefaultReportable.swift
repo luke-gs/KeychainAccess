@@ -32,10 +32,16 @@ open class DefaultReportable: Reportable {
     /// Evaluator for this report
     public var evaluator: Evaluator = Evaluator()
 
+    // Empty init
+    public init() {
+        weakEvent = Weak(nil)
+        weakIncident = Weak(nil)
+    }
+
     // Default init taking event and incident
     public init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
+        weakEvent = Weak(event)
+        weakIncident = Weak(incident)
 
         configure(with: event)
         configure(with: incident)

@@ -11,11 +11,15 @@ fileprivate extension EvaluatorKey {
     static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
-public class PersonSearchReport: ActionReportable {
-    public let weakAdditionalAction: Weak<AdditionalAction>
-    public let weakIncident: Weak<Incident>
+public class PersonSearchReport: DefaultReportable, ActionReportable {
 
-    public let evaluator: Evaluator = Evaluator()
+    public var weakAdditionalAction: Weak<AdditionalAction> {
+        didSet {
+            if let additionalAction = additionalAction {
+                evaluator.addObserver(additionalAction)
+            }
+        }
+    }
 
     public var searchType: String?
     public var detainedStart: Date? {
@@ -63,12 +67,15 @@ public class PersonSearchReport: ActionReportable {
     public var remarks: String?
 
     public init(incident: Incident?, additionalAction: AdditionalAction) {
-        self.weakIncident = Weak(incident)
         self.weakAdditionalAction = Weak(additionalAction)
+        super.init()
 
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+        self.weakIncident = Weak(incident)
+    }
+
+    public override func configure(with event: Event) {
+        super.configure(with: event)
+
         if let additionalAction = self.additionalAction {
             evaluator.addObserver(additionalAction)
         }
@@ -82,25 +89,60 @@ public class PersonSearchReport: ActionReportable {
         }
     }
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+    // MARK: - Codable
+
+    private enum CodingKeys: String, CodingKey {
+        case clothingRemoved
+        case detainedEnd
+        case detainedStart
+        case legalPower
+        case location
+        case officers
+        case outcome
+        case remarks
+        case searchEnd
+        case searchReason
+        case searchStart
+        case searchType
     }
 
-    // MARK: CODING
-    private enum Coding: String {
-        case incident
-        case action
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        clothingRemoved = try container.decodeIfPresent(Bool.self, forKey: .clothingRemoved)
+        detainedEnd = try container.decodeIfPresent(Date.self, forKey: .detainedEnd)
+        detainedStart = try container.decodeIfPresent(Date.self, forKey: .detainedStart)
+        legalPower = try container.decodeIfPresent(String.self, forKey: .legalPower)
+        location = try container.decodeIfPresent(EventLocation.self, forKey: .location)
+        officers = try container.decode([Officer].self, forKey: .officers)
+        outcome = try container.decodeIfPresent(String.self, forKey: .outcome)
+        remarks = try container.decodeIfPresent(String.self, forKey: .remarks)
+        searchEnd = try container.decodeIfPresent(Date.self, forKey: .searchEnd)
+        searchReason = try container.decodeIfPresent(String.self, forKey: .searchReason)
+        searchStart = try container.decodeIfPresent(Date.self, forKey: .searchStart)
+        searchType = try container.decodeIfPresent(String.self, forKey: .searchType)
+
+        weakAdditionalAction = Weak(nil)
+        try super.init(from: decoder)
     }
 
-    public static var supportsSecureCoding: Bool = true
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakAdditionalAction = aDecoder.decodeWeakObject(forKey: Coding.action.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(clothingRemoved, forKey: CodingKeys.clothingRemoved)
+        try container.encode(detainedEnd, forKey: CodingKeys.detainedEnd)
+        try container.encode(detainedStart, forKey: CodingKeys.detainedStart)
+        try container.encode(legalPower, forKey: CodingKeys.legalPower)
+        try container.encode(location, forKey: CodingKeys.location)
+        try container.encode(officers, forKey: CodingKeys.officers)
+        try container.encode(outcome, forKey: CodingKeys.outcome)
+        try container.encode(remarks, forKey: CodingKeys.remarks)
+        try container.encode(searchEnd, forKey: CodingKeys.searchEnd)
+        try container.encode(searchReason, forKey: CodingKeys.searchReason)
+        try container.encode(searchStart, forKey: CodingKeys.searchStart)
+        try container.encode(searchType, forKey: CodingKeys.searchType)
     }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakAdditionalAction, forKey: Coding.action.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
-    }
+
 }
 
 extension AdditionalActionType {
