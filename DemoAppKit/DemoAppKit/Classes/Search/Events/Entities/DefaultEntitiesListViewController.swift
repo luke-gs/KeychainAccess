@@ -62,9 +62,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                             self.updateLoadingManager()
                             self.reloadForm()
                         })])
-                        .onSelection({ cell in
+                        .onSelection { cell in
                             self.presentEditViewController(entity: entity, cell: cell)
-                        })
+                        }
 
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
                 builder += SubItemFormItem()
@@ -82,9 +82,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                         self.updateLoadingManager()
                         self.reloadForm()
                     })])
-                    .onSelection({ _ in
+                    .onSelection { _ in
                         self.presentAdditionalAction(reports: action.reports)
-                    })
+                    }
             }
         }
 

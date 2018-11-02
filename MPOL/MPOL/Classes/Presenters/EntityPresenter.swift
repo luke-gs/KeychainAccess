@@ -13,9 +13,12 @@ import DemoAppKit
 public enum EntityScreen: Presentable {
 
     case help(type: EntityType)
-    case createEntity(type: EntityType)
     case entityDetails(entity: Entity, delegate: SearchDelegate?)
     case scanner
+    // entity creation
+    case createEntity(type: EntityType)
+    case createEntityContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
+    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: ((PersonAlias?) -> Void)?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -25,8 +28,12 @@ public enum EntityScreen: Presentable {
 
 public class EntityPresenter: Presenter {
 
+    // MARK: PRIVATE
+
     private let scanner = LicenceScanner()
     private let cameraManager = CameraManager()
+
+    // MARK: PUBLIC
 
     public init() {}
 
@@ -152,6 +159,15 @@ public class EntityPresenter: Presenter {
 
             return navVC
 
+        case .scanner:
+            cameraManager.finishPickingClosure = { image in
+                self.scanner.startScan(with: image) { text in
+                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false)
+                    try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
+                }
+            }
+            return cameraManager.pickerController()
+
         case .createEntity(let type):
             let title: String
 
@@ -175,14 +191,11 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
 
-        case .scanner:
-            cameraManager.finishPickingClosure = { image in
-                self.scanner.startScan(with: image) { text in
-                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false)
-                    try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
-                }
-            }
-            return cameraManager.pickerController()
+        case .createEntityAliasDetail(let alias, let handler):
+            return PersonEditAliasFormViewController(viewModel: PersonEditAliasFormViewModel(personAlias: alias), submitHandler: handler)
+
+        case .createEntityContactDetail(let contact, let handler):
+            return PersonEditContactFormViewController(viewModel: PersonEditContactFormViewModel(contact: contact), submitHandler: handler)
         }
     }
 
@@ -198,6 +211,14 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
+        case .createEntityAliasDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 328)
+            from.presentModalViewController(container)
+        case .createEntityContactDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 256)
+            from.presentModalViewController(container)
         default:
             from.show(to, sender: from)
         }

@@ -27,6 +27,10 @@ open class Alias: IdentifiableDataModel {
     public var type: String?
     public var updatedBy: String?
 
+    public override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared

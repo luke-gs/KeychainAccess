@@ -13,6 +13,7 @@ public extension ManifestCollection {
     static var personHairColour = ManifestCollection(rawValue: "PersonHairColour")
     static var personEyeColour = ManifestCollection(rawValue: "PersonEyeColour")
     static var personRace = ManifestCollection(rawValue: "PersonRace")
+    static var personAliasType = ManifestCollection(rawValue: "PersonAliasType")
     static var eventPersonInvolvementType = ManifestCollection(rawValue: "EventPersonInvolvementType")
     static var eventVehicleInvolvementType = ManifestCollection(rawValue: "EventVehicleInvolvementType")
     static var eventLocationInvolvementType = ManifestCollection(rawValue: "EventLocationInvolvementType")
@@ -35,6 +36,7 @@ public extension ManifestCollection {
         .personHairColour,
         .personEyeColour,
         .personRace,
+        .personAliasType,
         .eventPersonInvolvementType,
         .eventVehicleInvolvementType,
         .eventLocationInvolvementType,

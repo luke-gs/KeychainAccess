@@ -82,11 +82,11 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }, size: image?.size ?? .zero))
-                .onSelection({ [weak self] (_) in
+                .onSelection { [weak self] (_) in
                     guard let `self` = self else { return }
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
-                })
+                }
                 .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.removeOfficer(at: indexPath)

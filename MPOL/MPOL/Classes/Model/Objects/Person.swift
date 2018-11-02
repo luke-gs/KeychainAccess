@@ -34,7 +34,7 @@ open class Person: Entity, Identifiable {
             case .male:
                 return "Male"
             case .other:
-                return "Unknown"
+                return "Other"
             }
         }
 
@@ -66,7 +66,7 @@ open class Person: Entity, Identifiable {
     public var thumbnailUrl: URL?
     public var trafficHistory: [TrafficHistory]?
     public var yearOnlyDateOfBirth: Bool?
-
+    public var placeOfBirth: String?
     // MARK: - Transient
 
     public var thumbnail: UIImage?
@@ -116,6 +116,7 @@ open class Person: Entity, Identifiable {
         offenderCharges = unboxer.unbox(key: CodingKeys.offenderCharges.rawValue)
         offenderConvictions = unboxer.unbox(key: CodingKeys.offenderConvictions.rawValue)
         trafficHistory = unboxer.unbox(key: CodingKeys.trafficHistory.rawValue)
+        placeOfBirth = unboxer.unbox(key: CodingKeys.placeOfBirth.rawValue)
     }
 
     // MARK: - Codable
@@ -138,6 +139,8 @@ open class Person: Entity, Identifiable {
         case thumbnailUrl
         case trafficHistory
         case yearOnlyDateOfBirth
+        // TODO: TBC with backend
+        case placeOfBirth
     }
 
     public required init(from decoder: Decoder) throws {
@@ -162,6 +165,7 @@ open class Person: Entity, Identifiable {
         thumbnailUrl = try container.decodeIfPresent(URL.self, forKey: .thumbnailUrl)
         trafficHistory = try container.decodeIfPresent([TrafficHistory].self, forKey: .trafficHistory)
         yearOnlyDateOfBirth = try container.decodeIfPresent(Bool.self, forKey: .yearOnlyDateOfBirth)
+        placeOfBirth = try container.decodeIfPresent(String.self, forKey: .placeOfBirth)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -185,6 +189,7 @@ open class Person: Entity, Identifiable {
         try container.encode(thumbnailUrl, forKey: CodingKeys.thumbnailUrl)
         try container.encode(trafficHistory, forKey: CodingKeys.trafficHistory)
         try container.encode(yearOnlyDateOfBirth, forKey: CodingKeys.yearOnlyDateOfBirth)
+        try container.encode(placeOfBirth, forKey: CodingKeys.placeOfBirth)
     }
 
 }

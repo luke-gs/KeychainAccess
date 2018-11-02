@@ -109,10 +109,10 @@ open class BookOnLandingViewController: FormBuilderViewController {
                 .width(.column(1))
                 .height(.fixed(44))
                 .contentMode(.center)
-                .onSelection({ [weak self] _ in
+                .onSelection { [weak self] _ in
                     let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self, formSheet: false)
                     self?.present(screen)
-                })
+                }
         }
 
         let callsignSection = viewModel.callsignSection()
@@ -125,18 +125,18 @@ open class BookOnLandingViewController: FormBuilderViewController {
                                       reuseIdentifier: viewModel.callsignCellClass().defaultReuseIdentifier)
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(64))
-                .onConfigured({ (cell) in
+                .onConfigured { (cell) in
                     self.viewModel.decorate(cell: cell, with: item)
-                })
-                .onStyled({ (cell) in
+                }
+                .onStyled { (cell) in
                     let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
                     self.viewModel.apply(theme: theme, to: cell)
-                })
-                .onSelection({ [weak self] (_) in
+                }
+                .onSelection { [weak self] (_) in
                     if let screen = self?.viewModel.bookOnScreenForItem(item) {
                         self?.present(screen)
                     }
-                })
+                }
         }
     }
 

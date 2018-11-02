@@ -20,6 +20,10 @@ open class PersonAlias: Alias {
     public var middleNames: String?
     public var title: String?
 
+    public override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Unboxable
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
