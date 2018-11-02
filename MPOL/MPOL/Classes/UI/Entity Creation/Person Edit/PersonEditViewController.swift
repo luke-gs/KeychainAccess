@@ -170,8 +170,8 @@ public class PersonEditViewController: FormBuilderViewController {
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createEntityContactDetail(contact: nil,
-                                                           submitHandler: { [unowned self] viewModel in
-                                                            guard let contact = viewModel.contact else { return }
+                                                           submitHandler: { [unowned self] contact in
+                                                            guard let contact = contact else { return }
                                                             if self.finalPerson.contacts != nil {
                                                                 self.finalPerson.contacts!.append(contact)
                                                             } else {
@@ -197,8 +197,8 @@ public class PersonEditViewController: FormBuilderViewController {
                     .onSelection { [unowned self] _ in
                         self.present(
                             EntityScreen.createEntityContactDetail(contact: contact,
-                                                                   submitHandler: { [unowned self] viewModel in
-                                                                    guard let contact = viewModel.contact else { return }
+                                                                   submitHandler: { [unowned self] contact in
+                                                                    guard let contact = contact else { return }
                                                                     self.finalPerson.contacts?[index] = contact
                                                                     self.reloadForm()
                             }))
@@ -213,8 +213,8 @@ public class PersonEditViewController: FormBuilderViewController {
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createEntityAliasDetail(alias: nil,
-                                                         submitHandler: { [unowned self] viewModel in
-                                                            guard let personAlias = viewModel.personAlias else { return }
+                                                         submitHandler: { [unowned self] personAlias in
+                                                            guard let personAlias = personAlias else { return }
                                                             if self.finalPerson.aliases != nil {
                                                                 self.finalPerson.aliases!.append(personAlias)
                                                             } else {
@@ -248,8 +248,8 @@ public class PersonEditViewController: FormBuilderViewController {
                     .onSelection { [unowned self] _ in
                         self.present(
                             EntityScreen.createEntityAliasDetail(alias: alias,
-                                                                 submitHandler: { [unowned self] viewModel in
-                                                                    guard let personAlias = viewModel.personAlias else { return }
+                                                                 submitHandler: { [unowned self] personAlias in
+                                                                    guard let personAlias = personAlias else { return }
                                                                     self.finalPerson.aliases?[index] = personAlias
                                                                     self.reloadForm()
                             }))
