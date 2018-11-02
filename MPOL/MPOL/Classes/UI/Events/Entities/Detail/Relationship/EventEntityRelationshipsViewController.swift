@@ -79,7 +79,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
         viewController.finishUpdateHandler = { controller, indexes in
             let reasons = controller.objects.enumerated()
                 .filter({ indexes.contains($0.offset) })
-                .compactMap({ $0.element.title})
+                .compactMap({ $0.element.title?.sizing().string})
 
             self.viewModel.applyRelationship(relatedEntity: entity, reasons: reasons)
             self.reloadForm()

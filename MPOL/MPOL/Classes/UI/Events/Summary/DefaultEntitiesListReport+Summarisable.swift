@@ -19,10 +19,10 @@ extension DefaultEntitiesListReport: Summarisable {
                 switch entity {
                 case is Person:
                     let displayable = PersonSummaryDisplayable(entity)
-                    entityNames.append(displayable.title!)
+                    entityNames.append(displayable.title!.sizing().string)
                 case is Vehicle:
                     let displayable = VehicleSummaryDisplayable(entity)
-                    entityNames.append(displayable.title!)
+                    entityNames.append(displayable.title!.sizing().string)
                 default:
                     fatalError("Invalid entity type")
                 }

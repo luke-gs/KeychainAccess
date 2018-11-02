@@ -75,7 +75,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
 
         let title = [resource.callsign, resource.officerCountString].joined()
         let subtitle = resource.location?.suburb ?? resource.station ?? ThemeConstants.longDash
-        let caption = [resource.status.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
+        let caption = [resource.status.rawValue, resource.currentIncident?.title?.sizing().string].joined(separator: ThemeConstants.dividerSeparator)
 
         self.resource = resource
         self.callsign = resource.callsign

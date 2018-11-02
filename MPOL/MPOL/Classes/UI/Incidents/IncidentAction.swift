@@ -66,7 +66,7 @@ struct AddIncidentDefinition: IncidentActionDefiniton {
     var completion: ((CustomPickerController, IndexSet) -> Void)? {
         if let context = context {
             return { controller, index in
-                let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+                let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
                 context.viewModel.add(incidents)
                 context.updateLoadingManager()
                 context.reloadForm()
@@ -106,12 +106,12 @@ struct ChoosePrimaryIncidentDefinition: IncidentActionDefiniton {
     var completion: ((CustomPickerController, IndexSet) -> Void)? {
         if let context = context {
             return { controller, indexes in
-                //Without the ".first", incident should still have a count of one 1, but it's there in case
+                // Without the ".first", incident should still have a count of one 1, but it's there in case
                 let incidentTitle = controller.objects.enumerated()
                     .filter({ indexes.contains($0.offset) }).first?.element
 
                 let index = context.viewModel.incidentList.enumerated().first(where: {
-                    return $0.element.title == incidentTitle?.title
+                    return $0.element.title?.sizing() == incidentTitle?.title?.sizing()
                 })?.offset
 
                 if let index = index {
@@ -154,17 +154,17 @@ struct DeletePrimaryIncidentDefinition: IncidentActionDefiniton {
     var completion: ((CustomPickerController, IndexSet) -> Void)? {
         if let context = context {
             return { controller, indexes in
-                //Without the ".first", incident should still have a count of one 1, but it's there in case
+                // Without the ".first", incident should still have a count of one 1, but it's there in case
                 let incidentTitle = controller.objects.enumerated()
                     .filter({ indexes.contains($0.offset) }).first?.element
 
                 let index = context.viewModel.incidentList.enumerated().first(where: {
-                    return $0.element.title == incidentTitle?.title
+                    return $0.element.title?.sizing() == incidentTitle?.title?.sizing()
                 })?.offset
 
                 if let index = index {
                     context.viewModel.changePrimaryIncident(index)
-                    //remove the primary incident once the new one has been chosen, which will be the first in additional
+                    // remove the primary incident once the new one has been chosen, which will be the first in additional
                     context.viewModel.removeIncident(context.viewModel.incident(for: (context.viewModel.additionalIncidents?.first)!)!)
                     context.reloadForm()
                     context.dismissAnimated()
