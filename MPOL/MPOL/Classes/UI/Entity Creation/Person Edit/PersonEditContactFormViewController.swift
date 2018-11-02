@@ -15,12 +15,10 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
 
     public var viewModel: PersonEditContactFormViewModel
 
-    public typealias SubmitHandler = (PersonEditContactFormViewModel) -> Void
-
     /// The handler for submitting the data
-    public var submitHandler: SubmitHandler?
+    public var submitHandler: ((Contact?) -> Void)?
 
-    public init(viewModel: PersonEditContactFormViewModel, submitHandler: SubmitHandler?) {
+    public init(viewModel: PersonEditContactFormViewModel, submitHandler: ((Contact?) -> Void)?) {
         self.viewModel = viewModel
         self.submitHandler = submitHandler
         super.init()
@@ -97,7 +95,7 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(viewModel)
+            submitHandler?(viewModel.contact)
             dismiss(animated: true, completion: nil)
         }
     }

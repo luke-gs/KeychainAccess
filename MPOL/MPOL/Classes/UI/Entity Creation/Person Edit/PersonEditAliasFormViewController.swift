@@ -15,12 +15,10 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
 
     public var viewModel: PersonEditAliasFormViewModel
 
-    public typealias SubmitHandler = (PersonEditAliasFormViewModel) -> Void
-
     /// The handler for submitting the data
-    public var submitHandler: SubmitHandler?
+    public var submitHandler: ((PersonAlias?) -> Void)?
 
-    public init(viewModel: PersonEditAliasFormViewModel, submitHandler: SubmitHandler?) {
+    public init(viewModel: PersonEditAliasFormViewModel, submitHandler: ((PersonAlias?) -> Void)?) {
         self.viewModel = viewModel
         self.submitHandler = submitHandler
         super.init()
@@ -102,7 +100,7 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(viewModel)
+            submitHandler?(viewModel.personAlias)
             dismiss(animated: true, completion: nil)
         }
     }

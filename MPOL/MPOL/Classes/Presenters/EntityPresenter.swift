@@ -17,8 +17,8 @@ public enum EntityScreen: Presentable {
     case scanner
     // entity creation
     case createEntity(type: EntityType)
-    case createEntityContactDetail(contact: Contact?, submitHandler: PersonEditContactFormViewController.SubmitHandler?)
-    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: PersonEditAliasFormViewController.SubmitHandler?)
+    case createEntityContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
+    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: ((PersonAlias?) -> Void)?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
