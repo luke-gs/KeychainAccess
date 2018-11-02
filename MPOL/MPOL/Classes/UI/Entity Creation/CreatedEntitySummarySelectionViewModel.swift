@@ -20,11 +20,11 @@ open class CreatedEntitySummarySelectionViewModel: EntitySummarySelectionViewMod
     }
 
     open override var sectionTitle: String? {
-        return AssetManager.shared.string(forKey: .createdViewedEntitySelectionTitle)
+        return AssetManager.shared.string(forKey: .createdEntitySelectionTitle)
     }
 
     open override var noContentTitle: String? {
-        return AssetManager.shared.string(forKey: .createdViewedEntitySelectionNoContentTitle)
+        return AssetManager.shared.string(forKey: .createdEntitySelectionNoContentTitle)
     }
 
     open func reloadEntities() {
