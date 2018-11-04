@@ -42,11 +42,13 @@ public class TrafficStopPresenter: Presenter {
             return viewController
 
         case .trafficStopAddEntity(let completionHandler):
-            let viewModel = EntitySummarySelectionViewModel()
+            let createdSectionViewModel = CreatedEntitySummarySelectionSectionViewModel()
+            let recentSectionViewModel = RecentEntitySummarySelectionSectionViewModel()
+            createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
+            recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
 
-            let sectionViewModel = RecentEntitySummarySelectionSectionViewModel()
-            sectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
-            viewModel.sections = [sectionViewModel]
+            let viewModel = EntitySummarySelectionViewModel(sections: [createdSectionViewModel, recentSectionViewModel])
+
             let viewController = EntitySummarySelectionViewController(viewModel: viewModel)
             viewController.selectionHandler = { [weak viewController] entity in
                 // Close UI and call completion handler

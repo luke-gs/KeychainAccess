@@ -1,6 +1,5 @@
 //
 //  CreatedEntitySummarySelectionViewModel.swift
-//  PublicSafetyKit
 //
 //  Created by Evan Tsai on 1/11/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,6 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
+/// View Model for showing created section in Entity Summary Selection
 open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelectionSectionViewModel {
 
     public static let createdEntitiesKey = "createdEntitiesKey"
@@ -28,7 +28,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
         let item: [Person]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.createdEntitiesKey) ?? nil
         // Update entities and trigger UI update
         if let item = item {
-//            updateEntityList(item)
+            updateEntityList(item)
         }
     }
 }
