@@ -16,16 +16,20 @@ extension DefaultEntitiesListReport: Summarisable {
         if let incident = incident, let entities = event?.entityManager.relationships(for: incident).map({$0.baseObject}) {
             var entityNames = [String]()
             entities.forEach { (entity) in
+                var displayable: AssociatedEntitySummaryDisplayable
                 switch entity {
                 case is Person:
-                    let displayable = PersonSummaryDisplayable(entity)
-                    entityNames.append(displayable.title!.sizing().string)
+                    displayable = PersonSummaryDisplayable(entity)
                 case is Vehicle:
-                    let displayable = VehicleSummaryDisplayable(entity)
-                    entityNames.append(displayable.title!.sizing().string)
+                    displayable = VehicleSummaryDisplayable(entity)
+                case is Organisation:
+                    displayable = OrganisationSummaryDisplayable(entity)
+                case is Address:
+                    displayable = AddressSummaryDisplayable(entity)
                 default:
                     fatalError("Invalid entity type")
                 }
+                entityNames.append(displayable.title!.sizing().string)
             }
             items.append(RowDetailFormItem(title: String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), entityNames.count), detail: entityNames.joined(separator: ", ")))
         }
