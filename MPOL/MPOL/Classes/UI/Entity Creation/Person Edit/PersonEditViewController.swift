@@ -323,6 +323,8 @@ public class PersonEditViewController: FormBuilderViewController {
                 }
                 try UserSession.current.userStorage?.add(object: result, key: CreatedEntitySummarySelectionSectionViewModel.createdEntitiesKey, flag: UserStorageFlag.session)
 
+                NotificationCenter.default.post(name: CreatedEntitySummarySelectionSectionViewModel.didUpdateNotificationName, object: nil)
+
             } catch {
                 // TODO: Handles error if it cannot be saved
             }
