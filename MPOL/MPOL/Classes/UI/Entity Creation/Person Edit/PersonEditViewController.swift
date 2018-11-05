@@ -321,7 +321,7 @@ public class PersonEditViewController: FormBuilderViewController {
                 } else {
                     result = [finalPerson]
                 }
-                try UserSession.current.userStorage?.add(object: result, key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey, flag: UserStorageFlag.session)
+                try UserSession.current.userStorage?.addWrapped(objects: result, key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey, flag: UserStorageFlag.session)
 
                 NotificationCenter.default.post(name: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesDidUpdate, object: nil)
 
