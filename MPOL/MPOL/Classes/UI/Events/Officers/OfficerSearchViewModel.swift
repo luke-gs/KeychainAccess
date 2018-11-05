@@ -27,7 +27,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
             .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
 
-            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
+            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers,
+                                                          title: NSLocalizedString("My Call Sign", comment: "Officer Search - My CallSign Section Title")))
         }
 
         // Add officers from UserPreferences recentlyUsed
@@ -43,7 +44,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
 
             if !recentOfficers.isEmpty {
-                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
+                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
+                                                                    title: NSLocalizedString("Recently Used", comment: "Officer Search - Recently Used Section Title")))
             }
         }.map {}
     }
@@ -77,11 +79,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return sections[section].title
     }
 
-    func title(for indexPath: IndexPath) -> String? {
+    func title(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).title
     }
 
-    func description(for indexPath: IndexPath) -> String? {
+    func description(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
@@ -101,9 +103,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text"),
-                                                  employeeNumber: object.employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text"),
-                                                  section: object.region ?? NSLocalizedString("Unknown Region", comment: "Unknown Officer Region Text"))
+                                                  rank: object.rank,
+                                                  employeeNumber: object.employeeNumber,
+                                                  section: object.region)
         objectDisplayMap[object] = searchable
         return searchable
     }
@@ -132,17 +134,22 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
 
             if let context = self {
-                context.sections = [OfficerSearchSectionViewModel(items: $0.results, title: "Results")]
+                context.sections = [OfficerSearchSectionViewModel(items: $0.results,
+                                                                  title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
             }
         }
     }
 
     func loadingStateText() -> String? {
-        return "Retrieving Officers"
+        return NSLocalizedString("Retrieving Officers", comment: "Officer Search - Loading State Text")
     }
 
-    func emptyStateText() -> String? {
-        return "No Recently Used Officers"
+    func emptyStateTitle() -> String? {
+        return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text")
+    }
+
+    func emptyStateSubtitle() -> String? {
+        return NSLocalizedString("You can search for an officer by either their Last name, First Name or ID Number", comment: "Officer Search - Empty State Subtitle Text")
     }
 }
 

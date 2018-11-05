@@ -17,12 +17,12 @@ public struct PatrolAreaListItemViewModel: CustomSearchDisplayable {
 
     // MARK: - Searchable
 
-    public var title: String? {
+    public var title: StringSizable? {
         return patrolArea
     }
 
     public var section: String?
-    public var subtitle: String?
+    public var subtitle: StringSizable?
     public var image: UIImage?
 
     public func contains(_ searchText: String) -> Bool {

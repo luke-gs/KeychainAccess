@@ -21,15 +21,15 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return person.source?.localizedBarTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return formattedDOBAgeGender()
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return formattedAddress()
     }
 
@@ -148,8 +148,8 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .style(style)
             .width(.column(2))
             .category(category)
-            .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
-            .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .title(title?.sizing().string.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .subtitle(detail1?.sizing().string.sizing(withNumberOfLines: style == .hero ? 0 : 1))
             .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)
             .badgeColor(borderColor)
@@ -189,15 +189,15 @@ public struct PersonDetailsDisplayable: EntitySummaryDisplayable {
         return person.source?.localizedBadgeTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return displayable.detail1
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return displayable.detail2
     }
 

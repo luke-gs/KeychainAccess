@@ -19,15 +19,23 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
 
     public var category: String?
 
-    public var title: String? {
-        return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
+    public var title: StringSizable? {
+
+        // Show employee number in smaller, non-bold font
+        let font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: UIScreen.main.traitCollection)
+        let employeeNumberString = NSMutableAttributedString(" (\(officer.employeeNumber ?? "Employee Number Unknown"))", font: font)
+
+        let lastNameString =  officer.familyName != nil ? "\(officer.familyName!)," : ""
+        return [lastNameString, officer.givenName, employeeNumberString].joined(separator: " ")
     }
 
-    public var detail1: String? {
-        return [officer.rank, officer.employeeNumber].joined(separator: " \(ThemeConstants.dividerSeparator) ")
+    public var detail1: StringSizable? {
+        return officer.rank
     }
 
-    public var detail2: String?
+    public var detail2: StringSizable? {
+        return nil
+    }
 
     public var borderColor: UIColor?
 
@@ -38,13 +46,10 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        if let image = image { return image }
+        if let image = image {
+            return image
+        }
         let imageSizing = EntityImageSizing(entity: officer)
         return imageSizing
     }
-
-    private var formattedName: String? {
-        return [officer.givenName, officer.familyName].joined(separator: " ")
-    }
-
 }

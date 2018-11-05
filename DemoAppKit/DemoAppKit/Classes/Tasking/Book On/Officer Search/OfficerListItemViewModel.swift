@@ -14,28 +14,33 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
     public var firstName: String?
     public var lastName: String?
     public var initials: String?
-    public var rank: String?
-    public var employeeNumber: String?
+    public var rank: String
+    public var employeeNumber: String
 
     public init(id: String, firstName: String?, lastName: String?, initials: String?, rank: String?, employeeNumber: String?, section: String?) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.initials = initials
-        self.rank = rank
-        self.employeeNumber = employeeNumber
-        self.section = section
+        self.rank = rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text")
+        self.employeeNumber = employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text")
+        self.section = section ?? NSLocalizedString("Unknown Section", comment: "Unknown Officer Section Text")
     }
 
     // MARK: - Searchable
 
-    public var title: String? {
-        return [firstName, lastName].joined()
+    public var title: StringSizable? {
+
+        let font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: UIScreen.main.traitCollection)
+        let employeeNumberString = NSMutableAttributedString(" (\(employeeNumber))", font: font)
+
+        let lastNameString = lastName != nil ? "\(lastName!)," : ""
+        return [lastNameString, firstName, employeeNumberString].joined(separator: " ")
     }
 
-    public var subtitle: String? {
+    public var subtitle: StringSizable? {
 
-        return [rank, "#\(employeeNumber ?? "Unknown")"].joined(separator: ThemeConstants.dividerSeparator)
+        return rank
     }
 
     public var section: String?
@@ -54,9 +59,9 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
         let matchesFirstName = firstName?.lowercased().hasPrefix(searchStringLowercase)
         let matchesLastName = lastName?.lowercased().hasPrefix(searchStringLowercase)
-        let matchesEmployeeNumber = employeeNumber?.lowercased().hasPrefix(searchStringLowercase)
+        let matchesEmployeeNumber = employeeNumber.lowercased().hasPrefix(searchStringLowercase)
 
-        return matchesFirstName.isTrue || matchesLastName.isTrue || matchesEmployeeNumber.isTrue
+        return matchesFirstName.isTrue || matchesLastName.isTrue || matchesEmployeeNumber
     }
 
 }

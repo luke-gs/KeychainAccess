@@ -14,11 +14,11 @@ open class Contact: IdentifiableDataModel {
 
     public enum ContactType: String, UnboxableEnum, Codable, CaseIterable, Pickable {
 
-        public var title: String? {
+        public var title: StringSizable? {
             return self.localizedDescription()
         }
 
-        public var subtitle: String? {
+        public var subtitle: StringSizable? {
             return nil
         }
 
