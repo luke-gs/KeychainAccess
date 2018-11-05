@@ -136,15 +136,15 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
+        didSearch = true
+
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
-
             if let context = self {
-
-                context.sections = []
-                context.didSearch = true
                 if !$0.results.isEmpty {
                     context.sections = [OfficerSearchSectionViewModel(items: $0.results,
                                                                       title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+                } else {
+                    context.sections = []
                 }
             }
         }
