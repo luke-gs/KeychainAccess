@@ -97,4 +97,8 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
     public func emptyStateSubtitle() -> String? {
         return nil
     }
+
+    public func emptyStateImage() -> UIImage? {
+        return nil
+    }
 }

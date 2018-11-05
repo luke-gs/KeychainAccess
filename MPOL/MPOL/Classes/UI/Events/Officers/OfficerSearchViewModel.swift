@@ -151,6 +151,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     func emptyStateSubtitle() -> String? {
         return NSLocalizedString("You can search for an officer by either their Last name, First Name or ID Number", comment: "Officer Search - Empty State Subtitle Text")
     }
+
+    func emptyStateImage() -> UIImage? {
+        return UIImage(named: "NoResults")    }
 }
 
 extension UserPreferenceKey {
