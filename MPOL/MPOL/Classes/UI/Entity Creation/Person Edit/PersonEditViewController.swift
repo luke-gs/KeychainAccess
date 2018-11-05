@@ -315,15 +315,15 @@ public class PersonEditViewController: FormBuilderViewController {
             }
             do {
                 var result: [Person]
-                if let entities = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.createdEntitiesKey) as [Person]? {
+                if let entities = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey) as [Person]? {
                     result = entities
                     result.append(finalPerson)
                 } else {
                     result = [finalPerson]
                 }
-                try UserSession.current.userStorage?.add(object: result, key: CreatedEntitySummarySelectionSectionViewModel.createdEntitiesKey, flag: UserStorageFlag.session)
+                try UserSession.current.userStorage?.add(object: result, key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey, flag: UserStorageFlag.session)
 
-                NotificationCenter.default.post(name: CreatedEntitySummarySelectionSectionViewModel.didUpdateNotificationName, object: nil)
+                NotificationCenter.default.post(name: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesDidUpdate, object: nil)
 
             } catch {
                 // TODO: Handles error if it cannot be saved

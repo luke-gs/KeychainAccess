@@ -11,8 +11,8 @@ import PublicSafetyKit
 /// View Model for showing created section in Entity Summary Selection
 open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelectionSectionViewModel {
 
-    public static let createdEntitiesKey = "createdEntitiesKey"
-    public static let didUpdateNotificationName = Notification.Name(rawValue: "CreatedEntityDidUpdateNotification")
+    public static let CreatedEntitiesKey = "CreatedEntitiesKey"
+    public static let CreatedEntitiesDidUpdate = Notification.Name(rawValue: "CreatedEntityDidUpdateNotification")
 
     public override init() {
         super.init()
@@ -20,7 +20,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
         reloadEntities()
 
         // Refresh list whenever created viewed entities change
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCreatedViewedChanged), name: CreatedEntitySummarySelectionSectionViewModel.didUpdateNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCreatedViewedChanged), name: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesDidUpdate, object: nil)
     }
 
     open override var title: String? {
@@ -34,7 +34,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
 
     open func reloadEntities() {
         // Use the created entities as data source
-        let item: [Person]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.createdEntitiesKey) ?? nil
+        let item: [Person]? = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey) ?? nil
         // Update entities and trigger UI update
         if let item = item {
             updateEntityList(item)
