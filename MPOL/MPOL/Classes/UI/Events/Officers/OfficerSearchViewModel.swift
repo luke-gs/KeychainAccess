@@ -149,7 +149,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateSubtitle() -> String? {
-        return NSLocalizedString("You can search for an officer by either their Last name, First Name or ID Number", comment: "Officer Search - Empty State Subtitle Text")
+        return NSLocalizedString("""
+                                    You can search for an officer by either Last Name or Employee Number.
+
+                                    To narrow a search by name, the following format can be used 'Last Name, First Name, Middle Name/s'.
+                                 """,
+                                 comment: "Officer Search - Empty State Subtitle Text")
     }
 
     func emptyStateImage() -> UIImage? {
