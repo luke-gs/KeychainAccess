@@ -172,7 +172,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateImage() -> UIImage? {
-        return UIImage(named: "NoResults")    }
+        return UIImage(named: "NoResults")
+    }
 }
 
 extension UserPreferenceKey {
