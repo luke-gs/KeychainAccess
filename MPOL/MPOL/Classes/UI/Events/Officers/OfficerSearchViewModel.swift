@@ -18,6 +18,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     var searchText: String?
     private var sections: [OfficerSearchSectionViewModel] = []
+    private var didSearch = false
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
@@ -134,8 +135,13 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
 
             if let context = self {
-                context.sections = [OfficerSearchSectionViewModel(items: $0.results,
-                                                                  title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+
+                context.sections = []
+                context.didSearch = true
+                if !$0.results.isEmpty {
+                    context.sections = [OfficerSearchSectionViewModel(items: $0.results,
+                                                                      title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+                }
             }
         }
     }
@@ -145,7 +151,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateTitle() -> String? {
-        return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text")
+        if didSearch {
+            return NSLocalizedString("No Results Found", comment: "Officer Search - Empty State Title Text (after search)")
+        } else {
+            return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text (before search)")
+        }
     }
 
     func emptyStateSubtitle() -> String? {
