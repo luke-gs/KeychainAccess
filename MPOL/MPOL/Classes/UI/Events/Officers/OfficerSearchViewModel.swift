@@ -127,8 +127,10 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         let definition = OfficerParserDefinition()
         let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
-        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey] ?? searchText,
-                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey])
+        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey],
+                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey],
+                                                 middleNames: personParserResults?[OfficerParserDefinition.MiddleNameKey],
+                                                 employeeNumber: personParserResults?[OfficerParserDefinition.EmployeeNumberKey])
         let request = OfficerSearchRequest(source: .pscore, request: parameters)
 
         cancelToken?.cancel()
