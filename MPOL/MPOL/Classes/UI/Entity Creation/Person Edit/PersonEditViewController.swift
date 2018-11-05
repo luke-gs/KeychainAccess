@@ -271,8 +271,8 @@ public class PersonEditViewController: FormBuilderViewController {
                     self.reloadForm()
                 }))
             })
-        if let _locations = locations {
-            for (index, location) in _locations.enumerated() {
+        if let locationTuples = locations?.enumerated() {
+            for (index, location) in locationTuples {
                 builder += PickerFormItem(pickerAction:
                     LocationSelectionFormAction(workflowId: LocationSelectionPresenter.personEditWorkflowId))
                     .title(location.type?.title)
