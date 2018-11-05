@@ -42,10 +42,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         }
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+
+            guard let self = self else { return }
             let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
 
-            if !recentOfficers.isEmpty {
-                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
+            if !recentOfficers.isEmpty && !self.didSearch {
+                self.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
                                                                     title: NSLocalizedString("Recently Used", comment: "Officer Search - Recently Used Section Title")))
             }
         }.map {}
