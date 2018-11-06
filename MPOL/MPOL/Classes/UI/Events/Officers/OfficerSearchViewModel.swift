@@ -18,6 +18,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     var searchText: String?
     private var sections: [OfficerSearchSectionViewModel] = []
+    private var didSearch = false
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
@@ -41,10 +42,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         }
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+
+            guard let self = self else { return }
             let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
 
-            if !recentOfficers.isEmpty {
-                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
+            if !recentOfficers.isEmpty && !self.didSearch {
+                self.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
                                                                     title: NSLocalizedString("Recently Used", comment: "Officer Search - Recently Used Section Title")))
             }
         }.map {}
@@ -133,11 +136,16 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
-        return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
+        didSearch = true
 
+        return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
             if let context = self {
-                context.sections = [OfficerSearchSectionViewModel(items: $0.results,
-                                                                  title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+                if !$0.results.isEmpty {
+                    context.sections = [OfficerSearchSectionViewModel(items: $0.results,
+                                                                      title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+                } else {
+                    context.sections = []
+                }
             }
         }
     }
@@ -147,11 +155,24 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateTitle() -> String? {
-        return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text")
+        if didSearch {
+            return NSLocalizedString("No Results Found", comment: "Officer Search - Empty State Title Text (after search)")
+        } else {
+            return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text (before search)")
+        }
     }
 
     func emptyStateSubtitle() -> String? {
-        return NSLocalizedString("You can search for an officer by either their Last name, First Name or ID Number", comment: "Officer Search - Empty State Subtitle Text")
+        return NSLocalizedString("""
+                                    You can search for an officer by either Last Name or Employee Number.
+
+                                    To narrow a search by name, the following format can be used 'Last Name, First Name, Middle Name/s'.
+                                 """,
+                                 comment: "Officer Search - Empty State Subtitle Text")
+    }
+
+    func emptyStateImage() -> UIImage? {
+        return UIImage(named: "NoResults")
     }
 }
 
