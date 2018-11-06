@@ -73,6 +73,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             builder += SummaryListFormItem()
                 .title(displayable.title)
                 .subtitle(displayable.detail1)
+                .detail(displayable.detail2)
+                .styleIdentifier(DemoAppKitStyler.associationStyle)
                 .width(.column(1))
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
@@ -82,11 +84,11 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }, size: image?.size ?? .zero))
-                .onSelection({ [weak self] (_) in
+                .onSelection { [weak self] (_) in
                     guard let `self` = self else { return }
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
-                })
+                }
                 .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.removeOfficer(at: indexPath)
@@ -100,8 +102,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     public func didSelectOfficer(officer: Officer) {
         guard let displayable = viewModel.displayable(for: officer) else { return }
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
-                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
+                                                     subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
         let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
@@ -114,7 +116,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
         viewController.finishUpdateHandler = { [weak self] controller, index in
             guard let `self` = self else { return }
-            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
@@ -148,8 +150,8 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
         let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
         let officer = displayable.officer
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
-                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
+                                                     subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
         let involvementDataSource = DefaultPickableSearchDataSource(
@@ -162,7 +164,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
         let involvementsViewController = CustomPickerController(dataSource: involvementDataSource)
         involvementsViewController.finishUpdateHandler = { [weak self] controller, index in
             guard let `self` = self else { return }
-            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)
             self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)

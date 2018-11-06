@@ -12,26 +12,26 @@ import Wrap
 
 public class OfficerSearchParameters: EntitySearchRequest<Officer> {
 
-    public init(familyName: String, givenName: String? = nil, middleNames: String? = nil, region: String? = nil, employeeNumber: String? = nil) {
-        let parameterisable = SearchParameters(familyName: familyName, givenName: givenName, middleNames: middleNames, region: region, employeeNumber: employeeNumber)
+    public static let nilCharacter = "*"
+
+    public init(familyName: String? = nil, givenName: String? = nil, middleNames: String? = nil, employeeNumber: String? = nil) {
+        let parameterisable = SearchParameters(familyName: familyName, givenName: givenName, middleNames: middleNames, employeeNumber: employeeNumber)
 
         super.init(parameters: parameterisable.parameters)
     }
 
     private struct SearchParameters: Parameterisable {
 
-        public let region: String?
-        public let familyName: String
+        public let familyName: String?
         public let givenName: String?
         public let middleNames: String?
         public let employeeNumber: String?
 
-        public init(familyName: String, givenName: String? = nil, middleNames: String? = nil, region: String? = nil, employeeNumber: String? = nil) {
-            self.familyName  = familyName
-            self.givenName   = givenName
+        public init(familyName: String?, givenName: String? = nil, middleNames: String? = nil, employeeNumber: String? = nil) {
+            self.familyName = familyName
+            self.givenName = givenName
             self.middleNames = middleNames
-            self.region      = region
-            self.employeeNumber = employeeNumber
+            self.employeeNumber = employeeNumber == OfficerSearchParameters.nilCharacter ? nil : employeeNumber
         }
 
         public var parameters: [String: Any] {

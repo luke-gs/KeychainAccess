@@ -62,6 +62,10 @@
 		208A85C02161ECFB00FEC69B /* LightModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85BF2161ECFB00FEC69B /* LightModeStyle.css */; };
 		208A85C22161ED5500FEC69B /* DarkModeStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 208A85C12161ED5500FEC69B /* DarkModeStyle.css */; };
 		20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C97904215C93610067977B /* CreateTaskPresenter.swift */; };
+		20E61AB52189368600B65F43 /* PersonEditContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB42189368600B65F43 /* PersonEditContactFormViewController.swift */; };
+		20E61AB72189369500B65F43 /* PersonEditAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61AB62189369500B65F43 /* PersonEditAliasFormViewController.swift */; };
+		20E61ABB218936BC00B65F43 /* PersonEditContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABA218936BC00B65F43 /* PersonEditContactFormViewModel.swift */; };
+		20E61ABD218936C600B65F43 /* PersonEditAliasFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E61ABC218936C600B65F43 /* PersonEditAliasFormViewModel.swift */; };
 		37097CA921648B000036434C /* VoiceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37097CA821648B000036434C /* VoiceSearchViewController.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
@@ -359,6 +363,10 @@
 		208A85C12161ED5500FEC69B /* DarkModeStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DarkModeStyle.css; sourceTree = "<group>"; };
 		2091DF72F3C984BBA2ED5240 /* Pods-MPOLTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLTests.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLTests/Pods-MPOLTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		20C97904215C93610067977B /* CreateTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskPresenter.swift; sourceTree = "<group>"; };
+		20E61AB42189368600B65F43 /* PersonEditContactFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditContactFormViewController.swift; sourceTree = "<group>"; };
+		20E61AB62189369500B65F43 /* PersonEditAliasFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditAliasFormViewController.swift; sourceTree = "<group>"; };
+		20E61ABA218936BC00B65F43 /* PersonEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		20E61ABC218936C600B65F43 /* PersonEditAliasFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditAliasFormViewModel.swift; sourceTree = "<group>"; };
 		37097CA821648B000036434C /* VoiceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceSearchViewController.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -802,6 +810,18 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
+		20E61AB32189365800B65F43 /* Person Edit */ = {
+			isa = PBXGroup;
+			children = (
+				20E61AB62189369500B65F43 /* PersonEditAliasFormViewController.swift */,
+				20E61ABC218936C600B65F43 /* PersonEditAliasFormViewModel.swift */,
+				20E61AB42189368600B65F43 /* PersonEditContactFormViewController.swift */,
+				20E61ABA218936BC00B65F43 /* PersonEditContactFormViewModel.swift */,
+				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
+			);
+			path = "Person Edit";
+			sourceTree = "<group>";
+		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
 			isa = PBXGroup;
 			children = (
@@ -1087,7 +1107,7 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
-				96B774BD2140F8EE00836B83 /* PersonEditViewController.swift */,
+				20E61AB32189365800B65F43 /* Person Edit */,
 				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
 			path = "Entity Creation";
@@ -1895,6 +1915,7 @@
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
 				96B775AB214206F100836B83 /* PersonParserDefinition.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
+				20E61AB52189368600B65F43 /* PersonEditContactFormViewController.swift in Sources */,
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
 				96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
@@ -1928,6 +1949,7 @@
 				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
 				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
 				96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */,
+				20E61ABD218936C600B65F43 /* PersonEditAliasFormViewModel.swift in Sources */,
 				96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */,
 				96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */,
 				96B7755A2140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift in Sources */,
@@ -1942,6 +1964,7 @@
 				96B775702140F8EE00836B83 /* Media.swift in Sources */,
 				96B775822140F8EE00836B83 /* MPOLSource.swift in Sources */,
 				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
+				20E61ABB218936BC00B65F43 /* PersonEditContactFormViewModel.swift in Sources */,
 				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
@@ -1993,6 +2016,7 @@
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,
+				20E61AB72189369500B65F43 /* PersonEditAliasFormViewController.swift in Sources */,
 				96B775622140F8EE00836B83 /* PhoneNumber.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				96B7756D2140F8EE00836B83 /* RetrievedEvent.swift in Sources */,

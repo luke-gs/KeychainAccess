@@ -17,7 +17,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
     // MARK: - Stored properties
 
-    open var title: String?
+    open var title: StringSizable?
     open var rank: String?
     open var officerId: String
     open var employeeNumber: String?
@@ -49,7 +49,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     open var officerInfoSubtitle: String {
-        return [rank, employeeNumber, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
+        return [rank, licenceTypeEntry?.entry.rawValue].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     open var driverStatus: String? {
@@ -100,7 +100,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         }
     }
 
-    public static func ==(lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
+    public static func == (lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
         return lhs.officerId == rhs.officerId
     }
 

@@ -10,6 +10,7 @@ import PromiseKit
 import PublicSafetyKit
 
 public class OffenceSearchViewModel: SearchDisplayableViewModel {
+
     public typealias Object = Offence
 
     public var title: String = "Add Offence"
@@ -40,11 +41,11 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
         return ""
     }
 
-    public func title(for indexPath: IndexPath) -> String? {
+    public func title(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).title
     }
 
-    public func description(for indexPath: IndexPath) -> String? {
+    public func description(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
@@ -53,7 +54,7 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
     }
 
     public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
-        //TODO: Implement a "selectButton" type for ItemAccessory
+        // TODO: Implement a "selectButton" type for ItemAccessory
         return ItemAccessory.disclosure
     }
 
@@ -73,7 +74,7 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
 
     public func searchTextChanged(to searchString: String) {
         if searchString.isEmpty {
-            //if string is empty, set filtered back to base copy
+            // if string is empty, set filtered back to base copy
             filteredItems = self.items
         } else {
             filteredItems = items.filter {$0.title.lowercased().contains(searchString.lowercased())}
@@ -81,7 +82,7 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
     }
 
     public func searchAction() -> Promise<Void>? {
-        //TODO: Implement search action to pull from server, if required
+        // TODO: Implement search action to pull from server, if required
         return nil
     }
 
@@ -89,7 +90,11 @@ public class OffenceSearchViewModel: SearchDisplayableViewModel {
         return nil
     }
 
-    public func emptyStateText() -> String? {
+    public func emptyStateTitle() -> String? {
         return "No Recently Used Offences"
+    }
+
+    public func emptyStateSubtitle() -> String? {
+        return nil
     }
 }

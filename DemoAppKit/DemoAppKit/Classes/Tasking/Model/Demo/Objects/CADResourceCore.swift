@@ -87,7 +87,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
     public func equipmentListString(separator: String) -> String? {
         if _equipmentListString == nil {
             let quantityPicked = equipment.quantityPicked()
-            _equipmentListString = quantityPicked.map { $0.object.title }.joined(separator: separator)
+            _equipmentListString = quantityPicked.map { $0.object.title?.sizing().string }.joined(separator: separator)
         }
         return _equipmentListString
     }
@@ -182,7 +182,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 }
 
 extension CADResourceCore: Equatable {
-    public static func ==(lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
+    public static func == (lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
         return lhs.callsign == rhs.callsign
     }
 }

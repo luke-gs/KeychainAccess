@@ -42,7 +42,7 @@ open class OfficerDetailsViewModel {
         if content.officerId == CADStateManager.shared.officerDetails?.id {
             return NSLocalizedString("My Details", comment: "")
         }
-        return content.title ?? ""
+        return content.title?.sizing().string ?? ""
     }
 
     /// The subtitle to use in the navigation bar

@@ -186,7 +186,7 @@ public enum CADSyncMode: Equatable {
     case patrolGroup(patrolGroup: String)
     case map(boundingBox: MKMapRect.BoundingBox)
 
-    public static func ==(lhs: CADSyncMode, rhs: CADSyncMode) -> Bool {
+    public static func == (lhs: CADSyncMode, rhs: CADSyncMode) -> Bool {
         switch (lhs, rhs) {
         case (let .patrolGroup(patrolGroup1), let .patrolGroup(patrolGroup2)):
             return patrolGroup1 == patrolGroup2

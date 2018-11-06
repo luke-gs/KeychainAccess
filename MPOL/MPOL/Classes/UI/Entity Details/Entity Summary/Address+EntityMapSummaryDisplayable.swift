@@ -21,16 +21,16 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
         return address.source?.localizedBarTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return AddressFormatter(style: .short).formattedString(from: address)
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         let values: [String?] = [address.suburb?.capitalized, address.state?.uppercased(), address.postcode]
         return values.joined(separator: " ")
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return nil
     }
 

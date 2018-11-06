@@ -12,16 +12,25 @@ import PublicSafetyKit
 @objc(MPLContact)
 open class Contact: IdentifiableDataModel {
 
-    public enum ContactType: String, UnboxableEnum, Codable {
+    public enum ContactType: String, UnboxableEnum, Codable, CaseIterable, Pickable {
+
+        public var title: StringSizable? {
+            return self.localizedDescription()
+        }
+
+        public var subtitle: StringSizable? {
+            return nil
+        }
+
         case phone = "home"
         case mobile = "mobile"
         case email = "email"
 
         public func localizedDescription() -> String {
             switch self {
-            case .phone: return "Phone"
-            case .mobile: return "Mobile"
-            case .email: return "Email"
+            case .phone: return "Contact Number"
+            case .mobile: return "Mobile Number"
+            case .email: return "Email Address"
             }
         }
     }
@@ -46,6 +55,7 @@ open class Contact: IdentifiableDataModel {
     public var type: Contact.ContactType?
     public var updatedBy: String?
     public var value: String?
+    public var remark: String?
 
     // MARK: - Unboxable
 
@@ -67,6 +77,7 @@ open class Contact: IdentifiableDataModel {
         subType = unboxer.unbox(key: "contactSubType")
         value = unboxer.unbox(key: "value")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
+        remark = unboxer.unbox(key: "remark")
 
         try super.init(unboxer: unboxer)
     }
@@ -87,6 +98,7 @@ open class Contact: IdentifiableDataModel {
         case type
         case updatedBy
         case value
+        case remark
     }
 
     public required init(from decoder: Decoder) throws {
@@ -107,6 +119,7 @@ open class Contact: IdentifiableDataModel {
         type = try container.decodeIfPresent(Contact.ContactType.self, forKey: .type)
         updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
         value = try container.decodeIfPresent(String.self, forKey: .value)
+        remark = try container.decodeIfPresent(String.self, forKey: .remark)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -126,6 +139,7 @@ open class Contact: IdentifiableDataModel {
         try container.encode(type, forKey: CodingKeys.type)
         try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
         try container.encode(value, forKey: CodingKeys.value)
+        try container.encode(remark, forKey: CodingKeys.remark)
     }
 
 }
