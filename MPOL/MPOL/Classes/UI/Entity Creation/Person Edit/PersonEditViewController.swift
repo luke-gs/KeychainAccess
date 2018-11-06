@@ -314,17 +314,7 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.descriptions = [finalDescription]
             }
             do {
-                var result: [Person]
-                if let entities = UserSession.current.userStorage?.retrieve(key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey) as [Person]? {
-                    result = entities
-                    result.append(finalPerson)
-                } else {
-                    result = [finalPerson]
-                }
-                try UserSession.current.userStorage?.addWrapped(objects: result, key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey, flag: UserStorageFlag.session)
-
-                NotificationCenter.default.post(name: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesDidUpdate, object: nil)
-
+                try UserSession.current.userStorage?.addEntity(object: finalPerson, key: UserStorage.CreatedEntitiesKey)
             } catch {
                 // TODO: Handles error if it cannot be saved
             }

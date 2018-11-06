@@ -11,16 +11,13 @@ import PublicSafetyKit
 /// View Model for showing created section in Entity Summary Selection
 open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelectionSectionViewModel {
 
-    public static let CreatedEntitiesKey = "CreatedEntitiesKey"
-    public static let CreatedEntitiesDidUpdate = Notification.Name(rawValue: "CreatedEntityDidUpdateNotification")
-
     public override init() {
         super.init()
         // Load initial entities
         reloadEntities()
 
         // Refresh list whenever created viewed entities change
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCreatedViewedChanged), name: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesDidUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCreatedViewedChanged), name: NSNotification.Name.CreatedEntitiesDidUpdate, object: nil)
     }
 
     open override var title: String? {
@@ -34,7 +31,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
 
     open func reloadEntities() {
         // Use the created entities as data source
-        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.retrieveUnwrapped(key: CreatedEntitySummarySelectionSectionViewModel.CreatedEntitiesKey) ?? nil
+        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.retrieveUnwrapped(key: UserStorage.CreatedEntitiesKey) ?? nil
         // Update entities and trigger UI update
         if let item = item {
             updateEntityList(item)
