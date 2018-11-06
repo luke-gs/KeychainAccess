@@ -78,6 +78,10 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
         return nil
     }
 
+    open func emptyStateImage() -> UIImage? {
+        return nil
+    }
+
     public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
     public func description(for indexPath: IndexPath) -> StringSizable? { return nil }
     public func image(for indexPath: IndexPath) -> UIImage? { return nil }
