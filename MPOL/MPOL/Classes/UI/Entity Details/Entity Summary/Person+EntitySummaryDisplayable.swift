@@ -162,8 +162,8 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             formItem.onStyled { cell in
                 guard let cell = cell as? EntityCollectionViewCell else { return }
                 cell.subtitleLabel.textColor = .orangeRed
-                cell.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
             }
+            formItem.subtitle(detail1?.sizing(defaultFont: UIFont.systemFont(ofSize: 13, weight: .bold)))
         }
 
         switch containerType {
