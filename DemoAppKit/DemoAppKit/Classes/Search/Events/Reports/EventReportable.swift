@@ -70,4 +70,3 @@ open class AnyEventReportable: EventReportable {
         try container.encode(CodableWrapper(report), forKey: CodingKeys.report)
     }
 }
-

@@ -11,4 +11,3 @@ import PublicSafetyKit
 /// A convenience for objects that will want to conform to both
 /// an eventReportable as well as incidentReportable
 public protocol Reportable: IncidentReportable, EventReportable { }
-
