@@ -41,6 +41,7 @@ open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
         case media
         case operationName
         case freeText
+        case viewed
     }
 
     public required init(from decoder: Decoder) throws {
@@ -48,6 +49,7 @@ open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
         media = try container.decode([MediaAsset].self, forKey: .media)
         operationName = try container.decodeIfPresent(String.self, forKey: .operationName)
         freeText = try container.decodeIfPresent(String.self, forKey: .freeText)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
     }
@@ -57,6 +59,7 @@ open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
         try container.encode(media, forKey: CodingKeys.media)
         try container.encode(operationName, forKey: CodingKeys.operationName)
         try container.encode(freeText, forKey: CodingKeys.freeText)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
 
         try super.encode(to: encoder)
     }
