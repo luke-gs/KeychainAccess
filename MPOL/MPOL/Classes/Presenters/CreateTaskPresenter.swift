@@ -46,8 +46,12 @@ public class CreateTaskPresenter: Presenter {
             return viewController
 
         case .createTaskAddEntity(let completionHandler):
-            let viewModel = RecentEntitySummarySelectionViewModel()
-            viewModel.allowedEntityTypes = [Person.self, Vehicle.self]
+            let createdSectionViewModel = CreatedEntitySummarySelectionSectionViewModel()
+            let recentSectionViewModel = RecentEntitySummarySelectionSectionViewModel()
+            createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
+            recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
+
+            let viewModel = EntitySummarySelectionViewModel(sections: [createdSectionViewModel, recentSectionViewModel])
 
             let viewController = EntitySummarySelectionViewController(viewModel: viewModel)
             viewController.selectionHandler = { [weak viewController] entity in
