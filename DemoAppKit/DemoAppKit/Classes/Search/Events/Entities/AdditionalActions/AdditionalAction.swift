@@ -25,7 +25,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         }
     }
 
-    private(set) public var reports: [AnyIncidentReportable] = [] {
+    private(set) public var reports: [IncidentReportable] = [] {
         didSet {
             updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
@@ -77,7 +77,10 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         additionalActionType = try container.decode(AdditionalActionType.self, forKey: .additionalActionType)
-        reports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+
+        let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+        reports = anyReports.map { $0.report }
+
         weakIncident = Weak<Incident>(nil)
 
         try super.init(from: decoder)
@@ -87,23 +90,26 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
 
+        // Convert our array of protocols to concrete classes, for Codable
+        let anyReports = reports.map { return AnyIncidentReportable($0) }
+
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(additionalActionType, forKey: CodingKeys.additionalActionType)
-        try container.encode(reports, forKey: CodingKeys.reports)
+        try container.encode(anyReports, forKey: CodingKeys.reports)
     }
 
     // MARK: Utility
 
     public func add(reports: [IncidentReportable]) {
-        self.reports.append(contentsOf: reports.map { return AnyIncidentReportable($0) })
+        self.reports.append(contentsOf: reports)
     }
 
     public func add(report: IncidentReportable) {
-        reports.append(AnyIncidentReportable(report))
+        reports.append(report)
     }
 
     public func reportable(atIndex index: Int) -> IncidentReportable? {
-        return reports[index].report
+        return reports[index]
     }
 
     // MARK: Evaluation
