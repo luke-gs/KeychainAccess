@@ -31,7 +31,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
 
     open func reloadEntities() {
         // Use the created entities as data source
-        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.retrieve(key: UserStorage.CreatedEntitiesKey)
+        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.getEntities(key: UserStorage.CreatedEntitiesKey)
         // Update entities and trigger UI update
         if let item = item {
             updateEntityList(item)
