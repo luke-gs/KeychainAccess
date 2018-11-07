@@ -34,7 +34,7 @@ public extension UserStorage {
     /// - Parameter key: where Entities stores
     /// - Returns: return an array of Entities
     public func getEntities<T: MPOLKitEntity>(key: String) -> [T]? {
-        return UserSession.current.userStorage?.retrieveUnwrapped(key: key) ?? nil
+        return self.retrieveUnwrapped(key: key) ?? nil
     }
 
 }
