@@ -16,8 +16,9 @@ public extension UserStorage {
     /// - Parameter
     ///     - object: Any Entity that subclasses MPOLKitEntity
     ///     - key: Where Entity stores. Must be unique
+    ///     - notification: The name for notifying changes to notification center
     /// - Throws: error occurs when encoding & saving the Entity
-    public func addEntity<T: MPOLKitEntity>(object: T, key: String) throws {
+    public func addEntity<T: MPOLKitEntity>(object: T, key: String, notification name: Notification.Name? = nil) throws {
         var result: [T]
         if let entities = self.retrieve(key: key) as [T]? {
             result = entities
@@ -26,7 +27,9 @@ public extension UserStorage {
             result = [object]
         }
         try self.addWrapped(objects: result, key: key, flag: UserStorageFlag.session)
-        NotificationCenter.default.post(name: NSNotification.Name.CreatedEntitiesDidUpdate, object: nil)
+        if let notificationName = name {
+            NotificationCenter.default.post(name: notificationName, object: nil)
+        }
     }
 
     /// Get Entities with Key

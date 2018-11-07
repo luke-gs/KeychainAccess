@@ -314,7 +314,9 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.descriptions = [finalDescription]
             }
             do {
-                try UserSession.current.userStorage?.addEntity(object: finalPerson, key: UserStorage.CreatedEntitiesKey)
+                try UserSession.current.userStorage?.addEntity(object: finalPerson,
+                                                               key: UserStorage.CreatedEntitiesKey,
+                                                               notification: NSNotification.Name.CreatedEntitiesDidUpdate)
             } catch {
                 // TODO: Handles error if it cannot be saved
             }
