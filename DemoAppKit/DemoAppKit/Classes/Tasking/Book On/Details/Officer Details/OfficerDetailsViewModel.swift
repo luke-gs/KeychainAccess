@@ -36,17 +36,17 @@ open class OfficerDetailsViewModel {
     }
 
     /// The title to use in the navigation bar
-    open func navTitle() -> String {
+    open func navTitle() -> StringSizable {
 
         // Set custom title if logged in officer details
         if content.officerId == CADStateManager.shared.officerDetails?.id {
             return NSLocalizedString("My Details", comment: "")
         }
-        return content.title?.sizing().string ?? ""
+        return content.title ?? ""
     }
 
     /// The subtitle to use in the navigation bar
-    open func navSubtitle() -> String {
+    open func navSubtitle() -> StringSizable {
         return content.subtitle
     }
 
