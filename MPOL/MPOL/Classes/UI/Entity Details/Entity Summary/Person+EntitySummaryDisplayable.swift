@@ -174,6 +174,29 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         }
         return formItem
     }
+
+    public func summaryListFormItem() -> SummaryListFormItem {
+        let formItem = SummaryListFormItem()
+            .category(category)
+            .title(title)
+            .subtitle([detail1, detail2].joined(separator: ThemeConstants.dividerSeparator))
+            .badge(badge)
+            .badgeColor(borderColor)
+            .image(thumbnail(ofSize: .small))
+            .borderColor(borderColor)
+            .highlightStyle(.fade)
+            .imageTintColor(iconColor)
+            .accessory(ItemAccessory.disclosure)
+
+        if person.isDeceased {
+            let detail = NSAttributedString.init(string: detail1 as! String,
+                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.orangeRed,
+                                                              NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: .bold)])
+            formItem.subtitle([detail, detail2].joined(separator: ThemeConstants.dividerSeparator))
+        }
+
+        return formItem
+    }
 }
 
 public struct PersonDetailsDisplayable: EntitySummaryDisplayable {
