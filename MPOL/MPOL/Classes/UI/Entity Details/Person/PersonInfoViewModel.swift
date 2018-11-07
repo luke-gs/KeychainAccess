@@ -60,6 +60,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             detailFormItem.onStyled { cell in
                 guard let cell = cell as? EntityDetailCollectionViewCell else { return }
                 cell.subtitleLabel.textColor = .orangeRed
+                cell.subtitleLabel.font = cell.traitCollection.horizontalSizeClass == .compact ? UIFont.systemFont(ofSize: 13, weight: .bold) : UIFont.systemFont(ofSize: 15, weight: .bold)
             }
         }
 
