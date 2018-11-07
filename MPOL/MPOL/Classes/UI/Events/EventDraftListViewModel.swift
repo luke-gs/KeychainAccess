@@ -10,7 +10,22 @@ import PublicSafetyKit
 
 open class EventDraftListViewModel: DraftListViewModelable {
 
-    public let manager: DraftableManager
+    private let manager: DraftableManager
+
+    public var draftCount: Int {
+        return manager.draftItems.count
+    }
+
+    public func draftItem(for index: Int) -> Draftable? {
+        if index >= 0 && index < manager.draftItems.count {
+            return manager.draftItems[index]
+        }
+        return nil
+    }
+
+    public func deleteDraftItem(at index: Int, with id: String) {
+        manager.deleteDraftItem(at: index, with: id)
+    }
 
     public var badgeCountString: String? {
         let count = manager.draftItems.count
