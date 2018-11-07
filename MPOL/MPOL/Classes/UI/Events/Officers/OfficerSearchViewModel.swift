@@ -18,11 +18,16 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     var searchText: String?
     private var sections: [OfficerSearchSectionViewModel] = []
-    private var didSearch = false
 
+    // bool used to determine wether or not searchResults or recentlyViewedOfficers should currently be displayed
+    public private(set) var showSearchResults = false
+
+    /// promise that retrieves recently used officers and officers from myCallSign and updates sections with this data
     public func fetchRecentOfficers() -> Promise<Void> {
 
+        // clear all data and set showSearchResults false as we are about to present recently used
         sections = []
+        showSearchResults = false
 
         // Add officers from myCallSign except yourself
         if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
@@ -33,7 +38,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         }
 
         // Add officers from UserPreferences recentlyUsed
-
         let userPreferenceManager = UserPreferenceManager.shared
 
         guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
@@ -43,13 +47,15 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
 
+            // ensure that a search hasn't been initiated while waiting for this async operation
             guard let self = self else { return }
-            let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
+            guard !self.showSearchResults else { return }
 
-            if !recentOfficers.isEmpty && !self.didSearch {
-                self.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
+            let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
+            guard !recentOfficers.isEmpty else { return }
+
+            self.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
                                                                     title: NSLocalizedString("Recently Used", comment: "Officer Search - Recently Used Section Title")))
-            }
         }.map {}
     }
 
@@ -136,7 +142,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
-        didSearch = true
+        // set true as we are initiating a search
+        showSearchResults = true
 
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
             if let context = self {
@@ -155,7 +162,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func emptyStateTitle() -> String? {
-        if didSearch {
+        if showSearchResults {
             return NSLocalizedString("No Results Found", comment: "Officer Search - Empty State Title Text (after search)")
         } else {
             return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text (before search)")
