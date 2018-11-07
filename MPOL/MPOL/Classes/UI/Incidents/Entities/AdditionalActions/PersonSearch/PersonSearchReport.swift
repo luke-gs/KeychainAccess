@@ -15,8 +15,8 @@ public class PersonSearchReport: DefaultReportable, ActionReportable {
 
     public var weakAdditionalAction: Weak<AdditionalAction> {
         didSet {
-            if let additionalAction = additionalAction {
-                evaluator.addObserver(additionalAction)
+            if let additionalAction = additionalAction, oldValue.object == nil {
+                configure(with: additionalAction)
             }
         }
     }
@@ -71,14 +71,11 @@ public class PersonSearchReport: DefaultReportable, ActionReportable {
         super.init()
 
         self.weakIncident = Weak(incident)
+        configure(with: additionalAction)
     }
 
     public override func configure(with event: Event) {
         super.configure(with: event)
-
-        if let additionalAction = self.additionalAction {
-            evaluator.addObserver(additionalAction)
-        }
 
         evaluator.registerKey(.hasRequiredData) { [weak self] in
             guard let `self` = self else { return false }
@@ -87,6 +84,11 @@ public class PersonSearchReport: DefaultReportable, ActionReportable {
                 && self.legalPower != nil && self.searchReason != nil
                 && self.outcome != nil && self.clothingRemoved != nil
         }
+    }
+
+    /// Perform any configuration now that we have an additional action
+    public func configure(with additionalAction: AdditionalAction) {
+        evaluator.addObserver(additionalAction)
     }
 
     // MARK: - Codable

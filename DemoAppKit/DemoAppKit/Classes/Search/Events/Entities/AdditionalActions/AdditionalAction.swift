@@ -21,13 +21,13 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
     public var weakIncident: Weak<Incident> {
         didSet {
-            updateReportsWithIncident()
+            updateChildReports()
         }
     }
 
     private(set) public var reports: [AnyIncidentReportable] = [] {
         didSet {
-            updateReportsWithIncident()
+            updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
         }
     }
@@ -42,17 +42,24 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         self.weakIncident = Weak(incident)
         self.additionalActionType = type
         super.init(id: UUID().uuidString)
+        commonInit()
+    }
 
+    private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
+        updateChildReports()
     }
 
-    private func updateReportsWithIncident() {
-        // Pass down the incident
+    private func updateChildReports() {
+        // Pass down this incident and parent event to child reports
         for report in reports {
             report.weakIncident = weakIncident
+            if let report = report as? EventReportable, let weakEvent = weakIncident.object?.weakEvent {
+                report.weakEvent = weakEvent
+            }
         }
     }
 
@@ -74,6 +81,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         weakIncident = Weak<Incident>(nil)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

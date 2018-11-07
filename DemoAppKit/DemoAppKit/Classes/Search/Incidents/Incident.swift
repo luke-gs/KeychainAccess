@@ -20,18 +20,17 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public let additionalActionManager = AdditionalActionManager()
 
-    public let weakEvent: Weak<Event>
+    public var weakEvent: Weak<Event> {
+        didSet {
+            updateChildReports()
+        }
+    }
+
     public var displayable: IncidentListDisplayable!
 
     private(set) public var reports: [IncidentReportable] = [] {
         didSet {
-            // Pass down the incident and event
-            for report in reports {
-                report.weakIncident = Weak<Incident>(self)
-                if let report = report as? EventReportable {
-                    report.weakEvent = weakEvent
-                }
-            }
+            updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
         }
     }
@@ -53,6 +52,17 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
+        }
+        updateChildReports()
+    }
+
+    private func updateChildReports() {
+        // Pass down this incident and parent event to child reports
+        for report in reports {
+            report.weakIncident = Weak<Incident>(self)
+            if let report = report as? EventReportable {
+                report.weakEvent = weakEvent
+            }
         }
     }
 

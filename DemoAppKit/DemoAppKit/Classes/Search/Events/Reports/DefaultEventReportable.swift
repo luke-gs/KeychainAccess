@@ -12,7 +12,7 @@ import Foundation
 open class DefaultEventReportable: EventReportable {
 
     /// Reference back to the parent event
-    public var weakEvent: Weak<Event> {
+    open var weakEvent: Weak<Event> {
         didSet {
             if let event = event, oldValue.object == nil {
                 configure(with: event)
@@ -21,7 +21,7 @@ open class DefaultEventReportable: EventReportable {
     }
 
     /// Evaluator for this report
-    public var evaluator: Evaluator = Evaluator()
+    open var evaluator: Evaluator = Evaluator()
 
     // Default init taking event
     public init(event: Event) {

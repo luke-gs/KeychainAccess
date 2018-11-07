@@ -22,10 +22,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     private(set) public var reports: [EventReportable] = [] {
         didSet {
-            // Pass down the event
-            for report in reports {
-                report.weakEvent = Weak<Event>(self)
-            }
+            updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
         }
     }
@@ -45,6 +42,14 @@ public class Event: IdentifiableDataModel, Evaluatable {
         evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
+        }
+        updateChildReports()
+    }
+
+    private func updateChildReports() {
+        // Pass down this event to child reports
+        for report in reports {
+            report.weakEvent = Weak<Event>(self)
         }
     }
 

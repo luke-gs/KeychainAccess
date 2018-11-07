@@ -12,7 +12,7 @@ import Foundation
 open class DefaultReportable: Reportable {
 
     /// Reference back to the grandparent event
-    public var weakEvent: Weak<Event> {
+    open var weakEvent: Weak<Event> {
         didSet {
             if let event = event, oldValue.object == nil {
                 configure(with: event)
@@ -21,7 +21,7 @@ open class DefaultReportable: Reportable {
     }
 
     /// Reference back to the parent incident
-    public var weakIncident: Weak<Incident> {
+    open var weakIncident: Weak<Incident> {
         didSet {
             if let incident = incident, oldValue.object == nil {
                 configure(with: incident)
@@ -30,7 +30,7 @@ open class DefaultReportable: Reportable {
     }
 
     /// Evaluator for this report
-    public var evaluator: Evaluator = Evaluator()
+    open var evaluator: Evaluator = Evaluator()
 
     // Empty init
     public init() {

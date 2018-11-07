@@ -14,15 +14,14 @@ fileprivate extension EvaluatorKey {
 
 open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
 
+    public var media: [MediaAsset] = []
+    var operationName: String?
+    var freeText: String?
     var viewed: Bool = false {
         didSet {
             evaluator.updateEvaluation(for: .viewed)
         }
     }
-
-    public var media: [MediaAsset] = []
-    var operationName: String?
-    var freeText: String?
 
     public override init(event: Event) {
         super.init(event: event)

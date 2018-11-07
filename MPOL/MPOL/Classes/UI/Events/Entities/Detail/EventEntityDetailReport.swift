@@ -28,6 +28,14 @@ public class EventEntityDetailReport: DefaultEventReportable {
         ]
     }
 
+    public override var weakEvent: Weak<Event> {
+        didSet {
+            // Update child reports
+            descriptionReport.weakEvent = weakEvent
+            relationshipsReport.weakEvent = weakEvent
+        }
+    }
+
     public init(entity: MPOLKitEntity, event: Event) {
         self.entity = entity
         descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
@@ -56,7 +64,6 @@ public class EventEntityDetailReport: DefaultEventReportable {
             } ?? false
         }
     }
-
 
     // Eval
     public override func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
