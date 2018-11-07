@@ -25,9 +25,18 @@ public extension UserStorage {
         } else {
             result = [object]
         }
-        try self.addWrapped(objects: result, key: UserStorage.CreatedEntitiesKey, flag: UserStorageFlag.session)
+        try self.addWrapped(objects: result, key: key, flag: UserStorageFlag.session)
         NotificationCenter.default.post(name: NSNotification.Name.CreatedEntitiesDidUpdate, object: nil)
     }
+
+    /// Get Entities
+    ///
+    /// - Parameter key: where Entities stores
+    /// - Returns: return an array of Entities
+    public func getEntities<T: MPOLKitEntity>(key: String) -> [T]? {
+        return UserSession.current.userStorage?.retrieveUnwrapped(key: key) ?? nil
+    }
+
 }
 public extension NSNotification.Name {
     public static let CreatedEntitiesDidUpdate = NSNotification.Name(rawValue: "CreatedEntitiesDidUpdate")
