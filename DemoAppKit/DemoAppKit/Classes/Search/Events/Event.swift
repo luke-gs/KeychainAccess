@@ -20,6 +20,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
 
+    /// Store of entities used throughout event, keyed by uuid
+    public var entities: [String: MPOLKitEntity] = [:]
+
     private(set) public var reports: [EventReportable] = [] {
         didSet {
             updateChildReports()
@@ -35,6 +38,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     public init() {
         super.init(id: UUID().uuidString)
+        entityManager.event = self
         commonInit()
     }
 
@@ -82,13 +86,22 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
+        case entities
         case reports
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
 
+        // Restore entity map
+        let wrappedEntities = try container.decode([CodableWrapper].self, forKey: .entities)
+        let entityList: [MPOLKitEntity] = wrappedEntities.unwrapped()
+        for entity in entityList {
+            entities[entity.uuid] = entity
+        }
+
+        // Restore reports
+        let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
         reports = anyReports.map { $0.report }
 
         try super.init(from: decoder)
@@ -101,7 +114,12 @@ public class Event: IdentifiableDataModel, Evaluatable {
         // Convert our array of protocols to concrete classes, for Codable
         let anyReports = reports.map { return AnyEventReportable($0) }
 
+        // Convert entity map to wrapped array
+        let entityList: [MPOLKitEntity] = Array(entities.values)
+        let wrappedEntities = entityList.wrapped()
+
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(wrappedEntities, forKey: CodingKeys.entities)
         try container.encode(anyReports, forKey: CodingKeys.reports)
     }
 }

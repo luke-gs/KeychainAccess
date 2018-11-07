@@ -15,8 +15,13 @@ fileprivate extension EvaluatorKey {
 
 public class EventEntityDetailReport: DefaultEventReportable {
 
-    // TODO: persist entity id
-    public weak var entity: MPOLKitEntity?
+    // Uuid of the entity
+    public var entityUuid: String
+
+    /// Return the entity from the event
+    public var entity: MPOLKitEntity? {
+        return event?.entities[entityUuid]
+    }
 
     public let descriptionReport: EventEntityDescriptionReport
     public let relationshipsReport: EventEntityRelationshipsReport
@@ -28,16 +33,8 @@ public class EventEntityDetailReport: DefaultEventReportable {
         ]
     }
 
-    public override var weakEvent: Weak<Event> {
-        didSet {
-            // Update child reports
-            descriptionReport.weakEvent = weakEvent
-            relationshipsReport.weakEvent = weakEvent
-        }
-    }
-
     public init(entity: MPOLKitEntity, event: Event) {
-        self.entity = entity
+        entityUuid = entity.uuid
         descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
 
@@ -57,6 +54,10 @@ public class EventEntityDetailReport: DefaultEventReportable {
 
     public override func configure(with event: Event) {
         super.configure(with: event)
+
+        // Pass on the event to child reports
+        descriptionReport.weakEvent = Weak(event)
+        relationshipsReport.weakEvent = Weak(event)
 
         evaluator.registerKey(.allValid) { [weak self] in
             return self?.reports.reduce(true) { (result, report) -> Bool in
@@ -78,12 +79,14 @@ public class EventEntityDetailReport: DefaultEventReportable {
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
+        case entityUuid
         case descriptionReport
         case relationshipsReport
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        entityUuid = try container.decode(String.self, forKey: .entityUuid)
         descriptionReport = try container.decode(EventEntityDescriptionReport.self, forKey: .descriptionReport)
         relationshipsReport = try container.decode(EventEntityRelationshipsReport.self, forKey: .relationshipsReport)
 
@@ -94,6 +97,7 @@ public class EventEntityDetailReport: DefaultEventReportable {
         try super.encode(to: encoder)
 
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(entityUuid, forKey: CodingKeys.entityUuid)
         try container.encode(descriptionReport, forKey: CodingKeys.descriptionReport)
         try container.encode(relationshipsReport, forKey: CodingKeys.relationshipsReport)
     }

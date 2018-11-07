@@ -39,6 +39,11 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
     open override func configure(with event: Event) {
         super.configure(with: event)
 
+        // Pass on the event to child incidents
+        for incident in incidents {
+            incident.weakEvent = Weak(event)
+        }
+
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }

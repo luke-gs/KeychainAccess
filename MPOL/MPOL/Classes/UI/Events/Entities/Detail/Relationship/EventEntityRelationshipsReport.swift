@@ -14,8 +14,13 @@ fileprivate extension EvaluatorKey {
 
 public class EventEntityRelationshipsReport: DefaultEventReportable {
 
-    // TODO: persist entity id
-    public weak var entity: MPOLKitEntity?
+    // Uuid of the entity
+    public var entityUuid: String
+
+    /// Return the entity from the event
+    public var entity: MPOLKitEntity? {
+        return event?.entities[entityUuid]
+    }
 
     public var relationships: [Relationship<MPOLKitEntity, MPOLKitEntity>]? {
         return event?.entityManager.entityRelationships
@@ -28,7 +33,7 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
     }
 
     public init(event: Event, entity: MPOLKitEntity) {
-        self.entity = entity
+        entityUuid = entity.uuid
         super.init(event: event)
     }
 
@@ -43,11 +48,13 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
+        case entityUuid
         case viewed
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        entityUuid = try container.decode(String.self, forKey: .entityUuid)
         viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
@@ -57,6 +64,7 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
         try super.encode(to: encoder)
 
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(entityUuid, forKey: CodingKeys.entityUuid)
         try container.encode(viewed, forKey: CodingKeys.viewed)
     }
 

@@ -6,6 +6,7 @@
 //
 
 final public class EventEntityManager {
+    public weak var event: Event?
     private let entityBucket = EntityBucket()
     private let incidentRelationshipManager = RelationshipManager<MPOLKitEntity, Incident>()
     private let entityRelationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
@@ -52,6 +53,7 @@ final public class EventEntityManager {
         // If the are no more incident->entity relationships, remove the entity and all its relationships
         if incidentRelationshipManager.relationships(for: entity, and: Incident.self).isEmpty {
             entityBucket.remove(entity)
+            event?.entities[entity.uuid] = nil
             removeAllRelationships(for: entity)
         }
     }
