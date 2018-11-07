@@ -75,11 +75,11 @@ fileprivate class EventDraftable: Draftable {
         return event.displayable?.title
     }
 
-    public var detail1: String? {
+    public var detail: String? {
         return event.creationDateString
     }
 
-    public var detail2: String? {
+    public var subtitle: String? {
         if let locationReport = event.reports.first(where: {$0 is DefaultLocationReport}) {
             return ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
         }

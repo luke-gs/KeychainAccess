@@ -50,11 +50,11 @@ open class EventDraftListViewModel: DraftListViewModelable {
         fatalError("Image for event could not be generated")
     }
 
-    open func subtitle(for item: Draftable, at index: Int) -> String? {
+    open func listViewSubtitle(for item: Draftable, at index: Int) -> String? {
         let item = manager.draftItems[index]
-        let detail1 = item.detail1
-        let detail2 = item.detail2
-        var values = [detail1, detail2].compactMap { $0 }
+        let detail = item.detail
+        let subtitle = item.subtitle
+        var values = [detail, subtitle].compactMap { $0 }
         if values.count > 1 {
             values.insert("\n", at: 1)
         }
