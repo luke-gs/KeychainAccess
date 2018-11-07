@@ -18,6 +18,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     var searchText: String?
     private var sections: [OfficerSearchSectionViewModel] = []
+    private var didSearch = false
 
     public func fetchRecentOfficers() -> Promise<Void> {
 
@@ -27,7 +28,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
             .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
 
-            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers, title: "My Call Sign"))
+            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers,
+                                                          title: NSLocalizedString("My Call Sign", comment: "Officer Search - My CallSign Section Title")))
         }
 
         // Add officers from UserPreferences recentlyUsed
@@ -40,10 +42,13 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         }
 
         return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+
+            guard let self = self else { return }
             let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
 
-            if !recentOfficers.isEmpty {
-                self?.sections.append(OfficerSearchSectionViewModel(items: recentOfficers, title: "Recently Used"))
+            if !recentOfficers.isEmpty && !self.didSearch {
+                self.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
+                                                                    title: NSLocalizedString("Recently Used", comment: "Officer Search - Recently Used Section Title")))
             }
         }.map {}
     }
@@ -77,11 +82,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return sections[section].title
     }
 
-    func title(for indexPath: IndexPath) -> String? {
+    func title(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).title
     }
 
-    func description(for indexPath: IndexPath) -> String? {
+    func description(for indexPath: IndexPath) -> StringSizable? {
         return searchable(for: object(for: indexPath)).subtitle
     }
 
@@ -101,9 +106,9 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
                                                   firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? NSLocalizedString("Unknown Rank", comment: "Unknown Officer Rank Text"),
-                                                  employeeNumber: object.employeeNumber ?? NSLocalizedString("Unknown Employee Number", comment: "Unknown Officer Employee Number Text"),
-                                                  section: object.region ?? NSLocalizedString("Unknown Region", comment: "Unknown Officer Region Text"))
+                                                  rank: object.rank,
+                                                  employeeNumber: object.employeeNumber,
+                                                  section: object.region)
         objectDisplayMap[object] = searchable
         return searchable
     }
@@ -122,27 +127,52 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         let definition = OfficerParserDefinition()
         let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
-        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey] ?? searchText,
-                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey])
+        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey],
+                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey],
+                                                 middleNames: personParserResults?[OfficerParserDefinition.MiddleNameKey],
+                                                 employeeNumber: personParserResults?[OfficerParserDefinition.EmployeeNumberKey])
         let request = OfficerSearchRequest(source: .pscore, request: parameters)
 
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
-        return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
+        didSearch = true
 
+        return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
             if let context = self {
-                context.sections = [OfficerSearchSectionViewModel(items: $0.results, title: "Results")]
+                if !$0.results.isEmpty {
+                    context.sections = [OfficerSearchSectionViewModel(items: $0.results,
+                                                                      title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+                } else {
+                    context.sections = []
+                }
             }
         }
     }
 
     func loadingStateText() -> String? {
-        return "Retrieving Officers"
+        return NSLocalizedString("Retrieving Officers", comment: "Officer Search - Loading State Text")
     }
 
-    func emptyStateText() -> String? {
-        return "No Recently Used Officers"
+    func emptyStateTitle() -> String? {
+        if didSearch {
+            return NSLocalizedString("No Results Found", comment: "Officer Search - Empty State Title Text (after search)")
+        } else {
+            return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text (before search)")
+        }
+    }
+
+    func emptyStateSubtitle() -> String? {
+        return NSLocalizedString("""
+                                    You can search for an officer by either Last Name or Employee Number.
+
+                                    To narrow a search by name, the following format can be used 'Last Name, First Name, Middle Name/s'.
+                                 """,
+                                 comment: "Officer Search - Empty State Subtitle Text")
+    }
+
+    func emptyStateImage() -> UIImage? {
+        return UIImage(named: "NoResults")
     }
 }
 

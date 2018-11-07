@@ -20,15 +20,15 @@ public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, Assoc
         return organisation.source?.localizedBarTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return organisation.summary
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return organisation.type
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return organisation.addresses?.first?.fullAddress
     }
 
@@ -94,15 +94,15 @@ public struct OrganisationDetailsDisplayable: EntitySummaryDisplayable {
         return organisation.source?.localizedBadgeTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return summaryDisplayable.title
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return summaryDisplayable.detail1
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return summaryDisplayable.detail2
     }
 

@@ -37,11 +37,11 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
 
     public var category: String?
 
-    public var title: String?
+    public var title: StringSizable?
 
-    public var detail1: String?
+    public var detail1: StringSizable?
 
-    public var detail2: String?
+    public var detail2: StringSizable?
 
     public var borderColor: UIColor?
 

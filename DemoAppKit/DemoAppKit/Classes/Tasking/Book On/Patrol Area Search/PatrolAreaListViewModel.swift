@@ -73,12 +73,12 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     }
 
     public func indexOfSelectedItem() -> Int? {
-        return items.indexes(where: { $0.title == selectedPatrolArea }).first
+        return items.indexes(where: { $0.title?.sizing().string == selectedPatrolArea }).first
     }
 
     open override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         if let selected = selectedPatrolArea {
-            return searchable.title == selected ? ItemAccessory.checkmark : nil
+            return searchable.title?.sizing().string == selected ? ItemAccessory.checkmark : nil
         }
 
         return nil

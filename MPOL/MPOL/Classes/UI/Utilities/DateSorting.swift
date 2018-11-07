@@ -17,14 +17,14 @@ public enum DateSorting: Int, Pickable {
 
     // MARK: - Pickable
 
-    public var title: String? {
+    public var title: StringSizable? {
         switch self {
         case .newest: return NSLocalizedString("Newest", comment: "")
         case .oldest: return NSLocalizedString("Oldest", comment: "")
         }
     }
 
-    public var subtitle: String? {
+    public var subtitle: StringSizable? {
         return nil
     }
 

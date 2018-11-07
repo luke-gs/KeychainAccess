@@ -31,14 +31,14 @@ private enum VehicleSearchType: String, Pickable {
     case vin          = "VIN"
     case engineNumber = "Engine number"
 
-    var title: String? {
+    var title: StringSizable? {
         if self == .registration {
             return "Vehicle Registration"
         }
         return self.rawValue
     }
 
-    var subtitle: String? {
+    var subtitle: StringSizable? {
         return nil
     }
 
@@ -62,11 +62,11 @@ private enum VehicleType: String, Pickable {
     case trailer = "Trailer"
     case vessel = "Vessel"
 
-    var title: String? {
+    var title: StringSizable? {
         return rawValue
     }
 
-    var subtitle: String? {
+    var subtitle: StringSizable? {
         return nil
     }
 
@@ -91,7 +91,7 @@ private enum State: String, Pickable {
     case vic = "VIC"
     case wa = "WA"
 
-    var title: String? {
+    var title: StringSizable? {
         switch self {
         case .allStates:
             return rawValue
@@ -114,7 +114,7 @@ private enum State: String, Pickable {
         }
     }
 
-    var subtitle: String? {
+    var subtitle: StringSizable? {
         return nil
     }
 
@@ -148,11 +148,11 @@ private class VehicleSearchOptions: SearchOptions {
 
         switch filterItem {
         case .vehicleSearchType:
-            return vehicleIdentifier.title
+            return vehicleIdentifier.title?.sizing().string
         case .vehicleTypeFilter:
-            return vehicleType.title
+            return vehicleType.title?.sizing().string
         case .stateFilter:
-            return state.title
+            return state.title?.sizing().string
         }
     }
 

@@ -32,7 +32,7 @@ class OfficerSelectionAction: ValueSelectionAction<Officer> {
         return navigationController
     }
 
-    override func displayText() -> String? {
+    override func displayText() -> StringSizable? {
         guard let selectedValue = selectedValue else { return nil }
         return OfficerSearchDisplayable(selectedValue).title
     }

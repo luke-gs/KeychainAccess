@@ -21,15 +21,15 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return vehicle.source?.localizedBarTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return vehicle.registration ?? NSLocalizedString("Registration Unknown", comment: "")
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return formattedYOMMakeModel()
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return vehicle.bodyType
     }
 
@@ -95,15 +95,15 @@ public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
         return vehicle.source?.localizedBadgeTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return summaryDisplayable.title
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return summaryDisplayable.detail1
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return summaryDisplayable.detail2
     }
 

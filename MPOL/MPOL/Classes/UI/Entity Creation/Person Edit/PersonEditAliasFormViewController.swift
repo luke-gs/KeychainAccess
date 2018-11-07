@@ -53,7 +53,7 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
             }
             .width(.column(1))
 
-        guard let type = viewModel.selectedType?.title else { return }
+        guard let type = viewModel.selectedType?.title?.sizing().string else { return }
 
         viewModel.personAlias?.type = type
         let firstNameFormItem =  TextFieldFormItem()
