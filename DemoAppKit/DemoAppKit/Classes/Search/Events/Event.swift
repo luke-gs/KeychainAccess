@@ -104,14 +104,4 @@ public class Event: IdentifiableDataModel, Evaluatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(anyReports, forKey: CodingKeys.reports)
     }
-
-    open func writeFile() {
-        do {
-            let data = try JSONEncoder().encode(self)
-            try data.write(to: URL(fileURLWithPath: "/Users/trent/Documents/event.json"))
-        } catch let error {
-            print(error)
-        }
-    }
-
 }
