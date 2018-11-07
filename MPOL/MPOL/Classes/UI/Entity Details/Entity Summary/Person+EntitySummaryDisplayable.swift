@@ -26,7 +26,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public var detail1: StringSizable? {
-        return formattedDOBAgeGender()
+        return formattedPersonStatus()
     }
 
     public var detail2: StringSizable? {
@@ -89,7 +89,9 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return formattedName
     }
 
-    private func formattedDOBAgeGender() -> String? {
+    /// Generates a string containing date of birth/date of death, age, gender
+    /// - Returns: NSMutableAttributedString if deceased otherwise NSlocalizedString
+    private func formattedPersonStatus() -> StringSizable? {
         if let dod = person.dateOfDeath {
             // show deceased instead of DOB
             var dodString = NSLocalizedString("Deceased", comment: "")
@@ -107,7 +109,9 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
                 dodString += " (\(gender.description))"
             }
 
-            return dodString
+            return NSMutableAttributedString.init(string: dodString,
+                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.orangeRed,
+                                                               NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: .bold)])
         } else if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
 
@@ -149,7 +153,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .width(.column(2))
             .category(category)
             .title(title?.sizing().string.sizing(withNumberOfLines: style == .hero ? 0 : 1))
-            .subtitle(detail1?.sizing().string.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .subtitle(detail1?.sizing(defaultNumberOfLines: style == .hero ? 0 : 1))
             .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)
             .badgeColor(borderColor)
@@ -157,44 +161,12 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .borderColor(borderColor)
             .imageTintColor(iconColor)
 
-        // Apply red text if deceased person
-        if person.isDeceased {
-            formItem.onStyled { cell in
-                guard let cell = cell as? EntityCollectionViewCell else { return }
-                cell.subtitleLabel.textColor = .orangeRed
-            }
-            formItem.subtitle(detail1?.sizing(defaultFont: UIFont.systemFont(ofSize: 13, weight: .bold)))
-        }
-
         switch containerType {
         case .header:
             formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailHeaderStyle)
         default:
             formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailListStyle)
         }
-        return formItem
-    }
-
-    public func summaryListFormItem() -> SummaryListFormItem {
-        let formItem = SummaryListFormItem()
-            .category(category)
-            .title(title)
-            .subtitle([detail1, detail2].joined(separator: ThemeConstants.dividerSeparator))
-            .badge(badge)
-            .badgeColor(borderColor)
-            .image(thumbnail(ofSize: .small))
-            .borderColor(borderColor)
-            .highlightStyle(.fade)
-            .imageTintColor(iconColor)
-            .accessory(ItemAccessory.disclosure)
-
-        if person.isDeceased {
-            let detail = NSAttributedString.init(string: detail1 as! String,
-                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.orangeRed,
-                                                              NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: .bold)])
-            formItem.subtitle([detail, detail2].joined(separator: ThemeConstants.dividerSeparator))
-        }
-
         return formItem
     }
 }
