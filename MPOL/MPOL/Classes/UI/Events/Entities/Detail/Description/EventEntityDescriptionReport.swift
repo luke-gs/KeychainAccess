@@ -37,8 +37,22 @@ public class EventEntityDescriptionReport: DefaultEventReportable {
 
     // MARK: - Codable
 
+    private enum CodingKeys: String, CodingKey {
+        case viewed
+    }
+
     public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
+
         try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
     }
 
 }
