@@ -29,8 +29,8 @@ public extension UserStorage {
         NotificationCenter.default.post(name: NSNotification.Name.CreatedEntitiesDidUpdate, object: nil)
     }
 
-    /// Get Entities
-    ///
+    /// Get Entities with Key
+    /// Entities must subclass MPOLKitEntity
     /// - Parameter key: where Entities stores
     /// - Returns: return an array of Entities
     public func getEntities<T: MPOLKitEntity>(key: String) -> [T]? {
