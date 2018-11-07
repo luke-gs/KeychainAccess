@@ -271,8 +271,8 @@ public class PersonEditViewController: FormBuilderViewController {
                     self.reloadForm()
                 }))
             })
-        if let _locations = locations {
-            for (index, location) in _locations.enumerated() {
+        if let locationTuples = locations?.enumerated() {
+            for (index, location) in locationTuples {
                 builder += PickerFormItem(pickerAction:
                     LocationSelectionFormAction(workflowId: LocationSelectionPresenter.personEditWorkflowId))
                     .title(location.type?.title)
@@ -314,7 +314,9 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.descriptions = [finalDescription]
             }
             do {
-                try UserSession.current.userStorage?.add(object: finalPerson, key: finalPerson.id, flag: UserStorageFlag.session)
+                try UserSession.current.userStorage?.addEntity(object: finalPerson,
+                                                               key: UserStorage.CreatedEntitiesKey,
+                                                               notification: NSNotification.Name.CreatedEntitiesDidUpdate)
             } catch {
                 // TODO: Handles error if it cannot be saved
             }
