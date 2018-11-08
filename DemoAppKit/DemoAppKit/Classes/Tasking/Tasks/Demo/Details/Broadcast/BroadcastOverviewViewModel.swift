@@ -58,9 +58,9 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
             ),
             CADFormCollectionSectionViewModel(title: "Broadcast Details",
                                               items: [
-                                                TaskDetailsOverviewItemViewModel(title: nil,
-                                                                              value: broadcast.details,
-                                                                              width: .column(1))
+                                                ValueFormItem()
+                                                    .value(broadcast.details)
+                                                    .width(.column(1))
                                                 ])
         ]
     }

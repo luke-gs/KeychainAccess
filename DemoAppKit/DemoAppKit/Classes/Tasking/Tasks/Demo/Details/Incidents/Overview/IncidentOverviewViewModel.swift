@@ -59,17 +59,15 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
         }
 
         taskDetailsOverviewItems += [
-            TaskDetailsOverviewItemViewModel(title: "Patrol Area",
-                                             value: incident.patrolGroup,
-                                             width: .column(3)),
-
-            TaskDetailsOverviewItemViewModel(title: "Created",
-                                             value: incident.createdAtString ?? "Unknown",
-                                             width: .column(3)),
-
-            TaskDetailsOverviewItemViewModel(title: "Updated",
-                                             value: incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAt?.elapsedTimeIntervalForHuman() ?? "Unknown",
-                                             width: .column(3))]
+            ValueFormItem()
+                .title("Created")
+                .value(incident.createdAtString ?? "Unknown")
+                .width(.column(3)),
+            ValueFormItem()
+                .title("Updated")
+                .value(incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAt?.elapsedTimeIntervalForHuman() ?? "Unknown")
+                .width(.column(3))
+        ]
 
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
@@ -78,21 +76,22 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
 
             CADFormCollectionSectionViewModel(title: "Informant Details",
                                               items: [
-                                                TaskDetailsOverviewItemViewModel(title: "Name",
-                                                                                 value: incident.informant?.fullName ?? "Unknown",
-                                                                                 width: .column(3)),
-
-                                                TaskDetailsOverviewItemViewModel(title: "Contact Number",
-                                                                                 value: incident.informant?.primaryPhone ?? "Unknown",
-                                                                                 width: .column(3))
-                                                ],
+                                                ValueFormItem()
+                                                    .title("Name")
+                                                    .value(incident.informant?.fullName ?? "Unknown")
+                                                    .width(.column(3)),
+                                                ValueFormItem()
+                                                    .title("Contact Number")
+                                                    .value(incident.informant?.primaryPhone ?? "Unknown")
+                                                    .width(.column(3))
+                ],
                                               preventCollapse: true),
             CADFormCollectionSectionViewModel(title: "Incident Details",
                                               items: [
-                                                TaskDetailsOverviewItemViewModel(title: nil,
-                                                                                 value: incident.details,
-                                                                                 width: .column(1))
-                                                ],
+                                                ValueFormItem()
+                                                    .value(incident.details)
+                                                    .width(.column(1))
+                ],
                                               preventCollapse: true)
         ]
     }
