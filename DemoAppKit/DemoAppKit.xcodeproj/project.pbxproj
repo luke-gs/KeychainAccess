@@ -239,6 +239,7 @@
 		96C1DD3B218BA91900FD7CEC /* ActionReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD3A218BA91900FD7CEC /* ActionReportable.swift */; };
 		96C1DD3D218BA95F00FD7CEC /* DefaultEventReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD3C218BA95F00FD7CEC /* DefaultEventReportable.swift */; };
 		96C1DD3F218BAAB100FD7CEC /* DefaultReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD3E218BAAB100FD7CEC /* DefaultReportable.swift */; };
+		96C1DD412193BB3B00FD7CEC /* DefaultActionReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C1DD402193BB3B00FD7CEC /* DefaultActionReportable.swift */; };
 		9BE14571DCC92580D7D72CB0 /* Pods_DemoAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837172668652E1ABE842ACD1 /* Pods_DemoAppKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -492,6 +493,7 @@
 		96C1DD3A218BA91900FD7CEC /* ActionReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionReportable.swift; sourceTree = "<group>"; };
 		96C1DD3C218BA95F00FD7CEC /* DefaultEventReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventReportable.swift; sourceTree = "<group>"; };
 		96C1DD3E218BAAB100FD7CEC /* DefaultReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReportable.swift; sourceTree = "<group>"; };
+		96C1DD402193BB3B00FD7CEC /* DefaultActionReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultActionReportable.swift; sourceTree = "<group>"; };
 		98DE0B0AD5CC2728A2EDA96E /* Pods-DemoAppKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoAppKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoAppKitTests/Pods-DemoAppKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1407,12 +1409,13 @@
 		96C1DD35218BA83D00FD7CEC /* Reports */ = {
 			isa = PBXGroup;
 			children = (
-				963E58FB2179796500BC2415 /* Reportable.swift */,
-				96C1DD36218BA8BB00FD7CEC /* EventReportable.swift */,
-				96C1DD38218BA8F400FD7CEC /* IncidentReportable.swift */,
 				96C1DD3A218BA91900FD7CEC /* ActionReportable.swift */,
+				96C1DD402193BB3B00FD7CEC /* DefaultActionReportable.swift */,
 				96C1DD3C218BA95F00FD7CEC /* DefaultEventReportable.swift */,
 				96C1DD3E218BAAB100FD7CEC /* DefaultReportable.swift */,
+				96C1DD36218BA8BB00FD7CEC /* EventReportable.swift */,
+				96C1DD38218BA8F400FD7CEC /* IncidentReportable.swift */,
+				963E58FB2179796500BC2415 /* Reportable.swift */,
 			);
 			path = Reports;
 			sourceTree = "<group>";
@@ -1807,6 +1810,7 @@
 				963E5A812179796500BC2415 /* TaskDetailsOverviewItemViewModel.swift in Sources */,
 				963E5A852179796500BC2415 /* TaskDetailsOverviewViewController.swift in Sources */,
 				963E5A822179796500BC2415 /* TaskDetailsOverviewViewModel.swift in Sources */,
+				96C1DD412193BB3B00FD7CEC /* DefaultActionReportable.swift in Sources */,
 				963E5A842179796500BC2415 /* TaskDetailsViewModel.swift in Sources */,
 				963E5AAE2179796500BC2415 /* TaskItemScreen.swift in Sources */,
 				96C1DD39218BA8F400FD7CEC /* IncidentReportable.swift in Sources */,

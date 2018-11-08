@@ -92,6 +92,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
         reports = anyReports.map { $0.report }
 
+        /// Set to nil initially, until parent passes it to us during it's decode
         weakEvent = Weak<Event>(nil)
 
         try super.init(from: decoder)

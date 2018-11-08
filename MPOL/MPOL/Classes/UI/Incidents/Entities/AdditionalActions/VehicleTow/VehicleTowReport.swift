@@ -12,15 +12,7 @@ fileprivate extension EvaluatorKey {
     static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
-public class VehicleTowReport: DefaultReportable, ActionReportable, MediaContainer {
-
-    public var weakAdditionalAction: Weak<AdditionalAction> {
-        didSet {
-            if let additionalAction = additionalAction, oldValue.object == nil {
-                configure(with: additionalAction)
-            }
-        }
-    }
+public class VehicleTowReport: DefaultActionReportable, MediaContainer {
 
     public var location: EventLocation? {
         didSet {
@@ -40,12 +32,10 @@ public class VehicleTowReport: DefaultReportable, ActionReportable, MediaContain
     public var holdRemarks: String?
     public var media: [MediaAsset] = []
 
-    public init(incident: Incident?, additionalAction: AdditionalAction) {
-        self.weakAdditionalAction = Weak(additionalAction)
-        super.init()
+    // MARK: - DefaultActionReportable
 
-        self.weakIncident = Weak(incident)
-        configure(with: additionalAction)
+    public override init(incident: Incident?, additionalAction: AdditionalAction) {
+        super.init(incident: incident, additionalAction: additionalAction)
     }
 
     public override func configure(with event: Event) {
@@ -58,12 +48,8 @@ public class VehicleTowReport: DefaultReportable, ActionReportable, MediaContain
         }
     }
 
-    /// Perform any configuration now that we have an additional action
-    public func configure(with additionalAction: AdditionalAction) {
-        evaluator.addObserver(additionalAction)
-    }
+    // MARK: - MediaContainer
 
-    // Media Container
     public func add(_ media: [MediaAsset]) {
         media.forEach {
             if !self.media.contains($0) {
@@ -106,7 +92,6 @@ public class VehicleTowReport: DefaultReportable, ActionReportable, MediaContain
         holdRemarks = try container.decodeIfPresent(String.self, forKey: .holdRemarks)
         media = try container.decode([MediaAsset].self, forKey: .media)
 
-        weakAdditionalAction = Weak(nil)
         try super.init(from: decoder)
     }
 
