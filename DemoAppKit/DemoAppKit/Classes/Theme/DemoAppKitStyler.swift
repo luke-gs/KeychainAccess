@@ -32,27 +32,6 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
         let formStyler = Styler.shared
         formStyler.mainStyle = DemoAppKitStyler()
 
-        formStyler.setStyler(ThemedItemStyler<DetailFormItem> { item, theme in
-            let cell = item.cell as! CollectionViewFormDetailCell
-
-            let primaryText = theme.color(forKey: .primaryText)
-            let secondaryText = theme.color(forKey: .secondaryText)
-            let tint = theme.color(forKey: .tint)
-
-            cell.titleLabel.textColor = secondaryText
-            cell.subtitleLabel.textColor = item.onSelection != nil ? tint : primaryText
-            cell.detailLabel.textColor = secondaryText
-        }, forKey: DemoAppKitStyler.detailLinkStyle)
-
-        formStyler.setStyler(ThemedItemStyler<ValueFormItem> { item, theme in
-            let cell = item.cell as! CollectionViewFormValueFieldCell
-
-            let primaryText = theme.color(forKey: .primaryText)
-            let tint = theme.color(forKey: .tint)
-
-            cell.valueLabel.textColor = item.onSelection != nil ? tint : primaryText
-        }, forKey: DemoAppKitStyler.valueLinkStyle)
-
         formStyler.setStyler(ThemedItemStyler<RowDetailFormItem> { item, theme in
             let cell = item.cell as! CollectionViewFormRowDetailCell
             cell.detailLabel.textColor = theme.color(forKey: .redText)
@@ -77,9 +56,6 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
 }
 
 extension DemoAppKitStyler {
-
-    public static let detailLinkStyle = "detailLinkStyle"
-    public static let valueLinkStyle = "valueLinkStyle"
     public static let summaryRequiredStyle = "summaryRequiredStyle"
     public static let associationStyle = "associationStyle"
     public static let eventEntityStyle = "eventEntityStyle"
