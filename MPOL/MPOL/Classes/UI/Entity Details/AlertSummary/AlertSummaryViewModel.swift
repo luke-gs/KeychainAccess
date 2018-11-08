@@ -26,9 +26,9 @@ public class AlertSummaryViewModel {
 
         let levelString = alert.level?.localizedDescription()?.uppercased() ?? "Unknown"
 
-        let attributes: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: .bold),
-            NSAttributedStringKey.foregroundColor: alert.level?.color ?? .black
+        let attributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13, weight: .bold),
+            NSAttributedString.Key.foregroundColor: alert.level?.color ?? .black
         ]
 
         return NSAttributedString(string: levelString, attributes: attributes).sizing()
@@ -37,7 +37,7 @@ public class AlertSummaryViewModel {
     public var titleText: StringSizable {
 
         let titleText = alert.title ?? "Unknown"
-        let attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28, weight: .bold)]
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28, weight: .bold)]
 
         return NSAttributedString(string: titleText, attributes: attributes).sizing()
     }

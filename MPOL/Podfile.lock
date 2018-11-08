@@ -1,16 +1,16 @@
 PODS:
-  - Alamofire (4.5.1)
-  - Cache (4.1.2)
-  - Cluster (2.3.0)
+  - Alamofire (4.7.3)
+  - Cache (5.2.0)
+  - Cluster (2.4.0)
   - CoreKit (0.0.1):
-    - Alamofire (= 4.5.1)
-    - Cache (~> 4.1.2)
-    - KeychainAccess (~> 3.1.1)
-    - PromiseKit (~> 6.0)
+    - Alamofire (~> 4.7)
+    - Cache (~> 5.2)
+    - KeychainAccess (~> 3.1)
+    - PromiseKit (~> 6.5)
     - PromiseKit/CoreLocation
-    - Unbox (= 2.5.0)
+    - Unbox (~> 3.0)
   - CoreKitAppExtension (0.0.1):
-    - KeychainAccess (~> 3.1.1)
+    - KeychainAccess (~> 3.1)
   - DemoAppKit (0.0.1):
     - PublicSafetyKit
   - Firebase/Core (5.12.0):
@@ -111,16 +111,16 @@ PODS:
   - HyperioniOS/SlowAnimations (1.0.2):
     - HyperioniOS/Core
   - KeychainAccess (3.1.2)
-  - lottie-ios (2.1.3)
+  - lottie-ios (2.5.2)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - PatternKit (0.0.1):
-    - Cluster (= 2.3.0)
+    - Cluster (~> 2.4)
     - CoreKit
-    - lottie-ios (= 2.1.3)
+    - lottie-ios (~> 2.5)
     - SketchKit
   - Porcupine-iOS (2.1)
   - PromiseKit (6.5.2):
@@ -137,10 +137,10 @@ PODS:
   - Protobuf (3.6.1)
   - PublicSafetyKit (0.0.1):
     - PatternKit
-    - Wrap (= 2.1.1)
+    - Wrap (~> 3.0)
   - SketchKit (0.0.1):
     - CoreKit
-  - Unbox (2.5.0)
+  - Unbox (3.0.0)
   - VoiceSearchManager (2.1):
     - Porcupine-iOS (~> 2.0)
     - VoiceSearchManager/Core (= 2.1)
@@ -149,11 +149,11 @@ PODS:
   - VoiceSearchManager/VehicleRegistrationTransformer (2.1):
     - Porcupine-iOS (~> 2.0)
     - VoiceSearchManager/Core
-  - Wrap (2.1.1)
+  - Wrap (3.0.0)
 
 DEPENDENCIES:
-  - CoreKit (from `https://github.com/Gridstone/mPolKit-iOS`, branch `development`)
-  - CoreKitAppExtension (from `https://github.com/Gridstone/mPolKit-iOS`, branch `development`)
+  - CoreKit (from `../../mPolKit-iOS`)
+  - CoreKitAppExtension (from `../../mPolKit-iOS`)
   - DemoAppKit (from `..`)
   - Firebase/Core
   - Firebase/MLVision
@@ -161,9 +161,9 @@ DEPENDENCIES:
   - HockeySDK
   - HyperioniOS
   - KeychainAccess
-  - PatternKit (from `https://github.com/Gridstone/mPolKit-iOS`, branch `development`)
-  - PublicSafetyKit (from `https://github.com/Gridstone/mPolKit-iOS`, branch `development`)
-  - SketchKit (from `https://github.com/Gridstone/mPolKit-iOS`, branch `development`)
+  - PatternKit (from `../../mPolKit-iOS`)
+  - PublicSafetyKit (from `../../mPolKit-iOS`)
+  - SketchKit (from `../../mPolKit-iOS`)
   - VoiceSearchManager
   - VoiceSearchManager/VehicleRegistrationTransformer
 
@@ -200,46 +200,24 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   CoreKit:
-    :branch: development
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: "../../mPolKit-iOS"
   CoreKitAppExtension:
-    :branch: development
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: "../../mPolKit-iOS"
   DemoAppKit:
     :path: ".."
   PatternKit:
-    :branch: development
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: "../../mPolKit-iOS"
   PublicSafetyKit:
-    :branch: development
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: "../../mPolKit-iOS"
   SketchKit:
-    :branch: development
-    :git: https://github.com/Gridstone/mPolKit-iOS
-
-CHECKOUT OPTIONS:
-  CoreKit:
-    :commit: 849a7f720a0afe3239ed0993d06fe13e0f6eac1e
-    :git: https://github.com/Gridstone/mPolKit-iOS
-  CoreKitAppExtension:
-    :commit: 849a7f720a0afe3239ed0993d06fe13e0f6eac1e
-    :git: https://github.com/Gridstone/mPolKit-iOS
-  PatternKit:
-    :commit: 849a7f720a0afe3239ed0993d06fe13e0f6eac1e
-    :git: https://github.com/Gridstone/mPolKit-iOS
-  PublicSafetyKit:
-    :commit: 849a7f720a0afe3239ed0993d06fe13e0f6eac1e
-    :git: https://github.com/Gridstone/mPolKit-iOS
-  SketchKit:
-    :commit: 849a7f720a0afe3239ed0993d06fe13e0f6eac1e
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: "../../mPolKit-iOS"
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
-  Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
-  Cluster: 23f4cd9721dd4564d317b257e439870760954f1e
-  CoreKit: db872cb3bbebec286063398c5bda06d703d850cd
-  CoreKitAppExtension: da66dcc0fb32800d1d5882675fefe4e43edadc13
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
+  Cluster: ea2d5e7b258ecd65af5aefc6c37ad94798213a42
+  CoreKit: c2db6e3d01ec2500b9987ac0d3b9841e9d84f249
+  CoreKitAppExtension: 76fd7632b17605887ffb06444376b0ccfb97525b
   DemoAppKit: 1841b22c37a264b736feec665a0a7c872f08bccf
   Firebase: 9190018e296139d938b99521cde0c15a6e8d2946
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
@@ -257,18 +235,18 @@ SPEC CHECKSUMS:
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   HyperioniOS: 2397937925b2d57ec28182ac979879b0da2658ee
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
-  lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
+  lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  PatternKit: 36081c482612f2d7c0cfeffc05a707690428eaa2
+  PatternKit: 334c56df06cfe91ed91536e72650cc0978d29c2b
   Porcupine-iOS: 079dea06a21df96a5a2526fd0e116c516b6e1b52
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  PublicSafetyKit: 9de881215991bf96a6aed87f74621a49e19f5717
-  SketchKit: 964964ab70a67a7163ad20073cd881f33c62165d
-  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+  PublicSafetyKit: 985ec04a20f3949856c97cee0b913f52de9921f6
+  SketchKit: 3052eaa99de9f18385fee642d0a39478ff564dfd
+  Unbox: 9ed33b2a31f7a8a049f54b94d40c4a52a28c4d9d
   VoiceSearchManager: 8e07525f4bc0ebeb57a17e9354a01cfbafebc470
-  Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
+  Wrap: 918fdb5157e4f701f9503b2633752d6f94616f84
 
-PODFILE CHECKSUM: 4536455a0ab7a4f186d5bbbbf2b50041ca3a8e6d
+PODFILE CHECKSUM: a78ab165631110e7748f47ec769affe3dd434dd5
 
 COCOAPODS: 1.5.3

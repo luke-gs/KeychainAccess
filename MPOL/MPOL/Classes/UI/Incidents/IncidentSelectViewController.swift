@@ -159,8 +159,8 @@ extension IncidentSelectViewController: UITableViewDelegate, UITableViewDataSour
         switch section {
         case .browse:
             // TODO: Remove and implement with filtering functionality, displaying incidents for the selected category in a new screen
-            let alert = UIAlertController(title: "Categories Not Yet Implemented", message: "", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Categories Not Yet Implemented", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         case .recentlyUsed:
             // TODO: Implement this to use the New Incident Type
