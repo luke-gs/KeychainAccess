@@ -31,7 +31,7 @@
 		12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D92086D52200739924 /* IncidentListViewModel.swift */; };
 		12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65DA2086D52200739924 /* IncidentTypes.swift */; };
 		12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FB2087071800739924 /* OfficerParserDefinition.swift */; };
-		12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FC2087071800739924 /* OfficerListViewModel.swift */; };
+		12EF66022087071800739924 /* EventOfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FC2087071800739924 /* EventOfficerListViewModel.swift */; };
 		12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */; };
 		12EF66042087071800739924 /* OfficerListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FE2087071800739924 /* OfficerListReport.swift */; };
 		12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */; };
@@ -55,6 +55,233 @@
 		20005DED218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */; };
 		2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */; };
 		2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */; };
+		203F410E2193F49A00BAB007 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */; };
+		203F410F2193F49A00BAB007 /* NSAttributedString+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */; };
+		203F41102193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */; };
+		203F41112193F49A00BAB007 /* TrafficHistoryOverviewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE52193F49A00BAB007 /* TrafficHistoryOverviewFormItem.swift */; };
+		203F41122193F49A00BAB007 /* EventSearchableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE72193F49A00BAB007 /* EventSearchableViewModel.swift */; };
+		203F41132193F49A00BAB007 /* EventSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE82193F49A00BAB007 /* EventSummaryViewModel.swift */; };
+		203F41142193F49A00BAB007 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE92193F49A00BAB007 /* Event.swift */; };
+		203F41152193F49A00BAB007 /* EventBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FEA2193F49A00BAB007 /* EventBuilding.swift */; };
+		203F41162193F49A00BAB007 /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FEC2193F49A00BAB007 /* DefaultEventDateTimeViewModel.swift */; };
+		203F41172193F49A00BAB007 /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FED2193F49A00BAB007 /* DefaultEventDateTimeViewController.swift */; };
+		203F41182193F49A00BAB007 /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FEE2193F49A00BAB007 /* DefaultDateTimeReport.swift */; };
+		203F41192193F49A00BAB007 /* PropertyDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF02193F49A00BAB007 /* PropertyDetailsViewModel.swift */; };
+		203F411A2193F49A00BAB007 /* AddPropertyDetailsPlugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF12193F49A00BAB007 /* AddPropertyDetailsPlugins.swift */; };
+		203F411B2193F49A00BAB007 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF22193F49A00BAB007 /* Property.swift */; };
+		203F411C2193F49A00BAB007 /* PropertyDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF32193F49A00BAB007 /* PropertyDetailsViewController.swift */; };
+		203F411D2193F49A00BAB007 /* PropertyDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF42193F49A00BAB007 /* PropertyDetailsReport.swift */; };
+		203F411E2193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF52193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift */; };
+		203F411F2193F49A00BAB007 /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF62193F49A00BAB007 /* EventSummaryViewController.swift */; };
+		203F41202193F49A00BAB007 /* EventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF82193F49A00BAB007 /* EventLocation.swift */; };
+		203F41212193F49A00BAB007 /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF92193F49A00BAB007 /* DefaultLocationReport.swift */; };
+		203F41222193F49A00BAB007 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFA2193F49A00BAB007 /* EventType.swift */; };
+		203F41232193F49A00BAB007 /* EventEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFC2193F49A00BAB007 /* EventEntityManager.swift */; };
+		203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */; };
+		203F41252193F49A00BAB007 /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */; };
+		203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */; };
+		203F41272193F49A00BAB007 /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40012193F49A00BAB007 /* EventListDisplayable.swift */; };
+		203F41282193F49A00BAB007 /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40022193F49A00BAB007 /* EventsManager.swift */; };
+		203F41292193F49A00BAB007 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40042193F49A00BAB007 /* ServiceType.swift */; };
+		203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40052193F49A00BAB007 /* EventSplitViewController.swift */; };
+		203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityPickerType.swift */; };
+		203F412C2193F49A00BAB007 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */; };
+		203F412D2193F49A00BAB007 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */; };
+		203F412E2193F49A00BAB007 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */; };
+		203F412F2193F49A00BAB007 /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400C2193F49A00BAB007 /* AdditionalAction.swift */; };
+		203F41302193F49A00BAB007 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400D2193F49A00BAB007 /* AdditionalActionManager.swift */; };
+		203F41312193F49A00BAB007 /* EventSubmittable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400F2193F49A00BAB007 /* EventSubmittable.swift */; };
+		203F41322193F49A00BAB007 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40102193F49A00BAB007 /* LoadingViewController.swift */; };
+		203F41332193F49A00BAB007 /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40122193F49A00BAB007 /* Reportable.swift */; };
+		203F41342193F49A00BAB007 /* DefaultEventReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40132193F49A00BAB007 /* DefaultEventReportable.swift */; };
+		203F41352193F49A00BAB007 /* ActionReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40142193F49A00BAB007 /* ActionReportable.swift */; };
+		203F41362193F49A00BAB007 /* DefaultReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40152193F49A00BAB007 /* DefaultReportable.swift */; };
+		203F41372193F49A00BAB007 /* IncidentReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40162193F49A00BAB007 /* IncidentReportable.swift */; };
+		203F41382193F49A00BAB007 /* EventReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40172193F49A00BAB007 /* EventReportable.swift */; };
+		203F41392193F49A00BAB007 /* IncidentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40192193F49A00BAB007 /* IncidentsManager.swift */; };
+		203F413A2193F49A00BAB007 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F401A2193F49A00BAB007 /* Incident.swift */; };
+		203F413B2193F49A00BAB007 /* IncidentSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F401B2193F49A00BAB007 /* IncidentSplitViewController.swift */; };
+		203F413C2193F49A00BAB007 /* IncidentListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F401C2193F49A00BAB007 /* IncidentListDisplayable.swift */; };
+		203F413D2193F49A00BAB007 /* DemoAppKitStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F401E2193F49A00BAB007 /* DemoAppKitStyler.swift */; };
+		203F413E2193F49A00BAB007 /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40222193F49A00BAB007 /* StatusChangeReasonViewController.swift */; };
+		203F413F2193F49A00BAB007 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40232193F49A00BAB007 /* CallsignStatusViewModel.swift */; };
+		203F41402193F49A00BAB007 /* CallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40242193F49A00BAB007 /* CallsignStatusViewController.swift */; };
+		203F41412193F49A00BAB007 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40262193F49A00BAB007 /* ManageCallsignStatusViewController.swift */; };
+		203F41422193F49A00BAB007 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40272193F49A00BAB007 /* ManageCallsignStatusViewModel.swift */; };
+		203F41432193F49A00BAB007 /* FinaliseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40292193F49A00BAB007 /* FinaliseDetailsViewController.swift */; };
+		203F41442193F49A00BAB007 /* FinaliseDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F402A2193F49A00BAB007 /* FinaliseDetailsViewModel.swift */; };
+		203F41452193F49A00BAB007 /* CADTaskListSourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F402D2193F49A00BAB007 /* CADTaskListSourceCore.swift */; };
+		203F41462193F49A00BAB007 /* ResourceActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40312193F49A00BAB007 /* ResourceActivityLogViewModel.swift */; };
+		203F41472193F49A00BAB007 /* ResourceActivityLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40322193F49A00BAB007 /* ResourceActivityLogViewController.swift */; };
+		203F41482193F49A00BAB007 /* ResourceOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40342193F49A00BAB007 /* ResourceOfficerListViewController.swift */; };
+		203F41492193F49A00BAB007 /* ResourceOfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40352193F49A00BAB007 /* ResourceOfficerListViewModel.swift */; };
+		203F414A2193F49A00BAB007 /* ResourceOfficerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40362193F49A00BAB007 /* ResourceOfficerViewModel.swift */; };
+		203F414B2193F49A00BAB007 /* ResourceTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40372193F49A00BAB007 /* ResourceTaskItemViewModel.swift */; };
+		203F414C2193F49A00BAB007 /* ResourceOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40392193F49A00BAB007 /* ResourceOverviewViewModel.swift */; };
+		203F414D2193F49A00BAB007 /* ResourceOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F403A2193F49A00BAB007 /* ResourceOverviewFormViewController.swift */; };
+		203F414E2193F49A00BAB007 /* ResourceOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F403B2193F49A00BAB007 /* ResourceOverviewMapViewModel.swift */; };
+		203F414F2193F49A00BAB007 /* PatrolOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F403D2193F49A00BAB007 /* PatrolOverviewViewModel.swift */; };
+		203F41502193F49A00BAB007 /* PatrolOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F403E2193F49A00BAB007 /* PatrolOverviewMapViewModel.swift */; };
+		203F41512193F49A00BAB007 /* PatrolTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F403F2193F49A00BAB007 /* PatrolTaskItemViewModel.swift */; };
+		203F41522193F49A00BAB007 /* BroadcastTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40412193F49A00BAB007 /* BroadcastTaskItemViewModel.swift */; };
+		203F41532193F49A00BAB007 /* BroadcastOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40422193F49A00BAB007 /* BroadcastOverviewMapViewModel.swift */; };
+		203F41542193F49A00BAB007 /* BroadcastOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40432193F49A00BAB007 /* BroadcastOverviewViewModel.swift */; };
+		203F41552193F49A00BAB007 /* IncidentAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40462193F49A00BAB007 /* IncidentAssociationsViewModel.swift */; };
+		203F41562193F49A00BAB007 /* BroadcastAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40472193F49A00BAB007 /* BroadcastAssociationsViewModel.swift */; };
+		203F41572193F49A00BAB007 /* PatrolAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40482193F49A00BAB007 /* PatrolAssociationsViewModel.swift */; };
+		203F41582193F49A00BAB007 /* AssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40492193F49A00BAB007 /* AssociationsViewModel.swift */; };
+		203F41592193F49A00BAB007 /* AssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F404A2193F49A00BAB007 /* AssociationsViewController.swift */; };
+		203F415A2193F49A00BAB007 /* AssociationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F404B2193F49A00BAB007 /* AssociationItemViewModel.swift */; };
+		203F415B2193F49A00BAB007 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F404D2193F49A00BAB007 /* IncidentResourcesViewController.swift */; };
+		203F415C2193F49A00BAB007 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F404E2193F49A00BAB007 /* IncidentResourcesViewModel.swift */; };
+		203F415D2193F49A00BAB007 /* IncidentResourceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F404F2193F49A00BAB007 /* IncidentResourceItemViewModel.swift */; };
+		203F415E2193F49A00BAB007 /* BroadcastNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40512193F49A00BAB007 /* BroadcastNarrativeViewModel.swift */; };
+		203F415F2193F49A00BAB007 /* IncidentNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40522193F49A00BAB007 /* IncidentNarrativeViewModel.swift */; };
+		203F41602193F49A00BAB007 /* PatrolNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40532193F49A00BAB007 /* PatrolNarrativeViewModel.swift */; };
+		203F41612193F49A00BAB007 /* NarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40542193F49A00BAB007 /* NarrativeViewController.swift */; };
+		203F41622193F49A00BAB007 /* NarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40552193F49A00BAB007 /* NarrativeViewModel.swift */; };
+		203F41632193F49A00BAB007 /* IncidentTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40562193F49A00BAB007 /* IncidentTaskItemViewModel.swift */; };
+		203F41642193F49A00BAB007 /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40582193F49A00BAB007 /* IncidentOverviewViewModel.swift */; };
+		203F41652193F49A00BAB007 /* IncidentOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40592193F49A00BAB007 /* IncidentOverviewMapViewModel.swift */; };
+		203F41662193F49A00BAB007 /* TasksListResourceSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F405C2193F49A00BAB007 /* TasksListResourceSummaryView.swift */; };
+		203F41672193F49A00BAB007 /* TasksListResourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F405D2193F49A00BAB007 /* TasksListResourceViewModel.swift */; };
+		203F41682193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F405E2193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift */; };
+		203F41692193F49A00BAB007 /* TasksListIncidentSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40602193F49A00BAB007 /* TasksListIncidentSummaryView.swift */; };
+		203F416A2193F49A00BAB007 /* TasksListIncidentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40612193F49A00BAB007 /* TasksListIncidentViewModel.swift */; };
+		203F416B2193F49A00BAB007 /* IncidentSummaryFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40622193F49A00BAB007 /* IncidentSummaryFormItem.swift */; };
+		203F416C2193F49A00BAB007 /* TasksListIncidentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40632193F49A00BAB007 /* TasksListIncidentCollectionViewCell.swift */; };
+		203F416D2193F49A00BAB007 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40662193F49A00BAB007 /* TasksSplitViewController.swift */; };
+		203F416E2193F49A00BAB007 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40672193F49A00BAB007 /* TasksSplitViewModel.swift */; };
+		203F416F2193F49A00BAB007 /* TaskDetailsOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40692193F49A00BAB007 /* TaskDetailsOverviewFormViewController.swift */; };
+		203F41702193F49A00BAB007 /* TaskDetailsOverviewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F406A2193F49A00BAB007 /* TaskDetailsOverviewItemViewModel.swift */; };
+		203F41712193F49A00BAB007 /* TaskDetailsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F406B2193F49A00BAB007 /* TaskDetailsOverviewViewModel.swift */; };
+		203F41722193F49A00BAB007 /* TaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F406C2193F49A00BAB007 /* TaskItemViewModel.swift */; };
+		203F41732193F49A00BAB007 /* TaskDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F406D2193F49A00BAB007 /* TaskDetailsViewModel.swift */; };
+		203F41742193F49A00BAB007 /* TaskDetailsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F406E2193F49A00BAB007 /* TaskDetailsOverviewViewController.swift */; };
+		203F41752193F49A00BAB007 /* TaskItemSidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F406F2193F49A00BAB007 /* TaskItemSidebarSplitViewController.swift */; };
+		203F41762193F49A00BAB007 /* TasksListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40712193F49A00BAB007 /* TasksListViewModel.swift */; };
+		203F41772193F49A00BAB007 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40722193F49A00BAB007 /* TasksListViewController.swift */; };
+		203F41782193F49A00BAB007 /* TasksListContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40742193F49A00BAB007 /* TasksListContainerViewModel.swift */; };
+		203F41792193F49A00BAB007 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40752193F49A00BAB007 /* TasksListHeaderViewModel.swift */; };
+		203F417A2193F49A00BAB007 /* TasksListHeaderCompactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40762193F49A00BAB007 /* TasksListHeaderCompactViewController.swift */; };
+		203F417B2193F49A00BAB007 /* TasksListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40772193F49A00BAB007 /* TasksListContainerViewController.swift */; };
+		203F417C2193F49A00BAB007 /* TasksListHeaderRegularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40782193F49A00BAB007 /* TasksListHeaderRegularViewController.swift */; };
+		203F417D2193F49A00BAB007 /* TasksListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F407A2193F49A00BAB007 /* TasksListItemViewModel.swift */; };
+		203F417E2193F49A00BAB007 /* TasksListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F407B2193F49A00BAB007 /* TasksListDetailView.swift */; };
+		203F417F2193F49A00BAB007 /* TasksListInfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F407C2193F49A00BAB007 /* TasksListInfoRowView.swift */; };
+		203F41802193F49A00BAB007 /* TasksListInformationRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F407D2193F49A00BAB007 /* TasksListInformationRowViewModel.swift */; };
+		203F41812193F49A00BAB007 /* TasksListBasicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F407E2193F49A00BAB007 /* TasksListBasicViewModel.swift */; };
+		203F41822193F49A00BAB007 /* TasksListInfoRowStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F407F2193F49A00BAB007 /* TasksListInfoRowStackView.swift */; };
+		203F41832193F49A00BAB007 /* TasksListBasicSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40802193F49A00BAB007 /* TasksListBasicSummaryView.swift */; };
+		203F41842193F49A00BAB007 /* TasksListBasicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40812193F49A00BAB007 /* TasksListBasicCollectionViewCell.swift */; };
+		203F41852193F49A00BAB007 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40822193F49A00BAB007 /* CADTaskListSourceType.swift */; };
+		203F41862193F49A00BAB007 /* CADTaskListItemModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40832193F49A00BAB007 /* CADTaskListItemModelType.swift */; };
+		203F41872193F49A00BAB007 /* ManifestCollection+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40852193F49A00BAB007 /* ManifestCollection+CAD.swift */; };
+		203F41882193F49A00BAB007 /* PatrolAreaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40882193F49A00BAB007 /* PatrolAreaListViewModel.swift */; };
+		203F41892193F49A00BAB007 /* PatrolAreaListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40892193F49A00BAB007 /* PatrolAreaListItemViewModel.swift */; };
+		203F418A2193F49A00BAB007 /* PatrolAreaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F408A2193F49A00BAB007 /* PatrolAreaListViewController.swift */; };
+		203F418B2193F49A00BAB007 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F408D2193F49A00BAB007 /* BookOnDetailsFormContentOfficerViewModel.swift */; };
+		203F418C2193F49A00BAB007 /* OfficerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F408E2193F49A00BAB007 /* OfficerDetailsViewController.swift */; };
+		203F418D2193F49A00BAB007 /* OfficerDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F408F2193F49A00BAB007 /* OfficerDetailsViewModel.swift */; };
+		203F418E2193F49A00BAB007 /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40912193F49A00BAB007 /* BookOnDetailsFormViewController.swift */; };
+		203F418F2193F49A00BAB007 /* BookOnDetailsOfficerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40922193F49A00BAB007 /* BookOnDetailsOfficerFormItem.swift */; };
+		203F41902193F49A00BAB007 /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40932193F49A00BAB007 /* BookOnDetailsFormViewModel.swift */; };
+		203F41912193F49A00BAB007 /* BookOnDetailsFormContentMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40942193F49A00BAB007 /* BookOnDetailsFormContentMainViewModel.swift */; };
+		203F41922193F49A00BAB007 /* BookOnDetailsOfficerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40952193F49A00BAB007 /* BookOnDetailsOfficerCell.swift */; };
+		203F41932193F49A00BAB007 /* CallsignListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40972193F49A00BAB007 /* CallsignListViewModel.swift */; };
+		203F41942193F49A00BAB007 /* CallsignListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40982193F49A00BAB007 /* CallsignListViewController.swift */; };
+		203F41952193F49A00BAB007 /* CallsignCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40992193F49A00BAB007 /* CallsignCollectionViewCell.swift */; };
+		203F41962193F49A00BAB007 /* OfficerListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F409B2193F49A00BAB007 /* OfficerListItemViewModel.swift */; };
+		203F41972193F49A00BAB007 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F409C2193F49A00BAB007 /* OfficerListViewModel.swift */; };
+		203F41982193F49A00BAB007 /* OfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F409D2193F49A00BAB007 /* OfficerListViewController.swift */; };
+		203F41992193F49A00BAB007 /* BookOnLandingItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F409F2193F49A00BAB007 /* BookOnLandingItemViewModel.swift */; };
+		203F419A2193F49A00BAB007 /* BookOnLandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A02193F49A00BAB007 /* BookOnLandingViewController.swift */; };
+		203F419B2193F49A00BAB007 /* BookOnLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A12193F49A00BAB007 /* BookOnLandingViewModel.swift */; };
+		203F419C2193F49A00BAB007 /* TaskListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A32193F49A00BAB007 /* TaskListScreen.swift */; };
+		203F419D2193F49A00BAB007 /* TaskItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A42193F49A00BAB007 /* TaskItemScreen.swift */; };
+		203F419E2193F49A00BAB007 /* BookOnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A52193F49A00BAB007 /* BookOnScreen.swift */; };
+		203F419F2193F49A00BAB007 /* ClusterTasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A82193F49A00BAB007 /* ClusterTasksViewModel.swift */; };
+		203F41A02193F49A00BAB007 /* ClusterTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40A92193F49A00BAB007 /* ClusterTasksViewController.swift */; };
+		203F41A12193F49A00BAB007 /* ClusterTasksViewModelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40AA2193F49A00BAB007 /* ClusterTasksViewModelCore.swift */; };
+		203F41A22193F49A00BAB007 /* TasksMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40AB2193F49A00BAB007 /* TasksMapViewModel.swift */; };
+		203F41A32193F49A00BAB007 /* IncidentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40AD2193F49A00BAB007 /* IncidentAnnotationView.swift */; };
+		203F41A42193F49A00BAB007 /* IncidentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40AE2193F49A00BAB007 /* IncidentAnnotation.swift */; };
+		203F41A52193F49A00BAB007 /* PatrolAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40AF2193F49A00BAB007 /* PatrolAnnotationView.swift */; };
+		203F41A62193F49A00BAB007 /* TaskAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B02193F49A00BAB007 /* TaskAnnotation.swift */; };
+		203F41A72193F49A00BAB007 /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B12193F49A00BAB007 /* ResourceAnnotationView.swift */; };
+		203F41A82193F49A00BAB007 /* BroadcastAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B22193F49A00BAB007 /* BroadcastAnnotationView.swift */; };
+		203F41A92193F49A00BAB007 /* ResourceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B32193F49A00BAB007 /* ResourceAnnotation.swift */; };
+		203F41AA2193F49A00BAB007 /* PatrolAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B42193F49A00BAB007 /* PatrolAnnotation.swift */; };
+		203F41AB2193F49A00BAB007 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B52193F49A00BAB007 /* BroadcastAnnotation.swift */; };
+		203F41AC2193F49A00BAB007 /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B62193F49A00BAB007 /* TasksMapViewController.swift */; };
+		203F41AD2193F49A00BAB007 /* TasksMapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B82193F49A00BAB007 /* TasksMapFilterViewModel.swift */; };
+		203F41AE2193F49A00BAB007 /* TasksMapFilterViewModelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40B92193F49A00BAB007 /* TasksMapFilterViewModelCore.swift */; };
+		203F41AF2193F49A00BAB007 /* UserCallsignStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40BB2193F49A00BAB007 /* UserCallsignStatusView.swift */; };
+		203F41B02193F49B00BAB007 /* UserCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40BC2193F49A00BAB007 /* UserCallsignStatusViewModel.swift */; };
+		203F41B12193F49B00BAB007 /* CADStatusTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40BD2193F49A00BAB007 /* CADStatusTabBarViewModel.swift */; };
+		203F41B22193F49B00BAB007 /* CADStatusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40BE2193F49A00BAB007 /* CADStatusTabBarController.swift */; };
+		203F41B32193F49B00BAB007 /* CADPatrolStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C22193F49A00BAB007 /* CADPatrolStatusCore.swift */; };
+		203F41B42193F49B00BAB007 /* CADResourceStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C32193F49A00BAB007 /* CADResourceStatusCore.swift */; };
+		203F41B52193F49B00BAB007 /* CADBroadcastCategoryCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C42193F49A00BAB007 /* CADBroadcastCategoryCore.swift */; };
+		203F41B62193F49B00BAB007 /* CADResourceUnitCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C52193F49A00BAB007 /* CADResourceUnitCore.swift */; };
+		203F41B72193F49B00BAB007 /* CADAlertLevelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C62193F49A00BAB007 /* CADAlertLevelCore.swift */; };
+		203F41B82193F49B00BAB007 /* CADIncidentGradeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C72193F49A00BAB007 /* CADIncidentGradeCore.swift */; };
+		203F41B92193F49B00BAB007 /* CADIncidentStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40C82193F49A00BAB007 /* CADIncidentStatusCore.swift */; };
+		203F41BA2193F49B00BAB007 /* CADSyncResponseCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40CA2193F49A00BAB007 /* CADSyncResponseCore.swift */; };
+		203F41BB2193F49B00BAB007 /* CADResourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40CC2193F49A00BAB007 /* CADResourceCore.swift */; };
+		203F41BC2193F49B00BAB007 /* CADActivityLogItemCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40CD2193F49A00BAB007 /* CADActivityLogItemCore.swift */; };
+		203F41BD2193F49B00BAB007 /* CADPatrolCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40CE2193F49A00BAB007 /* CADPatrolCore.swift */; };
+		203F41BE2193F49B00BAB007 /* CADAssociatedPersonCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40CF2193F49A00BAB007 /* CADAssociatedPersonCore.swift */; };
+		203F41BF2193F49B00BAB007 /* CADLocationCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D02193F49A00BAB007 /* CADLocationCore.swift */; };
+		203F41C02193F49B00BAB007 /* CADEquipmentCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D12193F49A00BAB007 /* CADEquipmentCore.swift */; };
+		203F41C12193F49B00BAB007 /* CADIncidentCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D22193F49A00BAB007 /* CADIncidentCore.swift */; };
+		203F41C22193F49B00BAB007 /* CADAssociatedVehicleCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D32193F49A00BAB007 /* CADAssociatedVehicleCore.swift */; };
+		203F41C32193F49B00BAB007 /* CADBroadcastCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D42193F49A00BAB007 /* CADBroadcastCore.swift */; };
+		203F41C42193F49B00BAB007 /* CADIncidentInformantCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D52193F49A00BAB007 /* CADIncidentInformantCore.swift */; };
+		203F41C52193F49B00BAB007 /* CADBookOffRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D72193F49A00BAB007 /* CADBookOffRequestCore.swift */; };
+		203F41C62193F49B00BAB007 /* CADBookOnRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D82193F49A00BAB007 /* CADBookOnRequestCore.swift */; };
+		203F41C72193F49B00BAB007 /* CADSyncRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40D92193F49A00BAB007 /* CADSyncRequestCore.swift */; };
+		203F41C82193F49B00BAB007 /* CADGetDetailsRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40DA2193F49A00BAB007 /* CADGetDetailsRequestCore.swift */; };
+		203F41C92193F49B00BAB007 /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40DB2193F49A00BAB007 /* APIManager+CAD.swift */; };
+		203F41CA2193F49B00BAB007 /* CADClientModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40DD2193F49A00BAB007 /* CADClientModelTypes.swift */; };
+		203F41CB2193F49B00BAB007 /* CADIncidentStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40DF2193F49A00BAB007 /* CADIncidentStatusType.swift */; };
+		203F41CC2193F49B00BAB007 /* CADEnumIntType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E02193F49A00BAB007 /* CADEnumIntType.swift */; };
+		203F41CD2193F49B00BAB007 /* CADIncidentGradeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E12193F49A00BAB007 /* CADIncidentGradeType.swift */; };
+		203F41CE2193F49B00BAB007 /* CADEnumStringType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E22193F49A00BAB007 /* CADEnumStringType.swift */; };
+		203F41CF2193F49B00BAB007 /* CADAlertLevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E32193F49A00BAB007 /* CADAlertLevelType.swift */; };
+		203F41D02193F49B00BAB007 /* CADResourceUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E42193F49A00BAB007 /* CADResourceUnitType.swift */; };
+		203F41D12193F49B00BAB007 /* CADBroadcastCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E52193F49A00BAB007 /* CADBroadcastCategoryType.swift */; };
+		203F41D22193F49B00BAB007 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E62193F49A00BAB007 /* CADResourceStatusType.swift */; };
+		203F41D32193F49B00BAB007 /* CADPatrolStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E72193F49A00BAB007 /* CADPatrolStatusType.swift */; };
+		203F41D42193F49B00BAB007 /* CADSyncResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40E92193F49A00BAB007 /* CADSyncResponseType.swift */; };
+		203F41D52193F49B00BAB007 /* CADIncidentInformantType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40EB2193F49A00BAB007 /* CADIncidentInformantType.swift */; };
+		203F41D62193F49B00BAB007 /* CADBroadcastType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40EC2193F49A00BAB007 /* CADBroadcastType.swift */; };
+		203F41D72193F49B00BAB007 /* CADAssociationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40ED2193F49A00BAB007 /* CADAssociationType.swift */; };
+		203F41D82193F49B00BAB007 /* CADOfficerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40EE2193F49A00BAB007 /* CADOfficerType.swift */; };
+		203F41D92193F49B00BAB007 /* CADIncidentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40EF2193F49A00BAB007 /* CADIncidentType.swift */; };
+		203F41DA2193F49B00BAB007 /* CADAssociatedVehicleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F02193F49A00BAB007 /* CADAssociatedVehicleType.swift */; };
+		203F41DB2193F49B00BAB007 /* CADEquipmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F12193F49A00BAB007 /* CADEquipmentType.swift */; };
+		203F41DC2193F49B00BAB007 /* CADLocationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F22193F49A00BAB007 /* CADLocationType.swift */; };
+		203F41DD2193F49B00BAB007 /* CADPatrolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F32193F49A00BAB007 /* CADPatrolType.swift */; };
+		203F41DE2193F49B00BAB007 /* CADAssociatedPersonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F42193F49A00BAB007 /* CADAssociatedPersonType.swift */; };
+		203F41DF2193F49B00BAB007 /* CADActivityLogItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F52193F49A00BAB007 /* CADActivityLogItemType.swift */; };
+		203F41E02193F49B00BAB007 /* CADResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F62193F49A00BAB007 /* CADResourceType.swift */; };
+		203F41E12193F49B00BAB007 /* CADGetDetailsRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F82193F49A00BAB007 /* CADGetDetailsRequestType.swift */; };
+		203F41E22193F49B00BAB007 /* CADSyncRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40F92193F49A00BAB007 /* CADSyncRequestType.swift */; };
+		203F41E32193F49B00BAB007 /* CADBookOnRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40FA2193F49A00BAB007 /* CADBookOnRequestType.swift */; };
+		203F41E42193F49B00BAB007 /* CADBookOffRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40FB2193F49A00BAB007 /* CADBookOffRequestType.swift */; };
+		203F41E52193F49B00BAB007 /* CADAPIManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40FC2193F49A00BAB007 /* CADAPIManagerType.swift */; };
+		203F41E62193F49B00BAB007 /* ActivityLogItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40FF2193F49A00BAB007 /* ActivityLogItemCell.swift */; };
+		203F41E72193F49B00BAB007 /* ActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41002193F49A00BAB007 /* ActivityLogItemViewModel.swift */; };
+		203F41E82193F49B00BAB007 /* DatedActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41012193F49A00BAB007 /* DatedActivityLogViewModel.swift */; };
+		203F41E92193F49B00BAB007 /* ActivityLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41022193F49A00BAB007 /* ActivityLogViewController.swift */; };
+		203F41EA2193F49B00BAB007 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41032193F49A00BAB007 /* ActivityLogDateCollectionSectionViewModel.swift */; };
+		203F41EB2193F49B00BAB007 /* ActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41042193F49A00BAB007 /* ActivityLogViewModel.swift */; };
+		203F41EC2193F49B00BAB007 /* CreateActivityLogItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41062193F49A00BAB007 /* CreateActivityLogItemViewController.swift */; };
+		203F41ED2193F49B00BAB007 /* CreateActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F41072193F49A00BAB007 /* CreateActivityLogItemViewModel.swift */; };
+		203F41EE2193F49B00BAB007 /* CADStateManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F410A2193F49A00BAB007 /* CADStateManagerBase.swift */; };
+		203F41EF2193F49B00BAB007 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F410B2193F49A00BAB007 /* CADRecentlyUsedKey.swift */; };
+		203F41F02193F49B00BAB007 /* CADStateManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F410C2193F49A00BAB007 /* CADStateManagerType.swift */; };
 		207651CB21925C8000AF5844 /* UserStorage+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207651CA21925C8000AF5844 /* UserStorage+Entity.swift */; };
 		207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */; };
 		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
@@ -333,7 +560,7 @@
 		12EF65D92086D52200739924 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12EF65DA2086D52200739924 /* IncidentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
 		12EF65FB2087071800739924 /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
-		12EF65FC2087071800739924 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
+		12EF65FC2087071800739924 /* EventOfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOfficerListViewModel.swift; sourceTree = "<group>"; };
 		12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		12EF65FE2087071800739924 /* OfficerListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListReport.swift; sourceTree = "<group>"; };
 		12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultOfficerListViewController.swift; sourceTree = "<group>"; };
@@ -357,6 +584,233 @@
 		20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatedEntitySummarySelectionViewModel.swift; sourceTree = "<group>"; };
 		2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewModel.swift; sourceTree = "<group>"; };
 		2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewController.swift; sourceTree = "<group>"; };
+		203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemPresenter.swift; sourceTree = "<group>"; };
+		203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Theme.swift"; sourceTree = "<group>"; };
+		203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		203F3FE52193F49A00BAB007 /* TrafficHistoryOverviewFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryOverviewFormItem.swift; sourceTree = "<group>"; };
+		203F3FE72193F49A00BAB007 /* EventSearchableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSearchableViewModel.swift; sourceTree = "<group>"; };
+		203F3FE82193F49A00BAB007 /* EventSummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSummaryViewModel.swift; sourceTree = "<group>"; };
+		203F3FE92193F49A00BAB007 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		203F3FEA2193F49A00BAB007 /* EventBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBuilding.swift; sourceTree = "<group>"; };
+		203F3FEC2193F49A00BAB007 /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
+		203F3FED2193F49A00BAB007 /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
+		203F3FEE2193F49A00BAB007 /* DefaultDateTimeReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultDateTimeReport.swift; sourceTree = "<group>"; };
+		203F3FF02193F49A00BAB007 /* PropertyDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsViewModel.swift; sourceTree = "<group>"; };
+		203F3FF12193F49A00BAB007 /* AddPropertyDetailsPlugins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPropertyDetailsPlugins.swift; sourceTree = "<group>"; };
+		203F3FF22193F49A00BAB007 /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		203F3FF32193F49A00BAB007 /* PropertyDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsViewController.swift; sourceTree = "<group>"; };
+		203F3FF42193F49A00BAB007 /* PropertyDetailsReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsReport.swift; sourceTree = "<group>"; };
+		203F3FF52193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertySearchDisplayableViewModel.swift; sourceTree = "<group>"; };
+		203F3FF62193F49A00BAB007 /* EventSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
+		203F3FF82193F49A00BAB007 /* EventLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocation.swift; sourceTree = "<group>"; };
+		203F3FF92193F49A00BAB007 /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
+		203F3FFA2193F49A00BAB007 /* EventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		203F3FFC2193F49A00BAB007 /* EventEntityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityManager.swift; sourceTree = "<group>"; };
+		203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
+		203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
+		203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
+		203F40012193F49A00BAB007 /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
+		203F40022193F49A00BAB007 /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
+		203F40042193F49A00BAB007 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
+		203F40052193F49A00BAB007 /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
+		203F40072193F49A00BAB007 /* EntityPickerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerType.swift; sourceTree = "<group>"; };
+		203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
+		203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
+		203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
+		203F400C2193F49A00BAB007 /* AdditionalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
+		203F400D2193F49A00BAB007 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
+		203F400F2193F49A00BAB007 /* EventSubmittable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
+		203F40102193F49A00BAB007 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		203F40122193F49A00BAB007 /* Reportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
+		203F40132193F49A00BAB007 /* DefaultEventReportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventReportable.swift; sourceTree = "<group>"; };
+		203F40142193F49A00BAB007 /* ActionReportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionReportable.swift; sourceTree = "<group>"; };
+		203F40152193F49A00BAB007 /* DefaultReportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultReportable.swift; sourceTree = "<group>"; };
+		203F40162193F49A00BAB007 /* IncidentReportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentReportable.swift; sourceTree = "<group>"; };
+		203F40172193F49A00BAB007 /* EventReportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReportable.swift; sourceTree = "<group>"; };
+		203F40192193F49A00BAB007 /* IncidentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentsManager.swift; sourceTree = "<group>"; };
+		203F401A2193F49A00BAB007 /* Incident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Incident.swift; sourceTree = "<group>"; };
+		203F401B2193F49A00BAB007 /* IncidentSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSplitViewController.swift; sourceTree = "<group>"; };
+		203F401C2193F49A00BAB007 /* IncidentListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListDisplayable.swift; sourceTree = "<group>"; };
+		203F401E2193F49A00BAB007 /* DemoAppKitStyler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppKitStyler.swift; sourceTree = "<group>"; };
+		203F40222193F49A00BAB007 /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
+		203F40232193F49A00BAB007 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		203F40242193F49A00BAB007 /* CallsignStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewController.swift; sourceTree = "<group>"; };
+		203F40262193F49A00BAB007 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
+		203F40272193F49A00BAB007 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		203F40292193F49A00BAB007 /* FinaliseDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinaliseDetailsViewController.swift; sourceTree = "<group>"; };
+		203F402A2193F49A00BAB007 /* FinaliseDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinaliseDetailsViewModel.swift; sourceTree = "<group>"; };
+		203F402D2193F49A00BAB007 /* CADTaskListSourceCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceCore.swift; sourceTree = "<group>"; };
+		203F40312193F49A00BAB007 /* ResourceActivityLogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceActivityLogViewModel.swift; sourceTree = "<group>"; };
+		203F40322193F49A00BAB007 /* ResourceActivityLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceActivityLogViewController.swift; sourceTree = "<group>"; };
+		203F40342193F49A00BAB007 /* ResourceOfficerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOfficerListViewController.swift; sourceTree = "<group>"; };
+		203F40352193F49A00BAB007 /* ResourceOfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOfficerListViewModel.swift; sourceTree = "<group>"; };
+		203F40362193F49A00BAB007 /* ResourceOfficerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOfficerViewModel.swift; sourceTree = "<group>"; };
+		203F40372193F49A00BAB007 /* ResourceTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTaskItemViewModel.swift; sourceTree = "<group>"; };
+		203F40392193F49A00BAB007 /* ResourceOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOverviewViewModel.swift; sourceTree = "<group>"; };
+		203F403A2193F49A00BAB007 /* ResourceOverviewFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOverviewFormViewController.swift; sourceTree = "<group>"; };
+		203F403B2193F49A00BAB007 /* ResourceOverviewMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOverviewMapViewModel.swift; sourceTree = "<group>"; };
+		203F403D2193F49A00BAB007 /* PatrolOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolOverviewViewModel.swift; sourceTree = "<group>"; };
+		203F403E2193F49A00BAB007 /* PatrolOverviewMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolOverviewMapViewModel.swift; sourceTree = "<group>"; };
+		203F403F2193F49A00BAB007 /* PatrolTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolTaskItemViewModel.swift; sourceTree = "<group>"; };
+		203F40412193F49A00BAB007 /* BroadcastTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTaskItemViewModel.swift; sourceTree = "<group>"; };
+		203F40422193F49A00BAB007 /* BroadcastOverviewMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewMapViewModel.swift; sourceTree = "<group>"; };
+		203F40432193F49A00BAB007 /* BroadcastOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewViewModel.swift; sourceTree = "<group>"; };
+		203F40462193F49A00BAB007 /* IncidentAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewModel.swift; sourceTree = "<group>"; };
+		203F40472193F49A00BAB007 /* BroadcastAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastAssociationsViewModel.swift; sourceTree = "<group>"; };
+		203F40482193F49A00BAB007 /* PatrolAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAssociationsViewModel.swift; sourceTree = "<group>"; };
+		203F40492193F49A00BAB007 /* AssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationsViewModel.swift; sourceTree = "<group>"; };
+		203F404A2193F49A00BAB007 /* AssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationsViewController.swift; sourceTree = "<group>"; };
+		203F404B2193F49A00BAB007 /* AssociationItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociationItemViewModel.swift; sourceTree = "<group>"; };
+		203F404D2193F49A00BAB007 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
+		203F404E2193F49A00BAB007 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
+		203F404F2193F49A00BAB007 /* IncidentResourceItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentResourceItemViewModel.swift; sourceTree = "<group>"; };
+		203F40512193F49A00BAB007 /* BroadcastNarrativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastNarrativeViewModel.swift; sourceTree = "<group>"; };
+		203F40522193F49A00BAB007 /* IncidentNarrativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewModel.swift; sourceTree = "<group>"; };
+		203F40532193F49A00BAB007 /* PatrolNarrativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolNarrativeViewModel.swift; sourceTree = "<group>"; };
+		203F40542193F49A00BAB007 /* NarrativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NarrativeViewController.swift; sourceTree = "<group>"; };
+		203F40552193F49A00BAB007 /* NarrativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NarrativeViewModel.swift; sourceTree = "<group>"; };
+		203F40562193F49A00BAB007 /* IncidentTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTaskItemViewModel.swift; sourceTree = "<group>"; };
+		203F40582193F49A00BAB007 /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
+		203F40592193F49A00BAB007 /* IncidentOverviewMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewMapViewModel.swift; sourceTree = "<group>"; };
+		203F405C2193F49A00BAB007 /* TasksListResourceSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListResourceSummaryView.swift; sourceTree = "<group>"; };
+		203F405D2193F49A00BAB007 /* TasksListResourceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListResourceViewModel.swift; sourceTree = "<group>"; };
+		203F405E2193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListResourceCollectionViewCell.swift; sourceTree = "<group>"; };
+		203F40602193F49A00BAB007 /* TasksListIncidentSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListIncidentSummaryView.swift; sourceTree = "<group>"; };
+		203F40612193F49A00BAB007 /* TasksListIncidentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListIncidentViewModel.swift; sourceTree = "<group>"; };
+		203F40622193F49A00BAB007 /* IncidentSummaryFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSummaryFormItem.swift; sourceTree = "<group>"; };
+		203F40632193F49A00BAB007 /* TasksListIncidentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListIncidentCollectionViewCell.swift; sourceTree = "<group>"; };
+		203F40662193F49A00BAB007 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
+		203F40672193F49A00BAB007 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
+		203F40692193F49A00BAB007 /* TaskDetailsOverviewFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewFormViewController.swift; sourceTree = "<group>"; };
+		203F406A2193F49A00BAB007 /* TaskDetailsOverviewItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewItemViewModel.swift; sourceTree = "<group>"; };
+		203F406B2193F49A00BAB007 /* TaskDetailsOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewModel.swift; sourceTree = "<group>"; };
+		203F406C2193F49A00BAB007 /* TaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemViewModel.swift; sourceTree = "<group>"; };
+		203F406D2193F49A00BAB007 /* TaskDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewModel.swift; sourceTree = "<group>"; };
+		203F406E2193F49A00BAB007 /* TaskDetailsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewController.swift; sourceTree = "<group>"; };
+		203F406F2193F49A00BAB007 /* TaskItemSidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemSidebarSplitViewController.swift; sourceTree = "<group>"; };
+		203F40712193F49A00BAB007 /* TasksListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListViewModel.swift; sourceTree = "<group>"; };
+		203F40722193F49A00BAB007 /* TasksListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
+		203F40742193F49A00BAB007 /* TasksListContainerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewModel.swift; sourceTree = "<group>"; };
+		203F40752193F49A00BAB007 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
+		203F40762193F49A00BAB007 /* TasksListHeaderCompactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListHeaderCompactViewController.swift; sourceTree = "<group>"; };
+		203F40772193F49A00BAB007 /* TasksListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewController.swift; sourceTree = "<group>"; };
+		203F40782193F49A00BAB007 /* TasksListHeaderRegularViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListHeaderRegularViewController.swift; sourceTree = "<group>"; };
+		203F407A2193F49A00BAB007 /* TasksListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListItemViewModel.swift; sourceTree = "<group>"; };
+		203F407B2193F49A00BAB007 /* TasksListDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListDetailView.swift; sourceTree = "<group>"; };
+		203F407C2193F49A00BAB007 /* TasksListInfoRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListInfoRowView.swift; sourceTree = "<group>"; };
+		203F407D2193F49A00BAB007 /* TasksListInformationRowViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListInformationRowViewModel.swift; sourceTree = "<group>"; };
+		203F407E2193F49A00BAB007 /* TasksListBasicViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicViewModel.swift; sourceTree = "<group>"; };
+		203F407F2193F49A00BAB007 /* TasksListInfoRowStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListInfoRowStackView.swift; sourceTree = "<group>"; };
+		203F40802193F49A00BAB007 /* TasksListBasicSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicSummaryView.swift; sourceTree = "<group>"; };
+		203F40812193F49A00BAB007 /* TasksListBasicCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListBasicCollectionViewCell.swift; sourceTree = "<group>"; };
+		203F40822193F49A00BAB007 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
+		203F40832193F49A00BAB007 /* CADTaskListItemModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListItemModelType.swift; sourceTree = "<group>"; };
+		203F40852193F49A00BAB007 /* ManifestCollection+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManifestCollection+CAD.swift"; sourceTree = "<group>"; };
+		203F40882193F49A00BAB007 /* PatrolAreaListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewModel.swift; sourceTree = "<group>"; };
+		203F40892193F49A00BAB007 /* PatrolAreaListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListItemViewModel.swift; sourceTree = "<group>"; };
+		203F408A2193F49A00BAB007 /* PatrolAreaListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewController.swift; sourceTree = "<group>"; };
+		203F408D2193F49A00BAB007 /* BookOnDetailsFormContentOfficerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentOfficerViewModel.swift; sourceTree = "<group>"; };
+		203F408E2193F49A00BAB007 /* OfficerDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerDetailsViewController.swift; sourceTree = "<group>"; };
+		203F408F2193F49A00BAB007 /* OfficerDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerDetailsViewModel.swift; sourceTree = "<group>"; };
+		203F40912193F49A00BAB007 /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
+		203F40922193F49A00BAB007 /* BookOnDetailsOfficerFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnDetailsOfficerFormItem.swift; sourceTree = "<group>"; };
+		203F40932193F49A00BAB007 /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
+		203F40942193F49A00BAB007 /* BookOnDetailsFormContentMainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentMainViewModel.swift; sourceTree = "<group>"; };
+		203F40952193F49A00BAB007 /* BookOnDetailsOfficerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnDetailsOfficerCell.swift; sourceTree = "<group>"; };
+		203F40972193F49A00BAB007 /* CallsignListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignListViewModel.swift; sourceTree = "<group>"; };
+		203F40982193F49A00BAB007 /* CallsignListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignListViewController.swift; sourceTree = "<group>"; };
+		203F40992193F49A00BAB007 /* CallsignCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallsignCollectionViewCell.swift; sourceTree = "<group>"; };
+		203F409B2193F49A00BAB007 /* OfficerListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListItemViewModel.swift; sourceTree = "<group>"; };
+		203F409C2193F49A00BAB007 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
+		203F409D2193F49A00BAB007 /* OfficerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListViewController.swift; sourceTree = "<group>"; };
+		203F409F2193F49A00BAB007 /* BookOnLandingItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnLandingItemViewModel.swift; sourceTree = "<group>"; };
+		203F40A02193F49A00BAB007 /* BookOnLandingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnLandingViewController.swift; sourceTree = "<group>"; };
+		203F40A12193F49A00BAB007 /* BookOnLandingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnLandingViewModel.swift; sourceTree = "<group>"; };
+		203F40A32193F49A00BAB007 /* TaskListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListScreen.swift; sourceTree = "<group>"; };
+		203F40A42193F49A00BAB007 /* TaskItemScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemScreen.swift; sourceTree = "<group>"; };
+		203F40A52193F49A00BAB007 /* BookOnScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookOnScreen.swift; sourceTree = "<group>"; };
+		203F40A82193F49A00BAB007 /* ClusterTasksViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewModel.swift; sourceTree = "<group>"; };
+		203F40A92193F49A00BAB007 /* ClusterTasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewController.swift; sourceTree = "<group>"; };
+		203F40AA2193F49A00BAB007 /* ClusterTasksViewModelCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewModelCore.swift; sourceTree = "<group>"; };
+		203F40AB2193F49A00BAB007 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
+		203F40AD2193F49A00BAB007 /* IncidentAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAnnotationView.swift; sourceTree = "<group>"; };
+		203F40AE2193F49A00BAB007 /* IncidentAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
+		203F40AF2193F49A00BAB007 /* PatrolAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAnnotationView.swift; sourceTree = "<group>"; };
+		203F40B02193F49A00BAB007 /* TaskAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
+		203F40B12193F49A00BAB007 /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
+		203F40B22193F49A00BAB007 /* BroadcastAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotationView.swift; sourceTree = "<group>"; };
+		203F40B32193F49A00BAB007 /* ResourceAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
+		203F40B42193F49A00BAB007 /* PatrolAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAnnotation.swift; sourceTree = "<group>"; };
+		203F40B52193F49A00BAB007 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
+		203F40B62193F49A00BAB007 /* TasksMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
+		203F40B82193F49A00BAB007 /* TasksMapFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksMapFilterViewModel.swift; sourceTree = "<group>"; };
+		203F40B92193F49A00BAB007 /* TasksMapFilterViewModelCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksMapFilterViewModelCore.swift; sourceTree = "<group>"; };
+		203F40BB2193F49A00BAB007 /* UserCallsignStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCallsignStatusView.swift; sourceTree = "<group>"; };
+		203F40BC2193F49A00BAB007 /* UserCallsignStatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		203F40BD2193F49A00BAB007 /* CADStatusTabBarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarViewModel.swift; sourceTree = "<group>"; };
+		203F40BE2193F49A00BAB007 /* CADStatusTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarController.swift; sourceTree = "<group>"; };
+		203F40C22193F49A00BAB007 /* CADPatrolStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusCore.swift; sourceTree = "<group>"; };
+		203F40C32193F49A00BAB007 /* CADResourceStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceStatusCore.swift; sourceTree = "<group>"; };
+		203F40C42193F49A00BAB007 /* CADBroadcastCategoryCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryCore.swift; sourceTree = "<group>"; };
+		203F40C52193F49A00BAB007 /* CADResourceUnitCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceUnitCore.swift; sourceTree = "<group>"; };
+		203F40C62193F49A00BAB007 /* CADAlertLevelCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAlertLevelCore.swift; sourceTree = "<group>"; };
+		203F40C72193F49A00BAB007 /* CADIncidentGradeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentGradeCore.swift; sourceTree = "<group>"; };
+		203F40C82193F49A00BAB007 /* CADIncidentStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentStatusCore.swift; sourceTree = "<group>"; };
+		203F40CA2193F49A00BAB007 /* CADSyncResponseCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncResponseCore.swift; sourceTree = "<group>"; };
+		203F40CC2193F49A00BAB007 /* CADResourceCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceCore.swift; sourceTree = "<group>"; };
+		203F40CD2193F49A00BAB007 /* CADActivityLogItemCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADActivityLogItemCore.swift; sourceTree = "<group>"; };
+		203F40CE2193F49A00BAB007 /* CADPatrolCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolCore.swift; sourceTree = "<group>"; };
+		203F40CF2193F49A00BAB007 /* CADAssociatedPersonCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociatedPersonCore.swift; sourceTree = "<group>"; };
+		203F40D02193F49A00BAB007 /* CADLocationCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADLocationCore.swift; sourceTree = "<group>"; };
+		203F40D12193F49A00BAB007 /* CADEquipmentCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEquipmentCore.swift; sourceTree = "<group>"; };
+		203F40D22193F49A00BAB007 /* CADIncidentCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentCore.swift; sourceTree = "<group>"; };
+		203F40D32193F49A00BAB007 /* CADAssociatedVehicleCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociatedVehicleCore.swift; sourceTree = "<group>"; };
+		203F40D42193F49A00BAB007 /* CADBroadcastCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastCore.swift; sourceTree = "<group>"; };
+		203F40D52193F49A00BAB007 /* CADIncidentInformantCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentInformantCore.swift; sourceTree = "<group>"; };
+		203F40D72193F49A00BAB007 /* CADBookOffRequestCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOffRequestCore.swift; sourceTree = "<group>"; };
+		203F40D82193F49A00BAB007 /* CADBookOnRequestCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOnRequestCore.swift; sourceTree = "<group>"; };
+		203F40D92193F49A00BAB007 /* CADSyncRequestCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncRequestCore.swift; sourceTree = "<group>"; };
+		203F40DA2193F49A00BAB007 /* CADGetDetailsRequestCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADGetDetailsRequestCore.swift; sourceTree = "<group>"; };
+		203F40DB2193F49A00BAB007 /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
+		203F40DD2193F49A00BAB007 /* CADClientModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADClientModelTypes.swift; sourceTree = "<group>"; };
+		203F40DF2193F49A00BAB007 /* CADIncidentStatusType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentStatusType.swift; sourceTree = "<group>"; };
+		203F40E02193F49A00BAB007 /* CADEnumIntType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEnumIntType.swift; sourceTree = "<group>"; };
+		203F40E12193F49A00BAB007 /* CADIncidentGradeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentGradeType.swift; sourceTree = "<group>"; };
+		203F40E22193F49A00BAB007 /* CADEnumStringType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEnumStringType.swift; sourceTree = "<group>"; };
+		203F40E32193F49A00BAB007 /* CADAlertLevelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAlertLevelType.swift; sourceTree = "<group>"; };
+		203F40E42193F49A00BAB007 /* CADResourceUnitType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceUnitType.swift; sourceTree = "<group>"; };
+		203F40E52193F49A00BAB007 /* CADBroadcastCategoryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryType.swift; sourceTree = "<group>"; };
+		203F40E62193F49A00BAB007 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
+		203F40E72193F49A00BAB007 /* CADPatrolStatusType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusType.swift; sourceTree = "<group>"; };
+		203F40E92193F49A00BAB007 /* CADSyncResponseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncResponseType.swift; sourceTree = "<group>"; };
+		203F40EB2193F49A00BAB007 /* CADIncidentInformantType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentInformantType.swift; sourceTree = "<group>"; };
+		203F40EC2193F49A00BAB007 /* CADBroadcastType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastType.swift; sourceTree = "<group>"; };
+		203F40ED2193F49A00BAB007 /* CADAssociationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociationType.swift; sourceTree = "<group>"; };
+		203F40EE2193F49A00BAB007 /* CADOfficerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerType.swift; sourceTree = "<group>"; };
+		203F40EF2193F49A00BAB007 /* CADIncidentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentType.swift; sourceTree = "<group>"; };
+		203F40F02193F49A00BAB007 /* CADAssociatedVehicleType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociatedVehicleType.swift; sourceTree = "<group>"; };
+		203F40F12193F49A00BAB007 /* CADEquipmentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEquipmentType.swift; sourceTree = "<group>"; };
+		203F40F22193F49A00BAB007 /* CADLocationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADLocationType.swift; sourceTree = "<group>"; };
+		203F40F32193F49A00BAB007 /* CADPatrolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolType.swift; sourceTree = "<group>"; };
+		203F40F42193F49A00BAB007 /* CADAssociatedPersonType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAssociatedPersonType.swift; sourceTree = "<group>"; };
+		203F40F52193F49A00BAB007 /* CADActivityLogItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADActivityLogItemType.swift; sourceTree = "<group>"; };
+		203F40F62193F49A00BAB007 /* CADResourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceType.swift; sourceTree = "<group>"; };
+		203F40F82193F49A00BAB007 /* CADGetDetailsRequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADGetDetailsRequestType.swift; sourceTree = "<group>"; };
+		203F40F92193F49A00BAB007 /* CADSyncRequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncRequestType.swift; sourceTree = "<group>"; };
+		203F40FA2193F49A00BAB007 /* CADBookOnRequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOnRequestType.swift; sourceTree = "<group>"; };
+		203F40FB2193F49A00BAB007 /* CADBookOffRequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOffRequestType.swift; sourceTree = "<group>"; };
+		203F40FC2193F49A00BAB007 /* CADAPIManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAPIManagerType.swift; sourceTree = "<group>"; };
+		203F40FF2193F49A00BAB007 /* ActivityLogItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogItemCell.swift; sourceTree = "<group>"; };
+		203F41002193F49A00BAB007 /* ActivityLogItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogItemViewModel.swift; sourceTree = "<group>"; };
+		203F41012193F49A00BAB007 /* DatedActivityLogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatedActivityLogViewModel.swift; sourceTree = "<group>"; };
+		203F41022193F49A00BAB007 /* ActivityLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogViewController.swift; sourceTree = "<group>"; };
+		203F41032193F49A00BAB007 /* ActivityLogDateCollectionSectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogDateCollectionSectionViewModel.swift; sourceTree = "<group>"; };
+		203F41042193F49A00BAB007 /* ActivityLogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogViewModel.swift; sourceTree = "<group>"; };
+		203F41062193F49A00BAB007 /* CreateActivityLogItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewController.swift; sourceTree = "<group>"; };
+		203F41072193F49A00BAB007 /* CreateActivityLogItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewModel.swift; sourceTree = "<group>"; };
+		203F410A2193F49A00BAB007 /* CADStateManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerBase.swift; sourceTree = "<group>"; };
+		203F410B2193F49A00BAB007 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
+		203F410C2193F49A00BAB007 /* CADStateManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerType.swift; sourceTree = "<group>"; };
 		207651CA21925C8000AF5844 /* UserStorage+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserStorage+Entity.swift"; sourceTree = "<group>"; };
 		207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = OrganisationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
@@ -742,7 +1196,7 @@
 			children = (
 				12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */,
 				12EF65FE2087071800739924 /* OfficerListReport.swift */,
-				12EF65FC2087071800739924 /* OfficerListViewModel.swift */,
+				12EF65FC2087071800739924 /* EventOfficerListViewModel.swift */,
 				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
 				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
 				AA10BB30216D99A100BC4071 /* OfficerSearchViewController.swift */,
@@ -791,6 +1245,848 @@
 				2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */,
 			);
 			path = "Location Selection";
+			sourceTree = "<group>";
+		};
+		203F3FDC2193F49A00BAB007 /* DemoAppKit */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FDE2193F49A00BAB007 /* Presenter */,
+				203F3FE02193F49A00BAB007 /* Extensions */,
+				203F3FE22193F49A00BAB007 /* Search */,
+				203F401D2193F49A00BAB007 /* Theme */,
+				203F401F2193F49A00BAB007 /* Tasking */,
+			);
+			path = DemoAppKit;
+			sourceTree = "<group>";
+		};
+		203F3FDE2193F49A00BAB007 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		203F3FE02193F49A00BAB007 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		203F3FE22193F49A00BAB007 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FE32193F49A00BAB007 /* Traffic History */,
+				203F3FE62193F49A00BAB007 /* Events */,
+				203F40182193F49A00BAB007 /* Incidents */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		203F3FE32193F49A00BAB007 /* Traffic History */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */,
+				203F3FE52193F49A00BAB007 /* TrafficHistoryOverviewFormItem.swift */,
+			);
+			path = "Traffic History";
+			sourceTree = "<group>";
+		};
+		203F3FE62193F49A00BAB007 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FE72193F49A00BAB007 /* EventSearchableViewModel.swift */,
+				203F3FE82193F49A00BAB007 /* EventSummaryViewModel.swift */,
+				203F3FE92193F49A00BAB007 /* Event.swift */,
+				203F3FEA2193F49A00BAB007 /* EventBuilding.swift */,
+				203F3FEB2193F49A00BAB007 /* DateTime */,
+				203F3FEF2193F49A00BAB007 /* Property */,
+				203F3FF62193F49A00BAB007 /* EventSummaryViewController.swift */,
+				203F3FF72193F49A00BAB007 /* Location */,
+				203F3FFA2193F49A00BAB007 /* EventType.swift */,
+				203F3FFB2193F49A00BAB007 /* EntityManager */,
+				203F3FFD2193F49A00BAB007 /* NotesPhotos */,
+				203F40012193F49A00BAB007 /* EventListDisplayable.swift */,
+				203F40022193F49A00BAB007 /* EventsManager.swift */,
+				203F40032193F49A00BAB007 /* Service */,
+				203F40052193F49A00BAB007 /* EventSplitViewController.swift */,
+				203F40062193F49A00BAB007 /* Entities */,
+				203F400E2193F49A00BAB007 /* Submission */,
+				203F40112193F49A00BAB007 /* Reports */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		203F3FEB2193F49A00BAB007 /* DateTime */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FEC2193F49A00BAB007 /* DefaultEventDateTimeViewModel.swift */,
+				203F3FED2193F49A00BAB007 /* DefaultEventDateTimeViewController.swift */,
+				203F3FEE2193F49A00BAB007 /* DefaultDateTimeReport.swift */,
+			);
+			path = DateTime;
+			sourceTree = "<group>";
+		};
+		203F3FEF2193F49A00BAB007 /* Property */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FF02193F49A00BAB007 /* PropertyDetailsViewModel.swift */,
+				203F3FF12193F49A00BAB007 /* AddPropertyDetailsPlugins.swift */,
+				203F3FF22193F49A00BAB007 /* Property.swift */,
+				203F3FF32193F49A00BAB007 /* PropertyDetailsViewController.swift */,
+				203F3FF42193F49A00BAB007 /* PropertyDetailsReport.swift */,
+				203F3FF52193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift */,
+			);
+			path = Property;
+			sourceTree = "<group>";
+		};
+		203F3FF72193F49A00BAB007 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FF82193F49A00BAB007 /* EventLocation.swift */,
+				203F3FF92193F49A00BAB007 /* DefaultLocationReport.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		203F3FFB2193F49A00BAB007 /* EntityManager */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FFC2193F49A00BAB007 /* EventEntityManager.swift */,
+			);
+			path = EntityManager;
+			sourceTree = "<group>";
+		};
+		203F3FFD2193F49A00BAB007 /* NotesPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */,
+				203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */,
+				203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */,
+			);
+			path = NotesPhotos;
+			sourceTree = "<group>";
+		};
+		203F40032193F49A00BAB007 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				203F40042193F49A00BAB007 /* ServiceType.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		203F40062193F49A00BAB007 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				203F40072193F49A00BAB007 /* EntityPickerType.swift */,
+				203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */,
+				203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */,
+				203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */,
+				203F400B2193F49A00BAB007 /* AdditionalActions */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		203F400B2193F49A00BAB007 /* AdditionalActions */ = {
+			isa = PBXGroup;
+			children = (
+				203F400C2193F49A00BAB007 /* AdditionalAction.swift */,
+				203F400D2193F49A00BAB007 /* AdditionalActionManager.swift */,
+			);
+			path = AdditionalActions;
+			sourceTree = "<group>";
+		};
+		203F400E2193F49A00BAB007 /* Submission */ = {
+			isa = PBXGroup;
+			children = (
+				203F400F2193F49A00BAB007 /* EventSubmittable.swift */,
+				203F40102193F49A00BAB007 /* LoadingViewController.swift */,
+			);
+			path = Submission;
+			sourceTree = "<group>";
+		};
+		203F40112193F49A00BAB007 /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				203F40122193F49A00BAB007 /* Reportable.swift */,
+				203F40132193F49A00BAB007 /* DefaultEventReportable.swift */,
+				203F40142193F49A00BAB007 /* ActionReportable.swift */,
+				203F40152193F49A00BAB007 /* DefaultReportable.swift */,
+				203F40162193F49A00BAB007 /* IncidentReportable.swift */,
+				203F40172193F49A00BAB007 /* EventReportable.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		203F40182193F49A00BAB007 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				203F40192193F49A00BAB007 /* IncidentsManager.swift */,
+				203F401A2193F49A00BAB007 /* Incident.swift */,
+				203F401B2193F49A00BAB007 /* IncidentSplitViewController.swift */,
+				203F401C2193F49A00BAB007 /* IncidentListDisplayable.swift */,
+			);
+			path = Incidents;
+			sourceTree = "<group>";
+		};
+		203F401D2193F49A00BAB007 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				203F401E2193F49A00BAB007 /* DemoAppKitStyler.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		203F401F2193F49A00BAB007 /* Tasking */ = {
+			isa = PBXGroup;
+			children = (
+				203F40202193F49A00BAB007 /* Callsign */,
+				203F402B2193F49A00BAB007 /* Tasks */,
+				203F40842193F49A00BAB007 /* Manifest */,
+				203F40862193F49A00BAB007 /* Book On */,
+				203F40A22193F49A00BAB007 /* Screens */,
+				203F40A62193F49A00BAB007 /* Map */,
+				203F40BA2193F49A00BAB007 /* Tab Bar */,
+				203F40BF2193F49A00BAB007 /* Model */,
+				203F40FD2193F49A00BAB007 /* ActivityLog */,
+				203F41082193F49A00BAB007 /* Session */,
+			);
+			path = Tasking;
+			sourceTree = "<group>";
+		};
+		203F40202193F49A00BAB007 /* Callsign */ = {
+			isa = PBXGroup;
+			children = (
+				203F40212193F49A00BAB007 /* Status */,
+				203F40252193F49A00BAB007 /* Manage */,
+				203F40282193F49A00BAB007 /* Finalise */,
+			);
+			path = Callsign;
+			sourceTree = "<group>";
+		};
+		203F40212193F49A00BAB007 /* Status */ = {
+			isa = PBXGroup;
+			children = (
+				203F40222193F49A00BAB007 /* StatusChangeReasonViewController.swift */,
+				203F40232193F49A00BAB007 /* CallsignStatusViewModel.swift */,
+				203F40242193F49A00BAB007 /* CallsignStatusViewController.swift */,
+			);
+			path = Status;
+			sourceTree = "<group>";
+		};
+		203F40252193F49A00BAB007 /* Manage */ = {
+			isa = PBXGroup;
+			children = (
+				203F40262193F49A00BAB007 /* ManageCallsignStatusViewController.swift */,
+				203F40272193F49A00BAB007 /* ManageCallsignStatusViewModel.swift */,
+			);
+			path = Manage;
+			sourceTree = "<group>";
+		};
+		203F40282193F49A00BAB007 /* Finalise */ = {
+			isa = PBXGroup;
+			children = (
+				203F40292193F49A00BAB007 /* FinaliseDetailsViewController.swift */,
+				203F402A2193F49A00BAB007 /* FinaliseDetailsViewModel.swift */,
+			);
+			path = Finalise;
+			sourceTree = "<group>";
+		};
+		203F402B2193F49A00BAB007 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				203F402C2193F49A00BAB007 /* Demo */,
+				203F40642193F49A00BAB007 /* Generic */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		203F402C2193F49A00BAB007 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				203F402D2193F49A00BAB007 /* CADTaskListSourceCore.swift */,
+				203F402E2193F49A00BAB007 /* Details */,
+				203F405A2193F49A00BAB007 /* List */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		203F402E2193F49A00BAB007 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				203F402F2193F49A00BAB007 /* Resources */,
+				203F403C2193F49A00BAB007 /* Patrol */,
+				203F40402193F49A00BAB007 /* Broadcast */,
+				203F40442193F49A00BAB007 /* Incidents */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		203F402F2193F49A00BAB007 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				203F40302193F49A00BAB007 /* Activity Log */,
+				203F40332193F49A00BAB007 /* Officers */,
+				203F40372193F49A00BAB007 /* ResourceTaskItemViewModel.swift */,
+				203F40382193F49A00BAB007 /* Overview */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		203F40302193F49A00BAB007 /* Activity Log */ = {
+			isa = PBXGroup;
+			children = (
+				203F40312193F49A00BAB007 /* ResourceActivityLogViewModel.swift */,
+				203F40322193F49A00BAB007 /* ResourceActivityLogViewController.swift */,
+			);
+			path = "Activity Log";
+			sourceTree = "<group>";
+		};
+		203F40332193F49A00BAB007 /* Officers */ = {
+			isa = PBXGroup;
+			children = (
+				203F40342193F49A00BAB007 /* ResourceOfficerListViewController.swift */,
+				203F40352193F49A00BAB007 /* ResourceOfficerListViewModel.swift */,
+				203F40362193F49A00BAB007 /* ResourceOfficerViewModel.swift */,
+			);
+			path = Officers;
+			sourceTree = "<group>";
+		};
+		203F40382193F49A00BAB007 /* Overview */ = {
+			isa = PBXGroup;
+			children = (
+				203F40392193F49A00BAB007 /* ResourceOverviewViewModel.swift */,
+				203F403A2193F49A00BAB007 /* ResourceOverviewFormViewController.swift */,
+				203F403B2193F49A00BAB007 /* ResourceOverviewMapViewModel.swift */,
+			);
+			path = Overview;
+			sourceTree = "<group>";
+		};
+		203F403C2193F49A00BAB007 /* Patrol */ = {
+			isa = PBXGroup;
+			children = (
+				203F403D2193F49A00BAB007 /* PatrolOverviewViewModel.swift */,
+				203F403E2193F49A00BAB007 /* PatrolOverviewMapViewModel.swift */,
+				203F403F2193F49A00BAB007 /* PatrolTaskItemViewModel.swift */,
+			);
+			path = Patrol;
+			sourceTree = "<group>";
+		};
+		203F40402193F49A00BAB007 /* Broadcast */ = {
+			isa = PBXGroup;
+			children = (
+				203F40412193F49A00BAB007 /* BroadcastTaskItemViewModel.swift */,
+				203F40422193F49A00BAB007 /* BroadcastOverviewMapViewModel.swift */,
+				203F40432193F49A00BAB007 /* BroadcastOverviewViewModel.swift */,
+			);
+			path = Broadcast;
+			sourceTree = "<group>";
+		};
+		203F40442193F49A00BAB007 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				203F40452193F49A00BAB007 /* Associations */,
+				203F404C2193F49A00BAB007 /* Resources */,
+				203F40502193F49A00BAB007 /* Narrative */,
+				203F40562193F49A00BAB007 /* IncidentTaskItemViewModel.swift */,
+				203F40572193F49A00BAB007 /* Overview */,
+			);
+			path = Incidents;
+			sourceTree = "<group>";
+		};
+		203F40452193F49A00BAB007 /* Associations */ = {
+			isa = PBXGroup;
+			children = (
+				203F40462193F49A00BAB007 /* IncidentAssociationsViewModel.swift */,
+				203F40472193F49A00BAB007 /* BroadcastAssociationsViewModel.swift */,
+				203F40482193F49A00BAB007 /* PatrolAssociationsViewModel.swift */,
+				203F40492193F49A00BAB007 /* AssociationsViewModel.swift */,
+				203F404A2193F49A00BAB007 /* AssociationsViewController.swift */,
+				203F404B2193F49A00BAB007 /* AssociationItemViewModel.swift */,
+			);
+			path = Associations;
+			sourceTree = "<group>";
+		};
+		203F404C2193F49A00BAB007 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				203F404D2193F49A00BAB007 /* IncidentResourcesViewController.swift */,
+				203F404E2193F49A00BAB007 /* IncidentResourcesViewModel.swift */,
+				203F404F2193F49A00BAB007 /* IncidentResourceItemViewModel.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		203F40502193F49A00BAB007 /* Narrative */ = {
+			isa = PBXGroup;
+			children = (
+				203F40512193F49A00BAB007 /* BroadcastNarrativeViewModel.swift */,
+				203F40522193F49A00BAB007 /* IncidentNarrativeViewModel.swift */,
+				203F40532193F49A00BAB007 /* PatrolNarrativeViewModel.swift */,
+				203F40542193F49A00BAB007 /* NarrativeViewController.swift */,
+				203F40552193F49A00BAB007 /* NarrativeViewModel.swift */,
+			);
+			path = Narrative;
+			sourceTree = "<group>";
+		};
+		203F40572193F49A00BAB007 /* Overview */ = {
+			isa = PBXGroup;
+			children = (
+				203F40582193F49A00BAB007 /* IncidentOverviewViewModel.swift */,
+				203F40592193F49A00BAB007 /* IncidentOverviewMapViewModel.swift */,
+			);
+			path = Overview;
+			sourceTree = "<group>";
+		};
+		203F405A2193F49A00BAB007 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				203F405B2193F49A00BAB007 /* Resources */,
+				203F405F2193F49A00BAB007 /* Incidents */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		203F405B2193F49A00BAB007 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				203F405C2193F49A00BAB007 /* TasksListResourceSummaryView.swift */,
+				203F405D2193F49A00BAB007 /* TasksListResourceViewModel.swift */,
+				203F405E2193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		203F405F2193F49A00BAB007 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				203F40602193F49A00BAB007 /* TasksListIncidentSummaryView.swift */,
+				203F40612193F49A00BAB007 /* TasksListIncidentViewModel.swift */,
+				203F40622193F49A00BAB007 /* IncidentSummaryFormItem.swift */,
+				203F40632193F49A00BAB007 /* TasksListIncidentCollectionViewCell.swift */,
+			);
+			path = Incidents;
+			sourceTree = "<group>";
+		};
+		203F40642193F49A00BAB007 /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				203F40652193F49A00BAB007 /* Split */,
+				203F40682193F49A00BAB007 /* Details */,
+				203F40702193F49A00BAB007 /* List */,
+				203F40822193F49A00BAB007 /* CADTaskListSourceType.swift */,
+				203F40832193F49A00BAB007 /* CADTaskListItemModelType.swift */,
+			);
+			path = Generic;
+			sourceTree = "<group>";
+		};
+		203F40652193F49A00BAB007 /* Split */ = {
+			isa = PBXGroup;
+			children = (
+				203F40662193F49A00BAB007 /* TasksSplitViewController.swift */,
+				203F40672193F49A00BAB007 /* TasksSplitViewModel.swift */,
+			);
+			path = Split;
+			sourceTree = "<group>";
+		};
+		203F40682193F49A00BAB007 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				203F40692193F49A00BAB007 /* TaskDetailsOverviewFormViewController.swift */,
+				203F406A2193F49A00BAB007 /* TaskDetailsOverviewItemViewModel.swift */,
+				203F406B2193F49A00BAB007 /* TaskDetailsOverviewViewModel.swift */,
+				203F406C2193F49A00BAB007 /* TaskItemViewModel.swift */,
+				203F406D2193F49A00BAB007 /* TaskDetailsViewModel.swift */,
+				203F406E2193F49A00BAB007 /* TaskDetailsOverviewViewController.swift */,
+				203F406F2193F49A00BAB007 /* TaskItemSidebarSplitViewController.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		203F40702193F49A00BAB007 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				203F40712193F49A00BAB007 /* TasksListViewModel.swift */,
+				203F40722193F49A00BAB007 /* TasksListViewController.swift */,
+				203F40732193F49A00BAB007 /* Container */,
+				203F40792193F49A00BAB007 /* Item */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		203F40732193F49A00BAB007 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				203F40742193F49A00BAB007 /* TasksListContainerViewModel.swift */,
+				203F40752193F49A00BAB007 /* TasksListHeaderViewModel.swift */,
+				203F40762193F49A00BAB007 /* TasksListHeaderCompactViewController.swift */,
+				203F40772193F49A00BAB007 /* TasksListContainerViewController.swift */,
+				203F40782193F49A00BAB007 /* TasksListHeaderRegularViewController.swift */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
+		203F40792193F49A00BAB007 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				203F407A2193F49A00BAB007 /* TasksListItemViewModel.swift */,
+				203F407B2193F49A00BAB007 /* TasksListDetailView.swift */,
+				203F407C2193F49A00BAB007 /* TasksListInfoRowView.swift */,
+				203F407D2193F49A00BAB007 /* TasksListInformationRowViewModel.swift */,
+				203F407E2193F49A00BAB007 /* TasksListBasicViewModel.swift */,
+				203F407F2193F49A00BAB007 /* TasksListInfoRowStackView.swift */,
+				203F40802193F49A00BAB007 /* TasksListBasicSummaryView.swift */,
+				203F40812193F49A00BAB007 /* TasksListBasicCollectionViewCell.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		203F40842193F49A00BAB007 /* Manifest */ = {
+			isa = PBXGroup;
+			children = (
+				203F40852193F49A00BAB007 /* ManifestCollection+CAD.swift */,
+			);
+			path = Manifest;
+			sourceTree = "<group>";
+		};
+		203F40862193F49A00BAB007 /* Book On */ = {
+			isa = PBXGroup;
+			children = (
+				203F40872193F49A00BAB007 /* Patrol Area Search */,
+				203F408B2193F49A00BAB007 /* Details */,
+				203F40962193F49A00BAB007 /* All Callsigns */,
+				203F409A2193F49A00BAB007 /* Officer Search */,
+				203F409E2193F49A00BAB007 /* Book On Landing */,
+			);
+			path = "Book On";
+			sourceTree = "<group>";
+		};
+		203F40872193F49A00BAB007 /* Patrol Area Search */ = {
+			isa = PBXGroup;
+			children = (
+				203F40882193F49A00BAB007 /* PatrolAreaListViewModel.swift */,
+				203F40892193F49A00BAB007 /* PatrolAreaListItemViewModel.swift */,
+				203F408A2193F49A00BAB007 /* PatrolAreaListViewController.swift */,
+			);
+			path = "Patrol Area Search";
+			sourceTree = "<group>";
+		};
+		203F408B2193F49A00BAB007 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				203F408C2193F49A00BAB007 /* Officer Details */,
+				203F40902193F49A00BAB007 /* Main */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		203F408C2193F49A00BAB007 /* Officer Details */ = {
+			isa = PBXGroup;
+			children = (
+				203F408D2193F49A00BAB007 /* BookOnDetailsFormContentOfficerViewModel.swift */,
+				203F408E2193F49A00BAB007 /* OfficerDetailsViewController.swift */,
+				203F408F2193F49A00BAB007 /* OfficerDetailsViewModel.swift */,
+			);
+			path = "Officer Details";
+			sourceTree = "<group>";
+		};
+		203F40902193F49A00BAB007 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				203F40912193F49A00BAB007 /* BookOnDetailsFormViewController.swift */,
+				203F40922193F49A00BAB007 /* BookOnDetailsOfficerFormItem.swift */,
+				203F40932193F49A00BAB007 /* BookOnDetailsFormViewModel.swift */,
+				203F40942193F49A00BAB007 /* BookOnDetailsFormContentMainViewModel.swift */,
+				203F40952193F49A00BAB007 /* BookOnDetailsOfficerCell.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		203F40962193F49A00BAB007 /* All Callsigns */ = {
+			isa = PBXGroup;
+			children = (
+				203F40972193F49A00BAB007 /* CallsignListViewModel.swift */,
+				203F40982193F49A00BAB007 /* CallsignListViewController.swift */,
+				203F40992193F49A00BAB007 /* CallsignCollectionViewCell.swift */,
+			);
+			path = "All Callsigns";
+			sourceTree = "<group>";
+		};
+		203F409A2193F49A00BAB007 /* Officer Search */ = {
+			isa = PBXGroup;
+			children = (
+				203F409B2193F49A00BAB007 /* OfficerListItemViewModel.swift */,
+				203F409C2193F49A00BAB007 /* OfficerListViewModel.swift */,
+				203F409D2193F49A00BAB007 /* OfficerListViewController.swift */,
+			);
+			path = "Officer Search";
+			sourceTree = "<group>";
+		};
+		203F409E2193F49A00BAB007 /* Book On Landing */ = {
+			isa = PBXGroup;
+			children = (
+				203F409F2193F49A00BAB007 /* BookOnLandingItemViewModel.swift */,
+				203F40A02193F49A00BAB007 /* BookOnLandingViewController.swift */,
+				203F40A12193F49A00BAB007 /* BookOnLandingViewModel.swift */,
+			);
+			path = "Book On Landing";
+			sourceTree = "<group>";
+		};
+		203F40A22193F49A00BAB007 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				203F40A32193F49A00BAB007 /* TaskListScreen.swift */,
+				203F40A42193F49A00BAB007 /* TaskItemScreen.swift */,
+				203F40A52193F49A00BAB007 /* BookOnScreen.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		203F40A62193F49A00BAB007 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				203F40A72193F49A00BAB007 /* Cluster */,
+				203F40AB2193F49A00BAB007 /* TasksMapViewModel.swift */,
+				203F40AC2193F49A00BAB007 /* Annotations */,
+				203F40B62193F49A00BAB007 /* TasksMapViewController.swift */,
+				203F40B72193F49A00BAB007 /* Filter */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		203F40A72193F49A00BAB007 /* Cluster */ = {
+			isa = PBXGroup;
+			children = (
+				203F40A82193F49A00BAB007 /* ClusterTasksViewModel.swift */,
+				203F40A92193F49A00BAB007 /* ClusterTasksViewController.swift */,
+				203F40AA2193F49A00BAB007 /* ClusterTasksViewModelCore.swift */,
+			);
+			path = Cluster;
+			sourceTree = "<group>";
+		};
+		203F40AC2193F49A00BAB007 /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				203F40AD2193F49A00BAB007 /* IncidentAnnotationView.swift */,
+				203F40AE2193F49A00BAB007 /* IncidentAnnotation.swift */,
+				203F40AF2193F49A00BAB007 /* PatrolAnnotationView.swift */,
+				203F40B02193F49A00BAB007 /* TaskAnnotation.swift */,
+				203F40B12193F49A00BAB007 /* ResourceAnnotationView.swift */,
+				203F40B22193F49A00BAB007 /* BroadcastAnnotationView.swift */,
+				203F40B32193F49A00BAB007 /* ResourceAnnotation.swift */,
+				203F40B42193F49A00BAB007 /* PatrolAnnotation.swift */,
+				203F40B52193F49A00BAB007 /* BroadcastAnnotation.swift */,
+			);
+			path = Annotations;
+			sourceTree = "<group>";
+		};
+		203F40B72193F49A00BAB007 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				203F40B82193F49A00BAB007 /* TasksMapFilterViewModel.swift */,
+				203F40B92193F49A00BAB007 /* TasksMapFilterViewModelCore.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		203F40BA2193F49A00BAB007 /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				203F40BB2193F49A00BAB007 /* UserCallsignStatusView.swift */,
+				203F40BC2193F49A00BAB007 /* UserCallsignStatusViewModel.swift */,
+				203F40BD2193F49A00BAB007 /* CADStatusTabBarViewModel.swift */,
+				203F40BE2193F49A00BAB007 /* CADStatusTabBarController.swift */,
+			);
+			path = "Tab Bar";
+			sourceTree = "<group>";
+		};
+		203F40BF2193F49A00BAB007 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				203F40C02193F49A00BAB007 /* Demo */,
+				203F40DC2193F49A00BAB007 /* Generic */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		203F40C02193F49A00BAB007 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				203F40C12193F49A00BAB007 /* Enum */,
+				203F40C92193F49A00BAB007 /* Responses */,
+				203F40CB2193F49A00BAB007 /* Objects */,
+				203F40D62193F49A00BAB007 /* Requests */,
+				203F40DB2193F49A00BAB007 /* APIManager+CAD.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		203F40C12193F49A00BAB007 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				203F40C22193F49A00BAB007 /* CADPatrolStatusCore.swift */,
+				203F40C32193F49A00BAB007 /* CADResourceStatusCore.swift */,
+				203F40C42193F49A00BAB007 /* CADBroadcastCategoryCore.swift */,
+				203F40C52193F49A00BAB007 /* CADResourceUnitCore.swift */,
+				203F40C62193F49A00BAB007 /* CADAlertLevelCore.swift */,
+				203F40C72193F49A00BAB007 /* CADIncidentGradeCore.swift */,
+				203F40C82193F49A00BAB007 /* CADIncidentStatusCore.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		203F40C92193F49A00BAB007 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				203F40CA2193F49A00BAB007 /* CADSyncResponseCore.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		203F40CB2193F49A00BAB007 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				203F40CC2193F49A00BAB007 /* CADResourceCore.swift */,
+				203F40CD2193F49A00BAB007 /* CADActivityLogItemCore.swift */,
+				203F40CE2193F49A00BAB007 /* CADPatrolCore.swift */,
+				203F40CF2193F49A00BAB007 /* CADAssociatedPersonCore.swift */,
+				203F40D02193F49A00BAB007 /* CADLocationCore.swift */,
+				203F40D12193F49A00BAB007 /* CADEquipmentCore.swift */,
+				203F40D22193F49A00BAB007 /* CADIncidentCore.swift */,
+				203F40D32193F49A00BAB007 /* CADAssociatedVehicleCore.swift */,
+				203F40D42193F49A00BAB007 /* CADBroadcastCore.swift */,
+				203F40D52193F49A00BAB007 /* CADIncidentInformantCore.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		203F40D62193F49A00BAB007 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				203F40D72193F49A00BAB007 /* CADBookOffRequestCore.swift */,
+				203F40D82193F49A00BAB007 /* CADBookOnRequestCore.swift */,
+				203F40D92193F49A00BAB007 /* CADSyncRequestCore.swift */,
+				203F40DA2193F49A00BAB007 /* CADGetDetailsRequestCore.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		203F40DC2193F49A00BAB007 /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				203F40DD2193F49A00BAB007 /* CADClientModelTypes.swift */,
+				203F40DE2193F49A00BAB007 /* Enum */,
+				203F40E82193F49A00BAB007 /* Responses */,
+				203F40EA2193F49A00BAB007 /* Objects */,
+				203F40F72193F49A00BAB007 /* Requests */,
+				203F40FC2193F49A00BAB007 /* CADAPIManagerType.swift */,
+			);
+			path = Generic;
+			sourceTree = "<group>";
+		};
+		203F40DE2193F49A00BAB007 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				203F40DF2193F49A00BAB007 /* CADIncidentStatusType.swift */,
+				203F40E02193F49A00BAB007 /* CADEnumIntType.swift */,
+				203F40E12193F49A00BAB007 /* CADIncidentGradeType.swift */,
+				203F40E22193F49A00BAB007 /* CADEnumStringType.swift */,
+				203F40E32193F49A00BAB007 /* CADAlertLevelType.swift */,
+				203F40E42193F49A00BAB007 /* CADResourceUnitType.swift */,
+				203F40E52193F49A00BAB007 /* CADBroadcastCategoryType.swift */,
+				203F40E62193F49A00BAB007 /* CADResourceStatusType.swift */,
+				203F40E72193F49A00BAB007 /* CADPatrolStatusType.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		203F40E82193F49A00BAB007 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				203F40E92193F49A00BAB007 /* CADSyncResponseType.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		203F40EA2193F49A00BAB007 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				203F40EB2193F49A00BAB007 /* CADIncidentInformantType.swift */,
+				203F40EC2193F49A00BAB007 /* CADBroadcastType.swift */,
+				203F40ED2193F49A00BAB007 /* CADAssociationType.swift */,
+				203F40EE2193F49A00BAB007 /* CADOfficerType.swift */,
+				203F40EF2193F49A00BAB007 /* CADIncidentType.swift */,
+				203F40F02193F49A00BAB007 /* CADAssociatedVehicleType.swift */,
+				203F40F12193F49A00BAB007 /* CADEquipmentType.swift */,
+				203F40F22193F49A00BAB007 /* CADLocationType.swift */,
+				203F40F32193F49A00BAB007 /* CADPatrolType.swift */,
+				203F40F42193F49A00BAB007 /* CADAssociatedPersonType.swift */,
+				203F40F52193F49A00BAB007 /* CADActivityLogItemType.swift */,
+				203F40F62193F49A00BAB007 /* CADResourceType.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		203F40F72193F49A00BAB007 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				203F40F82193F49A00BAB007 /* CADGetDetailsRequestType.swift */,
+				203F40F92193F49A00BAB007 /* CADSyncRequestType.swift */,
+				203F40FA2193F49A00BAB007 /* CADBookOnRequestType.swift */,
+				203F40FB2193F49A00BAB007 /* CADBookOffRequestType.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		203F40FD2193F49A00BAB007 /* ActivityLog */ = {
+			isa = PBXGroup;
+			children = (
+				203F40FE2193F49A00BAB007 /* List */,
+				203F41052193F49A00BAB007 /* Create */,
+			);
+			path = ActivityLog;
+			sourceTree = "<group>";
+		};
+		203F40FE2193F49A00BAB007 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				203F40FF2193F49A00BAB007 /* ActivityLogItemCell.swift */,
+				203F41002193F49A00BAB007 /* ActivityLogItemViewModel.swift */,
+				203F41012193F49A00BAB007 /* DatedActivityLogViewModel.swift */,
+				203F41022193F49A00BAB007 /* ActivityLogViewController.swift */,
+				203F41032193F49A00BAB007 /* ActivityLogDateCollectionSectionViewModel.swift */,
+				203F41042193F49A00BAB007 /* ActivityLogViewModel.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		203F41052193F49A00BAB007 /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				203F41062193F49A00BAB007 /* CreateActivityLogItemViewController.swift */,
+				203F41072193F49A00BAB007 /* CreateActivityLogItemViewModel.swift */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		203F41082193F49A00BAB007 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				203F41092193F49A00BAB007 /* Default */,
+				203F410C2193F49A00BAB007 /* CADStateManagerType.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		203F41092193F49A00BAB007 /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				203F410A2193F49A00BAB007 /* CADStateManagerBase.swift */,
+				203F410B2193F49A00BAB007 /* CADRecentlyUsedKey.swift */,
+			);
+			path = Default;
 			sourceTree = "<group>";
 		};
 		207651C921925C4000AF5844 /* User Storage */ = {
@@ -971,6 +2267,7 @@
 		96B774842140F57F00836B83 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				203F3FDC2193F49A00BAB007 /* DemoAppKit */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				96834D3721473D24003661E1 /* AppDelegate+DataMigration.swift */,
@@ -1740,6 +3037,8 @@
 		961F9A9821782AAC00BBF267 /* Run Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
+			files = (
+			);
 			name = "Run Swiftlint";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1756,7 +3055,6 @@
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/CoreKit/CoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/DemoAppKit/DemoAppKit.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -1782,7 +3080,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DemoAppKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -1857,33 +3154,65 @@
 			buildActionMask = 2147483647;
 			files = (
 				96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */,
+				203F41362193F49A00BAB007 /* DefaultReportable.swift in Sources */,
 				96B775662140F8EE00836B83 /* Address.swift in Sources */,
 				AA359C472165F08B0035A472 /* OrganisationAlias.swift in Sources */,
 				96B7754C2140F8EE00836B83 /* AddressFormatter.swift in Sources */,
 				96B775632140F8EE00836B83 /* Alert.swift in Sources */,
 				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
+				203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */,
 				96B775262140F8EE00836B83 /* AlertSummaryViewController.swift in Sources */,
+				203F41632193F49A00BAB007 /* IncidentTaskItemViewModel.swift in Sources */,
+				203F41592193F49A00BAB007 /* AssociationsViewController.swift in Sources */,
+				203F41AF2193F49A00BAB007 /* UserCallsignStatusView.swift in Sources */,
 				96B775252140F8EE00836B83 /* AlertSummaryViewModel.swift in Sources */,
+				203F41A02193F49A00BAB007 /* ClusterTasksViewController.swift in Sources */,
+				203F41E62193F49B00BAB007 /* ActivityLogItemCell.swift in Sources */,
+				203F41A62193F49A00BAB007 /* TaskAnnotation.swift in Sources */,
+				203F41842193F49A00BAB007 /* TasksListBasicCollectionViewCell.swift in Sources */,
 				96B7756C2140F8EE00836B83 /* Alias.swift in Sources */,
 				96B7751E2140F8EE00836B83 /* ApiManager+Manifest.swift in Sources */,
+				203F41E32193F49B00BAB007 /* CADBookOnRequestType.swift in Sources */,
 				AA10BB31216D99A100BC4071 /* OfficerSearchViewController.swift in Sources */,
 				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
 				19003747210832920030B15C /* AppDelegate+RecentlyDataPrepopulation.swift in Sources */,
+				203F41372193F49A00BAB007 /* IncidentReportable.swift in Sources */,
+				203F41612193F49A00BAB007 /* NarrativeViewController.swift in Sources */,
+				203F41342193F49A00BAB007 /* DefaultEventReportable.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
+				203F41482193F49A00BAB007 /* ResourceOfficerListViewController.swift in Sources */,
+				203F41AC2193F49A00BAB007 /* TasksMapViewController.swift in Sources */,
+				203F41392193F49A00BAB007 /* IncidentsManager.swift in Sources */,
 				96B7753F2140F8EE00836B83 /* AppGroupLandingPresenter.swift in Sources */,
+				203F41402193F49A00BAB007 /* CallsignStatusViewController.swift in Sources */,
 				96B7754A2140F8EE00836B83 /* AssociatedEntitySummaryDisplayable.swift in Sources */,
 				96B775652140F8EE00836B83 /* AssociationReason.swift in Sources */,
 				EAE9F6C021365AB8004D9DE8 /* BookOnPresenter.swift in Sources */,
+				203F41D92193F49B00BAB007 /* CADIncidentType.swift in Sources */,
+				203F41122193F49A00BAB007 /* EventSearchableViewModel.swift in Sources */,
 				37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */,
+				203F41502193F49A00BAB007 /* PatrolOverviewMapViewModel.swift in Sources */,
 				96B775852140F8EE00836B83 /* Contact.swift in Sources */,
 				96B775642140F8EE00836B83 /* CriminalHistory.swift in Sources */,
+				203F417E2193F49A00BAB007 /* TasksListDetailView.swift in Sources */,
 				96B7753B2140F8EE00836B83 /* CriminalHistorySummaryViewController.swift in Sources */,
+				203F416C2193F49A00BAB007 /* TasksListIncidentCollectionViewCell.swift in Sources */,
+				203F41182193F49A00BAB007 /* DefaultDateTimeReport.swift in Sources */,
 				96B7753C2140F8EE00836B83 /* CriminalHistorySummaryViewModel.swift in Sources */,
+				203F41AE2193F49A00BAB007 /* TasksMapFilterViewModelCore.swift in Sources */,
 				96B7754D2140F8EE00836B83 /* DateSorting.swift in Sources */,
 				AA2FF14C20C0E4F10055DC6B /* DefaultAdditionalActionBuilding.swift in Sources */,
+				203F41952193F49A00BAB007 /* CallsignCollectionViewCell.swift in Sources */,
+				203F41DB2193F49B00BAB007 /* CADEquipmentType.swift in Sources */,
+				203F41B72193F49B00BAB007 /* CADAlertLevelCore.swift in Sources */,
+				203F41A82193F49A00BAB007 /* BroadcastAnnotationView.swift in Sources */,
 				379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
+				203F41662193F49A00BAB007 /* TasksListResourceSummaryView.swift in Sources */,
 				AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */,
+				203F419C2193F49A00BAB007 /* TaskListScreen.swift in Sources */,
+				203F41CB2193F49B00BAB007 /* CADIncidentStatusType.swift in Sources */,
+				203F411A2193F49A00BAB007 /* AddPropertyDetailsPlugins.swift in Sources */,
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
 				96B775A6214206F100836B83 /* PersonSearchDateParser.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
@@ -1891,184 +3220,367 @@
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
 				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
+				203F41E82193F49B00BAB007 /* DatedActivityLogViewModel.swift in Sources */,
+				203F41E12193F49B00BAB007 /* CADGetDetailsRequestType.swift in Sources */,
+				203F41BB2193F49B00BAB007 /* CADResourceCore.swift in Sources */,
 				37C433922163339800544AA7 /* CameraManager.swift in Sources */,
 				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
 				37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */,
 				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
 				37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */,
+				203F41982193F49A00BAB007 /* OfficerListViewController.swift in Sources */,
 				37235FAF20AE738E0021850B /* DomesticViolencePropertyReport.swift in Sources */,
+				203F41C42193F49B00BAB007 /* CADIncidentInformantCore.swift in Sources */,
 				37235FB220AE738E0021850B /* DomesticViolencePropertyViewController.swift in Sources */,
+				203F41312193F49A00BAB007 /* EventSubmittable.swift in Sources */,
+				203F41BE2193F49B00BAB007 /* CADAssociatedPersonCore.swift in Sources */,
 				37235FB120AE738E0021850B /* DomesticViolencePropertyViewModel.swift in Sources */,
+				203F41822193F49A00BAB007 /* TasksListInfoRowStackView.swift in Sources */,
+				203F41A92193F49A00BAB007 /* ResourceAnnotation.swift in Sources */,
+				203F41E92193F49B00BAB007 /* ActivityLogViewController.swift in Sources */,
+				203F41922193F49A00BAB007 /* BookOnDetailsOfficerCell.swift in Sources */,
+				203F41C32193F49B00BAB007 /* CADBroadcastCore.swift in Sources */,
 				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
 				96B775A7214206F100836B83 /* LicenceParserDefinition.swift in Sources */,
+				203F419B2193F49A00BAB007 /* BookOnLandingViewModel.swift in Sources */,
 				96B775422140F8EE00836B83 /* Entity+EntityDetailDisplayable.swift in Sources */,
 				96B775682140F8EE00836B83 /* Entity.swift in Sources */,
 				96B775352140F8EE00836B83 /* EntityAlertsViewModel.swift in Sources */,
+				203F41C12193F49B00BAB007 /* CADIncidentCore.swift in Sources */,
+				203F41212193F49A00BAB007 /* DefaultLocationReport.swift in Sources */,
 				96B775242140F8EE00836B83 /* EntityAssociationsViewModel.swift in Sources */,
+				203F41772193F49A00BAB007 /* TasksListViewController.swift in Sources */,
+				203F41412193F49A00BAB007 /* ManageCallsignStatusViewController.swift in Sources */,
 				3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */,
+				203F414B2193F49A00BAB007 /* ResourceTaskItemViewModel.swift in Sources */,
+				203F413C2193F49A00BAB007 /* IncidentListDisplayable.swift in Sources */,
 				AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */,
 				96B775392140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift in Sources */,
 				2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */,
+				203F41622193F49A00BAB007 /* NarrativeViewModel.swift in Sources */,
+				203F41E52193F49B00BAB007 /* CADAPIManagerType.swift in Sources */,
+				203F41C82193F49B00BAB007 /* CADGetDetailsRequestCore.swift in Sources */,
+				203F41192193F49A00BAB007 /* PropertyDetailsViewModel.swift in Sources */,
+				203F41E02193F49B00BAB007 /* CADResourceType.swift in Sources */,
+				203F41AB2193F49A00BAB007 /* BroadcastAnnotation.swift in Sources */,
 				96B7753A2140F8EE00836B83 /* EntityDetailFormViewController.swift in Sources */,
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
 				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
+				203F41792193F49A00BAB007 /* TasksListHeaderViewModel.swift in Sources */,
 				96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */,
+				203F41452193F49A00BAB007 /* CADTaskListSourceCore.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */,
 				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
 				AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */,
 				96B775432140F8EE00836B83 /* EntityThumbnailView+Configuration.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
+				203F41D12193F49B00BAB007 /* CADBroadcastCategoryType.swift in Sources */,
 				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
+				203F413B2193F49A00BAB007 /* IncidentSplitViewController.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
+				203F41152193F49A00BAB007 /* EventBuilding.swift in Sources */,
 				12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */,
+				203F41322193F49A00BAB007 /* LoadingViewController.swift in Sources */,
+				203F41912193F49A00BAB007 /* BookOnDetailsFormContentMainViewModel.swift in Sources */,
+				203F41252193F49A00BAB007 /* DefaultNotesMedaReport.swift in Sources */,
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
+				203F41562193F49A00BAB007 /* BroadcastAssociationsViewModel.swift in Sources */,
+				203F415D2193F49A00BAB007 /* IncidentResourceItemViewModel.swift in Sources */,
 				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
+				203F41EB2193F49B00BAB007 /* ActivityLogViewModel.swift in Sources */,
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
 				96B775AB214206F100836B83 /* PersonParserDefinition.swift in Sources */,
+				203F416A2193F49A00BAB007 /* TasksListIncidentViewModel.swift in Sources */,
+				203F41292193F49A00BAB007 /* ServiceType.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
+				203F41BD2193F49B00BAB007 /* CADPatrolCore.swift in Sources */,
+				203F41DF2193F49B00BAB007 /* CADActivityLogItemType.swift in Sources */,
+				203F41672193F49A00BAB007 /* TasksListResourceViewModel.swift in Sources */,
 				20E61AB52189368600B65F43 /* PersonEditContactFormViewController.swift in Sources */,
+				203F411C2193F49A00BAB007 /* PropertyDetailsViewController.swift in Sources */,
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
+				203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */,
 				96834D3821473D24003661E1 /* AppDelegate+DataMigration.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
+				203F41EF2193F49B00BAB007 /* CADRecentlyUsedKey.swift in Sources */,
 				2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */,
+				203F41222193F49A00BAB007 /* EventType.swift in Sources */,
+				203F41102193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
+				203F414E2193F49A00BAB007 /* ResourceOverviewMapViewModel.swift in Sources */,
+				203F410F2193F49A00BAB007 /* NSAttributedString+Theme.swift in Sources */,
+				203F41C72193F49B00BAB007 /* CADSyncRequestCore.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */,
+				203F41E72193F49B00BAB007 /* ActivityLogItemViewModel.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
+				203F412D2193F49A00BAB007 /* DefaultEntitiesListReport.swift in Sources */,
 				96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */,
+				203F417B2193F49A00BAB007 /* TasksListContainerViewController.swift in Sources */,
+				203F41B42193F49B00BAB007 /* CADResourceStatusCore.swift in Sources */,
 				96B775732140F8EE00836B83 /* EventSubmissionResponse.swift in Sources */,
 				96B775722140F8EE00836B83 /* Identifiable.swift in Sources */,
+				203F41742193F49A00BAB007 /* TaskDetailsOverviewViewController.swift in Sources */,
+				203F41DA2193F49B00BAB007 /* CADAssociatedVehicleType.swift in Sources */,
 				3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */,
+				203F41D02193F49B00BAB007 /* CADResourceUnitType.swift in Sources */,
+				203F41752193F49A00BAB007 /* TaskItemSidebarSplitViewController.swift in Sources */,
+				203F417D2193F49A00BAB007 /* TasksListItemViewModel.swift in Sources */,
+				203F41522193F49A00BAB007 /* BroadcastTaskItemViewModel.swift in Sources */,
+				203F411D2193F49A00BAB007 /* PropertyDetailsReport.swift in Sources */,
+				203F411B2193F49A00BAB007 /* Property.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
 				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
 				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
 				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
+				203F41602193F49A00BAB007 /* PatrolNarrativeViewModel.swift in Sources */,
+				203F419A2193F49A00BAB007 /* BookOnLandingViewController.swift in Sources */,
+				203F41712193F49A00BAB007 /* TaskDetailsOverviewViewModel.swift in Sources */,
+				203F41A12193F49A00BAB007 /* ClusterTasksViewModelCore.swift in Sources */,
+				203F417C2193F49A00BAB007 /* TasksListHeaderRegularViewController.swift in Sources */,
+				203F41DD2193F49B00BAB007 /* CADPatrolType.swift in Sources */,
+				203F41F02193F49B00BAB007 /* CADStateManagerType.swift in Sources */,
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
+				203F41C92193F49B00BAB007 /* APIManager+CAD.swift in Sources */,
 				371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */,
+				203F41932193F49A00BAB007 /* CallsignListViewModel.swift in Sources */,
 				371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */,
+				203F41BC2193F49B00BAB007 /* CADActivityLogItemCore.swift in Sources */,
+				203F41D42193F49B00BAB007 /* CADSyncResponseType.swift in Sources */,
+				203F41BF2193F49B00BAB007 /* CADLocationCore.swift in Sources */,
+				203F41642193F49A00BAB007 /* IncidentOverviewViewModel.swift in Sources */,
+				203F41992193F49A00BAB007 /* BookOnLandingItemViewModel.swift in Sources */,
+				203F41C62193F49B00BAB007 /* CADBookOnRequestCore.swift in Sources */,
+				203F41EE2193F49B00BAB007 /* CADStateManagerBase.swift in Sources */,
+				203F41EC2193F49B00BAB007 /* CreateActivityLogItemViewController.swift in Sources */,
 				371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
+				203F41A52193F49A00BAB007 /* PatrolAnnotationView.swift in Sources */,
 				37097CA921648B000036434C /* VoiceSearchViewController.swift in Sources */,
+				203F41CF2193F49B00BAB007 /* CADAlertLevelType.swift in Sources */,
 				12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */,
+				203F41422193F49A00BAB007 /* ManageCallsignStatusViewModel.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				37C433932163339800544AA7 /* LicenceScanner.swift in Sources */,
 				96B775842140F8EE00836B83 /* Licence.swift in Sources */,
 				96B7755D2140F8EE00836B83 /* LicenceSearchParameters.swift in Sources */,
+				203F41552193F49A00BAB007 /* IncidentAssociationsViewModel.swift in Sources */,
+				203F41A32193F49A00BAB007 /* IncidentAnnotationView.swift in Sources */,
+				203F412C2193F49A00BAB007 /* EntitiesListViewModel.swift in Sources */,
+				203F41512193F49A00BAB007 /* PatrolTaskItemViewModel.swift in Sources */,
 				96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */,
+				203F41272193F49A00BAB007 /* EventListDisplayable.swift in Sources */,
+				203F41BA2193F49B00BAB007 /* CADSyncResponseCore.swift in Sources */,
 				20E61ABD218936C600B65F43 /* PersonEditAliasFormViewModel.swift in Sources */,
 				96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */,
+				203F41702193F49A00BAB007 /* TaskDetailsOverviewItemViewModel.swift in Sources */,
 				96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */,
 				96B7755A2140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift in Sources */,
+				203F417F2193F49A00BAB007 /* TasksListInfoRowView.swift in Sources */,
+				203F41882193F49A00BAB007 /* PatrolAreaListViewModel.swift in Sources */,
+				203F41A42193F49A00BAB007 /* IncidentAnnotation.swift in Sources */,
+				203F41692193F49A00BAB007 /* TasksListIncidentSummaryView.swift in Sources */,
+				203F41A22193F49A00BAB007 /* TasksMapViewModel.swift in Sources */,
 				96B775502140F8EE00836B83 /* LocationMapSearchRequest.swift in Sources */,
+				203F413D2193F49A00BAB007 /* DemoAppKitStyler.swift in Sources */,
+				203F41942193F49A00BAB007 /* CallsignListViewController.swift in Sources */,
 				96B775A4214206F100836B83 /* VINParserDefinition.swift in Sources */,
 				96B775612140F8EE00836B83 /* LocationRetrieveStrategy.swift in Sources */,
 				96B775862140F8EE00836B83 /* LoginCredentials.swift in Sources */,
 				96B775872140F8EE00836B83 /* LoginStyleSetup.swift in Sources */,
 				96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */,
+				203F41162193F49A00BAB007 /* DefaultEventDateTimeViewModel.swift in Sources */,
 				96B7751D2140F8EE00836B83 /* ManifestCollection+Search.swift in Sources */,
+				203F41B82193F49B00BAB007 /* CADIncidentGradeCore.swift in Sources */,
+				203F41112193F49A00BAB007 /* TrafficHistoryOverviewFormItem.swift in Sources */,
 				96B775182140F8EE00836B83 /* ManifestSetting.swift in Sources */,
 				96B775702140F8EE00836B83 /* Media.swift in Sources */,
 				96B775822140F8EE00836B83 /* MPOLSource.swift in Sources */,
 				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
+				203F418E2193F49A00BAB007 /* BookOnDetailsFormViewController.swift in Sources */,
 				20E61ABB218936BC00B65F43 /* PersonEditContactFormViewModel.swift in Sources */,
+				203F41172193F49A00BAB007 /* DefaultEventDateTimeViewController.swift in Sources */,
 				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
+				203F41972193F49A00BAB007 /* OfficerListViewModel.swift in Sources */,
+				203F41472193F49A00BAB007 /* ResourceActivityLogViewController.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				96B775672140F8EE00836B83 /* Officer.swift in Sources */,
 				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
-				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
+				203F41802193F49A00BAB007 /* TasksListInformationRowViewModel.swift in Sources */,
+				12EF66022087071800739924 /* EventOfficerListViewModel.swift in Sources */,
 				12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */,
 				96B775442140F8EE00836B83 /* OfficerSearchDisplayable.swift in Sources */,
+				203F41CA2193F49B00BAB007 /* CADClientModelTypes.swift in Sources */,
+				203F41DE2193F49B00BAB007 /* CADAssociatedPersonType.swift in Sources */,
 				96B775582140F8EE00836B83 /* OfficerSearchParameters.swift in Sources */,
+				203F41B22193F49B00BAB007 /* CADStatusTabBarController.swift in Sources */,
+				203F417A2193F49A00BAB007 /* TasksListHeaderCompactViewController.swift in Sources */,
 				96B775512140F8EE00836B83 /* OfficerSearchRequest.swift in Sources */,
 				12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */,
+				203F41B62193F49B00BAB007 /* CADResourceUnitCore.swift in Sources */,
+				203F413F2193F49A00BAB007 /* CallsignStatusViewModel.swift in Sources */,
 				AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */,
+				203F41C02193F49B00BAB007 /* CADEquipmentCore.swift in Sources */,
 				96B775492140F8EE00836B83 /* OfficerSummaryDisplayable.swift in Sources */,
 				96B7756B2140F8EE00836B83 /* Order.swift in Sources */,
+				203F41D32193F49B00BAB007 /* CADPatrolStatusType.swift in Sources */,
+				203F41B32193F49B00BAB007 /* CADPatrolStatusCore.swift in Sources */,
 				96B775362140F8EE00836B83 /* OrderSummaryViewController.swift in Sources */,
 				96B775372140F8EE00836B83 /* OrderSummaryViewModel.swift in Sources */,
+				203F414A2193F49A00BAB007 /* ResourceOfficerViewModel.swift in Sources */,
+				203F41432193F49A00BAB007 /* FinaliseDetailsViewController.swift in Sources */,
 				96B775462140F8EE00836B83 /* Organisation+EntitySummaryDisplayable.swift in Sources */,
 				96B775832140F8EE00836B83 /* Organisation.swift in Sources */,
+				203F41652193F49A00BAB007 /* IncidentOverviewMapViewModel.swift in Sources */,
+				203F41D82193F49B00BAB007 /* CADOfficerType.swift in Sources */,
+				203F416D2193F49A00BAB007 /* TasksSplitViewController.swift in Sources */,
 				96B775302140F8EE00836B83 /* OrganisationDetailsSectionsDataSource.swift in Sources */,
+				203F41232193F49A00BAB007 /* EventEntityManager.swift in Sources */,
 				96B7754F2140F8EE00836B83 /* OrganisationFetchRequest.swift in Sources */,
+				203F41AD2193F49A00BAB007 /* TasksMapFilterViewModel.swift in Sources */,
 				96B775202140F8EE00836B83 /* OrganisationInfoViewModel.swift in Sources */,
+				203F41382193F49A00BAB007 /* EventReportable.swift in Sources */,
 				96B775602140F8EE00836B83 /* OrganisationRetrieveStrategy.swift in Sources */,
+				203F41492193F49A00BAB007 /* ResourceOfficerListViewModel.swift in Sources */,
 				AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */,
 				20005DED218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift in Sources */,
+				203F41D72193F49B00BAB007 /* CADAssociationType.swift in Sources */,
 				96B7755C2140F8EE00836B83 /* OrganisationSearchParameters.swift in Sources */,
+				203F41332193F49A00BAB007 /* Reportable.swift in Sources */,
 				96B775452140F8EE00836B83 /* Person+EntitySummaryDisplayable.swift in Sources */,
+				203F419D2193F49A00BAB007 /* TaskItemScreen.swift in Sources */,
 				96B7756A2140F8EE00836B83 /* Person.swift in Sources */,
 				96B775272140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift in Sources */,
 				96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */,
 				96B775742140F8EE00836B83 /* PersonDescription.swift in Sources */,
+				203F41872193F49A00BAB007 /* ManifestCollection+CAD.swift in Sources */,
 				96B7752A2140F8EE00836B83 /* PersonDescriptionsViewController.swift in Sources */,
 				96B775A3214206F100836B83 /* LicenceWildcardParserDefinition.swift in Sources */,
 				96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */,
 				96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */,
+				203F41722193F49A00BAB007 /* TaskItemViewModel.swift in Sources */,
 				96B7753E2140F8EE00836B83 /* PersonEditViewController.swift in Sources */,
+				203F41132193F49A00BAB007 /* EventSummaryViewModel.swift in Sources */,
 				96B7751B2140F8EE00836B83 /* PersonFetchParameter.swift in Sources */,
 				96B775562140F8EE00836B83 /* PersonFetchRequest.swift in Sources */,
+				203F41732193F49A00BAB007 /* TaskDetailsViewModel.swift in Sources */,
+				203F41782193F49A00BAB007 /* TasksListContainerViewModel.swift in Sources */,
+				203F411E2193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift in Sources */,
 				96B7754B2140F8EE00836B83 /* PersonImageSizing.swift in Sources */,
 				96B775282140F8EE00836B83 /* PersonInfoViewModel.swift in Sources */,
 				96B775292140F8EE00836B83 /* PersonOrdersViewModel.swift in Sources */,
 				96B7755F2140F8EE00836B83 /* PersonRetrieveStrategy.swift in Sources */,
+				203F41762193F49A00BAB007 /* TasksListViewModel.swift in Sources */,
+				203F415E2193F49A00BAB007 /* BroadcastNarrativeViewModel.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
+				203F41962193F49A00BAB007 /* OfficerListItemViewModel.swift in Sources */,
 				96B7755B2140F8EE00836B83 /* PersonSearchParameters.swift in Sources */,
+				203F412F2193F49A00BAB007 /* AdditionalAction.swift in Sources */,
 				AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */,
 				AA1C0B1120BF9981009862FD /* PersonSearchReportViewController.swift in Sources */,
+				203F41B12193F49B00BAB007 /* CADStatusTabBarViewModel.swift in Sources */,
+				203F416F2193F49A00BAB007 /* TaskDetailsOverviewFormViewController.swift in Sources */,
+				203F41902193F49A00BAB007 /* BookOnDetailsFormViewModel.swift in Sources */,
 				AA1C0B1020BF9981009862FD /* PersonSearchReportViewModel.swift in Sources */,
+				203F416B2193F49A00BAB007 /* IncidentSummaryFormItem.swift in Sources */,
+				203F413A2193F49A00BAB007 /* Incident.swift in Sources */,
+				203F41AA2193F49A00BAB007 /* PatrolAnnotation.swift in Sources */,
+				203F419E2193F49A00BAB007 /* BookOnScreen.swift in Sources */,
 				96B775552140F8EE00836B83 /* PersonSearchRequest.swift in Sources */,
+				203F414C2193F49A00BAB007 /* ResourceOverviewViewModel.swift in Sources */,
+				203F41572193F49A00BAB007 /* PatrolAssociationsViewModel.swift in Sources */,
 				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
 				AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */,
+				203F41B02193F49B00BAB007 /* UserCallsignStatusViewModel.swift in Sources */,
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
+				203F41D22193F49B00BAB007 /* CADResourceStatusType.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
+				203F41302193F49A00BAB007 /* AdditionalActionManager.swift in Sources */,
+				203F41892193F49A00BAB007 /* PatrolAreaListItemViewModel.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,
+				203F41282193F49A00BAB007 /* EventsManager.swift in Sources */,
 				20E61AB72189369500B65F43 /* PersonEditAliasFormViewController.swift in Sources */,
+				203F41812193F49A00BAB007 /* TasksListBasicViewModel.swift in Sources */,
+				203F41202193F49A00BAB007 /* EventLocation.swift in Sources */,
 				96B775622140F8EE00836B83 /* PhoneNumber.swift in Sources */,
+				203F418B2193F49A00BAB007 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
+				203F41142193F49A00BAB007 /* Event.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				96B7756D2140F8EE00836B83 /* RetrievedEvent.swift in Sources */,
+				203F41EA2193F49B00BAB007 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
+				203F416E2193F49A00BAB007 /* TasksSplitViewModel.swift in Sources */,
 				96B775232140F8EE00836B83 /* RetrievedEventSummaryViewController.swift in Sources */,
+				203F415F2193F49A00BAB007 /* IncidentNarrativeViewModel.swift in Sources */,
+				203F419F2193F49A00BAB007 /* ClusterTasksViewModel.swift in Sources */,
 				96B775A5214206F100836B83 /* WildcardParserDefinition.swift in Sources */,
 				96B775222140F8EE00836B83 /* RetrievedEventSummaryViewModel.swift in Sources */,
+				203F41ED2193F49B00BAB007 /* CreateActivityLogItemViewModel.swift in Sources */,
+				203F418A2193F49A00BAB007 /* PatrolAreaListViewController.swift in Sources */,
 				AA9681CD2186912B0028C74E /* OfficerSearchSectionViewModel.swift in Sources */,
+				203F41832193F49A00BAB007 /* TasksListBasicSummaryView.swift in Sources */,
+				203F415A2193F49A00BAB007 /* AssociationItemViewModel.swift in Sources */,
 				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
 				96B775AA214206F100836B83 /* OrganisationParserDefinition.swift in Sources */,
+				203F41CE2193F49B00BAB007 /* CADEnumStringType.swift in Sources */,
 				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				96E5EE7A216580880096D448 /* LocationSelectionPresenter.swift in Sources */,
+				203F41E22193F49B00BAB007 /* CADSyncRequestType.swift in Sources */,
+				203F41852193F49A00BAB007 /* CADTaskListSourceType.swift in Sources */,
+				203F411F2193F49A00BAB007 /* EventSummaryViewController.swift in Sources */,
 				96B775192140F8EE00836B83 /* SupportSetting.swift in Sources */,
+				203F41D62193F49B00BAB007 /* CADBroadcastType.swift in Sources */,
+				203F412E2193F49A00BAB007 /* DefaultEntitiesListViewController.swift in Sources */,
 				EAE9F6BE21365AB8004D9DE8 /* TaskItemPresenter.swift in Sources */,
 				EAE9F6C121365AB8004D9DE8 /* TaskListPresenter.swift in Sources */,
 				963E5B0E2179831A00BC2415 /* CADStateManagerCore.swift in Sources */,
 				96B775712140F8EE00836B83 /* TelephoneNumber.swift in Sources */,
 				96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */,
+				203F41B92193F49B00BAB007 /* CADIncidentStatusCore.swift in Sources */,
 				AA3E513921180E1A00621E58 /* TermsAndConditions.swift in Sources */,
 				AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */,
+				203F41862193F49A00BAB007 /* CADTaskListItemModelType.swift in Sources */,
 				207A0FFF21632FF000153AC3 /* ThemeManager+HTML.swift in Sources */,
 				96B7756E2140F8EE00836B83 /* TrafficHistory.swift in Sources */,
 				12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
+				203F41582193F49A00BAB007 /* AssociationsViewModel.swift in Sources */,
+				203F41532193F49A00BAB007 /* BroadcastOverviewMapViewModel.swift in Sources */,
 				12EF65DC2086D52200739924 /* TrafficInfringementOffencesViewController.swift in Sources */,
 				963E5B0D2179831A00BC2415 /* CADOfficerCore.swift in Sources */,
+				203F415C2193F49A00BAB007 /* IncidentResourcesViewModel.swift in Sources */,
 				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
 				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
+				203F41D52193F49B00BAB007 /* CADIncidentInformantType.swift in Sources */,
 				AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */,
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
+				203F418F2193F49A00BAB007 /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
+				203F41A72193F49A00BAB007 /* ResourceAnnotationView.swift in Sources */,
 				96B775402140F8EE00836B83 /* User+VersionAccessors.swift in Sources */,
 				96B775412140F8EE00836B83 /* UserPreferenceManager+Shared.swift in Sources */,
+				203F41CC2193F49B00BAB007 /* CADEnumIntType.swift in Sources */,
+				203F415B2193F49A00BAB007 /* IncidentResourcesViewController.swift in Sources */,
 				96B775472140F8EE00836B83 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
+				203F41542193F49A00BAB007 /* BroadcastOverviewViewModel.swift in Sources */,
+				203F41DC2193F49B00BAB007 /* CADLocationType.swift in Sources */,
+				203F41CD2193F49B00BAB007 /* CADIncidentGradeType.swift in Sources */,
 				96B775692140F8EE00836B83 /* Vehicle.swift in Sources */,
+				203F41352193F49A00BAB007 /* ActionReportable.swift in Sources */,
+				203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */,
+				203F41C52193F49B00BAB007 /* CADBookOffRequestCore.swift in Sources */,
+				203F41682193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift in Sources */,
 				96B775312140F8EE00836B83 /* VehicleDetailsSectionsDataSource.swift in Sources */,
 				96B7753D2140F8EE00836B83 /* VehicleEditViewController.swift in Sources */,
 				96B7751C2140F8EE00836B83 /* VehicleFetchParameter.swift in Sources */,
@@ -2076,17 +3588,29 @@
 				1982A7432158882300612B94 /* VoiceSearchWorkflowManager.swift in Sources */,
 				96B775A9214206F100836B83 /* ACNParserDefinition.swift in Sources */,
 				96B775212140F8EE00836B83 /* VehicleInfoViewModel.swift in Sources */,
+				203F410E2193F49A00BAB007 /* SystemPresenter.swift in Sources */,
 				96B7755E2140F8EE00836B83 /* VehicleRetrieveStrategy.swift in Sources */,
+				203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
+				203F418C2193F49A00BAB007 /* OfficerDetailsViewController.swift in Sources */,
+				203F414D2193F49A00BAB007 /* ResourceOverviewFormViewController.swift in Sources */,
 				96B775592140F8EE00836B83 /* VehicleSearchParameters.swift in Sources */,
+				203F41E42193F49B00BAB007 /* CADBookOffRequestType.swift in Sources */,
 				96B775542140F8EE00836B83 /* VehicleSearchRequest.swift in Sources */,
+				203F41442193F49A00BAB007 /* FinaliseDetailsViewModel.swift in Sources */,
 				96B775A8214206F100836B83 /* RangeParserDefinition.swift in Sources */,
+				203F413E2193F49A00BAB007 /* StatusChangeReasonViewController.swift in Sources */,
+				203F41B52193F49B00BAB007 /* CADBroadcastCategoryCore.swift in Sources */,
+				203F41462193F49A00BAB007 /* ResourceActivityLogViewModel.swift in Sources */,
 				AA1C0B1520BF9993009862FD /* VehicleTowReport.swift in Sources */,
 				AA1C0B1720BF9993009862FD /* VehicleTowReportViewController.swift in Sources */,
 				AA1C0B1620BF9993009862FD /* VehicleTowReportViewModel.swift in Sources */,
 				AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */,
+				203F414F2193F49A00BAB007 /* PatrolOverviewViewModel.swift in Sources */,
 				AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */,
+				203F41C22193F49B00BAB007 /* CADAssociatedVehicleCore.swift in Sources */,
 				20C97905215C93610067977B /* CreateTaskPresenter.swift in Sources */,
+				203F418D2193F49A00BAB007 /* OfficerDetailsViewModel.swift in Sources */,
 				96B775AC214206F100836B83 /* EngineNumberParserDefinition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

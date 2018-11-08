@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DemoAppKit
 import Unbox
 
 /// PSCore implementation of class representing an officer

@@ -6,7 +6,6 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 import Unbox
 
 private enum Coding: String {

@@ -8,8 +8,7 @@
 
 import UIKit
 import PromiseKit
-import DemoAppKit
-
+import PublicSafetyKit
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerBase {
 

@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import DemoAppKit
 import PS_Core
 
 class PersonParserDefinitionsTests: XCTestCase {

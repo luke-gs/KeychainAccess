@@ -8,7 +8,6 @@
 
 import PublicSafetyKit
 import PromiseKit
-import DemoAppKit
 
 open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationMapDisplayable {
 

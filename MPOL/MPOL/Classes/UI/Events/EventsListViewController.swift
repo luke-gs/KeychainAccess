@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 import PromiseKit
 
 open class EventsListViewController: FormBuilderViewController, EventsManagerDelegate {
