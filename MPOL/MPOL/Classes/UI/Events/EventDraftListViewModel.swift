@@ -8,7 +8,7 @@
 import Foundation
 import PublicSafetyKit
 
-open class EventDraftListViewModel: DraftListViewModelable {
+open class EventDraftListViewModel: EventListViewModelable {
 
     private let manager: DraftableManager
 
