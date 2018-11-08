@@ -256,6 +256,8 @@
 		AA3E513B21180E6200621E58 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E513A21180E6200621E58 /* WhatsNew.swift */; };
 		AA3E51472118158200621E58 /* TermsAndConditionSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */; };
 		AA3E5149211815F300621E58 /* WhatsNewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E5148211815F300621E58 /* WhatsNewSetting.swift */; };
+		AA41DC912193EA2200A1D659 /* faceIDBiometricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA41DC902193EA2200A1D659 /* faceIDBiometricsViewModel.swift */; };
+		AA41DC932193F21500A1D659 /* touchIDBiometricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA41DC922193F21500A1D659 /* touchIDBiometricsViewModel.swift */; };
 		AA49DE2321338B0500330696 /* OrganisationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */; };
 		AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D5453214794EF00162017 /* AddressOptionHandler.swift */; };
 		AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */; };
@@ -581,6 +583,8 @@
 		AA3E513A21180E6200621E58 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		AA3E51462118158200621E58 /* TermsAndConditionSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionSetting.swift; sourceTree = "<group>"; };
 		AA3E5148211815F300621E58 /* WhatsNewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSetting.swift; sourceTree = "<group>"; };
+		AA41DC902193EA2200A1D659 /* faceIDBiometricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = faceIDBiometricsViewModel.swift; sourceTree = "<group>"; };
+		AA41DC922193F21500A1D659 /* touchIDBiometricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = touchIDBiometricsViewModel.swift; sourceTree = "<group>"; };
 		AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationSearchDataSource.swift; sourceTree = "<group>"; };
 		AA5D5453214794EF00162017 /* AddressOptionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressOptionHandler.swift; sourceTree = "<group>"; };
 		AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTimeAccessoryView.swift; sourceTree = "<group>"; };
@@ -1217,6 +1221,8 @@
 			children = (
 				96B775152140F8EE00836B83 /* LoginCredentials.swift */,
 				96B775162140F8EE00836B83 /* LoginStyleSetup.swift */,
+				AA41DC902193EA2200A1D659 /* faceIDBiometricsViewModel.swift */,
+				AA41DC922193F21500A1D659 /* touchIDBiometricsViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1922,6 +1928,7 @@
 				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
+				AA41DC932193F21500A1D659 /* touchIDBiometricsViewModel.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
 				12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */,
@@ -2031,6 +2038,7 @@
 				AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */,
 				96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */,
 				96B775342140F8EE00836B83 /* PersonTrafficHistoryViewController.swift in Sources */,
+				AA41DC912193EA2200A1D659 /* faceIDBiometricsViewModel.swift in Sources */,
 				96B7752B2140F8EE00836B83 /* PersonTrafficHistoryViewModel.swift in Sources */,
 				20E61AB72189369500B65F43 /* PersonEditAliasFormViewController.swift in Sources */,
 				96B775622140F8EE00836B83 /* PhoneNumber.swift in Sources */,
