@@ -25,7 +25,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         }
     }
 
-    private(set) public var reports: [IncidentReportable] = [] {
+    private(set) public var reports: [ActionReportable] = [] {
         didSet {
             updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
@@ -56,6 +56,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     private func updateChildReports() {
         // Pass down this incident and parent event to child reports
         for report in reports {
+            report.weakAdditionalAction = Weak(self)
             report.weakIncident = weakIncident
             if let report = report as? EventReportable, let weakEvent = weakIncident.object?.weakEvent {
                 report.weakEvent = weakEvent
@@ -79,7 +80,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         additionalActionType = try container.decode(AdditionalActionType.self, forKey: .additionalActionType)
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
-        reports = anyReports.map { $0.report }
+        reports = anyReports.compactMap { $0.report as? ActionReportable }
 
         /// Set to nil initially, until parent passes it to us during it's decode
         weakIncident = Weak<Incident>(nil)
@@ -101,15 +102,15 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
     // MARK: Utility
 
-    public func add(reports: [IncidentReportable]) {
+    public func add(reports: [ActionReportable]) {
         self.reports.append(contentsOf: reports)
     }
 
-    public func add(report: IncidentReportable) {
+    public func add(report: ActionReportable) {
         reports.append(report)
     }
 
-    public func reportable(atIndex index: Int) -> IncidentReportable? {
+    public func reportable(atIndex index: Int) -> ActionReportable? {
         return reports[index]
     }
 
@@ -153,5 +154,5 @@ public protocol AdditionalActionScreenBuilding {
     ///
     /// - Parameter reportables: The array of reports to construct view controllers for
     /// - Returns: An array of viewController constucted for the reports
-    func viewControllers(for reports: [IncidentReportable]) -> [UIViewController]
+    func viewControllers(for reports: [ActionReportable]) -> [UIViewController]
 }

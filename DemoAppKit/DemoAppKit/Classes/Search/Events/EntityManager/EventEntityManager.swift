@@ -39,14 +39,6 @@ final public class EventEntityManager {
         entityBucket.add(entity)
         event?.entities[entity.uuid] = entity
 
-        DispatchQueue.main.async {
-            if let data = try? JSONEncoder().encode(self.event!) {
-                if let copy = try? JSONDecoder().decode(Event.self, from: data) {
-                    print(copy)
-                }
-            }
-        }
-
         let incidentRelationship = Relationship(baseObject: entity, relatedObject: incident, reasons: involvements)
         incidentRelationshipManager.add(incidentRelationship)
     }
