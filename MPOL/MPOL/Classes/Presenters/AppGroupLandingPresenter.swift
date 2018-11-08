@@ -16,7 +16,7 @@ import KeychainAccess
 import LocalAuthentication
 
 /// Enum for all initial screens in a standard MPOL app
-public enum LandingScreen: Presentable {
+public enum LandingScreen: Presentable, Equatable {
 
     /// Initial login screen
     case login
@@ -26,6 +26,9 @@ public enum LandingScreen: Presentable {
 
     /// What's new paginated screen
     case whatsNew
+
+    /// Biometrics warning screen
+    case biometrics(type: LABiometryType)
 
     /// The "logged in" screen for this application
     case landing
@@ -125,7 +128,12 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             if let acceptedVersion = SemanticVersion(user.lastTermsAndConditionsVersionAccepted), acceptedVersion >= termsAndConditionsVersion {
 
                 if  let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
-                    return .landing
+
+                    if let type = Settings.currentBiometryType, type != .none, !Settings.biometricsIsOn() {
+                        return .biometrics(type: type)
+                    } else {
+                        return .landing
+                    }
                 } else {
                     return .whatsNew
                 }
@@ -365,6 +373,24 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             guard let `self` = self else { return }
 
             UserSession.current.endSession()
+            self.updateInterfaceForUserSession(animated: true)
+        }
+    }
+
+    open func didEnableBiometrics() {
+        currentViewController?.dismiss(animated: true) { [weak self] in
+            guard let `self` = self else { return }
+
+            UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
+            self.updateInterfaceForUserSession(animated: true)
+        }
+    }
+
+    open func didNotEnableBiometrics() {
+        currentViewController?.dismiss(animated: true) { [weak self] in
+            guard let `self` = self else { return }
+
+            UserSession.current.user?.setAppSettingValue(UseBiometric.asked.rawValue, forKey: .useBiometric)
             self.updateInterfaceForUserSession(animated: true)
         }
     }

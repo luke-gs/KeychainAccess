@@ -101,6 +101,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             return whatsNewVC
 
+        case .biometrics(let type):
+
+            if type == .faceID {
+                return BiometricsViewController(viewModel: faceIDBiometricsViewModel(enableHandler: didEnableBiometrics, dontEnableHandler: didNotEnableBiometrics))
+            } else {
+                return BiometricsViewController(viewModel: touchIDBiometricsViewModel(enableHandler: didEnableBiometrics, dontEnableHandler: didNotEnableBiometrics))
+            }
+
         case .landing:
             func settingsBarButtonItem() -> UIBarButtonItem {
                 let settingsItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .settings), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
