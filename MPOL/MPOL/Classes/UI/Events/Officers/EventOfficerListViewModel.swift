@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import DemoAppKit
 import PublicSafetyKit
 
 public protocol EventOfficerListViewModelDelegate: class {
