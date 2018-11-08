@@ -21,7 +21,7 @@ public class DomesticViolenceIncidentBuilder: IncidentBuilding {
 
         let displayable = IncidentListDisplayable(title: type.rawValue,
                                                   subtitle: "Not yet started",
-                                                  icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.event))
+                                                  iconKey: AssetManager.ImageKey.event)
         displayable.incidentId = incident.id
         return (incident: incident, displayable: displayable)
     }

@@ -5,6 +5,8 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+import Unbox
+
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
@@ -12,16 +14,20 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Additional Action.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
+public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
-    public let id: String
     public var additionalActionType: AdditionalActionType
     public var evaluator: Evaluator = Evaluator()
 
-    public let weakIncident: Weak<Incident>
-
-    private(set) public var reports: [IncidentReportable] = [IncidentReportable]() {
+    public var weakIncident: Weak<Incident> {
         didSet {
+            updateChildReports()
+        }
+    }
+
+    private(set) public var reports: [IncidentReportable] = [] {
+        didSet {
+            updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
         }
     }
@@ -35,35 +41,61 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
     public init(incident: Incident, type: AdditionalActionType) {
         self.weakIncident = Weak(incident)
         self.additionalActionType = type
-        self.id = UUID().uuidString
+        super.init(id: UUID().uuidString)
+        commonInit()
+    }
+
+    private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
         }
+        updateChildReports()
     }
 
-    // Coding stuff begins
+    private func updateChildReports() {
+        // Pass down this incident and parent event to child reports
+        for report in reports {
+            report.weakIncident = weakIncident
+            if let report = report as? EventReportable, let weakEvent = weakIncident.object?.weakEvent {
+                report.weakEvent = weakEvent
+            }
+        }
+    }
 
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
-        case id
+    // MARK: - Codable
+
+    required init(unboxer: Unboxer) throws {
+        MPLUnimplemented()
+    }
+
+    private enum CodingKeys: String, CodingKey {
         case additionalActionType
         case reports
-        case incident
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
-        additionalActionType = AdditionalActionType(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.additionalActionType.rawValue)! as String)
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [IncidentReportable]
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        additionalActionType = try container.decode(AdditionalActionType.self, forKey: .additionalActionType)
+
+        let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+        reports = anyReports.map { $0.report }
+
+        weakIncident = Weak<Incident>(nil)
+
+        try super.init(from: decoder)
+        commonInit()
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: Coding.id.rawValue)
-        aCoder.encode(additionalActionType.rawValue, forKey: Coding.additionalActionType.rawValue)
-        aCoder.encode(reports, forKey: Coding.reports.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        // Convert our array of protocols to concrete classes, for Codable
+        let anyReports = reports.map { return AnyIncidentReportable($0) }
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(additionalActionType, forKey: CodingKeys.additionalActionType)
+        try container.encode(anyReports, forKey: CodingKeys.reports)
     }
 
     // MARK: Utility
@@ -97,7 +129,7 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
 /// A bunch of Additional Actions
 /// This can later be expanded upon to build different types of incidents/ events
 /// via the app
-public class AdditionalActionType: ExtensibleKey<String> { }
+public class AdditionalActionType: ExtensibleKey<String>, Codable { }
 
 /// Builder for additional action
 ///

@@ -10,8 +10,7 @@ internal extension EvaluatorKey {
     static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
 }
 
-public class DefaultDateTimeReport: EventReportable {
-    public let weakEvent: Weak<Event>
+open class DefaultDateTimeReport: DefaultEventReportable {
 
     public var reportedOnDateTime: Date? {
         didSet {
@@ -27,15 +26,13 @@ public class DefaultDateTimeReport: EventReportable {
 
     public var tookPlaceFromEndDateTime: Date?
 
-    public var evaluator: Evaluator = Evaluator()
-
-    public required init(event: Event) {
-        self.weakEvent = Weak(event)
-        commonInit()
+    public override init(event: Event) {
+        super.init(event: event)
     }
 
-    private func commonInit() {
-        if let event = event { evaluator.addObserver(event) }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
+
         evaluator.registerKey(.reportedOnDateTime) { [weak self] in
             guard let `self` = self else { return false }
             return self.reportedOnDateTime != nil
@@ -46,33 +43,31 @@ public class DefaultDateTimeReport: EventReportable {
         }
     }
 
-    // Codable
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
+    private enum CodingKeys: String, CodingKey {
         case reportedOnDateTime
         case tookPlaceFromStartDateTime
         case tookPlaceFromEndDateTime
-        case event
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        reportedOnDateTime = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.reportedOnDateTime.rawValue) as Date?
-        tookPlaceFromStartDateTime = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.tookPlaceFromStartDateTime.rawValue) as Date?
-        tookPlaceFromEndDateTime = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.tookPlaceFromEndDateTime.rawValue) as Date?
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        reportedOnDateTime = try container.decodeIfPresent(Date.self, forKey: .reportedOnDateTime)
+        tookPlaceFromStartDateTime = try container.decodeIfPresent(Date.self, forKey: .tookPlaceFromStartDateTime)
+        tookPlaceFromEndDateTime = try container.decodeIfPresent(Date.self, forKey: .tookPlaceFromEndDateTime)
+
+        try super.init(from: decoder)
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(reportedOnDateTime, forKey: Coding.reportedOnDateTime.rawValue)
-        aCoder.encode(tookPlaceFromStartDateTime, forKey: Coding.tookPlaceFromStartDateTime.rawValue)
-        aCoder.encode(tookPlaceFromEndDateTime, forKey: Coding.tookPlaceFromEndDateTime.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
+    open override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(reportedOnDateTime, forKey: CodingKeys.reportedOnDateTime)
+        try container.encode(tookPlaceFromStartDateTime, forKey: CodingKeys.tookPlaceFromStartDateTime)
+        try container.encode(tookPlaceFromEndDateTime, forKey: CodingKeys.tookPlaceFromEndDateTime)
+
+        try super.encode(to: encoder)
     }
-
-    // Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
 }
 

@@ -55,12 +55,12 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 self.didTapAdditionalDetails()
             }
 
-        // Apply red text if deceased person
+        // Apply bold font if deceased person
         if person.isDeceased {
-            detailFormItem.onStyled { cell in
-                guard let cell = cell as? EntityDetailCollectionViewCell else { return }
-                cell.subtitleLabel.textColor = .orangeRed
-            }
+            let font = detailFormItem.cell?.traitCollection.horizontalSizeClass == .compact
+                ? UIFont.systemFont(ofSize: 13, weight: .bold)
+                : UIFont.systemFont(ofSize: 15, weight: .bold)
+            detailFormItem.subtitle(displayable.detail1?.sizing(defaultFont: font))
         }
 
         builder += detailFormItem

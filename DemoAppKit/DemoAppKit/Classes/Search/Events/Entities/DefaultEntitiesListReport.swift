@@ -12,22 +12,10 @@ extension EvaluatorKey {
     static let additionalActionsComplete = EvaluatorKey("additionalActionsComplete")
 }
 
-public class DefaultEntitiesListReport: Reportable {
-    public let weakEvent: Weak<Event>
-    public let weakIncident: Weak<Incident>
+public class DefaultEntitiesListReport: DefaultReportable {
 
-    public let evaluator: Evaluator = Evaluator()
-
-    public init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
-
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+    public override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.hasEntity) { [weak self] in
             guard let `self` = self else { return false }
@@ -40,25 +28,5 @@ public class DefaultEntitiesListReport: Reportable {
             guard let incident = self.incident else { return false }
             return incident.additionalActionManager.allValid
         }
-    }
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-    }
-
-    // MARK: CODING
-    private enum Coding: String {
-        case incident
-        case event
-    }
-
-    public static var supportsSecureCoding: Bool = true
-
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
-    }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
     }
 }

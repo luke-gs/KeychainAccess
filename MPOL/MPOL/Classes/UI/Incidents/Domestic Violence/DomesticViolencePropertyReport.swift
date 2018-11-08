@@ -13,13 +13,9 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-class DomesticViolencePropertyReport: Reportable {
-    let weakEvent: Weak<Event>
-    let weakIncident: Weak<Incident>
+class DomesticViolencePropertyReport: DefaultReportable {
 
     var propertyList: [PropertyDetailsReport] = []
-
-    let evaluator: Evaluator = Evaluator()
 
     public var viewed: Bool = false {
         didSet {
@@ -27,43 +23,41 @@ class DomesticViolencePropertyReport: Reportable {
         }
     }
 
-    init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
+    }
 
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+    // MARK: - Codable
 
+    private enum CodingKeys: String, CodingKey {
+        case propertyList
+        case viewed
     }
 
-    // MARK: CODING
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        propertyList = try container.decode([PropertyDetailsReport].self, forKey: .propertyList)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
 
-    private enum Coding: String {
-        case event
-        case incident
+        try super.init(from: decoder)
     }
 
-    public static var supportsSecureCoding: Bool = true
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(propertyList, forKey: CodingKeys.propertyList)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
     }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
-    }
+
 }
 
 extension DomesticViolencePropertyReport: Summarisable {

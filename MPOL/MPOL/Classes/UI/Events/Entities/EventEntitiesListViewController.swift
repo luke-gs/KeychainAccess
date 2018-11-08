@@ -49,8 +49,9 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
 
         let reports = viewModel.report.entityDetailReports
 
-        builder += reports.enumerated().map { (itemIndex, report) in
-            return viewModel.displayable(for: report.entity)
+        builder += reports.enumerated().compactMap { (itemIndex, report) in
+            guard let entity = report.entity else { return nil }
+            return viewModel.displayable(for: entity)
                 .summaryListFormItem()
                 .styleIdentifier(DemoAppKitStyler.eventEntityStyle)
                 .badgeColor(nil)

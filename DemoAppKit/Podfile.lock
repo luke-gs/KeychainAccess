@@ -66,13 +66,13 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Cluster: 23f4cd9721dd4564d317b257e439870760954f1e
-  CoreKit: f2ee81b46eae79422fe3d08047841a1830c3db81
+  CoreKit: 039f9924542196bb29cf5f8e32f195d881c53008
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
-  PatternKit: b9cb7d7fa262ddfd8065df3a7c89a3be7e1f936c
+  PatternKit: 38d0bd0d2513fbc5034e0e5226c553b2b76ad620
   PromiseKit: ae3616f45d7bb9bf4ff1e91abc9b7a8c48a340e0
-  PublicSafetyKit: bf3f50dfd7a0e66b96d8b27d6209ca4141db0f23
-  SketchKit: 440c6e6b6ba7c6a1a4f4a69ea9cf5f8cff981ddc
+  PublicSafetyKit: 967606499381dd00db923b1d645e7479e15cf46a
+  SketchKit: 3052eaa99de9f18385fee642d0a39478ff564dfd
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 

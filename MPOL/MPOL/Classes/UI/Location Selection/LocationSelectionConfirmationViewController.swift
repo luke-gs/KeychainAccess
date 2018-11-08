@@ -48,6 +48,21 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             .width(.column(1))
             .separatorColor(.clear)
 
+        // Only display location type if title, options are defined
+        if let title = viewModel.typeTitle, let options = viewModel.typeOptions {
+            builder += DropDownFormItem()
+                .title(title)
+                .options(options)
+                .selectedValue([viewModel.type].removeNils())
+                .allowsMultipleSelection(viewModel.allowMultipleTypes)
+                .required()
+                .accessory(ItemAccessory.disclosure)
+                .width(.column(1))
+                .onValueChanged { [weak self] value in
+                    self?.viewModel.type = value?.first
+            }
+        }
+
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Location Information", comment: "")).separatorColor(.clear)
 
         // editable
@@ -156,21 +171,6 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 self?.viewModel.remarks = $0
             }
             .width(.column(1))
-
-        // Only display location type if title, options are defined
-        if let title = viewModel.typeTitle, let options = viewModel.typeOptions {
-            builder += DropDownFormItem()
-                .title(title)
-                .options(options)
-                .selectedValue([viewModel.type].removeNils())
-                .allowsMultipleSelection(viewModel.allowMultipleTypes)
-                .required()
-                .accessory(ItemAccessory.disclosure)
-                .width(.column(1))
-                .onValueChanged { [weak self] value in
-                    self?.viewModel.type = value?.first
-            }
-        }
     }
     // MARK: - Done Action
     @objc public func performDoneAction() {
