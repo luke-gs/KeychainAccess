@@ -63,7 +63,9 @@ public extension EntitiesListViewModel {
     }
 
     var entities: [MPOLKitEntity] {
-        return report.event?.entityManager.relationships(for: report.incident!).map { $0.baseObject } ?? []
+        return report.event?.entityManager.relationships(for: report.incident!).compactMap { relationship in
+            return report.event?.entities[relationship.baseObjectId]
+        } ?? []
     }
 
     var currentLoadingManagerState: LoadingStateManager.State {
@@ -83,7 +85,12 @@ public extension EntitiesListViewModel {
     }
 
     func retrieveAdditionalActions(for entity: MPOLKitEntity) -> [AdditionalAction]? {
-        return report.incident?.additionalActionManager.actionRelationships(for: entity).compactMap { $0.relatedObject }
+        return report.incident?.additionalActionManager.actionRelationships(for: entity).compactMap { relationship in
+            if let actions = report.incident?.actions {
+                return actions.first(where: { return $0.id == relationship.relatedObjectId })
+            }
+            return nil
+        }
     }
 
     func addObserver(_ observer: EvaluationObserverable) {

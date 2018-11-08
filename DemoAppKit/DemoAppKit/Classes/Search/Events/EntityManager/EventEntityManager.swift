@@ -23,15 +23,15 @@ final public class EventEntityManager {
 
     // MARK: Incident -> Entity
 
-    public var incidentRelationships: [Relationship<MPOLKitEntity, Incident>] {
+    public var incidentRelationships: [Relationship] {
         return incidentRelationshipManager.relationships
     }
 
-    public func relationships(for incident: Incident) -> [Relationship<MPOLKitEntity, Incident>] {
+    public func relationships(for incident: Incident) -> [Relationship] {
         return incidentRelationshipManager.relationships(for: incident, and: MPOLKitEntity.self)
     }
 
-    public func relationship(between entity: MPOLKitEntity, and incident: Incident) -> Relationship<MPOLKitEntity, Incident>? {
+    public func relationship(between entity: MPOLKitEntity, and incident: Incident) -> Relationship? {
         return incidentRelationshipManager.relationship(between: entity, and: incident)
     }
 
@@ -39,8 +39,7 @@ final public class EventEntityManager {
         entityBucket.add(entity)
         event?.entities[entity.uuid] = entity
 
-        let incidentRelationship = Relationship(baseObject: entity, relatedObject: incident, reasons: involvements)
-        incidentRelationshipManager.add(incidentRelationship)
+        incidentRelationshipManager.addRelationship(baseObject: entity, relatedObject: incident, reasons: involvements)
     }
 
     public func update(_ reasons: [String]?, between entity: MPOLKitEntity, and incident: Incident) {
@@ -65,22 +64,26 @@ final public class EventEntityManager {
 
     public func removeAllRelationships(for incident: Incident) {
         let relationships = incidentRelationshipManager.relationships(for: incident, and: MPOLKitEntity.self)
-        relationships.forEach { remove($0.baseObject, from: $0.relatedObject) }
+        for relationship in relationships {
+            if let baseObject = incident.weakEvent.object?.entities[relationship.baseObjectId],
+                let relatedObject = incident.weakEvent.object?.entities[relationship.relatedObjectId] as? Incident {
+                remove(baseObject, from: relatedObject)
+            }
+        }
     }
 
     // MARK: Entity -> Entity
 
-    public var entityRelationships: [Relationship<MPOLKitEntity, MPOLKitEntity>] {
+    public var entityRelationships: [Relationship] {
         return entityRelationshipManager.relationships
     }
 
-    public func relationship(between entity: MPOLKitEntity, and relatedEntity: MPOLKitEntity) -> Relationship<MPOLKitEntity, MPOLKitEntity>? {
+    public func relationship(between entity: MPOLKitEntity, and relatedEntity: MPOLKitEntity) -> Relationship? {
         return entityRelationshipManager.relationship(between: entity, and: relatedEntity)
     }
 
     public func addRelationship(between entity: MPOLKitEntity, and relatedEntity: MPOLKitEntity, with reasons: [String]) {
-        let entityRelationship = Relationship(baseObject: entity, relatedObject: relatedEntity, reasons: reasons)
-        entityRelationshipManager.add(entityRelationship)
+        entityRelationshipManager.addRelationship(baseObject: entity, relatedObject: relatedEntity, reasons: reasons)
     }
 
     public func update(_ reasons: [String], between entity: MPOLKitEntity, and relatedEntity: MPOLKitEntity) {
@@ -95,7 +98,7 @@ final public class EventEntityManager {
         }
     }
 
-    public func removeRelationship(_ relationship: Relationship<MPOLKitEntity, MPOLKitEntity>) {
+    public func removeRelationship(_ relationship: Relationship) {
         entityRelationshipManager.remove(relationship)
     }
 

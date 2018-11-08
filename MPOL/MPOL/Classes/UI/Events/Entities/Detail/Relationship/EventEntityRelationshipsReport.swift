@@ -22,7 +22,7 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
         return event?.entities[entityUuid]
     }
 
-    public var relationships: [Relationship<MPOLKitEntity, MPOLKitEntity>]? {
+    public var relationships: [Relationship]? {
         return event?.entityManager.entityRelationships
     }
 
