@@ -5,7 +5,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 
 /// Manages the list of events
-final public class EventsManager: DraftableManager {
+final public class EventsManager {
 
     public var eventBucket: ObjectBucket<Event> = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
 

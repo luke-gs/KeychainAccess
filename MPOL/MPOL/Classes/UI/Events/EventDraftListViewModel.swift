@@ -7,10 +7,11 @@
 
 import Foundation
 import PublicSafetyKit
+import DemoAppKit
 
 open class EventDraftListViewModel: EventListViewModelable {
 
-    private let manager: DraftableManager
+    private let manager: EventsManager
 
     public var draftCount: Int {
         return manager.draftItems.count
@@ -36,7 +37,7 @@ open class EventDraftListViewModel: EventListViewModelable {
         }
     }
 
-    public init(manager: DraftableManager) {
+    public init(manager: EventsManager) {
         self.manager = manager
     }
 
