@@ -43,7 +43,7 @@ target 'APNS Extension' do
     project 'MPOL.xcodeproj'
     core_app_extension
     pod 'KeychainAccess'
-end]
+end
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
