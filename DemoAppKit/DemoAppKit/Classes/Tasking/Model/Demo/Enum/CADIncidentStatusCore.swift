@@ -21,7 +21,7 @@ public enum CADIncidentStatusCore: String, CADIncidentStatusType {
         CADIncidentStatusCore.current,
         CADIncidentStatusCore.assigned,
         CADIncidentStatusCore.unresourced,
-        CADIncidentStatusCore.resourced,
+        CADIncidentStatusCore.resourced
     ]
 
     /// The case for when incident is the current incident

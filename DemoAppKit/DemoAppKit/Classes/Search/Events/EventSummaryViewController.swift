@@ -39,13 +39,13 @@ public class EventSummaryViewController: FormBuilderViewController {
         })
     }
 
-    @objc func submitSelected(sender: UIButton){
+    @objc func submitSelected(sender: UIButton) {
         dismiss(animated: true) {
             self.delegate?.submitEvent(controller: self)
         }
     }
 
-    @objc func closeSelected(sender: UIButton){
+    @objc func closeSelected(sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
 }
@@ -53,4 +53,3 @@ public class EventSummaryViewController: FormBuilderViewController {
 protocol EventSummaryViewControllerDelegate: class {
     func submitEvent(controller: EventSummaryViewController)
 }
-

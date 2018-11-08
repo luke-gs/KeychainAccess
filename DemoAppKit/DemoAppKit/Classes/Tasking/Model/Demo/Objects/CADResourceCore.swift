@@ -36,7 +36,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 
     open var patrolGroup: String?
 
-    open var payrollIds: [String]
+    open var officerIds: [String]
 
     open var remarks: String?
 
@@ -62,7 +62,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count
     open var officerCountString: String? {
-        return payrollIds.count > 0 ? "(\(payrollIds.count))" : nil
+        return officerIds.count > 0 ? "(\(officerIds.count))" : nil
     }
 
     /// Shift start string, default format `hh:mm`, 24 hours. `nil` if no shift start time
@@ -87,7 +87,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
     public func equipmentListString(separator: String) -> String? {
         if _equipmentListString == nil {
             let quantityPicked = equipment.quantityPicked()
-            _equipmentListString = quantityPicked.map { $0.object.title }.joined(separator: separator)
+            _equipmentListString = quantityPicked.map { $0.object.title?.sizing().string }.joined(separator: separator)
         }
         return _equipmentListString
     }
@@ -141,7 +141,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
         case location = "location"
         case odometer = "odometer"
         case patrolGroup = "patrolGroup"
-        case payrollIds = "payrollIds"
+        case officerIds = "officerIds"
         case remarks = "remarks"
         case serial = "serial"
         case shiftEnd = "shiftEnd"
@@ -165,7 +165,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         odometer = try values.decodeIfPresent(String.self, forKey: .odometer)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds) ?? []
+        officerIds = try values.decodeIfPresent([String].self, forKey: .officerIds) ?? []
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
         serial = try values.decodeIfPresent(String.self, forKey: .serial)
         shiftEnd = try values.decodeIfPresent(Date.self, forKey: .shiftEnd)
@@ -182,7 +182,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 }
 
 extension CADResourceCore: Equatable {
-    public static func ==(lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
+    public static func == (lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
         return lhs.callsign == rhs.callsign
     }
 }

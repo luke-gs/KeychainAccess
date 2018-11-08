@@ -62,7 +62,7 @@ public class TaskItemPresenter: Presenter {
 
         switch presentable {
 
-        case .landing(_):
+        case .landing:
             if let splitNav = from.pushableSplitViewController?.navigationController {
                 // Push new split view
                 splitNav.pushViewController(to, animated: true)
@@ -72,7 +72,7 @@ public class TaskItemPresenter: Presenter {
                 from.present(nav, animated: true, completion: nil)
             }
 
-        case .resourceStatus(_, _):
+        case .resourceStatus:
             // Present resource status form sheet with custom size and done button
             let size = UIViewController.isWindowCompact() ? CGSize(width: 312, height: 224) : CGSize(width: 540, height: 150)
             if let vc = to as? CallsignStatusViewController {
@@ -86,7 +86,7 @@ public class TaskItemPresenter: Presenter {
                 from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
             }
 
-        case .associationDetails(_):
+        case .associationDetails:
             from.splitViewController?.navigationController?.show(to, sender: from)
         }
     }

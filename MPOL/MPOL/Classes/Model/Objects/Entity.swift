@@ -12,55 +12,61 @@ import PublicSafetyKit
 @objc(MPLEntity)
 open class Entity: MPOLKitEntity {
 
-    override open class var serverTypeRepresentation: String {
-        MPLRequiresConcreteImplementation()
-    }
+    // MARK: - Class
 
     class var localizedDisplayName: String {
         return NSLocalizedString("Entity", comment: "")
     }
 
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var createdBy: String?
-    open var updatedBy: String?
-    open var effectiveDate: Date?
-    open var expiryDate: Date?
-    open var entityType: String?
-    open var isSummary: Bool = false
-    open var arn: String?
-    open var jurisdiction: String?
-    
-    open var source: MPOLSource?
-    open var alertLevel: Alert.Level?
-    open var associatedAlertLevel: Alert.Level?
-    
-    open var actionCount: UInt = 0
-    
-    open var alerts: [Alert]?
-    open var associatedPersons: [Person]?
-    open var associatedVehicles: [Vehicle]?
-    open var events: [RetrievedEvent]?
-    open var addresses: [Address]?
-    open var media: [Media]?
-    open var associatedReasons: [AssociationReason]?
+    // MARK: - Properties
 
-    open var externalIdentifiers: [MPOLSource: String]?
-    
-    // MARK: - Temp properties
-    open var lastUpdated: Date? {
+    public var actionCount: UInt = 0
+    public var addresses: [Address]?
+    public var alertLevel: Alert.Level?
+    public var alerts: [Alert]?
+    public var arn: String?
+    public var associatedAlertLevel: Alert.Level?
+    public var associatedPersons: [Person]?
+    public var associatedReasons: [AssociationReason]?
+    public var associatedVehicles: [Vehicle]?
+    public var createdBy: String?
+    public var dateCreated: Date?
+    public var dateUpdated: Date?
+    public var effectiveDate: Date?
+    public var entityType: String?
+    public var events: [RetrievedEvent]?
+    public var expiryDate: Date?
+    public var externalIdentifiers: [MPOLSource: String]?
+    public var isSummary: Bool = false
+    public var jurisdiction: String?
+    public var media: [Media]?
+    public var source: MPOLSource?
+    public var updatedBy: String?
+
+    // MARK: - Calculated
+
+    public var lastUpdated: Date? {
         return dateUpdated ?? dateCreated ?? nil
     }
 
-    override public init(id: String) {
-        super.init(id: id)
+    public var summary: String {
+        return "-"
     }
-    
-    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+
+    public var summaryDetail1: String? {
+        return "-"
+    }
+
+    public var summaryDetail2: String? {
+        return "-"
+    }
 
     // MARK: - Unboxable
+
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+
     public required init(unboxer: Unboxer) throws {
-        
+
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Entity.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Entity.dateTransformer)
         createdBy = unboxer.unbox(key: "createdBy")
@@ -71,7 +77,7 @@ open class Entity: MPOLKitEntity {
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         arn = unboxer.unbox(key: "arn")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
-        
+
         source = unboxer.unbox(key: "source")
         alertLevel = unboxer.unbox(key: "alertLevel")
         associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
@@ -84,7 +90,7 @@ open class Entity: MPOLKitEntity {
         media = unboxer.unbox(key: "mediaItems")
         associatedReasons = unboxer.unbox(key: "associationReasons")
 
-        externalIdentifiers = unboxer.unbox(key: Coding.externalIdentifiers.rawValue)
+        externalIdentifiers = unboxer.unbox(key: "externalIdentifiers")
         alerts = alerts?.filter { $0.level != nil }
 
         try super.init(unboxer: unboxer)
@@ -92,147 +98,101 @@ open class Entity: MPOLKitEntity {
         actionCount = unboxer.unbox(key: "actionCount") ?? UInt(alerts?.count ?? 0)
     }
 
-    // MARK: - NSSecureCoding
+    // MARK: - Codable
 
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateCreated.rawValue) as Date?
-        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateUpdated.rawValue) as Date?
-        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: Coding.createdBy.rawValue) as String?
-        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: Coding.updatedBy.rawValue) as String?
-        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.effectiveDate.rawValue) as Date?
-        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.expiryDate.rawValue) as Date?
-        entityType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeBool(forKey: Coding.isSummary.rawValue)
-        arn = aDecoder.decodeObject(of: NSString.self, forKey: Coding.arn.rawValue) as String?
-        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: Coding.jurisdiction.rawValue) as String?
-        actionCount = UInt(truncating: aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.actionCount.rawValue)!)
-        alerts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.alerts.rawValue) as? [Alert]
-        associatedPersons = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedPersons.rawValue) as? [Person]
-        associatedVehicles = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedVehicles.rawValue) as? [Vehicle]
-        events = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.events.rawValue) as? [RetrievedEvent]
-        addresses = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.addresses.rawValue) as? [Address]
-        media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as? [Media]
-        associatedReasons = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associationReasons.rawValue) as? [AssociationReason]
-
-        let decodedExternalIdentifiers = aDecoder.decodeObject(of: NSDictionary.self, forKey: Coding.externalIdentifiers.rawValue) as? [String: String]
-        externalIdentifiers = decodedExternalIdentifiers?.transform { key, value in
-            return (MPOLSource(rawValue: key)!, value)
-        }
-
-        if let source = aDecoder.decodeObject(of: NSString.self, forKey: Coding.source.rawValue) as String? {
-            self.source = MPOLSource(rawValue: source)
-        }
-
-        if aDecoder.containsValue(forKey: Coding.alertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: Coding.alertLevel.rawValue)) {
-            alertLevel = level
-        }
-
-        if aDecoder.containsValue(forKey: Coding.associatedAlertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: Coding.associatedAlertLevel.rawValue)) {
-            associatedAlertLevel = level
-        }
+    private enum CodingKeys: String, CodingKey {
+        case actionCount
+        case addresses
+        case alertLevel
+        case alerts
+        case arn
+        case associatedAlertLevel
+        case associatedPersons
+        case associatedReasons
+        case associatedVehicles
+        case createdBy
+        case dateCreated
+        case dateUpdated
+        case effectiveDate
+        case entityType
+        case events
+        case expiryDate
+        case externalIdentifiers
+        case isSummary
+        case jurisdiction
+        case media
+        case source
+        case updatedBy
+        case version
     }
 
-    open override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-
-        aCoder.encode(dateCreated, forKey: Coding.dateCreated.rawValue)
-        aCoder.encode(dateUpdated, forKey: Coding.dateUpdated.rawValue)
-        aCoder.encode(createdBy, forKey: Coding.createdBy.rawValue)
-        aCoder.encode(updatedBy, forKey: Coding.updatedBy.rawValue)
-        aCoder.encode(effectiveDate, forKey: Coding.effectiveDate.rawValue)
-        aCoder.encode(expiryDate, forKey: Coding.expiryDate.rawValue)
-        aCoder.encode(entityType, forKey: Coding.entityType.rawValue)
-        aCoder.encode(isSummary, forKey: Coding.isSummary.rawValue)
-        aCoder.encode(arn, forKey: Coding.arn.rawValue)
-        aCoder.encode(jurisdiction, forKey: Coding.jurisdiction.rawValue)
-        aCoder.encode(source?.rawValue, forKey: Coding.source.rawValue)
-        aCoder.encode(actionCount, forKey: Coding.actionCount.rawValue)
-        aCoder.encode(alerts, forKey: Coding.alerts.rawValue)
-        aCoder.encode(associatedPersons, forKey: Coding.associatedPersons.rawValue)
-        aCoder.encode(associatedVehicles, forKey: Coding.associatedVehicles.rawValue)
-        aCoder.encode(events, forKey: Coding.events.rawValue)
-        aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
-        aCoder.encode(media, forKey: Coding.media.rawValue)
-        aCoder.encode(associatedReasons, forKey: Coding.associationReasons.rawValue)
-
-        let encodedExternalIdentifiers = externalIdentifiers?.transform { (key, value) in
-            return (key.rawValue, value)
-        }
-        aCoder.encode(encodedExternalIdentifiers, forKey: Coding.externalIdentifiers.rawValue)
-
-        if let alertLevel = alertLevel {
-            aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
-        }
-        
-        if let associatedAlertLevel = associatedAlertLevel {
-            aCoder.encode(associatedAlertLevel.rawValue, forKey: Coding.associatedAlertLevel.rawValue)
-        }
-
-        aCoder.encode(type(of: self).modelVersion, forKey: MPL_archieveModelVersionKey)
-    }
-    
-    
-    // MARK: - Model Versionable
-    
-    open class var modelVersion: Int {
-        return 0
-    }
-    
-    
-    // MARK: - Display
-    
-    // TEMPORARY
-//    open func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
-//        return nil
-//    }
-    
-    open var summary: String {
-        return "-"
-    }
-    
-    open var summaryDetail1: String? {
-        return "-"
-    }
-    
-    open var summaryDetail2: String? {
-        return "-"
+    public override init(id: String) {
+        super.init(id: id)
     }
 
-    override open func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
-        guard let otherEntity = otherEntity as? Entity else {
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        actionCount = try container.decode(UInt.self, forKey: .actionCount)
+        addresses = try container.decodeIfPresent([Address].self, forKey: .addresses)
+        alertLevel = try container.decodeIfPresent(Alert.Level.self, forKey: .alertLevel)
+        alerts = try container.decodeIfPresent([Alert].self, forKey: .alerts)
+        arn = try container.decodeIfPresent(String.self, forKey: .arn)
+        associatedAlertLevel = try container.decodeIfPresent(Alert.Level.self, forKey: .associatedAlertLevel)
+        associatedPersons = try container.decodeIfPresent([Person].self, forKey: .associatedPersons)
+        associatedReasons = try container.decodeIfPresent([AssociationReason].self, forKey: .associatedReasons)
+        associatedVehicles = try container.decodeIfPresent([Vehicle].self, forKey: .associatedVehicles)
+        createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
+        dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
+        dateUpdated = try container.decodeIfPresent(Date.self, forKey: .dateUpdated)
+        effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+        entityType = try container.decodeIfPresent(String.self, forKey: .entityType)
+        events = try container.decodeIfPresent([RetrievedEvent].self, forKey: .events)
+        expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
+        externalIdentifiers = try container.decodeIfPresent([MPOLSource: String].self, forKey: .externalIdentifiers)
+        isSummary = try container.decode(Bool.self, forKey: .isSummary)
+        jurisdiction = try container.decodeIfPresent(String.self, forKey: .jurisdiction)
+        media = try container.decodeIfPresent([Media].self, forKey: .media)
+        source = try container.decodeIfPresent(MPOLSource.self, forKey: .source)
+        updatedBy = try container.decodeIfPresent(String.self, forKey: .updatedBy)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(actionCount, forKey: CodingKeys.actionCount)
+        try container.encode(addresses, forKey: CodingKeys.addresses)
+        try container.encode(alertLevel, forKey: CodingKeys.alertLevel)
+        try container.encode(alerts, forKey: CodingKeys.alerts)
+        try container.encode(arn, forKey: CodingKeys.arn)
+        try container.encode(associatedAlertLevel, forKey: CodingKeys.associatedAlertLevel)
+        try container.encode(associatedPersons, forKey: CodingKeys.associatedPersons)
+        try container.encode(associatedReasons, forKey: CodingKeys.associatedReasons)
+        try container.encode(associatedVehicles, forKey: CodingKeys.associatedVehicles)
+        try container.encode(createdBy, forKey: CodingKeys.createdBy)
+        try container.encode(dateCreated, forKey: CodingKeys.dateCreated)
+        try container.encode(dateUpdated, forKey: CodingKeys.dateUpdated)
+        try container.encode(effectiveDate, forKey: CodingKeys.effectiveDate)
+        try container.encode(entityType, forKey: CodingKeys.entityType)
+        try container.encode(events, forKey: CodingKeys.events)
+        try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
+        try container.encode(externalIdentifiers, forKey: CodingKeys.externalIdentifiers)
+        try container.encode(isSummary, forKey: CodingKeys.isSummary)
+        try container.encode(jurisdiction, forKey: CodingKeys.jurisdiction)
+        try container.encode(media, forKey: CodingKeys.media)
+        try container.encode(source, forKey: CodingKeys.source)
+        try container.encode(updatedBy, forKey: CodingKeys.updatedBy)
+    }
+
+    // MARK: - Methods
+
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let otherEntity = object as? Entity else {
             return false
         }
-        let isEssentiallyTheSame = super.isEssentiallyTheSameAs(otherEntity: otherEntity)
-        return isEssentiallyTheSame && self.source == otherEntity.source
+        let isEqual = super.isEqual(otherEntity)
+        return isEqual && self.source == otherEntity.source
     }
-}
-
-// FIXME: This and archieving model version could probably be moved to the Kit.
-public let MPL_archieveModelVersionKey = "modelVersion"
-
-private enum Coding: String {
-    case dateCreated = "dateCreated"
-    case dateUpdated = "dateLastUpdated"
-    case createdBy = "createdBy"
-    case updatedBy = "updatedBy"
-    case effectiveDate = "effectiveDate"
-    case expiryDate = "expiryDate"
-    case entityType = "entityType"
-    case isSummary = "isSummary"
-    case arn = "arn"
-    case jurisdiction = "jurisdiction"
-    case source = "source"
-    case alertLevel = "alertLevel"
-    case associatedAlertLevel = "associatedAlertLevel"
-    case actionCount = "actionCount"
-    case alerts = "alerts"
-    case associatedPersons = "associatedPersons"
-    case associatedVehicles = "associatedVehicles"
-    case events = "events"
-    case addresses = "addresses"
-    case media = "media"
-    case associationReasons = "associationReasons"
-    case externalIdentifiers
 }

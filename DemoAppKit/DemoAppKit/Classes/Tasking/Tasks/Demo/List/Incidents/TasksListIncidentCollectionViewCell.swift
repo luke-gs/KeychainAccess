@@ -9,12 +9,12 @@
 import UIKit
 
 open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
-    
+
     enum Column: Int {
         case summary = 0
         case detail = 1
         case resources = 2
-        
+
         var columnInfo: ColumnInfo {
             switch self {
             case .summary:
@@ -26,7 +26,7 @@ open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
             }
         }
     }
-    
+
     private struct LayoutConstants {
         static let updatesIndicatorSize: CGFloat = 10
         static let verticalMargin: CGFloat = 16
@@ -34,40 +34,40 @@ open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
         static let columnSpacing: CGFloat = 24
         static let accessorySize: CGFloat = 16
     }
-    
+
     // MARK: - Views
 
     /// Container for the columns
     private let columnContainer = ColumnContainerView()
-    
+
     /// View for showing updates indicator
     public let updatesIndicator = UIImageView()
-    
+
     /// View for summary column
     public let summaryView = TasksListIncidentSummaryView()
-    
+
     /// View for details
     public let detailView = TasksListDetailView()
-    
+
     /// View for status rows
     public let statusRowView = TasksListInfoRowStackView(maxViews: 3)
-    
+
     // MARK: - Properties
-    
+
     /// Columns to show
     private var columns: Set<Column> = [.summary]
-    
+
     open override func commonInit() {
         super.commonInit()
         columnContainer.dataSource = self
         setupViews()
     }
-    
+
     /// Creates and styles views
     private func setupViews() {
         contentView.addSubview(columnContainer)
         columnContainer.translatesAutoresizingMaskIntoConstraints = false
-        
+
         // Hide updates indicator by default
         updatesIndicator.isHidden = true
         updatesIndicator.image = UIImage.statusDot(withColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1))
@@ -83,37 +83,37 @@ open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
             updatesIndicator.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 10),
             updatesIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: LayoutConstants.horizontalMargin),
             updatesIndicator.heightAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize),
-            updatesIndicator.widthAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize),
+            updatesIndicator.widthAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize)
         ])
     }
-    
+
     // MARK: - Configuration
-    
+
     open func decorate(with viewModel: TasksListIncidentViewModel) {
         // Left column
-        
+
         summaryView.titleLabel.text = viewModel.title
         summaryView.subtitleLabel.text = viewModel.subtitle
         summaryView.captionLabel.text = viewModel.caption
-        
+
         summaryView.priorityLabel.text = viewModel.badgeText
         summaryView.priorityLabel.textColor = viewModel.badgeTextColor
         summaryView.priorityLabel.backgroundColor = viewModel.badgeFillColor
         summaryView.priorityLabel.borderColor = viewModel.badgeBorderColor
         summaryView.priorityLabel.isHidden = viewModel.badgeText == nil
-        
+
         updatesIndicator.isHidden = !viewModel.hasUpdates
-        
+
         // Middle column
-        
+
         detailView.detailLabel.text = viewModel.description
-        
+
         // Right column
-        
+
         statusRowView.setRows(viewModel.resources)
-        
+
         // Conditional display
-        
+
         if viewModel.description != nil {
             columns.insert(.detail)
         } else {
@@ -134,23 +134,23 @@ open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
         summaryView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
         summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
     }
-    
+
 }
 
 extension TasksListIncidentCollectionViewCell: ColumnContainerViewDataSource {
-    
+
     public func numberOfColumns(_ columnContainerView: ColumnContainerView) -> Int {
         return columns.count
     }
-    
+
     public func columnInfo(_ columnContainerView: ColumnContainerView, at index: Int) -> ColumnInfo {
         if numberOfColumns(columnContainerView) == 1 {
             return ColumnInfo(minimumWidth: 200, maximumWidth: 1000)
         }
-        
+
         return Column(rawValue: index)?.columnInfo ?? .zero
     }
-    
+
     private func contentView(_ columnContainerView: ColumnContainerView, for column: Column?) -> UIView {
         guard let column = column else { return UIView() }
         switch column {
@@ -162,11 +162,11 @@ extension TasksListIncidentCollectionViewCell: ColumnContainerViewDataSource {
             return statusRowView
         }
     }
-    
+
     public func viewForColumn(_ columnContainerView: ColumnContainerView, at index: Int) -> UIView {
         return contentView(columnContainerView, for: Column(rawValue: index))
     }
-    
+
     public func columnSpacing(_ columnContainerView: ColumnContainerView) -> CGFloat {
         return LayoutConstants.columnSpacing
     }

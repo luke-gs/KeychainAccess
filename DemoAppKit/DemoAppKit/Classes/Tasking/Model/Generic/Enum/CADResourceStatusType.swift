@@ -76,4 +76,3 @@ extension CADResourceStatusType {
         return self == CADClientModelTypes.resourceStatus.duressCase
     }
 }
-

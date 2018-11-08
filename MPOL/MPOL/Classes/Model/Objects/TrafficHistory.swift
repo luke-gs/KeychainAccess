@@ -10,85 +10,80 @@ import PublicSafetyKit
 import Unbox
 
 @objc(MPLTrafficHistory)
-public class TrafficHistory: NSObject, Serialisable {
+public class TrafficHistory: IdentifiableDataModel {
 
-    public let id: String
-    public let source: MPOLSource
+    // MARK: - Properties
 
-    public let trafficHistoryDescription: String?
-    public let isLicenceCancelled: Bool
-    public let isLicenceSurrendered: Bool
-    public let demeritPoint: Int
-    public let name: String?
-    public let occurredDate: Date?
-    public let expiryDate: Date?
-    public let issuedDate: Date?
+    public var demeritPoint: Int = 0
+    public var expiryDate: Date?
+    public var isLicenceCancelled: Bool = false
+    public var isLicenceSurrendered: Bool = false
+    public var issuedDate: Date?
+    public var name: String?
+    public var occurredDate: Date?
+    public var source: MPOLSource!
+    public var trafficHistoryDescription: String?
 
-    // MARK: - Unbox
+    // MARK: - Unboxable
+
     public required init(unboxer: Unboxer) throws {
-        id = try unboxer.unbox(key: CodingKeys.id.rawValue)
-        source = try unboxer.unbox(key: CodingKeys.source.rawValue)
+        source = unboxer.unbox(key: CodingKeys.source.rawValue)
         trafficHistoryDescription = unboxer.unbox(key: CodingKeys.trafficHistoryDescription.rawValue)
         isLicenceCancelled = try unboxer.unbox(key: CodingKeys.isLicenceCancelled.rawValue)
         isLicenceSurrendered = try unboxer.unbox(key: CodingKeys.isLicenceSurrendered.rawValue)
-        demeritPoint = try unboxer.unbox(key: CodingKeys.demeritPoints.rawValue)
+        demeritPoint = try unboxer.unbox(key: CodingKeys.demeritPoint.rawValue)
         name = unboxer.unbox(key: CodingKeys.name.rawValue)
-        
+
         occurredDate = unboxer.unbox(key: CodingKeys.occurredDate.rawValue, formatter: ISO8601DateTransformer.shared)
         expiryDate = unboxer.unbox(key: CodingKeys.expiryDate.rawValue, formatter: ISO8601DateTransformer.shared)
         issuedDate = unboxer.unbox(key: CodingKeys.issuedDate.rawValue, formatter: ISO8601DateTransformer.shared)
+
+        try super.init(unboxer: unboxer)
     }
 
-    // MARK: - NSSecureCoding
-    public required init?(coder aDecoder: NSCoder) {
-
-        guard let id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.id.rawValue) as String?,
-              let sourceString = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.source.rawValue) as String?,
-              let source = MPOLSource(rawValue: sourceString) else {
-            return nil
-        }
-        
-        self.id = id
-        self.source = source
-        trafficHistoryDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.trafficHistoryDescription.rawValue) as String?
-        isLicenceCancelled = aDecoder.decodeBool(forKey: CodingKeys.isLicenceCancelled.rawValue)
-        isLicenceSurrendered = aDecoder.decodeBool(forKey: CodingKeys.isLicenceSurrendered.rawValue)
-        demeritPoint = aDecoder.decodeInteger(forKey: CodingKeys.demeritPoints.rawValue)
-        name = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.name.rawValue) as String?
-        occurredDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.occurredDate.rawValue) as Date?
-        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.expiryDate.rawValue) as Date?
-        issuedDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.issuedDate.rawValue) as Date?
-
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: CodingKeys.id.rawValue)
-        aCoder.encode(source.rawValue, forKey: CodingKeys.source.rawValue)
-        aCoder.encode(trafficHistoryDescription, forKey: CodingKeys.trafficHistoryDescription.rawValue)
-        aCoder.encode(isLicenceCancelled, forKey: CodingKeys.isLicenceCancelled.rawValue)
-        aCoder.encode(isLicenceSurrendered, forKey: CodingKeys.isLicenceSurrendered.rawValue)
-        aCoder.encode(demeritPoint, forKey: CodingKeys.demeritPoints.rawValue)
-        aCoder.encode(name, forKey: CodingKeys.name.rawValue)
-        aCoder.encode(occurredDate, forKey: CodingKeys.occurredDate.rawValue)
-        aCoder.encode(expiryDate, forKey: CodingKeys.expiryDate.rawValue)
-        aCoder.encode(issuedDate, forKey: CodingKeys.issuedDate.rawValue)
-    }
-
-    public static var supportsSecureCoding: Bool {
-        return true
-    }
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
-        case id
-        case source
-        case trafficHistoryDescription = "description"
+        case demeritPoint
+        case expiryDate
         case isLicenceCancelled = "licenceCancelled"
         case isLicenceSurrendered = "licenceSurrendered"
-        case demeritPoints
+        case issuedDate = "dateIssued"
         case name
         case occurredDate = "occurred"
-        case expiryDate
-        case issuedDate = "dateIssued"
+        case source
+        case trafficHistoryDescription = "description"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        demeritPoint = try container.decode(Int.self, forKey: .demeritPoint)
+        expiryDate = try container.decodeIfPresent(Date.self, forKey: .expiryDate)
+        isLicenceCancelled = try container.decode(Bool.self, forKey: .isLicenceCancelled)
+        isLicenceSurrendered = try container.decode(Bool.self, forKey: .isLicenceSurrendered)
+        issuedDate = try container.decodeIfPresent(Date.self, forKey: .issuedDate)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        occurredDate = try container.decodeIfPresent(Date.self, forKey: .occurredDate)
+        source = try container.decode(MPOLSource.self, forKey: .source)
+        trafficHistoryDescription = try container.decodeIfPresent(String.self, forKey: .trafficHistoryDescription)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(demeritPoint, forKey: CodingKeys.demeritPoint)
+        try container.encode(expiryDate, forKey: CodingKeys.expiryDate)
+        try container.encode(isLicenceCancelled, forKey: CodingKeys.isLicenceCancelled)
+        try container.encode(isLicenceSurrendered, forKey: CodingKeys.isLicenceSurrendered)
+        try container.encode(issuedDate, forKey: CodingKeys.issuedDate)
+        try container.encode(name, forKey: CodingKeys.name)
+        try container.encode(occurredDate, forKey: CodingKeys.occurredDate)
+        try container.encode(source, forKey: CodingKeys.source)
+        try container.encode(trafficHistoryDescription, forKey: CodingKeys.trafficHistoryDescription)
     }
 
 }

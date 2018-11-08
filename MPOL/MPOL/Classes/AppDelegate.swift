@@ -10,9 +10,13 @@ import UIKit
 import UserNotifications
 import PublicSafetyKit
 import DemoAppKit
+import SketchKit
 import PromiseKit
 import Lottie
 import Alamofire
+import Firebase
+import VoiceSearchManager
+import Porcupine_iOS
 
 #if INTERNAL || EXTERNAL
     import HockeySDK
@@ -31,8 +35,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        MPOLKitInitialize()
-        performDataMigrationIfNecessary()
+        // Register bundles used by pattern kit containing assets
+        AssetManager.shared.register(bundle: Bundle(for: AssetManager.self), priority: .coreKit)
+        AssetManager.shared.register(bundle: Bundle(for: SketchPen.self), priority: .sketchKit)
+        AssetManager.shared.register(bundle: Bundle(for: FormBuilder.self), priority: .patternKit)
+        AssetManager.shared.register(bundle: Bundle(for: LoginViewController.self), priority: .publicSafteyKit)
+
+        // Access the keyboard input manager to start it managing all text entry.
+        _ = KeyboardInputManager.shared
+
+        // Preload MPOL animations
+        LOTAnimationView.preloadMPOLAnimations()
+
+        // Register Codable types before loading any stored objects
+        registerCodableWrapperTypes()
 
         let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
@@ -47,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.plugins = plugins
 
         // Set the application key for app specific user settings
-        User.applicationKey = "Search"
+        User.applicationKey = "PSCore"
 
         // Set the application specific notification handler
         NotificationManager.shared.handler = SearchNotificationHandler()
@@ -59,8 +75,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         landingPresenter = LandingPresenter()
         landingPresenter.wantsBiometricAuthentication = true
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter(), TaskListPresenter(), TaskItemPresenter(), BookOnPresenter(), TrafficStopPresenter(), CreateTaskPresenter()])
-        
+        let presenter = PresenterGroup(presenters: [SystemPresenter(),
+                                                    landingPresenter,
+                                                    EntityPresenter(),
+                                                    EventPresenter(),
+                                                    TaskListPresenter(),
+                                                    TaskItemPresenter(),
+                                                    BookOnPresenter(),
+                                                    TrafficStopPresenter(),
+                                                    CreateTaskPresenter(),
+                                                    LocationSelectionPresenter()])
+
         let director = Director(presenter: presenter)
         Director.shared = director
 
@@ -71,10 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let window = UIWindow()
         self.window = window
 
+        setupFormStyles()
         applyCurrentTheme()
 
         updateAppForUserSession()
-    
+
         window.makeKeyAndVisible()
 
         #if INTERNAL || EXTERNAL
@@ -94,10 +120,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupNavigator()
         startPrepopulationProcessIfNecessary()
 
+        FirebaseApp.configure()
+
         return true
     }
 
     private func updateAppForUserSession() {
+
+        //Add custom "Vancouver" config for workflow manager.
+        #if targetEnvironment(simulator)
+        let keywordFilePath = Bundle.main.path(forResource: "vancouver_mac", ofType: "ppn")
+        #else
+        let keywordFilePath = Bundle.main.path(forResource: "vancouver_ios", ofType: "ppn")
+        #endif
+        let modelFilePath =  Bundle(for: PorcupineManager.self).path(forResource: "porcupine_params", ofType: "pv")
+
+        let customConfig = PorcupineManagerConfiguration(keywordFilePath: keywordFilePath!, modelFilePath: modelFilePath!, wakeword: "Vancouver")
+
+        VoiceSearchWorkflowManager.shared.porcupineManagerConfig = customConfig
 
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {
@@ -106,6 +146,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 NotificationManager.shared.registerPushToken()
                 UserPreferenceManager.shared.fetchSharedUserPreferences()
             }
+            VoiceSearchWorkflowManager.shared.startListening()
+        } else {
+            VoiceSearchWorkflowManager.shared.stopListening()
         }
 
         // Update screen if necessary
@@ -144,8 +187,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             removeShortcuts(from: application)
         }
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         if navigator.isRegistered(url) {
             return navigator.handle(url)
         }
@@ -155,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // MARK: - APNS
-    
+
     func registerPushNotifications(_ application: UIApplication) {
 
         // Request authorisation to receive PNs, then request token from Apple
@@ -171,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // regardless of the use of UNUserNotificationCenter!
 
     /// Called when a remote notification arrives that indicates there is data to be fetched (ie silent push)
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Handle notification (which may trigger network operation), then complete with fetch result
         _ = NotificationManager.shared.didReceiveRemoteNotification(userInfo: userInfo).done { result in
             completionHandler(result)
@@ -190,6 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
+
         let promise: Promise<Void>
 
         // Create refresh token request with current token
@@ -296,6 +340,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
 
+    private func setupFormStyles() {
+        DemoAppKitStyler.configureSharedStyles()
+    }
+
     private func setupNavigator() {
         navigator = AppURLNavigator.default
 
@@ -305,7 +353,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navigator.register(searchHandler)
     }
 
-    private lazy var searchLauncher: SearchActivityLauncher = {
+    lazy var searchLauncher: SearchActivityLauncher = {
         return SearchActivityLauncher()
     }()
 
@@ -331,11 +379,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // the handling is successfully completed or not.
         switch shortcutItem.type {
         case SupportedShortcut.searchPerson.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"))
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"), shouldSearchImmediately: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.searchVehicle.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"))
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"), shouldSearchImmediately: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.launchTasks.type:
@@ -358,9 +406,17 @@ extension AppDelegate: SearchActivityHandlerDelegate {
 
         // FIXME: Probably need something that knows how to coordinate all of these `from` and `to` businesses.
         switch launchedSearchActivity {
-        case .searchEntity(let term):
+        case .searchEntity(let term, let shouldSearchImmediately):
             landingPresenter.switchTo(.search)
             landingPresenter.searchViewController.beginSearch(with: term)
+
+            // If should search immediately, tell the appropriate datasource to perform the search.
+            if shouldSearchImmediately {
+                if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
+                    ds.performSearch()
+                }
+            }
+
         case .viewDetails(let id, let entityType, let source):
 
             let entity: Entity?
@@ -373,9 +429,7 @@ extension AppDelegate: SearchActivityHandlerDelegate {
             case "Address":
                 entity = Address(id: id)
             case "Organisation":
-                // Not supported yet
-                entity = nil
-                print("Not supported yet")
+                entity = Organisation(id: id)
             default:
                 // Do nothing
                 entity = nil

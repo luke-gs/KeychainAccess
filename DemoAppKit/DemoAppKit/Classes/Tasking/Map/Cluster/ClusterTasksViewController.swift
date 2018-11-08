@@ -83,35 +83,38 @@ open class ClusterTasksViewController: FormBuilderViewController {
                     .highlightStyle(.fade)
                     .selectionStyle(.fade)
                     .contentMode(.top)
-                    .onConfigured({ [weak self] (cell) in
+                    .onConfigured { [weak self] (cell) in
                         self?.decorate(cell: cell, with: item)
-                    })
+                    }
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ [weak self] (cell, theme) in
-                        self?.apply(theme: theme, to: cell)
-                    })
-                    .onSelection({ [weak self] (cell) in
+                    .onStyled { [unowned self] (cell) in
+                        // override the default theme set by DemoAppKitStyler
+                        let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
+                        self.apply(theme: theme, to: cell)
+                    }
+                    .onSelection { [weak self] (_) in
                         if let viewModel = item.createItemViewModel() {
                             self?.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
-                    })
+                    }
             }
         }
     }
 
     open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, didSelectItemAt: indexPath)
-        
+
         // Always deselect row after selection
         collectionView.deselectItem(at: indexPath, animated: true)
     }
-
 
     open func apply(theme: Theme, to cell: CollectionViewFormCell) {
         if let cell = cell as? TasksListResourceCollectionViewCell {
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListBasicCollectionViewCell {
+            cell.apply(theme: theme)
+        } else if let cell = cell as? TasksListIncidentCollectionViewCell {
             cell.apply(theme: theme)
         }
     }

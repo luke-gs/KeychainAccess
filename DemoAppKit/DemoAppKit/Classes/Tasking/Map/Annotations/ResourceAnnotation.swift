@@ -10,12 +10,12 @@ import UIKit
 import CoreLocation
 
 open class ResourceAnnotation: TaskAnnotation {
-    
+
     open var icon: UIImage?
     open var iconBackgroundColor: UIColor
     open var iconTintColor: UIColor?
     open var duress: Bool
-    
+
     public init(identifier: String, source: CADTaskListSourceType, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, iconTintColor: UIColor?, duress: Bool) {
         self.icon = icon
         self.iconBackgroundColor = iconBackgroundColor

@@ -18,7 +18,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         super.init()
         viewModel.addObserver(self)
 
-        //set initial loading manager state
+        // set initial loading manager state
         self.updateLoadingManagerState()
 
         title = "Property"
@@ -58,8 +58,8 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
                                       subtitle: property.property?.type,
                                       detail: property.involvements?.joined(separator: ", "),
                                       image: nil)
-                .accessory(FormAccessoryView(style: .pencil))
-                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                .accessory(ItemAccessory.pencil)
+                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, indexPath in
                     self.viewModel.report.propertyList.remove(at: indexPath.row)
                     self.updateLoadingManagerState()
                     self.reloadForm()
@@ -112,7 +112,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     }
 }
 
-//TODO: FIX THIS SHIT WITH PROPER PROPERTIES
+// TODO: FIX THIS SHIT WITH PROPER PROPERTIES
 private let props: [Property] = [
     Property(type: "General", subType: "Mobile Phone", detailNames: [("Make", .picker(options: ["Apple", "Google"])),
                                                                      ("Model", .text),
@@ -137,5 +137,5 @@ private let props: [Property] = [
                                                                      ("Gender", .picker(options: ["Male", "Female", "Unknown"]))])
 ]
 
-//TODO: FIX THIS SHIT WITH PROPER INVOLVEMENTS
+// TODO: FIX THIS SHIT WITH PROPER INVOLVEMENTS
 private let involvs: [String] = ["Broken", "Damaged", "Lost", "Killed", "Stolen"]

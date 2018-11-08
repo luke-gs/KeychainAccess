@@ -47,16 +47,16 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
         builder.enforceLinearLayout = .always
-        
+
         guard let eventsList = viewModel.eventsList else { return }
-        
+
         builder += HeaderFormItem(text: "\(eventsList.count) CURRENT EVENT\(eventsList.count == 1 ? "" : "S")")
 
         builder += eventsList.map { displayable in
             let title = displayable.title ?? "Blank"
             let subtitle = viewModel.subtitle(for: displayable)
             let image = viewModel.image(for: displayable)
-            let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+            let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, indexPath in
                 self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
                 self.updateEmptyState()
                 self.reloadForm()
@@ -64,17 +64,17 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
             return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
                 .editActions(editActions)
                 .accessory(ItemAccessory.disclosure)
-                .onSelection ({ cell in
-                    guard let event = self.viewModel.event(for: displayable) else { return }
-                    self.show(event)
+                .onSelection ({ [weak self] _ in
+                    guard let event = self?.viewModel.event(for: displayable) else { return }
+                    self?.show(event)
                 })
         }
     }
 
     @objc private func createNewEvent() {
         let viewController = IncidentSelectViewController()
-        viewController.didSelectIncident = { incident in
-            self.show(with: incident)
+        viewController.didSelectIncident = { [weak self] incident in
+            self?.show(with: incident)
         }
 
         let navigationController = PopoverNavigationController(rootViewController: viewController)

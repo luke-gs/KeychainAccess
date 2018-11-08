@@ -9,16 +9,16 @@
 import UIKit
 
 public class AssociationItemViewModel: EntitySummaryDisplayable {
-    
+
     public enum EntityType {
         case person(initials: String, thumbnailUrl: URL?)
         case vehicle
     }
-    
+
     public required init(_ entity: MPOLKitEntity) {
         MPLUnimplemented()
     }
-    
+
     public init(association: CADAssociationType, category: String?, entityType: EntityType, title: String?, detail1: String?, detail2: String?, borderColor: UIColor?, iconColor: UIColor? = nil, badge: UInt) {
         self.association = association
         self.category = category
@@ -30,25 +30,25 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
         self.borderColor = borderColor
         self.badge = badge
     }
-    
+
     public var association: CADAssociationType
 
     public var entityType: EntityType
 
     public var category: String?
-    
-    public var title: String?
-    
-    public var detail1: String?
-    
-    public var detail2: String?
-    
+
+    public var title: StringSizable?
+
+    public var detail1: StringSizable?
+
+    public var detail2: StringSizable?
+
     public var borderColor: UIColor?
-    
+
     public var iconColor: UIColor?
 
     public var badge: UInt
-    
+
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let thumbnailImage: UIImage?
         let contentMode: UIViewContentMode
@@ -57,7 +57,7 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
             return CADPersonImageSizing(initials: initials, thumbnailUrl: thumbnailUrl)
         case .vehicle:
             let imageKey: AssetManager.ImageKey
-            
+
             switch size {
             case .small:
                 imageKey = .entityCarSmall
@@ -70,11 +70,11 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
             thumbnailImage = AssetManager.shared.image(forKey: imageKey)
             contentMode = .center
         }
-        
+
         if let thumbnailImage = thumbnailImage {
             return ImageSizing(image: thumbnailImage, size: thumbnailImage.size, contentMode: contentMode)
         }
-        
+
         return nil
     }
 
@@ -95,7 +95,7 @@ public class CADPersonImageSizing: AsynchronousImageSizing {
         super.init(placeholderImage: thumbnailSizing)
     }
 
-    public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
+    public override func loadImage(completion: @escaping (ImageSizable) -> Void) {
 
         // Code to retrieve image goes here
         if let thumbnailUrl = thumbnailUrl {

@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 }
 
 public class VehicleTowReport: ActionReportable, MediaContainer {
-    
+
     public let weakAdditionalAction: Weak<AdditionalAction>
     public let weakIncident: Weak<Incident>
 
@@ -49,7 +49,8 @@ public class VehicleTowReport: ActionReportable, MediaContainer {
             evaluator.addObserver(additionalAction)
         }
 
-        evaluator.registerKey(.hasRequiredData) {
+        evaluator.registerKey(.hasRequiredData) { [weak self] in
+            guard let `self` = self else { return false }
             return self.location != nil
                 && self.hold != nil
         }

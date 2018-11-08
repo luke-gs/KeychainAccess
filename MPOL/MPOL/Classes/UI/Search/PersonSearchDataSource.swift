@@ -24,6 +24,15 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         let helpButton = UIButton(type: .system)
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
         helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
+
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let scanButton = UIButton(type: .system)
+            scanButton.addTarget(self, action: #selector(didTapScanButton(_:)), for: .touchUpInside)
+            scanButton.setImage(AssetManager.shared.image(forKey: .contentScan), for: .normal)
+
+            return [scanButton, helpButton]
+        }
+
         return [helpButton]
     }
 
@@ -112,7 +121,11 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         updatingDelegate?.present(EntityScreen.help(type: .person))
     }
 
-    private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
+    @objc private func didTapScanButton(_ button: UIButton) {
+        updatingDelegate?.present(EntityScreen.scanner)
+    }
+
+    private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> Void)) {
         do {
             if let searchTerm = text {
                 let definitions = self.definitionSelector.supportedDefinitions(for: searchTerm)
@@ -145,7 +158,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                         let resultModel = EntitySummaryAlertsSearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
                         resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                         resultModel.additionalBarButtonItems = [UIBarButtonItem(image: AssetManager.shared.image(forKey: .add), style: .plain, target: self, action: #selector(handleAddButtonTapped(_:)))]
-                        
+
                         completion(resultModel, nil)
                     }
                 } else {
@@ -157,10 +170,10 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         }
     }
 
-    private func performSearch() {
+    public func performSearch() {
         generateResultModel(text) { (resultModel, error) in
-            if let error = error {
-                self.errorMessage = error.localizedDescription
+            if error != nil {
+                self.errorMessage = String.localizedStringWithFormat(AssetManager.shared.string(forKey: .searchInvalidTextError), "Person")
             } else {
                 // Generate Searchable
                 let search = Searchable(text: text, options: nil, type: PersonSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityPerson)

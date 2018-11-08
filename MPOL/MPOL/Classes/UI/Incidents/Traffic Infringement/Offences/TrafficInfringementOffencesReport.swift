@@ -26,7 +26,7 @@ class TrafficInfringementOffencesReport: Reportable {
             evaluator.updateEvaluation(for: .hasOffence)
         }
     }
-    
+
     let evaluator: Evaluator = Evaluator()
 
     init(event: Event, incident: Incident) {
@@ -40,7 +40,8 @@ class TrafficInfringementOffencesReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasOffence) {
+        evaluator.registerKey(.hasOffence) { [weak self] in
+            guard let `self` = self else { return false }
             return !self.offences.isEmpty
         }
     }
@@ -69,11 +70,10 @@ extension TrafficInfringementOffencesReport: Summarisable {
     var formItems: [FormItem] {
         var items = [FormItem]()
         let titleText = String.localizedStringWithFormat(NSLocalizedString("%d offences", comment: ""), offences.count)
-        let demerits = offences.map{ $0.demeritValue}.reduce(0, +)
+        let demerits = offences.map { $0.demeritValue}.reduce(0, +)
         let fine = offences.map {$0.fineValue}.reduce(0, +)
         let descriptionText = "\(demerits) Total Demerit" + (demerits == 0 || demerits > 1 ? "s" : "") + ", $" + String(format: "%.2f", fine)
         items.append(RowDetailFormItem(title: titleText, detail: descriptionText))
         return items
     }
 }
-

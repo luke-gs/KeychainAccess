@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>853</string>
+	<string>911</string>
 	<key>DefaultActivityLauncherURLScheme</key>
 	<string>${SEARCH_URL_TYPE_SCHEME}</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -56,6 +56,8 @@
 	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Voice Input requires access to your Microphone in order to work.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech recognition will be used to determine which words you speak into this device's microphone.</string>
 	<key>PSAppGroupIdentifier</key>
 	<string>$(APP_GROUP_ID)</string>
 	<key>PSSharedKeychainAccessGroup</key>

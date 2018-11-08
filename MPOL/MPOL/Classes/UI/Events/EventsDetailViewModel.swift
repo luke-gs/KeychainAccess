@@ -23,7 +23,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
     public var evaluator: Evaluator = Evaluator()
-    public var headerUpdated: (() -> ())?
+    public var headerUpdated: (() -> Void)?
 
     private var readyToSubmit = false {
         didSet {
@@ -54,8 +54,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         setUpdateHeaderDelegate()
 
         event.evaluator.addObserver(self)
-        evaluator.registerKey(.eventReadyToSubmit) {
-            return self.readyToSubmit
+        evaluator.registerKey(.eventReadyToSubmit) { [weak self] in
+            return self?.readyToSubmit ?? false
         }
 
         readyToSubmit = event.evaluator.isComplete
@@ -71,8 +71,6 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             report.delegate = self
         }
     }
-
-
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         readyToSubmit = evaluationState

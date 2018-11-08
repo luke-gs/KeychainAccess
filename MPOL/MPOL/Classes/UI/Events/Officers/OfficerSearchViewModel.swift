@@ -14,63 +14,90 @@ import PromiseKit
 class OfficerSearchViewModel: SearchDisplayableViewModel {
     typealias Object = Officer
 
-    var title: String = "Add Officer"
     var cancelToken: PromiseCancellationToken?
-    var hasSections: Bool = true
-
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object]
     var searchText: String?
+    private var sections: [OfficerSearchSectionViewModel] = []
 
-    public init(items: [Object]? = nil) {
+    // bool used to determine wether or not searchResults or recentlyViewedOfficers should currently be displayed
+    public private(set) var showSearchResults = false
 
-        if let items = items {
-            self.items = items
-        } else {
-            #if DEBUG || EXTERNAL
-                // Fake officers used for the purposes of demos.
-                let fakeOfficerOne = Officer(id: "SmithJacksonGS007")
-                fakeOfficerOne.familyName = "Smith"
-                fakeOfficerOne.givenName = "Jackson"
-                fakeOfficerOne.employeeNumber = "#GS007"
-                let fakeOfficerTwo = Officer(id: "JohnsonCarlGS008")
-                fakeOfficerTwo.familyName = "Johnson"
-                fakeOfficerTwo.givenName = "Carl"
-                fakeOfficerTwo.employeeNumber = "#GS008"
-                self.items = [fakeOfficerOne, fakeOfficerTwo]
-            #else
-                self.items = []
-            #endif
+    /// promise that retrieves recently used officers and officers from myCallSign and updates sections with this data
+    public func fetchRecentOfficers() -> Promise<Void> {
+
+        // clear all data and set showSearchResults false as we are about to present recently used
+        sections = []
+        showSearchResults = false
+
+        // Add officers from myCallSign except yourself
+        if let myCallSignOfficers = CADStateManager.shared.lastBookOn?.employees.compactMap({ $0 as? Object })
+            .filter({ $0.id !=  CADStateManager.shared.officerDetails?.id}), !myCallSignOfficers.isEmpty {
+
+            sections.append(OfficerSearchSectionViewModel(items: myCallSignOfficers,
+                                                          title: NSLocalizedString("My Call Sign", comment: "Officer Search - My CallSign Section Title")))
         }
 
+        // Add officers from UserPreferences recentlyUsed
+        let userPreferenceManager = UserPreferenceManager.shared
+
+        guard let officerIds: [String] = userPreferenceManager.preference(for: .recentOfficers)?.codables(),
+            !officerIds.isEmpty else {
+                return Promise<Void>()
+        }
+
+        return RecentlyUsedEntityManager.default.entities(forIds: officerIds, ofServerType: Officer.serverTypeRepresentation).done { [weak self] result in
+
+            // ensure that a search hasn't been initiated while waiting for this async operation
+            guard let self = self else { return }
+            guard !self.showSearchResults else { return }
+
+            let recentOfficers = officerIds.compactMap { result[$0] as? Officer }
+            guard !recentOfficers.isEmpty else { return }
+
+            self.sections.append(OfficerSearchSectionViewModel(items: recentOfficers,
+                                                                    title: NSLocalizedString("Recently Used", comment: "Officer Search - Recently Used Section Title")))
+        }.map {}
     }
 
+    public func cellSelectedAt(_ indexPath: IndexPath) {
+
+        // add officer to recently used
+        let officer = object(for: indexPath)
+        try? UserPreferenceManager.shared.addRecentId(officer.id, forKey: .recentOfficers, trimToMaxElements: 5)
+        RecentlyUsedEntityManager.default.add(officer)
+    }
+
+    // MARK: - SearchDisplayableViewModel
+
+    var title: String = "Add Officer"
+    var hasSections = true
+
     func numberOfSections() -> Int {
-        return 1
+        return sections.count
     }
 
     func numberOfRows(in section: Int) -> Int {
-        return items.count
+        return sections[section].items.count
     }
 
     func isSectionHidden(_ section: Int) -> Bool {
-        return false
+        return sections[section].items.isEmpty
     }
 
     func title(for section: Int) -> String {
-        return "Recently Used"
+        return sections[section].title
     }
 
-    func title(for indexPath: IndexPath) -> String? {
-        return searchable(for: items[indexPath.item]).title
+    func title(for indexPath: IndexPath) -> StringSizable? {
+        return searchable(for: object(for: indexPath)).title
     }
 
-    func description(for indexPath: IndexPath) -> String? {
-        return searchable(for: items[indexPath.item]).subtitle
+    func description(for indexPath: IndexPath) -> StringSizable? {
+        return searchable(for: object(for: indexPath)).subtitle
     }
 
     func image(for indexPath: IndexPath) -> UIImage? {
-        return searchable(for: items[indexPath.item]).image
+        return searchable(for: object(for: indexPath)).image
     }
 
     func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
@@ -81,18 +108,19 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let existingSearchable = objectDisplayMap[object] {
             return existingSearchable
         }
-        let searchable = OfficerListItemViewModel(firstName: object.givenName!,
+        let searchable = OfficerListItemViewModel(id: object.id,
+                                                  firstName: object.givenName!,
                                                   lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank ?? "",
-                                                  callsign: object.employeeNumber!,
-                                                  section: object.region ?? "")
+                                                  rank: object.rank,
+                                                  employeeNumber: object.employeeNumber,
+                                                  section: object.region)
         objectDisplayMap[object] = searchable
         return searchable
     }
 
     func object(for indexPath: IndexPath) -> Officer {
-        return items[indexPath.item]
+        return sections[indexPath.section].items[indexPath.row]
     }
 
     func searchTextChanged(to searchString: String) {
@@ -105,31 +133,56 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
         let definition = OfficerParserDefinition()
         let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
-        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey] ?? searchText,
-                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey])
+        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey],
+                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey],
+                                                 middleNames: personParserResults?[OfficerParserDefinition.MiddleNameKey],
+                                                 employeeNumber: personParserResults?[OfficerParserDefinition.EmployeeNumberKey])
         let request = OfficerSearchRequest(source: .pscore, request: parameters)
 
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
+        // set true as we are initiating a search
+        showSearchResults = true
+
         return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
-
             if let context = self {
-                context.items = $0.results
-
-                // Once we complete a search, remove the sections (i.e. the Recently Used text)
-                if context.hasSections {
-                    context.hasSections = false
+                if !$0.results.isEmpty {
+                    context.sections = [OfficerSearchSectionViewModel(items: $0.results,
+                                                                      title: NSLocalizedString("Results", comment: "Officer Search - Result Section Title"))]
+                } else {
+                    context.sections = []
                 }
             }
         }
     }
 
     func loadingStateText() -> String? {
-        return "Searching"
+        return NSLocalizedString("Retrieving Officers", comment: "Officer Search - Loading State Text")
     }
 
-    func emptyStateText() -> String? {
-        return "No Recently Used Officers"
+    func emptyStateTitle() -> String? {
+        if showSearchResults {
+            return NSLocalizedString("No Results Found", comment: "Officer Search - Empty State Title Text (after search)")
+        } else {
+            return NSLocalizedString("No Recently Used Officers", comment: "Officer Search - Empty State Title Text (before search)")
+        }
     }
+
+    func emptyStateSubtitle() -> String? {
+        return NSLocalizedString("""
+                                    You can search for an officer by either Last Name or Employee Number.
+
+                                    To narrow a search by name, the following format can be used 'Last Name, First Name, Middle Name/s'.
+                                 """,
+                                 comment: "Officer Search - Empty State Subtitle Text")
+    }
+
+    func emptyStateImage() -> UIImage? {
+        return UIImage(named: "NoResults")
+    }
+}
+
+extension UserPreferenceKey {
+    public static let recentOfficers = UserPreferenceKey("recentOfficers")
 }

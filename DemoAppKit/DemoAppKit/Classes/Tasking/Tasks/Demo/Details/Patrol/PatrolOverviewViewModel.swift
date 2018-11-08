@@ -10,7 +10,7 @@ import UIKit
 import PublicSafetyKit
 
 open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
-    
+
     public override init() {
         super.init()
         mapViewModel = PatrolOverviewMapViewModel()
@@ -62,7 +62,7 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
                 ])
         ]
     }
-    
+
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")

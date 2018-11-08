@@ -7,7 +7,7 @@
 
 /// Defines what to show in the alert when an event is submitted successfully
 public protocol EventSubmittable {
-    
+
     /// The title of the alert
     var title: String { get }
 

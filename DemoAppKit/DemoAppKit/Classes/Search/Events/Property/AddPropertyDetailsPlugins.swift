@@ -18,7 +18,7 @@ public protocol FormBuilderPlugin {
 
 // General section
 
-public struct AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, SearchDisplayableDelegate {
+public class AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, SearchDisplayableDelegate {
     let viewModel: Weak<PropertyDetailsViewModel>
     let context: Weak<UIViewController>
 
@@ -55,7 +55,7 @@ public struct AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, 
 
 public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
     let viewModel: Weak<PropertyDetailsViewModel>
-    let delegate: AddPropertyDelegate
+    private weak var delegate: AddPropertyDelegate?
 
     public init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         self.viewModel = Weak(viewModel)
@@ -73,7 +73,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
-                    delegate.didTapOnPropertyType()
+                    delegate?.didTapOnPropertyType()
             },
 
             ValueFormItem(title: "Sub Type",
@@ -82,7 +82,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .isRequired(true)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
-                    delegate.didTapOnPropertyType()
+                    delegate?.didTapOnPropertyType()
             },
 
             DropDownFormItem(title: "Involvements")
@@ -137,7 +137,7 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
         let header = LargeTextHeaderFormItem(text: "Media")
             .separatorColor(.clear)
-            .actionButton(title: "Manage", handler: { [mediaItem, context] button in
+            .actionButton(title: "Manage", handler: { [mediaItem, context] _ in
                 if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                     context.present(viewController, animated: true, completion: nil)
                 }
@@ -170,7 +170,7 @@ public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
     public func formItems() -> [FormItem] {
         guard let report = report.object else { return [] }
         guard let details = report.property?.detailNames else { return [] }
-        return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + details.compactMap{formItem(for: $0)}
+        return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + details.compactMap {formItem(for: $0)}
     }
 
     // MARK: Private
@@ -198,4 +198,3 @@ public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
         }
     }
 }
-

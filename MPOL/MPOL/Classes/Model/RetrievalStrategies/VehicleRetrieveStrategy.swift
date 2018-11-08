@@ -40,7 +40,7 @@ public class VehicleRetrieveStrategy: EntityRetrievalStrategy {
             return APIManager.shared.searchEntity(in: source, with: request)
                 .then { result -> Promise<[EntityResultState]> in
                     let vehicles = result.results
-                    let states = vehicles.compactMap{EntityResultState.summary($0)}
+                    let states = vehicles.compactMap {EntityResultState.summary($0)}
                     return Promise.value(states)
             }
         }

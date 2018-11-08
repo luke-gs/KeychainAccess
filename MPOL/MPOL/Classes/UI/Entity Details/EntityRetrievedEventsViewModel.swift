@@ -10,7 +10,6 @@ import PublicSafetyKit
 
 open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
-
     open var events: [RetrievedEvent] {
 
         return entity?.events ?? []
@@ -80,7 +79,6 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
     private var dateSorting: DateSorting = .newest
     var sortingOptions: [DateSorting] = [.newest, .oldest]
-
 
     open var filteredEvents: [RetrievedEvent] {
         var filtered = self.events
@@ -201,7 +199,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
     private func subtitle(for event: RetrievedEvent) -> String? {
         if let date = event.occurredDate {
-            let locationString = event.jurisdiction != nil ? " (\(event.jurisdiction!))": ""
+            let locationString = event.jurisdiction != nil ? " (\(event.jurisdiction!))" : ""
             return NSLocalizedString("Recorded on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
         } else {
             return NSLocalizedString("Recorded date unknown", comment: "")
@@ -220,8 +218,9 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
 
         let navController = ModalNavigationController(rootViewController: eventVC)
         navController.modalPresentationStyle = .formSheet
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
 
-        viewController.present(navController, animated: true, completion: nil)
+        viewController.pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
     }
 
 }

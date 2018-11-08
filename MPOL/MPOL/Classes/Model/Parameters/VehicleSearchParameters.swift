@@ -10,15 +10,14 @@ import UIKit
 import PublicSafetyKit
 import Wrap
 
-
 public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
-    
+
     public init(registration: String, vehicleType: String? = nil, state: String? = nil) {
         var parameters: [String: Any] = ["plateNumber": registration]
         VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)
         super.init(parameters: parameters)
     }
-    
+
     public init(vin: String, vehicleType: String? = nil, state: String? = nil) {
         var parameters: [String: Any] = ["vin": vin]
         VehicleSearchParameters.appendAdditionalParameters(to: &parameters, vehicleType: vehicleType, state: state)

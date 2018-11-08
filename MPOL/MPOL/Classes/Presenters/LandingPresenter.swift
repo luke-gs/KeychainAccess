@@ -81,7 +81,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             do {
                 let styleMap = ThemeManager.htmlStyleMap
-                
+
                 let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                                 htmlURL: TermsAndConditions.url,
                                                                 styleMap: styleMap,
@@ -108,7 +108,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
 
-            
             let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
             let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
 
@@ -152,7 +151,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 OrganisationSearchDataSource(),
                 locationDataSource
                 ])
-            
+
             let searchViewController = SearchViewController(viewModel: viewModel)
             // Define a SearchNoContentView and add target to the tasksButton so that it opens CAD
             let searchNoContentView = SearchNoContentView()
@@ -178,24 +177,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             self.tabBarController = tabBarController
 
-            // Set up entity summary and presentable
-            let entityFormatter = EntitySummaryDisplayFormatter.default
-
-            entityFormatter.registerEntityType(Person.self,
-                                               forSummary: .function { return PersonSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-
-            entityFormatter.registerEntityType(Vehicle.self,
-                                               forSummary: .function { return VehicleSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-            
-            entityFormatter.registerEntityType(Organisation.self,
-                                               forSummary: .function { return OrganisationSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
-
-            entityFormatter.registerEntityType(Address.self,
-                                               forSummary: .function { return AddressSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
+            registerEntityPresentables(withDelegate: searchViewController)
+            registerEntityFetchClosures()
 
             self.searchViewController = searchViewController
             self.tabBarController = tabBarController
@@ -209,17 +192,16 @@ public class LandingPresenter: AppGroupLandingPresenter {
             // Sync all manifest items
             return Manifest.shared.fetchManifest(collections: nil)
         }.then { _ in
-            // Fetch the current officer details
+            // Fetch the current search officer details
             return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
                                                                 with: CurrentOfficerDetailsFetchRequest())
-            
         }.done { officer in
             try! UserSession.current.userStorage?.add(object: officer,
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
         }
     }
-    
+
     override public func logOff() {
         if CADStateManager.shared.lastBookOn != nil {
             AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
@@ -228,12 +210,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
         super.logOff()
     }
-    
+
     override public func onRemoteLogOffCompleted() {
         super.onRemoteLogOffCompleted()
         (UIApplication.shared.delegate as? AppDelegate)?.removeShortcuts()
     }
-    
+
     func switchTo(_ screen: Screen) {
         let selectedIndex: Int
         switch screen {
@@ -333,6 +315,65 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         tabBarController?.show(settingsNavController, sender: self)
     }
+
+    private func registerEntityPresentables(withDelegate delegate: SearchDelegate) {
+
+        // Set up entity summary and presentable
+        let entityFormatter = EntitySummaryDisplayFormatter.default
+
+        entityFormatter.registerEntityType(Person.self,
+                                           forSummary: .function { return PersonSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+
+        entityFormatter.registerEntityType(Vehicle.self,
+                                           forSummary: .function { return VehicleSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+
+        entityFormatter.registerEntityType(Organisation.self,
+                                           forSummary: .function { return OrganisationSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+
+        entityFormatter.registerEntityType(Address.self,
+                                           forSummary: .function { return AddressSummaryDisplayable($0) },
+                                           andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: delegate) })
+    }
+
+    private func registerEntityFetchClosures() {
+
+        //  Register fetchClosures to retrieve entities from remote
+
+        let personFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            PersonFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Person>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(personFetchClosure, forServerType: Person.serverTypeRepresentation)
+
+        let officerFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            OfficerFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Officer>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(officerFetchClosure, forServerType: Officer.serverTypeRepresentation)
+
+        let vehicleFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            VehicleFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Vehicle>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(vehicleFetchClosure, forServerType: Vehicle.serverTypeRepresentation)
+
+        let locationFetchClosure: ((String) -> Promise<MPOLKitEntity>) = { id in
+            LocationFetchRequest(source: MPOLSource.pscore, request: EntityFetchRequest<Address>(id: id)).fetchPromise().then({ (officer) -> Promise<MPOLKitEntity> in
+                return Promise<MPOLKitEntity>.value(officer)
+            })
+        }
+
+        RecentlyUsedEntityManager.default.registerFetchRequest(locationFetchClosure, forServerType: Address.serverTypeRepresentation)
+    }
 }
 
 extension LandingPresenter: UserCallsignStatusViewModelDelegate {
@@ -345,7 +386,6 @@ extension LandingPresenter: UserCallsignStatusViewModelDelegate {
     }
 
 }
-
 
 // MARK: - UITabBarControllerDelegate
 extension LandingPresenter: UITabBarControllerDelegate {

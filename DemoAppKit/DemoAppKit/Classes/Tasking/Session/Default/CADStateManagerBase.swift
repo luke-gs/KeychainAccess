@@ -17,12 +17,17 @@ open class CADStateManagerBase: CADStateManagerType {
 
     public init(apiManager: CADAPIManagerType) {
         self.apiManager = apiManager
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(clearSession), name: .userSessionEnded, object: nil)
     }
 
     // MARK: - CADStateManagerType Properties
 
     /// The logged in officer details
-    open var officerDetails: CADEmployeeDetailsType?
+    open var officerDetails: CADOfficerType? {
+        MPLUnimplemented()
+    }
 
     /// The patrol group
     open var patrolGroup: String? {
@@ -122,7 +127,7 @@ open class CADStateManagerBase: CADStateManagerType {
     open var lastSync: CADSyncResponseType?
 
     /// The last synced bounding box
-    open var lastSyncMapBoundingBox: MKMapRect.BoundingBox? = nil
+    open var lastSyncMapBoundingBox: MKMapRect.BoundingBox?
 
     // MARK: - Property changes
 
@@ -141,7 +146,7 @@ open class CADStateManagerBase: CADStateManagerType {
         // Force a sync unless just updating the map bounds
         let force: Bool
         switch (oldValue, syncMode) {
-        case (.map(_), .map(_)):
+        case (.map, .map):
             force = false
         default:
             force = true
@@ -156,7 +161,6 @@ open class CADStateManagerBase: CADStateManagerType {
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }
     }
-
 
     // MARK: - Manifest
 
@@ -182,7 +186,7 @@ open class CADStateManagerBase: CADStateManagerType {
                                                    fetchType: .full)
         }
         return apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
-            return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
+            return Manifest.shared.saveManifest(with: result, at: checkedAtDate)
             }.done { [unowned self] _ in
                 self.lastManifestSyncTime = Date()
         }
@@ -280,12 +284,7 @@ open class CADStateManagerBase: CADStateManagerType {
             }
             officersById.removeAll()
             for officer in syncDetails.officers {
-                officersById[officer.payrollId] = officer
-            }
-
-            // Make sure logged in officer is in cache too
-            if let officerDetails = officerDetails {
-                officersById[officerDetails.payrollId] = officerDetails
+                officersById[officer.id] = officer
             }
         }
     }
@@ -315,8 +314,8 @@ open class CADStateManagerBase: CADStateManagerType {
     open func officersForResource(callsign: String) -> [CADOfficerType] {
         var officers: [CADOfficerType] = []
         if let resource = resourcesById[callsign] {
-            for payrollId in resource.payrollIds {
-                if let officer = officersById[payrollId] {
+            for id in resource.officerIds {
+                if let officer = officersById[id] {
                     officers.append(officer)
                 }
             }
@@ -325,8 +324,7 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Clears all session data properties
-    open func clearSession() {
-        self.officerDetails = nil
+    @objc open func clearSession() {
         self.patrolGroup = nil
         self.lastBookOn = nil
         self.lastSync = nil
@@ -334,16 +332,16 @@ open class CADStateManagerBase: CADStateManagerType {
         self.pendingSync = nil
         self.isQueuedSync = false
         self.lastSyncMapBoundingBox = nil
-        
+
         self.syncMode = .none
-        
+
         self.incidentsById.removeAll()
         self.resourcesById.removeAll()
         self.officersById.removeAll()
         self.patrolsById.removeAll()
         self.broadcastsById.removeAll()
     }
-    
+
     // MARK: - Subclass
 
     /// Perform initial sync after login or launching app
@@ -358,11 +356,6 @@ open class CADStateManagerBase: CADStateManagerType {
 
     /// Sync a map bounding box
     open func syncBoundingBox(_ boundingBox: MKMapRect.BoundingBox, force: Bool = false) -> Promise<Void> {
-        MPLRequiresConcreteImplementation()
-    }
-
-    /// Fetch details for a specific employee, or nil for current user
-    open func getEmployeeDetails(identifier: String?) -> Promise<CADEmployeeDetailsType> {
         MPLRequiresConcreteImplementation()
     }
 

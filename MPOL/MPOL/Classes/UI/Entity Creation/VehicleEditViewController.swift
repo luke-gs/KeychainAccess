@@ -110,10 +110,7 @@ public class VehicleEditViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
         case .valid:
             self.dismiss(animated: true, completion: nil)
-            break
         }
     }
 
 }
-
-

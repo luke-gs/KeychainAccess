@@ -11,16 +11,16 @@ import UIKit
 extension UserPreferenceKey {
     /// Recently used callsigns
     public static let recentCallsigns = UserPreferenceKey("recentCallsigns")
-    
+
     /// Recently used officers
-    public static let recentOfficers = UserPreferenceKey("recentOfficers")
+    public static let recentCADOfficers = UserPreferenceKey("recentCADOfficers")
 }
 
 public class CADRecentlyUsedKey: ExtensibleKey<String> {
 
     /// Recently used callsigns
     public static let callsigns = CADRecentlyUsedKey("callsigns")
-    
+
     /// Recently used officers
     public static let officers = CADRecentlyUsedKey("officers")
 

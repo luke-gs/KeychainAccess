@@ -20,20 +20,20 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
     private var vehicle: Vehicle? {
         return entity as? Vehicle
     }
-    
+
     // MARK: - EntityDetailFormViewModel
-    
+
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
         builder.title = title
-        
+
         guard let vehicle = vehicle else { return }
-        
+
         // ---------- HEADER ----------
-        
+
         let displayable = VehicleDetailsDisplayable(vehicle)
-        
+
         builder += HeaderFormItem(text: header(for: .header), style: .collapsible)
-        let thumbnailSize: EntityThumbnailView.ThumbnailSize = displaysCompact(in: viewController) ? .medium : .large
+        let thumbnailSize: EntityThumbnailView.ThumbnailSize = viewController.traitCollection.horizontalSizeClass == .compact ? .medium : .large
         builder += SummaryDetailFormItem()
             .category(displayable.category)
             .title(displayable.title)
@@ -93,12 +93,11 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
                 }())
                 .width(.column(3))
 
-
             let address = vehicle.addresses?.first
             let addressText = address?.fullAddress ?? "-"
             builder += ValueFormItem(title: NSLocalizedString("Address", comment: ""), value: addressText)
                 .width(.column(1))
-            
+
             // TODO: - Implement a proper way to present / delegate the presentation of options.
             /*
             let attributedValue = NSAttributedString(string: addressText, attributes: [ .foregroundColor : UIColor.brightBlue ])
@@ -108,31 +107,31 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         }
 
     }
-    
+
     open override var title: String? {
         return NSLocalizedString("Information", comment: "")
     }
-    
+
     open override var noContentTitle: String? {
         return NSLocalizedString("No Vehicle Found", comment: "")
     }
-    
+
     open override var noContentSubtitle: String? {
         return NSLocalizedString("There are no details for this vehicle", comment: "")
     }
-    
+
     open override var sidebarImage: UIImage? {
         return AssetManager.shared.image(forKey: .infoFilled)
     }
-    
+
     // MARK: - Internal
-    
+
     private enum Section {
         case header
         case vehicleDetails
         case registrationDetails
     }
-    
+
     private func header(for section: Section) -> String? {
         switch section {
         case .header:
@@ -152,18 +151,5 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
 
     open override func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
         delegate?.reloadData()
-    }
-
-    private func displaysCompact(in controller: FormBuilderViewController) -> Bool {
-        let formLayout = controller.formLayout!
-        let collectionView = controller.collectionView
-        let itemInsets = formLayout.itemLayoutMargins
-        let horizontalInsets = UIEdgeInsets(top: 0,
-                                            left: collectionView?.layoutMargins.left ?? 0,
-                                            bottom: 0,
-                                            right: collectionView?.layoutMargins.right ?? 0)
-        let calculatedWidth = formLayout.collectionViewContentSize.width - itemInsets.left - itemInsets.right - horizontalInsets.left - horizontalInsets.right
-
-        return EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: calculatedWidth)
     }
 }

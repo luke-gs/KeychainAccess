@@ -9,21 +9,21 @@
 import UIKit
 
 open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
-    
+
     public let viewModel: ResourceOverviewViewModel
-    
+
     public init(viewModel: ResourceOverviewViewModel) {
         self.viewModel = viewModel
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open override func construct(builder: FormBuilder) {
         if let currentIncident = viewModel.currentIncidentViewModel {
             builder += HeaderFormItem(text: viewModel.respondingToHeaderTitle(), style: .collapsible)
-            
+
             builder += IncidentSummaryFormItem(viewModel: currentIncident)
                 .accessory(ItemAccessory.disclosure)
                 .separatorStyle(.fullWidth)
@@ -33,7 +33,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                     self.present(TaskItemScreen.landing(viewModel: viewModel))
                 }
         }
-        
+
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)

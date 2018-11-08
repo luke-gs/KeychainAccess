@@ -9,12 +9,12 @@
 import PublicSafetyKit
 
 open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
-    
+
     /// Associated persons
     private var persons: [Person] {
         return entity?.associatedPersons ?? []
     }
-    
+
     /// Associated vehicles
     private var vehicles: [Vehicle] {
         return entity?.associatedVehicles ?? []
@@ -24,7 +24,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     private var locations: [Address] {
         return entity?.addresses ?? []
     }
-    
+
     /// Total associations count
     private var count: Int {
         return persons.count + vehicles.count + locations.count
@@ -33,9 +33,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     // return color of assossication with highest alert level
     private var highestAssociationAlertColor: UIColor? {
 
-        let associations: [Entity] = persons.compactMap { $0 as Entity } +
-            vehicles.compactMap { $0 as Entity } +
-            locations.compactMap { $0 as Entity }
+        let associations: [Entity] = persons.compactMap { person -> Entity in person as Entity } +
+            vehicles.compactMap { vehicle -> Entity in vehicle as Entity } +
+            locations.compactMap { location -> Entity in location as Entity }
 
         var highestAlertLevel: Alert.Level?
 
@@ -62,23 +62,23 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     private weak var searchDelegate: SearchDelegate?
 
     private let summaryDisplayFormatter: EntitySummaryDisplayFormatter
-    
+
     // MARK: - Lifecycle
-    
+
     public init(delegate: SearchDelegate?, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.searchDelegate = delegate
         self.summaryDisplayFormatter = summaryDisplayFormatter
     }
-    
+
     // MARK: - EntityDetailFormViewModel
-    
+
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
         builder.title = title
-        
+
         if !persons.isEmpty {
             let count = persons.count
             builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d People", comment: ""), count), separatorColor: .clear)
-            
+
             for person in persons {
                 let displayable = PersonSummaryDisplayable(person)
                 builder += displayable.associatedSummaryFormItem(style: style(for: person))
@@ -89,11 +89,11 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
                 }
             }
         }
-        
+
         if !vehicles.isEmpty {
             let count = vehicles.count
             builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d Vehicle(s)", comment: ""), count), separatorColor: .clear)
-            
+
             for vehicle in vehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
                 builder += displayable.associatedSummaryFormItem(style: style(for: vehicle))
@@ -119,18 +119,18 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
                 }
             }
         }
-        
+
         delegate?.updateLoadingState(count == 0 ? .noContent : .loaded)
     }
-    
+
     open override var title: String? {
         return NSLocalizedString("Associations", comment: "")
     }
-    
+
     open override var noContentTitle: String? {
         return NSLocalizedString("No Associations Found", comment: "")
     }
-    
+
     open override var noContentSubtitle: String? {
         let name: String
         if let entity = entity {
@@ -140,11 +140,11 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         }
         return String(format: NSLocalizedString("This %@ has no associations", comment: ""), name)
     }
-    
+
     open override var sidebarImage: UIImage? {
         return AssetManager.shared.image(forKey: .association)
     }
-    
+
     open override var sidebarCount: UInt? {
         return UInt(count)
     }
@@ -160,10 +160,10 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             delegate?.updateSidebarAlertColor(color)
         }
     }
-    
+
     open override var rightBarButtonItems: [UIBarButtonItem]? {
         filterButton.isEnabled = false
-        
+
         var buttons: [UIBarButtonItem] = [filterButton]
         if !isCompact {
             let image = AssetManager.shared.image(forKey: style == .grid ? .navBarThumbnailSelected : .navBarThumbnail)
@@ -171,25 +171,25 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         }
         return buttons
     }
-    
+
     open override func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
         self.traitCollection = traitCollection
     }
-    
+
     // MARK: - Filtering (currently disabled)
-    
+
     open override var isFilterApplied: Bool {
         return false
     }
-    
+
     open override var filterOptions: [FilterOption] {
         return []
     }
-    
+
     open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
-        
+
     }
-    
+
     // MARK: - Entity Display Style
 
     public private(set) var style: EntityDisplayStyle = .grid {
@@ -204,28 +204,28 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             }
         }
     }
-    
+
     private var traitCollection: UITraitCollection? {
         didSet {
             delegate?.reloadData()
             delegate?.updateBarButtonItems()
         }
     }
-    
+
     private var isCompact: Bool {
         return traitCollection?.horizontalSizeClass == .compact
     }
-    
+
     @objc private func updateStyle() {
         style = style == .grid ? . list : .grid
     }
 
     private func style(for entity: Entity) -> EntityDisplayStyle {
         switch entity {
-            case is Vehicle, is Address:
-                return .list
-            default:
-                return isCompact ? .list : style
+        case is Vehicle, is Address:
+            return .list
+        default:
+            return isCompact ? .list : style
         }
     }
 }

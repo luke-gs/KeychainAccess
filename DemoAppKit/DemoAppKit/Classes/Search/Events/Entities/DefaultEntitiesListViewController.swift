@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class DefaultEntitiesListViewController: FormBuilderViewController, EvaluationObserverable, EntityPickerDelegate {
+open class DefaultEntitiesListViewController: FormBuilderViewController, EvaluationObserverable {
 
     var viewModel: EntitiesListViewModel
 
@@ -57,36 +57,34 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                         .badge(0)
                         .accessory(accessory)
                         .selectionStyle(.none)
-                        .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                        .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                             self.viewModel.removeEntity(entity)
                             self.updateLoadingManager()
                             self.reloadForm()
                         })])
-                        .onSelection({ cell in
-                            self.presentEditViewController( entity: entity, cell: cell)
-                        })
+                        .onSelection { cell in
+                            self.presentEditViewController(entity: entity, cell: cell)
+                        }
 
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
                 builder += SubItemFormItem()
+                    .styleIdentifier(!action.evaluator.isComplete ? DemoAppKitStyler.additionalActionStyle : nil)
                     .separatorColor(.clear)
                     .title(action.additionalActionType.rawValue)
                     .detail(action.evaluator.isComplete ? "Complete" : "Incomplete")
-                    .detailFont(UIFont.systemFont(ofSize: 13, weight: .semibold))
-                    .detailColorKey(action.evaluator.isComplete ? .secondaryText : .redText)
                     .image(AssetManager.shared.image(forKey: .documentFilled))
-                    .imageTintColorKey(.primaryText)
                     .selectionStyle(.none)
-                    .actionButton(title: "Open", handler: { (sender) in
+                    .actionButton(title: "Open", handler: { (_) in
                         self.presentAdditionalAction(reports: action.reports)
                     })
-                    .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                    .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                         self.viewModel.removeAdditionalAction(entity: entity, action: action)
                         self.updateLoadingManager()
                         self.reloadForm()
                     })])
-                    .onSelection({ cell in
+                    .onSelection { _ in
                         self.presentAdditionalAction(reports: action.reports)
-                    })
+                    }
             }
         }
 
@@ -101,16 +99,33 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
     @objc private func newEntityHandler(_ sender: UIButton) {
 
-        let entityPickerViewModel = viewModel.entityPickerViewModel
-        entityPickerViewModel.delegate = self
-        
-        let viewController = EntityPickerViewController(viewModel: entityPickerViewModel)
+        let entitySelectionViewModel = viewModel.entitySelectionViewModel
+
+        let viewController = EntitySummarySelectionViewController(viewModel: entitySelectionViewModel)
+        viewController.selectionHandler = { [weak self] entity in
+
+            guard let `self` = self else { return }
+
+            if !self.viewModel.involvements(for: entity).isEmpty {
+                self.presentPickerViewController(type: .involvement, entity: entity)
+
+            } else if !self.viewModel.additionalActions(for: entity).isEmpty {
+                self.presentPickerViewController(type: .additionalAction, entity: entity)
+
+            } else {
+                self.viewModel.addEntity(entity, with: [], and: [])
+                self.updateLoadingManager()
+                self.reloadForm()
+                self.dismissAnimated()
+            }
+        }
+
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                                           style: .plain,
                                                                           target: self,
                                                                           action: #selector(cancelTapped))
 
-        let navController = PopoverNavigationController(rootViewController: viewController)
+        let navController = ModalNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
 
         present(navController, animated: true, completion: nil)
@@ -137,22 +152,6 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         loadingManager.state = viewModel.currentLoadingManagerState
     }
 
-    public func finishedPicking(_ entity: MPOLKitEntity) {
-
-        if !viewModel.involvements(for: entity).isEmpty {
-            presentPickerViewController(type: .involvement, entity: entity)
-
-        } else if !viewModel.additionalActions(for: entity).isEmpty {
-            presentPickerViewController(type: .additionalAction, entity: entity)
-
-        } else {
-            viewModel.addEntity(entity, with: [], and: [])
-            updateLoadingManager()
-            reloadForm()
-            dismissAnimated()
-        }
-    }
-
     public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
 
         let definition = viewModel.definition(for: type, from: self, with: entity)
@@ -160,7 +159,6 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         let viewController = CustomPickerController(dataSource: dataSource)
 
         viewController.finishUpdateHandler = definition.completion
-
 
         if let navController = presentedViewController as? UINavigationController {
             navController.pushViewController(viewController, animated: false)
@@ -175,7 +173,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         }
     }
 
-    private func presentEditViewController( entity: MPOLKitEntity, cell: CollectionViewFormCell) {
+    private func presentEditViewController(entity: MPOLKitEntity, cell: CollectionViewFormCell) {
 
         let editItems = viewModel.editItems(for: entity)
         let pickerTableViewController = PickerTableViewController(style: .plain, items: editItems)
@@ -188,10 +186,10 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             self?.dismiss(animated: true, completion: {
                 guard let index = selectedIndexes.first else { return }
                 let item = editItems[index]
-                if item.subtitle == "involvement" {
+                if item.subtitle?.sizing().string == "involvement" {
                     self?.presentPickerViewController(type: .involvement, entity: entity)
                 }
-                if item.subtitle == "action" {
+                if item.subtitle?.sizing().string == "action" {
                     self?.presentPickerViewController(type: .additionalAction, entity: entity)
                 }
             })

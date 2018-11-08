@@ -19,7 +19,7 @@ public protocol EventSearchableViewModel {
     func didCancelSearch()
 }
 
-public protocol EventSearchableViewModelDelegate {
+public protocol EventSearchableViewModelDelegate: class {
     associatedtype Searchable
     associatedtype Option
 

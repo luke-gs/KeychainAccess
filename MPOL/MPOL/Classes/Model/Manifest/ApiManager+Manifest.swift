@@ -16,7 +16,7 @@ extension Manifest {
     ///   - collections: the collections to fetch. Pass in nil if you want a full fetch
     ///   - date: the date from which to fetch manifest since
     /// - Returns: a void promise defining whether the fetch was successful or not
-    open func fetchManifest(collections: [ManifestCollection]? = nil, sinceDate date: Date? = Manifest.shared.lastUpdateDate) -> Promise<Void> {
+    public func fetchManifest(collections: [ManifestCollection]? = nil, sinceDate date: Date? = Manifest.shared.lastUpdateDate) -> Promise<Void> {
         let manifestRequest: ManifestFetchRequest
         if let collections = collections {
             manifestRequest = ManifestFetchRequest(date: date,

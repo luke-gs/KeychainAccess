@@ -14,7 +14,7 @@ open class BookOnLandingItemViewModel {
     open var subtitle: String?
     open var imageColor: UIColor?
     open var imageBackgroundColor: UIColor?
-    
+
     private var _originalImage: UIImage?
     private var _processedImage: UIImage?
 
@@ -32,7 +32,7 @@ open class BookOnLandingItemViewModel {
                     _processedImage = _originalImage
                 }
             }
-            
+
             return _processedImage
         }
         set {
@@ -63,7 +63,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
     open var badgeTextColor: UIColor?
     open var badgeBorderColor: UIColor?
     open var badgeFillColor: UIColor?
-    
+
     /// Create a view model from the callsign resource
     public init(resource: CADResourceType) {
         // Get icon colors
@@ -75,7 +75,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
 
         let title = [resource.callsign, resource.officerCountString].joined()
         let subtitle = resource.location?.suburb ?? resource.station ?? ThemeConstants.longDash
-        let caption = [resource.status.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
+        let caption = [resource.status.rawValue, resource.currentIncident?.title?.sizing().string].joined(separator: ThemeConstants.dividerSeparator)
 
         self.resource = resource
         self.callsign = resource.callsign
@@ -90,7 +90,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
 
         super.init(title: title, subtitle: subtitle, image: resource.type.icon, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
-    
+
     public init(resource: CADResourceType, callsign: String, title: String, subtitle: String?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
         self.resource = resource
         self.callsign = resource.callsign

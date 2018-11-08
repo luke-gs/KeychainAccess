@@ -36,4 +36,3 @@ public class IncidentSplitViewController: SidebarSplitViewController, Evaluation
 
     }
 }
-

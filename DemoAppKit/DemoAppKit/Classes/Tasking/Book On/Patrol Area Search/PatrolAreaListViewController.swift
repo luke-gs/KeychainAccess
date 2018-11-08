@@ -9,6 +9,9 @@ import UIKit
 
 open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolAreaListViewControllerSelectionHandler, PatrolAreaListViewModel> {
 
+    // Strong reference to selection handler
+    private var selectionHandler: PatrolAreaListViewControllerSelectionHandler?
+
     // MARK: - Setup
 
     public required init(viewModel: PatrolAreaListViewModel) {
@@ -21,8 +24,9 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
         super.viewDidLoad()
 
         // Set delegate to internal selection handler
-        delegate = PatrolAreaListViewControllerSelectionHandler(self)
-        
+        selectionHandler = PatrolAreaListViewControllerSelectionHandler(self)
+        delegate = selectionHandler
+
         if let selectedIndex = viewModel.indexOfSelectedItem() {
             DispatchQueue.main.async {
                 self.collectionView?.scrollToItem(at: IndexPath(item: selectedIndex, section: 0), at: .centeredVertically, animated: false)
@@ -45,7 +49,7 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
                     .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
-                    .onSelection { [unowned self] cell in
+                    .onSelection { [unowned self] _ in
                         self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
                 }
             }
@@ -69,13 +73,14 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
 // Separate class for SearchDisplayableDelegate implementation, due to cyclic reference in generic type inference
 open class PatrolAreaListViewControllerSelectionHandler: SearchDisplayableDelegate {
     public typealias Object = CustomSearchDisplayable
-    private var listViewController: PatrolAreaListViewController
+    private weak var listViewController: PatrolAreaListViewController?
 
     init(_ listViewController: PatrolAreaListViewController) {
         self.listViewController = listViewController
     }
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
+        guard let listViewController = listViewController else { return }
         if let patrolArea = object as? PatrolAreaListItemViewModel {
             listViewController.viewModel.selectedPatrolArea = patrolArea.patrolArea
             listViewController.reloadForm()

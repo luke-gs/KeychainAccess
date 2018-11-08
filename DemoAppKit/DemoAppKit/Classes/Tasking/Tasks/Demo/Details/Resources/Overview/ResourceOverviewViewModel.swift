@@ -12,16 +12,15 @@ import PublicSafetyKit
 open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
 
     open var resource: CADResourceType?
-    
+
     override open func createFormViewController() -> FormBuilderViewController {
         return ResourceOverviewFormViewController(viewModel: self)
     }
-    
+
     public override init() {
         super.init()
         mapViewModel = ResourceOverviewMapViewModel()
     }
-
 
     open var currentIncidentViewModel: TasksListIncidentViewModel? {
         guard let resource = resource,
@@ -33,14 +32,14 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         let source = CADClientModelTypes.taskListSources.incidentCase
         return TasksListIncidentViewModel(incident: incident, source: source, showsDescription: false, showsResources: false, hasUpdates: false)
     }
-    
+
     open override func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let resource = model as? CADResourceType else { return }
         self.resource = resource
         (mapViewModel as? ResourceOverviewMapViewModel)?.reloadFromModel(resource)
 
         // Load text from manifest
-        var vehicleCategoryText: String? = nil
+        var vehicleCategoryText: String?
         if let vehicleCategoryId = resource.vehicleCategoryId {
             if let entry = Manifest.shared.entry(withID: vehicleCategoryId) {
                 vehicleCategoryText = entry.rawValue
@@ -50,55 +49,53 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         sections = [
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
                                               items: [
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Start Time", comment: ""))
-                                                    .value(resource.shiftStartString)
-                                                    .width(.column(3)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Estimated End Time", comment: ""))
-                                                    .value(resource.shiftEndString)
-                                                    .width(.column(3)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Duration", comment: ""))
-                                                    .value(resource.shiftDuration)
-                                                    .width(.column(3)),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
+                                                                              value: resource.shiftStartString,
+                                                                              width: .column(3)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
+                                                                              value: resource.shiftEndString,
+                                                                              width: .column(3)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
+                                                                              value: resource.shiftDuration,
+                                                                              width: .column(3))
                                                 ]),
 
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Call Sign Details", comment: ""),
                                               items: [
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Type", comment: ""))
-                                                    .value(resource.type.rawValue)
-                                                    .width(.column(4)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Station", comment: ""))
-                                                    .value(resource.station)
-                                                    .width(.column(4)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Fleet ID", comment: ""))
-                                                    .value(resource.serial)
-                                                    .width(.column(4)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Category", comment: ""))
-                                                    .value(vehicleCategoryText)
-                                                    .width(.column(4)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Equipment", comment: ""))
-                                                    .value(resource.equipmentListString(separator: ", "))
-                                                    .width(.column(1)),
-                                                ValueFormItem()
-                                                    .title(NSLocalizedString("Remarks", comment: ""))
-                                                    .value(resource.remarks ?? "-")
-                                                    .width(.column(1)),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Type", comment: ""),
+                                                                              value: resource.type.rawValue,
+                                                                              width: .column(4)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Station", comment: ""),
+                                                                              value: resource.station,
+                                                                              width: .column(4)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Fleet ID", comment: ""),
+                                                                              value: resource.serial,
+                                                                              width: .column(4)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
+                                                                              value: vehicleCategoryText,
+                                                                              width: .column(4)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
+                                                                                 value: resource.equipmentListString(separator: ", "),
+                                                                              width: .column(1)),
+
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
+                                                                              value: resource.remarks ?? "–",
+                                                                              width: .column(1))
                                                 ])
         ]
     }
-    
+
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
-    
+
     open func respondingToHeaderTitle() -> String {
         return NSLocalizedString("Responding To", comment: "").uppercased()
     }
@@ -116,4 +113,3 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         }
     }
 }
-

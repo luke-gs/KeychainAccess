@@ -35,10 +35,10 @@ public class OfficerListReport: EventReportable {
     public required init(event: Event) {
         self.weakEvent = Weak(event)
 
-        let testOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as! Officer
-        testOfficer.involvements = ["Reporting Officer"]
-
-        officers = [testOfficer]
+        if let testOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
+            testOfficer.involvements = ["Reporting Officer"]
+            officers = [testOfficer]
+        }
 
         commonInit()
     }
@@ -48,12 +48,13 @@ public class OfficerListReport: EventReportable {
             evaluator.addObserver(event)
         }
 
-        evaluator.registerKey(.officers) {
+        evaluator.registerKey(.officers) { [weak self] in
+            guard let `self` = self else { return false }
             return self.viewed == true
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
                 })
-                && self.officers.flatMap{$0.involvements}.contains(where: {$0.caseInsensitiveCompare("reporting officer") == .orderedSame})
+                && self.officers.flatMap {$0.involvements}.contains(where: {$0.caseInsensitiveCompare("reporting officer") == .orderedSame})
         }
     }
 
@@ -64,12 +65,10 @@ public class OfficerListReport: EventReportable {
         case event
     }
 
-
     public required init?(coder aDecoder: NSCoder) {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
         commonInit()
     }
-
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
@@ -83,7 +82,7 @@ public class OfficerListReport: EventReportable {
 }
 
 extension OfficerListReport: Summarisable {
-    
+
     public var formItems: [FormItem] {
         var items = [FormItem]()
         items.append(LargeTextHeaderFormItem(text: "Officers"))

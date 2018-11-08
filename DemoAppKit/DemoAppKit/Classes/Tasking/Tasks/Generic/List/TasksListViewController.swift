@@ -30,7 +30,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
 
     open var viewModel: TasksListViewModel
-    
+
     /// Delegate for UI events
     open weak var delegate: TasksListViewControllerDelegate?
 
@@ -51,9 +51,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     public init(viewModel: TasksListViewModel) {
         self.viewModel = viewModel
+
         super.init()
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -68,13 +69,18 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        let styler = Styler()
+        styler.mainStyle = DemoAppKitStyler(interfaceStyle: .dark)
+
+        builder.styler = styler
+
         createSubviews()
         createConstraints()
 
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
         loadingManager.delegate = self
-        
+
         sectionsUpdated()
     }
 
@@ -105,7 +111,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         // Use KVO to update search bar, rather than hijacking scroll delegate
         if let collectionView = collectionView {
-            scrollBarObservation = collectionView.observe(\.contentOffset) { [unowned self] (view, change) in
+            scrollBarObservation = collectionView.observe(\.contentOffset) { [unowned self] (_, _) in
                 self.syncSearchBarWithCollectionView(collectionView)
             }
         }
@@ -121,7 +127,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
         ])
     }
-
 
     open override func construct(builder: FormBuilder) {
         if viewModel.otherSections.count > 0 {
@@ -153,7 +158,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             let sectionCollapsible = viewModel.shouldShowExpandArrow() && !section.preventCollapse.isTrue
             builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: sectionCollapsible ? .collapsible : .plain)
-            
+
             for item in section.items {
                 let formItem: BaseFormItem
                 if let item = item as? TasksListIncidentViewModel {
@@ -167,8 +172,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                 } else {
                     continue
                 }
-                
-                
+
                 builder += formItem
                     .highlightStyle(.fade)
                     .selectionStyle(.fade)
@@ -178,15 +182,17 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                     })
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ [weak self] (cell, theme) in
-                        self?.apply(theme: theme, to: cell)
+                    .onStyled({ [unowned self] (cell) in
+                        // override the default theme set by DemoAppKitStyler
+                        let theme = ThemeManager.shared.theme(for: self.userInterfaceStyle)
+                        self.apply(theme: theme, to: cell)
                     })
-                    .onSelection({ [weak self] (cell) in
+                    .onSelection({ [weak self] (_) in
                         // Set item as read and reload the section
                         (item as? TasksListIncidentViewModel)?.hasUpdates = false
-                        
+
                         self?.collectionView?.reloadSections(IndexSet(integer: sectionIndex))
-                        
+
                         if let viewModel = item.createItemViewModel() {
                             self?.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
@@ -194,15 +200,17 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             }
         }
     }
-    
+
     open func apply(theme: Theme, to cell: CollectionViewFormCell) {
         if let cell = cell as? TasksListResourceCollectionViewCell {
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListBasicCollectionViewCell {
             cell.apply(theme: theme)
+        } else if let cell = cell as? TasksListIncidentCollectionViewCell {
+            cell.apply(theme: theme)
         }
     }
-    
+
     open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
         if let cell = cell as? TasksListResourceCollectionViewCell, let viewModel = viewModel as? TasksListResourceViewModel {
             cell.decorate(with: viewModel)
@@ -210,7 +218,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             cell.decorate(with: viewModel)
         }
     }
-    
+
     open func syncSearchBarWithCollectionView(_ collectionView: UICollectionView) {
         guard !ignoreCollectionViewTracking else { return }
 
@@ -265,7 +273,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     open func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-    
+
     open func hideSearchBar() {
         // Clear the search text
         searchBar.text = nil
@@ -281,13 +289,13 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     @objc open func refreshTasks() {
         delegate?.taskListDidPullToRefresh()
     }
-    
+
     open func sectionsUpdated() {
         // Update loading state
         let noSections = (viewModel.numberOfSections() == 0)
         loadingManager.state = noSections ? .noContent : .loaded
         searchBar.isHidden = noSections && searchBar.text?.isEmpty == true
-        
+
         // Reload content
         reloadContent()
     }
@@ -309,8 +317,8 @@ extension TasksListViewController: LoadingStateManagerDelegate {
 
 /// Custom form layout that adjust content size to enable scrolling search bar out of view, even if not enough content
 /// to normally enable scrolling
-fileprivate class ScrollableCollectionViewFormLayout: CollectionViewFormLayout {
-    open override var collectionViewContentSize : CGSize {
+private class ScrollableCollectionViewFormLayout: CollectionViewFormLayout {
+    open override var collectionViewContentSize: CGSize {
         var size = super.collectionViewContentSize
         if let collectionView = collectionView {
             let minHeight = collectionView.frame.height +

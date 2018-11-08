@@ -19,7 +19,6 @@ public protocol CADAPIManagerType {
     /// Fetch manifest items
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass>
 
-
     // MARK: - CAD
 
     /// Book on to CAD
@@ -30,9 +29,6 @@ public protocol CADAPIManagerType {
 
     /// Sync all summary details for a patrol group or bounding box
     func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType>
-
-    /// Fetch details about an employee
-    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
 
     /// Fetch details about an incident
     func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
@@ -54,10 +50,6 @@ public extension CADAPIManagerType {
 
     func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType) -> Promise<ResponseType> {
         return cadSyncSummaries(with: request, pathTemplate: nil)
-    }
-
-    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType) -> Promise<ResponseType> {
-        return cadEmployeeDetails(with: request, pathTemplate: nil)
     }
 
     func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADGetDetailsRequestType) -> Promise<ResponseType> {

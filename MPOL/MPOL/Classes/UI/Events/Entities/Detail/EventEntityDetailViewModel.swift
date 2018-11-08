@@ -36,7 +36,7 @@ open class EventEntityDetailViewModel {
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
         let summaryDisplayable = EntitySummaryDisplayFormatter.default.summaryDisplayForEntity(report.entity)
-        headerView.titleLabel.text = summaryDisplayable?.title
+        headerView.titleLabel.text = summaryDisplayable?.title?.sizing().string
 
         headerView.subtitleLabel.text = "Saved as Draft"
         headerView.subtitleLabel.font = UIFont.systemFont(ofSize: 13)

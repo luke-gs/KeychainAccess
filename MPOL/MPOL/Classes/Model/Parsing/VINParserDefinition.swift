@@ -11,7 +11,7 @@ import PublicSafetyKit
 
 public enum VINParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
-    
+
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
@@ -25,15 +25,15 @@ public protocol VINDefinitionType {
 }
 
 public class VINParserDefinition: WildcardParserDefinition, VINDefinitionType {
-    
+
     public static let vinKey = "vin"
-    
+
     public init(range: CountableClosedRange<Int>) {
         super.init(range: range, definitionKey: VINParserDefinition.vinKey, errorClosure: invalidLengthError)
     }
 }
 
-fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+private var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
     return {  (query, requiredLengthRange) -> LocalizedError in
         return VINParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
     }

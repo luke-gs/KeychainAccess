@@ -14,12 +14,12 @@ public class CriminalHistorySummaryViewModel {
 
     public var navBarTitle: String {
         switch criminalHistory {
-            case is OffenderCharge:
-                return NSLocalizedString("Charge", comment: "")
-            case is OffenderConviction:
-                return NSLocalizedString("Conviction", comment: "")
-            default:
-                return NSLocalizedString("Criminal History", comment: "") 
+        case is OffenderCharge:
+            return NSLocalizedString("Charge", comment: "")
+        case is OffenderConviction:
+            return NSLocalizedString("Conviction", comment: "")
+        default:
+            return NSLocalizedString("Criminal History", comment: "")
         }
     }
 
@@ -89,14 +89,14 @@ public class CriminalHistorySummaryViewModel {
     init(criminalHistory: CriminalHistory) {
         self.criminalHistory = criminalHistory
     }
-    
+
 }
 
 fileprivate extension String {
 
     var withPreferredFont: StringSizable {
         return NSAttributedString(string: self,
-                                  attributes: [.font: UIFont.systemFont(ofSize:17.0)])
+                                  attributes: [.font: UIFont.systemFont(ofSize: 17.0)])
             .sizing()
     }
 }

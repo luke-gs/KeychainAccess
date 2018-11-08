@@ -5,7 +5,6 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-
 import Foundation
 import PublicSafetyKit
 
@@ -34,10 +33,10 @@ public class CriminalHistorySummaryViewController: FormBuilderViewController {
             .textAlignment(.center)
 
         builder += RowDetailFormItem(title: viewModel.courtNameLabel, detail: viewModel.courtNameValue)
-            .separatorColor(.clear)
+            .separatorStyle(.none)
 
         builder += RowDetailFormItem(title: viewModel.occurredDateLabel, detail: viewModel.occurredDateValue)
-            .separatorColor(.clear)
+            .separatorStyle(.none)
 
         builder += RowDetailFormItem(title: viewModel.courtDateLabel, detail: viewModel.courtDateValue)
 

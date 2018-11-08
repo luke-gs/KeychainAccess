@@ -28,7 +28,7 @@ public protocol EntityPickerTypeDefiniton {
 }
 
 /// Struct with the definition for picking involvements for an Entity.
-internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
+internal struct InvolvementPickerDefinition: EntityPickerTypeDefiniton {
 
     var context: DefaultEntitiesListViewController
     var entity: MPOLKitEntity
@@ -40,7 +40,7 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
 
     var dataSource: CustomSearchPickerDataSource {
         let displayable = context.viewModel.displayable(for: entity)
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
                                                      subtitle: "No Involvements Selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .entity,
@@ -76,7 +76,7 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
                 if !viewModel.additionalActions(for: self.entity).isEmpty {
                     context.presentPickerViewController(type: .additionalAction, entity: self.entity)
                 } else {
-                    viewModel.addEntity(self.entity, with: context.viewModel.selectedInvolvements, and: nil )
+                    viewModel.addEntity(self.entity, with: context.viewModel.selectedInvolvements, and: nil)
                     context.updateLoadingManager()
                     context.reloadForm()
                     context.dismissAnimated()
@@ -87,7 +87,7 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
 }
 
 /// Struct with the definition for picking additional actions for an Entity.
-internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
+internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
 
     var context: DefaultEntitiesListViewController
     var entity: MPOLKitEntity
@@ -99,7 +99,7 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
 
     var dataSource: CustomSearchPickerDataSource {
         let displayable = context.viewModel.displayable(for: entity)
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
                                                      subtitle: "No Additional Actions Selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .entity,
@@ -124,7 +124,7 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
 
             let actionTypes = controller.objects.enumerated()
                 .filter({ indexes.contains($0.offset) })
-                .compactMap({ AdditionalActionType(rawValue: $0.element.title!) })
+                .compactMap({ AdditionalActionType(rawValue: $0.element.title!.sizing().string) })
 
             let actions = actionTypes.map { AdditionalAction(incident: viewModel.report.incident!, type: $0) }
 
@@ -135,7 +135,7 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
                     viewModel.updateActions(for: entity, with: actions)
                 }
             } else {
-                viewModel.addEntity(entity, with: viewModel.selectedInvolvements, and: actions )
+                viewModel.addEntity(entity, with: viewModel.selectedInvolvements, and: actions)
             }
 
             context.updateLoadingManager()
@@ -144,5 +144,3 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
         }
     }
 }
-
-

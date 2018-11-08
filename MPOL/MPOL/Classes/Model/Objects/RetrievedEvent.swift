@@ -13,50 +13,52 @@ import Unbox
 @objc(MPLRetrievedEvent)
 open class RetrievedEvent: Entity {
 
-    open var name: String?
-    open var type: String?
+    // MARK: - Properties
 
-    open var eventDescription: String?
-    open var occurredDate: Date?
+    public var eventDescription: String?
+    public var name: String?
+    public var occurredDate: Date?
+    public var type: String?
+
+    // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
         name = unboxer.unbox(key: CodingKeys.name.rawValue)
         type = unboxer.unbox(key: CodingKeys.type.rawValue)
         eventDescription = unboxer.unbox(key: CodingKeys.eventDescription.rawValue)
-        occurredDate = unboxer.unbox(key: CodingKeys.occurred.rawValue, formatter: ISO8601DateTransformer.shared)
+        occurredDate = unboxer.unbox(key: CodingKeys.occurredDate.rawValue, formatter: ISO8601DateTransformer.shared)
 
         try super.init(unboxer: unboxer)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        // Check for archieved modelVersion and current version if data migration is required.
-        name = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.name.rawValue) as String?
-        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
-        eventDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.eventDescription.rawValue) as String?
-        occurredDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.occurred.rawValue) as Date?
-    }
-
-    open override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-
-        aCoder.encode(name, forKey: CodingKeys.name.rawValue)
-        aCoder.encode(type, forKey: CodingKeys.type.rawValue)
-        aCoder.encode(eventDescription, forKey: CodingKeys.eventDescription.rawValue)
-        aCoder.encode(occurredDate, forKey: CodingKeys.occurred.rawValue)
-    }
-
-    open override class var modelVersion: Int {
-        return 1
-    }
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
-        case name = "name"
         case eventDescription = "description"
+        case name
+        case occurredDate = "occurred"
         case type = "eventType"
-        case occurred = "occurred"
-
-        case version = "version"
     }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        guard !dataMigrated else { return }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        eventDescription = try container.decodeIfPresent(String.self, forKey: .eventDescription)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        occurredDate = try container.decodeIfPresent(Date.self, forKey: .occurredDate)
+        type = try container.decodeIfPresent(String.self, forKey: .type)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventDescription, forKey: CodingKeys.eventDescription)
+        try container.encode(name, forKey: CodingKeys.name)
+        try container.encode(occurredDate, forKey: CodingKeys.occurredDate)
+        try container.encode(type, forKey: CodingKeys.type)
+    }
+
 }

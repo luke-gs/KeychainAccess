@@ -34,7 +34,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
         guard viewModel.isEditing else { return }
 
         let buttonsView = DialogActionButtonsView(actions: [
-            DialogAction(title: viewModel.terminateButtonText(), handler: { [weak self] (action) in
+            DialogAction(title: viewModel.terminateButtonText(), handler: { [weak self] (_) in
                 self?.terminateShift()
             })
         ])
@@ -47,14 +47,14 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
         // Make space for button view and position it below form
         if let collectionView = collectionView {
             NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
                 collectionView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor).withPriority(.almostRequired),
 
                 buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+                buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
         }
     }
@@ -190,7 +190,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
             })
 
         // Button to delete officer and reload form
-        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
+        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (_, indexPath) in
             self.viewModel.removeOfficer(at: indexPath.row)
             self.reloadForm()
         })
@@ -203,10 +203,10 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
                                                     image: officer.thumbnail())
                 .width(.column(1))
                 .height(.fixed(60))
-                .accessory(FormAccessoryView(style: .pencil))
+                .accessory(ItemAccessory.pencil)
                 .editActions(editActions)
-                .onSelection { [unowned self] cell in
-                    let screen = self.viewModel.officerDetailsScreen(at: index)
+                .onSelection { [unowned self] _ in
+                    let screen = self.viewModel.officerDetailsScreen(at: index, withId: officer.officerId)
                     self.present(screen)
             }
         }

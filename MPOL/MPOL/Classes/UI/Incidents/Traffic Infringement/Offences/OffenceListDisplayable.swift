@@ -12,8 +12,8 @@ public class OffenceListDisplayable: CustomSearchDisplayable {
 
     public var section: String?
     public var image: UIImage?
-    public var title: String?
-    public var subtitle: String?
+    public var title: StringSizable?
+    public var subtitle: StringSizable?
 
     public func contains(_ searchText: String) -> Bool {
         return true

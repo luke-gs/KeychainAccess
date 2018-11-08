@@ -10,30 +10,30 @@ import UIKit
 
 /// View model for the user callsign status view in the tab bar
 open class UserCallsignStatusViewModel {
-    
-    public static var defaultUnassignedIcon: UIImage? = AssetManager.shared.image(forKey: .iconStatusUnavailable)
-    
+
+    public static var defaultUnassignedIcon: UIImage? = AssetManager.shared.image(forKey: .tabBarOffDuty)
+
     open weak var delegate: UserCallsignStatusViewModelDelegate?
-    
+
     /// The view if it has been created
     open weak var view: UIView?
-    
+
     // MARK: - State
-    
+
     /// Enum to keep track of un/assigned callsign state
     public enum CallsignState {
         /// Not assigned to any callsign
         /// - `title`: Title to show when not booked on
         /// - `subtitle`: Description to show when not booked on
         case unassigned(title: String, subtitle: String)
-        
+
         /// Assigned to a callsign
         /// - `callsign`: The callsign identifier
         /// - `officerCount`: The number of officers in callsign
         /// - `status`: Status of callsign tasking (e.g. On Air, At Incident)
         /// - `image`: The image to show next to the callsign identifier
         case assigned(callsign: String, officerCount: String?, status: String, image: UIImage?)
-        
+
         /// Title text to show
         public var title: String {
             switch self {
@@ -43,7 +43,7 @@ open class UserCallsignStatusViewModel {
                 return callsign
             }
         }
-        
+
         /// Subtitle text to show which details the action that will be performed
         /// when clicking on the status view
         public var actionText: String {
@@ -54,7 +54,7 @@ open class UserCallsignStatusViewModel {
                 return status
             }
         }
-        
+
         /// Officer count to be shown after callsign title
         public var officerCount: String? {
             if case let .assigned(_, officerCount, _, _) = self {
@@ -73,14 +73,14 @@ open class UserCallsignStatusViewModel {
             }
         }
     }
-    
+
     /// The currently selected state
     open var state: CallsignState = .unassigned(title: "", subtitle: "") {
         didSet {
             delegate?.viewModelStateChanged()
         }
     }
-    
+
     /// Default text for not booked on state
     open func defaultNotBookedOnState() -> CallsignState {
         return .unassigned(title: NSLocalizedString("Not Booked On", comment: ""),
@@ -89,22 +89,22 @@ open class UserCallsignStatusViewModel {
     }
 
     // MARK: - Computed
-    
+
     open var titleText: String {
         return [state.title, state.officerCount].joined()
     }
-    
+
     open var subtitleText: String {
         return state.actionText
     }
-    
+
     open var iconImage: UIImage? {
         return state.icon
     }
-    
+
     // MARK: - Setup
-    
-    public init() { 
+
+    public init() {
         callsignChanged()
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
@@ -120,7 +120,7 @@ open class UserCallsignStatusViewModel {
             self.state = defaultNotBookedOnState()
         }
     }
-    
+
     /// Creates the view for this view model
     open func createView() -> UserCallsignStatusView {
         let view = UserCallsignStatusView(viewModel: self)
@@ -128,13 +128,13 @@ open class UserCallsignStatusViewModel {
         self.view = view
         return view
     }
-    
+
     /// Creates the view controller to present for tapping the button
     open func screenForAction() -> Presentable? {
         switch state {
-        case .unassigned(_, _):
+        case .unassigned:
             return BookOnScreen.notBookedOn
-        case .assigned(_, _, _, _):
+        case .assigned:
             return BookOnScreen.manageBookOn
         }
     }

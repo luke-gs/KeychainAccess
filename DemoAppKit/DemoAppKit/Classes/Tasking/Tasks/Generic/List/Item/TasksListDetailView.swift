@@ -9,28 +9,28 @@
 import UIKit
 
 open class TasksListDetailView: UIView {
-    
+
     private struct LayoutConstants {
         static let verticalMargin: CGFloat = 16
     }
-    
+
     // MARK: - Views
-    
+
     /// The label for the middle details section of the cell where space is available
     public let detailLabel = UILabel()
 
     // MARK: - Setup
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     /// Creates and styles views
     private func setupViews() {
         detailLabel.textColor = .secondaryGray
@@ -39,7 +39,7 @@ open class TasksListDetailView: UIView {
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(detailLabel)
     }
-    
+
     /// Activates view constraints
     private func setupConstraints() {
         detailLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -50,7 +50,7 @@ open class TasksListDetailView: UIView {
             detailLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             detailLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             detailLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
-                                                constant: -LayoutConstants.verticalMargin),
+                                                constant: -LayoutConstants.verticalMargin)
         ])
     }
 

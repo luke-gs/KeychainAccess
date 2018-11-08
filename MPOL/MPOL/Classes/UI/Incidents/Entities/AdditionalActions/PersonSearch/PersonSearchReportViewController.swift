@@ -87,23 +87,19 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             })
 
         // locationPickerformitem
-        let locationViewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.location,
-                                                           typeCollection: ManifestCollection.eventLocationInvolvementType)
-
-        builder += PickerFormItem(pickerAction: LocationAction(viewModel: locationViewModel))
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .required()
             .width(.column(1))
             .title("Location")
-            .selectedValue(viewModel.report.location)
+            .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.location))
             .onValueChanged({ (location) in
-                self.viewModel.report.location = location
+                self.viewModel.report.location = EventLocation(locationSelection: location)
             })
 
-
         builder += LargeTextHeaderFormItem(text: "Searching Officers")
-            .sectionIsRequired(true)
+            .isRequired(true)
             .separatorColor(.clear)
-            .actionButton(title: "Add") { button in
+            .actionButton(title: "Add") { _ in
                 self.addTapped()
             }
 
@@ -118,7 +114,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
                 .imageStyle(.circle)
-                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                     self.viewModel.report.officers.remove(at: index)
                     self.reloadForm()
                 })])
@@ -192,13 +188,14 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
     private func addTapped() {
 
         let viewModel = OfficerSearchViewModel()
-        let officerSearchController = SearchDisplayableViewController<PersonSearchReportViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        let officerSearchController = OfficerSearchViewController<PersonSearchReportViewController>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismiss))
         officerSearchController.delegate = self
 
         let navController = ModalNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
-        present(navController, animated: true, completion: nil)
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
+        presentModalViewController(navController, animated: true, completion: nil)
 
     }
 
@@ -218,7 +215,7 @@ extension PersonSearchReportViewController: SearchDisplayableDelegate {
             viewModel.report.officers.append(object)
             reloadForm()
         }
-        
+
         viewController.dismiss(animated: true, completion: nil)
     }
 }

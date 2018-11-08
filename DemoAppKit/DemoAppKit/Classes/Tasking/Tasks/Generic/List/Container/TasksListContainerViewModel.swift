@@ -33,7 +33,7 @@ open class TasksListContainerViewModel {
     public weak var delegate: TasksListContainerViewModelDelegate?
 
     // MARK: - Properties
-    
+
     // Child view models
     public let headerViewModel: TasksListHeaderViewModel
     public let listViewModel: TasksListViewModel
@@ -81,7 +81,7 @@ open class TasksListContainerViewModel {
 
         // Observe sync changes
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
-        
+
         /// Observe book-on and callsign changes to show assigned incidents
         NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADBookOnChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADCallsignChanged, object: nil)
@@ -91,7 +91,7 @@ open class TasksListContainerViewModel {
     @objc open func syncChanged() {
         updateSections()
     }
-    
+
     @objc open func bookOnChanged() {
         updateSections()
     }
@@ -102,7 +102,7 @@ open class TasksListContainerViewModel {
         delegate = vc
         return vc
     }
-    
+
     /// Whether swiping allows the map to expand and contract
     open func allowsSwipeToExpand() -> Bool {
         return false
@@ -165,20 +165,20 @@ open class TasksListContainerViewModel {
             sourceItems = [SourceItem(title: "", state: .loading)]
         }
     }
-    
+
     open func selectedSourceIndexChanged() {
         let type = CADClientModelTypes.taskListSources.allCases[selectedSourceIndex]
-        
+
         headerViewModel.selectedSourceIndex = selectedSourceIndex
         splitViewModel?.mapViewModel.loadTasks()
         if let annotationType = type.annotationViewType {
             splitViewModel?.mapViewModel.priorityAnnotationType = annotationType
         }
         updateSections()
-        
+
         // Show/hide add button
         headerViewModel.setAddButtonVisible(type.canCreate)
-        
+
         delegate?.updateSelectedSourceIndex()
     }
 }

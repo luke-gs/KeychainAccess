@@ -20,7 +20,7 @@ enum APIError: Error {
 /// Instead, i created a CADAPIManager protocol that the state manager uses rather than a subclassed APIManager.
 open class DemoAPIManager: CADAPIManagerType {
 
-    open static let shared = DemoAPIManager()
+    public static let shared = DemoAPIManager()
 
     let delayTime: TimeInterval = 1
 
@@ -52,14 +52,6 @@ open class DemoAPIManager: CADAPIManagerType {
     public func cadBookOff(with request: CADBookOffRequestType, pathTemplate: String?) -> Promise<Void> {
         print("\(LogUtils.string(from: request.parameters))")
         return after(seconds: delayTime).done {}
-    }
-
-    open func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
-        if let data = loadDemoFileAsData(name: "DemoOfficer") {
-            let response = try! JSONDecoder.decode(data, to: CADEmployeeDetailsCore.self)
-            return Promise<CADEmployeeDetailsCore>.value(response) as! Promise<ResponseType>
-        }
-        return Promise<ResponseType>(error: APIError.fileNotFound)
     }
 
     public func cadIncidentDetails<ResponseType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {

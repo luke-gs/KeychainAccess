@@ -28,7 +28,7 @@ open class LoadingViewController<T>: ThemedPopoverViewController {
         loadingManager.state = .noContent
         loadingManager.loadingLabel.text = builder?.title
 
-        let _ = builder?.pendingPromise?.0.ensure {
+        _ = builder?.pendingPromise?.0.ensure {
             self.dismissAnimated()
         }
     }
@@ -52,9 +52,7 @@ extension LoadingViewController {
     /// - Returns: The promise that will be fulfilled
     @discardableResult
     public static func presentWith(_ builder: LoadingViewBuilder<T>,
-                                   from presentingViewController: UIViewController)
-        -> Promise<T>?
-    {
+                                   from presentingViewController: UIViewController) -> Promise<T>? {
         let vc = LoadingViewController(builder: builder)
         vc.modalPresentationStyle = .formSheet
         vc.modalTransitionStyle = .crossDissolve
@@ -66,13 +64,12 @@ extension LoadingViewController {
 
         builder.request?().done { result in
             builder.pendingPromise?.1.fulfill(result)
-            }.catch { error in
-                builder.pendingPromise?.1.reject(error)
+        }.catch { error in
+            builder.pendingPromise?.1.reject(error)
         }
         return builder.pendingPromise?.0
     }
 }
-
 
 /// The loading view builder to be used with `LoadingViewController`
 /// Provide the expected response as the generic type. `Void` if no response.
@@ -93,7 +90,7 @@ open class LoadingViewBuilder<Response> {
             self.pendingPromise = Promise<Response>.pending()
         }
     }
-    
+
     fileprivate var pendingPromise: (Promise<Response>, Resolver<Response>)?
     public init() { }
 }

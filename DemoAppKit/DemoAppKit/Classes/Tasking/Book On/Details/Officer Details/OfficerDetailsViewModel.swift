@@ -28,25 +28,25 @@ open class OfficerDetailsViewModel {
     public init(officer: BookOnDetailsFormContentOfficerViewModel) {
         content = BookOnDetailsFormContentOfficerViewModel(withOfficer: officer)
     }
-    
+
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
         let vc = OfficerDetailsViewController(viewModel: self)
         return vc
     }
-    
+
     /// The title to use in the navigation bar
-    open func navTitle() -> String {
+    open func navTitle() -> StringSizable {
 
         // Set custom title if logged in officer details
-        if content.officerId == CADStateManager.shared.officerDetails?.payrollId {
+        if content.officerId == CADStateManager.shared.officerDetails?.id {
             return NSLocalizedString("My Details", comment: "")
         }
         return content.title ?? ""
     }
-    
+
     /// The subtitle to use in the navigation bar
-    open func navSubtitle() -> String {
+    open func navSubtitle() -> StringSizable {
         return content.subtitle
     }
 
@@ -54,7 +54,7 @@ open class OfficerDetailsViewModel {
     public func saveForm() {
         delegate?.didFinishEditing(with: content, shouldSave: true)
     }
-    
+
     /// Cancels submitting the form
     public func cancelForm() {
         delegate?.didFinishEditing(with: content, shouldSave: false)

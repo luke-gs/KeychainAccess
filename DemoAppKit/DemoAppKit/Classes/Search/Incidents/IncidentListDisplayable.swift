@@ -5,11 +5,12 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Cache
 import Foundation
 
 /// Incident Displayable used to map against the OOTB
 /// Incident List UI
+/// - Warning:
+///     Displayable is strongly owned by Incident
 open class IncidentListDisplayable: NSSecureCoding {
 
     /// A unique ID of the incident metadata
@@ -29,13 +30,11 @@ open class IncidentListDisplayable: NSSecureCoding {
 
     public init(title: String? = nil,
                 subtitle: String? = nil,
-                icon: UIImage? = nil)
-    {
+                icon: UIImage? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.icon = icon
     }
-
 
     //Coding
 
@@ -117,7 +116,7 @@ public protocol IncidentDetailViewModelType: Evaluatable {
 
     /// Completion used to tell the SplitviewController to reload
     /// so that the side bar will be reloaded to use new header
-    var headerUpdated: (()->())? { get set }
+    var headerUpdated: (() -> Void)? { get set }
 
     /// Initialiser
     ///
@@ -126,4 +125,3 @@ public protocol IncidentDetailViewModelType: Evaluatable {
     ///   - builder: The screen builder
     init(incident: Incident, builder: IncidentScreenBuilding)
 }
-

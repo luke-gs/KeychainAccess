@@ -29,7 +29,7 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
         self.id = equipment.id
         self.count = equipment.count
     }
-    
+
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {

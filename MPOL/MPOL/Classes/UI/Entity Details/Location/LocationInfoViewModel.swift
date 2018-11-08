@@ -56,7 +56,12 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         return AssetManager.shared.image(forKey: .infoFilled)
     }
 
-    // MARK - Private
+    override func didSetEntity() {
+        super.didSetEntity()
+        LocationManager.shared.requestLocation().done(calculateETAandDistanceFromCurrentLocation).cauterize()
+    }
+
+    // MARK: - Private
 
     private func suitableForHabitationText(for address: Address) -> String {
         // Data is not available yet.

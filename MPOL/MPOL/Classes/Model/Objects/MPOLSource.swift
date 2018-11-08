@@ -9,7 +9,7 @@
 import Unbox
 import PublicSafetyKit
 
-public enum MPOLSource: String, EntitySource, UnboxableEnum {
+public enum MPOLSource: String, EntitySource, UnboxableEnum, Codable {
     case pscore = "ds1"
     case nat = "ds2"
     case rda = "ds3"
@@ -43,7 +43,7 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
 }
 
 extension MPOLSource: UnboxableKey {
-    
+
     public static func transform(unboxedKey: String) -> MPOLSource? {
         return MPOLSource(rawValue: unboxedKey)
     }

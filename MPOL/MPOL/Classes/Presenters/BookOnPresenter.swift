@@ -54,7 +54,7 @@ public class BookOnPresenter: Presenter {
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
         }
-        
+
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
@@ -63,10 +63,10 @@ public class BookOnPresenter: Presenter {
         switch presentable {
 
         // Form sheet popover presentation with adjusted background for all views in navigation controller
-        case .notBookedOn: fallthrough
-        case .manageBookOn:
+        case .notBookedOn, .manageBookOn:
             let container = ModalNavigationController(rootViewController: to)
-            from.present(container, size: CGSize(width: 512, height: 650))
+            container.preferredContentSize = CGSize(width: 512, height: 650)
+            from.presentModalViewController(container, animated: true, completion: nil)
 
         // Present form sheet with custom size
         case .statusChangeReason, .finaliseDetails:

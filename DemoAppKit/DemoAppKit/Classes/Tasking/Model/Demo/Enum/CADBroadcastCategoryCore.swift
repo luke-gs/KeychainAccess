@@ -50,6 +50,4 @@ public enum CADBroadcastCategoryCore: String, Codable, CADBroadcastCategoryType 
         }
     }
 
-
 }
-

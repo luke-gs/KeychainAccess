@@ -8,6 +8,7 @@
 
 import Foundation
 import PublicSafetyKit
+import DemoAppKit
 
 open class PersonInfoViewModel: EntityDetailFormViewModel {
 
@@ -21,25 +22,25 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     private var person: Person? {
         return entity as? Person
     }
-    
+
     // MARK: - EntityDetailFormViewModel
-    
+
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
         builder.title = title
-        
+
         guard let person = person else { return }
-        
+
         // ---------- HEADER ----------
-        
+
         // Values
         let detail = person.descriptions?.first?.formatted() ?? NSLocalizedString("No description", comment: "")
         let count = person.descriptions?.count ?? 0
         let isDetailPlaceholder = count == 0
         let buttonTitle = count <= 1 ? nil : "\(count - 1) MORE DESCRIPTION\(count != 2 ? "S" : "")"
-        
+
         let displayable = PersonDetailsDisplayable(person)
 
-        builder += SummaryDetailFormItem()
+        let detailFormItem = SummaryDetailFormItem()
             .separatorColor(.clear)
             .category(displayable.category)
             .title(displayable.title)
@@ -53,11 +54,20 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .onButtonTapped {
                 self.didTapAdditionalDetails()
             }
-        
-        // ---------- LICENCE ----------
-        
-        let sortedLicences = person.licences?.sorted(using: [SortDescriptor<Licence>(ascending: false) { $0.expiryDate }]) ?? []
 
+        // Apply bold font if deceased person
+        if person.isDeceased {
+            let font = detailFormItem.cell?.traitCollection.horizontalSizeClass == .compact
+                ? UIFont.systemFont(ofSize: 13, weight: .bold)
+                : UIFont.systemFont(ofSize: 15, weight: .bold)
+            detailFormItem.subtitle(displayable.detail1?.sizing(defaultFont: font))
+        }
+
+        builder += detailFormItem
+
+        // ---------- LICENCE ----------
+
+        let sortedLicences = person.licences?.sorted(using: [SortDescriptor<Licence>(ascending: false) { $0.expiryDate }]) ?? []
 
         if showingLicenceDetails {
 
@@ -83,9 +93,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             }
         }
 
-        
         // ---------- ALIASES ----------
-        
+
         if let aliases = person.aliases, !aliases.isEmpty {
             builder += LargeTextHeaderFormItem(text: header(for: .aliases(count: aliases.count)))
                 .separatorColor(.clear)
@@ -111,17 +120,17 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     .width(.column(1))
             }
         }
-        
+
         // ---------- ADDRESSES ----------
-        
+
         if let addresses = person.addresses, !addresses.isEmpty {
             let sort = SortDescriptor<Address>(ascending: false) { $0.reportDate ?? Date.distantPast }
             let sorted = addresses.sorted(using: [sort])
-            
+
             builder += LargeTextHeaderFormItem(text: header(for: .addresses(count: addresses.count)))
                 .separatorColor(.clear)
                 .style(.collapsible)
-            
+
             for address in sorted {
 
                 let title = address.type ?? "Unknown"
@@ -129,7 +138,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let detail: String = {
                     let detail: String
                     if let date = address.reportDate {
-                        
+
                         let locationString = address.jurisdiction != nil ? " (\(address.jurisdiction!))" : ""
                         detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
@@ -142,14 +151,14 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 builder += factory.addressNavigationFormItem(context: viewController)
             }
         }
-        
+
         // ---------- CONTACT ----------
-        
+
         if let contacts = person.contacts, !contacts.isEmpty {
             builder += LargeTextHeaderFormItem(text: header(for: .contact))
                 .separatorColor(.clear)
                 .style(.collapsible)
-            
+
             for contact in contacts {
                 let title = StringSizing(string: [contact.type?.localizedDescription(), contact.subType].joined(separator: " - "), font: UIFont.preferredFont(forTextStyle: .subheadline))
                 let subtitle = StringSizing(string: contact.value?.ifNotEmpty() ?? "-", font: UIFont.preferredFont(forTextStyle: .subheadline))
@@ -165,7 +174,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
                 }()
 
-                builder += DetailLinkFormItem()
+                builder += DetailFormItem()
+                    .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
                     .title(title)
                     .subtitle(subtitle)
                     .detail(detail)
@@ -182,31 +192,31 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             }
         }
     }
-    
+
     open override var title: String? {
         return NSLocalizedString("Information", comment: "")
     }
-    
+
     open override var noContentTitle: String? {
         return NSLocalizedString("No Person Found", comment: "")
     }
-    
+
     open override var noContentSubtitle: String? {
         return NSLocalizedString("There are no details for this person", comment: "")
     }
-    
+
     open override var sidebarImage: UIImage? {
         return AssetManager.shared.image(forKey: .infoFilled)
     }
-    
+
     // MARK: - Actions
-    
+
     @objc private func didTapAdditionalDetails() {
         guard let descriptions = person?.descriptions else { return }
         let moreDescriptionsVC = PersonDescriptionViewController(descriptions: descriptions)
         delegate?.presentPushedViewController(moreDescriptionsVC, animated: true)
     }
-    
+
     // MARK: - Internal
 
     // TODO: - Probably refactor this thing.
@@ -219,7 +229,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         case addresses(count: Int)
         case contact
     }
-    
+
     private func header(for section: Section) -> String? {
         switch section {
         case .header:
@@ -238,8 +248,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     }
 }
 
-fileprivate extension Alias {
-    
+fileprivate extension PersonAlias {
+
     func formattedDOBAgeGender() -> String? {
         if let dob = dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
@@ -334,7 +344,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
         let conditions = licenceClass.conditions?.compactMap { $0.condition } ?? []
         let conditionText = conditions.joined(separator: ", ")
         let detailString = String(format: NSLocalizedString("Proficiency: %@, Conditions: %@", comment: ""), proficiency, conditionText)
-        
+
         let attributedDetailString = NSMutableAttributedString(string: detailString)
         attributedDetailString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15), range: NSRange(location: 0, length: 12))
         attributedDetailString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15), range: NSRange(location: 15 + proficiency.count, length: 11))

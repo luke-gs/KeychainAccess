@@ -47,13 +47,14 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     @objc private func addTapped(sender: UIBarButtonItem) {
 
         let viewModel = OfficerSearchViewModel()
-        let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        let officerSearchController = OfficerSearchViewController<DefaultEventOfficerListViewController>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
 
-        let navController = UINavigationController(rootViewController: officerSearchController)
+        let navController = ModalNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
-        present(navController, animated: true, completion: nil)
+        navController.preferredContentSize = CGSize(width: 512, height: 736)
+        pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
 
     }
 
@@ -61,17 +62,19 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         super.viewDidAppear(animated)
         viewModel.report.viewed = true
     }
-    
+
     open override func construct(builder: FormBuilder) {
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
-        
+
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in
             builder += SummaryListFormItem()
                 .title(displayable.title)
                 .subtitle(displayable.detail1)
+                .detail(displayable.detail2)
+                .styleIdentifier(DemoAppKitStyler.associationStyle)
                 .width(.column(1))
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
@@ -81,11 +84,13 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }, size: image?.size ?? .zero))
-                .onSelection({ (cell) in
+                .onSelection { [weak self] (_) in
+                    guard let `self` = self else { return }
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
-                })
-                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                }
+                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                    guard let `self` = self else { return }
                     self.viewModel.removeOfficer(at: indexPath)
                     self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()
@@ -97,8 +102,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     public func didSelectOfficer(officer: Officer) {
         guard let displayable = viewModel.displayable(for: officer) else { return }
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
-                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
+                                                     subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
         let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
@@ -109,8 +114,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
-        viewController.finishUpdateHandler = { controller, index in
-            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+        viewController.finishUpdateHandler = { [weak self] controller, index in
+            guard let `self` = self else { return }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
@@ -144,8 +150,8 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
         let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
         let officer = displayable.officer
-        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
-                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
+                                                     subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
         let involvementDataSource = DefaultPickableSearchDataSource(
@@ -156,8 +162,9 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
         involvementDataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
         let involvementsViewController = CustomPickerController(dataSource: involvementDataSource)
-        involvementsViewController.finishUpdateHandler = { controller, index in
-            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+        involvementsViewController.finishUpdateHandler = { [weak self] controller, index in
+            guard let `self` = self else { return }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)
             self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)

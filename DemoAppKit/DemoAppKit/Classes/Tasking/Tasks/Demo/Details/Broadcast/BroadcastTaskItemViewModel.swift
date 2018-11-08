@@ -18,7 +18,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
 
     public init(broadcastNumber: String) {
         super.init(taskItemIdentifier: broadcastNumber)
-        
+
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.subtitleText = "#\(broadcastNumber)"
 
@@ -28,7 +28,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
             reloadFromModel()
         }
     }
-    
+
     // MARK: - Generated properties
 
     /// Return the loaded details
@@ -80,5 +80,5 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         }
         super.reloadFromModel()
     }
-    
+
 }

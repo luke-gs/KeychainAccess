@@ -16,7 +16,6 @@ public enum SystemScreen: Presentable {
 
 }
 
-
 public class SystemPresenter: Presenter {
 
     public init() { }

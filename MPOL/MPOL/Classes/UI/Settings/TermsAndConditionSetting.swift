@@ -23,7 +23,7 @@ public extension Settings {
         do {
 
             let styleMap = ThemeManager.htmlStyleMap
-            
+
             let tsAndCsVC = try HTMLTextViewController(title: NSLocalizedString("Terms and Conditions", comment: "Title"),
                                                             htmlURL: TermsAndConditions.url,
                                                             styleMap: styleMap,

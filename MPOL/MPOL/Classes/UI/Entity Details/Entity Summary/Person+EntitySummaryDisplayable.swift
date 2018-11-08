@@ -20,23 +20,23 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public var category: String? {
         return person.source?.localizedBarTitle
     }
-    
-    public var title: String? {
+
+    public var title: StringSizable? {
         return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
-    
-    public var detail1: String? {
-        return formattedDOBAgeGender()
+
+    public var detail1: StringSizable? {
+        return formattedPersonStatus()
     }
-    
-    public var detail2: String? {
+
+    public var detail2: StringSizable? {
         return formattedAddress()
     }
-    
+
     public var association: String? {
         return person.formattedAssociationReasonsString()
     }
-    
+
     public var borderColor: UIColor? {
         return person.alertLevel?.color
     }
@@ -44,7 +44,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public var iconColor: UIColor? {
         return nil
     }
-    
+
     public var badge: UInt {
         return person.actionCount
     }
@@ -58,43 +58,65 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     // MARK: - Private
-    
+
     private var formattedName: String? {
         var formattedName: String = ""
-        
+
         if person.isAlias ?? false {
             formattedName += "@ "
         }
-        
+
         if let surname = person.familyName?.ifNotEmpty() {
             formattedName += surname
-            
+
             if person.givenName?.isEmpty ?? true == false || person.middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
             }
         }
         if let givenName = person.givenName?.ifNotEmpty() {
             formattedName += givenName
-            
+
             if person.middleNames?.isEmpty ?? true == false {
                 formattedName += " "
             }
         }
-        
+
         if let firstMiddleNameInitial = person.middleNames?.first {
             formattedName.append(firstMiddleNameInitial)
             formattedName += "."
         }
-        
+
         return formattedName
     }
-    
-    private func formattedDOBAgeGender() -> String? {
-        if let dob = person.dateOfBirth {
+
+    /// Generates a string containing date of birth/date of death, age, gender
+    /// - Returns: NSMutableAttributedString if deceased otherwise NSlocalizedString
+    private func formattedPersonStatus() -> StringSizable? {
+        if let dod = person.dateOfDeath {
+            // show deceased instead of DOB
+            var dodString = NSLocalizedString("Deceased", comment: "")
+            var yearComponent: DateComponents?
+
+            if let dob = person.dateOfBirth {
+                yearComponent = Calendar.current.dateComponents([.year], from: dob, to: dod)
+            }
+
+            if let year = yearComponent?.year, let gender = person.gender {
+                dodString += " (\(year) \(gender.description))"
+            } else if let year = yearComponent?.year {
+                dodString += " (\(year))"
+            } else if let gender = person.gender {
+                dodString += " (\(gender.description))"
+            }
+
+            return NSMutableAttributedString.init(string: dodString,
+                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.orangeRed,
+                                                               NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: .bold)])
+        } else if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
-            
+
             var dobString = DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
-            
+
             if let gender = person.gender {
                 dobString += " \(gender.description))"
             } else {
@@ -107,7 +129,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             return NSLocalizedString("DOB and gender unknown", comment: "")
         }
     }
-    
+
     private func formattedAddress(withNewLine: Bool = false) -> String? {
         guard let address = person.addresses?.first else { return nil }
         guard let shortAddressForm = AddressFormatter(style: .short).formattedString(from: address) else { return nil }
@@ -118,25 +140,34 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         }
         return shortAddressForm + ", " + components.joined(separator: " ")
     }
-    
+
     private func formattedAssociationReason() -> String? {
         guard let lastReason = person.associatedReasons?.last else { return nil }
         return lastReason.formattedReason()
     }
 
-    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
-        return SummaryThumbnailFormItem()
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style, containerType: EntitySummaryContainerType) -> SummaryThumbnailFormItem {
+
+        let formItem = SummaryThumbnailFormItem()
             .style(style)
             .width(.column(2))
             .category(category)
-            .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
-            .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .title(title?.sizing().string.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .subtitle(detail1?.sizing(defaultNumberOfLines: style == .hero ? 0 : 1))
             .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
             .borderColor(borderColor)
             .imageTintColor(iconColor)
+
+        switch containerType {
+        case .header:
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailHeaderStyle)
+        default:
+            formItem.styleIdentifier(PublicSafetyKitStyler.summaryThumbnailListStyle)
+        }
+        return formItem
     }
 }
 
@@ -154,15 +185,15 @@ public struct PersonDetailsDisplayable: EntitySummaryDisplayable {
         return person.source?.localizedBadgeTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return displayable.detail1
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return displayable.detail2
     }
 

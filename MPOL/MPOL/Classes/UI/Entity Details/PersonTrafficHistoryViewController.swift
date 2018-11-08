@@ -59,22 +59,21 @@ open class PersonTrafficHistoryViewController: EntityDetailFormViewController {
         NSLayoutConstraint.activate([
             pointSummaryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pointSummaryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pointSummaryView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            pointSummaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             pointSummaryHeightConstraint!,
 
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
             footerView.topAnchor.constraint(equalTo: view.centerYAnchor),
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            footerView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         apply(ThemeManager.shared.theme(for: .current))
-
 
     }
 

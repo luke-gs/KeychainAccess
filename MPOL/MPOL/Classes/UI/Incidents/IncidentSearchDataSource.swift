@@ -28,8 +28,8 @@ public class IncidentSearchDataSource: CustomSearchPickerDataSource {
                 dismissOnFinish: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
 
-        self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title }),
-                                              SortDescriptor<Pickable>(ascending: true, key: {$0.subtitle })])
+        self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title?.sizing().string }),
+                                              SortDescriptor<Pickable>(ascending: true, key: {$0.subtitle?.sizing().string })])
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
@@ -53,6 +53,6 @@ public class IncidentSearchDataSource: CustomSearchPickerDataSource {
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {
-        return objects.map { $0.title }.joined(separator: ", ")
+        return objects.map { $0.title?.sizing().string }.joined(separator: ", ")
     }
 }

@@ -12,7 +12,7 @@ import UIKit
 public protocol TasksMapFilterViewModel: MapFilterViewModel {
     /// Whether to show the type specified
     func showsType(_ type: CADTaskListSourceType) -> Bool
-    
+
     /// Whether to show results outside the patrol area
     var showResultsOutsidePatrolArea: Bool { get }
 

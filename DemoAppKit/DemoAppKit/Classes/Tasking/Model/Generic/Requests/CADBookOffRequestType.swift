@@ -11,6 +11,6 @@ import Foundation
 public protocol CADBookOffRequestType: CodableRequestParameters {
 
     // MARK: - Request Parameters
-    var callsign : String { get }
+    var callsign: String { get }
 
 }

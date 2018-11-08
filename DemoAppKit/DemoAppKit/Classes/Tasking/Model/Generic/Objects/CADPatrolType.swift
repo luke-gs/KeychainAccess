@@ -17,7 +17,7 @@ public protocol CADPatrolType: class, CADTaskListItemModelType {
     var details: String? { get set }
     var identifier: String { get set }
     var lastUpdated: Date? { get set }
-    var location : CADLocationType? { get set }
+    var location: CADLocationType? { get set }
     var patrolGroup: String? { get set }
     var status: CADPatrolStatusType { get set }
     var subtype: String? { get set }

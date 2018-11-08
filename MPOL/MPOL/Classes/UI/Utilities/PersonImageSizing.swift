@@ -28,14 +28,14 @@ public class PersonImageSizing: AsynchronousImageSizing {
         super.init(placeholderImage: thumbnailSizing)
     }
 
-    public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
+    public override func loadImage(completion: @escaping (ImageSizable) -> Void) {
 
         // Code to retrieve image goes here
         if let url = person.thumbnailUrl {
             _ = ImageDownloader.default.fetch(for: url).done { image -> Void in
                 let sizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFit)
                 completion(sizing)
-            }.cauterize() 
+            }.cauterize()
         }
 
     }

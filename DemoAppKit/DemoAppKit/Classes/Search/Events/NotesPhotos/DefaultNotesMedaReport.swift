@@ -36,8 +36,8 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         if let event = self.event {
             evaluator.addObserver(event)
         }
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.viewed) { [weak self] in
+            return self?.viewed ?? false
         }
     }
 
@@ -59,7 +59,6 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
         commonInit()
     }
-
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(media, forKey: Coding.media.rawValue)
@@ -93,7 +92,7 @@ extension DefaultNotesMediaReport: Summarisable {
     public var formItems: [FormItem] {
         var items = [FormItem]()
         items.append(LargeTextHeaderFormItem(text: "Media and Notes"))
-        
+
         var photoCount = 0
         var audioCount = 0
         var videoCount = 0

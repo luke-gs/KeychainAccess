@@ -19,7 +19,7 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
         self.hasUpdates = hasUpdates
         super.init(identifier: identifier, source: source, title: title, subtitle: subtitle, caption: caption)
     }
-    
+
     public convenience init(patrol: CADPatrolType, source: CADTaskListSourceType, hasUpdates: Bool = false) {
         self.init(
             identifier: patrol.identifier,
@@ -30,8 +30,7 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
             description: patrol.details,
             hasUpdates: hasUpdates)
     }
-    
-    
+
     public convenience init(broadcast: CADBroadcastType, source: CADTaskListSourceType, hasUpdates: Bool = false) {
         self.init(
             identifier: broadcast.identifier,
@@ -43,4 +42,3 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
             hasUpdates: hasUpdates)
     }
 }
-

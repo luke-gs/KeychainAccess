@@ -26,7 +26,7 @@ extension APIManager: CADAPIManagerType {
     open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
 
         var encoding: ParameterEncoding = JSONEncoding.default
-        
+
         // Use explicit path or construct based on type of sync
         var pathTemplate = pathTemplate
         if pathTemplate == nil {
@@ -40,11 +40,6 @@ extension APIManager: CADAPIManagerType {
         return performRequest(request, pathTemplate: pathTemplate!, method: .get, parameterEncoding: encoding)
     }
 
-    /// Fetch details about an employee
-    public func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
-        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/officer/username/{identifier}", method: .get)
-    }
-
     /// Fetch details about an incident
     public func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
         return performRequest(request, pathTemplate: pathTemplate ?? "/cad/incident/{identifier}", method: .get)
@@ -56,4 +51,3 @@ extension APIManager: CADAPIManagerType {
     }
 
 }
-

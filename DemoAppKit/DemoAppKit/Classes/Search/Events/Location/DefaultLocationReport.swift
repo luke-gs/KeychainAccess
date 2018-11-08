@@ -26,7 +26,8 @@ open class DefaultLocationReport: EventReportable {
         self.weakEvent = Weak(event)
 
         evaluator.addObserver(event)
-        evaluator.registerKey(.eventLocation) {
+        evaluator.registerKey(.eventLocation) { [weak self] in
+            guard let `self` = self else { return false }
             return self.eventLocation != nil
         }
     }
@@ -44,7 +45,6 @@ open class DefaultLocationReport: EventReportable {
         weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
     }
 
-
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(eventLocation, forKey: Coding.eventLocation.rawValue)
         aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
@@ -61,8 +61,7 @@ extension DefaultLocationReport: Summarisable {
     public var formItems: [FormItem] {
         var items = [FormItem]()
         items.append(LargeTextHeaderFormItem(text: "Locations"))
-        items.append(RowDetailFormItem(title: "Event Location", detail: eventLocation?.addressString ?? "Required").detailColorKey(eventLocation == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Event Location", detail: eventLocation?.addressString ?? "Required").styleIdentifier(eventLocation == nil ? DemoAppKitStyler.summaryRequiredStyle : nil))
         return items
     }
 }
-

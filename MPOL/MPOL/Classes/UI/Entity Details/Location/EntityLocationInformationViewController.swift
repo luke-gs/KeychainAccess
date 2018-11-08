@@ -105,7 +105,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         super.viewWillTransition(to: size, with: coordinator)
 
         // Update card position when view size changes
-        coordinator.animate(alongsideTransition: { (context) in
+        coordinator.animate(alongsideTransition: { (_) in
             self.didFinishDragCardView()
         }, completion: nil)
     }
@@ -126,6 +126,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         let mapViewController = MapViewController()
         addChildViewController(mapViewController, toView: view)
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        mapViewController.mapView.delegate = self
         self.mapViewController = mapViewController
 
         cardView = DraggableCardView(frame: .zero)
@@ -158,13 +159,13 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             formView.topAnchor.constraint(equalTo: cardView.topAnchor),
             formView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             formView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
-            formView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
+            formView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor)
         ])
 
         // Show both map and form
         mapView.translatesAutoresizingMaskIntoConstraints = false
         cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
-        cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+        cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 
         // Remove existing constraints for map controls by re-adding to view hierarchy
@@ -179,14 +180,14 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             mapCenterYConstraint!,
 
             // Position map controls relative to our view, not map view which might be off screen
-            mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
-            mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
+            mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
 
             // Position card view at bottom
             cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             cardHeightConstraint!,
-            cardBottomConstraint!,
+            cardBottomConstraint!
         ])
 
     }
@@ -325,7 +326,6 @@ extension EntityLocationInformationViewController: EntityDetailFormViewModelDele
         }
         zoom(to: mapDisplayable, animated: true)
     }
-    
 
     open func updateNoContentDetails(title: String?, subtitle: String? = nil) {
         formViewController.updateNoContentDetails(title: title, subtitle: subtitle)

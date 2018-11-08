@@ -38,16 +38,13 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .separatorColor(.clear)
 
         // locationPickerformitem
-        let locationViewModel = EventLocationSelectionMapViewModel(location: self.viewModel.report.location,
-                                                           typeCollection: ManifestCollection.eventLocationInvolvementType)
-
-        builder += PickerFormItem(pickerAction: LocationAction(viewModel: locationViewModel))
+        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .required()
             .width(.column(1))
             .title("Where was the Vehicle Towed from?")
-            .selectedValue(viewModel.report.location)
+            .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.location))
             .onValueChanged({ (location) in
-                self.viewModel.report.location = location
+                self.viewModel.report.location = EventLocation(locationSelection: location)
             })
 
         // dropDownFormItem
@@ -63,8 +60,9 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .onValueChanged({ values in
                 self.viewModel.report.towReason = values?.first
             })
-        
-        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel()))
+
+        let officerSelectionVCSize = CGSize(width: 512, height: 736)
+        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel(), preferredSize: officerSelectionVCSize))
             .width(.column(2))
             .title("Officer Authorising Tow")
             .placeholder("Optional")
@@ -73,7 +71,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
                 viewModel.report.authorisingOfficer = officer
             })
 
-        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel()))
+        builder += PickerFormItem(pickerAction: OfficerSelectionAction(viewModel: OfficerSearchViewModel(), preferredSize: officerSelectionVCSize))
             .width(.column(2))
             .title("Who Notified Driver of Tow")
             .placeholder("Optional")
@@ -91,7 +89,6 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
             .onValueChanged({ (date) in
                 self.viewModel.report.date = date
             })
-
 
         builder += LargeTextHeaderFormItem(text: "Vehicle Hold")
             .separatorColor(.clear)
@@ -129,7 +126,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
 
         builder += LargeTextHeaderFormItem(text: "Media")
             .separatorColor(.clear)
-            .actionButton(title: "Manage") { button in
+            .actionButton(title: "Manage") { _ in
                 if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                     self.present(viewController, animated: true, completion: nil)
                 }

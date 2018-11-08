@@ -13,7 +13,7 @@ public class SearchNoContentView: LoadingStateNoContentView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
 
-        let officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as? Officer
+        let officer: Officer? = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey)
 
         let hours = Calendar.current.component(.hour, from: Date())
 
@@ -34,7 +34,7 @@ public class SearchNoContentView: LoadingStateNoContentView {
         }
 
         titleLabel.text = greetingText
-        
+
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         subtitleLabel.textColor = theme.color(forKey: .primaryText)
         subtitleLabel.text = NSLocalizedString("Looks like it's a new day for you. We don't have any Recently Viewed Entities or Recent Searches to show you right now.", comment: "")
@@ -42,7 +42,7 @@ public class SearchNoContentView: LoadingStateNoContentView {
         actionButton.roundingStyle = .max
         NSLayoutConstraint.activate([actionButton.widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: 0.5)])
     }
-    
+
     @objc override public func interfaceStyleDidChange() {
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         titleLabel.textColor = theme.color(forKey: .primaryText)

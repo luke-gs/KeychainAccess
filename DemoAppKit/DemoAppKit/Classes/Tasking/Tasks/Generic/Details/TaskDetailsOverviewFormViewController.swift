@@ -10,15 +10,15 @@ import UIKit
 
 open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
     public let viewModel: TaskDetailsOverviewViewModel
-    
+
     public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
             if let title = section.title {

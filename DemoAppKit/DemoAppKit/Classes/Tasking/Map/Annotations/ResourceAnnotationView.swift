@@ -13,52 +13,52 @@ import MapKit
 open class ResourceAnnotationView: AutoLayoutAnnotationView {
 
     public static let defaultReuseIdentifier = "ResourceAnnotationView"
-    
+
     // MARK: - Constants
-    
+
     private struct LayoutConstants {
         static let detailsViewHeight: CGFloat = 16
         static let detailsViewRadius: CGFloat = 8
-        
+
         static let circleSize: CGFloat = 40
         static let circleRadius: CGFloat = circleSize / 2
         static let circleImageMargin: CGFloat = 14
-        
+
         static let imagePadding: CGFloat = 5
-        
+
         static let borderSize: CGFloat = 2
     }
-    
+
     // MARK: - Views
-    
+
     /// A dark gray text area above the circle
     private var detailsView: UIView!
-    
+
     /// The bold text in the details view
     private var detailsTitleLabel: UILabel!
-    
+
     /// The regular text in the details view, next to the title
     private var detailsSubtitleLabel: UILabel!
-    
+
     /// The main circle view with the resource icon inside
     private var circleView: UIView!
-    
+
     /// The image view inside the circle
     private var imageView: UIImageView!
-    
+
     public private(set) var duress: Bool = false
-    
+
     // MARK: - Setup
     public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
     }
-    
+
     public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?, imageTintColor: UIColor?, duress: Bool) {
         self.annotation = annotation
         self.duress = duress
-        
+
         detailsTitleLabel.text = annotation.title ?? ""
         detailsSubtitleLabel.text = annotation.subtitle ?? ""
         imageView.image = resourceImage?.withCircleBackground(tintColor: imageTintColor,
@@ -70,11 +70,11 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
         circleView.backgroundColor = circleBackgroundColor
         circleView.layer.borderColor = circleBorderColor.cgColor
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     /// Creates and styles views
     private func setupViews() {
         detailsView = UIView()
@@ -89,7 +89,7 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
         detailsView.layer.rasterizationScale = UIScreen.main.scale
 
         contentView.addSubview(detailsView)
-        
+
         detailsTitleLabel = UILabel()
         detailsTitleLabel.textColor = .white
         detailsTitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.bold)
@@ -112,22 +112,22 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
         circleView.layer.rasterizationScale = UIScreen.main.scale
         circleView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(circleView)
-        
+
         imageView = UIImageView()
         imageView.tintColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         circleView.addSubview(imageView)
-        
+
         centerOffset = CGPoint(x: 0, y: -16)
     }
-    
+
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             contentView.heightAnchor.constraint(equalToConstant: 64),
             contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
-            
+
             detailsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
             detailsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             detailsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -151,7 +151,7 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
             imageView.heightAnchor.constraint(equalToConstant: 24),
 
             imageView.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
+            imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor)
         ])
     }
 }

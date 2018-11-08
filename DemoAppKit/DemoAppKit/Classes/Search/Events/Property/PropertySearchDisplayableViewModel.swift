@@ -9,6 +9,7 @@ import UIKit
 import PromiseKit
 
 public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
+
     public typealias Object = Property
 
     public var title: String = "Property"
@@ -33,26 +34,26 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
 
     public func numberOfRows(in section: Int) -> Int {
         let section = sectionOrder[section]
-        return filteredProperties.filter{$0.type == section}.count
+        return filteredProperties.filter {$0.type == section}.count
     }
 
     public func isSectionHidden(_ section: Int) -> Bool {
         guard isSearching == true else { return false }
         let section = sectionOrder[section]
-        return filteredProperties.filter{$0.type == section}.count == 0
+        return filteredProperties.filter {$0.type == section}.count == 0
     }
 
     public func title(for section: Int) -> String {
         return sectionOrder[section]
     }
 
-    public func title(for indexPath: IndexPath) -> String? {
+    public func title(for indexPath: IndexPath) -> StringSizable? {
         return object(for: indexPath).fullType
     }
 
     public func object(for indexPath: IndexPath) -> Property {
         let section = sectionOrder[indexPath.section]
-        return filteredProperties.filter{$0.type == section}[indexPath.row]
+        return filteredProperties.filter {$0.type == section}[indexPath.row]
     }
 
     public func searchable(for object: Property) -> CustomSearchDisplayable {
@@ -66,23 +67,31 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
             return
         }
         isSearching = true
-        filteredProperties = properties.filter{$0.fullType.lowercased().contains(searchString.lowercased())}
+        filteredProperties = properties.filter {$0.fullType.lowercased().contains(searchString.lowercased())}
     }
 
-    public func emptyStateText() -> String? {
+    public func emptyStateTitle() -> String? {
         return "No Property Found"
     }
 
+    open func emptyStateSubtitle() -> String? {
+        return nil
+    }
+
+    open func emptyStateImage() -> UIImage? {
+        return nil
+    }
+
     public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
-    public func description(for indexPath: IndexPath) -> String? { return nil }
+    public func description(for indexPath: IndexPath) -> StringSizable? { return nil }
     public func image(for indexPath: IndexPath) -> UIImage? { return nil }
     public func searchAction() -> Promise<Void>? { return nil }
     public func loadingStateText() -> String? { return nil }
 }
 
 internal struct PropertyDisplayable: CustomSearchDisplayable {
-    public var title: String?
-    public var subtitle: String?
+    public var title: StringSizable?
+    public var subtitle: StringSizable?
     public var section: String?
     public var image: UIImage?
 
@@ -92,6 +101,6 @@ internal struct PropertyDisplayable: CustomSearchDisplayable {
     }
 
     public func contains(_ searchText: String) -> Bool {
-        return title?.contains(searchText) ?? false
+        return title?.sizing().string.contains(searchText) ?? false
     }
 }

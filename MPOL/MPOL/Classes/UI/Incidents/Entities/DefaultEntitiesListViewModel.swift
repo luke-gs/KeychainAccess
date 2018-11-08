@@ -9,10 +9,10 @@ import PublicSafetyKit
 import DemoAppKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
-    
+
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
-    var entityPickerViewModel: EntityPickerViewModel = DefaultEntityPickerViewModel()
+    var entitySelectionViewModel: EntitySummarySelectionViewModel
     var selectedInvolvements: [String]?
     var building: AdditionalActionBuilding = DefaultAdditionalActionBuilding()
     var screenBuilding: AdditionalActionScreenBuilding = DefaultAdditionalActionScreenBuilding()
@@ -20,14 +20,25 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
     required init(report: DefaultEntitiesListReport, incidentType: IncidentType) {
         self.report = report
         self.incidentType = incidentType
+
+        let createdSectionViewModel = CreatedEntitySummarySelectionSectionViewModel()
+        let recentSectionViewModel = RecentEntitySummarySelectionSectionViewModel()
+        createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Address.self, Organisation.self]
+        recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Address.self, Organisation.self]
+
+        self.entitySelectionViewModel = EntitySummarySelectionViewModel(sections: [createdSectionViewModel, recentSectionViewModel])
     }
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
-        switch entity{
+        switch entity {
         case is Person:
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
+        case is Organisation:
+            return OrganisationSummaryDisplayable(entity)
+        case is Address:
+            return AddressSummaryDisplayable(entity)
         default:
             fatalError("No valid displayable for entity: \(entity.id)")
         }

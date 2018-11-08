@@ -10,7 +10,7 @@ import UIKit
 
 /// Abstract base class for the view model for Narrative (inside Incidents, Broadcasts etc.)
 open class NarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
-    
+
     open func createViewController() -> TaskDetailsViewController {
         let vc = NarrativeViewController(viewModel: self)
         self.delegate = vc

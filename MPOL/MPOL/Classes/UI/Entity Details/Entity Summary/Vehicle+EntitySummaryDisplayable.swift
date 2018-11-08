@@ -20,23 +20,23 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public var category: String? {
         return vehicle.source?.localizedBarTitle
     }
-    
-    public var title: String? {
+
+    public var title: StringSizable? {
         return vehicle.registration ?? NSLocalizedString("Registration Unknown", comment: "")
     }
-    
-    public var detail1: String? {
+
+    public var detail1: StringSizable? {
         return formattedYOMMakeModel()
     }
-    
-    public var detail2: String? {
+
+    public var detail2: StringSizable? {
         return vehicle.bodyType
     }
-    
+
     public var association: String? {
         return vehicle.formattedAssociationReasonsString()
     }
-    
+
     public var borderColor: UIColor? {
         return vehicle.associatedAlertLevel?.color
     }
@@ -44,7 +44,7 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public var iconColor: UIColor? {
         return vehicle.alertLevel?.color
     }
-    
+
     public var badge: UInt {
         return vehicle.actionCount
     }
@@ -68,19 +68,18 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
 
         return nil
     }
-    
+
     private func formattedYOMMakeModel() -> String? {
-        
+
         let components = [vehicle.year, vehicle.make, vehicle.model].compactMap { $0 }
         if components.isEmpty == false {
             return components.joined(separator: " ")
         }
-        
+
         return nil
     }
-    
-}
 
+}
 
 public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
 
@@ -96,15 +95,15 @@ public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
         return vehicle.source?.localizedBadgeTitle
     }
 
-    public var title: String? {
+    public var title: StringSizable? {
         return summaryDisplayable.title
     }
 
-    public var detail1: String? {
+    public var detail1: StringSizable? {
         return summaryDisplayable.detail1
     }
 
-    public var detail2: String? {
+    public var detail2: StringSizable? {
         return summaryDisplayable.detail2
     }
 
@@ -129,7 +128,7 @@ public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
     }
 }
 
-fileprivate enum VehicleType: String {
+private enum VehicleType: String {
     case car
     case motorcycle
     case truck

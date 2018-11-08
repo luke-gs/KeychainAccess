@@ -13,8 +13,12 @@ import DemoAppKit
 public enum EntityScreen: Presentable {
 
     case help(type: EntityType)
-    case createEntity(type: EntityType)
     case entityDetails(entity: Entity, delegate: SearchDelegate?)
+    case scanner
+    // entity creation
+    case createEntity(type: EntityType)
+    case createEntityContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
+    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: ((PersonAlias?) -> Void)?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -23,6 +27,13 @@ public enum EntityScreen: Presentable {
 }
 
 public class EntityPresenter: Presenter {
+
+    // MARK: PRIVATE
+
+    private let scanner = LicenceScanner()
+    private let cameraManager = CameraManager()
+
+    // MARK: PUBLIC
 
     public init() {}
 
@@ -42,9 +53,9 @@ public class EntityPresenter: Presenter {
                 let strat2 = PersonRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = PersonRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entitySelectionViewModel: EntitySummarySelectionViewModel())
 
                 let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
                                                             initialSource: entity.source!,
@@ -63,9 +74,9 @@ public class EntityPresenter: Presenter {
                 let strat2 = VehicleRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = VehicleRetrieveStrategy(source: MPOLSource.rda)
 
-                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entitySelectionViewModel: EntitySummarySelectionViewModel())
 
                 let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
                                                             initialSource: entity.source!,
@@ -78,23 +89,23 @@ public class EntityPresenter: Presenter {
                 let ds1 = OrganisationPSCoreDetailsSectionsDataSource(delegate: delegate)
                 let ds2 = OrganisationNATDetailsSectionsDataSource(delegate: delegate)
                 let ds3 = OrganisationRDADetailsSectionsDataSource(delegate: delegate)
-                
+
                 let strat1 = OrganisationRetrieveStrategy(source: MPOLSource.pscore)
                 let strat2 = OrganisationRetrieveStrategy(source: MPOLSource.nat)
                 let strat3 = OrganisationRetrieveStrategy(source: MPOLSource.rda)
-                
-                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entityPickerViewModel: DefaultEntityPickerViewModel())
-                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entityPickerViewModel: DefaultEntityPickerViewModel())
-                
+
+                let vm1 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds1, strategy: strat1, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm2 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds2, strategy: strat2, entitySelectionViewModel: EntitySummarySelectionViewModel())
+                let vm3 = EntityDetailsDataSourceViewModel<EntityDetailsDisplayable>(dataSource: ds3, strategy: strat3, entitySelectionViewModel: EntitySummarySelectionViewModel())
+
                 let viewModel = EntityDetailsViewModel(dataSourceViewModels: [vm1, vm2, vm3],
                                                        initialSource: entity.source!,
                                                        referenceEntity: entity)
-                
+
                 let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, OrganisationSummaryDisplayable>(viewModel: viewModel)
-                
+
                 return entityDetailViewController
-                
+
             case is Address:
 
                 let ds1 = LocationMPOLDetailsSectionsDataSource(delegate: delegate)
@@ -107,7 +118,7 @@ public class EntityPresenter: Presenter {
                                                             referenceEntity: entity)
 
                 let entityDetailViewController = EntityDetailsSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
-                
+
                 return entityDetailViewController
             default:
                 break
@@ -115,9 +126,9 @@ public class EntityPresenter: Presenter {
             return UIViewController()
         case .help(let type):
             let htmlVC: HTMLTextViewController
-            
+
             let styleMap = ThemeManager.htmlStyleMap
-            
+
             switch type {
             case .person:
                 let url = Bundle.main.url(forResource: "PersonSearchHelp", withExtension: "html")!
@@ -136,17 +147,26 @@ public class EntityPresenter: Presenter {
                 htmlVC = try! HTMLTextViewController.init(title: NSLocalizedString("Organisation Search", comment: ""),
                                                           htmlURL: url, styleMap: styleMap, actions: nil)
             }
-            
+
             htmlVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",
                                                                          style: .plain,
                                                                          target: htmlVC,
                                                                          action: #selector(UIViewController.dismissAnimated))
-            
-            
+
             let navVC = ModalNavigationController(rootViewController: htmlVC)
             navVC.modalPresentationStyle = .pageSheet
-            
+            navVC.preferredContentSize = CGSize(width: 512, height: 736)
+
             return navVC
+
+        case .scanner:
+            cameraManager.finishPickingClosure = { image in
+                self.scanner.startScan(with: image) { text in
+                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false)
+                    try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
+                }
+            }
+            return cameraManager.pickerController()
 
         case .createEntity(let type):
             let title: String
@@ -170,7 +190,12 @@ public class EntityPresenter: Presenter {
             viewController.title = title
             viewController.view.backgroundColor = .white
             return viewController
-            
+
+        case .createEntityAliasDetail(let alias, let handler):
+            return PersonEditAliasFormViewController(viewModel: PersonEditAliasFormViewModel(personAlias: alias), submitHandler: handler)
+
+        case .createEntityContactDetail(let contact, let handler):
+            return PersonEditContactFormViewController(viewModel: PersonEditContactFormViewModel(contact: contact), submitHandler: handler)
         }
     }
 
@@ -186,6 +211,14 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
+        case .createEntityAliasDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 328)
+            from.presentModalViewController(container)
+        case .createEntityContactDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 256)
+            from.presentModalViewController(container)
         default:
             from.show(to, sender: from)
         }

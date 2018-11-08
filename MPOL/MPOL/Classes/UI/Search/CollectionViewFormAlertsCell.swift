@@ -8,7 +8,6 @@
 import Foundation
 import PublicSafetyKit
 import DemoAppKit
-import Cache
 
 public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource {
     public static let intrinsicHeight: CGFloat = 96
@@ -78,7 +77,6 @@ public class CollectionViewFormAlertsCell: CollectionViewFormCell, UICollectionV
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
 
     // MARK: - UICollectionViewDelegate/DataSource
 

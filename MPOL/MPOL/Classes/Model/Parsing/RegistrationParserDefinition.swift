@@ -11,7 +11,7 @@ import PublicSafetyKit
 
 public enum RegistrationParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
-    
+
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
@@ -25,7 +25,7 @@ public protocol RegistrationDefinitionType {
 }
 
 public class RegistrationParserDefinition: WildcardParserDefinition, RegistrationDefinitionType {
-    
+
     public static let registrationKey = "registration"
 
     public init(range: CountableClosedRange<Int>) {
@@ -33,7 +33,7 @@ public class RegistrationParserDefinition: WildcardParserDefinition, Registratio
     }
 }
 
-fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+private var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
     return {  (query, requiredLengthRange) -> LocalizedError in
         return RegistrationParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
     }

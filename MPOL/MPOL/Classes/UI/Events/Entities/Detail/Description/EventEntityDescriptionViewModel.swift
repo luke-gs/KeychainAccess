@@ -23,6 +23,10 @@ open class EventEntityDescriptionViewModel {
             return PersonSummaryDisplayable(person)
         case let vehicle as Vehicle:
             return VehicleSummaryDisplayable(vehicle)
+        case let organisation as Organisation:
+            return OrganisationSummaryDisplayable(organisation)
+        case let address as Address:
+            return AddressSummaryDisplayable(address)
         default:
             fatalError("Entity of type \"\(type(of: report.entity))\" not found")
         }
@@ -34,6 +38,10 @@ open class EventEntityDescriptionViewModel {
             return person.descriptions?.first?.formatted()
         case let vehicle as Vehicle:
             return vehicle.vehicleDescription
+        case is Organisation:
+            return nil
+        case is Address:
+            return nil
         default:
             fatalError("Entity of type \"\(type(of: report.entity))\" not found")
         }
