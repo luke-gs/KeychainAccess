@@ -1,5 +1,5 @@
 //
-//  OfficerListViewModel.swift
+//  EventOfficerListViewModel.swift
 //  MPOL
 //
 //  Created by QHMW64 on 9/2/18.
