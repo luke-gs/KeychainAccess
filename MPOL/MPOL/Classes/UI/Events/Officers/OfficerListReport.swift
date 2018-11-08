@@ -33,9 +33,9 @@ public class OfficerListReport: DefaultEventReportable {
 
         let reportingOfficerText = NSLocalizedString("Reporting Officer", comment: "")
 
-        if let testOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
-            testOfficer.involvements = [reportingOfficerText]
-            officers = [testOfficer]
+        if let currentOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
+            currentOfficer.involvements = [reportingOfficerText]
+            officers = [currentOfficer]
         }
 
         evaluator.registerKey(.officers) { [weak self] in
