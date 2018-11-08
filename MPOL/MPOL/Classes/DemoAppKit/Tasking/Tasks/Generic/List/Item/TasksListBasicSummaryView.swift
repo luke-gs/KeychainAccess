@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreKit
 /// A view for the tasks list summary containing a title, subtitle, and caption label
 open class TasksListBasicSummaryView: UIView {
 

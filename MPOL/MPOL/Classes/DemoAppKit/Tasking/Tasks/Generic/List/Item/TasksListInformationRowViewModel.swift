@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PatternKit
 
 public struct TasksListInformationRowViewModel {
     public static var blank = TasksListInformationRowViewModel(image: nil, title: nil)

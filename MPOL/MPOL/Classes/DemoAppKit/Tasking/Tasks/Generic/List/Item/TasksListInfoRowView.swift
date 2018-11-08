@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreKit
 /// Row for the status column in landscape on tasks list
 open class TasksListInfoRowView: UIView {
 

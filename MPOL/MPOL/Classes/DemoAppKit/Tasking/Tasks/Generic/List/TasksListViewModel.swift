@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import PublicSafetyKit
 /// View model for the task list in CAD. A task may be from different sources:
 /// * Incidents
 /// * Resources

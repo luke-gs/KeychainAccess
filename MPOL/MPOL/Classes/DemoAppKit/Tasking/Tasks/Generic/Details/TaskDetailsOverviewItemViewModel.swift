@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import PatternKit
 public struct TaskDetailsOverviewItemViewModel {
 
     public typealias SelectAction = (CollectionViewFormCell) -> Void

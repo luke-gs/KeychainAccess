@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MapKit
+import PublicSafetyKit
 
 open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
 

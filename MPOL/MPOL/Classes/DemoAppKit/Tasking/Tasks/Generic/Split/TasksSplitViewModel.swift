@@ -6,8 +6,8 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import UIKit
-
+import PatternKit
+import PublicSafetyKit
 // swiftlint:disable class_delegate_protocol
 /// Delegate protocol for updating UI
 public protocol TasksSplitViewModelDelegate: PopoverPresenter {

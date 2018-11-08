@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreKit
 open class TasksListInfoRowStackView: UIView {
 
     private struct LayoutConstants {

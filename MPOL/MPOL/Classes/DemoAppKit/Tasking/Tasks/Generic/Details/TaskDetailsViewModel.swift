@@ -6,7 +6,8 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import PublicSafetyKit
 
 /// Type alias for a task view model delegate
 public typealias TaskDetailsViewController = UIViewController & CADFormCollectionViewModelDelegate & TaskDetailsLoadable

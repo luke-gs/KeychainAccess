@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import PatternKit
+import PublicSafetyKit
 
 open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
     public let viewModel: TaskDetailsOverviewViewModel

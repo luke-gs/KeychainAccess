@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreKit
 
 open class TasksListDetailView: UIView {
 
