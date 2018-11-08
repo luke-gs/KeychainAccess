@@ -16,13 +16,20 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class Event: IdentifiableDataModel, Evaluatable {
 
-    public var evaluator: Evaluator = Evaluator()
-    public weak var displayable: EventListDisplayable?
+    // MARK: - State
+
     public var entityManager: EventEntityManager!
+    public var evaluator: Evaluator = Evaluator()
+
+    // MARK: - Properties
 
     /// Store of entities used throughout event, keyed by uuid
     public var entities: [String: MPOLKitEntity] = [:]
 
+    /// The properties used for display in list
+    public var displayable: EventListDisplayable!
+
+    /// The nested reports
     private(set) public var reports: [EventReportable] = [] {
         didSet {
             updateChildReports()
@@ -35,6 +42,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
             evaluator.updateEvaluation(for: .allValid)
         }
     }
+
+    // MARK: - Init
 
     public init() {
         super.init(id: UUID().uuidString)
@@ -87,12 +96,15 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
+        case displayable
         case entities
         case reports
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        displayable = try container.decode(EventListDisplayable.self, forKey: .displayable)
 
         // Restore entity map
         let wrappedEntities = try container.decode([CodableWrapper].self, forKey: .entities)
@@ -120,6 +132,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
         let wrappedEntities = entityList.wrapped()
 
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(displayable, forKey: .displayable)
         try container.encode(wrappedEntities, forKey: CodingKeys.entities)
         try container.encode(anyReports, forKey: CodingKeys.reports)
     }

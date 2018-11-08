@@ -16,19 +16,28 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class Incident: IdentifiableDataModel, Evaluatable {
 
-    public var incidentType: IncidentType
-    public var evaluator: Evaluator = Evaluator()
-    public var actions: [AdditionalAction] = []
-    public var additionalActionManager: AdditionalActionManager!
+    // MARK: - State
 
+    public var additionalActionManager: AdditionalActionManager!
+    public var evaluator: Evaluator = Evaluator()
     public var weakEvent: Weak<Event> {
         didSet {
             updateChildReports()
         }
     }
 
+    // MARK: - Properties
+
+    /// The incident type
+    public var incidentType: IncidentType
+
+    /// The nested additional actions
+    public var actions: [AdditionalAction] = []
+
+    /// The properties used for display in list
     public var displayable: IncidentListDisplayable!
 
+    /// The nested reports
     private(set) public var reports: [IncidentReportable] = [] {
         didSet {
             updateChildReports()
@@ -41,6 +50,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
             evaluator.updateEvaluation(for: .allValid)
         }
     }
+
+    // MARK: - Init
 
     public init(event: Event, type: IncidentType) {
         self.weakEvent = Weak(event)
@@ -80,6 +91,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     private enum CodingKeys: String, CodingKey {
         case actions
+        case displayable
         case incidentType
         case reports
     }
@@ -87,6 +99,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         actions = try container.decode([AdditionalAction].self, forKey: .actions)
+        displayable = try container.decode(IncidentListDisplayable.self, forKey: .displayable)
         incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
@@ -107,6 +120,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(actions, forKey: .actions)
+        try container.encode(displayable, forKey: .displayable)
         try container.encode(incidentType, forKey: .incidentType)
         try container.encode(anyReports, forKey: .reports)
     }
