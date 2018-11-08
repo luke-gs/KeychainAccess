@@ -51,7 +51,7 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let thumbnailImage: UIImage?
-        let contentMode: UIViewContentMode
+        let contentMode: UIView.ContentMode
         switch entityType {
         case let .person(initials, thumbnailUrl):
             return CADPersonImageSizing(initials: initials, thumbnailUrl: thumbnailUrl)

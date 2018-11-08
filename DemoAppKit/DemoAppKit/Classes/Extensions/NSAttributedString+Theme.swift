@@ -16,7 +16,7 @@ extension NSAttributedString {
     /// - Returns: The NSAttributedString with theme's tint
     public static func stringWithTint(string: String) -> NSAttributedString {
 
-        var attributes = [NSAttributedStringKey: Any]()
+        var attributes = [NSAttributedString.Key: Any]()
 
         if let tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) {
             attributes[.foregroundColor] = tintColor
