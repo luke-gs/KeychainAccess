@@ -16,7 +16,20 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
+    // MARK: - Properties
+
     public var additionalActionType: AdditionalActionType
+
+    /// The nested reports
+    private(set) public var reports: [ActionReportable] = [] {
+        didSet {
+            updateChildReports()
+            evaluator.updateEvaluation(for: .allValid)
+        }
+    }
+
+    // MARK: - State
+
     public var evaluator: Evaluator = Evaluator()
 
     public var weakIncident: Weak<Incident> {
@@ -25,18 +38,13 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         }
     }
 
-    private(set) public var reports: [ActionReportable] = [] {
-        didSet {
-            updateChildReports()
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
-
     private var allValid: Bool = false {
         didSet {
             evaluator.updateEvaluation(for: .allValid)
         }
     }
+
+    // MARK: - Init
 
     public init(incident: Incident, type: AdditionalActionType) {
         self.weakIncident = Weak(incident)

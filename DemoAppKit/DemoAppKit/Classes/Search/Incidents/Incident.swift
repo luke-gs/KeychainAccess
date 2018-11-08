@@ -16,16 +16,6 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class Incident: IdentifiableDataModel, Evaluatable {
 
-    // MARK: - State
-
-    public var additionalActionManager: AdditionalActionManager!
-    public var evaluator: Evaluator = Evaluator()
-    public var weakEvent: Weak<Event> {
-        didSet {
-            updateChildReports()
-        }
-    }
-
     // MARK: - Properties
 
     /// The incident type
@@ -42,6 +32,18 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         didSet {
             updateChildReports()
             evaluator.updateEvaluation(for: .allValid)
+        }
+    }
+
+    // MARK: - State
+
+    public var additionalActionManager: AdditionalActionManager!
+
+    public var evaluator: Evaluator = Evaluator()
+
+    public var weakEvent: Weak<Event> {
+        didSet {
+            updateChildReports()
         }
     }
 

@@ -16,11 +16,6 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class Event: IdentifiableDataModel, Evaluatable {
 
-    // MARK: - State
-
-    public var entityManager: EventEntityManager!
-    public var evaluator: Evaluator = Evaluator()
-
     // MARK: - Properties
 
     /// The title to display for the event
@@ -30,6 +25,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public var status: EventStatus = .draft
 
     /// Store of entities used throughout event, keyed by uuid
+    /// TODO: Replace with entity snapshots that are added back to entity manager when event is restored from disk
     public var entities: [String: MPOLKitEntity] = [:]
 
     /// The nested reports
@@ -39,6 +35,12 @@ public class Event: IdentifiableDataModel, Evaluatable {
             evaluator.updateEvaluation(for: .allValid)
         }
     }
+
+    // MARK: - State
+
+    public var entityManager: EventEntityManager!
+    
+    public var evaluator: Evaluator = Evaluator()
 
     private var allValid: Bool = false {
         didSet {
