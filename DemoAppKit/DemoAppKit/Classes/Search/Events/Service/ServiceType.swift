@@ -7,7 +7,7 @@
 
 import UIKit
 
-public enum ServiceType: Int, OptionDisplayable {
+public enum ServiceType: Int, OptionDisplayable, Codable {
     case email
     case mms
     case post

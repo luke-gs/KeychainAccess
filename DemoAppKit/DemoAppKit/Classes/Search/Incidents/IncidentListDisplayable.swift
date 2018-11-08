@@ -11,7 +11,7 @@ import Foundation
 /// Incident List UI
 /// - Warning:
 ///     Displayable is strongly owned by Incident
-open class IncidentListDisplayable: NSSecureCoding {
+open class IncidentListDisplayable: Codable {
 
     /// A unique ID of the incident metadata
     open var id: String = UUID().uuidString
@@ -20,7 +20,7 @@ open class IncidentListDisplayable: NSSecureCoding {
     open var incidentId: String = UUID().uuidString
 
     /// The icon to display on the left of the cell
-    open var icon: UIImage?
+    open var iconKey: AssetManager.ImageKey?
 
     /// The title to display on the left of the cell
     open var title: String?
@@ -30,37 +30,38 @@ open class IncidentListDisplayable: NSSecureCoding {
 
     public init(title: String? = nil,
                 subtitle: String? = nil,
-                icon: UIImage? = nil) {
+                iconKey: AssetManager.ImageKey? = nil) {
         self.title = title
         self.subtitle = subtitle
-        self.icon = icon
+        self.iconKey = iconKey
     }
 
-    //Coding
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
+    private enum CodingKeys: String, CodingKey {
+        case iconKey
         case id
         case incidentId
-        case icon
-        case title
         case subtitle
+        case title
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
-        incidentId = aDecoder.decodeObject(of: NSString.self, forKey: Coding.incidentId.rawValue)! as String
-        icon = aDecoder.decodeObject(of: UIImage.self, forKey: Coding.icon.rawValue)
-        title = aDecoder.decodeObject(of: NSString.self, forKey: Coding.title.rawValue) as String?
-        subtitle = aDecoder.decodeObject(of: NSString.self, forKey: Coding.subtitle.rawValue) as String?
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        iconKey = try container.decodeIfPresent(AssetManager.ImageKey.self, forKey: .iconKey)
+        id = try container.decode(String.self, forKey: .id)
+        incidentId = try container.decode(String.self, forKey: .incidentId)
+        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: Coding.id.rawValue)
-        aCoder.encode(incidentId, forKey: Coding.incidentId.rawValue)
-        aCoder.encode(icon, forKey: Coding.icon.rawValue)
-        aCoder.encode(title, forKey: Coding.title.rawValue)
-        aCoder.encode(subtitle, forKey: Coding.subtitle.rawValue)
+    open func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(iconKey, forKey: CodingKeys.iconKey)
+        try container.encode(id, forKey: CodingKeys.id)
+        try container.encode(incidentId, forKey: CodingKeys.incidentId)
+        try container.encode(subtitle, forKey: CodingKeys.subtitle)
+        try container.encode(title, forKey: CodingKeys.title)
     }
 }
 

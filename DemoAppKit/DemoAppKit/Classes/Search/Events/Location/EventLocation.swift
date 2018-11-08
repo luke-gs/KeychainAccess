@@ -10,7 +10,7 @@ import MapKit
 import Contacts
 
 /// Data model for a generic location selection including lat/lon and an address string
-public class EventLocation: NSObject, NSSecureCoding {
+public class EventLocation: NSObject, Codable {
 
     // MARK: - PUBLIC
 
@@ -47,34 +47,29 @@ public class EventLocation: NSObject, NSSecureCoding {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
-    // MARK: - NSSecureCoding
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-    private enum Coding: String {
+    private enum CodingKeys: String, CodingKey {
         case latitude
         case longitude
         case addressString
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        latitude = aDecoder.decodeDouble(forKey: Coding.latitude.rawValue)
-        longitude = aDecoder.decodeDouble(forKey: Coding.longitude.rawValue)
-        addressString = aDecoder.decodeObject(of: NSString.self, forKey: Coding.addressString.rawValue) as String?
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        latitude = try container.decode(CLLocationDegrees.self, forKey: .latitude)
+        longitude = try container.decode(CLLocationDegrees.self, forKey: .longitude)
+        addressString = try container.decodeIfPresent(String.self, forKey: .addressString)
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(latitude, forKey: Coding.latitude.rawValue)
-        aCoder.encode(longitude, forKey: Coding.longitude.rawValue)
-        aCoder.encode(addressString, forKey: Coding.addressString.rawValue)
+    open func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(latitude, forKey: CodingKeys.latitude)
+        try container.encode(longitude, forKey: CodingKeys.longitude)
+        try container.encode(addressString, forKey: CodingKeys.addressString)
     }
 
     // MARK: - Equality
-
-    public static func ==(lhs: EventLocation, rhs: EventLocation) -> Bool {
-        return lhs.latitude == rhs.latitude
-            && lhs.longitude == rhs.longitude
-            && lhs.addressString == rhs.addressString
-    }
 
     open override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? EventLocation else { return false }

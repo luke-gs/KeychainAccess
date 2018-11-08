@@ -12,62 +12,60 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-public class DefaultNotesMediaReport: EventReportable, MediaContainer {
-    public let weakEvent: Weak<Event>
+open class DefaultNotesMediaReport: DefaultEventReportable, MediaContainer {
 
+    public var media: [MediaAsset] = []
+    var operationName: String?
+    var freeText: String?
     var viewed: Bool = false {
         didSet {
             evaluator.updateEvaluation(for: .viewed)
         }
     }
 
-    public var media: [MediaAsset] = []
-    var operationName: String?
-    var freeText: String?
-
-    public var evaluator: Evaluator = Evaluator()
-
-    public required init(event: Event) {
-        self.weakEvent = Weak(event)
-        commonInit()
+    public override init(event: Event) {
+        super.init(event: event)
     }
 
-    public func commonInit() {
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
+
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
     }
 
-    // Coding
+    // MARK: - Codable
 
-    public static var supportsSecureCoding: Bool = true
-
-    private enum Coding: String {
+    private enum CodingKeys: String, CodingKey {
         case media
         case operationName
         case freeText
-        case event
+        case viewed
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as! [MediaAsset]
-        operationName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.operationName.rawValue) as String?
-        freeText = aDecoder.decodeObject(of: NSString.self, forKey: Coding.freeText.rawValue) as String?
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        commonInit()
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        media = try container.decode([MediaAsset].self, forKey: .media)
+        operationName = try container.decodeIfPresent(String.self, forKey: .operationName)
+        freeText = try container.decodeIfPresent(String.self, forKey: .freeText)
+        viewed = try container.decode(Bool.self, forKey: .viewed)
+
+        try super.init(from: decoder)
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(media, forKey: Coding.media.rawValue)
-        aCoder.encode(operationName, forKey: Coding.operationName.rawValue)
-        aCoder.encode(freeText, forKey: Coding.freeText.rawValue)
+    open override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(media, forKey: CodingKeys.media)
+        try container.encode(operationName, forKey: CodingKeys.operationName)
+        try container.encode(freeText, forKey: CodingKeys.freeText)
+        try container.encode(viewed, forKey: CodingKeys.viewed)
+
+        try super.encode(to: encoder)
     }
 
     // Media
-   public func add(_ media: [MediaAsset]) {
+    open func add(_ media: [MediaAsset]) {
         media.forEach {
             if !self.media.contains($0) {
                 self.media.append($0)
@@ -75,17 +73,13 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         }
     }
 
-   public func remove(_ media: [MediaAsset]) {
+   open func remove(_ media: [MediaAsset]) {
         media.forEach { asset in
             if let index = self.media.index(where: { $0 == asset }) {
                 self.media.remove(at: index)
             }
         }
     }
-
-    // Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
 
 extension DefaultNotesMediaReport: Summarisable {
