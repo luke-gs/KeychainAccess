@@ -6,11 +6,15 @@
 //
 
 final public class AdditionalActionManager {
-    private var actions = [AdditionalAction]()
+    private weak var incident: Incident!
     private let additionalActionRelationshipManager = RelationshipManager<MPOLKitEntity, AdditionalAction>()
 
+    public init(incident: Incident) {
+        self.incident = incident
+    }
+
     public var allValid: Bool {
-        return actions.reduce(true, { (_, action) -> Bool in
+        return incident.actions.reduce(true, { (_, action) -> Bool in
             return action.evaluator.isComplete
         })
     }
@@ -24,7 +28,7 @@ final public class AdditionalActionManager {
     }
 
     public func add(_ action: AdditionalAction, to entity: MPOLKitEntity) {
-        actions.append(action)
+        incident.actions.append(action)
 
         let actionRelationship = Relationship(baseObject: entity, relatedObject: action)
         additionalActionRelationshipManager.add(actionRelationship)
@@ -36,6 +40,6 @@ final public class AdditionalActionManager {
             additionalActionRelationshipManager.remove(actionRelationships)
         }
         //remove the action
-        actions = actions.filter { $0 != action }
+        incident.actions = incident.actions.filter { $0 != action }
     }
 }

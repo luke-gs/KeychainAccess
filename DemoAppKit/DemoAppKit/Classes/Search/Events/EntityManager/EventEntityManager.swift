@@ -6,7 +6,7 @@
 //
 
 final public class EventEntityManager {
-    public weak var event: Event?
+    private weak var event: Event!
     private let entityBucket = EntityBucket()
     private let incidentRelationshipManager = RelationshipManager<MPOLKitEntity, Incident>()
     private let entityRelationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
@@ -15,6 +15,10 @@ final public class EventEntityManager {
         didSet {
             entityBucket.delegate = delegate
         }
+    }
+
+    public init(event: Event) {
+        self.event = event
     }
 
     // MARK: Incident -> Entity
@@ -33,6 +37,15 @@ final public class EventEntityManager {
 
     public func add(_ entity: MPOLKitEntity, to incident: Incident, with involvements: [String]?) {
         entityBucket.add(entity)
+        event?.entities[entity.uuid] = entity
+
+        DispatchQueue.main.async {
+            if let data = try? JSONEncoder().encode(self.event!) {
+                if let copy = try? JSONDecoder().decode(Event.self, from: data) {
+                    print(copy)
+                }
+            }
+        }
 
         let incidentRelationship = Relationship(baseObject: entity, relatedObject: incident, reasons: involvements)
         incidentRelationshipManager.add(incidentRelationship)

@@ -18,7 +18,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     public var incidentType: IncidentType
     public var evaluator: Evaluator = Evaluator()
-    public let additionalActionManager = AdditionalActionManager()
+    public var actions: [AdditionalAction] = []
+    public var additionalActionManager: AdditionalActionManager!
 
     public var weakEvent: Weak<Event> {
         didSet {
@@ -49,6 +50,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     }
 
     private func commonInit() {
+        self.additionalActionManager = AdditionalActionManager(incident: self)
+
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
@@ -57,12 +60,15 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     }
 
     private func updateChildReports() {
-        // Pass down this incident and parent event to child reports
+        // Pass down this incident and parent event to child reports and actions
         for report in reports {
             report.weakIncident = Weak<Incident>(self)
             if let report = report as? EventReportable {
                 report.weakEvent = weakEvent
             }
+        }
+        for action in actions {
+            action.weakIncident = Weak<Incident>(self)
         }
     }
 
@@ -73,12 +79,14 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     }
 
     private enum CodingKeys: String, CodingKey {
+        case actions
         case incidentType
         case reports
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        actions = try container.decode([AdditionalAction].self, forKey: .actions)
         incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
@@ -97,8 +105,9 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         let anyReports = reports.map { return AnyIncidentReportable($0) }
 
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(incidentType, forKey: CodingKeys.incidentType)
-        try container.encode(anyReports, forKey: CodingKeys.reports)
+        try container.encode(actions, forKey: .actions)
+        try container.encode(incidentType, forKey: .incidentType)
+        try container.encode(anyReports, forKey: .reports)
     }
 
     // MARK: Utility

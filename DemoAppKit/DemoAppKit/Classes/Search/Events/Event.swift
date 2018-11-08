@@ -18,7 +18,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable?
-    public let entityManager = EventEntityManager()
+    public var entityManager: EventEntityManager!
 
     /// Store of entities used throughout event, keyed by uuid
     public var entities: [String: MPOLKitEntity] = [:]
@@ -38,11 +38,12 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     public init() {
         super.init(id: UUID().uuidString)
-        entityManager.event = self
         commonInit()
     }
 
     private func commonInit() {
+        entityManager = EventEntityManager(event: self)
+
         evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
