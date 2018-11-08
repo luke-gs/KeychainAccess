@@ -16,8 +16,15 @@ public protocol EventBuilding {
     /// Create an event, injecting any reports that you need.
     ///
     /// - Parameter type: The type of event that is being asked to be created.
-    /// - Returns: A tuple of an event and it's list view representation
-    func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable)
+    /// - Returns: The new event
+    func createEvent(for type: EventType) -> Event
+
+    /// Create a displayable for an event, to be shown in event list
+    ///
+    /// - Parameter event: The event
+    /// - Returns: The list displayable
+    func displayable(for event: Event) -> EventListDisplayable
+
 }
 
 /// Screen builder for the event

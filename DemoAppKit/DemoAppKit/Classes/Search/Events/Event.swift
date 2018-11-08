@@ -23,11 +23,14 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     // MARK: - Properties
 
+    /// The title to display for the event
+    public var title: String?
+
+    /// The status of the event
+    public var status: EventStatus = .draft
+
     /// Store of entities used throughout event, keyed by uuid
     public var entities: [String: MPOLKitEntity] = [:]
-
-    /// The properties used for display in list
-    public var displayable: EventListDisplayable!
 
     /// The nested reports
     private(set) public var reports: [EventReportable] = [] {
@@ -96,15 +99,17 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
-        case displayable
         case entities
         case reports
+        case status
+        case title
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        displayable = try container.decode(EventListDisplayable.self, forKey: .displayable)
+        title = try container.decode(String.self, forKey: .title)
+        status = try container.decode(EventStatus.self, forKey: .status)
 
         // Restore entity map
         let wrappedEntities = try container.decode([CodableWrapper].self, forKey: .entities)
@@ -132,7 +137,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
         let wrappedEntities = entityList.wrapped()
 
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(displayable, forKey: .displayable)
+        try container.encode(title, forKey: .title)
+        try container.encode(status, forKey: .status)
         try container.encode(wrappedEntities, forKey: CodingKeys.entities)
         try container.encode(anyReports, forKey: CodingKeys.reports)
     }

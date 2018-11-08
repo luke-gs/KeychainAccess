@@ -14,11 +14,8 @@
 /// just to show in the list
 open class EventListDisplayable: Codable {
 
-    /// A unique ID of the event metadata
-    open var id: String = UUID().uuidString
-
-    /// A unique ID of the event metadata
-    open var eventId: String = UUID().uuidString
+    /// A unique ID of the event
+    open var id: String
 
     /// The icon to display on the left of the cell
     open var iconKey: AssetManager.ImageKey?
@@ -38,12 +35,14 @@ open class EventListDisplayable: Codable {
     /// The status of the event
     open var status: EventStatus
 
-    public init(title: String? = nil,
+    public init(id: String,
+                title: String? = nil,
                 subtitle: String? = nil,
                 accessoryTitle: String? = nil,
                 accessorySubtitle: String? = nil,
                 iconKey: AssetManager.ImageKey? = nil,
                 status: EventStatus = .draft) {
+        self.id = id
         self.title = title
         self.subtitle = subtitle
         self.accessoryTitle = accessoryTitle
@@ -57,7 +56,6 @@ open class EventListDisplayable: Codable {
     private enum CodingKeys: String, CodingKey {
         case accessorySubtitle
         case accessoryTitle
-        case eventId
         case iconKey
         case id
         case status
@@ -69,7 +67,6 @@ open class EventListDisplayable: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         accessorySubtitle = try container.decodeIfPresent(String.self, forKey: .accessorySubtitle)
         accessoryTitle = try container.decodeIfPresent(String.self, forKey: .accessoryTitle)
-        eventId = try container.decode(String.self, forKey: .eventId)
         iconKey = try container.decodeIfPresent(AssetManager.ImageKey.self, forKey: .iconKey)
         id = try container.decode(String.self, forKey: .id)
         status = try container.decode(EventStatus.self, forKey: .status)
@@ -81,7 +78,6 @@ open class EventListDisplayable: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(accessorySubtitle, forKey: CodingKeys.accessorySubtitle)
         try container.encode(accessoryTitle, forKey: CodingKeys.accessoryTitle)
-        try container.encode(eventId, forKey: CodingKeys.eventId)
         try container.encode(iconKey, forKey: CodingKeys.iconKey)
         try container.encode(id, forKey: CodingKeys.id)
         try container.encode(status, forKey: CodingKeys.status)

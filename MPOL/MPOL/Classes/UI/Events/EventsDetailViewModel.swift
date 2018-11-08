@@ -13,10 +13,10 @@ public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
 }
 
-let incidentsHeaderDefaultTitle = "No Incident Selected"
-let incidentsHeaderDefaultSubtitle = "IN PROGRESS"
-
 public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
+
+    private static let incidentsHeaderDefaultTitle = "No Incident Selected"
+    private static let incidentsHeaderDefaultSubtitle = "IN PROGRESS"
 
     public var event: Event
     public var title: String?
@@ -41,8 +41,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 
             // Update the header to whatever you need it to be
             let report = event.reports.filter { $0 is IncidentListReport }.first as? IncidentListReport
-            header.titleLabel.text = report?.incidents.first?.displayable?.title ?? incidentsHeaderDefaultTitle
-            header.captionLabel.text = incidentsHeaderDefaultSubtitle
+            header.titleLabel.text = report?.incidents.first?.displayable?.title ?? EventsDetailViewModel.incidentsHeaderDefaultTitle
+            header.captionLabel.text = EventsDetailViewModel.incidentsHeaderDefaultSubtitle
             header.subtitleLabel.text =  "Saved as Draft"
             header.subtitleLabel.font =  UIFont.systemFont(ofSize: 13)
             return header
@@ -101,8 +101,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 extension EventsDetailViewModel: SideBarHeaderUpdateDelegate {
     public func updateHeader(with title: String?, subtitle: String?) {
         guard let header = headerView as? SidebarHeaderView else { return }
-        header.titleLabel.text = title ?? incidentsHeaderDefaultTitle
-        header.captionLabel.text = subtitle ?? incidentsHeaderDefaultSubtitle
+        header.titleLabel.text = title ?? EventsDetailViewModel.incidentsHeaderDefaultTitle
+        header.captionLabel.text = subtitle ?? EventsDetailViewModel.incidentsHeaderDefaultSubtitle
         headerUpdated?()
     }
 }

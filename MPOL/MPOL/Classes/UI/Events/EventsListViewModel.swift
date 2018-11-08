@@ -16,11 +16,11 @@ public class EventsListViewModel {
     public var incidentType: IncidentType?
 
     public var eventsList: [EventListDisplayable]? {
-        return eventsManager.displayableBucket.objects
+        return eventsManager.displayables
     }
 
     public var badgeCountString: String? {
-        let count = eventsManager.eventBucket.objects?.count ?? 0
+        let count = eventsManager.events.count
         if count > 0 {
             return "\(count)"
         } else {
@@ -34,7 +34,7 @@ public class EventsListViewModel {
     }
 
     public func event(for displayable: EventListDisplayable) -> Event? {
-        return eventsManager.event(for: displayable.eventId)
+        return eventsManager.event(for: displayable.id)
     }
 
     func subtitle(for displayable: EventListDisplayable) -> String {

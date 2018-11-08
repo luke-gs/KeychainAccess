@@ -57,7 +57,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
             let subtitle = viewModel.subtitle(for: displayable)
             let image = viewModel.image(for: displayable)
             let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, indexPath in
-                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
+                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].id)
                 self.updateEmptyState()
                 self.reloadForm()
             })]

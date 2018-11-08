@@ -11,7 +11,7 @@ import DemoAppKit
 
 public class EventBuilder: EventBuilding {
 
-    public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
+    public func createEvent(for type: EventType) -> Event {
         let event = Event()
 
         // Add reports here
@@ -22,13 +22,17 @@ public class EventBuilder: EventBuilding {
         event.add(report: EventEntitiesListReport(event: event))
         event.add(report: DefaultNotesMediaReport(event: event))
 
-        let displayable = EventListDisplayable(title: "No Incident Selected",
-                                               subtitle: "",
-                                               accessoryTitle: "",
-                                               accessorySubtitle: "",
-                                               iconKey: AssetManager.ImageKey.event)
-        displayable.eventId = event.id
-        return (event: event, displayable: displayable)
+        return event
+    }
+
+    public func displayable(for event: Event) -> EventListDisplayable {
+        return EventListDisplayable(
+            id: event.id,
+            title: event.title,
+            subtitle: "IN PROGRESS", // ??
+            accessoryTitle: "",
+            accessorySubtitle: "",
+            iconKey: AssetManager.ImageKey.event)
     }
 
     public init() {}

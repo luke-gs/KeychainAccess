@@ -8,52 +8,58 @@
 final public class EventsManager {
 
     public weak var delegate: EventsManagerDelegate?
-    public var eventBucket: ObjectBucket<Event> = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
 
-    public var displayableBucket: ObjectBucket<EventListDisplayable> = ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
+    /// The builder used to create events and displayables
     public var eventBuilder: EventBuilding
+
+    /// The currently saved local events
+    /// TODO: persist and load on startup once events are detangled from rest of event singletons
+    public private(set) var events: [Event] = []
 
     public required init(eventBuilder: EventBuilding) {
         self.eventBuilder = eventBuilder
     }
 
+    public var displayables: [EventListDisplayable] {
+        return events.map { event in
+            return eventBuilder.displayable(for: event)
+        }
+    }
+
     public func create(eventType: EventType) -> Event? {
-        let eventDisplayableTuple = eventBuilder.createEvent(for: eventType)
+        let event = eventBuilder.createEvent(for: eventType)
 
-        let event = eventDisplayableTuple.event
-        let displayable = eventDisplayableTuple.displayable
-
-        event.displayable = displayable
-
-        displayableBucket.add(displayable)
-        eventBucket.add(event)
+        events.append(event)
         delegate?.eventsManagerDidUpdateEventBucket(self)
 
         return event
     }
 
-    //add
     private func add(event: Event) {
-        eventBucket.add(event)
-        delegate?.eventsManagerDidUpdateEventBucket(self)
-    }
-
-    //remove
-    public func remove(event: Event) {
-        eventBucket.remove(event)
+        events.append(event)
         delegate?.eventsManagerDidUpdateEventBucket(self)
     }
 
     public func remove(for id: String) {
-        guard let event = self.event(for: id), let displayable = event.displayable else { return }
-        eventBucket.remove(event)
-        displayableBucket.remove(displayable)
+        events.removeAll { event -> Bool in
+            return event.id == id
+        }
         delegate?.eventsManagerDidUpdateEventBucket(self)
     }
 
-    //utility
+    /// Return the event for a given id
     public func event(for id: String) -> Event? {
-        return eventBucket.objects?.first(where: {$0.id == id})
+        var event: Event? = events.first(where: { $0.id == id })
+
+        #if DEBUG_
+        // Open a cloned version of the event, to test serialisation
+        if event != nil, let data = try? JSONEncoder().encode(event!) {
+            if let copy = try? JSONDecoder().decode(Event.self, from: data) {
+                event = copy
+            }
+        }
+        #endif
+        return event
     }
 }
 
