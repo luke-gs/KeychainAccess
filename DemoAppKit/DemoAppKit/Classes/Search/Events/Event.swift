@@ -22,16 +22,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
     
-    private let creationDate: Date
-
-    /// The event's date of creation as a relative string, e.g. "Today 10:44"
-    public var creationDateString: String {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.dateFormat = "dd/MM"
-        let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
-        return customFormatter.string(from: creationDate)
-    }
+    private(set) var creationDate: Date
 
     private(set) public var reports: [EventReportable] = [] {
         didSet {

@@ -76,7 +76,12 @@ fileprivate class EventDraftable: Draftable {
     }
 
     public var detail: String? {
-        return event.creationDateString
+        /// The event's date of creation as a relative string, e.g. "Today 10:44"
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "dd/MM"
+        let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
+        return customFormatter.string(from: event.creationDate)
     }
 
     public var subtitle: String? {
