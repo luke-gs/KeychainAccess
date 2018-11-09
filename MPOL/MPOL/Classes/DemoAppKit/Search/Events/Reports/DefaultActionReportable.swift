@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PublicSafetyKit
 
 /// Default base class for an ActionReportable
 open class DefaultActionReportable: DefaultReportable, ActionReportable {
