@@ -7,7 +7,7 @@
 
 import Foundation
 import PatternKit
-import DemoAppKit
+import PublicSafetyKit
 
 /// Contains the reusuable logic around working with addresses
 /// in particular allowing us to open to MKMaps or search for the address

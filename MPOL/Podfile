@@ -13,7 +13,6 @@ def all_kits
     pod 'SketchKit',       :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'PatternKit',      :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'PublicSafetyKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
-    pod 'DemoAppKit',      :path => '..', :inhibit_warnings => false
 end
 
 def core_app_extension
@@ -31,11 +30,11 @@ target 'MPOL' do
     pod 'Firebase/MLVisionTextModel'
     pod 'VoiceSearchManager'
     pod 'VoiceSearchManager/VehicleRegistrationTransformer'
-    
+
     target 'MPOLTests' do
       inherit! :search_paths
       # Pods for testing
-    end    
+    end
 end
 
 target 'APNS Extension' do

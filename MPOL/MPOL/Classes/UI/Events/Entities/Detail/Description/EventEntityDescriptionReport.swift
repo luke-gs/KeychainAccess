@@ -6,7 +6,6 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")

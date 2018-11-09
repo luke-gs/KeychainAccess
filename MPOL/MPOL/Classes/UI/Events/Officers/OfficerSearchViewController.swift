@@ -13,6 +13,15 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        displayRecentlyViewedOfficers()
+    }
+
+    override func cellSelectedAt(_ indexPath: IndexPath) {
+        super.cellSelectedAt(indexPath)
+        viewModel.cellSelectedAt(indexPath)
+    }
+
+    private func displayRecentlyViewedOfficers () {
 
         self.loadingManager.state = .loading
         viewModel.fetchRecentOfficers().done {
@@ -24,9 +33,20 @@ class OfficerSearchViewController<T: SearchDisplayableDelegate>: SearchDisplayab
         }
     }
 
-    override func cellSelectedAt(_ indexPath: IndexPath) {
-        super.cellSelectedAt(indexPath)
-        viewModel.cellSelectedAt(indexPath)
+    // MARK: - UISearchBarDelegate
+
+    override public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        super.searchBar(searchBar, textDidChange: searchText)
+
+        // if we are currently showing search results and clear the search then display recently used
+        guard viewModel.showSearchResults && searchText == "" else { return }
+        displayRecentlyViewedOfficers()
     }
 
+    override public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        super.searchBarCancelButtonClicked(searchBar)
+
+        guard viewModel.showSearchResults else { return }
+        displayRecentlyViewedOfficers()
+    }
 }

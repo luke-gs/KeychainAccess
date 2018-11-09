@@ -10,7 +10,6 @@ import UIKit
 import PublicSafetyKit
 import PromiseKit
 import UserNotifications
-import DemoAppKit
 
 class SearchNotificationHandler: NotificationHandler {
 
