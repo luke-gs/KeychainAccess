@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 private enum FilterItem: Int {
     case suburbFilter

@@ -6,7 +6,6 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 
 /// Enumeration that defines various Incident-based actions that can be performed.
 public enum IncidentActionType {

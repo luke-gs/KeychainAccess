@@ -8,7 +8,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 

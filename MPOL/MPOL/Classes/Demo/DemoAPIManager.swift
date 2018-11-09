@@ -8,7 +8,7 @@
 
 import UIKit
 import PromiseKit
-import DemoAppKit
+import PublicSafetyKit
 
 enum APIError: Error {
     case fileNotFound

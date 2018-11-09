@@ -13,7 +13,6 @@ def all_kits
     pod 'SketchKit',       :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
     pod 'PatternKit',      :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
     pod 'PublicSafetyKit', :git => 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    pod 'DemoAppKit',      :path => '..', :inhibit_warnings => false
 end
 
 def core_app_extension
@@ -29,14 +28,14 @@ target 'MPOL' do
     pod 'Firebase/Core'
   	pod 'Firebase/MLVision'
 	pod 'Firebase/MLVisionTextModel'
-    
+
     pod 'VoiceSearchManager'
     pod 'VoiceSearchManager/VehicleRegistrationTransformer'
 
     target 'MPOLTests' do
       inherit! :search_paths
       # Pods for testing
-    end    
+    end
 end
 
 target 'APNS Extension' do

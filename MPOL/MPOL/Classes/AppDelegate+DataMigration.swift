@@ -5,8 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import Foundation
-import DemoAppKit
+import PublicSafetyKit
 
 extension AppDelegate {
 
