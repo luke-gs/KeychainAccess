@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 open class DomesticViolencePropertyViewController: FormBuilderViewController, EvaluationObserverable {
 

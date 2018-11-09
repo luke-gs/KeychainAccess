@@ -8,7 +8,6 @@
 
 import Foundation
 import PublicSafetyKit
-import DemoAppKit
 
 public enum EventScreen: Presentable {
     case options(UIBarButtonItem)

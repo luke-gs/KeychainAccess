@@ -7,7 +7,6 @@
 
 import Foundation
 import PublicSafetyKit
-import DemoAppKit
 
 /// View Model for detail creation form
 public class PersonEditContactFormViewModel {

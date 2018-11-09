@@ -6,8 +6,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import Foundation
-import DemoAppKit
+import PatternKit
 
 public class BookOnPresenter: Presenter {
 

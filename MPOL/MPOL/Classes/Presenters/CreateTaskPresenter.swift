@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import DemoAppKit
 import PublicSafetyKit
 import PromiseKit
 

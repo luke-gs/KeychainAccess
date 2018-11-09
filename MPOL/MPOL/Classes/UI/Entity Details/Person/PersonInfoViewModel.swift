@@ -8,7 +8,6 @@
 
 import Foundation
 import PublicSafetyKit
-import DemoAppKit
 
 open class PersonInfoViewModel: EntityDetailFormViewModel {
 
