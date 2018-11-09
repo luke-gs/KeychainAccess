@@ -41,42 +41,6 @@ open class EventDraftListViewModel: EventListViewModelable {
         self.manager = manager
     }
 
-    public func title(for item: Draftable, at index: Int) -> String? {
-        return item.title
-    }
-
-    open func image(for item: Draftable, draftStatus: DraftableStatus) -> UIImage {
-        let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
-
-        var image: UIImage?
-
-        switch draftStatus {
-        case .draft:
-            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
-                .withCircleBackground(tintColor: isDark ? .black : .white, circleColor: isDark ? .white : .black, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
-        case .queued:
-            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
-                .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
-        }
-
-        if let image = image {
-            return image
-        }
-
-        fatalError("Image for event could not be generated")
-    }
-
-    open func listViewSubtitle(for item: Draftable, at index: Int) -> String? {
-        let item = manager.draftItems[index]
-        let detail = item.detail
-        let subtitle = item.subtitle
-        var values = [detail, subtitle].compactMap { $0 }
-        if values.count > 1 {
-            values.insert("\n", at: 1)
-        }
-        return values.joined()
-    }
-
     public var title: String? {
         return "Events"
     }

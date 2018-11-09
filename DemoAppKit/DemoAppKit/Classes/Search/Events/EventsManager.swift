@@ -91,6 +91,27 @@ fileprivate class EventDraftable: Draftable {
         return nil
     }
 
+    public var listIconImage: UIImage? {
+        let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
+
+        var image: UIImage?
+
+        switch status {
+        case .draft:
+            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
+                .withCircleBackground(tintColor: isDark ? .black : .white, circleColor: isDark ? .white : .black, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        case .queued:
+            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
+                .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        }
+
+        if let image = image {
+            return image
+        }
+
+        return nil
+    }
+
     public var status: DraftableStatus {
         return event.displayable?.status == .queued ? .queued : .draft
     }
