@@ -38,17 +38,6 @@ public class EventEntityDetailReport: DefaultEventReportable {
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
 
         super.init(event: event)
-
-        /*
-         for demo purpose, setting viewed to true allow validation to pass straightly
-         without adding relationship.
-        */
-        descriptionReport.viewed = true
-        relationshipsReport.viewed = true
-
-        descriptionReport.evaluator.addObserver(self)
-        relationshipsReport.evaluator.addObserver(self)
-
     }
 
     public override func configure(with event: Event) {
@@ -58,11 +47,22 @@ public class EventEntityDetailReport: DefaultEventReportable {
         descriptionReport.weakEvent = Weak(event)
         relationshipsReport.weakEvent = Weak(event)
 
+        // Observe changes to child report evaluators
+        descriptionReport.evaluator.addObserver(self)
+        relationshipsReport.evaluator.addObserver(self)
+
         evaluator.registerKey(.allValid) { [weak self] in
             return self?.reports.reduce(true) { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
             } ?? false
         }
+
+        /*
+         for demo purpose, setting viewed to true allow validation to pass straightly
+         without adding relationship.
+         */
+        descriptionReport.viewed = true
+        relationshipsReport.viewed = true
     }
 
     // Eval
