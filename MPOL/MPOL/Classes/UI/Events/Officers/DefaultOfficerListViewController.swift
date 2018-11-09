@@ -8,7 +8,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 extension EvaluatorKey {
     static let officers = EvaluatorKey(rawValue: "officerList")

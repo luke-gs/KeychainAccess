@@ -9,7 +9,6 @@
 import UIKit
 import UserNotifications
 import PublicSafetyKit
-import DemoAppKit
 import SketchKit
 import PromiseKit
 import Lottie

@@ -6,7 +6,6 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 import PromiseKit
 
 public class EventsListViewModel {
