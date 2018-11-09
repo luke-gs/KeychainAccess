@@ -16,7 +16,7 @@ public class TrafficInfringementServiceViewModel {
     var people: [Person] {
         guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
         let entities = report.event?.entityManager.relationships(for: incident).compactMap {
-            return report.event?.entities[$0.baseObjectUuid]
+            return report.event?.entityBucket.entity(uuid: $0.baseObjectUuid)
         }
         return entities?.compactMap { $0 as? Person } ?? []
     }

@@ -64,7 +64,7 @@ public extension EntitiesListViewModel {
 
     var entities: [MPOLKitEntity] {
         return report.event?.entityManager.relationships(for: report.incident!).compactMap { relationship in
-            return report.event?.entities[relationship.baseObjectUuid]
+            return report.event?.entityBucket.entity(uuid: relationship.baseObjectUuid)
         } ?? []
     }
 

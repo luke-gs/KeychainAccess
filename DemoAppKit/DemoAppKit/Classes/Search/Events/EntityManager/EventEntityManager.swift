@@ -7,13 +7,12 @@
 
 final public class EventEntityManager {
     private weak var event: Event!
-    private let entityBucket = EntityBucket()
     private let incidentRelationshipManager = RelationshipManager<MPOLKitEntity, Incident>()
     private let entityRelationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
 
     public weak var delegate: EntityBucketDelegate? {
         didSet {
-            entityBucket.delegate = delegate
+            event.entityBucket.delegate = delegate
         }
     }
 
@@ -36,8 +35,7 @@ final public class EventEntityManager {
     }
 
     public func add(_ entity: MPOLKitEntity, to incident: Incident, with involvements: [String]?) {
-        entityBucket.add(entity)
-        event?.entities[entity.uuid] = entity
+        event?.entityBucket.add(entity)
 
         incidentRelationshipManager.addRelationship(baseObject: entity, relatedObject: incident, reasons: involvements)
     }
@@ -56,8 +54,7 @@ final public class EventEntityManager {
         }
         // If the are no more incident->entity relationships, remove the entity and all its relationships
         if incidentRelationshipManager.relationships(for: entity, and: Incident.self).isEmpty {
-            entityBucket.remove(entity)
-            event?.entities[entity.uuid] = nil
+            event?.entityBucket.remove(entity)
             removeAllRelationships(for: entity)
         }
     }
@@ -65,7 +62,7 @@ final public class EventEntityManager {
     public func removeAllRelationships(for incident: Incident) {
         let relationships = incidentRelationshipManager.relationships(for: incident, and: MPOLKitEntity.self)
         for relationship in relationships {
-            if let baseObject = incident.weakEvent.object?.entities[relationship.baseObjectUuid] {
+            if let baseObject = incident.weakEvent.object?.entityBucket.entity(uuid: relationship.baseObjectUuid) {
                 remove(baseObject, from: incident)
             }
         }

@@ -66,7 +66,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
         // Create and add new entities
         guard let entities = self.report.event?.entityManager.incidentRelationships.compactMap({
-            return self.report.event?.entities[$0.baseObjectUuid]
+            return self.report.event?.entityBucket.entity(uuid: $0.baseObjectUuid)
         }) else {
             return
         }

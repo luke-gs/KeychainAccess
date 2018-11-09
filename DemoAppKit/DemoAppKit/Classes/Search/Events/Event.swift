@@ -24,9 +24,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
     /// The status of the event
     public var status: EventStatus = .draft
 
-    /// Store of entities used throughout event, keyed by uuid
-    /// TODO: Replace with entity snapshots that are added back to entity manager when event is restored from disk
-    public var entities: [String: MPOLKitEntity] = [:]
+    /// Store of all entities used in event
+    public var entityBucket: EntityBucket = EntityBucket(limit: 0)
 
     /// The nested reports
     private(set) public var reports: [EventReportable] = [] {
@@ -39,7 +38,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: - State
 
     public var entityManager: EventEntityManager!
-    
+
     public var evaluator: Evaluator = Evaluator()
 
     private var allValid: Bool = false {
@@ -113,12 +112,11 @@ public class Event: IdentifiableDataModel, Evaluatable {
         title = try container.decode(String.self, forKey: .title)
         status = try container.decode(EventStatus.self, forKey: .status)
 
-        // Restore entity map
+        // Restore entity bucket
         let wrappedEntities = try container.decode([CodableWrapper].self, forKey: .entities)
         let entityList: [MPOLKitEntity] = wrappedEntities.unwrapped()
-        for entity in entityList {
-            entities[entity.uuid] = entity
-        }
+        entityBucket.add(entityList)
+        // TODO: check the entity manager will update our snapshots if newer already in manager
 
         // Restore reports
         let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
@@ -135,7 +133,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
         let anyReports = reports.map { return AnyEventReportable($0) }
 
         // Convert entity map to wrapped array
-        let entityList: [MPOLKitEntity] = Array(entities.values)
+        let entityList: [MPOLKitEntity] = entityBucket.entities
         let wrappedEntities = entityList.wrapped()
 
         var container = encoder.container(keyedBy: CodingKeys.self)

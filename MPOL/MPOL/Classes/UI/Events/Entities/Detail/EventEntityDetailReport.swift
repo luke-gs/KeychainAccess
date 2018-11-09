@@ -20,7 +20,7 @@ public class EventEntityDetailReport: DefaultEventReportable {
 
     /// Return the entity from the event
     public var entity: MPOLKitEntity? {
-        return event?.entities[entityUuid]
+        return event?.entityBucket.entity(uuid: entityUuid)
     }
 
     public let descriptionReport: EventEntityDescriptionReport
