@@ -22,7 +22,8 @@ public class DefaultEntitiesListReport: DefaultReportable {
             guard let `self` = self else { return false }
             guard let event = self.event else { return false }
             guard let incident = self.incident else { return false }
-            return !event.entityManager.relationships(for: incident).isEmpty
+            guard let incidentRelationshipManager = event.incidentRelationshipManager else { return false }
+            return !incidentRelationshipManager.relationships(for: incident).isEmpty
         }
         evaluator.registerKey(.additionalActionsComplete) { [weak self] in
             guard let `self` = self else { return false }

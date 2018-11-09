@@ -63,7 +63,7 @@ public extension EntitiesListViewModel {
     }
 
     var entities: [MPOLKitEntity] {
-        return report.event?.entityManager.relationships(for: report.incident!).compactMap { relationship in
+        return report.event?.incidentRelationshipManager?.relationships(for: report.incident!).compactMap { relationship in
             return report.event?.entityBucket.entity(uuid: relationship.baseObjectUuid)
         } ?? []
     }
@@ -81,7 +81,7 @@ public extension EntitiesListViewModel {
     }
 
     func retrieveInvolvements(for entity: MPOLKitEntity) -> [String]? {
-        return report.event?.entityManager.relationship(between: entity, and: report.incident!)?.reasons
+        return report.event?.incidentRelationshipManager?.relationship(between: entity, and: report.incident!)?.reasons
     }
 
     func retrieveAdditionalActions(for entity: MPOLKitEntity) -> [AdditionalAction]? {
@@ -99,7 +99,8 @@ public extension EntitiesListViewModel {
 
     func addEntity(_ entity: MPOLKitEntity, with involvements: [String]?, and actions: [AdditionalAction]?) {
         if !entities.contains(entity) {
-            report.event?.entityManager.add(entity, to: report.incident!, with: involvements)
+            report.event?.entityBucket.add(entity)
+            report.event?.incidentRelationshipManager?.add(baseObject: entity, relatedObject: report.incident!, reasons: involvements)
 
             for action in actions ?? [] {
                 action.add(report: report(for: action))
@@ -111,7 +112,7 @@ public extension EntitiesListViewModel {
     }
 
     func update(_ involvements: [String], for entity: MPOLKitEntity) {
-        report.event?.entityManager.update(involvements, between: entity, and: report.incident!)
+        report.event?.incidentRelationshipManager?.update(involvements, between: entity, and: report.incident!)
     }
 
     func updateActions(for entity: MPOLKitEntity, with actions: [AdditionalAction]) {
@@ -128,12 +129,26 @@ public extension EntitiesListViewModel {
 
     func removeEntity(_ entity: MPOLKitEntity) {
         if entities.contains(entity) {
-            report.event?.entityManager.remove(entity, from: report.incident!)
+            removeEntity(entity, from: report.incident!)
             for action in retrieveAdditionalActions(for: entity) ?? [] {
                 removeAdditionalAction(entity: entity, action: action)
             }
             report.evaluator.updateEvaluation(for: EvaluatorKey.hasEntity)
             report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
+        }
+    }
+
+    public func removeEntity(_ entity: MPOLKitEntity, from incident: Incident) {
+        guard let relationshipManager = report.event?.incidentRelationshipManager else { return }
+
+        // Remove the relationship between the entity and the incident
+        if let incidentRelationship = relationshipManager.relationship(between: entity, and: incident) {
+            relationshipManager.remove(incidentRelationship)
+        }
+        // If the are no more incident->entity relationships, remove the entity and all its relationships
+        if relationshipManager.relationships(for: entity, and: Incident.self).isEmpty {
+            report.event?.entityBucket.remove(entity)
+            report.event?.relationshipManager.removeAll(for: entity)
         }
     }
 

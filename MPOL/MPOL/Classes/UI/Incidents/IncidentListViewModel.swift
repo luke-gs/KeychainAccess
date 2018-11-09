@@ -119,7 +119,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // Utility
 
     func removeIncident(_ incident: Incident) {
-        report.event?.entityManager.removeAllRelationships(for: incident)
+        report.event?.incidentRelationshipManager?.removeAll(for: incident)
         report.incidents = report.incidents.filter {$0 != incident }
     }
 

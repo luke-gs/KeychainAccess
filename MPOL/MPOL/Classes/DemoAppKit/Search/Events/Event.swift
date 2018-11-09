@@ -27,9 +27,6 @@ public class Event: IdentifiableDataModel, Evaluatable {
     /// Store of all entities used in event
     public var entityBucket: EntityBucket = EntityBucket(limit: 0)
 
-    /// The manager and storage for relationships between entities in the event
-    public var relationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
-
     /// The nested reports
     private(set) public var reports: [EventReportable] = [] {
         didSet {
@@ -39,6 +36,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
     }
 
     // MARK: - State
+
+    /// The manager and storage for relationships between entities in the event
+    public let relationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
 
     public var entityManager: EventEntityManager!
 

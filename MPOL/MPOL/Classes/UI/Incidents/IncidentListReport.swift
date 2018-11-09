@@ -12,6 +12,18 @@ fileprivate extension EvaluatorKey {
     static let incidents = EvaluatorKey("incidents")
 }
 
+/// Provide access to incident relationships to top level event object
+/// This is pretty hacky, but Event has no direct coupling to Incident
+extension Event {
+    public var incidentListReport: IncidentListReport? {
+        return self.reports.compactMap { $0 as? IncidentListReport }.first
+    }
+
+    public var incidentRelationshipManager: RelationshipManager<MPOLKitEntity, Incident>? {
+        return incidentListReport?.relationshipManager
+    }
+}
+
 open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     public var viewed: Bool = false {
@@ -27,6 +39,9 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
             delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
         }
     }
+
+    /// The manager and storage for relationships between entities and child incidents
+    public let relationshipManager = RelationshipManager<MPOLKitEntity, Incident>()
 
     public weak var delegate: SideBarHeaderUpdateDelegate?
 
@@ -64,12 +79,14 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     private enum CodingKeys: String, CodingKey {
         case incidents
+        case relationships
         case viewed
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         incidents = try container.decode([Incident].self, forKey: .incidents)
+        relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
         viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
@@ -80,6 +97,7 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(incidents, forKey: CodingKeys.incidents)
+        try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(viewed, forKey: CodingKeys.viewed)
     }
 

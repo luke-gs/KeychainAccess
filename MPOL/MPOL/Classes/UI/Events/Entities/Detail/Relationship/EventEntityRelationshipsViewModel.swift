@@ -111,7 +111,7 @@ class EventEntityRelationshipsViewModel {
     }
 
     private func entitesFor(_ entityType: MPOLKitEntity.Type) -> [MPOLKitEntity]? {
-        guard var relationships = report.event?.entityManager.incidentRelationships else { return nil }
+        guard var relationships = report.event?.incidentRelationshipManager?.relationships else { return nil }
 
         // Filter relationships based on entity type
         relationships = relationships.filter { $0.isBaseType(entityType) }.filter { !$0.isBaseObject(self.report.entity) }

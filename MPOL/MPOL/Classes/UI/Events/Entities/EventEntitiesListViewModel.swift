@@ -54,20 +54,19 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     }
 
     public func updateReports() {
+        guard let incidentRelationshipManager = self.report.event?.incidentRelationshipManager else { return }
         var reports = self.report.entityDetailReports
 
         // Remove reports that no longer have entities
         for report in reports {
-            if self.report.event?.entityManager.incidentRelationships.contains(where: { $0.isBaseObject(report.entity) }) == false {
+            if incidentRelationshipManager.relationships.contains(where: { $0.isBaseObject(report.entity) }) == false {
                 reports.remove(at: reports.index(where: {$0 == report})!)
             }
         }
 
         // Create and add new entities
-        guard let entities = self.report.event?.entityManager.incidentRelationships.compactMap({
+        let entities = incidentRelationshipManager.relationships.compactMap {
             return self.report.event?.entityBucket.entity(uuid: $0.baseObjectUuid)
-        }) else {
-            return
         }
 
         guard let event = report.event else { return }
