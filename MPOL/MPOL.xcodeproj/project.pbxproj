@@ -76,7 +76,6 @@
 		203F41202193F49A00BAB007 /* EventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF82193F49A00BAB007 /* EventLocation.swift */; };
 		203F41212193F49A00BAB007 /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FF92193F49A00BAB007 /* DefaultLocationReport.swift */; };
 		203F41222193F49A00BAB007 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFA2193F49A00BAB007 /* EventType.swift */; };
-		203F41232193F49A00BAB007 /* EventEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFC2193F49A00BAB007 /* EventEntityManager.swift */; };
 		203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */; };
 		203F41252193F49A00BAB007 /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */; };
 		203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */; };
@@ -606,7 +605,6 @@
 		203F3FF82193F49A00BAB007 /* EventLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocation.swift; sourceTree = "<group>"; };
 		203F3FF92193F49A00BAB007 /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
 		203F3FFA2193F49A00BAB007 /* EventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
-		203F3FFC2193F49A00BAB007 /* EventEntityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityManager.swift; sourceTree = "<group>"; };
 		203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
 		203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
 		203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
@@ -1301,7 +1299,6 @@
 			children = (
 				203F3FEB2193F49A00BAB007 /* DateTime */,
 				203F40062193F49A00BAB007 /* Entities */,
-				203F3FFB2193F49A00BAB007 /* EntityManager */,
 				203F3FF72193F49A00BAB007 /* Location */,
 				203F3FFD2193F49A00BAB007 /* NotesPhotos */,
 				203F3FEF2193F49A00BAB007 /* Property */,
@@ -1351,14 +1348,6 @@
 				203F3FF82193F49A00BAB007 /* EventLocation.swift */,
 			);
 			path = Location;
-			sourceTree = "<group>";
-		};
-		203F3FFB2193F49A00BAB007 /* EntityManager */ = {
-			isa = PBXGroup;
-			children = (
-				203F3FFC2193F49A00BAB007 /* EventEntityManager.swift */,
-			);
-			path = EntityManager;
 			sourceTree = "<group>";
 		};
 		203F3FFD2193F49A00BAB007 /* NotesPhotos */ = {
@@ -3345,7 +3334,6 @@
 				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
-				203F41232193F49A00BAB007 /* EventEntityManager.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,

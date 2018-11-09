@@ -15,7 +15,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
     public init(report: EventEntitiesListReport) {
         self.report = report
-        report.event?.entityManager.delegate = self
+        report.event?.entityBucket.delegate = self
     }
 
     public var headerText: String {

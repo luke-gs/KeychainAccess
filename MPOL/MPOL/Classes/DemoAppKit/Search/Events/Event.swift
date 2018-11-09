@@ -40,8 +40,6 @@ public class Event: IdentifiableDataModel, Evaluatable {
     /// The manager and storage for relationships between entities in the event
     public let relationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
 
-    public var entityManager: EventEntityManager!
-
     public var evaluator: Evaluator = Evaluator()
 
     private var allValid: Bool = false {
@@ -58,8 +56,6 @@ public class Event: IdentifiableDataModel, Evaluatable {
     }
 
     private func commonInit() {
-        entityManager = EventEntityManager(event: self)
-
         evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
             return !self.reports.map {$0.evaluator.isComplete}.contains(false)
