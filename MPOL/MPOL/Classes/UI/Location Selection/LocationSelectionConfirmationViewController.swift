@@ -56,7 +56,6 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 .selectedValue([viewModel.type].removeNils())
                 .allowsMultipleSelection(viewModel.allowMultipleTypes)
                 .required()
-                .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
                 .onValueChanged { [weak self] value in
                     self?.viewModel.type = value?.first
