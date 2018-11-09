@@ -34,7 +34,7 @@ class EventEntityRelationshipsViewModel {
 
     public func relationshipWith(relatedEntity: MPOLKitEntity) -> Relationship? {
         guard let entity = report.entity else { return nil }
-        return report.event?.entityManager.relationship(between: entity, and: relatedEntity)
+        return report.event?.relationshipManager.relationship(between: entity, and: relatedEntity)
     }
 
     private func hasRelationshipWith(relatedEntity: MPOLKitEntity) -> Bool {
@@ -44,14 +44,14 @@ class EventEntityRelationshipsViewModel {
     public func addRelationship(relatedEntity: MPOLKitEntity, reasons: [String]) {
         guard let baseEntity = report.entity else { fatalError("Report did not contain a base entity") }
         // Add relationship both ways
-        report.event?.entityManager.addRelationship(between: baseEntity, and: relatedEntity, with: reasons)
-        report.event?.entityManager.addRelationship(between: relatedEntity, and: baseEntity, with: reasons)
+        report.event?.relationshipManager.add(baseObject: baseEntity, relatedObject: relatedEntity, reasons: reasons)
+        report.event?.relationshipManager.add(baseObject: relatedEntity, relatedObject: baseEntity, reasons: reasons)
     }
 
     public func removeRelationship(forEntity: MPOLKitEntity) {
         guard report.entity != nil else { fatalError("Report did not contain a base entity") }
         guard let relationshipToRemove = relationshipWith(relatedEntity: forEntity) else { fatalError("Could not find a relationship between the specified entities") }
-        report.event?.entityManager.removeRelationship(relationshipToRemove)
+        report.event?.relationshipManager.remove(relationshipToRemove)
     }
 
     public func applyRelationship(relatedEntity: MPOLKitEntity, reasons: [String]) {

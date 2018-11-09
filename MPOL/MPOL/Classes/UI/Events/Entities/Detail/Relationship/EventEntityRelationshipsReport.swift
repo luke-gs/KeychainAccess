@@ -22,7 +22,7 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
     }
 
     public var relationships: [Relationship]? {
-        return event?.entityManager.entityRelationships
+        return event?.relationshipManager.relationships
     }
 
     public var viewed: Bool = false {

@@ -27,6 +27,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
     /// Store of all entities used in event
     public var entityBucket: EntityBucket = EntityBucket(limit: 0)
 
+    /// The manager and storage for relationships between entities in the event
+    public var relationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
+
     /// The nested reports
     private(set) public var reports: [EventReportable] = [] {
         didSet {
@@ -101,6 +104,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     private enum CodingKeys: String, CodingKey {
         case entities
+        case relationships
         case reports
         case status
         case title
@@ -111,16 +115,17 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
         title = try container.decode(String.self, forKey: .title)
         status = try container.decode(EventStatus.self, forKey: .status)
+        relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
+
+        // Restore reports
+        let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
+        reports = anyReports.map { $0.report }
 
         // Restore entity bucket
         let wrappedEntities = try container.decode([CodableWrapper].self, forKey: .entities)
         let entityList: [MPOLKitEntity] = wrappedEntities.unwrapped()
         entityBucket.add(entityList)
-        // TODO: check the entity manager will update our snapshots if newer already in manager
-
-        // Restore reports
-        let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
-        reports = anyReports.map { $0.report }
+        // TODO: check the entity manager will update our snapshots if newer objects already in manager
 
         try super.init(from: decoder)
         commonInit()
@@ -139,6 +144,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(title, forKey: .title)
         try container.encode(status, forKey: .status)
+        try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(wrappedEntities, forKey: CodingKeys.entities)
         try container.encode(anyReports, forKey: CodingKeys.reports)
     }

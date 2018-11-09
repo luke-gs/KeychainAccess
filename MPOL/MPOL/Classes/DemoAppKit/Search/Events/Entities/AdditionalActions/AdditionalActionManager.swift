@@ -31,7 +31,7 @@ final public class AdditionalActionManager {
     public func add(_ action: AdditionalAction, to entity: MPOLKitEntity) {
         incident.actions.append(action)
 
-        additionalActionRelationshipManager.addRelationship(baseObject: entity, relatedObject: action)
+        additionalActionRelationshipManager.add(baseObject: entity, relatedObject: action)
     }
 
     public func remove(_ action: AdditionalAction, from entity: MPOLKitEntity) {
