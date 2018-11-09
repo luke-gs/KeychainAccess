@@ -65,9 +65,8 @@ final public class EventEntityManager {
     public func removeAllRelationships(for incident: Incident) {
         let relationships = incidentRelationshipManager.relationships(for: incident, and: MPOLKitEntity.self)
         for relationship in relationships {
-            if let baseObject = incident.weakEvent.object?.entities[relationship.baseObjectId],
-                let relatedObject = incident.weakEvent.object?.entities[relationship.relatedObjectId] as? Incident {
-                remove(baseObject, from: relatedObject)
+            if let baseObject = incident.weakEvent.object?.entities[relationship.baseObjectUuid] {
+                remove(baseObject, from: incident)
             }
         }
     }

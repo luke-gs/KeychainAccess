@@ -59,14 +59,14 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
         // Remove reports that no longer have entities
         for report in reports {
-            if self.report.event?.entityManager.incidentRelationships.contains(where: {$0.baseObjectId == report.entity?.id}) == false {
+            if self.report.event?.entityManager.incidentRelationships.contains(where: { $0.isBaseObject(report.entity) }) == false {
                 reports.remove(at: reports.index(where: {$0 == report})!)
             }
         }
 
         // Create and add new entities
         guard let entities = self.report.event?.entityManager.incidentRelationships.compactMap({
-            return self.report.event?.entities[$0.baseObjectId]
+            return self.report.event?.entities[$0.baseObjectUuid]
         }) else {
             return
         }

@@ -115,11 +115,10 @@ class EventEntityRelationshipsViewModel {
         guard var relationships = report.event?.entityManager.incidentRelationships else { return nil }
 
         // Filter relationships based on entity type
-        let baseObjectType = Relationship.objectType(for: entityType)
-        relationships = relationships.filter { $0.baseObjectType == baseObjectType }.filter { $0.baseObjectId != self.report.entity?.id }
+        relationships = relationships.filter { $0.isBaseType(entityType) }.filter { !$0.isBaseObject(self.report.entity) }
 
         return Array(Set(relationships.compactMap {
-            return report.event?.entities[$0.baseObjectId]
+            return report.event?.entities[$0.baseObjectUuid]
         }))
     }
 }
