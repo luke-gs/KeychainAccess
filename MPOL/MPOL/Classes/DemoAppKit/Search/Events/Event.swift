@@ -7,8 +7,6 @@
 import Unbox
 import PublicSafetyKit
 
-import PatternKit
-
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
