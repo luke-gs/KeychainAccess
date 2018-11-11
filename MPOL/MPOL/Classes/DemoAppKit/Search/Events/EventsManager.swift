@@ -105,11 +105,7 @@ fileprivate class EventDraftable: Draftable {
                 .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
         }
 
-        if let image = image {
-            return image
-        }
-
-        return nil
+        return image
     }
 
     public var status: DraftableStatus {
