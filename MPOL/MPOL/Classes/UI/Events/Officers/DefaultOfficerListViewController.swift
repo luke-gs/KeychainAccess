@@ -88,12 +88,14 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
                 }
-                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                // User can only delete an officer if there is more than one officer and that officer is not themselves.
+                .editActions(viewModel.officerDisplayables.count > 1 && displayable.officer != UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) ? [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.removeOfficer(at: indexPath)
                     self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()
-                })])
+                })] : []
+            )
         }
     }
 
@@ -106,9 +108,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
         let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
-                                                            selectedObjects: officer.involvements,
-                                                            title: "Involvements",
-                                                            configuration: headerConfig)
+                                                         selectedObjects: officer.involvements,
+                                                         title: "Involvements",
+                                                         configuration: headerConfig)
         dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
