@@ -10,7 +10,7 @@ import PublicSafetyKit
 
 public class DomesticViolenceIncidentBuilder: IncidentBuilding {
 
-    public func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable) {
+    public func createIncident(for type: IncidentType, in event: Event) -> Incident {
         let incident = Incident(event: event, type: type)
 
         // Add reports here
@@ -18,11 +18,15 @@ public class DomesticViolenceIncidentBuilder: IncidentBuilding {
         incident.add(report: DomesticViolencePropertyReport(event: event, incident: incident))
         incident.add(report: DomesticViolenceGeneralDetailsReport(event: event, incident: incident))
 
-        let displayable = IncidentListDisplayable(title: type.rawValue,
-                                                  subtitle: "Not yet started",
-                                                  iconKey: AssetManager.ImageKey.event)
-        displayable.incidentId = incident.id
-        return (incident: incident, displayable: displayable)
+        return incident
+    }
+
+    public func displayable(for incident: Incident) -> IncidentListDisplayable {
+        return IncidentListDisplayable(
+            id: incident.id,
+            title: incident.incidentType.rawValue,
+            subtitle: "Not yet started",
+            iconKey: AssetManager.ImageKey.event)
     }
 
     public init() {}

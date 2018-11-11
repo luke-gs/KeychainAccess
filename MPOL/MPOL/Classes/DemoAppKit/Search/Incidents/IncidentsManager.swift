@@ -5,55 +5,45 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 import PublicSafetyKit
-/// Manages the list of incidents
+
+/// Manages the list of incidents within an event
 final public class IncidentsManager {
 
-    public var incidentBucket: ObjectBucket<Incident> = ObjectBucket<Incident>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-    public var displayableBucket: ObjectBucket<IncidentListDisplayable> = ObjectBucket<IncidentListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
+    private weak var event: Event?
+
     private(set) public var incidentBuilders = [IncidentType: IncidentBuilding]()
 
-    public init() { }
+    public init(event: Event) {
+        self.event = event
+    }
+
+    public var incidents: [Incident] {
+        return event?.incidentListReport?.incidents ?? []
+    }
 
     public func create(incidentType: IncidentType, in event: Event) -> Incident? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
 
-        let incidentDisplayableTuple = incidentBuilder.createIncident(for: incidentType, in: event)
-        let incident = incidentDisplayableTuple.incident
-        let displayable = incidentDisplayableTuple.displayable
-
-        incident.displayable = displayable
-
-        displayableBucket.add(displayable)
-        incidentBucket.add(incident)
-
+        let incident = incidentBuilder.createIncident(for: incidentType, in: event)
+        event.incidentListReport?.incidents.append(incident)
         return incident
     }
 
-    //add
+    public var displayables: [IncidentListDisplayable] {
+        return incidents.compactMap { incident in
+            guard let incidentBuilder = incidentBuilders[incident.incidentType] else { return nil }
+            return incidentBuilder.displayable(for: incident)
+        }
+    }
 
+    /// Add an incident builder for an incident type
     public func add(_ builder: IncidentBuilding, for type: IncidentType) {
         incidentBuilders[type] = builder
     }
 
-    public func add(incident: Incident) {
-        incidentBucket.add(incident)
-        displayableBucket.add(incident.displayable)
-    }
-
-    //remove
-    public func remove(incident: Incident) {
-        incidentBucket.remove(incident)
-    }
-
-    public func remove(for id: String) {
-        guard let incident = incident(for: id), let displayable = incident.displayable else { return }
-        incidentBucket.remove(incident)
-        displayableBucket.remove(displayable)
-    }
-
-    //utility
+    /// Fetch an incident by id
     public func incident(for id: String) -> Incident? {
-        if let incident = incidentBucket.objects?.first(where: {$0.id == id}) {
+        if let incident = incidents.first(where: {$0.id == id}) {
             return incident
         }
         return nil

@@ -174,8 +174,15 @@ public protocol IncidentBuilding {
     /// Create an event, injecting any reports that you need.
     ///
     /// - Parameter type: The type of event that is being asked to be created.
-    /// - Returns: A tuple of an event and it's list view representation
-    func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)
+    /// - Returns: The new incident
+    func createIncident(for type: IncidentType, in event: Event) -> Incident
+
+    /// Create a displayable for an incident, to be shown in incident list
+    ///
+    /// - Parameter incident: The incident
+    /// - Returns: The list displayable
+    func displayable(for incident: Incident) -> IncidentListDisplayable
+
 }
 
 /// Screen builder for the incident

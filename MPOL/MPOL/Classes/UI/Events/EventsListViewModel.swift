@@ -52,14 +52,14 @@ public class EventsListViewModel {
 
     public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
         let screenBuilder = EventScreenBuilder()
-        let incidentsManager = IncidentsManager()
+        let incidentsManager = IncidentsManager(event: event)
 
         // Add IncidentBuilders here
         incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
         incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
         incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
 
-        if let incidentType = incidentType {
+        if let incidentType = incidentType, incidentsManager.incidents.isEmpty {
             _ = incidentsManager.create(incidentType: incidentType, in: event)
         }
 

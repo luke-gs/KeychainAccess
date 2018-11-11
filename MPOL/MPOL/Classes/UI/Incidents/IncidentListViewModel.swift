@@ -14,7 +14,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     private(set) var report: IncidentListReport
 
     public var incidentList: [IncidentListDisplayable] {
-        return report.incidents.map { $0.displayable! }
+        return incidentsManager.displayables
     }
 
     public var primaryIncident: IncidentListDisplayable? {
@@ -52,12 +52,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     public required init(report: EventReportable, incidentsManager: IncidentsManager) {
         self.report = report as! IncidentListReport
-        self.incidentsManager = incidentsManager
         self.title = "Incidents"
-
-        if let objects = incidentsManager.incidentBucket.objects, !objects.isEmpty {
-            self.report.incidents = incidentsManager.incidentBucket.objects!
-        }
+        self.incidentsManager = incidentsManager
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
@@ -71,7 +67,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // ViewModelType
 
     public func incident(for displayable: IncidentListDisplayable) -> Incident? {
-        return incidentsManager.incident(for: displayable.incidentId)
+        return incidentsManager.incident(for: displayable.id)
     }
 
     public func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType {
