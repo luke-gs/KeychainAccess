@@ -23,10 +23,7 @@ final public class IncidentsManager {
 
     public func create(incidentType: IncidentType, in event: Event) -> Incident? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
-
-        let incident = incidentBuilder.createIncident(for: incidentType, in: event)
-        event.incidentListReport?.incidents.append(incident)
-        return incident
+        return incidentBuilder.createIncident(for: incidentType, in: event)
     }
 
     public var displayables: [IncidentListDisplayable] {
@@ -39,6 +36,10 @@ final public class IncidentsManager {
     /// Add an incident builder for an incident type
     public func add(_ builder: IncidentBuilding, for type: IncidentType) {
         incidentBuilders[type] = builder
+    }
+
+    public func add(incident: Incident) {
+        event?.incidentListReport?.incidents.append(incident)
     }
 
     /// Fetch an incident by id

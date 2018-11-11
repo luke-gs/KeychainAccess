@@ -59,8 +59,11 @@ public class EventsListViewModel {
         incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
         incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
 
+        // Add incident if none created yet
         if let incidentType = incidentType, incidentsManager.incidents.isEmpty {
-            _ = incidentsManager.create(incidentType: incidentType, in: event)
+            if let incident = incidentsManager.create(incidentType: incidentType, in: event) {
+                incidentsManager.add(incident: incident)
+            }
         }
 
         screenBuilder.incidentsManager = incidentsManager

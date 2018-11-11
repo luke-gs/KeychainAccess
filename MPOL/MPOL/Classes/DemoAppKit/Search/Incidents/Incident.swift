@@ -174,7 +174,8 @@ public class IncidentType: ExtensibleKey<String>, Codable {
 /// in terms of the reports it should have
 public protocol IncidentBuilding {
 
-    /// Create an event, injecting any reports that you need.
+    /// Create an incident, injecting any reports that you need.
+    /// Note: this does not add the new incident to the event
     ///
     /// - Parameter type: The type of event that is being asked to be created.
     /// - Returns: The new incident
