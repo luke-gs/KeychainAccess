@@ -110,8 +110,8 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             }
 
             return NSMutableAttributedString.init(string: dodString,
-                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.orangeRed,
-                                                               NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: .bold)])
+                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeRed,
+                                                               NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13, weight: .bold)])
         } else if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
 

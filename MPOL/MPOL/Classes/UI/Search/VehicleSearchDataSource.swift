@@ -216,8 +216,8 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             let text = (self.options as! VehicleSearchOptions).vehicleIdentifier.placeholderText
             let placeholder = NSAttributedString(string: text, attributes: [
-                NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
-                NSAttributedStringKey.foregroundColor: UIColor.lightGray
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
+                NSAttributedString.Key.foregroundColor: UIColor.lightGray
                 ])
 
             textField.text                   = self.text

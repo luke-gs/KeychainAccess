@@ -140,7 +140,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open func setMasterWidth(_ width: CGFloat, animated: Bool = true, completion: ((Bool) -> Swift.Void)? = nil) {
         var oldWidth = embeddedSplitViewController.maximumPrimaryColumnWidth
-        if oldWidth == UISplitViewControllerAutomaticDimension {
+        if oldWidth == UISplitViewController.automaticDimension {
             oldWidth = 0
         }
 
