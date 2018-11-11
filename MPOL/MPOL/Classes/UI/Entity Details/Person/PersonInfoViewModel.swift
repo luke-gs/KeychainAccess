@@ -147,8 +147,13 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     return detail
                 }()
 
-                let factory = AddressFormItemFactory(config: AddressFormItemConfiguration(data: address, title: title, detail: detail))
-                builder += factory.addressNavigationFormItem(context: viewController)
+                builder += AddressFormItem()
+                    .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+                    .title(StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                    .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                    .navigatable(address, presentationContext: viewController)
+                    .width(.column(1))
+
             }
         }
 

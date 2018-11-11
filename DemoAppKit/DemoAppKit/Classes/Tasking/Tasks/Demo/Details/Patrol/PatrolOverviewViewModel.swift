@@ -24,8 +24,12 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
         var overviewItems: [FormItem] = []
 
         if let location = patrol.location, let context = delegate as? UIViewController {
-            let factory = AddressFormItemFactory(config: AddressFormItemConfiguration(data: location, title: "Patrol Location"))
-            let addressItem = factory.addressNavigationFormItem(context: context)
+            let addressItem = AddressFormItem()
+                .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+                .title(StringSizing(string: "Patrol Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .navigatable(location, presentationContext: context)
+                .width(.column(1))
+
             overviewItems.append(addressItem)
         }
 

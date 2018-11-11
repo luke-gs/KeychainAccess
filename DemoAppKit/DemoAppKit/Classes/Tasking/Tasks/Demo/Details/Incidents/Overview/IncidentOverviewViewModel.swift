@@ -24,8 +24,11 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
         var taskDetailsOverviewItems: [FormItem] = []
 
         if let location = incident.location, let context = delegate as? UIViewController {
-            let factory = AddressFormItemFactory(config: AddressFormItemConfiguration(data: location))
-            let addressItem = factory.addressNavigationFormItem(context: context)
+            let addressItem = AddressFormItem()
+                .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+                .navigatable(location, presentationContext: context)
+                .width(.column(1))
+
             taskDetailsOverviewItems.append(addressItem)
         }
 
