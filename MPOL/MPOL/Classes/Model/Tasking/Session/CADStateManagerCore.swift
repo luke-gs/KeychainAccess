@@ -11,8 +11,6 @@ import PromiseKit
 import PublicSafetyKit
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerBase {
-
-
     /// Default Patrol Group when a new user logins
     public static let DefaultPatrolGroup = "Collingwood"
 
