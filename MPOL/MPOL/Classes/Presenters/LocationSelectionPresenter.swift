@@ -87,7 +87,6 @@ public class LocationSelectionPresenter: Presenter {
             let viewModel = LocationSelectionConfirmationViewModel(locationSelection: selectedLocation)
             viewModel.streetTypeOptions = StreetType.all.map { return AnyPickable($0) }
             viewModel.stateOptions = StateType.all.map { return AnyPickable($0) }
-            viewModel.suburbOptions = [AnyPickable("Collingwood"), AnyPickable("Fitzory"), AnyPickable("Carlton")]
 
             if workflowId == LocationSelectionPresenter.eventWorkflowId {
                 // Add location type to final confirmation screen

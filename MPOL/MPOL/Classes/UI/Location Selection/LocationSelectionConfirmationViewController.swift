@@ -56,7 +56,6 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 .selectedValue([viewModel.type].removeNils())
                 .allowsMultipleSelection(viewModel.allowMultipleTypes)
                 .required()
-                .accessory(ItemAccessory.disclosure)
                 .width(.column(1))
                 .onValueChanged { [weak self] value in
                     self?.viewModel.type = value?.first
@@ -99,21 +98,19 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                     .width(.column(2))
             }
 
-            if let suburbOptions = viewModel.suburbOptions {
-                let suburbItem = DropDownFormItem(title: NSLocalizedString("Suburb", comment: ""))
-                    .options(suburbOptions)
-                    .selectedValue([viewModel.suburb].removeNils())
-                    .allowsMultipleSelection(false)
-                    .onValueChanged { [weak self] in
-                        self?.viewModel.suburb = $0?.first
-                    }
-                    .width(.column(2))
-
-                if viewModel.requiredFields {
-                    suburbItem.required()
-                }
-                builder += suburbItem
+            let suburbItem = TextFieldFormItem(title: NSLocalizedString("Suburb", comment: ""))
+                .text(viewModel.suburb)
+                .width(.column(2))
+                .onValueChanged { [weak self] in
+                    self?.viewModel.suburb = $0
             }
+
+            if viewModel.requiredFields {
+                suburbItem.required()
+            }
+
+            builder += suburbItem
+
 
             if let stateOptions = viewModel.stateOptions {
                 builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))
