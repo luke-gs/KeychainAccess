@@ -30,15 +30,15 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
             // Cleanup old value
             if let oldValue = oldValue {
-                oldValue.removeFromParentViewController()
+                oldValue.removeFromParent()
                 oldValue.view.removeFromSuperview()
             }
 
             // Add the new header view controller as a child
             if let headerViewController = headerViewController {
-                addChildViewController(headerViewController)
+                addChild(headerViewController)
                 headerContainerView.addSubview(headerViewController.view)
-                headerViewController.didMove(toParentViewController: self)
+                headerViewController.didMove(toParent: self)
 
                 // Constrain header to top
                 let headerView = headerViewController.view!
