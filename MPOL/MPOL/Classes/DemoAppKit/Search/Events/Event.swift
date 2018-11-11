@@ -109,8 +109,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        title = try container.decode(String.self, forKey: .title)
         status = try container.decode(EventStatus.self, forKey: .status)
+        title = try container.decode(String.self, forKey: .title)
         relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
 
         // Restore reports
@@ -138,8 +138,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
         let wrappedEntities = entityList.wrapped()
 
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(title, forKey: .title)
         try container.encode(status, forKey: .status)
+        try container.encode(title, forKey: .title)
         try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(wrappedEntities, forKey: CodingKeys.entities)
         try container.encode(anyReports, forKey: CodingKeys.reports)

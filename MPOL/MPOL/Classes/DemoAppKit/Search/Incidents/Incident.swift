@@ -19,14 +19,14 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     // MARK: - Properties
 
+    /// The title to display for the incident
+    public var title: String?
+
     /// The incident type
     public var incidentType: IncidentType
 
     /// The nested additional actions
     public var actions: [AdditionalAction] = []
-
-    /// The properties used for display in list
-    public var displayable: IncidentListDisplayable!
 
     /// The nested reports
     private(set) public var reports: [IncidentReportable] = [] {
@@ -59,6 +59,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     public init(event: Event, type: IncidentType) {
         self.weakEvent = Weak(event)
         self.incidentType = type
+        self.title = type.rawValue
+
         super.init(id: UUID().uuidString)
         commonInit()
     }
@@ -94,16 +96,17 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     private enum CodingKeys: String, CodingKey {
         case actions
-        case displayable
         case incidentType
         case reports
+        case title
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+
         actions = try container.decode([AdditionalAction].self, forKey: .actions)
-        displayable = try container.decode(IncidentListDisplayable.self, forKey: .displayable)
         incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
+        title = try container.decode(String.self, forKey: .title)
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
         reports = anyReports.map { $0.report }
@@ -123,8 +126,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(actions, forKey: .actions)
-        try container.encode(displayable, forKey: .displayable)
         try container.encode(incidentType, forKey: .incidentType)
+        try container.encode(title, forKey: .title)
         try container.encode(anyReports, forKey: .reports)
     }
 

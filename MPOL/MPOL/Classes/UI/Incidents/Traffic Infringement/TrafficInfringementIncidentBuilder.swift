@@ -24,7 +24,7 @@ public class TrafficInfringementIncidentBuilder: IncidentBuilding {
     public func displayable(for incident: Incident) -> IncidentListDisplayable {
         return IncidentListDisplayable(
             id: incident.id,
-            title: incident.incidentType.rawValue,
+            title: incident.title,
             subtitle: "Not yet started",
             iconKey: AssetManager.ImageKey.event)
     }

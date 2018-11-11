@@ -34,9 +34,9 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     public var incidents: [Incident] = [] {
         didSet {
-            event?.title = incidents.isEmpty ? nil : incidents.map { $0.displayable?.title }.joined(separator: ", ")
+            event?.title = incidents.isEmpty ? nil : incidents.map { $0.title }.joined(separator: ", ")
             evaluator.updateEvaluation(for: .incidents)
-            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
+            delegate?.updateHeader(with: incidents.first?.title, subtitle: nil)
         }
     }
 
@@ -108,7 +108,7 @@ extension IncidentListReport: Summarisable {
     public var formItems: [FormItem] {
         var items = [FormItem]()
         incidents.forEach { (incident) in
-            items.append(LargeTextHeaderFormItem(text: incident.displayable.title))
+            items.append(LargeTextHeaderFormItem(text: incident.title))
             incident.reports.forEach({ (report) in
                 if let report = report as? Summarisable {
                     items += report.formItems

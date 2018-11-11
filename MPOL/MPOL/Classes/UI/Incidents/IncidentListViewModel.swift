@@ -31,17 +31,20 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     public func addCount(to incident: Incident, count: Int) {
         incidentCounts[incident.id] = count
-        setUniqueTitle(for: incident.displayable)
+        setUniqueTitle(for: incident)
+        if let displayable = incidentList.first(where: { $0.id == incident.id }) {
+            displayable.title = incident.title
+        }
     }
 
     public func count(for incident: Incident) -> Int? {
         return incidentCounts[incident.id]
     }
 
-    private func setUniqueTitle(for incidentDisplayable: IncidentListDisplayable) {
-        if let baseTitle = incidentDisplayable.title {
-            if let count = self.count(for: incident(for: incidentDisplayable)!) {
-               incidentDisplayable.title = baseTitle + " \(count)"
+    private func setUniqueTitle(for incident: Incident) {
+        if let baseTitle = incident.title {
+            if let count = self.count(for: incident) {
+               incident.title = baseTitle + " \(count)"
             }
         } else {
             fatalError("Incident supplied does not have a valid title.")

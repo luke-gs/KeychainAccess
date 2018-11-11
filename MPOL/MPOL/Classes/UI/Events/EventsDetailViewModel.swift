@@ -39,8 +39,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             let header = SidebarHeaderView()
 
             // Update the header to whatever you need it to be
-            let report = event.reports.filter { $0 is IncidentListReport }.first as? IncidentListReport
-            header.titleLabel.text = report?.incidents.first?.displayable?.title ?? EventsDetailViewModel.incidentsHeaderDefaultTitle
+            let report = event.incidentListReport
+            header.titleLabel.text = report?.incidents.first?.title ?? EventsDetailViewModel.incidentsHeaderDefaultTitle
             header.captionLabel.text = EventsDetailViewModel.incidentsHeaderDefaultSubtitle
             header.subtitleLabel.text =  "Saved as Draft"
             header.subtitleLabel.font =  UIFont.systemFont(ofSize: 13)
