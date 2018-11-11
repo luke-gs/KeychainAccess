@@ -325,8 +325,7 @@ open class CADStateManagerBase: CADStateManagerType {
 
     /// Clears all session data properties
     @objc open func clearSession() {
-        // set default Patrol Group to Collingwood for demo sake
-        self.patrolGroup = "Collingwood"
+        self.patrolGroup = nil
         self.lastBookOn = nil
         self.lastSync = nil
         self.lastSyncTime = nil
