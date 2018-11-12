@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		05F2A841DF06C289F75527F9 /* Pods_MPOLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3ACD46A9E59A2415A44C645 /* Pods_MPOLTests.framework */; };
-		127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventsListViewModel.swift */; };
 		127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F2202AB1F0007D0BBB /* EventBuilder.swift */; };
 		127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */; };
 		12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */; };
@@ -321,6 +320,7 @@
 		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
 		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
 		37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37CAF6102165C0BE007C449D /* GoogleService-Info.plist */; };
+		37D16155218AC43E00DFCB52 /* EventDraftListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */; };
 		37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */; };
 		37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A22105A4E400860B6D /* AlertsFormItem.swift */; };
 		37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */; };
@@ -447,7 +447,6 @@
 		96B775852140F8EE00836B83 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775132140F8EE00836B83 /* Contact.swift */; };
 		96B775862140F8EE00836B83 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775152140F8EE00836B83 /* LoginCredentials.swift */; };
 		96B775872140F8EE00836B83 /* LoginStyleSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775162140F8EE00836B83 /* LoginStyleSetup.swift */; };
-		96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B775892140FA6600836B83 /* EventsListViewController.swift */; };
 		96B775A1214206F100836B83 /* FixedLengthNumberParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77593214206F100836B83 /* FixedLengthNumberParserDefinition.swift */; };
 		96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77594214206F100836B83 /* RegistrationParserDefinition.swift */; };
 		96B775A3214206F100836B83 /* LicenceWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B77595214206F100836B83 /* LicenceWildcardParserDefinition.swift */; };
@@ -537,7 +536,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		127801F0202AAF09007D0BBB /* EventsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewModel.swift; sourceTree = "<group>"; };
 		127801F2202AB1F0007D0BBB /* EventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBuilder.swift; sourceTree = "<group>"; };
 		127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDetailViewModel.swift; sourceTree = "<group>"; };
 		12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
@@ -852,6 +850,7 @@
 		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		37C433912163339800544AA7 /* LicenceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceScanner.swift; sourceTree = "<group>"; };
 		37CAF6102165C0BE007C449D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDraftListViewModel.swift; sourceTree = "<group>"; };
 		37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryAlertsSearchResultViewModel.swift; sourceTree = "<group>"; };
 		37F048A22105A4E400860B6D /* AlertsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFormItem.swift; sourceTree = "<group>"; };
 		37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAlertsCell.swift; sourceTree = "<group>"; };
@@ -998,7 +997,6 @@
 		96B775132140F8EE00836B83 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		96B775152140F8EE00836B83 /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		96B775162140F8EE00836B83 /* LoginStyleSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginStyleSetup.swift; sourceTree = "<group>"; };
-		96B775892140FA6600836B83 /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		96B77593214206F100836B83 /* FixedLengthNumberParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedLengthNumberParserDefinition.swift; sourceTree = "<group>"; };
 		96B77594214206F100836B83 /* RegistrationParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinition.swift; sourceTree = "<group>"; };
 		96B77595214206F100836B83 /* LicenceWildcardParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceWildcardParserDefinition.swift; sourceTree = "<group>"; };
@@ -1117,9 +1115,8 @@
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
-				96B775892140FA6600836B83 /* EventsListViewController.swift */,
-				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
+				37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -3480,6 +3477,7 @@
 				96B7752A2140F8EE00836B83 /* PersonDescriptionsViewController.swift in Sources */,
 				96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */,
 				96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */,
+				37D16155218AC43E00DFCB52 /* EventDraftListViewModel.swift in Sources */,
 				20E61AB72189369500B65F43 /* PersonEditAliasFormViewController.swift in Sources */,
 				20E61ABD218936C600B65F43 /* PersonEditAliasFormViewModel.swift in Sources */,
 				20E61AB52189368600B65F43 /* PersonEditContactFormViewController.swift in Sources */,

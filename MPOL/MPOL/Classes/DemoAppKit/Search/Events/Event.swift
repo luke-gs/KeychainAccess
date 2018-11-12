@@ -19,6 +19,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
+    
+    private(set) var creationDate: Date
 
     private(set) public var reports: [EventReportable] = [] {
         didSet {
@@ -34,6 +36,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     }
 
     public init() {
+        creationDate = Date()
         super.init(id: UUID().uuidString)
         commonInit()
     }
@@ -83,12 +86,13 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     private enum CodingKeys: String, CodingKey {
         case reports
+        case creationDate
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
-
+        creationDate = try container.decode(Date.self, forKey: .creationDate)
         reports = anyReports.map { $0.report }
 
         try super.init(from: decoder)
@@ -103,5 +107,6 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(anyReports, forKey: CodingKeys.reports)
+        try container.encode(creationDate, forKey: CodingKeys.creationDate)
     }
 }
