@@ -28,7 +28,7 @@ public class DefaultEntitiesListReport: DefaultReportable {
         evaluator.registerKey(.additionalActionsComplete) { [weak self] in
             guard let `self` = self else { return false }
             guard let incident = self.incident else { return false }
-            return incident.checkActionsValid
+            return incident.actionsValid
         }
     }
 }

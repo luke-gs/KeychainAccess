@@ -63,7 +63,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return self.allValid
+            return self.reportsValid && self.actionsValid
         }
         updateChildReports()
     }
@@ -97,26 +97,20 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     // MARK: - Evaluation
 
-    private var allValid: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
-
-    private var checkReportsValid: Bool {
+    private var reportsValid: Bool {
         return reports.reduce(true, { result, report in
             return result && report.evaluator.isComplete
         })
     }
 
-    public var checkActionsValid: Bool {
+    public var actionsValid: Bool {
         return actions.reduce(true, { (_, action) -> Bool in
             return action.evaluator.isComplete
         })
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = checkReportsValid && checkActionsValid
+        evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: - Codable

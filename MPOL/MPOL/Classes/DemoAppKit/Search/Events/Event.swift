@@ -52,7 +52,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     private func commonInit() {
         evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return self.allValid
+            return self.reportsValid
         }
         updateChildReports()
     }
@@ -80,20 +80,14 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     // MARK: Evaluation
 
-    private var allValid: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
-
-    private var checkReportsValid: Bool {
+    private var reportsValid: Bool {
         return reports.reduce(true, { result, report in
             return result && report.evaluator.isComplete
         })
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = checkReportsValid
+        evaluator.updateEvaluation(for: .allValid)
     }
 
     required init(unboxer: Unboxer) throws {

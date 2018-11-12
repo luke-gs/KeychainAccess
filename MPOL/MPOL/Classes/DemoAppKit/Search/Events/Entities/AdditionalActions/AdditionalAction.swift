@@ -40,12 +40,6 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         }
     }
 
-    private var allValid: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
-
     // MARK: - Init
 
     public init(incident: Incident, type: AdditionalActionType) {
@@ -58,7 +52,9 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
+            return self.reports.reduce(true, { result, report in
+                return result && report.evaluator.isComplete
+            })
         }
         updateChildReports()
     }
@@ -127,9 +123,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     // MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = reports.reduce(true, { result, report in
-            return result && report.evaluator.isComplete
-        })
+        evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: Equatable
