@@ -14,20 +14,20 @@ extension EvaluatorKey {
 }
 
 open class DefaultEventOfficerListViewController: FormBuilderViewController, EvaluationObserverable, EventOfficerListViewModelDelegate {
-    
+
     let viewModel: EventOfficerListViewModel
-    
+
     public init(viewModel: EventOfficerListViewModel) {
-        
+
         self.viewModel = viewModel
-        
+
         super.init()
-        
+
         viewModel.report.evaluator.addObserver(self)
         viewModel.delegate = self
-        
+
         let title = viewModel.title
-        
+
         self.title = title
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
@@ -35,33 +35,33 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         sidebarItem.count = UInt(viewModel.officerDisplayables.count)
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
-        
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped(sender:)))
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
     @objc private func addTapped(sender: UIBarButtonItem) {
-        
+
         let viewModel = OfficerSearchViewModel()
         let officerSearchController = OfficerSearchViewController<DefaultEventOfficerListViewController>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
-        
+
         let navController = ModalNavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
         navController.preferredContentSize = CGSize(width: 512, height: 736)
         pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
         
     }
-    
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.report.viewed = true
     }
-    
+
     open override func construct(builder: FormBuilder) {
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
@@ -105,9 +105,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             )
         }
     }
-    
+
     // MARK: - Officer model delegate 
-    
+
     public func didSelectOfficer(officer: Officer) {
         guard let displayable = viewModel.displayable(for: officer) else { return }
         let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
@@ -121,54 +121,54 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
-        
+
         viewController.finishUpdateHandler = { [weak self] controller, index in
             guard let `self` = self else { return }
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
-        
+
         let navController = PopoverNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
         present(navController, animated: true, completion: nil)
     }
-    
+
     public func officerListDidUpdate() {
         reloadForm()
     }
-    
+
     @objc private func cancelTapped() {
         dismissAnimated()
     }
-    
+
     // MARK: - Evaluation
-    
+
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
-    
+
 }
 
 extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
     public typealias Object = Officer
-    
+
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
-        
+
         let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
         let officer = displayable.officer
         let headerConfig = SearchHeaderConfiguration(title: displayable.title?.sizing().string,
                                                      subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
-        
+
         let involvementDataSource = DefaultPickableSearchDataSource(
             objects: viewModel.officerInvolvementOptions,
             selectedObjects: officer.involvements,
             title: "Involvements",
             configuration: headerConfig)
         involvementDataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
-        
+
         let involvementsViewController = CustomPickerController(dataSource: involvementDataSource)
         involvementsViewController.finishUpdateHandler = { [weak self] controller, index in
             guard let `self` = self else { return }
@@ -180,5 +180,5 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)
     }
-    
+
 }
