@@ -4,6 +4,11 @@
 //
 //  Copyright © 2017 Gridstone. All rights reserved.
 import PublicSafetyKit
+
+public extension UserStorage {
+    public static let storedEventsKey = "StoredEventsKey"
+}
+
 /// Manages the list of events
 final public class EventsManager {
 
@@ -12,57 +17,71 @@ final public class EventsManager {
     /// The builder used to create events and displayables
     public var eventBuilder: EventBuilding
 
-    /// The currently saved local events
-    /// TODO: persist and load on startup once events are detangled from rest of event singletons
+    /// The currently stored user events
     public private(set) var events: [Event] = []
 
     public required init(eventBuilder: EventBuilding) {
         self.eventBuilder = eventBuilder
+        loadEvents()
     }
 
+    /// Return the current events as displayables
     public var displayables: [EventListDisplayable] {
         return events.map { event in
             return eventBuilder.displayable(for: event)
         }
     }
 
-    public func create(eventType: EventType) -> Event? {
+    public func create(eventType: EventType) throws -> Event? {
         let event = eventBuilder.createEvent(for: eventType)
-
         events.append(event)
-        delegate?.eventsManagerDidUpdateEventBucket(self)
+
+        // Store latest events array to disk
+        try storeAndNotify()
 
         return event
     }
 
-    private func add(event: Event) {
-        events.append(event)
-        delegate?.eventsManagerDidUpdateEventBucket(self)
+    public func update(for id: String) throws {
+        // Store latest events array to disk
+        try storeAndNotify()
     }
 
-    public func remove(for id: String) {
+    public func remove(for id: String) throws {
         events.removeAll { event -> Bool in
             return event.id == id
         }
-        delegate?.eventsManagerDidUpdateEventBucket(self)
+
+        // Store latest events array to disk
+        try storeAndNotify()
     }
 
     /// Return the event for a given id
     public func event(for id: String) -> Event? {
-        var event: Event? = events.first(where: { $0.id == id })
-
-        #if DEBUG_
-        // Open a cloned version of the event, to test serialisation
-        if event != nil, let data = try? JSONEncoder().encode(event!) {
-            if let copy = try? JSONDecoder().decode(Event.self, from: data) {
-                event = copy
-            }
-        }
-        #endif
-        return event
+        return events.first(where: { $0.id == id })
     }
+
+    // MARK: - Persistence
+
+    /// Persist the latest version of events, and notify delegate
+    private func storeAndNotify() throws {
+        try storeEvents()
+        delegate?.eventsManagerDidUpdate(self)
+    }
+
+    /// Store the current events
+    private func storeEvents() throws {
+        // Store events using retain storage, so it persists across logins
+        try UserSession.current.userStorage?.add(object: events, key: UserStorage.storedEventsKey, flag: .retain)
+    }
+
+    /// Load any persisted events
+    private func loadEvents() {
+        events = UserSession.current.userStorage?.retrieve(key: UserStorage.storedEventsKey) ?? []
+    }
+
 }
 
 public protocol EventsManagerDelegate: class {
-    func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager)
+    func eventsManagerDidUpdate(_ eventsManager: EventsManager)
 }

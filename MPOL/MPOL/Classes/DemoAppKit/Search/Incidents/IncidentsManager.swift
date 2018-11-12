@@ -26,6 +26,7 @@ final public class IncidentsManager {
         return incidentBuilder.createIncident(for: incidentType, in: event)
     }
 
+    /// Return the current incidents as displayables
     public var displayables: [IncidentListDisplayable] {
         return incidents.compactMap { incident in
             guard let incidentBuilder = incidentBuilders[incident.incidentType] else { return nil }

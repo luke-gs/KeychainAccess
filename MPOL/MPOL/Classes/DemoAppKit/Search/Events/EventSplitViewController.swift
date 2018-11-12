@@ -42,6 +42,11 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         }
     }
 
+    deinit {
+        // Notify delegate that event was closed
+        delegate?.eventClosed(eventId: viewModel.event.id)
+    }
+
     // TODO: Fix the EventSubmitter protocol and make this private again.
     @objc
     public func presentEventSummary() {
@@ -77,5 +82,9 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
 }
 
 public protocol EventsSubmissionDelegate: class {
+    /// An event was just closed
+    func eventClosed(eventId: String)
+
+    /// An event was submitted
     func eventSubmittedFor(eventId: String, response: Any?, error: Error?)
 }

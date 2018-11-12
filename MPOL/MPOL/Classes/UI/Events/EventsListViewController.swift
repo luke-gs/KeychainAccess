@@ -56,7 +56,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
             let subtitle = viewModel.subtitle(for: displayable)
             let image = viewModel.image(for: displayable)
             let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, indexPath in
-                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].id)
+                try! self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].id)
                 self.updateEmptyState()
                 self.reloadForm()
             })]
@@ -83,7 +83,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
     }
 
     private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
-        guard let event = event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
+        guard let event = try! event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
 
         viewModel.incidentType = incidentType
 
@@ -98,14 +98,18 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
         self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
     }
 
-    public func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager) {
+    public func eventsManagerDidUpdate(_ eventsManager: EventsManager) {
         tabBarItem.badgeValue = viewModel.badgeCountString
     }
 }
 
 extension EventsListViewController: EventsSubmissionDelegate {
+    public func eventClosed(eventId: String) {
+        try? viewModel.eventsManager.update(for: eventId)
+    }
+
     public func eventSubmittedFor(eventId: String, response: Any?, error: Error?) {
-        viewModel.eventsManager.remove(for: eventId)
+        try! viewModel.eventsManager.remove(for: eventId)
         self.reloadForm()
     }
 }
