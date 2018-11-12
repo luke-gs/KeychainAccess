@@ -85,7 +85,7 @@ public extension EntitiesListViewModel {
     }
 
     func retrieveAdditionalActions(for entity: MPOLKitEntity) -> [AdditionalAction]? {
-        return report.incident?.additionalActionManager.actionRelationships(for: entity).compactMap { relationship in
+        return actionRelationships(for: entity).compactMap { relationship in
             if let actions = report.incident?.actions {
                 return actions.first(where: { return $0.uuid == relationship.relatedObjectUuid })
             }
@@ -102,9 +102,9 @@ public extension EntitiesListViewModel {
             report.event?.entityBucket.add(entity)
             report.event?.incidentRelationshipManager?.add(baseObject: entity, relatedObject: report.incident!, reasons: involvements)
 
-            for action in actions ?? [] {
+            actions?.forEach { action in
                 action.add(report: report(for: action))
-                report.incident?.additionalActionManager.add(action, to: entity)
+                addAction(action, to: entity)
             }
             report.evaluator.updateEvaluation(for: EvaluatorKey.hasEntity)
             report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
@@ -120,9 +120,9 @@ public extension EntitiesListViewModel {
         for action in retrieveAdditionalActions(for: entity) ?? [] {
             removeAdditionalAction(entity: entity, action: action)
         }
-        actions.forEach {
-            $0.add(report: report(for: $0))
-            report.incident?.additionalActionManager.add($0, to: entity)
+        actions.forEach { action in
+            action.add(report: report(for: action))
+            addAction(action, to: entity)
         }
         report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
     }
@@ -153,7 +153,7 @@ public extension EntitiesListViewModel {
     }
 
     func removeAdditionalAction(entity: MPOLKitEntity, action: AdditionalAction) {
-        report.incident?.additionalActionManager.remove(action, from: entity)
+        removeAction(action, from: entity)
         report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
     }
 
@@ -177,4 +177,25 @@ public extension EntitiesListViewModel {
             return InvolvementPickerDefinition(for: context, with: entity)
         }
     }
+
+    // MARK: - From AdditionalActionManager
+
+    public func actionRelationships(for entity: MPOLKitEntity) -> [Relationship] {
+        return report.incident?.relationshipManager.relationships(for: entity, and: AdditionalAction.self) ?? []
+    }
+
+    public func addAction(_ action: AdditionalAction, to entity: MPOLKitEntity) {
+        report.incident?.actions.append(action)
+        report.incident?.relationshipManager.add(baseObject: entity, relatedObject: action)
+    }
+
+    public func removeAction(_ action: AdditionalAction, from entity: MPOLKitEntity) {
+        // Remove the relationship between the action and the entity
+        if let actionRelationships = report.incident?.relationshipManager.relationship(between: entity, and: action) {
+            report.incident?.relationshipManager.remove(actionRelationships)
+        }
+        // Remove the action
+        report.incident?.actions.removeAll(where: { $0 == action })
+    }
+
 }

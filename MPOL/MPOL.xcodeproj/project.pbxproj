@@ -88,7 +88,6 @@
 		203F412D2193F49A00BAB007 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */; };
 		203F412E2193F49A00BAB007 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */; };
 		203F412F2193F49A00BAB007 /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400C2193F49A00BAB007 /* AdditionalAction.swift */; };
-		203F41302193F49A00BAB007 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400D2193F49A00BAB007 /* AdditionalActionManager.swift */; };
 		203F41312193F49A00BAB007 /* EventSubmittable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400F2193F49A00BAB007 /* EventSubmittable.swift */; };
 		203F41322193F49A00BAB007 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40102193F49A00BAB007 /* LoadingViewController.swift */; };
 		203F41332193F49A00BAB007 /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40122193F49A00BAB007 /* Reportable.swift */; };
@@ -617,7 +616,6 @@
 		203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
 		203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
 		203F400C2193F49A00BAB007 /* AdditionalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
-		203F400D2193F49A00BAB007 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		203F400F2193F49A00BAB007 /* EventSubmittable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
 		203F40102193F49A00BAB007 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		203F40122193F49A00BAB007 /* Reportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
@@ -1384,7 +1382,6 @@
 			isa = PBXGroup;
 			children = (
 				203F400C2193F49A00BAB007 /* AdditionalAction.swift */,
-				203F400D2193F49A00BAB007 /* AdditionalActionManager.swift */,
 			);
 			path = AdditionalActions;
 			sourceTree = "<group>";
@@ -3155,7 +3152,6 @@
 				203F41E92193F49B00BAB007 /* ActivityLogViewController.swift in Sources */,
 				203F41EB2193F49B00BAB007 /* ActivityLogViewModel.swift in Sources */,
 				203F412F2193F49A00BAB007 /* AdditionalAction.swift in Sources */,
-				203F41302193F49A00BAB007 /* AdditionalActionManager.swift in Sources */,
 				203F411A2193F49A00BAB007 /* AddPropertyDetailsPlugins.swift in Sources */,
 				96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				96B775662140F8EE00836B83 /* Address.swift in Sources */,

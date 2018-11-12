@@ -38,19 +38,14 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     // MARK: - State
 
-    public var additionalActionManager: AdditionalActionManager!
+    /// The manager and storage for relationships between entities and additional actions
+    public let relationshipManager = RelationshipManager<MPOLKitEntity, AdditionalAction>()
 
     public var evaluator: Evaluator = Evaluator()
 
     public var weakEvent: Weak<Event> {
         didSet {
             updateChildReports()
-        }
-    }
-
-    private var allValid: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .allValid)
         }
     }
 
@@ -66,11 +61,9 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     }
 
     private func commonInit() {
-        self.additionalActionManager = AdditionalActionManager(incident: self)
-
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
+            return self.allValid
         }
         updateChildReports()
     }
@@ -88,6 +81,44 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         }
     }
 
+    // MARK: - Utility
+
+    public func add(reports: [IncidentReportable]) {
+        self.reports.append(contentsOf: reports)
+    }
+
+    public func add(report: IncidentReportable) {
+        reports.append(report)
+    }
+
+    public func reportable(for reportableType: AnyClass) -> IncidentReportable? {
+        return reports.filter {type(of: $0) == reportableType}.first
+    }
+
+    // MARK: - Evaluation
+
+    private var allValid: Bool = false {
+        didSet {
+            evaluator.updateEvaluation(for: .allValid)
+        }
+    }
+
+    private var checkReportsValid: Bool {
+        return reports.reduce(true, { result, report in
+            return result && report.evaluator.isComplete
+        })
+    }
+
+    public var checkActionsValid: Bool {
+        return actions.reduce(true, { (_, action) -> Bool in
+            return action.evaluator.isComplete
+        })
+    }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        allValid = checkReportsValid && checkActionsValid
+    }
+
     // MARK: - Codable
 
     required init(unboxer: Unboxer) throws {
@@ -97,6 +128,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     private enum CodingKeys: String, CodingKey {
         case actions
         case incidentType
+        case relationships
         case reports
         case title
     }
@@ -107,6 +139,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         actions = try container.decode([AdditionalAction].self, forKey: .actions)
         incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
         title = try container.decode(String.self, forKey: .title)
+        relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
         reports = anyReports.map { $0.report }
@@ -128,32 +161,12 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         try container.encode(actions, forKey: .actions)
         try container.encode(incidentType, forKey: .incidentType)
         try container.encode(title, forKey: .title)
+        try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(anyReports, forKey: .reports)
     }
 
-    // MARK: Utility
+    // MARK: - Equatable
 
-    public func add(reports: [IncidentReportable]) {
-        self.reports.append(contentsOf: reports)
-    }
-
-    public func add(report: IncidentReportable) {
-        reports.append(report)
-    }
-
-    public func reportable(for reportableType: AnyClass) -> IncidentReportable? {
-        return reports.filter {type(of: $0) == reportableType}.first
-    }
-
-    // MARK: Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = reports.reduce(true, { result, report in
-            return result && report.evaluator.isComplete
-        })
-    }
-
-    // MARK: Equatable
     public static func == (lhs: Incident, rhs: Incident) -> Bool {
         return lhs.id == rhs.id
     }
