@@ -32,14 +32,13 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     private(set) public var reports: [IncidentReportable] = [] {
         didSet {
             updateChildReports()
-            evaluator.updateEvaluation(for: .allValid)
         }
     }
 
-    // MARK: - State
-
-    /// The manager and storage for relationships between entities and additional actions
+    /// The storage for relationships between entities and additional actions
     public let relationshipManager = RelationshipManager<MPOLKitEntity, AdditionalAction>()
+
+    // MARK: - State
 
     public var evaluator: Evaluator = Evaluator()
 
@@ -58,6 +57,9 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
         super.init(id: UUID().uuidString)
         commonInit()
+
+        // Update reports, since we have the event
+        updateChildReports()
     }
 
     private func commonInit() {
@@ -65,20 +67,21 @@ public class Incident: IdentifiableDataModel, Evaluatable {
             guard let `self` = self else { return false }
             return self.reportsValid && self.actionsValid
         }
-        updateChildReports()
     }
 
+    /// Update child report back references to this incident
     private func updateChildReports() {
-        // Pass down this incident and parent event to child reports and actions
+        // Should only be called after our Event back ref is set
+        guard weakEvent.object != nil else { return }
+
+        // Pass down the event and incident to child reports and actions
         for report in reports {
             report.weakIncident = Weak<Incident>(self)
-            if let report = report as? EventReportable {
-                report.weakEvent = weakEvent
-            }
         }
         for action in actions {
             action.weakIncident = Weak<Incident>(self)
         }
+        evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: - Utility

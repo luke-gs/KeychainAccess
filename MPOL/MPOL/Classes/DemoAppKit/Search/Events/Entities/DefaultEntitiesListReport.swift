@@ -30,6 +30,14 @@ public class DefaultEntitiesListReport: DefaultReportable {
         }
     }
 
+    public override func configure(with incident: Incident) {
+        super.configure(with: incident)
+
+        // Update evaluators that require incident to work
+        evaluator.updateEvaluation(for: .hasEntity)
+        evaluator.updateEvaluation(for: .additionalActionsComplete)
+    }
+
     public override init(event: Event, incident: Incident) {
         super.init(event: event, incident: incident)
         commonInit()

@@ -35,10 +35,10 @@ public class Event: IdentifiableDataModel, Evaluatable {
         }
     }
 
-    // MARK: - State
-
-    /// The manager and storage for relationships between entities in the event
+    /// The storage for relationships between entities in the event
     public let relationshipManager = RelationshipManager<MPOLKitEntity, MPOLKitEntity>()
+
+    // MARK: - State
 
     public var evaluator: Evaluator = Evaluator()
 

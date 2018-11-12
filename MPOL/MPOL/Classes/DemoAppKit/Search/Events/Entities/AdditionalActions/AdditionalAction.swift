@@ -64,9 +64,6 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         for report in reports {
             report.weakAdditionalAction = Weak(self)
             report.weakIncident = weakIncident
-            if let report = report as? EventReportable, let weakEvent = weakIncident.object?.weakEvent {
-                report.weakEvent = weakEvent
-            }
         }
     }
 

@@ -25,6 +25,10 @@ open class DefaultReportable: Reportable {
     open var weakIncident: Weak<Incident> {
         didSet {
             if let incident = incident, oldValue.object == nil {
+                // Assign the event from the incident if not already set
+                if weakEvent.object == nil {
+                    weakEvent = incident.weakEvent
+                }
                 configure(with: incident)
             }
         }
