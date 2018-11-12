@@ -315,7 +315,6 @@
 		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
 		378EAF0F216EFA3900960370 /* vancouver_mac.ppn in Resources */ = {isa = PBXBuildFile; fileRef = 378EAF0D216EFA3900960370 /* vancouver_mac.ppn */; };
 		378EAF10216EFA3900960370 /* vancouver_ios.ppn in Resources */ = {isa = PBXBuildFile; fileRef = 378EAF0E216EFA3900960370 /* vancouver_ios.ppn */; };
-		3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3792073521521FBE0071F119 /* AddressFormItemFactory.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
 		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
 		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
@@ -2435,7 +2434,6 @@
 			isa = PBXGroup;
 			children = (
 				96B774D22140F8EE00836B83 /* AddressFormatter.swift */,
-				AA5D5453214794EF00162017 /* AddressOptionHandler.swift */,
 				96B774D32140F8EE00836B83 /* DateSorting.swift */,
 				96B774D42140F8EE00836B83 /* EntityImageSizing.swift */,
 				96B774D02140F8EE00836B83 /* PersonImageSizing.swift */,
@@ -2539,7 +2537,6 @@
 				AA49DE2221338B0500330696 /* OrganisationSearchDataSource.swift */,
 				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
 				37F1B3B020CF9694007F263B /* SearchNoContentView.swift */,
-				AA5D545E214B9A6800162017 /* TravelTimeAccessoryView.swift */,
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
 			);
 			path = Search;
@@ -3163,8 +3160,6 @@
 				96B775482140F8EE00836B83 /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				96B775662140F8EE00836B83 /* Address.swift in Sources */,
 				96B7754C2140F8EE00836B83 /* AddressFormatter.swift in Sources */,
-				3792073621521FBE0071F119 /* AddressFormItemFactory.swift in Sources */,
-				AA5D5454214794EF00162017 /* AddressOptionHandler.swift in Sources */,
 				96B775632140F8EE00836B83 /* Alert.swift in Sources */,
 				37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */,
 				96B775262140F8EE00836B83 /* AlertSummaryViewController.swift in Sources */,
@@ -3349,8 +3344,6 @@
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				203F41122193F49A00BAB007 /* EventSearchableViewModel.swift in Sources */,
-				96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */,
-				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				203F41282193F49A00BAB007 /* EventsManager.swift in Sources */,
 				203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */,
 				96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */,
@@ -3582,7 +3575,6 @@
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
 				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
 				AA1C6ADD2159D1E7003F8B37 /* TrafficStopPresenter.swift in Sources */,
-				AA5D545F214B9A6800162017 /* TravelTimeAccessoryView.swift in Sources */,
 				96B775402140F8EE00836B83 /* User+VersionAccessors.swift in Sources */,
 				203F41AF2193F49A00BAB007 /* UserCallsignStatusView.swift in Sources */,
 				203F41B02193F49B00BAB007 /* UserCallsignStatusViewModel.swift in Sources */,
