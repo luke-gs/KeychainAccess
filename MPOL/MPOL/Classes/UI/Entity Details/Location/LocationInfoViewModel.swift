@@ -100,10 +100,10 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         guard let location = location(from: location) else { return Promise<Void>() }
         let promises: [Promise<Void>] = [
             travelEstimationPlugin.calculateDistance(from: currentLocation, to: location).done {
-                self.travelTimeETA = $0
+                self.travelTimeDistance = $0
             },
             travelEstimationPlugin.calculateETA(from: currentLocation, to: location, transportType: .automobile).done {
-                self.travelTimeDistance = $0
+                self.travelTimeETA = $0
             }
         ]
         return when(fulfilled: promises).asVoid()
