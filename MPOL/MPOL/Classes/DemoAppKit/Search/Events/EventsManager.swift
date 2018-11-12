@@ -3,8 +3,10 @@
 //  MPOLKit
 //
 //  Copyright © 2017 Gridstone. All rights reserved.
+
 import PublicSafetyKit
-/// Manages the list of events
+
+/// Manages the list of events.
 final public class EventsManager {
 
     public var eventBucket: ObjectBucket<Event> = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
@@ -52,7 +54,7 @@ final public class EventsManager {
         return eventBucket.objects?[index]
     }
 
-    // Mark: - Draftable Items
+    // MARK: - Draftable Items
 
     public var draftItems: [Draftable] {
         return eventBucket.objects?.compactMap { EventDraftable(event: $0) } ?? []
