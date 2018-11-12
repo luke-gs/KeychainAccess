@@ -18,8 +18,6 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
     private var travelTimeETA: String?
     private var travelTimeDistance: String?
 
-    private var addressConfig: AddressFormItemConfiguration?
-
     public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
 
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
@@ -31,13 +29,34 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        if addressConfig == nil {
-            addressConfig = AddressFormItemConfiguration(data: location, showTravelData: true)
-            addressConfig!.delegate = self
+        var travelAccessory: CustomItemAccessory?
+
+        let asset = AssetManager.shared.image(forKey: .entityCarSmall)
+
+        if let travelTime = travelTimeETA,
+            let travelDistance = travelTimeDistance {
+            let travelTimeAccessoryView = TravelTimeAccessoryView(image: asset, distance: travelDistance, time: travelTime, frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+
+            travelAccessory = CustomItemAccessory(onCreate: { () -> UIView in
+                return travelTimeAccessoryView
+            }, size: CGSize(width: 100, height: 30))
+
         }
 
-        let factory = AddressFormItemFactory(config: addressConfig!)
-        builder += factory.defaultAddressFormItems( context: viewController)
+        let addressFormItem = AddressFormItem()
+            .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+            .title(StringSizing(string: "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .navigatable(location, presentationContext: viewController)
+            .width(.column(1))
+            .accessory(travelAccessory)
+        builder += addressFormItem
+
+        let coordItem = ValueFormItem()
+            .title(StringSizing(string: "Latitude, Longitude", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .value(StringSizing(string: location.coordinateText(), font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .width(.column(1))
+        builder += coordItem
     }
 
     open override var title: String? {
@@ -56,6 +75,13 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         return AssetManager.shared.image(forKey: .infoFilled)
     }
 
+    open override func didSetEntity() {
+        super.didSetEntity()
+        LocationManager.shared.requestLocation().then(calculateETAandDistance).done { [weak self] in
+            self?.delegate?.reloadData()
+        }.cauterize()
+    }
+
     // MARK: - Private
 
     private func suitableForHabitationText(for address: Address) -> String {
@@ -69,6 +95,20 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         return CLLocation(latitude: lat, longitude: long)
     }
+
+    private func calculateETAandDistance(currentLocation: CLLocation) -> Promise<Void> {
+        guard let location = location(from: location) else { return Promise<Void>() }
+        let promises: [Promise<Void>] = [
+            travelEstimationPlugin.calculateDistance(from: currentLocation, to: location).done {
+                self.travelTimeETA = $0
+            },
+            travelEstimationPlugin.calculateETA(from: currentLocation, to: location, transportType: .automobile).done {
+                self.travelTimeDistance = $0
+            }
+        ]
+        return when(fulfilled: promises).asVoid()
+    }
+
 }
 
 extension LocationInfoViewModel: EntityLocationMapDisplayable {
@@ -78,14 +118,6 @@ extension LocationInfoViewModel: EntityLocationMapDisplayable {
             return nil
         }
         return AddressSummaryDisplayable(location)
-    }
-
-}
-
-extension LocationInfoViewModel: AddressFormItemConfigurationDelegate {
-
-    public func didFinishCalculatingEstimates(from: AddressFormItemConfiguration) {
-        delegate?.reloadData()
     }
 
 }
