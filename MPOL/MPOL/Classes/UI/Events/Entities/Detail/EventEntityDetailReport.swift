@@ -70,6 +70,7 @@ public class EventEntityDetailReport: DefaultEventReportable {
 
     // Eval
     public override func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        // Update our evaluator if any evaluator we are observing changes
         self.evaluator.updateEvaluation(for: .allValid)
     }
 

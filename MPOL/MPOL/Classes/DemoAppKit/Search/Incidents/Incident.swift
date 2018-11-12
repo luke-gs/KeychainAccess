@@ -26,12 +26,16 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     public var incidentType: IncidentType
 
     /// The nested additional actions
-    public var actions: [AdditionalAction] = []
+    public var actions: [AdditionalAction] = [] {
+        didSet {
+            configureChildren()
+        }
+    }
 
     /// The nested reports
     private(set) public var reports: [IncidentReportable] = [] {
         didSet {
-            updateChildReports()
+            configureChildren()
         }
     }
 
@@ -44,7 +48,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
     public var weakEvent: Weak<Event> {
         didSet {
-            updateChildReports()
+            configureChildren()
         }
     }
 
@@ -58,8 +62,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         super.init(id: UUID().uuidString)
         commonInit()
 
-        // Update reports, since we have the event
-        updateChildReports()
+        // Configure children, since we have the event
+        configureChildren()
     }
 
     private func commonInit() {
@@ -69,18 +73,23 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         }
     }
 
-    /// Update child report back references to this incident
-    private func updateChildReports() {
+    /// Update child reports and actions if we have our parent event
+    private func configureChildren() {
         // Should only be called after our Event back ref is set
         guard weakEvent.object != nil else { return }
 
-        // Pass down the event and incident to child reports and actions
+        // Pass down the incident to child reports and actions
         for report in reports {
-            report.weakIncident = Weak<Incident>(self)
+            if report.weakIncident.object == nil {
+                report.weakIncident = Weak<Incident>(self)
+            }
         }
         for action in actions {
-            action.weakIncident = Weak<Incident>(self)
+            if action.weakIncident.object == nil {
+                action.weakIncident = Weak<Incident>(self)
+            }
         }
+        // Update our valid state based on current children
         evaluator.updateEvaluation(for: .allValid)
     }
 
@@ -113,7 +122,8 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        evaluator.updateEvaluation(for: .allValid)
+        // Update our evaluator if any evaluator we are observing changes
+        self.evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: - Codable

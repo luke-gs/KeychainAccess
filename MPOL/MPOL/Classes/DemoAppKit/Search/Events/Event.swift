@@ -87,7 +87,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        evaluator.updateEvaluation(for: .allValid)
+        // Update our evaluator if any evaluator we are observing changes
+        self.evaluator.updateEvaluation(for: .allValid)
     }
 
     required init(unboxer: Unboxer) throws {

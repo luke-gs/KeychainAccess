@@ -25,8 +25,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     /// The nested reports
     private(set) public var reports: [ActionReportable] = [] {
         didSet {
-            updateChildReports()
-            evaluator.updateEvaluation(for: .allValid)
+            configureChildren()
         }
     }
 
@@ -36,7 +35,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
     public var weakIncident: Weak<Incident> {
         didSet {
-            updateChildReports()
+            configureChildren()
         }
     }
 
@@ -45,8 +44,12 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     public init(incident: Incident, type: AdditionalActionType) {
         self.weakIncident = Weak(incident)
         self.additionalActionType = type
+
         super.init(id: UUID().uuidString)
         commonInit()
+
+        // Configure children, since we have the event
+        configureChildren()
     }
 
     private func commonInit() {
@@ -56,15 +59,24 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
                 return result && report.evaluator.isComplete
             })
         }
-        updateChildReports()
     }
 
-    private func updateChildReports() {
-        // Pass down this incident and parent event to child reports
+    private func configureChildren() {
+        // Should only be called after our Incident back ref is set
+        guard weakIncident.object != nil else { return }
+
+        // Pass down the incident and action to child reports
         for report in reports {
-            report.weakAdditionalAction = Weak(self)
-            report.weakIncident = weakIncident
+            if report.weakIncident.object == nil {
+                report.weakIncident = weakIncident
+            }
+            if report.weakAdditionalAction.object == nil {
+                report.weakAdditionalAction = Weak<AdditionalAction>(self)
+            }
         }
+
+        // Update our valid state based on current children
+        evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: - Codable
@@ -120,7 +132,8 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     // MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        evaluator.updateEvaluation(for: .allValid)
+        // Update our evaluator if any evaluator we are observing changes
+        self.evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: Equatable
