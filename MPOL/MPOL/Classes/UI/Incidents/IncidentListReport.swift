@@ -70,6 +70,7 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
         for incident in incidents {
             incident.weakEvent = Weak(event)
         }
+        updateEval()
     }
 
     // MARK: - Utility
