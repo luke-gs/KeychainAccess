@@ -52,7 +52,7 @@ final public class EventsManager {
         return eventBucket.objects?.first(where: {$0.id == id})
     }
 
-    // Mark: - DraftableManager
+    // Mark: - Draftable Items
 
     public var draftItems: [Draftable] {
         return eventBucket.objects?.compactMap { EventDraftable(event: $0) } ?? []
