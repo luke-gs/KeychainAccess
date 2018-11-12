@@ -41,19 +41,19 @@ open class EventDraftListViewModel: EventListViewModelable {
     }
 
     public var title: String? {
-        return "Events"
+        return NSLocalizedString("Events", comment: "")
     }
 
     public var noContentTitle: String? {
-        return "No Events"
+        return NSLocalizedString("No Events", comment: "")
     }
 
     public var noContentSubtitle: String? {
-        return "You have no Current or Queued Events"
+        return NSLocalizedString("You have no Current or Queued Events", comment: "")
     }
 
     public var noContentButtonText: String? {
-        return "Create new Event"
+        return NSLocalizedString("Create new Event", comment: "")
     }
 
     public var noContentImage: UIImage? {
@@ -61,7 +61,7 @@ open class EventDraftListViewModel: EventListViewModelable {
     }
 
     public var rightNavBarButtonItemText: String? {
-        return "New Event"
+        return NSLocalizedString("New Event", comment: "")
     }
 
     public var tabBarImageSet: (image: UIImage?, selectedImage: UIImage?)? {
