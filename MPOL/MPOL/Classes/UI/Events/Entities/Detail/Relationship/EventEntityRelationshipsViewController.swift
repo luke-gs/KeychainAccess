@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 class EventEntityRelationshipsViewController: FormBuilderViewController, EvaluationObserverable {
 

@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 open class DomesticViolencePropertyViewController: FormBuilderViewController, EvaluationObserverable {
 
@@ -114,27 +113,27 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
 
 // TODO: FIX THIS SHIT WITH PROPER PROPERTIES
 private let props: [Property] = [
-    Property(type: "General", subType: "Mobile Phone", detailNames: [("Make", .picker(options: ["Apple", "Google"])),
-                                                                     ("Model", .text),
-                                                                     ("Model Year", .text),
-                                                                     ("Serial Number", .text)]),
+    Property(type: "General", subType: "Mobile Phone", detailNames: [PropertyDetail(title: "Make", type: .picker(options: ["Apple", "Google"])),
+                                                                     PropertyDetail(title: "Model", type: .text),
+                                                                     PropertyDetail(title: "Model Year", type: .text),
+                                                                     PropertyDetail(title: "Serial Number", type: .text)]),
     Property(type: "General", subType: "Clock"),
-    Property(type: "General", subType: "Furniture", detailNames: [("Colour", .picker(options: ["Black", "Blue", "Green"]))]),
+    Property(type: "General", subType: "Furniture", detailNames: [PropertyDetail(title: "Colour", type: .picker(options: ["Black", "Blue", "Green"]))]),
     Property(type: "General", subType: "Electrical materials"),
-    Property(type: "General", subType: "Laptop computer", detailNames: [("Make", .picker(options: ["HP", "Alienware"])),
-                                                                        ("Model", .text),
-                                                                        ("Serial Number", .text)]),
-    Property(type: "Drug", subType: "Oil - Cannabis", detailNames: [("Weight", .text)]),
-    Property(type: "Drug", subType: "Hashish - Cannabis", detailNames: [("Weight", .text)]),
-    Property(type: "Drug", subType: "LSD strips - Amphetamine/methylphetamine", detailNames: [("Quantity", .text)]),
-    Property(type: "Firearm", subType: "Air rifle", detailNames: [("Category", .picker(options: ["A", "B", "C"])),
-                                                                  ("Condition", .picker(options: ["New", "Old", "Used", "Broken"]))]),
-    Property(type: "Firearm", subType: "Shotgun - Category B", detailNames: [("Category", .picker(options: ["Combat", "Combination", "Sports"])),
-                                                                             ("Condition", .text),
-                                                                             ("Loaded", .picker(options: ["Yes", "No"]))]),
-    Property(type: "Animal", subType: "Dog - Pitbull", detailNames: [("Colour", .picker(options: ["Black", "Fawn", "Blue", "Brindle"])),
-                                                                     ("Markings", .text),
-                                                                     ("Gender", .picker(options: ["Male", "Female", "Unknown"]))])
+    Property(type: "General", subType: "Laptop computer", detailNames: [PropertyDetail(title: "Make", type: .picker(options: ["HP", "Alienware"])),
+                                                                        PropertyDetail(title: "Model", type: .text),
+                                                                        PropertyDetail(title: "Serial Number", type: .text)]),
+    Property(type: "Drug", subType: "Oil - Cannabis", detailNames: [PropertyDetail(title: "Weight", type: .text)]),
+    Property(type: "Drug", subType: "Hashish - Cannabis", detailNames: [PropertyDetail(title: "Weight", type: .text)]),
+    Property(type: "Drug", subType: "LSD strips - Amphetamine/methylphetamine", detailNames: [PropertyDetail(title: "Quantity", type: .text)]),
+    Property(type: "Firearm", subType: "Air rifle", detailNames: [PropertyDetail(title: "Category", type: .picker(options: ["A", "B", "C"])),
+                                                                  PropertyDetail(title: "Condition", type: .picker(options: ["New", "Old", "Used", "Broken"]))]),
+    Property(type: "Firearm", subType: "Shotgun - Category B", detailNames: [PropertyDetail(title: "Category", type: .picker(options: ["Combat", "Combination", "Sports"])),
+                                                                             PropertyDetail(title: "Condition", type: .text),
+                                                                             PropertyDetail(title: "Loaded", type: .picker(options: ["Yes", "No"]))]),
+    Property(type: "Animal", subType: "Dog - Pitbull", detailNames: [PropertyDetail(title: "Colour", type: .picker(options: ["Black", "Fawn", "Blue", "Brindle"])),
+                                                                     PropertyDetail(title: "Markings", type: .text),
+                                                                     PropertyDetail(title: "Gender", type: .picker(options: ["Male", "Female", "Unknown"]))])
 ]
 
 // TODO: FIX THIS SHIT WITH PROPER INVOLVEMENTS

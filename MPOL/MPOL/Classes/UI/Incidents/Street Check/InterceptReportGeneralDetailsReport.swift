@@ -6,18 +6,13 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 
 fileprivate extension EvaluatorKey {
     static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
-open class InterceptReportGeneralDetailsReport: Reportable {
+open class InterceptReportGeneralDetailsReport: DefaultReportable {
 
-    public let weakEvent: Weak<Event>
-    public let weakIncident: Weak<Incident>
-
-    public let evaluator: Evaluator = Evaluator()
     public var selectedSubject: String? {
         didSet {
             evaluator.updateEvaluation(for: .hasRequiredData)
@@ -30,19 +25,12 @@ open class InterceptReportGeneralDetailsReport: Reportable {
     }
     public var remarks: String?
 
-    public required init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
-        commonInit()
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
     }
 
-    private func commonInit() {
-        if let event = event {
-            evaluator.addObserver(event)
-        }
-        if let incident = incident {
-            evaluator.addObserver(incident)
-        }
+    open override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.hasRequiredData) { [weak self] in
             guard let `self` = self else { return false }
@@ -50,27 +38,31 @@ open class InterceptReportGeneralDetailsReport: Reportable {
         }
     }
 
-    // Coding
-    public static var supportsSecureCoding: Bool = true
+    // MARK: - Codable
 
-    private enum Coding: String {
-        case incidents
-        case event
+    private enum CodingKeys: String, CodingKey {
+        case selectedSubject
+        case selectedSecondarySubject
+        case remarks
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incidents.rawValue)
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        selectedSubject = try container.decodeIfPresent(String.self, forKey: .selectedSubject)
+        selectedSecondarySubject = try container.decodeIfPresent(String.self, forKey: .selectedSecondarySubject)
+        remarks = try container.decodeIfPresent(String.self, forKey: .remarks)
+
+        try super.init(from: decoder)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incidents.rawValue)
-    	commonInit()
-    }
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
 
-    // Evaluation
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(selectedSubject, forKey: CodingKeys.selectedSubject)
+        try container.encode(selectedSecondarySubject, forKey: CodingKeys.selectedSecondarySubject)
+        try container.encode(remarks, forKey: CodingKeys.remarks)
+    }
 
 }
 

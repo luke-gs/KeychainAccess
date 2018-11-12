@@ -7,7 +7,6 @@
 
 import Foundation
 import PublicSafetyKit
-import DemoAppKit
 
 import AVFoundation
 

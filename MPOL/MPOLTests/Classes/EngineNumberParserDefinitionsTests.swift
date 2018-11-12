@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import DemoAppKit
+import CoreKit
 import PS_Core
 
 class EngineNumberParserDefinitionsTests: XCTestCase {

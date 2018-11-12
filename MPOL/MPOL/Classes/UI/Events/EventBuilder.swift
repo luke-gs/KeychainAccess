@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 public class EventBuilder: EventBuilding {
 
@@ -26,7 +25,7 @@ public class EventBuilder: EventBuilding {
                                                subtitle: "",
                                                accessoryTitle: "",
                                                accessorySubtitle: "",
-                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.event))
+                                               iconKey: AssetManager.ImageKey.event)
         displayable.eventId = event.id
         return (event: event, displayable: displayable)
     }
