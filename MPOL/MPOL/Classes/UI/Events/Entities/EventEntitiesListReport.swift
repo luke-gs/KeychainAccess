@@ -27,6 +27,11 @@ public class EventEntitiesListReport: DefaultEventReportable {
     public override func configure(with event: Event) {
         super.configure(with: event)
 
+        // Pass on the event to child reports
+        for report in entityDetailReports {
+            report.weakEvent = weakEvent
+        }
+
         evaluator.registerKey(.valid) { [weak self] in
             guard let `self` = self else { return false }
             let reportsValid = self.entityDetailReports.reduce(true, { (result, report) -> Bool in
