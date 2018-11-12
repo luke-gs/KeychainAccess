@@ -150,6 +150,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 builder += AddressFormItem()
                     .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
                     .title(StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                    .subtitle(StringSizing(string: address.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                     .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                     .navigatable(address, presentationContext: viewController)
                     .width(.column(1))
