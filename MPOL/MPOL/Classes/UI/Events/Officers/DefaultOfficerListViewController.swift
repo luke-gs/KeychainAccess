@@ -54,7 +54,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         navController.modalPresentationStyle = .formSheet
         navController.preferredContentSize = CGSize(width: 512, height: 736)
         pushableSplitViewController?.presentModalViewController(navController, animated: true, completion: nil)
-        
+
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -65,9 +65,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     open override func construct(builder: FormBuilder) {
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
-        
+
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-        
+
         viewModel.officerDisplayables.forEach { displayable in
             let summaryListFormItem = SummaryListFormItem()
                 .title(displayable.title)
