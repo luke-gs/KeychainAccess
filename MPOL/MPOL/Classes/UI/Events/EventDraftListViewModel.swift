@@ -23,8 +23,8 @@ open class EventDraftListViewModel: EventListViewModelable {
         return nil
     }
 
-    public func deleteDraftItem(at index: Int, with id: String) {
-        manager.deleteDraftItem(at: index, with: id)
+    public func deleteDraftItem(at index: Int) {
+        manager.deleteDraftItem(at: index)
     }
 
     public var badgeCountString: String? {
