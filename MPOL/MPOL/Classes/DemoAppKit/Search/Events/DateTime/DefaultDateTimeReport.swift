@@ -29,11 +29,10 @@ open class DefaultDateTimeReport: DefaultEventReportable {
 
     public override init(event: Event) {
         super.init(event: event)
+        commonInit()
     }
 
-    open override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.reportedOnDateTime) { [weak self] in
             guard let `self` = self else { return false }
             return self.reportedOnDateTime != nil
@@ -59,6 +58,7 @@ open class DefaultDateTimeReport: DefaultEventReportable {
         tookPlaceFromEndDateTime = try container.decodeIfPresent(Date.self, forKey: .tookPlaceFromEndDateTime)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

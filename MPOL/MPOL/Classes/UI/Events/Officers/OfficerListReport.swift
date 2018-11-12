@@ -25,11 +25,10 @@ public class OfficerListReport: DefaultEventReportable {
 
     public override init(event: Event) {
         super.init(event: event)
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         let reportingOfficerText = NSLocalizedString("Reporting Officer", comment: "")
 
         if let currentOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
@@ -60,6 +59,7 @@ public class OfficerListReport: DefaultEventReportable {
         viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

@@ -38,6 +38,15 @@ public class EventEntityDetailReport: DefaultEventReportable {
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
 
         super.init(event: event)
+        commonInit()
+    }
+
+    private func commonInit() {
+        evaluator.registerKey(.allValid) { [weak self] in
+            return self?.reports.reduce(true) { (result, report) -> Bool in
+                return result && report.evaluator.isComplete
+            } ?? false
+        }
     }
 
     public override func configure(with event: Event) {
@@ -50,12 +59,6 @@ public class EventEntityDetailReport: DefaultEventReportable {
         // Observe changes to child report evaluators
         descriptionReport.evaluator.addObserver(self)
         relationshipsReport.evaluator.addObserver(self)
-
-        evaluator.registerKey(.allValid) { [weak self] in
-            return self?.reports.reduce(true) { (result, report) -> Bool in
-                return result && report.evaluator.isComplete
-            } ?? false
-        }
 
         /*
          for demo purpose, setting viewed to true allow validation to pass straightly
@@ -90,6 +93,7 @@ public class EventEntityDetailReport: DefaultEventReportable {
         relationshipsReport = try container.decode(EventEntityRelationshipsReport.self, forKey: .relationshipsReport)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

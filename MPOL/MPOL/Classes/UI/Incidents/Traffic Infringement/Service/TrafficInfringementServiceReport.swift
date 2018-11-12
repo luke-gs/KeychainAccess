@@ -27,11 +27,10 @@ class TrafficInfringementServiceReport: DefaultReportable {
 
     public override init(event: Event, incident: Incident) {
         super.init(event: event, incident: incident)
+        commonInit()
     }
 
-    override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasContactDetails) { [weak self] in
             return self?.hasContactDetails ?? false
         }
@@ -56,6 +55,7 @@ class TrafficInfringementServiceReport: DefaultReportable {
         hasContactDetails = try container.decode(Bool.self, forKey: .hasContactDetails)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

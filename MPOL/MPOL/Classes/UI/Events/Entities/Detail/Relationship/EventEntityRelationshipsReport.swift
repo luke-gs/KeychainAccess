@@ -34,11 +34,10 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
     public init(event: Event, entity: MPOLKitEntity) {
         entityUuid = entity.uuid
         super.init(event: event)
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
@@ -57,6 +56,7 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
         viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

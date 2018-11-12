@@ -61,11 +61,10 @@ public class PersonSearchReport: DefaultActionReportable {
 
     public override init(incident: Incident?, additionalAction: AdditionalAction) {
         super.init(incident: incident, additionalAction: additionalAction)
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasRequiredData) { [weak self] in
             guard let `self` = self else { return false }
             return self.detainedStart != nil && self.searchStart != nil
@@ -108,6 +107,7 @@ public class PersonSearchReport: DefaultActionReportable {
         searchType = try container.decodeIfPresent(String.self, forKey: .searchType)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

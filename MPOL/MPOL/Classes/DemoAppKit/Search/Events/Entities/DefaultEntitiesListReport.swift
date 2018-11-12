@@ -15,9 +15,7 @@ extension EvaluatorKey {
 
 public class DefaultEntitiesListReport: DefaultReportable {
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasEntity) { [weak self] in
             guard let `self` = self else { return false }
             guard let event = self.event else { return false }
@@ -30,5 +28,15 @@ public class DefaultEntitiesListReport: DefaultReportable {
             guard let incident = self.incident else { return false }
             return incident.actionsValid
         }
+    }
+
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
+        commonInit()
+    }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        commonInit()
     }
 }

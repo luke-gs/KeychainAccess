@@ -35,11 +35,10 @@ public class VehicleTowReport: DefaultActionReportable, MediaContainer {
 
     public override init(incident: Incident?, additionalAction: AdditionalAction) {
         super.init(incident: incident, additionalAction: additionalAction)
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasRequiredData) { [weak self] in
             guard let `self` = self else { return false }
             return self.location != nil
@@ -92,6 +91,7 @@ public class VehicleTowReport: DefaultActionReportable, MediaContainer {
         media = try container.decode([MediaAsset].self, forKey: .media)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

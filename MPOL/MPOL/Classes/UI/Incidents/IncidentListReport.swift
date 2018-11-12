@@ -47,16 +47,10 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     public override init(event: Event) {
         super.init(event: event)
+        commonInit()
     }
 
-    open override func configure(with event: Event) {
-        super.configure(with: event)
-
-        // Pass on the event to child incidents
-        for incident in incidents {
-            incident.weakEvent = Weak(event)
-        }
-
+    private func commonInit() {
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
@@ -66,6 +60,15 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
                 return result && incident.evaluator.isComplete
             })
             return self.incidents.count > 0 && eval
+        }
+    }
+
+    open override func configure(with event: Event) {
+        super.configure(with: event)
+
+        // Pass on the event to child incidents
+        for incident in incidents {
+            incident.weakEvent = Weak(event)
         }
     }
 
@@ -90,6 +93,7 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
         viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {
