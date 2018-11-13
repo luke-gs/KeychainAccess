@@ -114,7 +114,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         status = try container.decode(EventStatus.self, forKey: .status)
-        title = try container.decode(String.self, forKey: .title)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
         relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
 
         // Restore reports

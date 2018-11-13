@@ -145,7 +145,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 
         actions = try container.decode([AdditionalAction].self, forKey: .actions)
         incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
-        title = try container.decode(String.self, forKey: .title)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
         relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
