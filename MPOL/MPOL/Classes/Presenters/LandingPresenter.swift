@@ -283,6 +283,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
         let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
 
         let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
+        eventSplitViewController.loadingViewBuilder = LoadingViewBuilder<EventSubmissionResponse>()
+        eventSplitViewController.loadingViewBuilder?.request = {
+            return after(seconds: 2).then {
+                return Promise<EventSubmissionResponse>.value(EventSubmissionResponse(id: UUID().uuidString, eventNumber: 123))
+            }
+        }
+
         eventSplitViewController.delegate = self
 
         viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
