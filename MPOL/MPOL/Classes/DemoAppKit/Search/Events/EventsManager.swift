@@ -98,6 +98,7 @@ final public class EventsManager {
     }
 }
 
+// TODO: Remove this class and replace with EventListDisplayable
 private class EventDraftable: Draftable {
 
     private var displayable: EventListDisplayable
