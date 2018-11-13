@@ -12,10 +12,13 @@ import CoreKit
 /// encoded to/decoded from a database
 /// instead of inflating a whole event object
 /// just to show in the list
-open class EventListDisplayable: Codable {
+open class EventListDisplayable {
 
     /// A unique ID of the event
     open var id: String
+
+    /// The creation date of event
+    open var creationDate: Date
 
     /// The icon to display on the left of the cell
     open var iconKey: AssetManager.ImageKey?
@@ -36,6 +39,7 @@ open class EventListDisplayable: Codable {
     open var status: EventStatus
 
     public init(id: String,
+                creationDate: Date,
                 title: String? = nil,
                 subtitle: String? = nil,
                 accessoryTitle: String? = nil,
@@ -43,6 +47,7 @@ open class EventListDisplayable: Codable {
                 iconKey: AssetManager.ImageKey? = nil,
                 status: EventStatus = .draft) {
         self.id = id
+        self.creationDate = creationDate
         self.title = title
         self.subtitle = subtitle
         self.accessoryTitle = accessoryTitle
@@ -51,39 +56,6 @@ open class EventListDisplayable: Codable {
         self.iconKey = iconKey
     }
 
-    // MARK: - Codable
-
-    private enum CodingKeys: String, CodingKey {
-        case accessorySubtitle
-        case accessoryTitle
-        case iconKey
-        case id
-        case status
-        case subtitle
-        case title
-    }
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        accessorySubtitle = try container.decodeIfPresent(String.self, forKey: .accessorySubtitle)
-        accessoryTitle = try container.decodeIfPresent(String.self, forKey: .accessoryTitle)
-        iconKey = try container.decodeIfPresent(AssetManager.ImageKey.self, forKey: .iconKey)
-        id = try container.decode(String.self, forKey: .id)
-        status = try container.decode(EventStatus.self, forKey: .status)
-        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-    }
-
-    open func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(accessorySubtitle, forKey: CodingKeys.accessorySubtitle)
-        try container.encode(accessoryTitle, forKey: CodingKeys.accessoryTitle)
-        try container.encode(iconKey, forKey: CodingKeys.iconKey)
-        try container.encode(id, forKey: CodingKeys.id)
-        try container.encode(status, forKey: CodingKeys.status)
-        try container.encode(subtitle, forKey: CodingKeys.subtitle)
-        try container.encode(title, forKey: CodingKeys.title)
-    }
 }
 
 /// The view model definition for the event details for the OOTB product

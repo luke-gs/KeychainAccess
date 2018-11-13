@@ -7,9 +7,9 @@
 
 import Foundation
 import CoreKit
-/// Incident Displayable used to map against the OOTB
-/// Incident List UI
-open class IncidentListDisplayable: Codable {
+
+/// Incident Displayable used to map against the OOTB Incident List UI
+open class IncidentListDisplayable {
 
     /// A unique ID of the incident
     open var id: String
@@ -31,32 +31,6 @@ open class IncidentListDisplayable: Codable {
         self.title = title
         self.subtitle = subtitle
         self.iconKey = iconKey
-    }
-
-    // MARK: - Codable
-
-    private enum CodingKeys: String, CodingKey {
-        case iconKey
-        case id
-        case incidentId
-        case subtitle
-        case title
-    }
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        iconKey = try container.decodeIfPresent(AssetManager.ImageKey.self, forKey: .iconKey)
-        id = try container.decode(String.self, forKey: .id)
-        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-    }
-
-    open func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(iconKey, forKey: CodingKeys.iconKey)
-        try container.encode(id, forKey: CodingKeys.id)
-        try container.encode(subtitle, forKey: CodingKeys.subtitle)
-        try container.encode(title, forKey: CodingKeys.title)
     }
 }
 
