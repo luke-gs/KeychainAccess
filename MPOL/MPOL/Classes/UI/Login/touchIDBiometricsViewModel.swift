@@ -38,10 +38,10 @@ public class touchIDBiometricsViewModel: BiometricsViewModelable {
         return "Not Now"
     }
 
-    public var enableHandler: ()->()
-    public var dontEnableHandler: ()->()
+    public var enableHandler: ()->Void
+    public var dontEnableHandler: ()->Void
 
-    init(enableHandler: @escaping ()->(), dontEnableHandler: @escaping ()->()) {
+    init(enableHandler: @escaping ()->Void, dontEnableHandler: @escaping ()->Void) {
         self.enableHandler = enableHandler
         self.dontEnableHandler = dontEnableHandler
     }
