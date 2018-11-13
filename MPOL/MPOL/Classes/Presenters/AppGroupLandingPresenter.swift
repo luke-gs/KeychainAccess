@@ -399,11 +399,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
 extension AppGroupLandingPresenter: WhatsNewViewControllerDelegate {
 
-    open func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
-        UserSession.current.user?.lastWhatsNewShownVersion = whatsNewVersion.rawVersion
-    }
-
     open func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
+        UserSession.current.user?.lastWhatsNewShownVersion = whatsNewVersion.rawVersion
         self.updateInterfaceForUserSession(animated: true)
     }
 }
