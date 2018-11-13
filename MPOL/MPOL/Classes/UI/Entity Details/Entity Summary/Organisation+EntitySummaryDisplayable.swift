@@ -21,15 +21,15 @@ public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, Assoc
     }
 
     public var title: StringSizable? {
-        return organisation.summary
+        return organisation.summary.sizing(withNumberOfLines: 0)
     }
 
     public var detail1: StringSizable? {
-        return organisation.type
+        return organisation.type?.sizing(withNumberOfLines: 0)
     }
 
     public var detail2: StringSizable? {
-        return organisation.addresses?.first?.fullAddress
+        return organisation.addresses?.first?.fullAddress?.sizing(withNumberOfLines: 0)
     }
 
     public var association: String? {
