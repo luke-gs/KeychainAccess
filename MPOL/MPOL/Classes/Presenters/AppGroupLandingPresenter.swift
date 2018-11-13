@@ -121,27 +121,41 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             let usedVersion = SemanticVersion(user.highestUsedAppVersion)
             if usedVersion == nil || usedVersion! < appVersion {
                 user.highestUsedAppVersion = appVersion.rawVersion
-                user.lastWhatsNewShownVersion = nil
-                user.lastTermsAndConditionsVersionAccepted = nil
+                user.lastWhatsNewShownVersion = "0"
+                user.lastTermsAndConditionsVersionAccepted = "0"
             }
 
             if let acceptedVersion = SemanticVersion(user.lastTermsAndConditionsVersionAccepted), acceptedVersion >= termsAndConditionsVersion {
 
-                if  let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
-
-                    if let type = Settings.currentBiometryType, type != .none, !Settings.biometricsIsOn() {
-                        return .biometrics(type: type)
-                    } else {
-                        return .landing
-                    }
+                if let biometrics = biometricsScreen() {
+                    return biometrics
                 } else {
-                    return .whatsNew
+                    if  let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
+                        return .landing
+                    } else {
+                        return .whatsNew
+                    }
                 }
             } else {
                 return .termsAndConditions
             }
         }
         return .login
+    }
+
+    private func biometricsScreen() -> LandingScreen? {
+
+        // check that current device supports biometrics
+        let context = LAContext()
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else { return nil }
+        let type = context.biometryType
+        guard type != .none else { return nil }
+
+        // check that we haven't previously asked for biometrics
+        guard let useBiometricValue = UserSession.current.user?.appSettingValue(forKey: .useBiometric),
+            UseBiometric(rawValue: useBiometricValue) == .unknown else { return nil }
+
+        return .biometrics(type: type)
     }
 
     @discardableResult fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) -> UIViewController? {
@@ -327,24 +341,21 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     private func askForBiometricPermission(in controller: UIViewController, with context: LAContext) -> Promise<Void> {
         return Promise { seal in
-            var title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDTitle", comment: "Title of prompt asking the user whether they want to enable Touch ID.")
-            var message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDMessage", comment: "Disclaimer / terms of use for enabling Touch ID")
-            if #available(iOS 11.0.1, *) {
-                if context.biometryType == .faceID {
-                    title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDTitle", comment: "")
-                    message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDMessage", comment: "Disclaimer / terms of use for enabling Face ID")
-                }
-            }
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let action = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .default, handler: { _ in
-                seal.fulfill(())
-            })
-            let cancel = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .cancel, handler: { _ in
+
+            let type = context.biometryType
+            guard type != .none else {
                 seal.reject(PMKError.cancelled)
-            })
-            alertController.addAction(action)
-            alertController.addAction(cancel)
-            controller.present(alertController, animated: true)
+                return
+            }
+
+            let biometricsViewController: UIViewController
+
+            if type == .faceID {
+                biometricsViewController = BiometricsViewController(viewModel: faceIDBiometricsViewModel(enableHandler: { seal.fulfill(()) }, dontEnableHandler: { seal.reject(PMKError.cancelled) }))
+            } else {
+                biometricsViewController = BiometricsViewController(viewModel: touchIDBiometricsViewModel(enableHandler: { seal.fulfill(()) }, dontEnableHandler: { seal.reject(PMKError.cancelled) }))
+            }
+            controller.present(biometricsViewController, animated: true)
         }
     }
 
