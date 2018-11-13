@@ -2086,6 +2086,14 @@
 			path = Default;
 			sourceTree = "<group>";
 		};
+		206E72C8219B9359009BA587 /* Vehicle Edit */ = {
+			isa = PBXGroup;
+			children = (
+				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
+			);
+			path = "Vehicle Edit";
+			sourceTree = "<group>";
+		};
 		207651C921925C4000AF5844 /* User Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2414,9 +2422,9 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
+				206E72C8219B9359009BA587 /* Vehicle Edit */,
 				20E61AB32189365800B65F43 /* Person Edit */,
 				20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */,
-				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
 			path = "Entity Creation";
 			sourceTree = "<group>";
@@ -3353,8 +3361,6 @@
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				203F41122193F49A00BAB007 /* EventSearchableViewModel.swift in Sources */,
-				96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */,
-				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				203F41282193F49A00BAB007 /* EventsManager.swift in Sources */,
 				203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */,
 				96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */,
