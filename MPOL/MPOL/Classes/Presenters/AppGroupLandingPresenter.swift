@@ -371,39 +371,29 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     }
 
     open func didAcceptConditions(_ dialogAction: DialogAction) {
-        currentViewController?.dismiss(animated: true) { [weak self] in
-            guard let `self` = self else { return }
-
-            UserSession.current.user?.lastTermsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
-            self.updateInterfaceForUserSession(animated: true)
-        }
+        UserSession.current.user?.lastTermsAndConditionsVersionAccepted = self.termsAndConditionsVersion.rawVersion
+        self.updateInterfaceForUserSession(animated: true)
+        currentViewController?.dismiss(animated: true)
     }
 
     open func didDeclineConditions(_ dialogAction: DialogAction) {
-        currentViewController?.dismiss(animated: true) { [weak self] in
-            guard let `self` = self else { return }
-
-            UserSession.current.endSession()
-            self.updateInterfaceForUserSession(animated: true)
-        }
+        UserSession.current.endSession()
+        self.updateInterfaceForUserSession(animated: true)
+        currentViewController?.dismiss(animated: true)
     }
 
     open func didEnableBiometrics() {
-        currentViewController?.dismiss(animated: true) { [weak self] in
-            guard let `self` = self else { return }
+        UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
+        self.updateInterfaceForUserSession(animated: true)
 
-            UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
-            self.updateInterfaceForUserSession(animated: true)
-        }
+        currentViewController?.dismiss(animated: true)
     }
 
     open func didNotEnableBiometrics() {
-        currentViewController?.dismiss(animated: true) { [weak self] in
-            guard let `self` = self else { return }
+        UserSession.current.user?.setAppSettingValue(UseBiometric.asked.rawValue, forKey: .useBiometric)
+        self.updateInterfaceForUserSession(animated: true)
 
-            UserSession.current.user?.setAppSettingValue(UseBiometric.asked.rawValue, forKey: .useBiometric)
-            self.updateInterfaceForUserSession(animated: true)
-        }
+        currentViewController?.dismiss(animated: true)
     }
 }
 
