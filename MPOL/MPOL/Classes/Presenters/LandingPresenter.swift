@@ -167,32 +167,17 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
                 vc.present(eventCreationNavController, animated: true, completion: nil)
 
-                incidentSelectionViewController.didSelectIncident = { incidentType in
-                    guard let event = eventsManager.create(eventType: .blank) else { return }
-                    presentScreen(for: event, with: incidentType, from: vc)
+                incidentSelectionViewController.didSelectIncident = { [weak self] incidentType in
+                    guard let event = try! eventsManager.create(eventType: .blank) else { return }
+                    self?.presentEvent(event, with: incidentType, from: vc)
                 }
             }
 
-            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { vc, offset in
-                guard let event = eventsManager.event(at: offset) else { return }
-                presentScreen(for: event, from: vc)
-            }
-
-            func presentScreen(for event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
-                let screenBuilder = EventScreenBuilder()
-                let incidentsManager = IncidentsManager.managerWithPrepopulatedBuilders
-
-                if let incidentType = incidentType {
-                    _ = incidentsManager.create(incidentType: incidentType, in: event)
+            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { [weak self] vc, offset in
+                if let draftable = vc.viewModel.draftItem(for: offset) {
+                    guard let event = eventsManager.event(for: draftable.id) else { return }
+                    self?.presentEvent(event, from: vc)
                 }
-
-                screenBuilder.incidentsManager = incidentsManager
-
-                let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
-
-                let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
-
-                viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
             }
 
             let eventsListVC = EventListViewController(viewModel: EventDraftListViewModel(manager: eventsManager), didTapCreateHandler: didTapCreateHandler, didTapItemHandler: didTapItemHandler)
@@ -222,6 +207,38 @@ public class LandingPresenter: AppGroupLandingPresenter {
             return tabBarController
         }
     }
+
+    private func presentEvent(_ event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
+        let screenBuilder = EventScreenBuilder()
+
+        let incidentsManager = IncidentsManager(event: event)
+
+        for incidentType in IncidentType.allIncidentTypes() {
+            switch incidentType {
+            case .trafficInfringement:
+                incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
+            case .interceptReport:
+                incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
+            case .domesticViolence:
+                incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
+            default:
+                fatalError("No builder added for incident type \"\(incidentType.rawValue)\"")
+            }
+        }
+
+        if let incidentType = incidentType {
+            _ = incidentsManager.create(incidentType: incidentType, in: event)
+        }
+
+        screenBuilder.incidentsManager = incidentsManager
+
+        let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
+
+        let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
+
+        viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
+    }
+
     /// Custom post authentication logic that must be executed as part of authentication chain
     override open func postAuthenticateChain() -> Promise<Void> {
         return super.postAuthenticateChain().then {

@@ -88,24 +88,30 @@ final public class EventsManager {
     // MARK: - Draftable Items
 
     public var draftItems: [Draftable] {
-        return eventBucket.objects?.compactMap { EventDraftable(event: $0) } ?? []
+        return displayables.compactMap { EventDraftable(displayable: $0) }
     }
 
     public func deleteDraftItem(at index: Int) {
-        remove(at: index)
+        if let event = events[ifExists: index] {
+            try? remove(for: event.id)
+        }
     }
 }
 
-fileprivate class EventDraftable: Draftable {
+private class EventDraftable: Draftable {
 
-    private var event: Event
+    private var displayable: EventListDisplayable
 
     public var id: String {
-        return event.id
+        return displayable.id
     }
 
     public var title: String? {
-        return event.displayable?.title
+        return displayable.title
+    }
+
+    public var subtitle: String? {
+        return displayable.subtitle
     }
 
     public var detail: String? {
@@ -114,14 +120,7 @@ fileprivate class EventDraftable: Draftable {
         formatter.locale = .autoupdatingCurrent
         formatter.dateFormat = "dd/MM"
         let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
-        return customFormatter.string(from: event.creationDate)
-    }
-
-    public var subtitle: String? {
-        if let locationReport = event.reports.first(where: {$0 is DefaultLocationReport}) {
-            return ((locationReport as! DefaultLocationReport).eventLocation?.addressString ?? "Location Unknown")
-        }
-        return nil
+        return customFormatter.string(from: displayable.creationDate)
     }
 
     public var listIconImage: UIImage? {
@@ -142,11 +141,11 @@ fileprivate class EventDraftable: Draftable {
     }
 
     public var status: DraftableStatus {
-        return event.displayable?.status == .queued ? .queued : .draft
+        return displayable.status == .queued ? .queued : .draft
     }
 
-    init(event: Event) {
-        self.event = event
+    init(displayable: EventListDisplayable) {
+        self.displayable = displayable
     }
 
 }

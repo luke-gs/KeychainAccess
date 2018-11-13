@@ -25,10 +25,18 @@ public class EventBuilder: EventBuilding {
     }
 
     public func displayable(for event: Event) -> EventListDisplayable {
+
+        // Use location of event as subtitle
+        var subtitle: String?
+        if let locationReport = event.reports.compactMap({ $0 as? DefaultLocationReport }).first {
+            subtitle = locationReport.eventLocation?.addressString ?? "Location Unknown"
+        }
+
         return EventListDisplayable(
             id: event.id,
+            creationDate: event.creationDate,
             title: event.title,
-            subtitle: "IN PROGRESS", // ??
+            subtitle: subtitle,
             accessoryTitle: "",
             accessorySubtitle: "",
             iconKey: AssetManager.ImageKey.event)
