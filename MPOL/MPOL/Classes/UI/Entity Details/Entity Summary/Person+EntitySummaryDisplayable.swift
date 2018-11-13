@@ -26,7 +26,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public var detail1: StringSizable? {
-        return formattedPersonStatus()?.sizing(withNumberOfLines: 0)
+        return formattedPersonStatus()?.sizing(defaultNumberOfLines: 0)
     }
 
     public var detail2: StringSizable? {
