@@ -28,7 +28,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                 .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
                 .title(StringSizing(string: "Incident Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
-                .navigatable(location, presentationContext: context)
+                .addressNavigatable(location, presentationContext: context)
                 .width(.column(1))
 
             taskDetailsOverviewItems.append(addressItem)
