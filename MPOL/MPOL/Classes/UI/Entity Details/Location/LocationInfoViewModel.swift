@@ -44,7 +44,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         }
 
         let addressFormItem = AddressFormItem()
-            .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+            .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
             .title(StringSizing(string: "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .addressNavigatable(location, presentationContext: viewController)

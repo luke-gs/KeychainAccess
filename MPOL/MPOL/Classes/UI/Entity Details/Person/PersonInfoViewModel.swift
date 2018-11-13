@@ -147,7 +147,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 }()
 
                 builder += AddressFormItem()
-                    .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+                    .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                     .title(StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                     .subtitle(StringSizing(string: address.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                     .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .subheadline)))

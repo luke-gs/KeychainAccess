@@ -29,7 +29,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
         if let location = broadcast.location, let context = delegate as? UIViewController {
             let locationItem = AddressFormItem()
-                .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+                .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(StringSizing(string: "Broadcast Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .addressNavigatable(location, presentationContext: context)

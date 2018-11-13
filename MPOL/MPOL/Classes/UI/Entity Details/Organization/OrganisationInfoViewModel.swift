@@ -96,7 +96,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         return [
             AddressFormItem()
-                .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
+                .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(title)
                 .subtitle(address.fullAddress)
                 .addressNavigatable(address, presentationContext: viewController)
