@@ -106,9 +106,9 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             let lon = viewModel.report.eventLocation?.longitude
             else { return }
 
-        let span = MKCoordinateSpanMake(0.005, 0.005)
+        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        let region = MKCoordinateRegionMake(coord, span)
+        let region = MKCoordinateRegion(center: coord, span: span)
 
         mapView?.setRegion(region, animated: true)
     }
@@ -135,8 +135,8 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
     }
 
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        let span = MKCoordinateSpanMake(0.005, 0.005)
-        let region = MKCoordinateRegionMake(userLocation.coordinate, span)
+        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
         mapView.setRegion(region, animated: true)
     }
 }

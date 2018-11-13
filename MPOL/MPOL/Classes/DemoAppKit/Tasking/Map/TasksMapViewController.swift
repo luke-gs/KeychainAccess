@@ -164,16 +164,16 @@ open class TasksMapViewController: MapViewController {
 
             let annotations = viewModel.shouldCluster() ? clusterManager.annotations : mapView.annotations
 
-            var zoomRect = MKMapRectNull
+            var zoomRect = MKMapRect.null
             for annotation in annotations {
                 if annotation is MKUserLocation && !annotationsInitialLoadZoomStyle.includeUserLocation { continue }
-                let annotationPoint = MKMapPointForCoordinate(annotation.coordinate)
-                let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1)
-                zoomRect = MKMapRectUnion(zoomRect, pointRect)
+                let annotationPoint = MKMapPoint(annotation.coordinate)
+                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.1, height: 0.1)
+                zoomRect = zoomRect.union(pointRect)
             }
 
             // Inset the map rect to make a buffer around the annotations (more horizontal for labels on map items)
-            zoomRect = MKMapRectInset(zoomRect, -zoomRect.size.width * 0.2, -zoomRect.size.height * 0.1)
+            zoomRect.insetBy(dx: -zoomRect.size.width * 0.2, dy: -zoomRect.size.height * 0.1)
 
             // Dispatch the actual zooming as the map can't handle zoom while loading :(
             DispatchQueue.main.async {

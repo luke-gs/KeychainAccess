@@ -18,6 +18,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
     // MARK: - Properties
 
+    /// The creation date of event
+    public let creationDate: Date
+
     /// The title to display for the event
     public var title: String?
 
@@ -45,6 +48,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: - Init
 
     public init() {
+        creationDate = Date()
         super.init(id: UUID().uuidString)
         commonInit()
     }
@@ -103,6 +107,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
         case reports
         case status
         case title
+        case creationDate
     }
 
     public required init(from decoder: Decoder) throws {
@@ -114,6 +119,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
 
         // Restore reports
         let anyReports = try container.decode([AnyEventReportable].self, forKey: .reports)
+        creationDate = try container.decode(Date.self, forKey: .creationDate)
         reports = anyReports.map { $0.report }
 
         // Restore entity bucket
@@ -142,5 +148,6 @@ public class Event: IdentifiableDataModel, Evaluatable {
         try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(wrappedEntities, forKey: CodingKeys.entities)
         try container.encode(anyReports, forKey: CodingKeys.reports)
+        try container.encode(creationDate, forKey: CodingKeys.creationDate)
     }
 }
