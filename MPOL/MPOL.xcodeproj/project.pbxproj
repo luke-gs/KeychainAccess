@@ -3340,8 +3340,6 @@
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				203F41122193F49A00BAB007 /* EventSearchableViewModel.swift in Sources */,
-				96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */,
-				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				203F41282193F49A00BAB007 /* EventsManager.swift in Sources */,
 				203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */,
 				96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */,
