@@ -10,8 +10,12 @@ import PublicSafetyKit
 
 public class touchIDBiometricsViewModel: BiometricsViewModelable {
 
-    public var image: UIImage? {
-        return UIImage(named: "touchID")
+    public func image(for style: UserInterfaceStyle) -> UIImage? {
+        if style.isDark {
+            return UIImage(named: "touchID-Dark")
+        } else {
+            return UIImage(named: "touchID-Light")
+        }
     }
 
     public var title: StringSizable? {
