@@ -94,7 +94,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                 builder += summaryListFormItem
                 return
             }
-            
+
             builder += summaryListFormItem.editActions([
                 CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }

@@ -111,7 +111,6 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
 
             builder += suburbItem
 
-
             if let stateOptions = viewModel.stateOptions {
                 builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))
                     .options(stateOptions)
