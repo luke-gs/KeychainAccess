@@ -19,10 +19,10 @@ public class LocationSelectionConfirmationViewModel {
     public var streetName: String?
     public var postcode: String?
     public var remarks: String?
+    public var suburb: String?
 
     // DropDown value
     public var streetType: AnyPickable?
-    public var suburb: AnyPickable?
     public var state: AnyPickable?
 
     // The location type, workflow specific
@@ -33,7 +33,6 @@ public class LocationSelectionConfirmationViewModel {
 
     // DropDown options
     public var streetTypeOptions: [AnyPickable]?
-    public var suburbOptions: [AnyPickable]?
     public var stateOptions: [AnyPickable]?
 
     // Whether the address fields are user editable
@@ -53,9 +52,10 @@ public class LocationSelectionConfirmationViewModel {
                 self.streetNumber = placemark.subThoroughfare
                 self.streetName = placemark.thoroughfare
                 self.postcode = placemark.postalCode
+                self.suburb = placemark.subLocality
+
                 // TODO: set picker items from text strings
                 // self.streetType = streetType
-                // self.suburb = placemark.subLocality
                 // self.state = placemark.region
             }
 

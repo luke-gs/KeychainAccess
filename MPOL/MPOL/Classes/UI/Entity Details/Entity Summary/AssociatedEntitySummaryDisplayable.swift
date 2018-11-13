@@ -6,7 +6,6 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 
 public protocol AssociatedEntitySummaryDisplayable: EntitySummaryDisplayable {
     var association: String? { get }

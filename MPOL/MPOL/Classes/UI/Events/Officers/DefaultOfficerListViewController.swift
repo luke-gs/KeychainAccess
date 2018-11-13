@@ -8,7 +8,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 extension EvaluatorKey {
     static let officers = EvaluatorKey(rawValue: "officerList")
@@ -70,7 +69,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in
-            builder += SummaryListFormItem()
+            let summaryListFormItem = SummaryListFormItem()
                 .title(displayable.title)
                 .subtitle(displayable.detail1)
                 .detail(displayable.detail2)
@@ -88,13 +87,22 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     guard let `self` = self else { return }
                     let officer = displayable.officer
                     self.viewModel.delegate?.didSelectOfficer(officer: officer)
-                }
-                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
+            }
+
+            // Only add deletion action if the officer is not the user and there is more than one officer.
+            guard (viewModel.officerDisplayables.count > 1 && displayable.officer != UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey)) else {
+                builder += summaryListFormItem
+                return
+            }
+            
+            builder += summaryListFormItem.editActions([
+                CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.removeOfficer(at: indexPath)
                     self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()
-                })])
+                })]
+            )
         }
     }
 
@@ -107,9 +115,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
         let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
-                                                            selectedObjects: officer.involvements,
-                                                            title: "Involvements",
-                                                            configuration: headerConfig)
+                                                         selectedObjects: officer.involvements,
+                                                         title: "Involvements",
+                                                         configuration: headerConfig)
         dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))

@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 public class TrafficInfringementIncidentBuilder: IncidentBuilding {
 
@@ -21,7 +20,7 @@ public class TrafficInfringementIncidentBuilder: IncidentBuilding {
 
         let displayable = IncidentListDisplayable(title: type.rawValue,
                                                   subtitle: "Not yet Started",
-                                                  icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.event))
+                                                  iconKey: AssetManager.ImageKey.event)
         displayable.incidentId = incident.id
         return (incident: incident, displayable: displayable)
     }

@@ -6,27 +6,26 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 import Foundation
 
 fileprivate extension EvaluatorKey {
     static let valid = EvaluatorKey("valid")
 }
 
-public class EventEntitiesListReport: EventReportable, Evaluatable {
-    public let weakEvent: Weak<Event>
+public class EventEntitiesListReport: DefaultEventReportable {
 
-    public let evaluator: Evaluator = Evaluator()
     public var entityDetailReports: [EventEntityDetailReport] = [EventEntityDetailReport]() {
         didSet {
             evaluator.updateEvaluation(for: .valid)
         }
     }
 
-    public init(event: Event) {
-        self.weakEvent = Weak(event)
+    public override init(event: Event) {
+        super.init(event: event)
+    }
 
-        evaluator.addObserver(event)
+    public override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.valid) { [weak self] in
             guard let `self` = self else { return false }
@@ -37,13 +36,24 @@ public class EventEntitiesListReport: EventReportable, Evaluatable {
         }
     }
 
-    // MARK: Coding
-    public static var supportsSecureCoding: Bool { return true }
-    public func encode(with aCoder: NSCoder) {}
+    // MARK: - Codable
 
-    public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
-
-    // MARK: Eval
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+    private enum CodingKeys: String, CodingKey {
+        case entityDetailReports
     }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        entityDetailReports = try container.decode([EventEntityDetailReport].self, forKey: .entityDetailReports)
+
+        try super.init(from: decoder)
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(entityDetailReports, forKey: CodingKeys.entityDetailReports)
+    }
+
 }

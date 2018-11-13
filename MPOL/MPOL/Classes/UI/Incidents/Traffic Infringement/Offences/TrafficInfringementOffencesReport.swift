@@ -7,19 +7,12 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 fileprivate extension EvaluatorKey {
     static let hasOffence = EvaluatorKey("hasOffence")
 }
 
-class TrafficInfringementOffencesReport: Reportable {
-
-    let weakEvent: Weak<Event>
-    let weakIncident: Weak<Incident>
-
-    weak var event: Event?
-    weak var incident: Incident?
+class TrafficInfringementOffencesReport: DefaultReportable {
 
     var offences: [Offence] = [] {
         didSet {
@@ -27,18 +20,12 @@ class TrafficInfringementOffencesReport: Reportable {
         }
     }
 
-    let evaluator: Evaluator = Evaluator()
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
+    }
 
-    init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
-
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+    override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.hasOffence) { [weak self] in
             guard let `self` = self else { return false }
@@ -46,24 +33,26 @@ class TrafficInfringementOffencesReport: Reportable {
         }
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
+    // MARK: - Codable
 
-    // MARK: CODING
-    private enum Coding: String {
-        case event
-        case incident
+    private enum CodingKeys: String, CodingKey {
+        case offences
     }
 
-    public static var supportsSecureCoding: Bool = true
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        offences = try container.decode([Offence].self, forKey: .offences)
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+        try super.init(from: decoder)
     }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(offences, forKey: CodingKeys.offences)
     }
+
 }
 
 extension TrafficInfringementOffencesReport: Summarisable {

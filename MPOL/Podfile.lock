@@ -1,48 +1,46 @@
 PODS:
-  - Alamofire (4.5.1)
-  - Cache (4.1.2)
-  - Cluster (2.3.0)
+  - Alamofire (4.7.3)
+  - Cache (5.2.0)
+  - Cluster (2.4.0)
   - CoreKit (0.0.1):
-    - Alamofire (= 4.5.1)
-    - Cache (~> 4.1.2)
-    - KeychainAccess (~> 3.1.1)
-    - PromiseKit (~> 6.0)
+    - Alamofire (~> 4.7)
+    - Cache (~> 5.2)
+    - KeychainAccess (~> 3.1)
+    - PromiseKit (~> 6.5)
     - PromiseKit/CoreLocation
-    - Unbox (= 2.5.0)
+    - Unbox (~> 3.0)
   - CoreKitAppExtension (0.0.1):
-    - KeychainAccess (~> 3.1.1)
-  - DemoAppKit (0.0.1):
-    - PublicSafetyKit
-  - Firebase/Core (5.10.0):
+    - KeychainAccess (~> 3.1)
+  - Firebase/Core (5.12.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.2.0)
-  - Firebase/CoreOnly (5.10.0):
-    - FirebaseCore (= 5.1.5)
-  - Firebase/MLVision (5.10.0):
+    - FirebaseAnalytics (= 5.3.0)
+  - Firebase/CoreOnly (5.12.0):
+    - FirebaseCore (= 5.1.7)
+  - Firebase/MLVision (5.12.0):
     - Firebase/CoreOnly
-    - FirebaseMLVision (= 0.12.0)
-  - Firebase/MLVisionTextModel (5.10.0):
+    - FirebaseMLVision (= 0.12.1)
+  - Firebase/MLVisionTextModel (5.12.0):
     - Firebase/CoreOnly
     - FirebaseMLVisionTextModel (= 0.12.0)
-  - FirebaseAnalytics (5.2.0):
+  - FirebaseAnalytics (5.3.0):
     - FirebaseCore (~> 5.1)
-    - FirebaseInstanceID (~> 3.2)
-    - GoogleAppMeasurement (~> 5.2)
+    - FirebaseInstanceID (~> 3.3)
+    - GoogleAppMeasurement (~> 5.3)
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseCore (5.1.5):
+  - FirebaseCore (5.1.7):
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseInstanceID (3.2.2):
+  - FirebaseInstanceID (3.3.0):
     - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
-  - FirebaseMLCommon (0.12.0):
-    - FirebaseCore (= 5.1.5)
-  - FirebaseMLVision (0.12.0):
-    - FirebaseCore (= 5.1.5)
+  - FirebaseMLCommon (0.12.1):
+    - FirebaseCore (~> 5.1)
+  - FirebaseMLVision (0.12.1):
+    - FirebaseCore (~> 5.1)
     - FirebaseMLCommon (~> 0.12)
     - GoogleAPIClientForREST/Core (~> 1.3)
     - GoogleAPIClientForREST/Vision (~> 1.3)
@@ -54,7 +52,7 @@ PODS:
   - GoogleAPIClientForREST/Vision (1.3.6):
     - GoogleAPIClientForREST/Core
     - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAppMeasurement (5.2.0):
+  - GoogleAppMeasurement (5.3.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
@@ -72,23 +70,23 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
-  - GoogleUtilities/AppDelegateSwizzler (5.3.2):
+  - GoogleUtilities/AppDelegateSwizzler (5.3.4):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.3.2)
-  - GoogleUtilities/Logger (5.3.2):
+  - GoogleUtilities/Environment (5.3.4)
+  - GoogleUtilities/Logger (5.3.4):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.3.2):
+  - GoogleUtilities/MethodSwizzler (5.3.4):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.3.2):
+  - GoogleUtilities/Network (5.3.4):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.3.2)"
-  - GoogleUtilities/Reachability (5.3.2):
+  - "GoogleUtilities/NSData+zlib (5.3.4)"
+  - GoogleUtilities/Reachability (5.3.4):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.3.2):
+  - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher (1.2.0):
     - GTMSessionFetcher/Full (= 1.2.0)
@@ -111,16 +109,16 @@ PODS:
   - HyperioniOS/SlowAnimations (1.0.2):
     - HyperioniOS/Core
   - KeychainAccess (3.1.2)
-  - lottie-ios (2.1.3)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
+  - lottie-ios (2.5.2)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
   - PatternKit (0.0.1):
-    - Cluster (= 2.3.0)
+    - Cluster (~> 2.4)
     - CoreKit
-    - lottie-ios (= 2.1.3)
+    - lottie-ios (~> 2.5)
     - SketchKit
   - Porcupine-iOS (2.1)
   - PromiseKit (6.5.2):
@@ -137,10 +135,10 @@ PODS:
   - Protobuf (3.6.1)
   - PublicSafetyKit (0.0.1):
     - PatternKit
-    - Wrap (= 2.1.1)
+    - Wrap (~> 3.0)
   - SketchKit (0.0.1):
     - CoreKit
-  - Unbox (2.5.0)
+  - Unbox (3.0.0)
   - VoiceSearchManager (2.1):
     - Porcupine-iOS (~> 2.0)
     - VoiceSearchManager/Core (= 2.1)
@@ -149,12 +147,11 @@ PODS:
   - VoiceSearchManager/VehicleRegistrationTransformer (2.1):
     - Porcupine-iOS (~> 2.0)
     - VoiceSearchManager/Core
-  - Wrap (2.1.1)
+  - Wrap (3.0.0)
 
 DEPENDENCIES:
   - CoreKit (from `../../mPolKit-iOS`)
   - CoreKitAppExtension (from `../../mPolKit-iOS`)
-  - DemoAppKit (from `..`)
   - Firebase/Core
   - Firebase/MLVision
   - Firebase/MLVisionTextModel
@@ -203,8 +200,6 @@ EXTERNAL SOURCES:
     :path: "../../mPolKit-iOS"
   CoreKitAppExtension:
     :path: "../../mPolKit-iOS"
-  DemoAppKit:
-    :path: ".."
   PatternKit:
     :path: "../../mPolKit-iOS"
   PublicSafetyKit:
@@ -213,40 +208,39 @@ EXTERNAL SOURCES:
     :path: "../../mPolKit-iOS"
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
-  Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
-  Cluster: 23f4cd9721dd4564d317b257e439870760954f1e
-  CoreKit: 039f9924542196bb29cf5f8e32f195d881c53008
-  CoreKitAppExtension: c24f3ac21c6992dda5bc2c0bcebf805ff4692b9b
-  DemoAppKit: 1841b22c37a264b736feec665a0a7c872f08bccf
-  Firebase: 6691d47562a780c26281ce8464518faafc90c610
-  FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
-  FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
-  FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
-  FirebaseMLCommon: ca1a9b1e157d38c915b1862da6dd69cf87b30d92
-  FirebaseMLVision: 0387fde95d33720be50572dc86f0f21b55be2010
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
+  Cluster: ea2d5e7b258ecd65af5aefc6c37ad94798213a42
+  CoreKit: c2db6e3d01ec2500b9987ac0d3b9841e9d84f249
+  CoreKitAppExtension: 76fd7632b17605887ffb06444376b0ccfb97525b
+  Firebase: 9190018e296139d938b99521cde0c15a6e8d2946
+  FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
+  FirebaseCore: 027d350adc039aa5483357c6f56556f117c5170e
+  FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
+  FirebaseMLCommon: 5fb0152dc0e4de69f86ec37e813fb2555566ebbd
+  FirebaseMLVision: 7e9a7f2f81117be2796196f3901c36ad893366b1
   FirebaseMLVisionTextModel: 97af06fa88b45cabbe39f04d2c825b9d7001cd66
   GoogleAPIClientForREST: 5b95b38a0fa912e8ac7bdcf9e124578ef1a61bf2
-  GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
+  GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleMobileVision: bedef12c0924e948fc09b8f1b38c5fe1a3594b6f
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  GoogleUtilities: 82f04aeff8426309dbdbc75f6c8accd1e584a5da
+  GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   HyperioniOS: 2397937925b2d57ec28182ac979879b0da2658ee
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
-  lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  PatternKit: 38d0bd0d2513fbc5034e0e5226c553b2b76ad620
+  lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  PatternKit: 334c56df06cfe91ed91536e72650cc0978d29c2b
   Porcupine-iOS: 079dea06a21df96a5a2526fd0e116c516b6e1b52
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  PublicSafetyKit: 967606499381dd00db923b1d645e7479e15cf46a
+  PublicSafetyKit: 985ec04a20f3949856c97cee0b913f52de9921f6
   SketchKit: 3052eaa99de9f18385fee642d0a39478ff564dfd
-  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+  Unbox: 9ed33b2a31f7a8a049f54b94d40c4a52a28c4d9d
   VoiceSearchManager: 8e07525f4bc0ebeb57a17e9354a01cfbafebc470
-  Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
+  Wrap: 918fdb5157e4f701f9503b2633752d6f94616f84
 
-PODFILE CHECKSUM: 379b7afc2d9ab0e203409a222acf0d8d55338ced
+PODFILE CHECKSUM: c57b83bac145d7ac2d40a6cf31add9b40dba49bd
 
 COCOAPODS: 1.5.3

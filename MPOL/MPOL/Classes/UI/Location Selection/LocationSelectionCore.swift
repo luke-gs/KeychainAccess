@@ -7,7 +7,6 @@
 
 import MapKit
 import PublicSafetyKit
-import DemoAppKit
 import Contacts
 
 /// Demo app implementation for a location selection

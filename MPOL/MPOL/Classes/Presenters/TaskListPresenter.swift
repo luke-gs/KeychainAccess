@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import DemoAppKit
 import PromiseKit
+import PatternKit
 
 public class TaskListPresenter: Presenter {
 

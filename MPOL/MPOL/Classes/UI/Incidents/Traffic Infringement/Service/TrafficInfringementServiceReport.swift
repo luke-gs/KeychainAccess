@@ -7,17 +7,12 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 fileprivate extension EvaluatorKey {
     static let hasContactDetails = EvaluatorKey("hasContactDetails")
 }
 
-class TrafficInfringementServiceReport: Reportable {
-    let weakEvent: Weak<Event>
-    let weakIncident: Weak<Incident>
-
-    let evaluator: Evaluator = Evaluator()
+class TrafficInfringementServiceReport: DefaultReportable {
 
     open var selectedServiceType: ServiceType?
     open var selectedEmail: String?
@@ -30,41 +25,50 @@ class TrafficInfringementServiceReport: Reportable {
         }
     }
 
-    init(event: Event, incident: Incident) {
-        self.weakEvent = Weak(event)
-        self.weakIncident = Weak(incident)
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
+    }
 
-        if let event = self.event {
-            evaluator.addObserver(event)
-        }
-        if let incident = self.incident {
-            evaluator.addObserver(incident)
-        }
+    override func configure(with event: Event) {
+        super.configure(with: event)
 
         evaluator.registerKey(.hasContactDetails) { [weak self] in
             return self?.hasContactDetails ?? false
         }
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
+    // MARK: - Codable
 
-    // MARK: CODING
-
-    private enum Coding: String {
-        case event
-        case incident
+    private enum CodingKeys: String, CodingKey {
+        case selectedServiceType
+        case selectedEmail
+        case selectedMobile
+        case selectedAddress
+        case hasContactDetails
     }
 
-    public static var supportsSecureCoding: Bool = true
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        selectedServiceType = try container.decodeIfPresent(ServiceType.self, forKey: .selectedServiceType)
+        selectedEmail = try container.decodeIfPresent(String.self, forKey: .selectedEmail)
+        selectedMobile = try container.decodeIfPresent(String.self, forKey: .selectedMobile)
+        selectedAddress = try container.decodeIfPresent(String.self, forKey: .selectedAddress)
+        hasContactDetails = try container.decode(Bool.self, forKey: .hasContactDetails)
 
-    public required init?(coder aDecoder: NSCoder) {
-        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
-        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+        try super.init(from: decoder)
     }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
-        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(selectedServiceType, forKey: CodingKeys.selectedServiceType)
+        try container.encode(selectedEmail, forKey: CodingKeys.selectedEmail)
+        try container.encode(selectedMobile, forKey: CodingKeys.selectedMobile)
+        try container.encode(selectedAddress, forKey: CodingKeys.selectedAddress)
+        try container.encode(hasContactDetails, forKey: CodingKeys.hasContactDetails)
     }
+
 }
 
 extension TrafficInfringementServiceReport: Summarisable {

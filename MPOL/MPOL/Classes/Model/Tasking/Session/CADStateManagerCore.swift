@@ -8,10 +8,11 @@
 
 import UIKit
 import PromiseKit
-import DemoAppKit
-
+import PublicSafetyKit
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerBase {
+    /// Default Patrol Group when a new user logins
+    public static let DefaultPatrolGroup = "Collingwood"
 
     public override init(apiManager: CADAPIManagerType) {
         super.init(apiManager: apiManager)
@@ -41,7 +42,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
 
         // Default patrol group for demo data
-        patrolGroup = "Collingwood"
+        patrolGroup = CADStateManagerCore.DefaultPatrolGroup
     }
 
     private var _officerDetails: CADOfficerType?
@@ -347,5 +348,7 @@ open class CADStateManagerCore: CADStateManagerBase {
     @objc open override func clearSession() {
         super.clearSession()
         self._officerDetails = nil
+        // Default patrol group for demo data
+        self.patrolGroup = CADStateManagerCore.DefaultPatrolGroup
     }
 }

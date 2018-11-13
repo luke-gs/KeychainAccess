@@ -6,7 +6,6 @@
 //
 
 import PublicSafetyKit
-import DemoAppKit
 
 extension DefaultEntitiesListReport: Summarisable {
 

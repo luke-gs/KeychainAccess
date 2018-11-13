@@ -8,7 +8,6 @@
 
 import Foundation
 import PublicSafetyKit
-import DemoAppKit
 import PromiseKit
 
 public enum Screen {
@@ -167,12 +166,49 @@ public class LandingPresenter: AppGroupLandingPresenter {
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
-            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: eventsManager))
 
-            eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+            let didTapCreateHandler: ((EventListViewController) -> Void) = { vc in
+                let incidentSelectionViewController = IncidentSelectViewController()
+                let eventCreationNavController = PopoverNavigationController(rootViewController: incidentSelectionViewController)
+                eventCreationNavController.wantsTransparentBackground = false
+                eventCreationNavController.modalPresentationStyle = .formSheet
+
+                vc.present(eventCreationNavController, animated: true, completion: nil)
+
+                incidentSelectionViewController.didSelectIncident = { incidentType in
+                    guard let event = eventsManager.create(eventType: .blank) else { return }
+                    presentScreen(for: event, with: incidentType, from: vc)
+                }
+            }
+
+            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { vc, offset in
+                guard let event = eventsManager.event(at: offset) else { return }
+                presentScreen(for: event, from: vc)
+            }
+
+            func presentScreen(for event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
+                let screenBuilder = EventScreenBuilder()
+                let incidentsManager = IncidentsManager.managerWithPrepopulatedBuilders
+
+                if let incidentType = incidentType {
+                    _ = incidentsManager.create(incidentType: incidentType, in: event)
+                }
+
+                screenBuilder.incidentsManager = incidentsManager
+
+                let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
+
+                let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
+
+                viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
+            }
+
+            let eventsListVC = EventListViewController(viewModel: EventDraftListViewModel(manager: eventsManager), didTapCreateHandler: didTapCreateHandler, didTapItemHandler: didTapItemHandler)
+
+            eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
-            let eventListNavController = UINavigationController(rootViewController: eventListVC)
+            let eventListNavController = UINavigationController(rootViewController: eventsListVC)
 
             let bookOnViewController = self.bookOnViewController
             let taskingViewController = self.taskingViewController

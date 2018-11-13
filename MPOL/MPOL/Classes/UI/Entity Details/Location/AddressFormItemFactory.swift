@@ -8,7 +8,6 @@
 import UIKit
 import PromiseKit
 import PublicSafetyKit
-import DemoAppKit
 
 public struct AddressFormItemFactory {
 

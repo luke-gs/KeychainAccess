@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 private enum FilterItem: Int {
     case suburbFilter
@@ -104,8 +103,8 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
     private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. Orion Central Bank", comment: ""),
                                                        attributes: [
-                                                        NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
-                                                        NSAttributedStringKey.foregroundColor: UIColor.lightGray
+                                                        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
+                                                        NSAttributedString.Key.foregroundColor: UIColor.lightGray
         ])
 
     private var text: String? {

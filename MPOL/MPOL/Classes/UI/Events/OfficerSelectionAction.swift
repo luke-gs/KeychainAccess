@@ -7,7 +7,6 @@
 
 import UIKit
 import PublicSafetyKit
-import DemoAppKit
 
 class OfficerSelectionAction: ValueSelectionAction<Officer> {
 
