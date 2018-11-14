@@ -166,7 +166,10 @@ public class PersonEditViewController: FormBuilderViewController {
 
         // Contact Section
 
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
+        let contactHeaderText = finalPerson.contacts?.count != nil && finalPerson.contacts?.count != 0
+            ? String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalPerson.contacts!.count)
+            : NSLocalizedString("Contact Details", comment: "header when no contacts exist")
+        builder += LargeTextHeaderFormItem(text: contactHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createEntityContactDetail(contact: nil,
@@ -208,8 +211,10 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         // Alias Section
-
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
+        let aliasHeaderText = finalPerson.aliases?.count != nil && finalPerson.aliases?.count != 0
+            ? String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalPerson.aliases!.count)
+            : NSLocalizedString("Aliases", comment: "header when no aliases exist")
+        builder += LargeTextHeaderFormItem(text: aliasHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createEntityAliasDetail(alias: nil,
@@ -258,8 +263,10 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         // Address Section
-
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
+        let addressHeaderText = locations?.count != nil && locations?.count != 0
+            ? String.localizedStringWithFormat(NSLocalizedString("Addresses (%d)", comment: "header when addresses exist"), locations!.count)
+            : NSLocalizedString("Addresses", comment: "header when no addresses exist")
+        builder += LargeTextHeaderFormItem(text: addressHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.personEditWorkflowId, nil, completionHandler: { [unowned self] location in
                     guard let location = location as? LocationSelectionCore else { return }
