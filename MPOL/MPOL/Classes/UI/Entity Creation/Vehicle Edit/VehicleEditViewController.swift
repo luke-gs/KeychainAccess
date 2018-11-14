@@ -111,7 +111,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Fuel Type", comment: "Title"))
-            .onValueChanged { _ = $0 }
+            .onValueChanged { self.finalVehicle.fuelType = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
@@ -138,12 +138,12 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Gross Vehicle Mass", comment: "Title"))
-            .onValueChanged { _ = $0 }
+            .onValueChanged { self.finalVehicle.grossVehicleMass = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("TARE", comment: "Title"))
-            .onValueChanged { _ = $0 }
+            .onValueChanged { self.finalVehicle.tare = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()

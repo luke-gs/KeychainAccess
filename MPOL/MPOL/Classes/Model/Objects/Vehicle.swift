@@ -62,6 +62,10 @@ open class Vehicle: Entity {
     public var weight: Int?
     public var wheels: Int?
     public var year: String?
+    public var tare: String?
+    public var grossVehicleMass: String?
+    public var fuelType: String?
+
 
     // MARK: - Calculated
 
@@ -115,6 +119,11 @@ open class Vehicle: Entity {
         vehicleDescription = unboxer.unbox(key: "description")
         remarks = unboxer.unbox(key: "remarks")
         isPlate = unboxer.unbox(key: "isPlate")
+
+        tare = unboxer.unbox(key: "tare")
+        grossVehicleMass = unboxer.unbox(key: "grossVehicleMass")
+        fuelType = unboxer.unbox(key: "fuelType")
+
     }
 
     // MARK: - Codable
@@ -154,6 +163,9 @@ open class Vehicle: Entity {
         case weight
         case wheels
         case year
+        case tare
+        case grossVehicleMass
+        case fuelType
     }
 
     public required init(from decoder: Decoder) throws {
@@ -195,6 +207,10 @@ open class Vehicle: Entity {
         weight = try container.decodeIfPresent(Int.self, forKey: .weight)
         wheels = try container.decodeIfPresent(Int.self, forKey: .wheels)
         year = try container.decodeIfPresent(String.self, forKey: .year)
+
+        tare = try container.decodeIfPresent(String.self, forKey: .tare)
+        grossVehicleMass = try container.decodeIfPresent(String.self, forKey: .grossVehicleMass)
+        fuelType = try container.decodeIfPresent(String.self, forKey: .fuelType)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -235,6 +251,9 @@ open class Vehicle: Entity {
         try container.encode(weight, forKey: CodingKeys.weight)
         try container.encode(wheels, forKey: CodingKeys.wheels)
         try container.encode(year, forKey: CodingKeys.year)
+        try container.encode(tare, forKey: CodingKeys.tare)
+        try container.encode(grossVehicleMass, forKey: CodingKeys.grossVehicleMass)
+        try container.encode(fuelType, forKey: CodingKeys.fuelType)
     }
 
 }
