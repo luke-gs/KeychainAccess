@@ -13,6 +13,8 @@ public class OrganisationEditViewController: FormBuilderViewController {
 
     private var finalOrganisation = Organisation(id: UUID().uuidString)
 
+    private var location: LocationSelectionType?
+
     public init(initialOrganisation: Organisation? = nil) {
         if let initialOrganisation = initialOrganisation {
             self.finalOrganisation = initialOrganisation
@@ -59,6 +61,25 @@ public class OrganisationEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem().title(NSLocalizedString("ACN", comment: "Title"))
             .width(.column(4))
+
+        builder += PickerFormItem(pickerAction:
+            LocationSelectionFormAction(workflowId: LocationSelectionPresenter.organisationEditWorkflowId))
+            .title(NSLocalizedString("Physical Address", comment: "Address field title"))
+            .selectedValue(location)
+            .width(.column(1))
+            .required()
+            .onValueChanged { [unowned self] (location) in
+                if let location = location as? LocationSelectionCore {
+                    self.location = location
+                }
+                self.reloadForm()
+            }
+            .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                       color: UIColor.red,
+                                                       handler: { [unowned self] (_, _) in
+                                                        self.location = nil
+                                                        self.reloadForm()
+            })])
 
         // Contact section
         let contactHeaderText = finalOrganisation.contacts?.count != nil && finalOrganisation.contacts?.count != 0
