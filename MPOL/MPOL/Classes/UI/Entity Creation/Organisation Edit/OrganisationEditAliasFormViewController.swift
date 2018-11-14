@@ -1,23 +1,21 @@
 //
-//  PersonEditAliasFormViewController.swift
+//  OrganisationEditAliasFormViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
-
-import Foundation
 import PublicSafetyKit
 
-public class PersonEditAliasFormViewController: FormBuilderViewController {
+public class OrganisationEditAliasFormViewController: FormBuilderViewController {
 
     // MARK: PUBLIC
 
-    public var viewModel: PersonEditAliasFormViewModel
+    public var viewModel: OrganisationEditAliasFormViewModel
 
     /// The handler for submitting the data
-    public var submitHandler: ((PersonAlias?) -> Void)?
+    public var submitHandler: ((OrganisationAlias?) -> Void)?
 
-    public init(viewModel: PersonEditAliasFormViewModel, submitHandler: ((PersonAlias?) -> Void)?) {
+    public init(viewModel: OrganisationEditAliasFormViewModel, submitHandler: ((OrganisationAlias?) -> Void)?) {
         self.viewModel = viewModel
         self.submitHandler = submitHandler
         super.init()
@@ -37,13 +35,13 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
 
     public override func construct(builder: FormBuilder) {
         title = NSLocalizedString("Add Alias", comment: "")
-        if viewModel.personAlias == nil {
-            viewModel.personAlias = PersonAlias(id: UUID().uuidString)
+        if viewModel.organisationAlias == nil {
+            viewModel.organisationAlias = OrganisationAlias(id: UUID().uuidString)
         }
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("Alias Type", comment: ""))
-            .options(PersonEditAliasFormViewModel.aliasOptions)
+            .options(OrganisationEditAliasFormViewModel.aliasOptions)
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
@@ -54,39 +52,21 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
 
         guard let type = viewModel.selectedType?.title?.sizing().string else { return }
 
-        viewModel.personAlias?.type = type
-        let firstNameFormItem =  TextFieldFormItem()
-            .title(NSLocalizedString("First Name", comment: ""))
-            .text(viewModel.personAlias?.firstName)
-            .width(.column(1))
-            .onValueChanged {
-                self.viewModel.personAlias?.firstName = $0
-            }
-
-        let middleNameFormItem = TextFieldFormItem()
-            .title(NSLocalizedString("Middle Name/s", comment: ""))
-            .text(viewModel.personAlias?.middleNames)
-            .width(.column(1))
-            .onValueChanged {
-                self.viewModel.personAlias?.middleNames = $0
-            }
-
-        let lastNameFormItem = TextFieldFormItem()
+        viewModel.organisationAlias?.type = type
+        let aliasFormItem = TextFieldFormItem()
             .title(type)
-            .text(viewModel.personAlias?.lastName)
+            .text(viewModel.organisationAlias?.alias)
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .onValueChanged {
-                self.viewModel.personAlias?.lastName = $0
+                self.viewModel.organisationAlias?.alias = $0
             }
             .onStyled { cell in
                 guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
                 cell.textField.placeholderTextColor = cell.textField.textColor
             }
-        builder += firstNameFormItem
-        builder += middleNameFormItem
-        builder += lastNameFormItem
+        builder += aliasFormItem
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
@@ -99,7 +79,7 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(viewModel.personAlias)
+            submitHandler?(viewModel.organisationAlias)
             dismiss(animated: true, completion: nil)
         }
     }

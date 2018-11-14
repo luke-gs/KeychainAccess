@@ -169,7 +169,7 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
-                    EntityScreen.createEntityContactDetail(contact: nil,
+                    EntityScreen.createPersonContactDetail(contact: nil,
                                                            submitHandler: { [unowned self] contact in
                                                             guard let contact = contact else { return }
                                                             if self.finalPerson.contacts != nil {
@@ -196,7 +196,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     })])
                     .onSelection { [unowned self] _ in
                         self.present(
-                            EntityScreen.createEntityContactDetail(contact: contact,
+                            EntityScreen.createPersonContactDetail(contact: contact,
                                                                    submitHandler: { [unowned self] contact in
                                                                     guard let contact = contact else { return }
                                                                     self.finalPerson.contacts?[index] = contact
@@ -212,7 +212,7 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
-                    EntityScreen.createEntityAliasDetail(alias: nil,
+                    EntityScreen.createPersonAliasDetail(alias: nil,
                                                          submitHandler: { [unowned self] personAlias in
                                                             guard let personAlias = personAlias else { return }
                                                             if self.finalPerson.aliases != nil {
@@ -247,7 +247,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     })])
                     .onSelection { [unowned self] _ in
                         self.present(
-                            EntityScreen.createEntityAliasDetail(alias: alias,
+                            EntityScreen.createPersonAliasDetail(alias: alias,
                                                                  submitHandler: { [unowned self] personAlias in
                                                                     guard let personAlias = personAlias else { return }
                                                                     self.finalPerson.aliases?[index] = personAlias

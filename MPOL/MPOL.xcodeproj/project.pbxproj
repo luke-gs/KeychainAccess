@@ -281,6 +281,11 @@
 		203F41EE2193F49B00BAB007 /* CADStateManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F410A2193F49A00BAB007 /* CADStateManagerBase.swift */; };
 		203F41EF2193F49B00BAB007 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F410B2193F49A00BAB007 /* CADRecentlyUsedKey.swift */; };
 		203F41F02193F49B00BAB007 /* CADStateManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F410C2193F49A00BAB007 /* CADStateManagerType.swift */; };
+		206E72CB219BA95B009BA587 /* OrganisationEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206E72CA219BA95B009BA587 /* OrganisationEditViewController.swift */; };
+		206E72CD219BC083009BA587 /* OrganisationEditContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206E72CC219BC083009BA587 /* OrganisationEditContactFormViewModel.swift */; };
+		206E72CF219BC0AB009BA587 /* OrganisationEditContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206E72CE219BC0AB009BA587 /* OrganisationEditContactFormViewController.swift */; };
+		206E72D1219BC0C1009BA587 /* OrganisationEditAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206E72D0219BC0C1009BA587 /* OrganisationEditAliasFormViewController.swift */; };
+		206E72D3219BC0D0009BA587 /* OrganisationEditAliasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206E72D2219BC0D0009BA587 /* OrganisationEditAliasViewModel.swift */; };
 		207651CB21925C8000AF5844 /* UserStorage+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207651CA21925C8000AF5844 /* UserStorage+Entity.swift */; };
 		207A0FF7216319FE00153AC3 /* OrganisationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */; };
 		207A0FF921631B1D00153AC3 /* LocationSearchHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */; };
@@ -809,6 +814,11 @@
 		203F410A2193F49A00BAB007 /* CADStateManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerBase.swift; sourceTree = "<group>"; };
 		203F410B2193F49A00BAB007 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
 		203F410C2193F49A00BAB007 /* CADStateManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerType.swift; sourceTree = "<group>"; };
+		206E72CA219BA95B009BA587 /* OrganisationEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditViewController.swift; sourceTree = "<group>"; };
+		206E72CC219BC083009BA587 /* OrganisationEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		206E72CE219BC0AB009BA587 /* OrganisationEditContactFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewController.swift; sourceTree = "<group>"; };
+		206E72D0219BC0C1009BA587 /* OrganisationEditAliasFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasFormViewController.swift; sourceTree = "<group>"; };
+		206E72D2219BC0D0009BA587 /* OrganisationEditAliasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasViewModel.swift; sourceTree = "<group>"; };
 		207651CA21925C8000AF5844 /* UserStorage+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserStorage+Entity.swift"; sourceTree = "<group>"; };
 		207A0FF6216319FE00153AC3 /* OrganisationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = OrganisationSearchHelp.html; sourceTree = "<group>"; };
 		207A0FF821631B1D00153AC3 /* LocationSearchHelp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LocationSearchHelp.html; sourceTree = "<group>"; };
@@ -2086,6 +2096,18 @@
 			path = Default;
 			sourceTree = "<group>";
 		};
+		206E72C9219BA939009BA587 /* Organisation Edit */ = {
+			isa = PBXGroup;
+			children = (
+				206E72D0219BC0C1009BA587 /* OrganisationEditAliasFormViewController.swift */,
+				206E72D2219BC0D0009BA587 /* OrganisationEditAliasViewModel.swift */,
+				206E72CE219BC0AB009BA587 /* OrganisationEditContactFormViewController.swift */,
+				206E72CC219BC083009BA587 /* OrganisationEditContactFormViewModel.swift */,
+				206E72CA219BA95B009BA587 /* OrganisationEditViewController.swift */,
+			);
+			path = "Organisation Edit";
+			sourceTree = "<group>";
+		};
 		207651C921925C4000AF5844 /* User Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2414,6 +2436,7 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
+				206E72C9219BA939009BA587 /* Organisation Edit */,
 				20E61AB32189365800B65F43 /* Person Edit */,
 				20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */,
 				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
@@ -3188,6 +3211,7 @@
 				203F41592193F49A00BAB007 /* AssociationsViewController.swift in Sources */,
 				203F41582193F49A00BAB007 /* AssociationsViewModel.swift in Sources */,
 				203F41912193F49A00BAB007 /* BookOnDetailsFormContentMainViewModel.swift in Sources */,
+				206E72CB219BA95B009BA587 /* OrganisationEditViewController.swift in Sources */,
 				203F418B2193F49A00BAB007 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
 				203F418E2193F49A00BAB007 /* BookOnDetailsFormViewController.swift in Sources */,
 				203F41902193F49A00BAB007 /* BookOnDetailsFormViewModel.swift in Sources */,
@@ -3322,6 +3346,7 @@
 				96B775392140F8EE00836B83 /* EntityDetailFilterableFormViewModel.swift in Sources */,
 				96B7753A2140F8EE00836B83 /* EntityDetailFormViewController.swift in Sources */,
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
+				206E72D1219BC0C1009BA587 /* OrganisationEditAliasFormViewController.swift in Sources */,
 				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
 				96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */,
 				203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */,
@@ -3353,8 +3378,6 @@
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				203F41122193F49A00BAB007 /* EventSearchableViewModel.swift in Sources */,
-				96B7758A2140FA6700836B83 /* EventsListViewController.swift in Sources */,
-				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				203F41282193F49A00BAB007 /* EventsManager.swift in Sources */,
 				203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */,
 				96B775532140F8EE00836B83 /* EventSubmissionRequest.swift in Sources */,
@@ -3406,6 +3429,7 @@
 				96B775322140F8EE00836B83 /* LocationDetailsSectionsDataSource.swift in Sources */,
 				96B775522140F8EE00836B83 /* LocationFetchRequest.swift in Sources */,
 				96B7752E2140F8EE00836B83 /* LocationInfoViewModel.swift in Sources */,
+				206E72CD219BC083009BA587 /* OrganisationEditContactFormViewModel.swift in Sources */,
 				96B7755A2140F8EE00836B83 /* LocationMapRadiusSearchParameters.swift in Sources */,
 				96B775502140F8EE00836B83 /* LocationMapSearchRequest.swift in Sources */,
 				96B775612140F8EE00836B83 /* LocationRetrieveStrategy.swift in Sources */,
@@ -3517,6 +3541,7 @@
 				203F41492193F49A00BAB007 /* ResourceOfficerListViewModel.swift in Sources */,
 				203F414A2193F49A00BAB007 /* ResourceOfficerViewModel.swift in Sources */,
 				203F414D2193F49A00BAB007 /* ResourceOverviewFormViewController.swift in Sources */,
+				206E72D3219BC0D0009BA587 /* OrganisationEditAliasViewModel.swift in Sources */,
 				203F414E2193F49A00BAB007 /* ResourceOverviewMapViewModel.swift in Sources */,
 				203F414C2193F49A00BAB007 /* ResourceOverviewViewModel.swift in Sources */,
 				203F414B2193F49A00BAB007 /* ResourceTaskItemViewModel.swift in Sources */,
@@ -3546,6 +3571,7 @@
 				203F41842193F49A00BAB007 /* TasksListBasicCollectionViewCell.swift in Sources */,
 				203F41832193F49A00BAB007 /* TasksListBasicSummaryView.swift in Sources */,
 				203F41812193F49A00BAB007 /* TasksListBasicViewModel.swift in Sources */,
+				206E72CF219BC0AB009BA587 /* OrganisationEditContactFormViewController.swift in Sources */,
 				203F417B2193F49A00BAB007 /* TasksListContainerViewController.swift in Sources */,
 				203F41782193F49A00BAB007 /* TasksListContainerViewModel.swift in Sources */,
 				203F417E2193F49A00BAB007 /* TasksListDetailView.swift in Sources */,

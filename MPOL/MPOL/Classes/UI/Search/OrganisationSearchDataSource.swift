@@ -234,7 +234,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
                     let resultModel = EntitySummaryAlertsSearchResultViewModel<Organisation>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
                     resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
-
+                    resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                     completion(resultModel, nil)
                 }
 
@@ -286,5 +286,11 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
     @objc private func searchButtonItemTapped() {
         performSearch()
+    }
+
+    // MARK: - Add entity
+
+    @objc private func handleAddButtonTapped(_ item: UIBarButtonItem) {
+        updatingDelegate?.present(EntityScreen.createEntity(type: .organisation))
     }
 }

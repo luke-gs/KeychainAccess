@@ -1,23 +1,21 @@
 //
-//  PersonEditAliasFormViewController.swift
+//  OrganisationEditContactFormViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
-
-import Foundation
 import PublicSafetyKit
 
-public class PersonEditAliasFormViewController: FormBuilderViewController {
+public class OrganisationEditContactFormViewController: FormBuilderViewController {
 
     // MARK: PUBLIC
 
-    public var viewModel: PersonEditAliasFormViewModel
+    public var viewModel: OrganisationEditContactFormViewModel
 
     /// The handler for submitting the data
-    public var submitHandler: ((PersonAlias?) -> Void)?
+    public var submitHandler: ((Contact?) -> Void)?
 
-    public init(viewModel: PersonEditAliasFormViewModel, submitHandler: ((PersonAlias?) -> Void)?) {
+    public init(viewModel: OrganisationEditContactFormViewModel, submitHandler: ((Contact?) -> Void)?) {
         self.viewModel = viewModel
         self.submitHandler = submitHandler
         super.init()
@@ -36,57 +34,52 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
     }
 
     public override func construct(builder: FormBuilder) {
-        title = NSLocalizedString("Add Alias", comment: "")
-        if viewModel.personAlias == nil {
-            viewModel.personAlias = PersonAlias(id: UUID().uuidString)
+        title = NSLocalizedString("Add Contact Details", comment: "")
+        if viewModel.contact == nil {
+            viewModel.contact = Contact(id: UUID().uuidString)
         }
-
         builder += DropDownFormItem()
-            .title(NSLocalizedString("Alias Type", comment: ""))
-            .options(PersonEditAliasFormViewModel.aliasOptions)
+            .title(NSLocalizedString("Contact Type", comment: ""))
+            .options(Contact.ContactType.allCases.map { $0 })
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first
+                self.viewModel.contact?.value = nil
                 self.reloadForm()
             }
             .width(.column(1))
 
-        guard let type = viewModel.selectedType?.title?.sizing().string else { return }
-
-        viewModel.personAlias?.type = type
-        let firstNameFormItem =  TextFieldFormItem()
-            .title(NSLocalizedString("First Name", comment: ""))
-            .text(viewModel.personAlias?.firstName)
-            .width(.column(1))
-            .onValueChanged {
-                self.viewModel.personAlias?.firstName = $0
-            }
-
-        let middleNameFormItem = TextFieldFormItem()
-            .title(NSLocalizedString("Middle Name/s", comment: ""))
-            .text(viewModel.personAlias?.middleNames)
-            .width(.column(1))
-            .onValueChanged {
-                self.viewModel.personAlias?.middleNames = $0
-            }
-
-        let lastNameFormItem = TextFieldFormItem()
-            .title(type)
-            .text(viewModel.personAlias?.lastName)
+        guard let type = viewModel.selectedType else { return }
+        viewModel.contact?.type = type
+        let formItem = TextFieldFormItem()
+            .title(viewModel.selectedType?.title)
+            .text(viewModel.contact?.value)
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
+            .accessory(ItemAccessory.pencil)
             .onValueChanged {
-                self.viewModel.personAlias?.lastName = $0
+                self.viewModel.contact?.value = $0
             }
             .onStyled { cell in
                 guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
                 cell.textField.placeholderTextColor = cell.textField.textColor
-            }
-        builder += firstNameFormItem
-        builder += middleNameFormItem
-        builder += lastNameFormItem
+        }
+        if viewModel.selectedType == .email {
+            formItem.softValidate(EmailSpecification(), message: "Invalid email address")
+            formItem.keyboardType(.emailAddress)
+        } else {
+            formItem.keyboardType(.phonePad)
+        }
+        builder += formItem
+        builder += TextFieldFormItem()
+            .title(NSLocalizedString("Remarks", comment: ""))
+            .text(viewModel.contact?.remark)
+            .width(.column(1))
+            .onValueChanged {
+                self.viewModel.contact?.remark = $0
+        }
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
@@ -99,7 +92,7 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            submitHandler?(viewModel.personAlias)
+            submitHandler?(viewModel.contact)
             dismiss(animated: true, completion: nil)
         }
     }

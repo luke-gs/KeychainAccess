@@ -34,6 +34,8 @@ open class Organisation: Entity {
     public var tradingAs: String?
     public var type: String?
 
+    public var contacts: [Contact]?
+
     // MARK: - Calculated
 
     open override var summary: String {

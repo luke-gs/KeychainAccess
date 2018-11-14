@@ -15,6 +15,10 @@ open class OrganisationAlias: Alias {
 
     public var alias: String?
 
+    public override init(id: String) {
+        super.init(id: id)
+    }
+
     // MARK: - Unboxable
 
     public required init(unboxer: Unboxer) throws {
