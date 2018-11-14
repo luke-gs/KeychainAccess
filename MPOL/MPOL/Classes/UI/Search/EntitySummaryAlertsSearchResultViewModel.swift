@@ -83,44 +83,44 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             result && (rawResult.state != SearchState.searching)
         }
 
-//        if let pscore = rawResults.first, pscore.state == .finished {
-//            if (pscore.entities.compactMap { $0 as? Vehicle }).count == 1 {
-//                let firstResult = pscore.entities.first as! Vehicle
-//                let summary = VehicleSummaryDisplayable(firstResult)
-//
-//                let rego = firstResult.registration ?? ""
-//                let crap = rego.map { value -> String in
-//                    let result = String(value)
-//                    if let number = Int(result) {
-//                        return String(number) + " "
-//                    } else {
-//                        return result
-//                    }
-//                }
-//                let crap2 = crap.joined()
-//
-//                let status: String?
-//                if let alert = firstResult.alertLevel {
-//                    switch alert {
-//                    case .high:
-//                        status = "High alert"
-//                    case .medium:
-//                        status = "Medium alert"
-//                    case .low:
-//                        status = "Low alert"
-//                    }
-//                } else {
-//                    status = nil
-//                }
-//
-//
-//                let text = "One result from \(pscore.request.source.localizedBadgeTitle). \nRegistration: \(crap2), \(status != nil ? "\n\(status!)" : ""), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
-//                VoiceSearchWorkflowManager.shared.speak(text)
-//            } else if (pscore.entities.compactMap { $0 as? Vehicle }).count == 0 {
-//                let text = "No results from \(pscore.request.source.localizedBadgeTitle)"
-//                VoiceSearchWorkflowManager.shared.speak(text)
-//            }
-//        }
+        //        if let pscore = rawResults.first, pscore.state == .finished {
+        //            if (pscore.entities.compactMap { $0 as? Vehicle }).count == 1 {
+        //                let firstResult = pscore.entities.first as! Vehicle
+        //                let summary = VehicleSummaryDisplayable(firstResult)
+        //
+        //                let rego = firstResult.registration ?? ""
+        //                let crap = rego.map { value -> String in
+        //                    let result = String(value)
+        //                    if let number = Int(result) {
+        //                        return String(number) + " "
+        //                    } else {
+        //                        return result
+        //                    }
+        //                }
+        //                let crap2 = crap.joined()
+        //
+        //                let status: String?
+        //                if let alert = firstResult.alertLevel {
+        //                    switch alert {
+        //                    case .high:
+        //                        status = "High alert"
+        //                    case .medium:
+        //                        status = "Medium alert"
+        //                    case .low:
+        //                        status = "Low alert"
+        //                    }
+        //                } else {
+        //                    status = nil
+        //                }
+        //
+        //
+        //                let text = "One result from \(pscore.request.source.localizedBadgeTitle). \nRegistration: \(crap2), \(status != nil ? "\n\(status!)" : ""), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
+        //                VoiceSearchWorkflowManager.shared.speak(text)
+        //            } else if (pscore.entities.compactMap { $0 as? Vehicle }).count == 0 {
+        //                let text = "No results from \(pscore.request.source.localizedBadgeTitle)"
+        //                VoiceSearchWorkflowManager.shared.speak(text)
+        //            }
+        //        }
 
         let finishedResults = rawResults.filter {$0.state == .finished}
         finishedResults.forEach { (finishedResult) in
@@ -135,37 +135,95 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             if alertEntities.count == 0 {
                 TextToSpeechHelper.shared.speak("No Alerts")
             } else if alertEntities.count == 1 {
-                TextToSpeechHelper.shared.speak("Single Alert")
-            } else {
-                TextToSpeechHelper.shared.speak("Multiple Alerts")
+
+                let entity = alertEntities.first!
+
+                switch entity {
+                case is Vehicle:
+                    let summary = VehicleSummaryDisplayable(entity)
+
+                    let rego = (entity as! Vehicle).registration ?? ""
+
+                    let regoMapped = rego.map { value -> String in
+                        let result = String(value)
+                        if let number = Int(result) {
+                            return String(number) + " "
+                        } else {
+                            return result
+                        }
+                    }
+
+                    let regoFormatted = regoMapped.joined()
+
+                    let status: String?
+                    if let alert = (entity as! Vehicle).alertLevel {
+                        switch alert {
+                        case .high:
+                            status = "High alert"
+                        case .medium:
+                            status = "Medium alert"
+                        case .low:
+                            status = "Low alert"
+                        }
+                    } else {
+                        status = nil
+                    }
+
+                    var text: String = ""
+
+                    if let category = summary.category {
+                        text += "One result from \(category).\n"
+                    }
+                    if let status = status {
+                        text += "\(status).\n"
+                    }
+                    if !regoFormatted.isEmpty {
+                        text += "Registration: \(regoMapped).\n"
+                    }
+                    if let color = (entity as! Vehicle).primaryColor {
+                        text += "\(color).\n"
+                    }
+                    if let makeModelSummary = summary.detail1 {
+                        text += "\(makeModelSummary).\n"
+                    }
+                    if !text.isEmpty {
+                        TextToSpeechHelper.shared.speak(text)
+                    }
+
+                default:
+                fatalError("Text to speech alerts not supported for supplied entity")
             }
-        }
 
-        if !alertEntities.isEmpty {
-            let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
-            processedResults.insert(alertSection, at: 0)
-        }
-
-        return processedResults
-    }
-
-    override public func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
-        // If the source is nil, then the section was created locally. In this case, we know that the only section created locally is the Alerts section.
-        if section.source == nil {
-            return LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
         } else {
-            return super.headerItemForSection(section)
+            TextToSpeechHelper.shared.speak("Multiple Alerts")
         }
     }
 
-    private func summaryThumbnailFormItem(summary: EntitySummaryDisplayable) -> SummaryThumbnailFormItem {
-        return SummaryThumbnailFormItem()
-            .style(.thumbnail)
-            .category(summary.category)
-            .badge(summary.badge)
-            .badgeColor(summary.borderColor)
-            .image(summary.thumbnail(ofSize: .medium))
-            .borderColor(summary.borderColor)
-            .imageTintColor(summary.iconColor)
+    if !alertEntities.isEmpty {
+    let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
+    processedResults.insert(alertSection, at: 0)
     }
+
+    return processedResults
+}
+
+override public func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
+    // If the source is nil, then the section was created locally. In this case, we know that the only section created locally is the Alerts section.
+    if section.source == nil {
+        return LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
+    } else {
+        return super.headerItemForSection(section)
+    }
+}
+
+private func summaryThumbnailFormItem(summary: EntitySummaryDisplayable) -> SummaryThumbnailFormItem {
+    return SummaryThumbnailFormItem()
+        .style(.thumbnail)
+        .category(summary.category)
+        .badge(summary.badge)
+        .badgeColor(summary.borderColor)
+        .image(summary.thumbnail(ofSize: .medium))
+        .borderColor(summary.borderColor)
+        .imageTintColor(summary.iconColor)
+}
 }

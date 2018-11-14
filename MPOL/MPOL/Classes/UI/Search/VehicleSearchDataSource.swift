@@ -409,6 +409,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, AlertReading, UITextF
         self.text = text
 
         if endEditing {
+            shouldReadAlerts = false
             performSearch()
         }
     }

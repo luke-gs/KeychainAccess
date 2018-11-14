@@ -10,7 +10,3 @@ import PublicSafetyKit
 public protocol AlertReading {
     var shouldReadAlerts: Bool { get set }
 }
-
-extension AlertReading {
-    
-}
