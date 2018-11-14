@@ -145,7 +145,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             }
             self.dismiss(animated: true, completion: nil)
         }
-        
     }
 
 }
