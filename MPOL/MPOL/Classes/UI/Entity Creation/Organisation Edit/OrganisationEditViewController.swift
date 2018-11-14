@@ -36,13 +36,23 @@ public class OrganisationEditViewController: FormBuilderViewController {
             builder += DropDownFormItem()
                 .title(NSLocalizedString("Organisation Type", comment: "Drop Down Title"))
                 .options(items)
+                .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
                 .required()
                 .width(.column(4))
+                .onStyled { cell in
+                    guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
+                    cell.placeholderLabel.textColor = cell.valueLabel.textColor
+                }
         }
 
         builder += TextFieldFormItem().title(NSLocalizedString("Organisation Name", comment: "Title"))
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += TextFieldFormItem().title(NSLocalizedString("ABN", comment: "Title"))
             .width(.column(4))
