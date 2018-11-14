@@ -38,18 +38,22 @@ public class VehicleEditViewController: FormBuilderViewController {
             .title(NSLocalizedString("Vehicle Type", comment: "Drop Down Title"))
             .options(["Car", "Motorcycle", "Van", "Truck", "Trailer", "Vessel"])
             .onValueChanged { self.finalVehicle.vehicleType = $0?.first }
+            .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Registration Number", comment: "Vehicle Number"))
             .onValueChanged { self.finalVehicle.registration = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("State", comment: "Drop Down Title"))
             .options(["VIC", "NSW", "QLD", "ACT", "NT", "WA", "TAS"])
             .onValueChanged { self.finalVehicle.registrationState = $0?.first }
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "Details Section Header")).separatorColor(.clear)
@@ -64,12 +68,14 @@ public class VehicleEditViewController: FormBuilderViewController {
             .title(NSLocalizedString("Make", comment: "Title"))
             .onValueChanged { self.finalVehicle.make = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Model", comment: "Title"))
             .onValueChanged { self.finalVehicle.model = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
@@ -91,6 +97,7 @@ public class VehicleEditViewController: FormBuilderViewController {
             .title(NSLocalizedString("Primary Colour", comment: "Title"))
             .onValueChanged { self.finalVehicle.primaryColor = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()

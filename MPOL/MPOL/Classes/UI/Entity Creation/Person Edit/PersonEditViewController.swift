@@ -48,6 +48,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .text(finalPerson.givenName)
             .onValueChanged { self.finalPerson.givenName = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
@@ -61,6 +62,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .text(finalPerson.familyName)
             .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += DateFormItem()
@@ -69,6 +71,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .selectedValue(finalPerson.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
