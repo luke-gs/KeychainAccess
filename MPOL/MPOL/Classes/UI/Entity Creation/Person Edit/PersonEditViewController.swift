@@ -50,6 +50,10 @@ public class PersonEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Middle Name/s", comment: ""))
@@ -64,6 +68,10 @@ public class PersonEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += DateFormItem()
             .title(NSLocalizedString("Date Of Birth", comment: ""))
@@ -73,6 +81,10 @@ public class PersonEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
+                cell.placeholderLabel.textColor = cell.valueLabel.textColor
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Place of Birth", comment: ""))

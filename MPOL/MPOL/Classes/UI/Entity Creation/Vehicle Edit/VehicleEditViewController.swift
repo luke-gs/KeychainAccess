@@ -41,6 +41,10 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
+                cell.placeholderLabel.textColor = cell.valueLabel.textColor
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Registration Number", comment: "Vehicle Number"))
@@ -48,13 +52,22 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("State", comment: "Drop Down Title"))
             .options(["VIC", "NSW", "QLD", "ACT", "NT", "WA", "TAS"])
             .onValueChanged { self.finalVehicle.registrationState = $0?.first }
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
+            .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
+                cell.placeholderLabel.textColor = cell.valueLabel.textColor
+            }
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "Details Section Header")).separatorColor(.clear)
 
@@ -70,6 +83,10 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Model", comment: "Title"))
@@ -77,6 +94,10 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("VIN/Chassis Number", comment: "Title"))
@@ -99,6 +120,10 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
+            .onStyled { cell in
+                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
+                cell.textField.placeholderTextColor = cell.textField.textColor
+            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Secondary Colour", comment: "Title"))
