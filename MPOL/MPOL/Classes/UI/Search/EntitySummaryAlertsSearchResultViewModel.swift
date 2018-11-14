@@ -79,48 +79,10 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
         var alertEntities = [MPOLKitEntity]()
 
+        // Determine whether the search is complete by iterating over the results and checking if any are still searching.
         let searchComplete = rawResults.reduce(true) { (result, rawResult) -> Bool in
             result && (rawResult.state != SearchState.searching)
         }
-
-        //        if let pscore = rawResults.first, pscore.state == .finished {
-        //            if (pscore.entities.compactMap { $0 as? Vehicle }).count == 1 {
-        //                let firstResult = pscore.entities.first as! Vehicle
-        //                let summary = VehicleSummaryDisplayable(firstResult)
-        //
-        //                let rego = firstResult.registration ?? ""
-        //                let crap = rego.map { value -> String in
-        //                    let result = String(value)
-        //                    if let number = Int(result) {
-        //                        return String(number) + " "
-        //                    } else {
-        //                        return result
-        //                    }
-        //                }
-        //                let crap2 = crap.joined()
-        //
-        //                let status: String?
-        //                if let alert = firstResult.alertLevel {
-        //                    switch alert {
-        //                    case .high:
-        //                        status = "High alert"
-        //                    case .medium:
-        //                        status = "Medium alert"
-        //                    case .low:
-        //                        status = "Low alert"
-        //                    }
-        //                } else {
-        //                    status = nil
-        //                }
-        //
-        //
-        //                let text = "One result from \(pscore.request.source.localizedBadgeTitle). \nRegistration: \(crap2), \(status != nil ? "\n\(status!)" : ""), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
-        //                VoiceSearchWorkflowManager.shared.speak(text)
-        //            } else if (pscore.entities.compactMap { $0 as? Vehicle }).count == 0 {
-        //                let text = "No results from \(pscore.request.source.localizedBadgeTitle)"
-        //                VoiceSearchWorkflowManager.shared.speak(text)
-        //            }
-        //        }
 
         let finishedResults = rawResults.filter {$0.state == .finished}
         finishedResults.forEach { (finishedResult) in
@@ -133,11 +95,9 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
         if searchComplete && self.shouldReadAlerts {
             if alertEntities.count == 0 {
-                TextToSpeechHelper.shared.speak("No Alerts")
+                TextToSpeechHelper.shared.speak("No Results Found")
             } else if alertEntities.count == 1 {
-
                 let entity = alertEntities.first!
-
                 switch entity {
                 case is Vehicle:
                     let summary = VehicleSummaryDisplayable(entity)
@@ -159,11 +119,11 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     if let alert = (entity as! Vehicle).alertLevel {
                         switch alert {
                         case .high:
-                            status = "High alert"
+                            status = "High Alert.\n"
                         case .medium:
-                            status = "Medium alert"
+                            status = "Medium Alert.\n"
                         case .low:
-                            status = "Low alert"
+                            status = "Low Alert.\n"
                         }
                     } else {
                         status = nil
@@ -189,41 +149,39 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     if !text.isEmpty {
                         TextToSpeechHelper.shared.speak(text)
                     }
-
                 default:
-                fatalError("Text to speech alerts not supported for supplied entity")
+                    fatalError("Text to speech alerts not supported for supplied entity")
+                }
+            } else {
+                TextToSpeechHelper.shared.speak("Multiple Matches Found")
             }
+        }
 
+        if !alertEntities.isEmpty {
+            let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
+            processedResults.insert(alertSection, at: 0)
+        }
+
+        return processedResults
+    }
+
+    override public func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
+        // If the source is nil, then the section was created locally. In this case, we know that the only section created locally is the Alerts section.
+        if section.source == nil {
+            return LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
         } else {
-            TextToSpeechHelper.shared.speak("Multiple Alerts")
+            return super.headerItemForSection(section)
         }
     }
 
-    if !alertEntities.isEmpty {
-    let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
-    processedResults.insert(alertSection, at: 0)
+    private func summaryThumbnailFormItem(summary: EntitySummaryDisplayable) -> SummaryThumbnailFormItem {
+        return SummaryThumbnailFormItem()
+            .style(.thumbnail)
+            .category(summary.category)
+            .badge(summary.badge)
+            .badgeColor(summary.borderColor)
+            .image(summary.thumbnail(ofSize: .medium))
+            .borderColor(summary.borderColor)
+            .imageTintColor(summary.iconColor)
     }
-
-    return processedResults
-}
-
-override public func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
-    // If the source is nil, then the section was created locally. In this case, we know that the only section created locally is the Alerts section.
-    if section.source == nil {
-        return LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
-    } else {
-        return super.headerItemForSection(section)
-    }
-}
-
-private func summaryThumbnailFormItem(summary: EntitySummaryDisplayable) -> SummaryThumbnailFormItem {
-    return SummaryThumbnailFormItem()
-        .style(.thumbnail)
-        .category(summary.category)
-        .badge(summary.badge)
-        .badgeColor(summary.borderColor)
-        .image(summary.thumbnail(ofSize: .medium))
-        .borderColor(summary.borderColor)
-        .imageTintColor(summary.iconColor)
-}
 }
