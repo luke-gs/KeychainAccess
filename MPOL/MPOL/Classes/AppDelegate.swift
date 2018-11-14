@@ -378,11 +378,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // the handling is successfully completed or not.
         switch shortcutItem.type {
         case SupportedShortcut.searchPerson.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"), shouldSearchImmediately: false)
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"), shouldSearchImmediately: false, shouldReadAlerts: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.searchVehicle.type:
-            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"), shouldSearchImmediately: false)
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"), shouldSearchImmediately: false, shouldReadAlerts: false)
             try? searchLauncher.launch(activity, using: navigator)
             handled = true
         case SupportedShortcut.launchTasks.type:
@@ -405,16 +405,22 @@ extension AppDelegate: SearchActivityHandlerDelegate {
 
         // FIXME: Probably need something that knows how to coordinate all of these `from` and `to` businesses.
         switch launchedSearchActivity {
-        case .searchEntity(let term, let shouldSearchImmediately):
+        case .searchEntity(let term, let shouldSearchImmediately, let shouldReadAlerts):
             landingPresenter.switchTo(.search)
             landingPresenter.searchViewController.beginSearch(with: term)
 
-            // If should search immediately, tell the appropriate datasource to perform the search.
-            if shouldSearchImmediately {
-                if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
+            if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
+                if var x = ds as? AlertReading {
+                    x.shouldReadAlerts = shouldReadAlerts
+                }
+
+                // If should search immediately, tell the appropriate datasource to perform the search.
+                if shouldSearchImmediately {
                     ds.performSearch()
                 }
             }
+
+
 
         case .viewDetails(let id, let entityType, let source):
 

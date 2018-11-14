@@ -57,7 +57,7 @@ public class AddressOptionHandler {
 
     open func searchAddressButton() -> ActionSheetButton {
         return ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: {
-            let activity = SearchActivity.searchEntity(term: Searchable(text: self.addressString, type: LocationSearchDataSourceSearchableType), shouldSearchImmediately: false)
+            let activity = SearchActivity.searchEntity(term: Searchable(text: self.addressString, type: LocationSearchDataSourceSearchableType), shouldSearchImmediately: false, shouldReadAlerts: false)
             do {
                 try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
             } catch {

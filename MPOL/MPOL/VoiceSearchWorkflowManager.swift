@@ -22,11 +22,6 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
     }
     private var voiceSearchManager: VoiceSearchManager = VoiceSearchManager(endScheme: .silence(after: 2))
 
-    private lazy var speechSynthetizer: AVSpeechSynthesizer = {
-        let synthetizer = AVSpeechSynthesizer()
-        synthetizer.delegate = self
-        return synthetizer
-    }()
     private var isActive = false
 
     static let shared = VoiceSearchWorkflowManager()
@@ -35,6 +30,20 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
         super.init()
         voiceSearchManager.delegate = self
         viewController.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(pauseVoiceSearchManagerIfActive), name: .didBeginTextToSpeech, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(startVoiceSearchManagerIfActive), name: .didFinishTextToSpeech, object: nil)
+    }
+
+    @objc private func pauseVoiceSearchManagerIfActive() {
+        if isActive {
+            voiceSearchManager.pause()
+        }
+    }
+
+    @objc private func startVoiceSearchManagerIfActive() {
+        if isActive {
+            voiceSearchManager.start()
+        }
     }
 
     func startListening() {
@@ -54,17 +63,6 @@ class VoiceSearchWorkflowManager: NSObject, VoiceSearchViewControllerDelegate {
     func voiceSearchViewControllerCancelRecognitionTask(_ controller: VoiceSearchViewController) {
         voiceSearchManager.cancelVoiceSearch()
     }
-
-}
-
-extension VoiceSearchWorkflowManager: AVSpeechSynthesizerDelegate {
-
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        if isActive {
-            voiceSearchManager.start()
-        }
-    }
-
 }
 
 extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
@@ -102,7 +100,7 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
         let searchable = Searchable(text: text, type: "Vehicle")
 
-        let activity = SearchActivity.searchEntity(term: searchable, shouldSearchImmediately: true)
+        let activity = SearchActivity.searchEntity(term: searchable, shouldSearchImmediately: true, shouldReadAlerts: true)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         try? appDelegate.searchLauncher.launch(activity, using: appDelegate.navigator)
     }

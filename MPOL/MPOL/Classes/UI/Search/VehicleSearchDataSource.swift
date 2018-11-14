@@ -128,6 +128,7 @@ private enum State: String, Pickable {
 }
 
 private class VehicleSearchOptions: SearchOptions {
+
     var vehicleIdentifier: VehicleSearchType = .registration
     var vehicleType: VehicleType = .allVehicleTypes
     var state: State = .allStates
@@ -178,9 +179,11 @@ private protocol VehicleSearchOptionsDelegate: class {
     func vehicleSearchOptionsDidChangeType(_ options: VehicleSearchOptions)
 }
 
-class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
+class VehicleSearchDataSource: NSObject, SearchDataSource, AlertReading, UITextFieldDelegate {
 
     static let searchableType = "Vehicle"
+
+    public var shouldReadAlerts: Bool = false
 
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
@@ -357,7 +360,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 let request = VehicleSearchRequest(source: .pscore, request: searchParameters)
                 let rdaRequest = VehicleSearchRequest(source: .rda, request: searchParameters)
 
-                let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]))
+                let resultModel = EntitySummaryAlertsSearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]), shouldReadAlerts: shouldReadAlerts)
 
                 resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                 resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]

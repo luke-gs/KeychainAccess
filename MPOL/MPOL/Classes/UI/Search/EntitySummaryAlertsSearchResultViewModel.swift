@@ -14,6 +14,13 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
     public var alertEntities: [Entity] = []
 
+    private(set) var shouldReadAlerts: Bool
+
+    public init(title: String, aggregatedSearch: AggregatedSearch<T>, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default, shouldReadAlerts: Bool = false) {
+        self.shouldReadAlerts = shouldReadAlerts
+        super.init(title: title, aggregatedSearch: aggregatedSearch, summaryDisplayFormatter: summaryDisplayFormatter)
+    }
+
     // Used to sort the entities according to their associated alert level
     private let associatedAlertLevelSort = SortDescriptor<Entity>(ascending: false) { (first, second) -> ComparisonResult in
         let firstAssociatedAlertLevel = first.associatedAlertLevel?.rawValue ?? -1
@@ -72,6 +79,49 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
         var alertEntities = [MPOLKitEntity]()
 
+        let searchComplete = rawResults.reduce(true) { (result, rawResult) -> Bool in
+            result && (rawResult.state != SearchState.searching)
+        }
+
+//        if let pscore = rawResults.first, pscore.state == .finished {
+//            if (pscore.entities.compactMap { $0 as? Vehicle }).count == 1 {
+//                let firstResult = pscore.entities.first as! Vehicle
+//                let summary = VehicleSummaryDisplayable(firstResult)
+//
+//                let rego = firstResult.registration ?? ""
+//                let crap = rego.map { value -> String in
+//                    let result = String(value)
+//                    if let number = Int(result) {
+//                        return String(number) + " "
+//                    } else {
+//                        return result
+//                    }
+//                }
+//                let crap2 = crap.joined()
+//
+//                let status: String?
+//                if let alert = firstResult.alertLevel {
+//                    switch alert {
+//                    case .high:
+//                        status = "High alert"
+//                    case .medium:
+//                        status = "Medium alert"
+//                    case .low:
+//                        status = "Low alert"
+//                    }
+//                } else {
+//                    status = nil
+//                }
+//
+//
+//                let text = "One result from \(pscore.request.source.localizedBadgeTitle). \nRegistration: \(crap2), \(status != nil ? "\n\(status!)" : ""), \(summary.detail1 ?? ""), \(summary.detail2 ?? "")"
+//                VoiceSearchWorkflowManager.shared.speak(text)
+//            } else if (pscore.entities.compactMap { $0 as? Vehicle }).count == 0 {
+//                let text = "No results from \(pscore.request.source.localizedBadgeTitle)"
+//                VoiceSearchWorkflowManager.shared.speak(text)
+//            }
+//        }
+
         let finishedResults = rawResults.filter {$0.state == .finished}
         finishedResults.forEach { (finishedResult) in
             let entities = finishedResult.entities.compactMap {$0 as? Entity}
@@ -79,6 +129,16 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             filteredEntities.forEach({ (entity) in
                 alertEntities.append(entity)
             })
+        }
+
+        if searchComplete && self.shouldReadAlerts {
+            if alertEntities.count == 0 {
+                TextToSpeechHelper.shared.speak("No Alerts")
+            } else if alertEntities.count == 1 {
+                TextToSpeechHelper.shared.speak("Single Alert")
+            } else {
+                TextToSpeechHelper.shared.speak("Multiple Alerts")
+            }
         }
 
         if !alertEntities.isEmpty {
