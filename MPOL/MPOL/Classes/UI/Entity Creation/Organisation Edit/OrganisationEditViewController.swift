@@ -51,7 +51,10 @@ public class OrganisationEditViewController: FormBuilderViewController {
             .width(.column(4))
 
         // Contact section
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
+        let contactHeaderText = finalOrganisation.contacts?.count != nil && finalOrganisation.contacts?.count != 0
+            ? String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalOrganisation.contacts!.count)
+            : NSLocalizedString("Contact Details", comment: "header when no contacts exist")
+        builder += LargeTextHeaderFormItem(text: contactHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createOrganisationContactDetail(contact: nil,
@@ -93,7 +96,10 @@ public class OrganisationEditViewController: FormBuilderViewController {
         }
 
         // Alias section
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
+        let aliasHeaderText = finalOrganisation.aliases?.count != nil && finalOrganisation.aliases?.count != 0
+            ? String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalOrganisation.aliases!.count)
+            : NSLocalizedString("Aliases", comment: "header when no aliases exist")
+        builder += LargeTextHeaderFormItem(text: aliasHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
                     EntityScreen.createOrganisationAliasDetail(alias: nil,
