@@ -136,8 +136,16 @@ public class VehicleEditViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
+            do {
+                try UserSession.current.userStorage?.addEntity(object: finalVehicle,
+                                                               key: UserStorage.CreatedEntitiesKey,
+                                                               notification: NSNotification.Name.CreatedEntitiesDidUpdate)
+            } catch {
+                // TODO: Handles error if it cannot be saved
+            }
             self.dismiss(animated: true, completion: nil)
         }
+        
     }
 
 }
