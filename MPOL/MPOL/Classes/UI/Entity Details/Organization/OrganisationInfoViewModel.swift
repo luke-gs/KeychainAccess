@@ -99,11 +99,12 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(title)
                 .subtitle(address.fullAddress)
-                .addressNavigatable(address, presentationContext: viewController)
+                .selectionAction(AddressNavigationSelectionAction(addressNavigatable: address))
                 .width(.column(1))
                 .accessory(travelAccessory),
             ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
-                .width(.column(1)).separatorColor(.clear)
+                .width(.column(1))
+                .separatorColor(.clear)
         ]
     }
 

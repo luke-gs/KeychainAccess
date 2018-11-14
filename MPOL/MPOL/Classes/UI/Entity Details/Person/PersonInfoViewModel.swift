@@ -151,7 +151,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     .title(StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                     .subtitle(StringSizing(string: address.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                     .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .subheadline)))
-                    .addressNavigatable(address, presentationContext: viewController)
+                    .selectionAction(AddressNavigationSelectionAction(addressNavigatable: address))
                     .width(.column(1))
 
             }

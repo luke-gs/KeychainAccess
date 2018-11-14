@@ -47,14 +47,14 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
             .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
             .title(StringSizing(string: "Address", font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
-            .addressNavigatable(location, presentationContext: viewController)
+            .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
             .width(.column(1))
             .accessory(travelAccessory)
         builder += addressFormItem
 
         let coordItem = ValueFormItem()
             .title(StringSizing(string: "Latitude, Longitude", font: UIFont.preferredFont(forTextStyle: .subheadline)))
-            .value(StringSizing(string: location.coordinateText(), font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .value(StringSizing(string: location.coordinateStringRepresentation(), font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .width(.column(1))
         builder += coordItem
     }
