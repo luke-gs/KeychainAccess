@@ -23,12 +23,12 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
 
         var taskDetailsOverviewItems: [FormItem] = []
 
-        if let location = incident.location, let context = delegate as? UIViewController {
+        if let location = incident.location {
             let addressItem = AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(StringSizing(string: "Incident Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
-                .addressNavigatable(location, presentationContext: context)
+                .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
                 .width(.column(1))
 
             taskDetailsOverviewItems.append(addressItem)
