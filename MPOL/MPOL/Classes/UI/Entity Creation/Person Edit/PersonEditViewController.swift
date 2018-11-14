@@ -34,7 +34,7 @@ public class PersonEditViewController: FormBuilderViewController {
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     public override func construct(builder: FormBuilder) {
