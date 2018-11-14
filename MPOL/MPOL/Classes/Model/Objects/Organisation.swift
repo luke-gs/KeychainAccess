@@ -52,7 +52,7 @@ open class Organisation: Entity {
         type = unboxer.unbox(key: CodingKeys.type.rawValue)
         tradingAs = unboxer.unbox(key: CodingKeys.tradingAs.rawValue)
         aliases = unboxer.unbox(key: CodingKeys.aliases.rawValue)
-
+        contacts = unboxer.unbox(key: CodingKeys.contacts.rawValue)
     }
 
     // MARK: - Codable
@@ -64,6 +64,7 @@ open class Organisation: Entity {
         case name
         case tradingAs
         case type
+        case contacts
     }
 
     public required init(from decoder: Decoder) throws {
@@ -77,6 +78,7 @@ open class Organisation: Entity {
         name = try container.decodeIfPresent(String.self, forKey: .name)
         tradingAs = try container.decodeIfPresent(String.self, forKey: .tradingAs)
         type = try container.decodeIfPresent(String.self, forKey: .type)
+        contacts = try container.decodeIfPresent([Contact].self, forKey: .contacts)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -89,6 +91,7 @@ open class Organisation: Entity {
         try container.encode(name, forKey: CodingKeys.name)
         try container.encode(tradingAs, forKey: CodingKeys.tradingAs)
         try container.encode(type, forKey: CodingKeys.type)
+        try container.encode(contacts, forKey: CodingKeys.contacts)
     }
 
 }
