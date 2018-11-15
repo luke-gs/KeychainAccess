@@ -265,9 +265,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                         return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
                             biometricUser.becomeCurrentUser()
                         }
-                        .recover(policy: .allErrors) { error -> Promise<Void> in
-                            return .value(())
-                        }
                     }
                 }
             }
