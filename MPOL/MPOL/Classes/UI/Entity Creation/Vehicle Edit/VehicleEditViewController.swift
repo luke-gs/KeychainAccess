@@ -72,7 +72,7 @@ public class VehicleEditViewController: FormBuilderViewController {
             .separatorStyle(.none)
 
         groupHeaderItem = HeaderFormItem()
-            .text("AT LEAST ONE OF THE FIELDS BELOW ARE REQUIRED")
+            .text(NSLocalizedString("AT LEAST ONE OF THE FIELDS BELOW ARE REQUIRED", comment: "Header for group validation"))
         builder += groupHeaderItem!
 
         registrationItem = TextFieldFormItem()
