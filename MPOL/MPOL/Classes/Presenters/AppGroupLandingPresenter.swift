@@ -373,9 +373,12 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 }
             }.recover { _ in
                 // if biometric has been disabled on system level due to failed attempts, remove biometric button
-                if LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) == false {
-                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Biometric confirmation attempts exceeded", comment: ""),
-                                                     message: NSLocalizedString("You can enable biometrics in the settings later", comment: ""),
+                let context = LAContext()
+                if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) == false {
+
+                    let typeText = context.biometryType == .faceID ? "Face ID" : "Touch ID"
+                    AlertQueue.shared.addSimpleAlert(title: String.localizedStringWithFormat(NSLocalizedString("%@ login attempts exceeded", comment: ""), typeText),
+                                                     message: String.localizedStringWithFormat(NSLocalizedString("To enable %@ login, go to settings after you have logged in", comment: ""), typeText),
                                                      handler: { _ in
                                                         self.didNotEnableBiometrics()
                                                      })
