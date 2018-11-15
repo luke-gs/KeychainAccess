@@ -19,6 +19,7 @@ open class PersonAlias: Alias {
     public var lastName: String?
     public var middleNames: String?
     public var title: String?
+    public var nameType: String?
 
     public override init(id: String) {
         super.init(id: id)
@@ -35,6 +36,7 @@ open class PersonAlias: Alias {
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: PersonAlias.dateTransformer)
         ethnicity = unboxer.unbox(key: "ethnicity")
         title = unboxer.unbox(key: "title")
+        nameType = unboxer.unbox(key: "nameType")
         try super.init(unboxer: unboxer)
     }
 
@@ -75,6 +77,7 @@ open class PersonAlias: Alias {
         case lastName
         case middleNames
         case title
+        case nameType
     }
 
     public required init(from decoder: Decoder) throws {
@@ -88,6 +91,7 @@ open class PersonAlias: Alias {
         lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
         middleNames = try container.decodeIfPresent(String.self, forKey: .middleNames)
         title = try container.decodeIfPresent(String.self, forKey: .title)
+        nameType = try container.decodeIfPresent(String.self, forKey: .nameType)
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -100,6 +104,7 @@ open class PersonAlias: Alias {
         try container.encode(lastName, forKey: CodingKeys.lastName)
         try container.encode(middleNames, forKey: CodingKeys.middleNames)
         try container.encode(title, forKey: CodingKeys.title)
+        try container.encode(nameType, forKey: CodingKeys.nameType)
     }
 
 }
