@@ -95,7 +95,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
         if searchComplete && self.shouldReadAlerts {
             if alertEntities.count == 0 {
-                TextToSpeechHelper.shared.speak("No Results Found")
+                TextToSpeechHelper.default.speak("No Results Found")
             } else if alertEntities.count == 1 {
                 let entity = alertEntities.first!
                 switch entity {
@@ -104,16 +104,16 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
                     let rego = (entity as! Vehicle).registration ?? ""
 
-                    let regoMapped = rego.map { value -> String in
-                        let result = String(value)
-                        if let number = Int(result) {
+                    let regoMapped: [String] = rego.map { value -> String in
+                        let result: String = String(value)
+                        if let number: Int = Int(result) {
                             return String(number) + " "
                         } else {
                             return result
                         }
                     }
 
-                    let regoFormatted = regoMapped.joined()
+                    let regoFormatted: String = regoMapped.joined()
 
                     let status: String?
                     if let alert = (entity as! Vehicle).alertLevel {
@@ -147,13 +147,13 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                         text += "\(makeModelSummary).\n"
                     }
                     if !text.isEmpty {
-                        TextToSpeechHelper.shared.speak(text)
+                        TextToSpeechHelper.default.speak(text)
                     }
                 default:
                     fatalError("Text to speech alerts not supported for supplied entity")
                 }
             } else {
-                TextToSpeechHelper.shared.speak("Multiple Matches Found")
+                TextToSpeechHelper.default.speak("Multiple Matches Found")
             }
         }
 
