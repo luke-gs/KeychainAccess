@@ -11,13 +11,15 @@ import PublicSafetyKit
 
 public class VehicleEditViewController: FormBuilderViewController {
 
+    // MARK: - PRIVATE
     private let numberFormatter = NumberFormatter()
 
-    // MARK: Group validation form items
-    var headerItem: HeaderFormItem?
-    var item1: TextFieldFormItem?
-    var item2: TextFieldFormItem?
-    var item3: TextFieldFormItem?
+    // Group validation form items
+    private var groupHeaderItem: HeaderFormItem?
+    private var registrationItem: TextFieldFormItem?
+    private var vinItem: TextFieldFormItem?
+    private var engineNumberItem: TextFieldFormItem?
+
     // MARK: - Storage
 
     private var finalVehicle = Vehicle(id: UUID().uuidString)
@@ -69,43 +71,44 @@ public class VehicleEditViewController: FormBuilderViewController {
             .width(.column(2))
             .separatorStyle(.none)
 
-        headerItem = HeaderFormItem()
+        groupHeaderItem = HeaderFormItem()
             .text("AT LEAST ONE OF THE FIELDS BELOW ARE REQUIRED")
-        builder += headerItem!
+        builder += groupHeaderItem!
 
-        item1 = TextFieldFormItem()
+        registrationItem = TextFieldFormItem()
             .title(NSLocalizedString("Registration Number", comment: "Vehicle Number"))
             .placeholder(StringSizing(string: ""))
             .onValueChanged {
                 self.finalVehicle.registration = $0
-
-                self.updateGroupValidationFormItems()
+                self.validateGroup()
             }
+            .softValidate(CountSpecification.min(4), message: "Too short")
             .width(.column(4))
 
-        builder += item1!
+        builder += registrationItem!
 
-        item2 = TextFieldFormItem()
+        vinItem = TextFieldFormItem()
             .title(NSLocalizedString("VIN/Chassis Number", comment: "Title"))
             .placeholder(StringSizing(string: ""))
             .onValueChanged {
+                // map both VIN and Chassis Number to vin
                 self.finalVehicle.vin = $0
-                self.updateGroupValidationFormItems()
+                self.validateGroup()
             }
             .width(.column(4))
 
-        builder += item2!
+        builder += vinItem!
 
-        item3 = TextFieldFormItem()
+        engineNumberItem = TextFieldFormItem()
             .title(NSLocalizedString("Engine Number", comment: "Title"))
             .placeholder(StringSizing(string: ""))
             .onValueChanged {
                 self.finalVehicle.engineNumber = $0
-                self.updateGroupValidationFormItems()
+                self.validateGroup()
             }
             .width(.column(4))
 
-        builder += item3!
+        builder += engineNumberItem!
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Vehicle Description", comment: "Description Section Header")).separatorColor(.clear)
 
@@ -198,19 +201,17 @@ public class VehicleEditViewController: FormBuilderViewController {
     }
 
     // MARK: - Private
-
     @objc private func cancelButtonTapped(_ item: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 
     @objc private func submitButtonTapped(_ item: UIBarButtonItem) {
-        let isGroupInvalid = updateGroupValidationFormItems()
         let result = builder.validate()
+        let isGroupInvalid = validateGroup()
         switch result {
         case .invalid:
             builder.validateAndUpdateUI()
-        case .valid:
-            guard isGroupInvalid else { return }
+        case .valid where !isGroupInvalid:
             do {
                 try UserSession.current.userStorage?.addEntity(object: finalVehicle,
                                                                key: UserStorage.CreatedEntitiesKey,
@@ -219,20 +220,32 @@ public class VehicleEditViewController: FormBuilderViewController {
                 // TODO: Handles error if it cannot be saved
             }
             self.dismiss(animated: true, completion: nil)
+        default:
+            // others are valid except the group
+            break
         }
+
     }
 
     @discardableResult
-    private func updateGroupValidationFormItems() -> Bool {
-        let isInvalid = self.finalVehicle.registration == nil || self.finalVehicle.registration?.count == 0
-            && self.finalVehicle.vin == nil || self.finalVehicle.vin?.count == 0
-            && self.finalVehicle.engineNumber == nil || self.finalVehicle.engineNumber?.count == 0
-        self.item1?.cell?.setRequiresValidation(isInvalid, validationText: nil, animated: true)
-        self.item2?.cell?.setRequiresValidation(isInvalid, validationText: nil, animated: true)
-        self.item3?.cell?.setRequiresValidation(isInvalid, validationText: nil, animated: true)
-        if let view = self.headerItem?.view as? CollectionViewFormHeaderView {
-            view.tintColor = isInvalid ? UIColor.orangeRed : ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
+    /// Manually validate the group of form items
+    /// - Returns: true if group is invalid
+    private func validateGroup() -> Bool {
+        let isInvalid = finalVehicle.registration?.isEmpty ?? true
+            && finalVehicle.vin?.isEmpty ?? true
+            && finalVehicle.engineNumber?.isEmpty ?? true
+        // force to show focused text by executing a reload
+        registrationItem!.focused(isInvalid).reloadItem()
+        vinItem!.focused(isInvalid).reloadItem()
+        engineNumberItem!.focused(isInvalid).reloadItem()
+
+        // force the header to be red if invalid
+        if let view = self.groupHeaderItem?.view as? CollectionViewFormHeaderView {
+            view.tintColor = isInvalid
+                ? UIColor.orangeRed
+                : ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
         }
+
         return isInvalid
     }
 
