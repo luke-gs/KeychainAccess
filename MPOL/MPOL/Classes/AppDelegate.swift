@@ -410,11 +410,13 @@ extension AppDelegate: SearchActivityHandlerDelegate {
             landingPresenter.searchViewController.beginSearch(with: term)
 
             if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
+
+                // If the datasource is able to handle alert reading, set shouldReadAlerts to whatever is supplied.
                 if var x = ds as? AlertReading {
                     x.shouldReadAlerts = shouldReadAlerts
                 }
 
-                // If should search immediately, tell the appropriate datasource to perform the search.
+                // If should search immediately, tell the datasource to perform the search.
                 if shouldSearchImmediately {
                     ds.performSearch()
                 }
