@@ -410,7 +410,6 @@ extension AppDelegate: SearchActivityHandlerDelegate {
             landingPresenter.searchViewController.beginSearch(with: term)
 
             if let ds = landingPresenter.searchViewController.viewModel.dataSources.first(where: { $0.localizedDisplayName == term.type}) {
-
                 // If the datasource is able to handle alert reading, set shouldReadAlerts to whatever is supplied.
                 if var x = ds as? AlertReading {
                     x.shouldReadAlerts = shouldReadAlerts
@@ -421,9 +420,6 @@ extension AppDelegate: SearchActivityHandlerDelegate {
                     ds.performSearch()
                 }
             }
-
-
-
         case .viewDetails(let id, let entityType, let source):
 
             let entity: Entity?
