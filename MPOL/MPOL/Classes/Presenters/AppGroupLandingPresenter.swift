@@ -361,7 +361,21 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }
     }
 
-    open func didEnableBiometrics() {
+    open func biometricsEnableHandler() {
+
+        func alertThenDismiss() {
+            // if biometric has been disabled on system level due to failed attempts, run dismissHandler
+            let context = LAContext()
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) == false {
+
+                let typeText = context.biometryType == .faceID ? "Face ID" : "Touch ID"
+                AlertQueue.shared.addSimpleAlert(title: String.localizedStringWithFormat(NSLocalizedString("%@ login attempts exceeded", comment: ""), typeText),
+                                                 message: String.localizedStringWithFormat(NSLocalizedString("To enable %@ login, go to settings after you have logged in", comment: ""), typeText),
+                                                 handler: { _ in
+                                                    self.biometricsDismissHandler()
+                })
+            }
+        }
 
         if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
             handler.password().done { password in
@@ -369,25 +383,15 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
                     self.updateInterfaceForUserSession(animated: true)
                 } else {
-                    self.didNotEnableBiometrics()
+                    alertThenDismiss()
                 }
             }.recover { _ in
-                // if biometric has been disabled on system level due to failed attempts, remove biometric button
-                let context = LAContext()
-                if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) == false {
-
-                    let typeText = context.biometryType == .faceID ? "Face ID" : "Touch ID"
-                    AlertQueue.shared.addSimpleAlert(title: String.localizedStringWithFormat(NSLocalizedString("%@ login attempts exceeded", comment: ""), typeText),
-                                                     message: String.localizedStringWithFormat(NSLocalizedString("To enable %@ login, go to settings after you have logged in", comment: ""), typeText),
-                                                     handler: { _ in
-                                                        self.didNotEnableBiometrics()
-                                                     })
-                }
+                alertThenDismiss()
             }
         }
     }
 
-    open func didNotEnableBiometrics() {
+    open func biometricsDismissHandler() {
 
         // clear password from keychain
         if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
