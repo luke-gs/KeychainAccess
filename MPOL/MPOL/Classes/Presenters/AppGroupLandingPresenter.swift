@@ -353,6 +353,10 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         currentViewController?.dismiss(animated: true) { [weak self] in
             guard let `self` = self else { return }
 
+            // clear password from keychain
+            if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+                handler.clear()
+            }
             UserSession.current.endSession()
             self.updateInterfaceForUserSession(animated: true)
         }
