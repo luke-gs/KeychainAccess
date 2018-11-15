@@ -363,8 +363,25 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     open func didEnableBiometrics() {
 
-        UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
-        self.updateInterfaceForUserSession(animated: true)
+        if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            handler.password().done { password in
+                if password != nil {
+                    UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
+                    self.updateInterfaceForUserSession(animated: true)
+                } else {
+                    self.didNotEnableBiometrics()
+                }
+            }.recover { _ in
+                // if biometric has been disabled on system level due to failed attempts, remove biometric button
+                if LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) == false {
+                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Biometric confirmation attempts exceeded", comment: ""),
+                                                     message: NSLocalizedString("You can enable biometrics in the settings later", comment: ""),
+                                                     handler: { _ in
+                                                        self.didNotEnableBiometrics()
+                                                     })
+                }
+            }
+        }
     }
 
     open func didNotEnableBiometrics() {
