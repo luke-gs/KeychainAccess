@@ -14,9 +14,11 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
     public var alertEntities: [Entity] = []
 
+    private(set) var shouldDisplayAlerts: Bool
     private(set) var shouldReadAlerts: Bool
 
-    public init(title: String, aggregatedSearch: AggregatedSearch<T>, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default, shouldReadAlerts: Bool = false) {
+    public init(title: String, aggregatedSearch: AggregatedSearch<T>, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default, shouldDisplayAlerts: Bool = true, shouldReadAlerts: Bool = false) {
+        self.shouldDisplayAlerts = shouldDisplayAlerts
         self.shouldReadAlerts = shouldReadAlerts
         super.init(title: title, aggregatedSearch: aggregatedSearch, summaryDisplayFormatter: summaryDisplayFormatter)
     }
@@ -77,85 +79,87 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             return SearchResultSection(title: titleForResult(rawResult), entities: entities, isExpanded: shouldBeExpanded, state: rawResult.state, error: rawResult.error, source: rawResult.request.source)
         }
 
-        var alertEntities = [MPOLKitEntity]()
+        if shouldDisplayAlerts || shouldReadAlerts {
+            var alertEntities = [MPOLKitEntity]()
 
-        // Determine whether the search is complete by iterating over the results and checking if any are still searching.
-        let searchComplete = rawResults.reduce(true) { (result, rawResult) -> Bool in
-            result && (rawResult.state != SearchState.searching)
-        }
+            // Determine whether the search is complete by iterating over the results and checking if any are still searching.
+            let searchComplete = rawResults.reduce(true) { (result, rawResult) -> Bool in
+                result && (rawResult.state != SearchState.searching)
+            }
 
-        let finishedResults = rawResults.filter {$0.state == .finished}
-        finishedResults.forEach { (finishedResult) in
-            let entities = finishedResult.entities.compactMap {$0 as? Entity}
-            let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
-            filteredEntities.forEach({ (entity) in
-                alertEntities.append(entity)
-            })
-        }
+            let finishedResults = rawResults.filter {$0.state == .finished}
+            finishedResults.forEach { (finishedResult) in
+                let entities = finishedResult.entities.compactMap {$0 as? Entity}
+                let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
+                filteredEntities.forEach({ (entity) in
+                    alertEntities.append(entity)
+                })
+            }
 
-        if searchComplete && self.shouldReadAlerts {
-            if alertEntities.isEmpty {
-                TextToSpeechHelper.default.speak("No Results Found")
-            } else {
-                let entity = alertEntities.first!
-                switch entity {
-                case is Vehicle:
-                    let summary = VehicleSummaryDisplayable(entity)
+            if searchComplete && self.shouldReadAlerts {
+                if alertEntities.isEmpty {
+                    TextToSpeechHelper.default.speak("No Results Found")
+                } else {
+                    let entity = alertEntities.first!
+                    switch entity {
+                    case is Vehicle:
+                        let summary = VehicleSummaryDisplayable(entity)
 
-                    let rego = (entity as! Vehicle).registration ?? ""
+                        let rego = (entity as! Vehicle).registration ?? ""
 
-                    let regoFormatted: String = rego.reduce("") { (result, character) -> String in
-                        return result + String(character) + " "
-                    }
-
-                    var text: String = ""
-
-                    var status: String? = nil
-                    if let alert = (entity as! Vehicle).alertLevel {
-                        switch alert {
-                        case .high:
-                            status = "High Alert"
-                        case .medium:
-                            status = "Medium Alert"
-                        case .low:
-                            status = "Low Alert"
-                        }
-                    }
-
-                    if let category = summary.category {
-                        let categoryWithSpaces = category.reduce("") { (result, character) -> String in
+                        let regoFormatted: String = rego.reduce("") { (result, character) -> String in
                             return result + String(character) + " "
                         }
-                        text += "Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces)). "
-                    }
 
-                    if let status = status {
-                        text += "\(status). "
+                        var text: String = ""
+
+                        var status: String? = nil
+                        if let alert = (entity as! Vehicle).alertLevel {
+                            switch alert {
+                            case .high:
+                                status = "High Alert"
+                            case .medium:
+                                status = "Medium Alert"
+                            case .low:
+                                status = "Low Alert"
+                            }
+                        }
+
+                        if let category = summary.category {
+                            let categoryWithSpaces = category.reduce("") { (result, character) -> String in
+                                return result + String(character) + " "
+                            }
+                            text += "Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces)). "
+                        }
+
+                        if let status = status {
+                            text += "\(status). "
+                        }
+                        if !regoFormatted.isEmpty {
+                            text += "Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces)). "
+                        }
+                        if let color = (entity as! Vehicle).primaryColor {
+                            text += "\(color). "
+                        }
+                        if let makeModelSummary = summary.detail1 {
+                            text += "\(makeModelSummary). "
+                        }
+                        if alertEntities.count > 1 {
+                            text += "Multiple Matches Found. "
+                        }
+                        if !text.isEmpty {
+                            TextToSpeechHelper.default.speak(text.trimmingCharacters(in: .whitespaces))
+                        }
+                    default:
+                        fatalError("Text to speech alerts not supported for supplied entity")
                     }
-                    if !regoFormatted.isEmpty {
-                        text += "Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces)). "
-                    }
-                    if let color = (entity as! Vehicle).primaryColor {
-                        text += "\(color). "
-                    }
-                    if let makeModelSummary = summary.detail1 {
-                        text += "\(makeModelSummary). "
-                    }
-                    if alertEntities.count > 1 {
-                        text += "Multiple Matches Found. "
-                    }
-                    if !text.isEmpty {
-                        TextToSpeechHelper.default.speak(text.trimmingCharacters(in: .whitespaces))
-                    }
-                default:
-                    fatalError("Text to speech alerts not supported for supplied entity")
                 }
             }
-        }
 
-        if !alertEntities.isEmpty {
-            let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
-            processedResults.insert(alertSection, at: 0)
+            if !alertEntities.isEmpty && shouldDisplayAlerts {
+                let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
+                processedResults.insert(alertSection, at: 0)
+            }
         }
 
         return processedResults

@@ -360,7 +360,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, AlertReading, UITextF
                 let request = VehicleSearchRequest(source: .pscore, request: searchParameters)
                 let rdaRequest = VehicleSearchRequest(source: .rda, request: searchParameters)
 
-                let resultModel = EntitySummaryAlertsSearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]), shouldReadAlerts: shouldReadAlerts)
+                let resultModel = EntitySummaryAlertsSearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]), shouldDisplayAlerts: false, shouldReadAlerts: shouldReadAlerts)
 
                 resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                 resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
