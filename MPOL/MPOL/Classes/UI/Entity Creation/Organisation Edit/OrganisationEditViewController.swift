@@ -82,9 +82,9 @@ public class OrganisationEditViewController: FormBuilderViewController {
             })])
 
         // Contact section
-        let contactHeaderText = finalOrganisation.contacts?.count != nil && finalOrganisation.contacts?.count != 0
-            ? String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalOrganisation.contacts!.count)
-            : NSLocalizedString("Contact Details", comment: "header when no contacts exist")
+        let contactHeaderText = finalOrganisation.contacts?.isEmpty ?? true
+            ? NSLocalizedString("Contact Details", comment: "header when no contacts exist")
+            : String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalOrganisation.contacts!.count)
         builder += LargeTextHeaderFormItem(text: contactHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
@@ -127,9 +127,9 @@ public class OrganisationEditViewController: FormBuilderViewController {
         }
 
         // Alias section
-        let aliasHeaderText = finalOrganisation.aliases?.count != nil && finalOrganisation.aliases?.count != 0
-            ? String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalOrganisation.aliases!.count)
-            : NSLocalizedString("Aliases", comment: "header when no aliases exist")
+        let aliasHeaderText = finalOrganisation.aliases?.isEmpty ?? true
+            ? NSLocalizedString("Aliases", comment: "header when no aliases exist")
+            : String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalOrganisation.aliases!.count)
         builder += LargeTextHeaderFormItem(text: aliasHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
