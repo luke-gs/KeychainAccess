@@ -103,9 +103,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
         case .biometrics(let type):
 
             if type == .faceID {
-                return BiometricsViewController(viewModel: faceIDBiometricsViewModel(enableHandler: didEnableBiometrics, dontEnableHandler: didNotEnableBiometrics))
+                return BiometricsViewController(viewModel: FaceIDBiometricsViewModel(enableHandler: didEnableBiometrics, dontEnableHandler: didNotEnableBiometrics))
             } else {
-                return BiometricsViewController(viewModel: touchIDBiometricsViewModel(enableHandler: didEnableBiometrics, dontEnableHandler: didNotEnableBiometrics))
+                return BiometricsViewController(viewModel: TouchIDBiometricsViewModel(enableHandler: didEnableBiometrics, dontEnableHandler: didNotEnableBiometrics))
             }
 
         case .landing:
