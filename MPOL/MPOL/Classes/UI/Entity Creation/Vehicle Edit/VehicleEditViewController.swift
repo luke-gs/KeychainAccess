@@ -11,6 +11,13 @@ import PublicSafetyKit
 
 public class VehicleEditViewController: FormBuilderViewController {
 
+    private let numberFormatter = NumberFormatter()
+
+    // MARK: Group validation form items
+    var headerItem: HeaderFormItem?
+    var item1: TextFieldFormItem?
+    var item2: TextFieldFormItem?
+    var item3: TextFieldFormItem?
     // MARK: - Storage
 
     private var finalVehicle = Vehicle(id: UUID().uuidString)
@@ -46,17 +53,6 @@ public class VehicleEditViewController: FormBuilderViewController {
                 cell.placeholderLabel.textColor = cell.valueLabel.textColor
             }
 
-        builder += TextFieldFormItem()
-            .title(NSLocalizedString("Registration Number", comment: "Vehicle Number"))
-            .onValueChanged { self.finalVehicle.registration = $0 }
-            .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
-            .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
-
         builder += DropDownFormItem()
             .title(NSLocalizedString("State", comment: "Drop Down Title"))
             .options(["VIC", "NSW", "QLD", "ACT", "NT", "WA", "TAS"])
@@ -69,7 +65,49 @@ public class VehicleEditViewController: FormBuilderViewController {
                 cell.placeholderLabel.textColor = cell.valueLabel.textColor
             }
 
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "Details Section Header")).separatorColor(.clear)
+        builder += ValueFormItem()
+            .width(.column(2))
+            .separatorStyle(.none)
+
+        headerItem = HeaderFormItem()
+            .text("AT LEAST ONE OF THE FIELDS BELOW ARE REQUIRED")
+        builder += headerItem!
+
+        item1 = TextFieldFormItem()
+            .title(NSLocalizedString("Registration Number", comment: "Vehicle Number"))
+            .placeholder(StringSizing(string: ""))
+            .onValueChanged {
+                self.finalVehicle.registration = $0
+
+                self.updateGroupValidationFormItems()
+            }
+            .width(.column(4))
+
+        builder += item1!
+
+        item2 = TextFieldFormItem()
+            .title(NSLocalizedString("VIN/Chassis Number", comment: "Title"))
+            .placeholder(StringSizing(string: ""))
+            .onValueChanged {
+                self.finalVehicle.vin = $0
+                self.updateGroupValidationFormItems()
+            }
+            .width(.column(4))
+
+        builder += item2!
+
+        item3 = TextFieldFormItem()
+            .title(NSLocalizedString("Engine Number", comment: "Title"))
+            .placeholder(StringSizing(string: ""))
+            .onValueChanged {
+                self.finalVehicle.engineNumber = $0
+                self.updateGroupValidationFormItems()
+            }
+            .width(.column(4))
+
+        builder += item3!
+
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Vehicle Description", comment: "Description Section Header")).separatorColor(.clear)
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Year of Manufacture", comment: "Title"))
@@ -100,21 +138,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             }
 
         builder += TextFieldFormItem()
-            .title(NSLocalizedString("VIN/Chassis Number", comment: "Title"))
-            .onValueChanged { self.finalVehicle.vin = $0 }
-            .width(.column(4))
-
-        builder += TextFieldFormItem()
-            .title(NSLocalizedString("Engine Number", comment: "Title"))
-            .onValueChanged { self.finalVehicle.engineNumber = $0 }
-            .width(.column(4))
-
-        builder += TextFieldFormItem()
-            .title(NSLocalizedString("Fuel Type", comment: "Title"))
-            .onValueChanged { self.finalVehicle.fuelType = $0 }
-            .width(.column(4))
-
-        builder += TextFieldFormItem()
             .title(NSLocalizedString("Primary Colour", comment: "Title"))
             .onValueChanged { self.finalVehicle.primaryColor = $0 }
             .required()
@@ -130,6 +153,8 @@ public class VehicleEditViewController: FormBuilderViewController {
             .onValueChanged { self.finalVehicle.secondaryColor = $0 }
             .width(.column(4))
 
+        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Additional Details", comment: "Details Section Header")).separatorColor(.clear)
+
         builder += DropDownFormItem()
             .title(NSLocalizedString("Transmission", comment: "Drop Down Title"))
             .options(["Automatic", "Manual"])
@@ -137,8 +162,27 @@ public class VehicleEditViewController: FormBuilderViewController {
             .width(.column(4))
 
         builder += TextFieldFormItem()
+            .title(NSLocalizedString("Seating Capacity", comment: "Title"))
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Seating Capacity can only be number.", comment: "Validation Hint"))
+            .onValueChanged {
+                if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
+                    self.finalVehicle.seatingCapacity = value
+                } else {
+                    self.finalVehicle.seatingCapacity = nil
+                }
+            }
+            .width(.column(4))
+
+        builder += TextFieldFormItem()
             .title(NSLocalizedString("Gross Vehicle Mass", comment: "Title"))
-            .onValueChanged { self.finalVehicle.grossVehicleMass = $0 }
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Gross Vehicle Mass can only be number.", comment: "Validation Hint"))
+            .onValueChanged {
+                if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
+                    self.finalVehicle.weight = value
+                } else {
+                    self.finalVehicle.weight = nil
+                }
+            }
             .width(.column(4))
 
         builder += TextFieldFormItem()
@@ -147,12 +191,9 @@ public class VehicleEditViewController: FormBuilderViewController {
             .width(.column(4))
 
         builder += TextFieldFormItem()
-            .title(NSLocalizedString("Seating Capacity", comment: "Title"))
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Seating Capacity can only be number.", comment: "Validation Hint"))
-            .onValueChanged {
-                self.finalVehicle.seatingCapacity = $0 != nil ? Int($0!) : nil
-            }
-            .width(.column(4))
+            .title(NSLocalizedString("Remarks", comment: "Title"))
+            .onValueChanged { self.finalVehicle.remarks = $0 }
+            .width(.column(1))
 
     }
 
@@ -163,11 +204,13 @@ public class VehicleEditViewController: FormBuilderViewController {
     }
 
     @objc private func submitButtonTapped(_ item: UIBarButtonItem) {
+        let isGroupInvalid = updateGroupValidationFormItems()
         let result = builder.validate()
         switch result {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
+            guard isGroupInvalid else { return }
             do {
                 try UserSession.current.userStorage?.addEntity(object: finalVehicle,
                                                                key: UserStorage.CreatedEntitiesKey,
@@ -177,6 +220,20 @@ public class VehicleEditViewController: FormBuilderViewController {
             }
             self.dismiss(animated: true, completion: nil)
         }
+    }
+
+    @discardableResult
+    private func updateGroupValidationFormItems() -> Bool {
+        let isInvalid = self.finalVehicle.registration == nil || self.finalVehicle.registration?.count == 0
+            && self.finalVehicle.vin == nil || self.finalVehicle.vin?.count == 0
+            && self.finalVehicle.engineNumber == nil || self.finalVehicle.engineNumber?.count == 0
+        self.item1?.cell?.setRequiresValidation(isInvalid, validationText: nil, animated: true)
+        self.item2?.cell?.setRequiresValidation(isInvalid, validationText: nil, animated: true)
+        self.item3?.cell?.setRequiresValidation(isInvalid, validationText: nil, animated: true)
+        if let view = self.headerItem?.view as? CollectionViewFormHeaderView {
+            view.tintColor = isInvalid ? UIColor.orangeRed : ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
+        }
+        return isInvalid
     }
 
 }
