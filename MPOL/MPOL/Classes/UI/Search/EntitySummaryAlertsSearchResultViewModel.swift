@@ -94,9 +94,9 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
         }
 
         if searchComplete && self.shouldReadAlerts {
-            if alertEntities.count == 0 {
+            if alertEntities.isEmpty {
                 TextToSpeechHelper.default.speak("No Results Found")
-            } else if alertEntities.count == 1 {
+            } else {
                 let entity = alertEntities.first!
                 switch entity {
                 case is Vehicle:
@@ -105,7 +105,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     let rego = (entity as! Vehicle).registration ?? ""
 
                     let regoMapped: [String] = rego.map { value -> String in
-                        let result: String = String(value)
+                        let result: String = String(value) + " "
                         if let number: Int = Int(result) {
                             return String(number) + " "
                         } else {
@@ -119,11 +119,11 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     if let alert = (entity as! Vehicle).alertLevel {
                         switch alert {
                         case .high:
-                            status = "High Alert.\n"
+                            status = "High Alert"
                         case .medium:
-                            status = "Medium Alert.\n"
+                            status = "Medium Alert"
                         case .low:
-                            status = "Low Alert.\n"
+                            status = "Low Alert"
                         }
                     } else {
                         status = nil
@@ -132,28 +132,33 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     var text: String = ""
 
                     if let category = summary.category {
-                        text += "One result from \(category).\n"
+                        let categoryWithSpaces = category.reduce("") { (result, character) -> String in
+                            return result + String(character) + " "
+                        }
+                        text += "Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces)). "
                     }
+
                     if let status = status {
-                        text += "\(status).\n"
+                        text += "\(status). "
                     }
                     if !regoFormatted.isEmpty {
-                        text += "Registration: \(regoMapped).\n"
+                        text += "Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces)). "
                     }
                     if let color = (entity as! Vehicle).primaryColor {
-                        text += "\(color).\n"
+                        text += "\(color). "
                     }
                     if let makeModelSummary = summary.detail1 {
-                        text += "\(makeModelSummary).\n"
+                        text += "\(makeModelSummary). "
+                    }
+                    if alertEntities.count > 1 {
+                        text += "Multiple Matches Found. "
                     }
                     if !text.isEmpty {
-                        TextToSpeechHelper.default.speak(text)
+                        TextToSpeechHelper.default.speak(text.trimmingCharacters(in: .whitespaces))
                     }
                 default:
                     fatalError("Text to speech alerts not supported for supplied entity")
                 }
-            } else {
-                TextToSpeechHelper.default.speak("Multiple Matches Found")
             }
         }
 
