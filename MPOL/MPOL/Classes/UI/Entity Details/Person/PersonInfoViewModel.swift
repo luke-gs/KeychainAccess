@@ -110,7 +110,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }
-                    return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .subheadline))
+                    return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
                 }()
                 builder += DetailFormItem()
                     .title(title)
@@ -123,7 +123,6 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                         cell.titleLabel.textColor = theme.color(forKey: .secondaryText)
                         cell.subtitleLabel.textColor = theme.color(forKey: .primaryText)
                         cell.detailLabel.textColor = theme.color(forKey: .secondaryText)
-
                     })
             }
         }
