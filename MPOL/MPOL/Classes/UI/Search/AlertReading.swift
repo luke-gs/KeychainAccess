@@ -7,6 +7,6 @@
 
 import PublicSafetyKit
 
-public protocol AlertReading {
+public protocol AlertReading: SearchDataSource {
     var shouldReadAlerts: Bool { get set }
 }
