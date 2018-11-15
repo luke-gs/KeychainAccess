@@ -108,7 +108,9 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                         return result + String(character) + " "
                     }
 
-                    let status: String?
+                    var text: String = ""
+
+                    var status: String? = nil
                     if let alert = (entity as! Vehicle).alertLevel {
                         switch alert {
                         case .high:
@@ -118,11 +120,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                         case .low:
                             status = "Low Alert"
                         }
-                    } else {
-                        status = nil
                     }
-
-                    var text: String = ""
 
                     if let category = summary.category {
                         let categoryWithSpaces = category.reduce("") { (result, character) -> String in
