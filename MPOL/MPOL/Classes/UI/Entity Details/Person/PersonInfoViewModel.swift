@@ -100,23 +100,31 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 .style(.collapsible)
 
             for alias in aliases {
-                SubtitleFormItem(title: alias.formattedName, subtitle: alias.formattedDOBAgeGender()).width(.column(1))
-
+                let title = StringSizing(string: alias.nameType ?? "Alias", font: UIFont.preferredFont(forTextStyle: .subheadline))
                 let value = StringSizing(string: alias.formattedName ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
-                let title: StringSizing = {
-                    let title: String
+                let detail: StringSizing = {
+                    let detail: String
                     if let date = alias.dateCreated {
                         let locationString = alias.jurisdiction != nil ? " (\(alias.jurisdiction!))" : ""
-                        title = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
+                        detail = String(format: NSLocalizedString("Recorded on %@%@", comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
-                        title = NSLocalizedString("Recorded date unknown", comment: "")
+                        detail = NSLocalizedString("Recorded date unknown", comment: "")
                     }
-                    return StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline))
+                    return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .subheadline))
                 }()
-
-                builder += ValueFormItem(value: value, image: nil)
+                builder += DetailFormItem()
                     .title(title)
+                    .subtitle(value)
+                    .detail(detail)
                     .width(.column(1))
+                    .onStyled({ (cell) in
+                        let theme = ThemeManager.shared.theme(for: .current)
+                        guard let cell = cell as? CollectionViewFormDetailCell else { return }
+                        cell.titleLabel.textColor = theme.color(forKey: .secondaryText)
+                        cell.subtitleLabel.textColor = theme.color(forKey: .primaryText)
+                        cell.detailLabel.textColor = theme.color(forKey: .secondaryText)
+
+                    })
             }
         }
 
