@@ -104,16 +104,9 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
                     let rego = (entity as! Vehicle).registration ?? ""
 
-                    let regoMapped: [String] = rego.map { value -> String in
-                        let result: String = String(value) + " "
-                        if let number: Int = Int(result) {
-                            return String(number) + " "
-                        } else {
-                            return result
-                        }
+                    let regoFormatted: String = rego.reduce("") { (result, character) -> String in
+                        return result + String(character) + " "
                     }
-
-                    let regoFormatted: String = regoMapped.joined()
 
                     let status: String?
                     if let alert = (entity as! Vehicle).alertLevel {
