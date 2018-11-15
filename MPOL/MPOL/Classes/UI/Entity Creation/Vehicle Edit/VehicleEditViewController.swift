@@ -82,7 +82,6 @@ public class VehicleEditViewController: FormBuilderViewController {
                 self.finalVehicle.registration = $0
                 self.validateGroup()
             }
-            .softValidate(CountSpecification.min(4), message: "Too short")
             .width(.column(4))
 
         builder += registrationItem!
