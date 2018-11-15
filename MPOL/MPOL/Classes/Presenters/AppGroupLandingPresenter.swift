@@ -129,7 +129,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 if let biometrics = biometricsScreen() {
                     return biometrics
                 } else {
-                    if  let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
+                    if let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
                         return .landing
                     } else {
                         return .whatsNew
