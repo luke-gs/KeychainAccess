@@ -45,9 +45,14 @@ open class Entity: MPOLKitEntity {
 
     // MARK: - Calculated
 
+    private var _uuid: String?
+
+    /// Use the server type, source and server id for the uuid
     open override var uuid: String {
-        // Use the server type, source and id for a unique identifier
-        return [type(of: self).serverTypeRepresentation, source?.rawValue, id].joined()
+        if _uuid == nil {
+            _uuid = [type(of: self).serverTypeRepresentation, source?.rawValue, id].joined()
+        }
+        return _uuid!
     }
 
     public var lastUpdated: Date? {
