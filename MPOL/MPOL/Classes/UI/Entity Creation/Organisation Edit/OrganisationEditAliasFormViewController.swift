@@ -43,6 +43,7 @@ public class OrganisationEditAliasFormViewController: FormBuilderViewController 
             .title(NSLocalizedString("Alias Type", comment: ""))
             .options(OrganisationEditAliasFormViewModel.aliasOptions)
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first
@@ -61,10 +62,6 @@ public class OrganisationEditAliasFormViewController: FormBuilderViewController 
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.organisationAlias?.alias = $0
-            }
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
             }
         builder += aliasFormItem
     }

@@ -34,27 +34,19 @@ public class OrganisationEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "Details Section Header")).separatorColor(.clear)
 
-        if let items = Manifest.shared.entries(for: .organisationType)?.rawValues() {
+        if let items = Manifest.shared.entries(for: .organisationType)?.rawValues().map({ AnyPickable($0) }) {
             builder += DropDownFormItem()
                 .title(NSLocalizedString("Organisation Type", comment: "Drop Down Title"))
                 .options(items)
                 .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
                 .required()
                 .width(.column(4))
-                .onStyled { cell in
-                    guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
-                    cell.placeholderLabel.textColor = cell.valueLabel.textColor
-                }
         }
 
         builder += TextFieldFormItem().title(NSLocalizedString("Organisation Name", comment: "Title"))
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
 
         builder += TextFieldFormItem().title(NSLocalizedString("ABN", comment: "Title"))
             .width(.column(4))
@@ -68,6 +60,7 @@ public class OrganisationEditViewController: FormBuilderViewController {
             .selectedValue(location)
             .width(.column(1))
             .required()
+            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .onValueChanged { [unowned self] (location) in
                 if let location = location as? LocationSelectionCore {
                     self.location = location
