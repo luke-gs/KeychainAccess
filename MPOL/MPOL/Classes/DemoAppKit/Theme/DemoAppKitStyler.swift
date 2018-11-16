@@ -23,6 +23,31 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
         case let item as TrafficHistoryOverviewFormItem:
             guard let cell = item.cell as? TrafficHistoryCollectionViewCell else { return }
             cell.apply(theme: theme)
+
+        case let item as TextFieldFormItem:
+            guard let cell = item.cell as? CollectionViewFormTextFieldCell else { return }
+            if item.isRequired {
+                cell.textField.placeholderTextColor = theme.color(forKey: .primaryText)
+            }
+
+        case let item as DropDownFormItem<AnyPickable>:
+            guard let cell = item.cell as? CollectionViewFormValueFieldCell else { return }
+            if item.isRequired {
+                cell.placeholderLabel.textColor = theme.color(forKey: .primaryText)
+            }
+
+        case let item as DateFormItem:
+            guard let cell = item.cell as? CollectionViewFormValueFieldCell else { return }
+            if item.isRequired {
+                cell.placeholderLabel.textColor = theme.color(forKey: .primaryText)
+            }
+
+        case let item as PickerFormItem<LocationSelectionType>:
+            guard let cell = item.cell as? CollectionViewFormValueFieldCell else { return }
+            if item.isRequired {
+                cell.placeholderLabel.textColor = theme.color(forKey: .primaryText)
+            }
+
         default: break
         }
     }
