@@ -15,7 +15,7 @@ import KeychainAccess
 import LocalAuthentication
 
 /// Enum for all initial screens in a standard MPOL app
-public enum LandingScreen: Presentable, Equatable {
+public enum LandingScreen: Presentable {
 
     /// Initial login screen
     case login
@@ -24,7 +24,7 @@ public enum LandingScreen: Presentable, Equatable {
     case termsAndConditions
 
     /// Biometrics warning screen
-    case biometrics(type: LABiometryType)
+    case biometrics
 
     /// What's new paginated screen
     case whatsNew
@@ -147,14 +147,13 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         // check that current device supports biometrics
         let context = LAContext()
         guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else { return nil }
-        let type = context.biometryType
-        guard type != .none else { return nil }
+        guard context.biometryType != .none else { return nil }
 
         // check that we haven't previously asked for biometrics
         guard let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
             handler.useBiometric == .unknown else { return nil }
 
-        return .biometrics(type: type)
+        return .biometrics
     }
 
     @discardableResult fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) -> UIViewController? {

@@ -9,6 +9,7 @@
 import Foundation
 import PublicSafetyKit
 import PromiseKit
+import LocalAuthentication
 
 public enum Screen {
     case search
@@ -100,9 +101,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             return whatsNewVC
 
-        case .biometrics(let type):
+        case .biometrics:
 
-            if type == .faceID {
+            if LAContext().biometryType == .faceID {
                 return BiometricsViewController(viewModel: FaceIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler))
             } else {
                 return BiometricsViewController(viewModel: TouchIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler))
