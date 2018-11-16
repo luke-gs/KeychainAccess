@@ -112,22 +112,16 @@ public class VehicleEditViewController: FormBuilderViewController {
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Make", comment: "Title"))
             .onValueChanged { self.finalVehicle.make = $0 }
-            .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Model", comment: "Title"))
             .onValueChanged { self.finalVehicle.model = $0 }
-            .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Primary Colour", comment: "Title"))
             .onValueChanged { self.finalVehicle.primaryColor = $0 }
-            .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += TextFieldFormItem()
@@ -158,6 +152,7 @@ public class VehicleEditViewController: FormBuilderViewController {
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Gross Vehicle Mass", comment: "Title"))
             .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Gross Vehicle Mass can only be number.", comment: "Validation Hint"))
+            .placeholder(StringSizing(string: NSLocalizedString("0 kg", comment: "Indicate the placeholder of Gross Vehicle Mass")))
             .onValueChanged {
                 if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
                     self.finalVehicle.weight = value
@@ -169,6 +164,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("TARE", comment: "Title"))
+            .placeholder(StringSizing(string: NSLocalizedString("0 kg", comment: "Indicate the placeholder of TARE")))
             .onValueChanged { self.finalVehicle.tare = $0 }
             .width(.column(4))
 
