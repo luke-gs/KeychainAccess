@@ -59,17 +59,13 @@ public class VehicleEditViewController: FormBuilderViewController {
             .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
-        builder += ValueFormItem()
-            .width(.column(2))
-            .separatorStyle(.none)
-
         groupHeaderItem = HeaderFormItem()
             .text(NSLocalizedString("AT LEAST ONE OF THE FIELDS BELOW ARE REQUIRED", comment: "Header for group validation"))
         builder += groupHeaderItem!
 
         registrationItem = TextFieldFormItem()
             .title(NSLocalizedString("Registration Number", comment: "Vehicle Number"))
-            .placeholder(StringSizing(string: ""))
+            .placeholder(StringSizing(string: "-"))
             .onValueChanged {
                 self.finalVehicle.registration = $0
                 self.validateGroup()
@@ -80,7 +76,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         vinItem = TextFieldFormItem()
             .title(NSLocalizedString("VIN/Chassis Number", comment: "Title"))
-            .placeholder(StringSizing(string: ""))
+            .placeholder(StringSizing(string: "-"))
             .onValueChanged {
                 // map both VIN and Chassis Number to vin
                 self.finalVehicle.vin = $0
@@ -92,7 +88,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         engineNumberItem = TextFieldFormItem()
             .title(NSLocalizedString("Engine Number", comment: "Title"))
-            .placeholder(StringSizing(string: ""))
+            .placeholder(StringSizing(string: "-"))
             .onValueChanged {
                 self.finalVehicle.engineNumber = $0
                 self.validateGroup()
@@ -118,10 +114,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             .title(NSLocalizedString("Model", comment: "Title"))
             .onValueChanged { self.finalVehicle.model = $0 }
             .width(.column(4))
-
-        builder += ValueFormItem()
-            .width(.column(4))
-            .separatorStyle(.none)
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Primary Colour", comment: "Title"))
