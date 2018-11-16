@@ -45,27 +45,19 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("Vehicle Type", comment: "Drop Down Title"))
-            .options(["Car", "Motorcycle", "Van", "Truck", "Trailer", "Vessel"])
-            .onValueChanged { self.finalVehicle.vehicleType = $0?.first }
+            .options(["Car", "Motorcycle", "Van", "Truck", "Trailer", "Vessel"].map({ AnyPickable($0) }))
+            .onValueChanged { self.finalVehicle.vehicleType = $0?.first?.base as? String }
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
-                cell.placeholderLabel.textColor = cell.valueLabel.textColor
-            }
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("State", comment: "Drop Down Title"))
-            .options(["VIC", "NSW", "QLD", "ACT", "NT", "WA", "TAS"])
-            .onValueChanged { self.finalVehicle.registrationState = $0?.first }
+            .options(["VIC", "NSW", "QLD", "ACT", "NT", "WA", "TAS"].map({ AnyPickable($0) }))
+            .onValueChanged { self.finalVehicle.registrationState = $0?.first?.base as? String }
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
-                cell.placeholderLabel.textColor = cell.valueLabel.textColor
-            }
 
         builder += ValueFormItem()
             .width(.column(2))
@@ -123,10 +115,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Model", comment: "Title"))
@@ -134,10 +122,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Primary Colour", comment: "Title"))
@@ -145,10 +129,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             .required()
             .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Secondary Colour", comment: "Title"))
