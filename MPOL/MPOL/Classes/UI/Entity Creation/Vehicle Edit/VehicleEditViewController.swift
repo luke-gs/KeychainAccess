@@ -119,6 +119,10 @@ public class VehicleEditViewController: FormBuilderViewController {
             .onValueChanged { self.finalVehicle.model = $0 }
             .width(.column(4))
 
+        builder += ValueFormItem()
+            .width(.column(4))
+            .separatorStyle(.none)
+
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Primary Colour", comment: "Title"))
             .onValueChanged { self.finalVehicle.primaryColor = $0 }
