@@ -186,11 +186,11 @@ public class VehicleEditViewController: FormBuilderViewController {
 
     @objc private func submitButtonTapped(_ item: UIBarButtonItem) {
         let result = builder.validate()
-        let isGroupInvalid = validateGroup()
+        let isGroupValid = validateGroup()
         switch result {
         case .invalid:
             builder.validateAndUpdateUI()
-        case .valid where !isGroupInvalid:
+        case .valid where isGroupValid:
             do {
                 try UserSession.current.userStorage?.addEntity(object: finalVehicle,
                                                                key: UserStorage.CreatedEntitiesKey,
@@ -208,7 +208,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
     @discardableResult
     /// Manually validate the group of form items
-    /// - Returns: true if group is invalid
+    /// - Returns: true if group is valid
     private func validateGroup() -> Bool {
         let isInvalid = finalVehicle.registration?.isEmpty ?? true
             && finalVehicle.vin?.isEmpty ?? true
@@ -225,7 +225,7 @@ public class VehicleEditViewController: FormBuilderViewController {
                 : ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
         }
 
-        return isInvalid
+        return !isInvalid
     }
 
 }
