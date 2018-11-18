@@ -14,7 +14,7 @@ extension DefaultEntitiesListReport: Summarisable {
         guard let incident = incident else { return items }
 
         let entities = event?.incidentRelationshipManager?.relationships(for: incident).compactMap {
-            return event?.entityBucket.entity(uuid: $0.baseObjectUuid)
+            return event?.entityBucket.entity(for: $0.baseObjectUuid)
         }
 
         if let entities = entities {

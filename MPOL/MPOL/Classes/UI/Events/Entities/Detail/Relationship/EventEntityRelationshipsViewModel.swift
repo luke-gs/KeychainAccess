@@ -117,7 +117,7 @@ class EventEntityRelationshipsViewModel {
         relationships = relationships.filter { $0.isBaseType(entityType) }.filter { !$0.isBaseObject(self.report.entity) }
 
         return Array(Set(relationships.compactMap {
-            return report.event?.entityBucket.entity(uuid: $0.baseObjectUuid)
+            return report.event?.entityBucket.entity(for: $0.baseObjectUuid)
         }))
     }
 }

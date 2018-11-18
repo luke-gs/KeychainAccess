@@ -18,7 +18,7 @@ public class EventEntityRelationshipsReport: DefaultEventReportable {
 
     /// Return the entity from the event
     public var entity: MPOLKitEntity? {
-        return event?.entityBucket.entity(uuid: entityUuid)
+        return event?.entityBucket.entity(for: entityUuid)
     }
 
     public var relationships: [Relationship]? {
