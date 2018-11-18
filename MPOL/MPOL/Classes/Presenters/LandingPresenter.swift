@@ -103,11 +103,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         case .biometrics:
 
+            let viewModel: BiometricsViewModelable
             if LAContext().biometryType == .faceID {
-                return BiometricsViewController(viewModel: FaceIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler))
+                viewModel = FaceIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler)
             } else {
-                return BiometricsViewController(viewModel: TouchIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler))
+                viewModel = TouchIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler)
             }
+            return BiometricsViewController(viewModel: viewModel)
 
         case .landing:
             func settingsBarButtonItem() -> UIBarButtonItem {
