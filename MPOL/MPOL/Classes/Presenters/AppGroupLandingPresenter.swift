@@ -364,7 +364,9 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     open func biometricsEnableHandler() {
 
         if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
-            handler.password().done { password in
+            handler.password().done { [weak self] password in
+                guard let `self` = self else { return }
+
                 if password != nil {
                     UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
                     self.updateInterfaceForUserSession(animated: true)
