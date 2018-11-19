@@ -23,6 +23,7 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
         case let item as TrafficHistoryOverviewFormItem:
             guard let cell = item.cell as? TrafficHistoryCollectionViewCell else { return }
             cell.apply(theme: theme)
+
         default: break
         }
     }

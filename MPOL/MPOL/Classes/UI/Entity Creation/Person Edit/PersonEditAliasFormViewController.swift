@@ -42,7 +42,7 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
         }
 
         builder += DropDownFormItem()
-            .title(NSLocalizedString("Title", comment: ""))
+            .title(NSLocalizedString("Alias Type", comment: ""))
             .options(PersonEditAliasFormViewModel.aliasOptions)
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
@@ -75,14 +75,9 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
             .title(type)
             .text(viewModel.personAlias?.lastName)
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.lastName = $0
-            }
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
             }
         builder += firstNameFormItem
         builder += middleNameFormItem

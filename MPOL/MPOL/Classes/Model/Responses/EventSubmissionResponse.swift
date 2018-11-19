@@ -25,6 +25,11 @@ public class EventSubmissionResponse: MPOLKitEntity {
 
     public var eventNumber: Int
 
+    public init(id: String, eventNumber: Int) {
+        self.eventNumber = eventNumber
+        super.init(id: id)
+    }
+
     // MARK: Unboxable
 
     public required init(unboxer: Unboxer) throws {

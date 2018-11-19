@@ -23,6 +23,9 @@ public enum LandingScreen: Presentable {
     /// Terms and conditions screen, presented as form sheet
     case termsAndConditions
 
+    /// Biometrics warning screen
+    case biometrics
+
     /// What's new paginated screen
     case whatsNew
 
@@ -117,22 +120,40 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             let usedVersion = SemanticVersion(user.highestUsedAppVersion)
             if usedVersion == nil || usedVersion! < appVersion {
                 user.highestUsedAppVersion = appVersion.rawVersion
-                user.lastWhatsNewShownVersion = nil
-                user.lastTermsAndConditionsVersionAccepted = nil
+                user.lastWhatsNewShownVersion = "0"
+                user.lastTermsAndConditionsVersionAccepted = "0"
             }
 
             if let acceptedVersion = SemanticVersion(user.lastTermsAndConditionsVersionAccepted), acceptedVersion >= termsAndConditionsVersion {
 
-                if  let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
-                    return .landing
+                if let biometrics = biometricsScreen() {
+                    return biometrics
                 } else {
-                    return .whatsNew
+                    if let shownVersion = SemanticVersion(user.lastWhatsNewShownVersion), shownVersion >= whatsNewVersion {
+                        return .landing
+                    } else {
+                        return .whatsNew
+                    }
                 }
             } else {
                 return .termsAndConditions
             }
         }
         return .login
+    }
+
+    private func biometricsScreen() -> LandingScreen? {
+
+        // check that current device supports biometrics
+        let context = LAContext()
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else { return nil }
+        guard context.biometryType != .none else { return nil }
+
+        // check that we haven't previously asked for biometrics
+        guard let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
+            handler.useBiometric == .unknown else { return nil }
+
+        return .biometrics
     }
 
     @discardableResult fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) -> UIViewController? {
@@ -240,19 +261,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
                     // Ask if the user wants to remember their password.
                     if biometricUser.useBiometric == .unknown {
-                        return self.askForBiometricPermission(in: controller, with: lContext).then { _ -> Promise<Void> in
-                            // Store the username and password.
-                            return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
-                                // Only set it to `agreed` after password saving is successful.
-                                biometricUser.useBiometric = .agreed
-                                biometricUser.becomeCurrentUser()
-                            }
-                        }.recover(policy: .allErrors) { error -> Promise<Void> in
-                            if error.isCancelled {
-                                biometricUser.useBiometric = .asked
-                                return .value(())
-                            }
-                            throw error
+                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
+                            biometricUser.becomeCurrentUser()
                         }
                     }
                 }
@@ -316,29 +326,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         return UserPreferenceManager.shared.fetchSharedUserPreferences()
     }
 
-    private func askForBiometricPermission(in controller: UIViewController, with context: LAContext) -> Promise<Void> {
-        return Promise { seal in
-            var title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDTitle", comment: "Title of prompt asking the user whether they want to enable Touch ID.")
-            var message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDMessage", comment: "Disclaimer / terms of use for enabling Touch ID")
-            if #available(iOS 11.0.1, *) {
-                if context.biometryType == .faceID {
-                    title = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDTitle", comment: "")
-                    message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDMessage", comment: "Disclaimer / terms of use for enabling Face ID")
-                }
-            }
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let action = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .default, handler: { _ in
-                seal.fulfill(())
-            })
-            let cancel = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .cancel, handler: { _ in
-                seal.reject(PMKError.cancelled)
-            })
-            alertController.addAction(action)
-            alertController.addAction(cancel)
-            controller.present(alertController, animated: true)
-        }
-    }
-
     private func presentAlertController(in controller: UIViewController, title: String? = nil, message: String? = nil) -> Promise<Void> {
         return Promise { seal in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -351,6 +338,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     }
 
     open func didAcceptConditions(_ dialogAction: DialogAction) {
+
         currentViewController?.dismiss(animated: true) { [weak self] in
             guard let `self` = self else { return }
 
@@ -360,22 +348,63 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     }
 
     open func didDeclineConditions(_ dialogAction: DialogAction) {
+
         currentViewController?.dismiss(animated: true) { [weak self] in
             guard let `self` = self else { return }
 
+            // clear password from keychain
+            if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+                handler.clear()
+            }
             UserSession.current.endSession()
             self.updateInterfaceForUserSession(animated: true)
         }
     }
+
+    open func biometricsEnableHandler() {
+
+        if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            handler.password().done { [weak self] password in
+                guard let `self` = self else { return }
+
+                if password != nil {
+                    UserSession.current.user?.setAppSettingValue(UseBiometric.agreed.rawValue, forKey: .useBiometric)
+                    self.updateInterfaceForUserSession(animated: true)
+                } else {
+                    self.presentBiometricErrorAlert()
+                }
+            }.recover { _ in
+                self.presentBiometricErrorAlert()
+            }
+        }
+    }
+
+    open func biometricsDismissHandler() {
+
+        // clear password from keychain
+        if var handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            handler.clear()
+        }
+        UserSession.current.user?.setAppSettingValue(UseBiometric.asked.rawValue, forKey: .useBiometric)
+        self.updateInterfaceForUserSession(animated: true)
+    }
+
+    private func presentBiometricErrorAlert() {
+
+        let typeText = LAContext().biometryType == .faceID ? "Face ID" : "Touch ID"
+        AlertQueue.shared.addSimpleAlert(title: String.localizedStringWithFormat(NSLocalizedString("%@ login attempts exceeded", comment: ""), typeText),
+                                         message: String.localizedStringWithFormat(NSLocalizedString("To enable %@ login, go to settings after you have logged in", comment: ""), typeText),
+                                         handler: { _ in
+                                            self.biometricsDismissHandler()
+        })
+    }
+
 }
 
 extension AppGroupLandingPresenter: WhatsNewViewControllerDelegate {
 
-    open func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
-        UserSession.current.user?.lastWhatsNewShownVersion = whatsNewVersion.rawVersion
-    }
-
     open func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
+        UserSession.current.user?.lastWhatsNewShownVersion = whatsNewVersion.rawVersion
         self.updateInterfaceForUserSession(animated: true)
     }
 }

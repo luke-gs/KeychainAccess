@@ -45,6 +45,16 @@ open class Entity: MPOLKitEntity {
 
     // MARK: - Calculated
 
+    private var _uuid: String?
+
+    /// Use the server type, source and server id for the uuid
+    open override var uuid: String {
+        if _uuid == nil {
+            _uuid = [type(of: self).serverTypeRepresentation, source?.rawValue, id].joined()
+        }
+        return _uuid!
+    }
+
     public var lastUpdated: Date? {
         return dateUpdated ?? dateCreated ?? nil
     }
@@ -192,7 +202,6 @@ open class Entity: MPOLKitEntity {
         guard let otherEntity = object as? Entity else {
             return false
         }
-        let isEqual = super.isEqual(otherEntity)
-        return isEqual && self.source == otherEntity.source
+        return self.uuid == otherEntity.uuid
     }
 }

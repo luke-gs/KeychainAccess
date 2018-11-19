@@ -7,17 +7,12 @@
 
 import Foundation
 import CoreKit
-/// Incident Displayable used to map against the OOTB
-/// Incident List UI
-/// - Warning:
-///     Displayable is strongly owned by Incident
-open class IncidentListDisplayable: Codable {
 
-    /// A unique ID of the incident metadata
-    open var id: String = UUID().uuidString
+/// Incident Displayable used to map against the OOTB Incident List UI
+open class IncidentListDisplayable {
 
     /// A unique ID of the incident
-    open var incidentId: String = UUID().uuidString
+    open var id: String
 
     /// The icon to display on the left of the cell
     open var iconKey: AssetManager.ImageKey?
@@ -28,40 +23,14 @@ open class IncidentListDisplayable: Codable {
     /// The subtitle to display on the left of the cell
     open var subtitle: String?
 
-    public init(title: String? = nil,
+    public init(id: String,
+                title: String? = nil,
                 subtitle: String? = nil,
                 iconKey: AssetManager.ImageKey? = nil) {
+        self.id = id
         self.title = title
         self.subtitle = subtitle
         self.iconKey = iconKey
-    }
-
-    // MARK: - Codable
-
-    private enum CodingKeys: String, CodingKey {
-        case iconKey
-        case id
-        case incidentId
-        case subtitle
-        case title
-    }
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        iconKey = try container.decodeIfPresent(AssetManager.ImageKey.self, forKey: .iconKey)
-        id = try container.decode(String.self, forKey: .id)
-        incidentId = try container.decode(String.self, forKey: .incidentId)
-        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-    }
-
-    open func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(iconKey, forKey: CodingKeys.iconKey)
-        try container.encode(id, forKey: CodingKeys.id)
-        try container.encode(incidentId, forKey: CodingKeys.incidentId)
-        try container.encode(subtitle, forKey: CodingKeys.subtitle)
-        try container.encode(title, forKey: CodingKeys.title)
     }
 }
 

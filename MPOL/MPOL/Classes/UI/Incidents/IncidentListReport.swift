@@ -12,6 +12,18 @@ fileprivate extension EvaluatorKey {
     static let incidents = EvaluatorKey("incidents")
 }
 
+/// Provide access to incident relationships to top level event object
+/// This is pretty hacky, but Event has no direct coupling to Incident
+extension Event {
+    public var incidentListReport: IncidentListReport? {
+        return self.reports.compactMap { $0 as? IncidentListReport }.first
+    }
+
+    public var incidentRelationshipManager: RelationshipManager<MPOLKitEntity, Incident>? {
+        return incidentListReport?.relationshipManager
+    }
+}
+
 open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     public var viewed: Bool = false {
@@ -22,22 +34,23 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     public var incidents: [Incident] = [] {
         didSet {
-            event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map { $0.displayable?.title }.joined(separator: ", ")
-            event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
+            event?.title = incidents.isEmpty ? nil : incidents.map { $0.title }.joined(separator: ", ")
             evaluator.updateEvaluation(for: .incidents)
-            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
+            delegate?.updateHeader(with: incidents.first?.title, subtitle: nil)
         }
     }
+
+    /// The manager and storage for relationships between entities and child incidents
+    public let relationshipManager = RelationshipManager<MPOLKitEntity, Incident>()
 
     public weak var delegate: SideBarHeaderUpdateDelegate?
 
     public override init(event: Event) {
         super.init(event: event)
+        commonInit()
     }
 
-    open override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.viewed) { [weak self] in
             return self?.viewed ?? false
         }
@@ -50,6 +63,16 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
         }
     }
 
+    open override func configure(with event: Event) {
+        super.configure(with: event)
+
+        // Pass on the event to child incidents
+        for incident in incidents {
+            incident.weakEvent = Weak(event)
+        }
+        updateEval()
+    }
+
     // MARK: - Utility
 
     public func updateEval() {
@@ -60,15 +83,18 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
     private enum CodingKeys: String, CodingKey {
         case incidents
+        case relationships
         case viewed
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         incidents = try container.decode([Incident].self, forKey: .incidents)
+        relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
         viewed = try container.decode(Bool.self, forKey: .viewed)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {
@@ -76,6 +102,7 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
 
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(incidents, forKey: CodingKeys.incidents)
+        try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(viewed, forKey: CodingKeys.viewed)
     }
 
@@ -86,7 +113,7 @@ extension IncidentListReport: Summarisable {
     public var formItems: [FormItem] {
         var items = [FormItem]()
         incidents.forEach { (incident) in
-            items.append(LargeTextHeaderFormItem(text: incident.displayable.title))
+            items.append(LargeTextHeaderFormItem(text: incident.title))
             incident.reports.forEach({ (report) in
                 if let report = report as? Summarisable {
                     items += report.formItems

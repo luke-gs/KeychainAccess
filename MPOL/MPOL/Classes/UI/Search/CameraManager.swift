@@ -20,7 +20,7 @@ public class CameraManager: NSObject, UIImagePickerControllerDelegate, UINavigat
 
         return pickerController
     }
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         var originalImage: UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
 
         switch originalImage.imageOrientation {

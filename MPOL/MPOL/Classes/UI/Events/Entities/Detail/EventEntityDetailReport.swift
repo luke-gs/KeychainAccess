@@ -14,8 +14,13 @@ fileprivate extension EvaluatorKey {
 
 public class EventEntityDetailReport: DefaultEventReportable {
 
-    // TODO: persist entity id
-    public weak var entity: MPOLKitEntity?
+    // Uuid of the entity
+    public var entityUuid: String
+
+    /// Return the entity from the event
+    public var entity: MPOLKitEntity? {
+        return event?.entityBucket.entity(for: entityUuid)
+    }
 
     public let descriptionReport: EventEntityDescriptionReport
     public let relationshipsReport: EventEntityRelationshipsReport
@@ -27,36 +32,16 @@ public class EventEntityDetailReport: DefaultEventReportable {
         ]
     }
 
-    public override var weakEvent: Weak<Event> {
-        didSet {
-            // Update child reports
-            descriptionReport.weakEvent = weakEvent
-            relationshipsReport.weakEvent = weakEvent
-        }
-    }
-
     public init(entity: MPOLKitEntity, event: Event) {
-        self.entity = entity
+        entityUuid = entity.uuid
         descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
 
         super.init(event: event)
-
-        /*
-         for demo purpose, setting viewed to true allow validation to pass straightly
-         without adding relationship.
-        */
-        descriptionReport.viewed = true
-        relationshipsReport.viewed = true
-
-        descriptionReport.evaluator.addObserver(self)
-        relationshipsReport.evaluator.addObserver(self)
-
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.allValid) { [weak self] in
             return self?.reports.reduce(true) { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
@@ -64,8 +49,28 @@ public class EventEntityDetailReport: DefaultEventReportable {
         }
     }
 
+    public override func configure(with event: Event) {
+        super.configure(with: event)
+
+        // Pass on the event to child reports
+        descriptionReport.weakEvent = Weak(event)
+        relationshipsReport.weakEvent = Weak(event)
+
+        // Observe changes to child report evaluators
+        descriptionReport.evaluator.addObserver(self)
+        relationshipsReport.evaluator.addObserver(self)
+
+        /*
+         for demo purpose, setting viewed to true allow validation to pass straightly
+         without adding relationship.
+         */
+        descriptionReport.viewed = true
+        relationshipsReport.viewed = true
+    }
+
     // Eval
     public override func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        // Update our evaluator if any evaluator we are observing changes
         self.evaluator.updateEvaluation(for: .allValid)
     }
 
@@ -77,22 +82,26 @@ public class EventEntityDetailReport: DefaultEventReportable {
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
+        case entityUuid
         case descriptionReport
         case relationshipsReport
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        entityUuid = try container.decode(String.self, forKey: .entityUuid)
         descriptionReport = try container.decode(EventEntityDescriptionReport.self, forKey: .descriptionReport)
         relationshipsReport = try container.decode(EventEntityRelationshipsReport.self, forKey: .relationshipsReport)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
 
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(entityUuid, forKey: CodingKeys.entityUuid)
         try container.encode(descriptionReport, forKey: CodingKeys.descriptionReport)
         try container.encode(relationshipsReport, forKey: CodingKeys.relationshipsReport)
     }
