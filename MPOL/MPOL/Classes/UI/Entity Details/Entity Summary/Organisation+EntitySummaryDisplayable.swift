@@ -53,19 +53,18 @@ public struct OrganisationSummaryDisplayable: EntityMapSummaryDisplayable, Assoc
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        let imageKey: AssetManager.ImageKey
-
+        let imageSize: CGSize
         switch size {
         case .small:
-            imageKey = .entityOrganisationSmall
+            imageSize = CGSize(width: 24, height: 24)
         case .medium:
-            imageKey = .entityOrganisationMedium
+            imageSize = CGSize(width: 48, height: 48)
         case .large:
-            imageKey = .entityOrganisationLarge
+            imageSize = CGSize(width: 72, height: 72)
         }
 
-        if let image = AssetManager.shared.image(forKey: imageKey) {
-            return ImageSizing(image: image, size: image.size, contentMode: .center)
+        if let image = AssetManager.shared.image(forKey: .entityOrganisation, ofSize: imageSize) {
+            return ImageSizing(image: image, size: imageSize, contentMode: .center)
         }
 
         return nil
