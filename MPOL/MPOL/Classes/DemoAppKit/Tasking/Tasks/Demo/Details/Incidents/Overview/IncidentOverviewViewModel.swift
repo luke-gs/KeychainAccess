@@ -26,7 +26,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
         if let location = incident.location {
             let addressItem = AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
-                .title(StringSizing(string: "Incident Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .title(StringSizing(string: NSLocalizedString("Incident Location", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
                 .width(.column(1))
@@ -36,11 +36,11 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
 
         taskDetailsOverviewItems += [
             ValueFormItem()
-                .title("Priority")
+                .title(NSLocalizedString("Priority", comment: ""))
                 .value(incident.grade.title)
                 .width(.column(3)),
             ValueFormItem()
-                .title("Incident Number")
+                .title(NSLocalizedString("Incident Number", comment: ""))
                 .value(incident.incidentNumber)
                 .width(.column(3))
         ]
@@ -48,7 +48,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
         if let secondaryCode = incident.secondaryCode {
             // show Secondary Code only if it has a code
             taskDetailsOverviewItems.append(ValueFormItem()
-                .title("Secondary Code")
+                .title(NSLocalizedString("Secondary Code", comment: ""))
                 .value(secondaryCode)
                 .width(.column(3))
             )
@@ -57,7 +57,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
         if let patrolGroup = incident.patrolGroup {
             taskDetailsOverviewItems.append(
                 ValueFormItem()
-                    .title("Patrol Area")
+                    .title(NSLocalizedString("Patrol Area", comment: ""))
                     .value(patrolGroup)
                     .width(.column(3))
             )
@@ -65,33 +65,33 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
 
         taskDetailsOverviewItems += [
             ValueFormItem()
-                .title("Created")
-                .value(incident.createdAtString ?? "Unknown")
+                .title(NSLocalizedString("Created", comment: ""))
+                .value(incident.createdAtString ?? NSLocalizedString("Unknown", comment: ""))
                 .width(.column(3)),
             ValueFormItem()
-                .title("Updated")
-                .value(incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAt?.elapsedTimeIntervalForHuman() ?? "Unknown")
+                .title(NSLocalizedString("Updated", comment: ""))
+                .value(incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? incident.createdAt?.elapsedTimeIntervalForHuman() ?? NSLocalizedString("Unknown", comment: ""))
                 .width(.column(3))
         ]
 
         sections = [
-            CADFormCollectionSectionViewModel(title: "Overview",
+            CADFormCollectionSectionViewModel(title: NSLocalizedString("Overview", comment: ""),
                                               items: taskDetailsOverviewItems,
                                               preventCollapse: true),
 
-            CADFormCollectionSectionViewModel(title: "Informant Details",
+            CADFormCollectionSectionViewModel(title: NSLocalizedString("Informant Details", comment: ""),
                                               items: [
                                                 ValueFormItem()
-                                                    .title("Name")
-                                                    .value(incident.informant?.fullName ?? "Unknown")
+                                                    .title(NSLocalizedString("Name", comment: ""))
+                                                    .value(incident.informant?.fullName ?? NSLocalizedString("Unknown", comment: ""))
                                                     .width(.column(3)),
                                                 ValueFormItem()
-                                                    .title("Contact Number")
-                                                    .value(incident.informant?.primaryPhone ?? "Unknown")
+                                                    .title(NSLocalizedString("Contact Number", comment: ""))
+                                                    .value(incident.informant?.primaryPhone ?? NSLocalizedString("Unknown", comment: ""))
                                                     .width(.column(3))
                 ],
                                               preventCollapse: true),
-            CADFormCollectionSectionViewModel(title: "Incident Details",
+            CADFormCollectionSectionViewModel(title: NSLocalizedString("Incident Details", comment: ""),
                                               items: [
                                                 ValueFormItem()
                                                     .value(incident.details)
