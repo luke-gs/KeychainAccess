@@ -16,8 +16,8 @@ public enum EntityScreen: Presentable {
     case scanner
     // entity creation
     case createEntity(type: EntityType)
-    case createEntityContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
-    case createEntityAliasDetail(alias: PersonAlias?, submitHandler: ((PersonAlias?) -> Void)?)
+    case createPersonContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
+    case createPersonAliasDetail(alias: PersonAlias?, submitHandler: ((PersonAlias?) -> Void)?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -173,11 +173,9 @@ public class EntityPresenter: Presenter {
             switch type {
             case .person:
                 let personViewController = PersonEditViewController()
-                personViewController.title = "New Person"
                 return UINavigationController(rootViewController: personViewController)
             case .vehicle:
                 let vehicleViewController = VehicleEditViewController()
-                vehicleViewController.title = "New Vehicle"
                 return UINavigationController(rootViewController: vehicleViewController)
             case .location:
                 title = NSLocalizedString("New Location", comment: "")
@@ -190,10 +188,10 @@ public class EntityPresenter: Presenter {
             viewController.view.backgroundColor = .white
             return viewController
 
-        case .createEntityAliasDetail(let alias, let handler):
+        case .createPersonAliasDetail(let alias, let handler):
             return PersonEditAliasFormViewController(viewModel: PersonEditAliasFormViewModel(personAlias: alias), submitHandler: handler)
 
-        case .createEntityContactDetail(let contact, let handler):
+        case .createPersonContactDetail(let contact, let handler):
             return PersonEditContactFormViewController(viewModel: PersonEditContactFormViewModel(contact: contact), submitHandler: handler)
         }
     }
@@ -210,11 +208,11 @@ public class EntityPresenter: Presenter {
             } else {
                 from.show(to, sender: from)
             }
-        case .createEntityAliasDetail:
+        case .createPersonAliasDetail:
             let container = ModalNavigationController(rootViewController: to)
             container.preferredContentSize = CGSize(width: 512, height: 328)
             from.presentModalViewController(container)
-        case .createEntityContactDetail:
+        case .createPersonContactDetail:
             let container = ModalNavigationController(rootViewController: to)
             container.preferredContentSize = CGSize(width: 512, height: 256)
             from.presentModalViewController(container)

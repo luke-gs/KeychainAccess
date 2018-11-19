@@ -2075,6 +2075,14 @@
 			path = Default;
 			sourceTree = "<group>";
 		};
+		206E72C8219B9359009BA587 /* Vehicle Edit */ = {
+			isa = PBXGroup;
+			children = (
+				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
+			);
+			path = "Vehicle Edit";
+			sourceTree = "<group>";
+		};
 		207651C921925C4000AF5844 /* User Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2403,9 +2411,9 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
+				206E72C8219B9359009BA587 /* Vehicle Edit */,
 				20E61AB32189365800B65F43 /* Person Edit */,
 				20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */,
-				96B774BC2140F8EE00836B83 /* VehicleEditViewController.swift */,
 			);
 			path = "Entity Creation";
 			sourceTree = "<group>";

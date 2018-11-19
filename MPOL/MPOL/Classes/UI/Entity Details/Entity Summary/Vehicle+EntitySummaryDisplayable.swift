@@ -22,15 +22,15 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public var title: StringSizable? {
-        return vehicle.registration ?? NSLocalizedString("Registration Unknown", comment: "")
+        return (vehicle.registration ?? NSLocalizedString("Registration Unknown", comment: "")).sizing(withNumberOfLines: 0)
     }
 
     public var detail1: StringSizable? {
-        return formattedYOMMakeModel()
+        return formattedYOMMakeModel()?.sizing(withNumberOfLines: 0)
     }
 
     public var detail2: StringSizable? {
-        return vehicle.bodyType
+        return vehicle.bodyType?.sizing(withNumberOfLines: 0)
     }
 
     public var association: String? {

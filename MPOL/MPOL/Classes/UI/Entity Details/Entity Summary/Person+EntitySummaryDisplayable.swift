@@ -22,15 +22,15 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public var title: StringSizable? {
-        return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
+        return (formattedName ?? NSLocalizedString("Name Unknown", comment: "")).sizing(withNumberOfLines: 0)
     }
 
     public var detail1: StringSizable? {
-        return formattedPersonStatus()
+        return formattedPersonStatus()?.sizing(defaultNumberOfLines: 0)
     }
 
     public var detail2: StringSizable? {
-        return formattedAddress()
+        return formattedAddress()?.sizing(withNumberOfLines: 0)
     }
 
     public var association: String? {
