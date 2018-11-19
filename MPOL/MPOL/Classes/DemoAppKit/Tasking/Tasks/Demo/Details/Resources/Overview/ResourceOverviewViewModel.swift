@@ -39,7 +39,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         (mapViewModel as? ResourceOverviewMapViewModel)?.reloadFromModel(resource)
 
         // Load text from manifest
-        var vehicleCategoryText: String? = nil
+        var vehicleCategoryText: String?
         if let vehicleCategoryId = resource.vehicleCategoryId {
             if let entry = Manifest.shared.entry(withID: vehicleCategoryId) {
                 vehicleCategoryText = entry.rawValue
