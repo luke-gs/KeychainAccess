@@ -180,7 +180,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 }()
 
                 builder += DetailFormItem()
-                    .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
+                    .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
                     .title(title)
                     .subtitle(subtitle)
                     .detail(detail)
