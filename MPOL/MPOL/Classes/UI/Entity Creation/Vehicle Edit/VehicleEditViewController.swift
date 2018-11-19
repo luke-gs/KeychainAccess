@@ -99,7 +99,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Year of Manufacture", comment: "Title"))
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Year of Manufacture can only be number.", comment: "Validation Hint"))
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Year of Manufacture can only be a number.", comment: "Validation Hint"))
             .onValueChanged { self.finalVehicle.year = $0 }
             .width(.column(4))
 
@@ -133,7 +133,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Seating Capacity", comment: "Title"))
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Seating Capacity can only be number.", comment: "Validation Hint"))
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Seating Capacity can only be a number.", comment: "Validation Hint"))
             .onValueChanged {
                 if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
                     self.finalVehicle.seatingCapacity = value
@@ -145,7 +145,7 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Gross Vehicle Mass", comment: "Title"))
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Gross Vehicle Mass can only be number.", comment: "Validation Hint"))
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: NSLocalizedString("Gross Vehicle Mass can only be a number.", comment: "Validation Hint"))
             .placeholder(StringSizing(string: NSLocalizedString("0 kg", comment: "Indicate the placeholder of Gross Vehicle Mass")))
             .onValueChanged {
                 if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
