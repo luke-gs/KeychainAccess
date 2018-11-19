@@ -9,6 +9,7 @@
 import Foundation
 import PublicSafetyKit
 import PromiseKit
+import LocalAuthentication
 
 public enum Screen {
     case search
@@ -99,6 +100,16 @@ public class LandingPresenter: AppGroupLandingPresenter {
             whatsNewVC.delegate = self
 
             return whatsNewVC
+
+        case .biometrics:
+
+            let viewModel: BiometricsViewModelable
+            if LAContext().biometryType == .faceID {
+                viewModel = FaceIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler)
+            } else {
+                viewModel = TouchIDBiometricsViewModel(enableHandler: biometricsEnableHandler, dismissHandler: biometricsDismissHandler)
+            }
+            return BiometricsViewController(viewModel: viewModel)
 
         case .landing:
             func settingsBarButtonItem() -> UIBarButtonItem {
