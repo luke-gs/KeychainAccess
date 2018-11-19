@@ -35,7 +35,6 @@ public class VoiceSearchViewController: FormBuilderViewController {
 
     @objc private func didTapCancelButton() {
         delegate?.voiceSearchViewControllerCancelRecognitionTask(self)
-        self.dismissAnimated()
     }
 }
 
