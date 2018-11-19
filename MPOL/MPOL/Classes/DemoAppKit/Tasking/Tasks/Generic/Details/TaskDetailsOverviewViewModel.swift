@@ -52,7 +52,7 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     /// Present "Directions, Street View, Search" options on address
     open func presentAddressPopover(from cell: CollectionViewFormCell) {
         if let location = location {
-            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: location.coordinate, address: location.displayText))
+            delegate?.present(SystemScreen.addressLookup(source: cell, coordinate: location.coordinate, address: location.displayText))
         }
     }
 

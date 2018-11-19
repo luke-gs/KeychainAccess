@@ -17,9 +17,6 @@ public enum TaskItemScreen: Presentable {
     /// Screen for changing the status of our resource, optionally linked to incident
     case resourceStatus(initialStatus: CADResourceStatusType?, incident: CADIncidentType?)
 
-    /// Address popover for "Directions, Street View, Search"
-    case addressLookup(source: UIView, coordinate: CLLocationCoordinate2D?, address: String?)
-
     /// Show details for an association
     case associationDetails(association: CADAssociationType)
 
