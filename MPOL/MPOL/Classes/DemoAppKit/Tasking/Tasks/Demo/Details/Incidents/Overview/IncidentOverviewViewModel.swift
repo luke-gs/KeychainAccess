@@ -27,7 +27,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
             let addressItem = AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(StringSizing(string: NSLocalizedString("Incident Location", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline)))
-                .subtitle(StringSizing(string: location.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .subtitle(StringSizing(string: location.displayText, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
                 .width(.column(1))
 
