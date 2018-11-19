@@ -18,9 +18,9 @@ public extension UserStorage {
     ///     - key: Where Entity stores. Must be unique
     ///     - notification: The name for notifying changes to notification center
     /// - Throws: error occurs when encoding & saving the Entity
-    public func addEntity<T: MPOLKitEntity>(object: T, key: String, notification name: Notification.Name? = nil) throws {
-        var result: [T]
-        if let entities = self.retrieve(key: key) as [T]? {
+    public func addEntity(object: MPOLKitEntity, key: String, notification name: Notification.Name? = nil) throws {
+        var result: [MPOLKitEntity]
+        if let entities = self.retrieveUnwrapped(key: key) as [MPOLKitEntity]? {
             result = entities
             result.append(object)
         } else {
