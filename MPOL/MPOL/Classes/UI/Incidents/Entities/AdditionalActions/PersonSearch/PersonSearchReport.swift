@@ -10,15 +10,7 @@ fileprivate extension EvaluatorKey {
     static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
-public class PersonSearchReport: DefaultReportable, ActionReportable {
-
-    public var weakAdditionalAction: Weak<AdditionalAction> {
-        didSet {
-            if let additionalAction = additionalAction, oldValue.object == nil {
-                configure(with: additionalAction)
-            }
-        }
-    }
+public class PersonSearchReport: DefaultActionReportable {
 
     public var searchType: String?
     public var detainedStart: Date? {
@@ -65,17 +57,14 @@ public class PersonSearchReport: DefaultReportable, ActionReportable {
     }
     public var remarks: String?
 
-    public init(incident: Incident?, additionalAction: AdditionalAction) {
-        self.weakAdditionalAction = Weak(additionalAction)
-        super.init()
+    // MARK: - DefaultActionReportable
 
-        self.weakIncident = Weak(incident)
-        configure(with: additionalAction)
+    public override init(incident: Incident?, additionalAction: AdditionalAction) {
+        super.init(incident: incident, additionalAction: additionalAction)
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasRequiredData) { [weak self] in
             guard let `self` = self else { return false }
             return self.detainedStart != nil && self.searchStart != nil
@@ -83,11 +72,6 @@ public class PersonSearchReport: DefaultReportable, ActionReportable {
                 && self.legalPower != nil && self.searchReason != nil
                 && self.outcome != nil && self.clothingRemoved != nil
         }
-    }
-
-    /// Perform any configuration now that we have an additional action
-    public func configure(with additionalAction: AdditionalAction) {
-        evaluator.addObserver(additionalAction)
     }
 
     // MARK: - Codable
@@ -122,8 +106,8 @@ public class PersonSearchReport: DefaultReportable, ActionReportable {
         searchStart = try container.decodeIfPresent(Date.self, forKey: .searchStart)
         searchType = try container.decodeIfPresent(String.self, forKey: .searchType)
 
-        weakAdditionalAction = Weak(nil)
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

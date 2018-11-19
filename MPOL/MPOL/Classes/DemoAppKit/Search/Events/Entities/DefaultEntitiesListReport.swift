@@ -15,19 +15,36 @@ extension EvaluatorKey {
 
 public class DefaultEntitiesListReport: DefaultReportable {
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasEntity) { [weak self] in
             guard let `self` = self else { return false }
             guard let event = self.event else { return false }
             guard let incident = self.incident else { return false }
-            return !event.entityManager.relationships(for: incident).isEmpty
+            guard let incidentRelationshipManager = event.incidentRelationshipManager else { return false }
+            return !incidentRelationshipManager.relationships(for: incident).isEmpty
         }
         evaluator.registerKey(.additionalActionsComplete) { [weak self] in
             guard let `self` = self else { return false }
             guard let incident = self.incident else { return false }
-            return incident.additionalActionManager.allValid
+            return incident.actionsValid
         }
+    }
+
+    public override func configure(with incident: Incident) {
+        super.configure(with: incident)
+
+        // Update evaluators that require incident to work
+        evaluator.updateEvaluation(for: .hasEntity)
+        evaluator.updateEvaluation(for: .additionalActionsComplete)
+    }
+
+    public override init(event: Event, incident: Incident) {
+        super.init(event: event, incident: incident)
+        commonInit()
+    }
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        commonInit()
     }
 }

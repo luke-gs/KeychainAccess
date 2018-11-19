@@ -27,11 +27,10 @@ open class InterceptReportGeneralDetailsReport: DefaultReportable {
 
     public override init(event: Event, incident: Incident) {
         super.init(event: event, incident: incident)
+        commonInit()
     }
 
-    open override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.hasRequiredData) { [weak self] in
             guard let `self` = self else { return false }
             return self.selectedSubject != nil && self.selectedSecondarySubject != nil
@@ -53,6 +52,7 @@ open class InterceptReportGeneralDetailsReport: DefaultReportable {
         remarks = try container.decodeIfPresent(String.self, forKey: .remarks)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

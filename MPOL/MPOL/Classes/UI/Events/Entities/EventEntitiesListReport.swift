@@ -22,17 +22,25 @@ public class EventEntitiesListReport: DefaultEventReportable {
 
     public override init(event: Event) {
         super.init(event: event)
+        commonInit()
     }
 
-    public override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.valid) { [weak self] in
             guard let `self` = self else { return false }
             let reportsValid = self.entityDetailReports.reduce(true, { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
             })
             return !self.entityDetailReports.isEmpty && reportsValid
+        }
+    }
+
+    public override func configure(with event: Event) {
+        super.configure(with: event)
+
+        // Pass on the event to child reports
+        for report in entityDetailReports {
+            report.weakEvent = weakEvent
         }
     }
 
@@ -47,6 +55,7 @@ public class EventEntitiesListReport: DefaultEventReportable {
         entityDetailReports = try container.decode([EventEntityDetailReport].self, forKey: .entityDetailReports)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {

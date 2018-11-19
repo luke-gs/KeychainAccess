@@ -11,8 +11,13 @@ extension DefaultEntitiesListReport: Summarisable {
 
     public var formItems: [FormItem] {
         var items = [FormItem]()
+        guard let incident = incident else { return items }
 
-        if let incident = incident, let entities = event?.entityManager.relationships(for: incident).map({$0.baseObject}) {
+        let entities = event?.incidentRelationshipManager?.relationships(for: incident).compactMap {
+            return event?.entityBucket.entity(for: $0.baseObjectUuid)
+        }
+
+        if let entities = entities {
             var entityNames = [String]()
             entities.forEach { (entity) in
                 var displayable: AssociatedEntitySummaryDisplayable

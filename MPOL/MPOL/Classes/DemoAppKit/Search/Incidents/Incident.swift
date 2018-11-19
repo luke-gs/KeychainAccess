@@ -17,92 +17,83 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class Incident: IdentifiableDataModel, Evaluatable {
 
+    // MARK: - Properties
+
+    /// The title to display for the incident
+    public var title: String?
+
+    /// The incident type
     public var incidentType: IncidentType
+
+    /// The nested additional actions
+    public var actions: [AdditionalAction] = [] {
+        didSet {
+            configureChildren()
+        }
+    }
+
+    /// The nested reports
+    private(set) public var reports: [IncidentReportable] = [] {
+        didSet {
+            configureChildren()
+        }
+    }
+
+    /// The storage for relationships between entities and additional actions
+    public let relationshipManager = RelationshipManager<MPOLKitEntity, AdditionalAction>()
+
+    // MARK: - State
+
     public var evaluator: Evaluator = Evaluator()
-    public let additionalActionManager = AdditionalActionManager()
 
     public var weakEvent: Weak<Event> {
         didSet {
-            updateChildReports()
+            configureChildren()
         }
     }
 
-    public var displayable: IncidentListDisplayable!
-
-    private(set) public var reports: [IncidentReportable] = [] {
-        didSet {
-            updateChildReports()
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
-
-    private var allValid: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
+    // MARK: - Init
 
     public init(event: Event, type: IncidentType) {
         self.weakEvent = Weak(event)
         self.incidentType = type
+        self.title = type.rawValue
+
         super.init(id: UUID().uuidString)
         commonInit()
+
+        // Configure children, since we have the event
+        configureChildren()
     }
 
     private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
+            return self.reportsValid && self.actionsValid
         }
-        updateChildReports()
     }
 
-    private func updateChildReports() {
-        // Pass down this incident and parent event to child reports
+    /// Update child reports and actions if we have our parent event
+    private func configureChildren() {
+        // Should only be called after our Event back ref is set
+        guard weakEvent.object != nil else { return }
+
+        // Pass down the incident to child reports and actions
         for report in reports {
-            report.weakIncident = Weak<Incident>(self)
-            if let report = report as? EventReportable {
-                report.weakEvent = weakEvent
+            if report.weakIncident.object == nil {
+                report.weakIncident = Weak<Incident>(self)
             }
         }
+        for action in actions {
+            if action.weakIncident.object == nil {
+                action.weakIncident = Weak<Incident>(self)
+            }
+        }
+        // Update our valid state based on current children
+        evaluator.updateEvaluation(for: .allValid)
     }
 
-    // MARK: - Codable
-
-    required init(unboxer: Unboxer) throws {
-        MPLUnimplemented()
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case incidentType
-        case reports
-    }
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
-
-        let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
-        reports = anyReports.map { $0.report }
-
-        weakEvent = Weak<Event>(nil)
-
-        try super.init(from: decoder)
-        commonInit()
-    }
-
-    open override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-
-        // Convert our array of protocols to concrete classes, for Codable
-        let anyReports = reports.map { return AnyIncidentReportable($0) }
-
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(incidentType, forKey: CodingKeys.incidentType)
-        try container.encode(anyReports, forKey: CodingKeys.reports)
-    }
-
-    // MARK: Utility
+    // MARK: - Utility
 
     public func add(reports: [IncidentReportable]) {
         self.reports.append(contentsOf: reports)
@@ -116,15 +107,73 @@ public class Incident: IdentifiableDataModel, Evaluatable {
         return reports.filter {type(of: $0) == reportableType}.first
     }
 
-    // MARK: Evaluation
+    // MARK: - Evaluation
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = reports.reduce(true, { result, report in
+    private var reportsValid: Bool {
+        return reports.reduce(true, { result, report in
             return result && report.evaluator.isComplete
         })
     }
 
-    // MARK: Equatable
+    public var actionsValid: Bool {
+        return actions.reduce(true, { (_, action) -> Bool in
+            return action.evaluator.isComplete
+        })
+    }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        // Update our evaluator if any evaluator we are observing changes
+        self.evaluator.updateEvaluation(for: .allValid)
+    }
+
+    // MARK: - Codable
+
+    required init(unboxer: Unboxer) throws {
+        MPLUnimplemented()
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case actions
+        case incidentType
+        case relationships
+        case reports
+        case title
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        actions = try container.decode([AdditionalAction].self, forKey: .actions)
+        incidentType = try container.decode(IncidentType.self, forKey: .incidentType)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
+
+        let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
+        reports = anyReports.map { $0.report }
+
+        /// Set to nil initially, until parent passes it to us during it's decode
+        weakEvent = Weak<Event>(nil)
+
+        try super.init(from: decoder)
+        commonInit()
+    }
+
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+
+        // Convert our array of protocols to concrete classes, for Codable
+        let anyReports = reports.map { return AnyIncidentReportable($0) }
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(actions, forKey: .actions)
+        try container.encode(incidentType, forKey: .incidentType)
+        try container.encode(title, forKey: .title)
+        try container.encode(relationshipManager.relationships, forKey: .relationships)
+        try container.encode(anyReports, forKey: .reports)
+    }
+
+    // MARK: - Equatable
+
     public static func == (lhs: Incident, rhs: Incident) -> Bool {
         return lhs.id == rhs.id
     }
@@ -145,11 +194,19 @@ public class IncidentType: ExtensibleKey<String>, Codable {
 /// in terms of the reports it should have
 public protocol IncidentBuilding {
 
-    /// Create an event, injecting any reports that you need.
+    /// Create an incident, injecting any reports that you need.
+    /// Note: this does not add the new incident to the event
     ///
     /// - Parameter type: The type of event that is being asked to be created.
-    /// - Returns: A tuple of an event and it's list view representation
-    func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)
+    /// - Returns: The new incident
+    func createIncident(for type: IncidentType, in event: Event) -> Incident
+
+    /// Create a displayable for an incident, to be shown in incident list
+    ///
+    /// - Parameter incident: The incident
+    /// - Returns: The list displayable
+    func displayable(for incident: Incident) -> IncidentListDisplayable
+
 }
 
 /// Screen builder for the incident

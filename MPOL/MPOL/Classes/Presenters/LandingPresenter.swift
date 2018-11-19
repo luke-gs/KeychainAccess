@@ -20,6 +20,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     public var searchViewController: SearchViewController!
     private var tasksProxyViewController: AppProxyViewController!
+    private var eventsManager: EventsManager!
 
     override public var termsAndConditionsVersion: SemanticVersion {
         let version = SemanticVersion(TermsAndConditions.version)
@@ -168,7 +169,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             searchViewController.recentsViewController.viewModel.customNoContentView = searchNoContentView
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
-            let eventsManager = EventsManager(eventBuilder: EventBuilder())
+            self.eventsManager = EventsManager(eventBuilder: EventBuilder())
 
             let didTapCreateHandler: ((EventListViewController) -> Void) = { vc in
                 let incidentSelectionViewController = IncidentSelectViewController()
@@ -178,32 +179,17 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
                 vc.present(eventCreationNavController, animated: true, completion: nil)
 
-                incidentSelectionViewController.didSelectIncident = { incidentType in
-                    guard let event = eventsManager.create(eventType: .blank) else { return }
-                    presentScreen(for: event, with: incidentType, from: vc)
+                incidentSelectionViewController.didSelectIncident = { [weak self] incidentType in
+                    guard let event = try! self?.eventsManager.create(eventType: .blank) else { return }
+                    self?.presentEvent(event, with: incidentType, from: vc)
                 }
             }
 
-            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { vc, offset in
-                guard let event = eventsManager.event(at: offset) else { return }
-                presentScreen(for: event, from: vc)
-            }
-
-            func presentScreen(for event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
-                let screenBuilder = EventScreenBuilder()
-                let incidentsManager = IncidentsManager.managerWithPrepopulatedBuilders
-
-                if let incidentType = incidentType {
-                    _ = incidentsManager.create(incidentType: incidentType, in: event)
+            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { [weak self] vc, offset in
+                if let draftable = vc.viewModel.draftItem(for: offset) {
+                    guard let event = self?.eventsManager.event(for: draftable.id) else { return }
+                    self?.presentEvent(event, from: vc)
                 }
-
-                screenBuilder.incidentsManager = incidentsManager
-
-                let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
-
-                let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
-
-                viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
             }
 
             let eventsListVC = EventListViewController(viewModel: EventDraftListViewModel(manager: eventsManager), didTapCreateHandler: didTapCreateHandler, didTapItemHandler: didTapItemHandler)
@@ -233,6 +219,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             return tabBarController
         }
     }
+
     /// Custom post authentication logic that must be executed as part of authentication chain
     override open func postAuthenticateChain() -> Promise<Void> {
         return super.postAuthenticateChain().then {
@@ -273,6 +260,50 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
 
         tabBarController?.selectedIndex = selectedIndex
+    }
+
+    // MARK: - Events
+
+    private func presentEvent(_ event: Event, with incidentType: IncidentType? = nil, from viewController: UIViewController) {
+
+        let incidentsManager = IncidentsManager(event: event)
+
+        for incidentType in IncidentType.allIncidentTypes() {
+            switch incidentType {
+            case .trafficInfringement:
+                incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
+            case .interceptReport:
+                incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
+            case .domesticViolence:
+                incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
+            default:
+                fatalError("No builder added for incident type \"\(incidentType.rawValue)\"")
+            }
+        }
+
+        // Create a default incident if one does not exist
+        if let incidentType = incidentType, incidentsManager.incidents.isEmpty {
+            if let incident = incidentsManager.create(incidentType: incidentType, in: event) {
+                incidentsManager.add(incident: incident)
+            }
+        }
+
+        let screenBuilder = EventScreenBuilder()
+        screenBuilder.incidentsManager = incidentsManager
+
+        let viewModel = EventsDetailViewModel(event: event, builder: screenBuilder)
+
+        let eventSplitViewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel)
+        eventSplitViewController.loadingViewBuilder = LoadingViewBuilder<EventSubmissionResponse>()
+        eventSplitViewController.loadingViewBuilder?.request = {
+            return after(seconds: 2).then {
+                return Promise<EventSubmissionResponse>.value(EventSubmissionResponse(id: UUID().uuidString, eventNumber: 123))
+            }
+        }
+
+        eventSplitViewController.delegate = self
+
+        viewController.navigationController?.pushViewController(eventSplitViewController, animated: true)
     }
 
     // MARK: - Tasking
@@ -449,6 +480,20 @@ extension LandingPresenter: UITabBarControllerDelegate {
             return false
         }
         return true
+    }
+}
+
+// MARK: - EventSplitViewControllerDelegate
+extension LandingPresenter: EventSplitViewControllerDelegate {
+    public func eventClosed(eventId: String) {
+        // Save any changes to the event
+        try! eventsManager.update(for: eventId)
+    }
+
+    public func eventSubmittedFor(eventId: String, response: Any?, error: Error?) {
+        // Remove the submitted event
+        // TODO: do something non-demo here
+        try! eventsManager.remove(for: eventId)
     }
 
 }

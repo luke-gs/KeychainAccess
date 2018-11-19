@@ -21,11 +21,10 @@ open class DefaultLocationReport: DefaultEventReportable {
 
     public override init(event: Event) {
         super.init(event: event)
+        commonInit()
     }
 
-    open override func configure(with event: Event) {
-        super.configure(with: event)
-
+    private func commonInit() {
         evaluator.registerKey(.eventLocation) { [weak self] in
             guard let `self` = self else { return false }
             return self.eventLocation != nil
@@ -43,6 +42,7 @@ open class DefaultLocationReport: DefaultEventReportable {
         eventLocation = try container.decodeIfPresent(EventLocation.self, forKey: .eventLocation)
 
         try super.init(from: decoder)
+        commonInit()
     }
 
     open override func encode(to encoder: Encoder) throws {
