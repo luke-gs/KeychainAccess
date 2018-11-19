@@ -48,12 +48,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .text(finalPerson.givenName)
             .onValueChanged { self.finalPerson.givenName = $0 }
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Middle Name/s", comment: ""))
@@ -66,12 +61,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .text(finalPerson.familyName)
             .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
-            }
 
         builder += DateFormItem()
             .title(NSLocalizedString("Date Of Birth", comment: ""))
@@ -79,12 +69,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .selectedValue(finalPerson.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormValueFieldCell else { return }
-                cell.placeholderLabel.textColor = cell.valueLabel.textColor
-            }
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Place of Birth", comment: ""))
@@ -301,7 +286,6 @@ public class PersonEditViewController: FormBuilderViewController {
                     .selectedValue(location)
                     .width(.column(1))
                     .required()
-                    .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
                     .onValueChanged { [unowned self] (location) in
                         if let location = location as? LocationSelectionCore {
                             self.locations?[index] = location

@@ -45,7 +45,6 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
             .title(NSLocalizedString("Alias Type", comment: ""))
             .options(PersonEditAliasFormViewModel.aliasOptions)
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first
@@ -76,7 +75,6 @@ public class PersonEditAliasFormViewController: FormBuilderViewController {
             .title(type)
             .text(viewModel.personAlias?.lastName)
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.personAlias?.lastName = $0

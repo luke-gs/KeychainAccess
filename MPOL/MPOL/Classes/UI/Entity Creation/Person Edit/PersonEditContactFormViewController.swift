@@ -44,7 +44,6 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
             .title(NSLocalizedString("Contact Type", comment: ""))
             .options(Contact.ContactType.allCases.map { AnyPickable($0) })
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .selectedValue(viewModel.selectedType != nil ? [AnyPickable(viewModel.selectedType!)] : [])
             .onValueChanged { [unowned self] value in
                 self.viewModel.selectedType = value?.first?.base as? Contact.ContactType
@@ -59,7 +58,6 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
             .title(viewModel.selectedType?.title)
             .text(viewModel.contact?.value)
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .accessory(ItemAccessory.pencil)
             .onValueChanged {

@@ -48,7 +48,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             .options(["Car", "Motorcycle", "Van", "Truck", "Trailer", "Vessel"].map({ AnyPickable($0) }))
             .onValueChanged { self.finalVehicle.vehicleType = $0?.first?.base as? String }
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         builder += DropDownFormItem()
@@ -56,7 +55,6 @@ public class VehicleEditViewController: FormBuilderViewController {
             .options(["VIC", "NSW", "QLD", "ACT", "NT", "WA", "TAS"].map({ AnyPickable($0) }))
             .onValueChanged { self.finalVehicle.registrationState = $0?.first?.base as? String }
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Select", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(4))
 
         groupHeaderItem = HeaderFormItem()
