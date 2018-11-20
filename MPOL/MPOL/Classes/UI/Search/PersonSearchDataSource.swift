@@ -11,6 +11,8 @@ import PublicSafetyKit
 
 class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
+    public var shouldReadAlerts: Bool = false
+
     static let searchableType = "Person"
 
     private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. Smith John K", comment: ""),

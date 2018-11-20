@@ -92,6 +92,8 @@ private class OrganisationSearchOptions: SearchOptions {
 
 class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
+    var shouldReadAlerts: Bool = false
+
     static let searchableType = "Organisation"
 
     private var additionalSearchButtons: [UIButton] {

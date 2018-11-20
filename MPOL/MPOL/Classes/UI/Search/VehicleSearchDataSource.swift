@@ -179,7 +179,7 @@ private protocol VehicleSearchOptionsDelegate: class {
     func vehicleSearchOptionsDidChangeType(_ options: VehicleSearchOptions)
 }
 
-class VehicleSearchDataSource: NSObject, SearchDataSource, AlertReading, UITextFieldDelegate {
+class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     static let searchableType = "Vehicle"
 
