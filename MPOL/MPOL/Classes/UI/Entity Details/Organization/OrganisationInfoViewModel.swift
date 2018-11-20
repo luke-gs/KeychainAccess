@@ -95,19 +95,16 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         }
 
         return [
-            DetailFormItem()
-                .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
+            AddressFormItem()
+                .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(title)
-                .subtitle(address.fullAddress)
+                .subtitle(StringSizing(string: address.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .selectionAction(AddressNavigationSelectionAction(addressNavigatable: address))
                 .width(.column(1))
-                .accessory(travelAccessory)
-                .onSelection { cell in
-                    let coordinate = self.location(from: address)?.coordinate
-                    let handler = AddressOptionHandler(coordinate: coordinate, address: address.fullAddress)
-                    viewController.presentActionSheetPopover(handler.actionSheetViewController(), sourceView: cell, sourceRect: cell.bounds, animated: true)
-                },
+                .accessory(travelAccessory),
             ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
-                .width(.column(1)).separatorColor(.clear)
+                .width(.column(1))
+                .separatorColor(.clear)
         ]
     }
 

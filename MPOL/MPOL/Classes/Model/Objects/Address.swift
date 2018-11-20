@@ -10,7 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLAddress)
-open class Address: Entity {
+open class Address: Entity, AddressNavigatable {
 
     // MARK: - Class
 

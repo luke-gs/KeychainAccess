@@ -27,24 +27,17 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
             builder += IncidentSummaryFormItem(viewModel: currentIncident)
                 .accessory(ItemAccessory.disclosure)
                 .separatorStyle(.fullWidth)
-                .onSelection({ [unowned self] _ in
+                .onSelection { [unowned self] _ in
                     // Present the resource split view controller
                     let viewModel = IncidentTaskItemViewModel(incidentNumber: currentIncident.identifier)
                     self.present(TaskItemScreen.landing(viewModel: viewModel))
-                })
+                }
         }
 
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)
-
-            for item in section.items {
-                if item.title == "Current Incident" {
-
-                } else {
-                    builder += ValueFormItem(title: item.title, value: item.value, image: item.image).width(item.width)
-                }
-            }
+            builder += section.items
         }
     }
 }

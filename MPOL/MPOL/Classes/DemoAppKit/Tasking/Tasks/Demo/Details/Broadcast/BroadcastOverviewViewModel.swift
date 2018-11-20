@@ -8,6 +8,7 @@
 
 import UIKit
 import PublicSafetyKit
+
 open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
     open var addressText: String?
@@ -24,49 +25,46 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
             mapViewModel = nil
         }
 
-        location = broadcast.location
+        var overviewItems: [FormItem] = []
 
-        let locationItem = broadcast.location?.coordinate != nil ?
-            // Show location for address popover
-            TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: broadcast.location?.displayText?.ifNotEmpty() ?? "Unknown",
-                                             width: .column(1),
-                                             selectAction: { [unowned self] cell in
-                                                self.presentAddressPopover(from: cell)
-                                             },
-                                             isAddress: true) :
-            // Just show location
-            TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: addressText?.ifNotEmpty() ?? "Unknown",
-                                             width: .column(1))
+        if let location = broadcast.location {
+            let locationItem = AddressFormItem()
+                .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
+                .title(StringSizing(string: NSLocalizedString("Broadcast Location", comment: ""), font: UIFont.preferredFont(forTextStyle: .footnote)))
+                .subtitle(StringSizing(string: location.displayText))
+                .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
+                .width(.column(1))
+            overviewItems.append(locationItem)
+        }
+
+        overviewItems += [
+            ValueFormItem()
+                .title("Broadcast Number")
+                .value(broadcast.identifier)
+                .width(.column(3)),
+            ValueFormItem()
+                .title("Type")
+                .value(broadcast.type.title)
+                .width(.column(2)),
+            ValueFormItem()
+                .title("Created")
+                .value(broadcast.createdAtString ?? "Unknown")
+                .width(.column(3)),
+            ValueFormItem()
+                .title("Broadcast Details")
+                .value(broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? broadcast.createdAtString ?? "")
+                .width(.column(2))
+        ]
 
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
-                                              items: [
-            locationItem,
-
-                                                TaskDetailsOverviewItemViewModel(title: "Broadcast number",
-                                                                              value: broadcast.identifier,
-                                                                              width: .column(3)),
-
-                                                TaskDetailsOverviewItemViewModel(title: "Type",
-                                                                              value: broadcast.type.title,
-                                                                              width: .column(2)),
-
-                                                TaskDetailsOverviewItemViewModel(title: "Created",
-                                                                              value: broadcast.createdAtString ?? "Unknown",
-                                                                              width: .column(3)),
-
-                                                TaskDetailsOverviewItemViewModel(title: "Last Updated",
-                                                                              value: broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? broadcast.createdAtString ?? "",
-                                                                              width: .column(2))
-                                                ]),
-
+                                              items: overviewItems
+            ),
             CADFormCollectionSectionViewModel(title: "Broadcast Details",
                                               items: [
-                                                TaskDetailsOverviewItemViewModel(title: nil,
-                                                                              value: broadcast.details,
-                                                                              width: .column(1))
+                                                ValueFormItem()
+                                                    .value(broadcast.details)
+                                                    .width(.column(1))
                                                 ])
         ]
     }
