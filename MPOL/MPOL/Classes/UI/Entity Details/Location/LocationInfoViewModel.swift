@@ -31,7 +31,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
 
         var travelAccessory: CustomItemAccessory?
 
-        let asset = AssetManager.shared.image(forKey: .entityCarSmall)
+        let asset = AssetManager.shared.image(forKey: .entityCar)
 
         if let travelTime = travelTimeETA,
             let travelDistance = travelTimeDistance {
