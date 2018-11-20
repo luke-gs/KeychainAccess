@@ -80,7 +80,6 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
         }
 
         if shouldDisplayAlerts || shouldReadAlerts {
-            var alertEntities = [MPOLKitEntity]()
 
             // Determine whether the search is complete by iterating over the results and checking if any are still searching.
             let searchComplete = rawResults.reduce(true) { (result, rawResult) -> Bool in
@@ -103,54 +102,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     let entity = alertEntities.first!
                     switch entity {
                     case is Vehicle:
-                        let summary = VehicleSummaryDisplayable(entity)
-
-                        let rego = (entity as! Vehicle).registration ?? ""
-
-                        let regoFormatted: String = rego.reduce("") { (result, character) -> String in
-                            return result + String(character) + " "
-                        }
-
-                        var items: [String] = []
-
-                        var status: String? = nil
-                        if let alert = (entity as! Vehicle).alertLevel {
-                            switch alert {
-                            case .high:
-                                status = "High Alert"
-                            case .medium:
-                                status = "Medium Alert"
-                            case .low:
-                                status = "Low Alert"
-                            }
-                        }
-
-                        if let category = summary.category {
-                            let categoryWithSpaces = category.reduce("") { (result, character) -> String in
-                                return result + String(character) + " "
-                            }
-                            items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
-                        }
-
-                        if let status = status {
-                            items.append("\(status)")
-                        }
-                        if !regoFormatted.isEmpty {
-                            items.append("Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces))")
-                        }
-                        if let color = (entity as! Vehicle).primaryColor {
-                            items.append("\(color)")
-                        }
-                        if let makeModelSummary = summary.detail1?.sizing().string {
-                            items.append("\(makeModelSummary)")
-                        }
-                        if alertEntities.count > 1 {
-                            items.append("Multiple Matches Found")
-                        }
-                        if !items.isEmpty {
-                            let text = items.joined(separator: ". ").trimmingCharacters(in: .whitespaces)
-                            TextToSpeechHelper.default.speak(text)
-                        }
+                        speakDetails(for: (entity as! Vehicle))
                     default:
                         fatalError("Text to speech alerts not supported for supplied entity")
                     }
@@ -184,5 +136,56 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             .image(summary.thumbnail(ofSize: .medium))
             .borderColor(summary.borderColor)
             .imageTintColor(summary.iconColor)
+    }
+
+    private func speakDetails(for vehicle: Vehicle) {
+        let summary = VehicleSummaryDisplayable(vehicle)
+
+        let rego = vehicle.registration ?? ""
+
+        let regoFormatted: String = rego.reduce("") { (result, character) -> String in
+            return result + String(character) + " "
+        }
+
+        var items: [String] = []
+
+        var status: String? = nil
+        if let alert = vehicle.alertLevel {
+            switch alert {
+            case .high:
+                status = "High Alert"
+            case .medium:
+                status = "Medium Alert"
+            case .low:
+                status = "Low Alert"
+            }
+        }
+
+        if let category = summary.category {
+            let categoryWithSpaces = category.reduce("") { (result, character) -> String in
+                return result + String(character) + " "
+            }
+            items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
+        }
+
+        if let status = status {
+            items.append("\(status)")
+        }
+        if !regoFormatted.isEmpty {
+            items.append("Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces))")
+        }
+        if let color = vehicle.primaryColor {
+            items.append("\(color)")
+        }
+        if let makeModelSummary = summary.detail1?.sizing().string {
+            items.append("\(makeModelSummary)")
+        }
+        if alertEntities.count > 1 {
+            items.append("Multiple Matches Found")
+        }
+        if !items.isEmpty {
+            let text = items.joined(separator: ". ").trimmingCharacters(in: .whitespaces)
+            TextToSpeechHelper.default.speak(text)
+        }
     }
 }
