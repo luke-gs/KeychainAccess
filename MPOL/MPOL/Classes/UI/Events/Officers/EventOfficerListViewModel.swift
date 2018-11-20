@@ -68,7 +68,7 @@ public class EventOfficerListViewModel {
     }
 
     public func add(_ involvements: [String], to officer: Officer) {
-        let reportingOfficerInvolvement = "Reporting Officer"
+        let reportingOfficerInvolvement = "Reporting officer"
 
         if involvements.contains(reportingOfficerInvolvement) {
             let reportingOfficer = self.officerDisplayables.map {$0.officer}

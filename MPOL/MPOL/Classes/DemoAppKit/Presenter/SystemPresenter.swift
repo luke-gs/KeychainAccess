@@ -8,12 +8,16 @@
 
 import Foundation
 import PatternKit
+import PublicSafetyKit
 
 /// Supported presentable
 public enum SystemScreen: Presentable {
 
     /// Alert controller with title and message and ok button
     case serverError(title: String, message: String)
+
+    /// Address popover for "Directions, Street View, Search"
+    case addressLookup(source: UIView, coordinate: CLLocationCoordinate2D?, address: String?)
 
 }
 
@@ -29,6 +33,9 @@ public class SystemPresenter: Presenter {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
             return alertController
+        case .addressLookup(_, let coordinate, let address):
+            return AddressOptionHandler(coordinate: coordinate, address: address).actionSheetViewController()
+
         }
     }
 
@@ -39,6 +46,12 @@ public class SystemPresenter: Presenter {
         switch presentable {
         case .serverError:
             AlertQueue.shared.add(to as! UIAlertController)
+        case .addressLookup(let source, _, _):
+            if let to = to as? ActionSheetViewController {
+                from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
+            }
+
+
         }
     }
 

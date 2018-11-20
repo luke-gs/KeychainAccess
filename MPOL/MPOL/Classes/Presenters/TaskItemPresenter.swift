@@ -26,9 +26,7 @@ public class TaskItemPresenter: Presenter {
             let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus, incident: incident)
             viewModel.displayMode = .regular
             return viewModel.createViewController()
-
-        case .addressLookup(_, let coordinate, let address):
-            return AddressOptionHandler(coordinate: coordinate, address: address).actionSheetViewController()
+            
         case .associationDetails(let association):
             var ent: Entity?
 
@@ -79,11 +77,6 @@ public class TaskItemPresenter: Presenter {
                 vc.loadingManager.loadingView.titleLabel.text = nil
             }
             from.presentFormSheet(to, animated: true, size: size, forced: true)
-
-        case .addressLookup(let source, _, _):
-            if let to = to as? ActionSheetViewController {
-                from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
-            }
 
         case .associationDetails:
             from.splitViewController?.navigationController?.show(to, sender: from)

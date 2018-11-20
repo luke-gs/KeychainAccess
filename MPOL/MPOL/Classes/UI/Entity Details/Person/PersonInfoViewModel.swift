@@ -146,7 +146,14 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     return detail
                 }()
 
-                builder += AddressFormItemFactory.addressNavigationFormItem(address: address, title: title, detail: detail, context: viewController)
+                builder += AddressFormItem()
+                    .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
+                    .title(StringSizing(string: title))
+                    .subtitle(StringSizing(string: address.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                    .detail(StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote)))
+                    .selectionAction(AddressNavigationSelectionAction(addressNavigatable: address))
+                    .width(.column(1))
+
             }
         }
 
@@ -173,7 +180,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 }()
 
                 builder += DetailFormItem()
-                    .styleIdentifier(DemoAppKitStyler.detailLinkStyle)
+                    .styleIdentifier(PublicSafetyKitStyler.detailLinkStyle)
                     .title(title)
                     .subtitle(subtitle)
                     .detail(detail)
@@ -290,8 +297,6 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
 
     let validLicence: Bool
 
-    private let _subtitle: StringSizing?
-
     init(licenceClass: Licence.LicenceClass, isSuspended: Bool) {
         self.licenceClass = licenceClass
         hasExpired = false
@@ -300,25 +305,25 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
 
         if isSuspended {
             valid = false
-            _subtitle = NSAttributedString(string: NSLocalizedString("Suspended", comment: ""), attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+            subtitle = NSAttributedString(string: NSLocalizedString("Suspended", comment: ""), attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
         } else {
             if let expiryDate = licenceClass.expiryDate {
                 let dayComponent = Calendar.current.dateComponents([.day], from: Date(), to: expiryDate)
                 if let day = dayComponent.day {
                     if day > 0 {
                         let text = String(format: NSLocalizedString("Valid Until %@", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate))
-                        _subtitle = text.sizing(withNumberOfLines: 0)
+                        subtitle = text.sizing(withNumberOfLines: 0)
                     } else {
                         let text = String(format: NSLocalizedString("Expired Since %1$@ (%2$d day(s))", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate), abs(day))
-                        _subtitle = NSAttributedString(string: text, attributes: [ .font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+                        subtitle = NSAttributedString(string: text, attributes: [ .font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
                         valid = false
                     }
                 } else {
-                    _subtitle = nil
+                    subtitle = nil
                 }
 
             } else {
-                _subtitle = nil
+                subtitle = nil
             }
         }
         validLicence = valid
@@ -337,9 +342,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
         return text.sizing(withNumberOfLines: 0)
     }
 
-    var subtitle: StringSizing? {
-        return _subtitle
-    }
+    private (set) var subtitle: StringSizing?
 
     var detail: StringSizing? {
         let proficiency = licenceClass.proficiency ?? "Unknown"
