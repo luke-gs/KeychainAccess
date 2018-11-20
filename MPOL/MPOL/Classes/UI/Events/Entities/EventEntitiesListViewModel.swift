@@ -15,7 +15,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
     public init(report: EventEntitiesListReport) {
         self.report = report
-        report.event?.entityManager.delegate = self
+        report.event?.entityBucket.delegate = self
     }
 
     public var headerText: String {
@@ -54,18 +54,19 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     }
 
     public func updateReports() {
+        guard let incidentRelationshipManager = self.report.event?.incidentRelationshipManager else { return }
         var reports = self.report.entityDetailReports
 
         // Remove reports that no longer have entities
         for report in reports {
-            if self.report.event?.entityManager.incidentRelationships.contains(where: {$0.baseObject == report.entity}) == false {
+            if incidentRelationshipManager.relationships.contains(where: { $0.isBaseObject(report.entity) }) == false {
                 reports.remove(at: reports.index(where: {$0 == report})!)
             }
         }
 
         // Create and add new entities
-        guard let entities = self.report.event?.entityManager.incidentRelationships.compactMap({ $0.baseObject }) else {
-            return
+        let entities = incidentRelationshipManager.relationships.compactMap {
+            return self.report.event?.entityBucket.entity(for: $0.baseObjectUuid)
         }
 
         guard let event = report.event else { return }

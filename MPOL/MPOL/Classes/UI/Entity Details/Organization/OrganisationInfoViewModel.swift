@@ -79,7 +79,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
     private func individualAddressBlock(for address: Address, viewController: UIViewController) -> [FormItem] {
         let title = NSAttributedString(string: NSLocalizedString("Address", comment: ""), attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)])
 
-        let asset = AssetManager.shared.image(forKey: .entityCarSmall)
+        let asset = AssetManager.shared.image(forKey: .entityCar)
 
         // Only create travel Accessory if we have the data to fill it
         var travelAccessory: CustomItemAccessory?

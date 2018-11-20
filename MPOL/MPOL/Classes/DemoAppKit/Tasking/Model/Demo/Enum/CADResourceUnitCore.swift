@@ -69,7 +69,7 @@ public enum CADResourceUnitCore: String, Codable, CADResourceUnitType {
         case .marineCraft:
             return .resourceWater
         case .motorcycle:
-            return .iconEntityVehicleMotorcycle
+            return .entityMotorbike
         case .policeOfficer:
             return .resourceBeat
         case .vehicle:

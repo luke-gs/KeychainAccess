@@ -132,7 +132,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         present(navController, animated: true, completion: nil)
     }
 
-    private func presentAdditionalAction(reports: [IncidentReportable]) {
+    private func presentAdditionalAction(reports: [ActionReportable]) {
         guard let viewController = self.viewModel.screenBuilding.viewControllers(for: reports).first else {
             return
         }

@@ -34,7 +34,7 @@ public class PersonEditViewController: FormBuilderViewController {
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     public override func construct(builder: FormBuilder) {
@@ -166,10 +166,13 @@ public class PersonEditViewController: FormBuilderViewController {
 
         // Contact Section
 
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Contact Details", comment: ""))
+        let contactHeaderText = finalPerson.contacts?.isEmpty ?? true
+            ? NSLocalizedString("Contact Details", comment: "header when no contacts exist")
+            : String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalPerson.contacts!.count)
+        builder += LargeTextHeaderFormItem(text: contactHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
-                    EntityScreen.createEntityContactDetail(contact: nil,
+                    EntityScreen.createPersonContactDetail(contact: nil,
                                                            submitHandler: { [unowned self] contact in
                                                             guard let contact = contact else { return }
                                                             if self.finalPerson.contacts != nil {
@@ -196,7 +199,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     })])
                     .onSelection { [unowned self] _ in
                         self.present(
-                            EntityScreen.createEntityContactDetail(contact: contact,
+                            EntityScreen.createPersonContactDetail(contact: contact,
                                                                    submitHandler: { [unowned self] contact in
                                                                     guard let contact = contact else { return }
                                                                     self.finalPerson.contacts?[index] = contact
@@ -208,11 +211,13 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         // Alias Section
-
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Aliases", comment: ""))
+        let aliasHeaderText = finalPerson.aliases?.isEmpty ?? true
+            ? NSLocalizedString("Aliases", comment: "header when no aliases exist")
+            : String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalPerson.aliases!.count)
+        builder += LargeTextHeaderFormItem(text: aliasHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
-                    EntityScreen.createEntityAliasDetail(alias: nil,
+                    EntityScreen.createPersonAliasDetail(alias: nil,
                                                          submitHandler: { [unowned self] personAlias in
                                                             guard let personAlias = personAlias else { return }
                                                             if self.finalPerson.aliases != nil {
@@ -247,7 +252,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     })])
                     .onSelection { [unowned self] _ in
                         self.present(
-                            EntityScreen.createEntityAliasDetail(alias: alias,
+                            EntityScreen.createPersonAliasDetail(alias: alias,
                                                                  submitHandler: { [unowned self] personAlias in
                                                                     guard let personAlias = personAlias else { return }
                                                                     self.finalPerson.aliases?[index] = personAlias
@@ -258,8 +263,10 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         // Address Section
-
-        builder += LargeTextHeaderFormItem(text: NSLocalizedString("Addresses", comment: ""))
+        let addressHeaderText = locations?.isEmpty ?? true
+            ? NSLocalizedString("Addresses", comment: "header when no addresses exist")
+            : String.localizedStringWithFormat(NSLocalizedString("Addresses (%d)", comment: "header when addresses exist"), locations!.count)
+        builder += LargeTextHeaderFormItem(text: addressHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.personEditWorkflowId, nil, completionHandler: { [unowned self] location in
                     guard let location = location as? LocationSelectionCore else { return }

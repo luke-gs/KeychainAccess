@@ -62,19 +62,18 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable, Associated
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        let imageKey: AssetManager.ImageKey
-
+        let imageSize: CGSize
         switch size {
         case .small:
-            imageKey = .entityLocationSmall
+            imageSize = CGSize(width: 24, height: 24)
         case .medium:
-            imageKey = .entityLocationMedium
+            imageSize = CGSize(width: 48, height: 48)
         case .large:
-            imageKey = .entityLocationLarge
+            imageSize = CGSize(width: 72, height: 72)
         }
 
-        if let image = AssetManager.shared.image(forKey: imageKey) {
-            return ImageSizing(image: image, size: image.size, contentMode: .center)
+        if let image = AssetManager.shared.image(forKey: .entityLocation, ofSize: imageSize) {
+            return ImageSizing(image: image, size: imageSize, contentMode: .center)
         }
         return nil
     }

@@ -41,7 +41,7 @@ public struct AddressFormItemFactory {
         var travelAccessory: CustomItemAccessory?
 
         if let travelTime = travelTimeETA, let travelDistance = travelTimeDistance {
-            let travelTimeAccessoryView = TravelTimeAccessoryView(image: AssetManager.shared.image(forKey: .entityCarSmall), distance: travelDistance, time: travelTime, frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+            let travelTimeAccessoryView = TravelTimeAccessoryView(image: AssetManager.shared.image(forKey: .entityCar), distance: travelDistance, time: travelTime, frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
             travelAccessory = CustomItemAccessory(onCreate: { () -> UIView in
                 return travelTimeAccessoryView

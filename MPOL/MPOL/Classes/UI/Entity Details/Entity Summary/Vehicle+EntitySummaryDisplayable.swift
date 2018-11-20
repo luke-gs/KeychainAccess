@@ -56,14 +56,8 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let vehicleType = VehicleType(optionalValue: vehicle.vehicleType)
 
-        let vehicleString: String = vehicleType.imageAssetString
-        let sizeString: String = size.imageSizeString
-
-        let imageName = vehicleString + sizeString
-        let imageKey = AssetManager.ImageKey(imageName)
-
-        if let image = AssetManager.shared.image(forKey: imageKey) {
-            return ImageSizing(image: image, size: image.size, contentMode: .center)
+        if let image = AssetManager.shared.image(forKey: vehicleType.imageKey, ofSize: size.imageSize) {
+            return ImageSizing(image: image, size: size.imageSize, contentMode: .center)
         }
 
         return nil
@@ -145,33 +139,33 @@ private enum VehicleType: String {
         self = VehicleType(rawValue: value.lowercased()) ?? fallbackValue
     }
 
-    var imageAssetString: String {
+    var imageKey: AssetManager.ImageKey {
         switch self {
         case .car:
-            return "iconEntityAutomotiveCar"
+            return .entityCar
         case .motorcycle:
-            return "iconEntityVehicleMotorcycle"
+            return .entityMotorbike
         case .truck:
-            return "iconEntityVehicleTruck"
+            return .entityTruck
         case .van:
-            return "iconEntityVehicleVan"
+            return .entityVan
         case .trailer:
-            return"iconEntityAutomotiveTrailer"
+            return .entityTrailer
         case .vessel:
-            return "iconEntityAutomotiveWater"
+            return .entityBoat
         }
     }
 }
 
 extension EntityThumbnailView.ThumbnailSize {
-    public var imageSizeString: String {
+    public var imageSize: CGSize {
         switch self {
         case .small:
-            return "Small"
+            return CGSize(width: 24, height: 24)
         case .medium:
-            return "Medium"
+            return CGSize(width: 48, height: 48)
         case .large:
-            return "Large"
+            return CGSize(width: 72, height: 72)
         }
     }
 }
