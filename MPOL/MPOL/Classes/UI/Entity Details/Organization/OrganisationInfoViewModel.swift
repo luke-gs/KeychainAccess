@@ -98,7 +98,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
             AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
                 .title(title)
-                .subtitle(address.fullAddress)
+                .subtitle(StringSizing(string: address.fullAddress, font: UIFont.preferredFont(forTextStyle: .subheadline)))
                 .selectionAction(AddressNavigationSelectionAction(addressNavigatable: address))
                 .width(.column(1))
                 .accessory(travelAccessory),

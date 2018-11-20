@@ -26,8 +26,8 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
         if let location = patrol.location {
             let addressItem = AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
-                .title(StringSizing(string: "Patrol Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
-                .subtitle(StringSizing(string: location.displayText, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .title(StringSizing(string: NSLocalizedString("Patrol Location", comment: "")))
+                .subtitle(StringSizing(string: location.displayText))
                 .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
                 .width(.column(1))
 

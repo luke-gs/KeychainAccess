@@ -30,8 +30,8 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
         if let location = broadcast.location {
             let locationItem = AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
-                .title(StringSizing(string: "Broadcast Location", font: UIFont.preferredFont(forTextStyle: .subheadline)))
-                .subtitle(StringSizing(string: location.displayText, font: UIFont.preferredFont(forTextStyle: .subheadline)))
+                .title(StringSizing(string: NSLocalizedString("Broadcast Location", comment: "")))
+                .subtitle(StringSizing(string: location.displayText))
                 .selectionAction(AddressNavigationSelectionAction(addressNavigatable: location))
                 .width(.column(1))
             overviewItems.append(locationItem)
