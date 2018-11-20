@@ -111,7 +111,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                             return result + String(character) + " "
                         }
 
-                        var text: String = ""
+                        var items: [String] = []
 
                         var status: String? = nil
                         if let alert = (entity as! Vehicle).alertLevel {
@@ -129,26 +129,27 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                             let categoryWithSpaces = category.reduce("") { (result, character) -> String in
                                 return result + String(character) + " "
                             }
-                            text += "Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces)). "
+                            items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
                         }
 
                         if let status = status {
-                            text += "\(status). "
+                            items.append("\(status)")
                         }
                         if !regoFormatted.isEmpty {
-                            text += "Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces)). "
+                            items.append("Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces))")
                         }
                         if let color = (entity as! Vehicle).primaryColor {
-                            text += "\(color). "
+                            items.append("\(color)")
                         }
-                        if let makeModelSummary = summary.detail1 {
-                            text += "\(makeModelSummary). "
+                        if let makeModelSummary = summary.detail1?.sizing().string {
+                            items.append("\(makeModelSummary)")
                         }
                         if alertEntities.count > 1 {
-                            text += "Multiple Matches Found. "
+                            items.append("Multiple Matches Found")
                         }
-                        if !text.isEmpty {
-                            TextToSpeechHelper.default.speak(text.trimmingCharacters(in: .whitespaces))
+                        if !items.isEmpty {
+                            let text = items.joined(separator: ". ").trimmingCharacters(in: .whitespaces)
+                            TextToSpeechHelper.default.speak(text)
                         }
                     default:
                         fatalError("Text to speech alerts not supported for supplied entity")
