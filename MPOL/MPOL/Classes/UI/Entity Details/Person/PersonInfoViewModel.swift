@@ -100,7 +100,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 .style(.collapsible)
 
             for alias in aliases {
-                let title = StringSizing(string: alias.nameType ?? "Alias", font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let title = StringSizing(string: alias.type ?? "Alias", font: UIFont.preferredFont(forTextStyle: .subheadline))
                 let value = StringSizing(string: alias.formattedName ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
                 let detail: StringSizing = {
                     let detail: String
