@@ -10,7 +10,7 @@ import PublicSafetyKit
 
 public class EventBuilder: EventBuilding {
 
-    public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
+    public func createEvent(for type: EventType) -> Event {
         let event = Event()
 
         // Add reports here
@@ -21,13 +21,25 @@ public class EventBuilder: EventBuilding {
         event.add(report: EventEntitiesListReport(event: event))
         event.add(report: DefaultNotesMediaReport(event: event))
 
-        let displayable = EventListDisplayable(title: "No Incident Selected",
-                                               subtitle: "",
-                                               accessoryTitle: "",
-                                               accessorySubtitle: "",
-                                               iconKey: AssetManager.ImageKey.event)
-        displayable.eventId = event.id
-        return (event: event, displayable: displayable)
+        return event
+    }
+
+    public func displayable(for event: Event) -> EventListDisplayable {
+
+        // Use location of event as subtitle
+        var subtitle: String?
+        if let locationReport = event.reports.compactMap({ $0 as? DefaultLocationReport }).first {
+            subtitle = locationReport.eventLocation?.addressString ?? "Location Unknown"
+        }
+
+        return EventListDisplayable(
+            id: event.id,
+            creationDate: event.creationDate,
+            title: event.title,
+            subtitle: subtitle,
+            accessoryTitle: "",
+            accessorySubtitle: "",
+            iconKey: AssetManager.ImageKey.event)
     }
 
     public init() {}

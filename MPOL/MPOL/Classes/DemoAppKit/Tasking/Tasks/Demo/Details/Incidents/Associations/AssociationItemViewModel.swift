@@ -52,27 +52,27 @@ public class AssociationItemViewModel: EntitySummaryDisplayable {
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let thumbnailImage: UIImage?
         let contentMode: UIView.ContentMode
+        let imageSize: CGSize
+
         switch entityType {
         case let .person(initials, thumbnailUrl):
             return CADPersonImageSizing(initials: initials, thumbnailUrl: thumbnailUrl)
         case .vehicle:
-            let imageKey: AssetManager.ImageKey
-
             switch size {
             case .small:
-                imageKey = .entityCarSmall
+                imageSize = CGSize(width: 24, height: 24)
             case .medium:
-                imageKey = .entityCarMedium
+                imageSize = CGSize(width: 48, height: 48)
             case .large:
-                imageKey = .entityCarLarge
+                imageSize = CGSize(width: 72, height: 72)
             }
 
-            thumbnailImage = AssetManager.shared.image(forKey: imageKey)
+            thumbnailImage = AssetManager.shared.image(forKey: .entityCar, ofSize: imageSize)
             contentMode = .center
         }
 
         if let thumbnailImage = thumbnailImage {
-            return ImageSizing(image: thumbnailImage, size: thumbnailImage.size, contentMode: contentMode)
+            return ImageSizing(image: thumbnailImage, size: imageSize, contentMode: contentMode)
         }
 
         return nil

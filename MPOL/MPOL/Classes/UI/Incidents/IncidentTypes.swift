@@ -66,24 +66,3 @@ extension IncidentType {
         }
     }
 }
-
-extension IncidentsManager {
-    static var managerWithPrepopulatedBuilders: IncidentsManager {
-        let manager = IncidentsManager()
-
-        for incidentType in IncidentType.allIncidentTypes() {
-            switch incidentType {
-            case .trafficInfringement:
-                manager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
-            case .interceptReport:
-                manager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
-            case .domesticViolence:
-                manager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
-            default:
-                fatalError("No builder added for incident type \"\(incidentType.rawValue)\"")
-            }
-        }
-
-        return manager
-    }
-}

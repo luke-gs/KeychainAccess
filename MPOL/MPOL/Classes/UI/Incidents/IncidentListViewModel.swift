@@ -14,7 +14,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     private(set) var report: IncidentListReport
 
     public var incidentList: [IncidentListDisplayable] {
-        return report.incidents.map { $0.displayable! }
+        return incidentsManager.displayables
     }
 
     public var primaryIncident: IncidentListDisplayable? {
@@ -31,17 +31,20 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     public func addCount(to incident: Incident, count: Int) {
         incidentCounts[incident.id] = count
-        setUniqueTitle(for: incident.displayable)
+        setUniqueTitle(for: incident)
+        if let displayable = incidentList.first(where: { $0.id == incident.id }) {
+            displayable.title = incident.title
+        }
     }
 
     public func count(for incident: Incident) -> Int? {
         return incidentCounts[incident.id]
     }
 
-    private func setUniqueTitle(for incidentDisplayable: IncidentListDisplayable) {
-        if let baseTitle = incidentDisplayable.title {
-            if let count = self.count(for: incident(for: incidentDisplayable)!) {
-               incidentDisplayable.title = baseTitle + " \(count)"
+    private func setUniqueTitle(for incident: Incident) {
+        if let baseTitle = incident.title {
+            if let count = self.count(for: incident) {
+               incident.title = baseTitle + " \(count)"
             }
         } else {
             fatalError("Incident supplied does not have a valid title.")
@@ -52,12 +55,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     public required init(report: EventReportable, incidentsManager: IncidentsManager) {
         self.report = report as! IncidentListReport
-        self.incidentsManager = incidentsManager
         self.title = "Incidents"
-
-        if let objects = incidentsManager.incidentBucket.objects, !objects.isEmpty {
-            self.report.incidents = incidentsManager.incidentBucket.objects!
-        }
+        self.incidentsManager = incidentsManager
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
@@ -71,7 +70,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // ViewModelType
 
     public func incident(for displayable: IncidentListDisplayable) -> Incident? {
-        return incidentsManager.incident(for: displayable.incidentId)
+        return incidentsManager.incident(for: displayable.id)
     }
 
     public func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType {
@@ -119,7 +118,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // Utility
 
     func removeIncident(_ incident: Incident) {
-        report.event?.entityManager.removeAllRelationships(for: incident)
+        report.event?.incidentRelationshipManager?.removeAll(for: incident)
         report.incidents = report.incidents.filter {$0 != incident }
     }
 

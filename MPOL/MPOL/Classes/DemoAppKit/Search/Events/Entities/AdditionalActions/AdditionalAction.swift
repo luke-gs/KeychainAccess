@@ -18,51 +18,65 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
+    // MARK: - Properties
+
     public var additionalActionType: AdditionalActionType
+
+    /// The nested reports
+    private(set) public var reports: [ActionReportable] = [] {
+        didSet {
+            configureChildren()
+        }
+    }
+
+    // MARK: - State
+
     public var evaluator: Evaluator = Evaluator()
 
     public var weakIncident: Weak<Incident> {
         didSet {
-            updateChildReports()
+            configureChildren()
         }
     }
 
-    private(set) public var reports: [IncidentReportable] = [] {
-        didSet {
-            updateChildReports()
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
-
-    private var allValid: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .allValid)
-        }
-    }
+    // MARK: - Init
 
     public init(incident: Incident, type: AdditionalActionType) {
         self.weakIncident = Weak(incident)
         self.additionalActionType = type
+
         super.init(id: UUID().uuidString)
         commonInit()
+
+        // Configure children, since we have the event
+        configureChildren()
     }
 
     private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return !self.reports.map {$0.evaluator.isComplete}.contains(false)
+            return self.reports.reduce(true, { result, report in
+                return result && report.evaluator.isComplete
+            })
         }
-        updateChildReports()
     }
 
-    private func updateChildReports() {
-        // Pass down this incident and parent event to child reports
+    private func configureChildren() {
+        // Should only be called after our Incident back ref is set
+        guard weakIncident.object != nil else { return }
+
+        // Pass down the incident and action to child reports
         for report in reports {
-            report.weakIncident = weakIncident
-            if let report = report as? EventReportable, let weakEvent = weakIncident.object?.weakEvent {
-                report.weakEvent = weakEvent
+            if report.weakIncident.object == nil {
+                report.weakIncident = weakIncident
+            }
+            if report.weakAdditionalAction.object == nil {
+                report.weakAdditionalAction = Weak<AdditionalAction>(self)
             }
         }
+
+        // Update our valid state based on current children
+        evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: - Codable
@@ -81,8 +95,9 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
         additionalActionType = try container.decode(AdditionalActionType.self, forKey: .additionalActionType)
 
         let anyReports = try container.decode([AnyIncidentReportable].self, forKey: .reports)
-        reports = anyReports.map { $0.report }
+        reports = anyReports.compactMap { $0.report as? ActionReportable }
 
+        /// Set to nil initially, until parent passes it to us during it's decode
         weakIncident = Weak<Incident>(nil)
 
         try super.init(from: decoder)
@@ -102,24 +117,23 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 
     // MARK: Utility
 
-    public func add(reports: [IncidentReportable]) {
+    public func add(reports: [ActionReportable]) {
         self.reports.append(contentsOf: reports)
     }
 
-    public func add(report: IncidentReportable) {
+    public func add(report: ActionReportable) {
         reports.append(report)
     }
 
-    public func reportable(atIndex index: Int) -> IncidentReportable? {
+    public func reportable(atIndex index: Int) -> ActionReportable? {
         return reports[index]
     }
 
     // MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = reports.reduce(true, { result, report in
-            return result && report.evaluator.isComplete
-        })
+        // Update our evaluator if any evaluator we are observing changes
+        self.evaluator.updateEvaluation(for: .allValid)
     }
 
     // MARK: Equatable
@@ -154,5 +168,5 @@ public protocol AdditionalActionScreenBuilding {
     ///
     /// - Parameter reportables: The array of reports to construct view controllers for
     /// - Returns: An array of viewController constucted for the reports
-    func viewControllers(for reports: [IncidentReportable]) -> [UIViewController]
+    func viewControllers(for reports: [ActionReportable]) -> [UIViewController]
 }

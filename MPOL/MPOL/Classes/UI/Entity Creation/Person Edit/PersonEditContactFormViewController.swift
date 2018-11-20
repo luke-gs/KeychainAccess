@@ -42,11 +42,11 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
         }
         builder += DropDownFormItem()
             .title(NSLocalizedString("Contact Type", comment: ""))
-            .options(Contact.ContactType.allCases.map { $0 })
+            .options(Contact.ContactType.allCases.map { AnyPickable($0) })
             .required()
-            .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
+            .selectedValue(viewModel.selectedType != nil ? [AnyPickable(viewModel.selectedType!)] : [])
             .onValueChanged { [unowned self] value in
-                self.viewModel.selectedType = value?.first
+                self.viewModel.selectedType = value?.first?.base as? Contact.ContactType
                 self.viewModel.contact?.value = nil
                 self.reloadForm()
             }
@@ -58,15 +58,10 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
             .title(viewModel.selectedType?.title)
             .text(viewModel.contact?.value)
             .required()
-            .placeholder(StringSizing(string: NSLocalizedString("Required", comment: ""), font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
             .width(.column(1))
             .accessory(ItemAccessory.pencil)
             .onValueChanged {
                 self.viewModel.contact?.value = $0
-            }
-            .onStyled { cell in
-                guard let cell = cell as? CollectionViewFormTextFieldCell else { return }
-                cell.textField.placeholderTextColor = cell.textField.textColor
             }
         if viewModel.selectedType == .email {
             formItem.softValidate(EmailSpecification(), message: "Invalid email address")

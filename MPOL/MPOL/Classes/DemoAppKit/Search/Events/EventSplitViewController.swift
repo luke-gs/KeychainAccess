@@ -9,10 +9,18 @@ import UIKit
 import PromiseKit
 import PatternKit
 
+public protocol EventSplitViewControllerDelegate: class {
+    /// An event was just closed
+    func eventClosed(eventId: String)
+
+    /// An event was submitted
+    func eventSubmittedFor(eventId: String, response: Any?, error: Error?)
+}
+
 public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EventSummaryViewControllerDelegate, EventSubmitter {
 
     public let viewModel: EventDetailViewModelType
-    public weak var delegate: EventsSubmissionDelegate?
+    public weak var delegate: EventSplitViewControllerDelegate?
     public var loadingViewBuilder: LoadingViewBuilder<Response>?
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
@@ -42,6 +50,11 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         }
     }
 
+    deinit {
+        // Notify delegate that event was closed
+        delegate?.eventClosed(eventId: viewModel.event.id)
+    }
+
     // TODO: Fix the EventSubmitter protocol and make this private again.
     @objc
     public func presentEventSummary() {
@@ -67,15 +80,12 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         let detail = error?.localizedDescription ?? result?.detail
 
         let alert = PSCAlertController(title: title, message: detail, image: nil)
-        let action = DialogAction(title: "OK", style: .cancel) { _ in
+        let action = DialogAction(title: "OK", style: .cancel) { [weak self] _ in
+            guard let `self` = self else { return }
             self.delegate?.eventSubmittedFor(eventId: eventId, response: result, error: error)
             self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(action)
         AlertQueue.shared.add(alert)
     }
-}
-
-public protocol EventsSubmissionDelegate: class {
-    func eventSubmittedFor(eventId: String, response: Any?, error: Error?)
 }
