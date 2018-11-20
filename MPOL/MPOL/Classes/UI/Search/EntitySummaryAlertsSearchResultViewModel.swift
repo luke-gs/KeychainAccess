@@ -97,7 +97,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
             if searchComplete && self.shouldReadAlerts {
                 if alertEntities.isEmpty {
-                    TextToSpeechHelper.default.speak("No Results Found")
+                    TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .noResultsFoundMessage))
                 } else {
                     let entity = alertEntities.first!
                     switch entity {
@@ -153,11 +153,11 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
         if let alert = vehicle.alertLevel {
             switch alert {
             case .high:
-                status = "High Alert"
+                status = AssetManager.shared.string(forKey: .alertLevel2Message)
             case .medium:
-                status = "Medium Alert"
+                status = AssetManager.shared.string(forKey: .alertLevel1Message)
             case .low:
-                status = "Low Alert"
+                status = AssetManager.shared.string(forKey: .alertLevel0Message)
             }
         }
 
@@ -181,7 +181,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             items.append("\(makeModelSummary)")
         }
         if alertEntities.count > 1 {
-            items.append("Multiple Matches Found")
+            items.append(AssetManager.shared.string(forKey: .multipleMatchesFoundMessage))
         }
         if !items.isEmpty {
             let text = items.joined(separator: ". ").trimmingCharacters(in: .whitespaces)
