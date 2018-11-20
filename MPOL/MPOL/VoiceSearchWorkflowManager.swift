@@ -100,7 +100,8 @@ extension VoiceSearchWorkflowManager: VoiceSearchManagerDelegate {
 
         let searchable = Searchable(text: text, type: "Vehicle")
 
-        let activity = SearchActivity.searchEntity(term: searchable, shouldSearchImmediately: true, shouldReadAlerts: true)
+        let parameters = SearchActivity.SearchEntityParameters(term: searchable, shouldSearchImmediately: true, shouldReadAlerts: true)
+        let activity = SearchActivity.searchEntity(parameters: parameters)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         try? appDelegate.searchLauncher.launch(activity, using: appDelegate.navigator)
     }

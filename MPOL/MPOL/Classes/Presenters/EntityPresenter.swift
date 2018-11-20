@@ -161,7 +161,8 @@ public class EntityPresenter: Presenter {
         case .scanner:
             cameraManager.finishPickingClosure = { image in
                 self.scanner.startScan(with: image) { text in
-                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false, shouldReadAlerts: false)
+                    let parameters = SearchActivity.SearchEntityParameters(term: Searchable(text: "", type: "Person"))
+                    let activity = SearchActivity.searchEntity(parameters: parameters)
                     try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
                 }
             }
