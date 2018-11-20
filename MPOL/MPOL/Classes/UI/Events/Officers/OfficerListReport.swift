@@ -29,7 +29,7 @@ public class OfficerListReport: DefaultEventReportable {
     }
 
     private func commonInit() {
-        let reportingOfficerText = NSLocalizedString("Reporting Officer", comment: "")
+        let reportingOfficerText = NSLocalizedString("Reporting officer", comment: "")
 
         if let currentOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
             currentOfficer.involvements = [reportingOfficerText]
@@ -42,7 +42,7 @@ public class OfficerListReport: DefaultEventReportable {
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
                 })
-                && self.officers.flatMap {$0.involvements}.contains(where: {$0.compare(reportingOfficerText) == .orderedSame})
+                && self.officers.flatMap {$0.involvements}.contains(where: {$0.caseInsensitiveCompare(reportingOfficerText) == .orderedSame})
         }
     }
 
