@@ -53,8 +53,6 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             builder += viewModel.displayable(for: entity).summaryListFormItem()
                         .separatorColor(.clear)
                         .subtitle(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
-                        .accessory(nil)
-                        .badgeColor(nil)
                         .badge(0)
                         .accessory(accessory)
                         .selectionStyle(.none)
@@ -162,7 +160,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         viewController.finishUpdateHandler = definition.completion
 
         if let navController = presentedViewController as? UINavigationController {
-            navController.pushViewController(viewController, animated: false)
+            navController.pushViewController(viewController, animated: true)
         } else {
 
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
