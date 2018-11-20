@@ -29,7 +29,7 @@ public class OfficerListReport: DefaultEventReportable {
     }
 
     private func commonInit() {
-        let reportingOfficerText = NSLocalizedString("Reporting Officer", comment: "")
+        let reportingOfficerText = NSLocalizedString("Reporting officer", comment: "")
 
         if let currentOfficer: Officer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) {
             currentOfficer.involvements = [reportingOfficerText]
