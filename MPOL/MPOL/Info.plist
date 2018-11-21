@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>936</string>
+	<string>937</string>
 	<key>DefaultActivityLauncherURLScheme</key>
 	<string>${SEARCH_URL_TYPE_SCHEME}</string>
 	<key>LSApplicationQueriesSchemes</key>
