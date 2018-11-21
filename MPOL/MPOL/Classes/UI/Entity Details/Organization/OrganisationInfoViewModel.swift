@@ -53,7 +53,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        builder += addressBlocks(for: organisation, viewController: viewController)
+        builder += addressBlocks(for: organisation)
 
         builder += detailsBlock(for: organisation)
 
@@ -70,13 +70,13 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
     // MARK: private
 
-    private func addressBlocks(for organisation: Organisation, viewController: UIViewController) -> [FormItem] {
+    private func addressBlocks(for organisation: Organisation) -> [FormItem] {
         return organisation.addresses?.reduce([FormItem]()) { (result, address) -> [FormItem] in
-            return result + individualAddressBlock(for: address, viewController: viewController)
+            return result + individualAddressBlock(for: address)
         } ?? []
     }
 
-    private func individualAddressBlock(for address: Address, viewController: UIViewController) -> [FormItem] {
+    private func individualAddressBlock(for address: Address) -> [FormItem] {
         let title = NSAttributedString(string: NSLocalizedString("Address", comment: ""), attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)])
 
         let asset = AssetManager.shared.image(forKey: .entityCar)
