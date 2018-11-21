@@ -55,7 +55,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
     private func commonInit() {
         self.evaluator.registerKey(.allValid) { [weak self] in
             guard let `self` = self else { return false }
-            return self.reports.reduce(true, { result, report in
+            return self.reports.reduce (true, { result, report in
                 return result && report.evaluator.isComplete
             })
         }
@@ -145,7 +145,7 @@ public class AdditionalAction: IdentifiableDataModel, Evaluatable {
 /// A bunch of Additional Actions
 /// This can later be expanded upon to build different types of incidents/ events
 /// via the app
-public class AdditionalActionType: ExtensibleKey<String>, Codable { }
+public class AdditionalActionType: ExtensibleKey<String>, Codable {}
 
 /// Builder for additional action
 ///

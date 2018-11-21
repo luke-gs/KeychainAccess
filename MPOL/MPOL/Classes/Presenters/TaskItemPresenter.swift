@@ -26,7 +26,7 @@ public class TaskItemPresenter: Presenter {
             let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus, incident: incident)
             viewModel.displayMode = .regular
             return viewModel.createViewController()
-            
+
         case .associationDetails(let association):
             var ent: Entity?
 

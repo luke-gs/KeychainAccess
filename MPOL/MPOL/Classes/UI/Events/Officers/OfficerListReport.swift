@@ -39,9 +39,9 @@ public class OfficerListReport: DefaultEventReportable {
         evaluator.registerKey(.officers) { [weak self] in
             guard let `self` = self else { return false }
             return self.viewed == true
-                && self.officers.reduce(true, { (result, officer) -> Bool in
+                && self.officers.reduce(true) { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
-                })
+                }
                 && self.officers.flatMap {$0.involvements}.contains(where: {$0.caseInsensitiveCompare(reportingOfficerText) == .orderedSame})
         }
     }
