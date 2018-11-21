@@ -54,6 +54,9 @@ internal struct InvolvementPickerDefinition: EntityPickerTypeDefiniton {
                                                          dismissOnFinish: context.viewModel.entities.contains(entity),
                                                          configuration: headerConfig)
         dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        if let selectedObjects = dataSource.selectedObjects, !selectedObjects.isEmpty {
+            dataSource.updateHeader(for: selectedObjects)
+        }
         return dataSource
     }
 
@@ -114,6 +117,9 @@ internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
                                                          requiresSelection: false,
                                                          configuration: headerConfig)
         dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        if let selectedObjects = dataSource.selectedObjects, !selectedObjects.isEmpty {
+            dataSource.updateHeader(for: selectedObjects)
+        }
         return dataSource
     }
 
