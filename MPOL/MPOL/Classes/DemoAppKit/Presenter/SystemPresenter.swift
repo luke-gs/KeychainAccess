@@ -23,7 +23,7 @@ public enum SystemScreen: Presentable {
 
 public class SystemPresenter: Presenter {
 
-    public init() { }
+    public init() {}
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         guard let presentable = presentable as? SystemScreen else { return UIViewController() }

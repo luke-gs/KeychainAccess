@@ -85,9 +85,9 @@ public class Event: IdentifiableDataModel, Evaluatable {
     // MARK: Evaluation
 
     private var reportsValid: Bool {
-        return reports.reduce(true, { result, report in
+        return reports.reduce(true) { result, report in
             return result && report.evaluator.isComplete
-        })
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

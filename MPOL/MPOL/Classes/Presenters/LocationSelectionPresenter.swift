@@ -104,6 +104,7 @@ public class LocationSelectionPresenter: Presenter {
                 // Add location type to final confirmation screen
                 viewModel.typeTitle = NSLocalizedString("Type", comment: "")
                 viewModel.typeOptions = ["Residential Address", "Work Address", "NFPA"].map { AnyPickable($0) }
+                viewModel.requiredFields = true
                 viewModel.allowMultipleTypes = false
                 viewModel.isEditable = true
             } else {

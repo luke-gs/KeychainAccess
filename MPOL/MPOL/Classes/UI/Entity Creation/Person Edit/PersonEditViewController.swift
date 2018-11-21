@@ -71,22 +71,6 @@ public class PersonEditViewController: FormBuilderViewController {
             .required()
             .width(.column(4))
 
-        builder += TextFieldFormItem()
-            .title(NSLocalizedString("Place of Birth", comment: ""))
-            .text(finalPerson.placeOfBirth)
-            .width(.column(4))
-            .onValueChanged { [unowned self] value in
-                self.finalPerson.placeOfBirth = value
-            }
-
-        builder += TextFieldFormItem()
-            .title(NSLocalizedString("Ethnicity", comment: ""))
-            .text(finalDescription.ethnicity)
-            .width(.column(4))
-            .onValueChanged { [unowned self] value in
-                self.finalDescription.ethnicity = value
-            }
-
         builder += DropDownFormItem()
             .title(NSLocalizedString("Gender", comment: ""))
             .options(Person.Gender.allCases)
@@ -159,9 +143,17 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         builder += TextFieldFormItem()
+            .title(NSLocalizedString("Ethnicity", comment: ""))
+            .text(finalDescription.ethnicity)
+            .width(.column(4))
+            .onValueChanged { [unowned self] value in
+                self.finalDescription.ethnicity = value
+        }
+
+        builder += TextFieldFormItem()
             .title(NSLocalizedString("Remarks", comment: ""))
             .text(finalDescription.remarks)
-            .width(.column(2))
+            .width(.column(1))
             .onValueChanged { self.finalDescription.remarks = $0 }
 
         // Contact Section
@@ -188,7 +180,7 @@ public class PersonEditViewController: FormBuilderViewController {
             for (index, contact) in contacts.enumerated() {
                 let formItem = ValueFormItem()
                     .title(contact.type?.title)
-                    .value(contact.value)
+                    .value(StringSizing(string: contact.value, font: UIFont.preferredFont(forTextStyle: .headline)))
                     .width(.column(1))
                     .accessory(ItemAccessory.pencil)
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
@@ -242,7 +234,7 @@ public class PersonEditViewController: FormBuilderViewController {
                 displayName += (alias.middleNames ?? "")
                 builder += ValueFormItem()
                     .title(alias.type)
-                    .value(displayName)
+                    .value(StringSizing(string: displayName, font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
                     .width(.column(1))
                     .accessory(ItemAccessory.pencil)
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
@@ -286,7 +278,6 @@ public class PersonEditViewController: FormBuilderViewController {
                     .title(location.type?.title)
                     .selectedValue(location)
                     .width(.column(1))
-                    .required()
                     .onValueChanged { [unowned self] (location) in
                         if let location = location as? LocationSelectionCore {
                             self.locations?[index] = location
@@ -323,8 +314,8 @@ public class PersonEditViewController: FormBuilderViewController {
             }
             do {
                 try UserSession.current.userStorage?.addEntity(object: finalPerson,
-                                                               key: UserStorage.CreatedEntitiesKey,
-                                                               notification: NSNotification.Name.CreatedEntitiesDidUpdate)
+                                                               key: UserStorage.createdEntitiesKey,
+                                                               notification: NSNotification.Name.createdEntitiesDidUpdate)
             } catch {
                 // TODO: Handles error if it cannot be saved
             }
