@@ -50,8 +50,6 @@ public class SystemPresenter: Presenter {
             if let to = to as? ActionSheetViewController {
                 from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
             }
-
-
         }
     }
 
