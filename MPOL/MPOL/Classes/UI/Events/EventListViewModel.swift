@@ -1,0 +1,122 @@
+//
+//  EventListViewModel.swift
+//  MPOL
+//
+//  Copyright © 2018 Gridstone. All rights reserved.
+//
+
+import Foundation
+import PublicSafetyKit
+
+// PSCore demo app implementation of event list view model
+public class EventListViewModel: EventListViewModelable {
+
+    private let manager: EventsManager
+
+    /// Triggered when plus button is tapped
+    public var didTapCreateHandler: (() -> Void)?
+
+    /// Triggered when an item is tapped
+    public var didTapItemHandler: ((EventListItemViewModelable) -> Void)?
+
+    public init(manager: EventsManager) {
+        self.manager = manager
+        updateSections()
+    }
+
+    // MARK: Screen
+
+    public var navTitle: String? {
+        return NSLocalizedString("Events", comment: "")
+    }
+
+    public var noContentTitle: String? {
+        return NSLocalizedString("No Events", comment: "")
+    }
+
+    public var noContentSubtitle: String? {
+        return NSLocalizedString("You have no Current or Queued Events", comment: "")
+    }
+
+    public var noContentButtonText: String? {
+        return NSLocalizedString("Create new Event", comment: "")
+    }
+
+    public var noContentImage: UIImage? {
+        return AssetManager.shared.image(forKey: AssetManager.ImageKey.iconFolder)
+    }
+
+    public var rightNavBarButtonItemText: String? {
+        return NSLocalizedString("New Event", comment: "")
+    }
+
+    public var tabBarImageSet: (image: UIImage?, selectedImage: UIImage?)? {
+        return (image: AssetManager.shared.image(forKey: .tabBarEvents), selectedImage: AssetManager.shared.image(forKey: .tabBarEventsSelected))
+    }
+
+    // MARK: Items
+
+    public var sections: [EventListSectionViewModelable]
+
+    public func createNewItem() {
+        didTapCreateHandler?()
+    }
+
+    public func selectItem(_ item: EventListItemViewModelable) {
+        didTapItemHandler?(item)
+    }
+
+    public func deleteItem(_ item: EventListItemViewModelable) {
+        try? manager.remove(for: item.id)
+    }
+
+    public var badgeCountString: String? {
+        let count = manager.events.count
+        if count > 0 {
+            return "\(count)"
+        } else {
+            return nil
+        }
+    }
+
+    // MARK: Private
+
+    private func updateSections() {
+        let allDisplayables = manager.displayables
+        let draftItems = allDisplayables.filter { $0.status == .draft }
+        let queuedItems = allDisplayables.filter { $0.status != .draft }
+
+        sections = [
+            EventListSectionViewModel(title: "Drafts", isExpanded: true, items: draftItems, useCards: true),
+            EventListSectionViewModel(title: "Queued", isExpanded: true, items: queuedItems, useCards: false)
+        ]
+    }
+
+}
+
+extension EventListViewModel: EventsManagerDelegate {
+    public func eventsManagerDidUpdate(_ eventsManager: EventsManager) {
+        updateSections()
+    }
+}
+
+// PSCore demo app implementation of event list section view model
+public class EventListSectionViewModel: EventListSectionViewModelable {
+    public var title: String?
+    public var isExpanded: Bool
+    public var items: [EventListItemViewModelable]
+    public var useCards: Bool
+
+    public init(title: String?, isExpanded: Bool, items: [EventListItemViewModelable], useCards: Bool) {
+        self.title = title
+        self.isExpanded = isExpanded
+        self.items = items
+        self.useCards = useCards
+    }
+
+    public func displayMode(for traitCollection: UITraitCollection) -> EventListSectionDisplayMode {
+        // Use cards if set and have space
+        return traitCollection.horizontalSizeClass == .compact ? .list : useCards ? .cards : .list
+    }
+}
+

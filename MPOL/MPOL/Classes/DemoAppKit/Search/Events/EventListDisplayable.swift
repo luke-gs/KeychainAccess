@@ -88,15 +88,6 @@ public protocol EventDetailViewModelType: Evaluatable {
     init(event: Event, builder: EventScreenBuilding)
 }
 
-/// The event status
-///
-/// - draft: Event is a draft
-/// - queued: Event is queued
-public enum EventStatus: String, Codable {
-    case draft
-    case queued
-}
-
 /// A protocol defining whether the object should be a
 /// event header update delegate
 public protocol SideBarHeaderUpdateable {

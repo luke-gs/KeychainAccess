@@ -16,6 +16,14 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 public class Event: IdentifiableDataModel, Evaluatable {
 
+    /// The status of the event submission
+    public enum Status: String, Codable {
+        case draft
+        case pending
+        case failed
+        case complete
+    }
+
     // MARK: - Properties
 
     /// The creation date of event
@@ -25,7 +33,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public var title: String?
 
     /// The status of the event
-    public var status: EventStatus = .draft
+    public var status: Event.Status = .draft
 
     /// Store of all entities used in event
     public var entityBucket: EntityBucket = EntityBucket(limit: 0)

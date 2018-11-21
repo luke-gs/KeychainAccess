@@ -84,18 +84,6 @@ final public class EventsManager {
     private func loadEvents() {
         events = UserSession.current.userStorage?.retrieve(key: UserStorage.storedEventsKey) ?? []
     }
-
-    // MARK: - Draftable Items
-
-    public var draftItems: [Draftable] {
-        return displayables.compactMap { EventDraftable(displayable: $0) }
-    }
-
-    public func deleteDraftItem(at index: Int) {
-        if let event = events[ifExists: index] {
-            try? remove(for: event.id)
-        }
-    }
 }
 
 // TODO: Remove this class and replace with EventListDisplayable

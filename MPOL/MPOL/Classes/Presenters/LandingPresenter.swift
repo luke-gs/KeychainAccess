@@ -171,28 +171,27 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             self.eventsManager = EventsManager(eventBuilder: EventBuilder())
 
-            let didTapCreateHandler: ((EventListViewController) -> Void) = { vc in
+            let eventListViewModel = EventListViewModel(manager: eventsManager)
+            let eventsListVC = EventListViewController(viewModel: eventListViewModel)
+
+            eventListViewModel.didTapCreateHandler = { [weak self] in
                 let incidentSelectionViewController = IncidentSelectViewController()
                 let eventCreationNavController = PopoverNavigationController(rootViewController: incidentSelectionViewController)
                 eventCreationNavController.wantsTransparentBackground = false
                 eventCreationNavController.modalPresentationStyle = .formSheet
 
-                vc.present(eventCreationNavController, animated: true, completion: nil)
+                eventsListVC.present(eventCreationNavController, animated: true, completion: nil)
 
                 incidentSelectionViewController.didSelectIncident = { [weak self] incidentType in
                     guard let event = try! self?.eventsManager.create(eventType: .blank) else { return }
-                    self?.presentEvent(event, with: incidentType, from: vc)
+                    self?.presentEvent(event, with: incidentType, from: eventsListVC)
                 }
             }
 
-            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { [weak self] vc, offset in
-                if let draftable = vc.viewModel.draftItem(for: offset) {
-                    guard let event = self?.eventsManager.event(for: draftable.id) else { return }
-                    self?.presentEvent(event, from: vc)
-                }
+            eventListViewModel.didTapItemHandler = { [weak self] item in
+                guard let event = self?.eventsManager.event(for: item.id) else { return }
+                self?.presentEvent(event, from: eventsListVC)
             }
-
-            let eventsListVC = EventListViewController(viewModel: EventDraftListViewModel(manager: eventsManager), didTapCreateHandler: didTapCreateHandler, didTapItemHandler: didTapItemHandler)
 
             eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
