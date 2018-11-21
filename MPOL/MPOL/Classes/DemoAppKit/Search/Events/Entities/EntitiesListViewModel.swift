@@ -161,10 +161,10 @@ public extension EntitiesListViewModel {
         var items = [IconPickable]()
         let image = AssetManager.shared.image(forKey: .edit)
         if !involvements(for: entity).isEmpty {
-            items.append(IconPickable(title: "Manage Involvements", subtitle: "involvement", icon: image, tintColor: UIColor.black))
+            items.append(IconPickable(title: "Manage Involvements", subtitle: nil, icon: image, tintColor: UIColor.black))
         }
         if !additionalActions(for: entity).isEmpty {
-            items.append(IconPickable(title: "Manage Additional Actions", subtitle: "action", icon: image, tintColor: UIColor.black))
+            items.append(IconPickable(title: "Manage Additional Actions", subtitle: nil, icon: image, tintColor: UIColor.black))
         }
         return items
     }
