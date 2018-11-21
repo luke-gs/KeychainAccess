@@ -66,8 +66,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
 
-        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-
         viewModel.officerDisplayables.forEach { displayable in
             let summaryListFormItem = SummaryListFormItem()
                 .title(displayable.title)
@@ -78,11 +76,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
                 .imageStyle(.circle)
-                .accessory(CustomItemAccessory(onCreate: { () -> UIView in
-                    let imageView = UIImageView(image: image)
-                    imageView.contentMode = .scaleAspectFit
-                    return imageView
-                }, size: image?.size ?? .zero))
+                .accessory(ItemAccessory.pencil)
                 .onSelection { [weak self] (_) in
                     guard let `self` = self else { return }
                     let officer = displayable.officer
