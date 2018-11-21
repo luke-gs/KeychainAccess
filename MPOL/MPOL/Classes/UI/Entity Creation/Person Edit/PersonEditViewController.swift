@@ -244,6 +244,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     .title(alias.type)
                     .value(displayName)
                     .width(.column(1))
+                    .accessory(ItemAccessory.pencil)
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
                                                                color: UIColor.red,
                                                                handler: { [unowned self] (_, _) in
