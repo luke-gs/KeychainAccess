@@ -59,7 +59,8 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                 .width(.column(1))
                 .onValueChanged { [weak self] value in
                     self?.viewModel.type = value?.first
-            }
+                    self?.reloadForm()
+                }
         }
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Location Information", comment: "")).separatorColor(.clear)
@@ -80,7 +81,7 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                     self?.viewModel.streetNumber = $0
                 }
                 .width(.column(2))
-            builder += TextFieldFormItem(title: NSLocalizedString("Street Name", comment: ""))
+            let streetNameItem = TextFieldFormItem(title: NSLocalizedString("Street Name", comment: ""))
                 .text(viewModel.streetName)
                 .onValueChanged { [weak self] in
                     self?.viewModel.streetName = $0
@@ -107,9 +108,13 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
 
             if viewModel.requiredFields {
                 suburbItem.required()
+                if viewModel.type?.title?.string == "Residential Address" || viewModel.type?.title?.string == "Work Address" {
+                    streetNameItem.required()
+                }
             }
 
             builder += suburbItem
+            builder += streetNameItem
 
             if let stateOptions = viewModel.stateOptions {
                 builder += DropDownFormItem(title: NSLocalizedString("State", comment: ""))

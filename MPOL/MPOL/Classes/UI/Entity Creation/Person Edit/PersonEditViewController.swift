@@ -277,7 +277,6 @@ public class PersonEditViewController: FormBuilderViewController {
                     .title(location.type?.title)
                     .selectedValue(location)
                     .width(.column(1))
-                    .required()
                     .onValueChanged { [unowned self] (location) in
                         if let location = location as? LocationSelectionCore {
                             self.locations?[index] = location
