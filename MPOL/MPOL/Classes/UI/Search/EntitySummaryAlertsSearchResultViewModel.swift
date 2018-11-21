@@ -104,7 +104,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     case is Vehicle:
                         speakDetails(for: (entity as! Vehicle))
                     default:
-                        fatalError("Text to speech alerts not supported for supplied entity")
+                        assertionFailure("Text to speech alerts not supported for supplied entity")
                     }
                 }
             }
