@@ -183,8 +183,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 /// This can later be expanded upon to build different types of events
 /// via the app
 public class IncidentType: ExtensibleKey<String>, Codable {
-
-    //Define default EventTypes
+    // Define default EventTypes
     public static let blank = IncidentType("Blank")
 }
 

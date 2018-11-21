@@ -114,11 +114,11 @@ extension IncidentListReport: Summarisable {
         var items = [FormItem]()
         incidents.forEach { (incident) in
             items.append(LargeTextHeaderFormItem(text: incident.title))
-            incident.reports.forEach({ (report) in
+            incident.reports.forEach { (report) in
                 if let report = report as? Summarisable {
                     items += report.formItems
                 }
-            })
+            }
         }
         return items
     }

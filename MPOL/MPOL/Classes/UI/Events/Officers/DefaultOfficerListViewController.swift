@@ -90,7 +90,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             }
 
             // Only add deletion action if the officer is not the user and there is more than one officer.
-            guard (viewModel.officerDisplayables.count > 1 && displayable.officer != UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey)) else {
+            guard viewModel.officerDisplayables.count > 1
+                && displayable.officer != UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) else {
                 builder += summaryListFormItem
                 return
             }
