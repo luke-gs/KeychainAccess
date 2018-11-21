@@ -236,6 +236,7 @@ public class PersonEditViewController: FormBuilderViewController {
                     .title(alias.type)
                     .value(StringSizing(string: displayName, font: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)))
                     .width(.column(1))
+                    .accessory(ItemAccessory.pencil)
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
                                                                color: UIColor.red,
                                                                handler: { [unowned self] (_, _) in
