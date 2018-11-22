@@ -92,9 +92,9 @@ public class EventListViewModel: EventListViewModelable {
     // MARK: Private
 
     private func updateSections() {
-        let allDisplayables = eventsManager.displayables
-        let draftItems = allDisplayables.filter { ($0 as! EventListItemViewModel).isDraft }
-        let queuedItems = allDisplayables.filter { !($0 as! EventListItemViewModel).isDraft }
+        let items = eventsManager.displayables.compactMap { $0 as? EventListItemViewModel }
+        let draftItems = items.filter { $0.isDraft }
+        let queuedItems = items.filter { !$0.isDraft }
 
         let sections = [
             EventListSectionViewModel(title: AssetManager.shared.string(forKey: .eventsDraftSectionTitle),
@@ -106,7 +106,7 @@ public class EventListViewModel: EventListViewModelable {
                                       items: queuedItems,
                                       useCards: false)
         ]
-
+        // Only show sections with items
         self.sections = sections.filter { $0.items.count > 0 }
     }
 
