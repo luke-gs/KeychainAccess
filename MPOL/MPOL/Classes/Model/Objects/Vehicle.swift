@@ -257,7 +257,7 @@ extension Vehicle: Speakable {
             return result + String(character) + " "
         }
 
-        var items: [String] = []
+        var items: [String?] = []
 
         var status: String? = nil
         if let alert = alertLevel {
@@ -278,18 +278,16 @@ extension Vehicle: Speakable {
             items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
         }
 
-        if let status = status {
-            items.append("\(status)")
-        }
+        items.append(status)
+
         if !regoFormatted.isEmpty {
             items.append("Registration, \(regoFormatted.trimmingCharacters(in: .whitespaces))")
         }
-        if let color = primaryColor {
-            items.append("\(color)")
-        }
-        if let makeModelSummary = summary.detail1?.sizing().string {
-            items.append("\(makeModelSummary)")
-        }
+
+        items.append(primaryColor)
+
+        items.append(summary.detail1?.sizing().string)
+
         return !items.isEmpty ? items.joined(separator: ". ").trimmingCharacters(in: .whitespaces) : nil
     }
 }
