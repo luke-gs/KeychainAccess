@@ -17,7 +17,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
         reloadEntities()
 
         // Refresh list whenever created viewed entities change
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCreatedViewedChanged), name: NSNotification.Name.CreatedEntitiesDidUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCreatedViewedChanged), name: NSNotification.Name.createdEntitiesDidUpdate, object: nil)
     }
 
     open override var title: String? {
@@ -31,7 +31,7 @@ open class CreatedEntitySummarySelectionSectionViewModel: EntitySummarySelection
 
     open func reloadEntities() {
         // Use the created entities as data source
-        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.getEntities(key: UserStorage.CreatedEntitiesKey)
+        let item: [MPOLKitEntity]? = UserSession.current.userStorage?.getEntities(key: UserStorage.createdEntitiesKey)
         // Update entities and trigger UI update
         if let item = item {
             updateEntityList(item)

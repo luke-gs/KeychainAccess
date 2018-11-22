@@ -48,15 +48,11 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
         for entity in viewModel.entities {
 
-            let image = AssetManager.shared.image(forKey: .penStub)
-            let accessory = CustomItemAccessory(onCreate: { UIImageView(image: AssetManager.shared.image(forKey: .edit)) }, size: image?.size ?? .zero)
             builder += viewModel.displayable(for: entity).summaryListFormItem()
                         .separatorColor(.clear)
                         .subtitle(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
-                        .accessory(nil)
-                        .badgeColor(nil)
                         .badge(0)
-                        .accessory(accessory)
+                        .accessory(ItemAccessory.pencil)
                         .selectionStyle(.none)
                         .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                             self.viewModel.removeEntity(entity)
@@ -162,7 +158,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         viewController.finishUpdateHandler = definition.completion
 
         if let navController = presentedViewController as? UINavigationController {
-            navController.pushViewController(viewController, animated: false)
+            navController.pushViewController(viewController, animated: true)
         } else {
 
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))

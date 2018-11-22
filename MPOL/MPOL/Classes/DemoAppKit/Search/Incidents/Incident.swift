@@ -110,15 +110,15 @@ public class Incident: IdentifiableDataModel, Evaluatable {
     // MARK: - Evaluation
 
     private var reportsValid: Bool {
-        return reports.reduce(true, { result, report in
+        return reports.reduce(true) { result, report in
             return result && report.evaluator.isComplete
-        })
+        }
     }
 
     public var actionsValid: Bool {
-        return actions.reduce(true, { (_, action) -> Bool in
+        return actions.reduce(true) { (_, action) -> Bool in
             return action.evaluator.isComplete
-        })
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -183,8 +183,7 @@ public class Incident: IdentifiableDataModel, Evaluatable {
 /// This can later be expanded upon to build different types of events
 /// via the app
 public class IncidentType: ExtensibleKey<String>, Codable {
-
-    //Define default EventTypes
+    // Define default EventTypes
     public static let blank = IncidentType("Blank")
 }
 

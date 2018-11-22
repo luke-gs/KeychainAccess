@@ -53,7 +53,6 @@ public class DemoAppKitStyler: PublicSafetyKitStyler {
             cell.detailLabel.textColor = theme.color(forKey: .redText)
         }, forKey: DemoAppKitStyler.additionalActionStyle)
     }
-
 }
 
 extension DemoAppKitStyler {
