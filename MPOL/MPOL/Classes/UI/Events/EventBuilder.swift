@@ -35,9 +35,9 @@ public class EventBuilder: EventBuilding {
     public func displayable(for event: Event) -> EventListItemViewModelable {
 
         // Use location of event as subtitle
-        var subtitle: String?
+        var location: String?
         if let locationReport = event.reports.compactMap({ $0 as? DefaultLocationReport }).first {
-            subtitle = locationReport.eventLocation?.addressString ?? "Location Unknown"
+            location = locationReport.eventLocation?.addressString ?? "Location Unknown"
         }
 
         /// The event's date of creation as a relative string, e.g. "Today 10:44"
@@ -45,7 +45,10 @@ public class EventBuilder: EventBuilding {
         formatter.locale = .autoupdatingCurrent
         formatter.dateFormat = "dd/MM"
         let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
-        let detail = customFormatter.string(from: event.creationDate)
+        let date = customFormatter.string(from: event.creationDate)
+
+        let subtitle = [location, date].joined(separator: "\n")
+        let detail = event.submissionResult
 
         // Use image specific to status and theme
         let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
@@ -59,13 +62,17 @@ public class EventBuilder: EventBuilding {
                 .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
         }
 
+        let selectable = event.submissionStatus == .draft || event.submissionStatus == .pending
+        let isDraft = event.submissionStatus == .draft
+
         return EventListItemViewModel(
             id: event.id,
             title: event.title,
             subtitle: subtitle,
             detail: detail,
             image: image,
-            isDraft: event.submissionStatus == .draft)
+            selectable: selectable,
+            isDraft: isDraft)
     }
 
     public init() {}

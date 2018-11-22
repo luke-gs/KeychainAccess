@@ -21,7 +21,7 @@ public class Event: IdentifiableDataModel, Evaluatable {
         case draft
         case pending
         case sending
-        case complete
+        case submitted
         case failed
     }
 

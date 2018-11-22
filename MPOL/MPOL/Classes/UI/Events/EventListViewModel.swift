@@ -77,7 +77,7 @@ public class EventListViewModel: EventListViewModelable {
     }
 
     public func deleteItem(_ item: EventListItemViewModelable) {
-        try? eventsManager.remove(for: item.id)
+        try! eventsManager.remove(for: item.id)
     }
 
     public var badgeCountString: String? {
@@ -91,19 +91,29 @@ public class EventListViewModel: EventListViewModelable {
 
     // MARK: Private
 
+    private func clearSubmitted() {
+        // Clear all submitted events
+        let eventsToDelete = eventsManager.events.filter { $0.submissionStatus == .submitted }
+        for event in eventsToDelete {
+            try! eventsManager.remove(for: event.id)
+        }
+    }
+
     private func updateSections() {
         let items = eventsManager.displayables.compactMap { $0 as? EventListItemViewModel }
         let draftItems = items.filter { $0.isDraft }
         let queuedItems = items.filter { !$0.isDraft }
 
-        let sections = [
+        let sections: [EventListSectionViewModel] = [
             EventListSectionViewModel(title: AssetManager.shared.string(forKey: .eventsDraftSectionTitle),
-                                      isExpanded: true,
                                       items: draftItems,
+                                      isExpanded: true,
                                       useCards: true),
             EventListSectionViewModel(title: AssetManager.shared.string(forKey: .eventsQueuedSectionTitle),
-                                      isExpanded: true,
                                       items: queuedItems,
+                                      actionButtonTitle: NSLocalizedString("Clear Submitted", comment: ""),
+                                      actionButtonHandler: { [weak self] _ in self?.clearSubmitted() },
+                                      isExpanded: true,
                                       useCards: false)
         ]
         // Only show sections with items

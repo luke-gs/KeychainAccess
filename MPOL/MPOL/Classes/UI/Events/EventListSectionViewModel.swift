@@ -10,15 +10,20 @@ import PublicSafetyKit
 
 // PSCore demo app implementation of event list section view model
 public class EventListSectionViewModel: EventListSectionViewModelable {
+
     public var title: String?
-    public var isExpanded: Bool
     public var items: [EventListItemViewModelable]
+    public var actionButtonTitle: String?
+    public var actionButtonHandler: ((UIButton) -> Void)?
+    public var isExpanded: Bool
     public var useCards: Bool
 
-    public init(title: String?, isExpanded: Bool, items: [EventListItemViewModelable], useCards: Bool) {
+    init(title: String?, items: [EventListItemViewModelable], actionButtonTitle: String? = nil, actionButtonHandler: ((UIButton) -> Void)? = nil, isExpanded: Bool, useCards: Bool) {
         self.title = title
-        self.isExpanded = isExpanded
         self.items = items
+        self.actionButtonTitle = actionButtonTitle
+        self.actionButtonHandler = actionButtonHandler
+        self.isExpanded = isExpanded
         self.useCards = useCards
     }
 

@@ -489,10 +489,18 @@ extension LandingPresenter: EventSplitViewControllerDelegate {
         try! eventsManager.update(for: eventId)
     }
 
-    public func eventSubmittedFor(eventId: String, response: Any?, error: Error?) {
-        // Remove the submitted event
-        // TODO: do something non-demo here
-        try! eventsManager.remove(for: eventId)
+    public func eventSubmittedFor(eventId: String, response: EventSubmittable?, error: Error?) {
+        if let event = eventsManager.event(for: eventId) {
+            // Update the submission status
+            if let error = error {
+                event.submissionStatus = .failed
+                event.submissionResult = error.localizedDescription
+            } else {
+                event.submissionStatus = .submitted
+                event.submissionResult = [response?.title, response?.detail].joined()
+            }
+            try! eventsManager.update(for: event.id)
+        }
     }
 
 }
