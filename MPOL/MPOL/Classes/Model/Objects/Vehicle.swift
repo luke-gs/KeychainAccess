@@ -246,3 +246,50 @@ open class Vehicle: Entity {
     }
 
 }
+
+extension Vehicle: Speakable {
+    public var speakableText: String? {
+        let summary = VehicleSummaryDisplayable(self)
+
+        let rego = registration ?? ""
+
+        let regoFormatted: String = rego.reduce("") { (result, character) -> String in
+            return result + String(character) + " "
+        }
+
+        var items: [String] = []
+
+        var status: String? = nil
+        if let alert = alertLevel {
+            switch alert {
+            case .high:
+                status = AssetManager.shared.string(forKey: .alertLevel2Message)
+            case .medium:
+                status = AssetManager.shared.string(forKey: .alertLevel1Message)
+            case .low:
+                status = AssetManager.shared.string(forKey: .alertLevel0Message)
+            }
+        }
+
+        if let category = summary.category {
+            let categoryWithSpaces = category.reduce("") { (result, character) -> String in
+                return result + String(character) + " "
+            }
+            items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
+        }
+
+        if let status = status {
+            items.append("\(status)")
+        }
+        if !regoFormatted.isEmpty {
+            items.append("Registration, \(regoFormatted.trimmingCharacters(in: .whitespaces))")
+        }
+        if let color = primaryColor {
+            items.append("\(color)")
+        }
+        if let makeModelSummary = summary.detail1?.sizing().string {
+            items.append("\(makeModelSummary)")
+        }
+        return !items.isEmpty ? items.joined(separator: ". ").trimmingCharacters(in: .whitespaces) : nil
+    }
+}

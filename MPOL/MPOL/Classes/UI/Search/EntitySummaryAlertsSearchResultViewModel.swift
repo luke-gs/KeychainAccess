@@ -100,11 +100,13 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .noResultsFoundMessage))
                 } else {
                     let entity = alertEntities.first!
-                    switch entity {
-                    case is Vehicle:
-                        speakDetails(for: (entity as! Vehicle))
-                    default:
-                        assertionFailure("Text to speech alerts not supported for supplied entity")
+
+                    if let speakableEntity = entity as? Speakable {
+                        TextToSpeechHelper.default.speak(speakableEntity)
+                    }
+
+                    if alertEntities.count > 1 {
+                        TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .multipleMatchesFoundMessage))
                     }
                 }
             }
@@ -136,56 +138,5 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             .image(summary.thumbnail(ofSize: .medium))
             .borderColor(summary.borderColor)
             .imageTintColor(summary.iconColor)
-    }
-
-    private func speakDetails(for vehicle: Vehicle) {
-        let summary = VehicleSummaryDisplayable(vehicle)
-
-        let rego = vehicle.registration ?? ""
-
-        let regoFormatted: String = rego.reduce("") { (result, character) -> String in
-            return result + String(character) + " "
-        }
-
-        var items: [String] = []
-
-        var status: String? = nil
-        if let alert = vehicle.alertLevel {
-            switch alert {
-            case .high:
-                status = AssetManager.shared.string(forKey: .alertLevel2Message)
-            case .medium:
-                status = AssetManager.shared.string(forKey: .alertLevel1Message)
-            case .low:
-                status = AssetManager.shared.string(forKey: .alertLevel0Message)
-            }
-        }
-
-        if let category = summary.category {
-            let categoryWithSpaces = category.reduce("") { (result, character) -> String in
-                return result + String(character) + " "
-            }
-            items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
-        }
-
-        if let status = status {
-            items.append("\(status)")
-        }
-        if !regoFormatted.isEmpty {
-            items.append("Registration: \(regoFormatted.trimmingCharacters(in: .whitespaces))")
-        }
-        if let color = vehicle.primaryColor {
-            items.append("\(color)")
-        }
-        if let makeModelSummary = summary.detail1?.sizing().string {
-            items.append("\(makeModelSummary)")
-        }
-        if alertEntities.count > 1 {
-            items.append(AssetManager.shared.string(forKey: .multipleMatchesFoundMessage))
-        }
-        if !items.isEmpty {
-            let text = items.joined(separator: ". ").trimmingCharacters(in: .whitespaces)
-            TextToSpeechHelper.default.speak(text)
-        }
     }
 }
