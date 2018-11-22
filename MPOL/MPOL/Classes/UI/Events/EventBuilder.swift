@@ -24,7 +24,7 @@ public class EventBuilder: EventBuilding {
         return event
     }
 
-    public func displayable(for event: Event) -> EventListDisplayable {
+    public func displayable(for event: Event) -> EventListItemViewModelable {
 
         // Use location of event as subtitle
         var subtitle: String?
@@ -32,14 +32,32 @@ public class EventBuilder: EventBuilding {
             subtitle = locationReport.eventLocation?.addressString ?? "Location Unknown"
         }
 
-        return EventListDisplayable(
+        /// The event's date of creation as a relative string, e.g. "Today 10:44"
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "dd/MM"
+        let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
+        let detail = customFormatter.string(from: event.creationDate)
+
+        // Use image specific to status and theme
+        let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
+        var image: UIImage?
+        switch event.submissionStatus {
+        case .draft:
+            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
+                .withCircleBackground(tintColor: isDark ? .black : .white, circleColor: isDark ? .white : .black, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        default:
+            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
+                .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        }
+
+        return EventListItemViewModel(
             id: event.id,
-            creationDate: event.creationDate,
             title: event.title,
             subtitle: subtitle,
-            accessoryTitle: "",
-            accessorySubtitle: "",
-            iconKey: AssetManager.ImageKey.event)
+            detail: detail,
+            image: image,
+            isDraft: event.submissionStatus == .draft)
     }
 
     public init() {}

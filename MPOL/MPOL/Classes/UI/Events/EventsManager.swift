@@ -31,7 +31,7 @@ final public class EventsManager {
     }
 
     /// Return the current events as displayables
-    public var displayables: [EventListDisplayable] {
+    public var displayables: [EventListItemViewModelable] {
         return events.map { event in
             return eventBuilder.displayable(for: event)
         }
@@ -86,55 +86,3 @@ final public class EventsManager {
     }
 }
 
-// TODO: Remove this class and replace with EventListDisplayable
-private class EventDraftable: Draftable {
-
-    private var displayable: EventListDisplayable
-
-    public var id: String {
-        return displayable.id
-    }
-
-    public var title: String? {
-        return displayable.title
-    }
-
-    public var subtitle: String? {
-        return displayable.subtitle
-    }
-
-    public var detail: String? {
-        /// The event's date of creation as a relative string, e.g. "Today 10:44"
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.dateFormat = "dd/MM"
-        let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
-        return customFormatter.string(from: displayable.creationDate)
-    }
-
-    public var listIconImage: UIImage? {
-        let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
-
-        var image: UIImage?
-
-        switch status {
-        case .draft:
-            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
-                .withCircleBackground(tintColor: isDark ? .black : .white, circleColor: isDark ? .white : .black, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
-        case .queued:
-            image = AssetManager.shared.image(forKey: AssetManager.ImageKey.tabBarEventsSelected)?
-                .withCircleBackground(tintColor: isDark ? .white : .black, circleColor: isDark ? .darkGray : .disabledGray, style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
-        }
-
-        return image
-    }
-
-    public var status: DraftableStatus {
-        return displayable.status == .queued ? .queued : .draft
-    }
-
-    init(displayable: EventListDisplayable) {
-        self.displayable = displayable
-    }
-
-}

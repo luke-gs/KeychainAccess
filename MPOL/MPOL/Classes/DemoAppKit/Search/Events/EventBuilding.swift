@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import PublicSafetyKit
 
 /// Builder for event
 ///
@@ -24,7 +25,7 @@ public protocol EventBuilding {
     ///
     /// - Parameter event: The event
     /// - Returns: The list displayable
-    func displayable(for event: Event) -> EventListDisplayable
+    func displayable(for event: Event) -> EventListItemViewModelable
 
 }
 

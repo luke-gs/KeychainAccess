@@ -17,11 +17,12 @@ fileprivate extension EvaluatorKey {
 public class Event: IdentifiableDataModel, Evaluatable {
 
     /// The status of the event submission
-    public enum Status: String, Codable {
+    public enum SubmissionStatus: String, Codable {
         case draft
         case pending
-        case failed
+        case sending
         case complete
+        case failed
     }
 
     // MARK: - Properties
@@ -32,8 +33,12 @@ public class Event: IdentifiableDataModel, Evaluatable {
     /// The title to display for the event
     public var title: String?
 
-    /// The status of the event
-    public var status: Event.Status = .draft
+    /// The submission status of the event
+    public var submissionStatus: Event.SubmissionStatus = .draft
+
+    /// The result of submission, either event number or error message
+    /// We don't store this as associated data on enum for easier serialisation
+    public var submissionResult: String?
 
     /// Store of all entities used in event
     public var entityBucket: EntityBucket = EntityBucket(limit: 0)
@@ -113,7 +118,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
         case entities
         case relationships
         case reports
-        case status
+        case submissionStatus
+        case submissionResult
         case title
         case creationDate
     }
@@ -121,7 +127,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        status = try container.decode(EventStatus.self, forKey: .status)
+        submissionStatus = try container.decode(SubmissionStatus.self, forKey: .submissionStatus)
+        submissionResult = try container.decodeIfPresent(String.self, forKey: .submissionResult)
         title = try container.decodeIfPresent(String.self, forKey: .title)
         relationshipManager.add(try container.decode([Relationship].self, forKey: .relationships))
 
@@ -151,7 +158,8 @@ public class Event: IdentifiableDataModel, Evaluatable {
         let wrappedEntities = entityList.wrapped()
 
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(status, forKey: .status)
+        try container.encode(submissionStatus, forKey: .submissionStatus)
+        try container.encode(submissionResult, forKey: .submissionResult)
         try container.encode(title, forKey: .title)
         try container.encode(relationshipManager.relationships, forKey: .relationships)
         try container.encode(wrappedEntities, forKey: CodingKeys.entities)

@@ -13,15 +13,15 @@ public class EventListViewModel: EventListViewModelable {
 
     private let manager: EventsManager
 
-    /// Triggered when plus button is tapped
-    public var didTapCreateHandler: (() -> Void)?
+    /// Handler for creating a new item
+    public var creationHandler: (() -> Void)?
 
-    /// Triggered when an item is tapped
-    public var didTapItemHandler: ((EventListItemViewModelable) -> Void)?
+    /// Handler for selecting an item
+    public var selectionHandler: ((EventListItemViewModelable) -> Void)?
 
     public init(manager: EventsManager) {
         self.manager = manager
-        updateSections()
+        self.updateSections()
     }
 
     // MARK: Screen
@@ -56,14 +56,14 @@ public class EventListViewModel: EventListViewModelable {
 
     // MARK: Items
 
-    public var sections: [EventListSectionViewModelable]
+    public var sections: [EventListSectionViewModelable] = []
 
     public func createNewItem() {
-        didTapCreateHandler?()
+        creationHandler?()
     }
 
     public func selectItem(_ item: EventListItemViewModelable) {
-        didTapItemHandler?(item)
+        selectionHandler?(item)
     }
 
     public func deleteItem(_ item: EventListItemViewModelable) {
@@ -83,11 +83,11 @@ public class EventListViewModel: EventListViewModelable {
 
     private func updateSections() {
         let allDisplayables = manager.displayables
-        let draftItems = allDisplayables.filter { $0.status == .draft }
-        let queuedItems = allDisplayables.filter { $0.status != .draft }
+        let draftItems = allDisplayables.filter { ($0 as! EventListItemViewModel).isDraft }
+        let queuedItems = allDisplayables.filter { !($0 as! EventListItemViewModel).isDraft }
 
         sections = [
-            EventListSectionViewModel(title: "Drafts", isExpanded: true, items: draftItems, useCards: true),
+            EventListSectionViewModel(title: AssetManager.shared.string(forKey: .draftSectionTitle), isExpanded: true, items: draftItems, useCards: true),
             EventListSectionViewModel(title: "Queued", isExpanded: true, items: queuedItems, useCards: false)
         ]
     }

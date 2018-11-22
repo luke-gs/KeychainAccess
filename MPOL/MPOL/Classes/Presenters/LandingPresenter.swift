@@ -174,7 +174,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let eventListViewModel = EventListViewModel(manager: eventsManager)
             let eventsListVC = EventListViewController(viewModel: eventListViewModel)
 
-            eventListViewModel.didTapCreateHandler = { [weak self] in
+            eventListViewModel.creationHandler = { [weak self] in
                 let incidentSelectionViewController = IncidentSelectViewController()
                 let eventCreationNavController = PopoverNavigationController(rootViewController: incidentSelectionViewController)
                 eventCreationNavController.wantsTransparentBackground = false
@@ -188,7 +188,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 }
             }
 
-            eventListViewModel.didTapItemHandler = { [weak self] item in
+            eventListViewModel.selectionHandler = { [weak self] item in
                 guard let event = self?.eventsManager.event(for: item.id) else { return }
                 self?.presentEvent(event, from: eventsListVC)
             }
