@@ -16,26 +16,31 @@ public class AddressNavigationSelectionAction: SelectionAction {
 
     public let addressNavigatable: AddressNavigatable
 
+    public var handler: AddressOptionHandler?
+
     public var actions: [ActionSheetButton]?
 
     public init(addressNavigatable: AddressNavigatable) {
         self.addressNavigatable = addressNavigatable
+        if let coordinate = addressNavigatable.coordinate() {
+            self.handler = AddressOptionHandler(coordinate: coordinate, address: addressNavigatable.fullAddress)
+        } else {
+            self.handler = nil
+        }
     }
 
     /// The presentable to be displayed, or nil if explicit viewController should be used
     public func presentable(for sourceView: UIView?) -> Presentable? {
         guard let sourceView = sourceView,
             let coordinate = addressNavigatable.coordinate() else { return nil }
-        return SystemScreen.addressLookup(source: sourceView, coordinate: coordinate, address: addressNavigatable.fullAddress)
+        return SystemScreen.addressLookup(source: sourceView, coordinate: coordinate, address: addressNavigatable.fullAddress, actions: actions)
     }
 
     /// The view controller to be displayed (if no presentable)
     ///
     /// - Returns: A view controller
     public func viewController() -> UIViewController {
-        if let coordinate = addressNavigatable.coordinate() {
-            let handler = AddressOptionHandler(coordinate: coordinate, address: addressNavigatable.fullAddress)
-            let vc = handler.actionSheetViewController(with: actions)
+        if let vc = handler?.actionSheetViewController(with: actions) {
             vc.modalPresentationStyle = .popover
             return vc
         }
