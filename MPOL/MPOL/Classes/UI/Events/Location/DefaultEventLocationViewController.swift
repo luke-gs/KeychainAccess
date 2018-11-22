@@ -54,21 +54,35 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         builder += LargeTextHeaderFormItem(text: "Locations")
             .separatorColor(.clear)
+            .actionButton(title: NSLocalizedString("Add", comment: ""),
+                          handler: { [weak self] _ in
+                                      guard let `self` = self else { return }
+                                      self.addLocation()
+                                   })
 
-        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
-            .title("Event Location")
-            .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
-            .accessory(ItemAccessory.pencil)
-            .required()
-            .onValueChanged({ [weak self] (location) in
-                guard let `self` = self else { return }
-                if let location = location {
-                    self.viewModel.report.eventLocation = EventLocation(locationSelection: location)
-                    self.updateAnnotation()
-                    self.updateRegion()
-                }
-                self.reloadForm()
-            })
+        // if we have no location add empty location to list
+        if viewModel.report.eventLocations.isEmpty {
+            builder += SubtitleFormItem(title: "Not Yet Specified")
+                .subtitle("No Involvements")
+                .image(AssetManager.shared.image(forKey: .entityLocation))
+                .accessory(ItemAccessory.pencil)
+                .onSelection({ [weak self] cell in
+                    guard let `self` = self else { return }
+                    self.onSelection(cell)
+                })
+        // else add location to list for each in array
+        } else {
+            viewModel.report.eventLocations.forEach { location in
+                builder += SubtitleFormItem(title: location.addressString)
+                    .subtitle(LocationSelectionCore(eventLocation: location)?.type?.title ?? "No Involvements")
+                    .image(AssetManager.shared.image(forKey: .entityLocation))
+                    .accessory(ItemAccessory.pencil)
+                    .onSelection({ [weak self] cell in
+                        guard let `self` = self else { return }
+                        self.onSelection(cell)
+                    })
+            }
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -111,6 +125,50 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         let region = MKCoordinateRegion(center: coord, span: span)
 
         mapView?.setRegion(region, animated: true)
+    }
+
+    private func addLocation() {
+        let presentable = LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.eventWorkflowId,
+                                                                            nil) { [weak self] selection in
+                                                                                guard let `self` = self else { return }
+                                                                                if let selection = selection {
+
+                                                                                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
+                                                                                    self.viewModel.report.eventLocations.append(eventLocation)
+                                                                                    self.updateAnnotation()
+                                                                                    self.updateRegion()
+                                                                                }
+                                                                                self.reloadForm()
+                                                                            }
+        present(presentable)
+    }
+
+    private func onSelection(_ cell: CollectionViewFormCell) {
+        guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
+
+        let selectionType: LocationSelectionCore? = {
+            guard let location = self.viewModel.report.eventLocations[ifExists: index] else { return nil }
+            return LocationSelectionCore(eventLocation: location)
+        }()
+
+        let presentable = LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.eventWorkflowId,
+                                                                             selectionType) { [weak self] selection in
+                                                                                guard let `self` = self else { return }
+                                                                                if let selection = selection {
+
+                                                                                    guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
+                                                                                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
+                                                                                    if self.viewModel.report.eventLocations[ifExists: index] != nil {
+                                                                                        self.viewModel.report.eventLocations[index] = eventLocation
+                                                                                    } else {
+                                                                                        self.viewModel.report.eventLocations.append(eventLocation)
+                                                                                    }
+                                                                                    self.updateAnnotation()
+                                                                                    self.updateRegion()
+                                                                                }
+                                                                                self.reloadForm()
+                                                                            }
+        present(presentable)
     }
 }
 
