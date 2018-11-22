@@ -97,16 +97,16 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
             if searchComplete && self.shouldReadAlerts {
                 if alertEntities.isEmpty {
-                    TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .noResultsFoundMessage))
+                    TextToSpeechHelper.default.queue(AssetManager.shared.string(forKey: .noResultsFoundMessage))
                 } else {
                     let entity = alertEntities.first!
 
                     if let speakableEntity = entity as? Speakable {
-                        TextToSpeechHelper.default.speak(speakableEntity)
+                        TextToSpeechHelper.default.queue(speakableEntity)
                     }
 
                     if alertEntities.count > 1 {
-                        TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .multipleMatchesFoundMessage))
+                        TextToSpeechHelper.default.queue(AssetManager.shared.string(forKey: .multipleMatchesFoundMessage))
                     }
                 }
             }
