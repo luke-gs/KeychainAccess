@@ -19,16 +19,10 @@ public class OfficerParserDefinition: QueryParserDefinition {
     public func tokensFrom(query: String) -> [String] {
 
         let tokens: [String]
-        // check for employee number
+        // check for numeric values in query
+        // if so return whole query as employeeNumber parameter
         if query.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-            let components = query.components(separatedBy: OfficerParserDefinition.componentsSeparatorSet)
-            var results = [String]()
-            components.forEach { component in
-                if component.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-                    results.append(component)
-                }
-            }
-            tokens = results
+            tokens = [query]
 
         // else seperate into ["lastName", "firstName", "middle names"]
         } else {
