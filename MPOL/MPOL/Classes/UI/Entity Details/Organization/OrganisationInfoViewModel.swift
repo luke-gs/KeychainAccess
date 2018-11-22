@@ -94,6 +94,16 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         }
 
+        let coordinateAction = AddressNavigationSelectionAction(addressNavigatable: address)
+        if let handler = coordinateAction.handler {
+            coordinateAction.actions = [
+                handler.openInAppleMapsButton(),
+                handler.openStreetViewButton(),
+                ActionSheetButton(title: NSLocalizedString("Copy to clipboard", comment: ""), icon: nil, action: { [weak self] in
+                    UIPasteboard.general.string = self?.latLongString(from: address)
+                })
+            ]
+        }
         return [
             AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
@@ -103,6 +113,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
                 .width(.column(1))
                 .accessory(travelAccessory),
             ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
+                .selectionAction(coordinateAction)
                 .width(.column(1))
                 .separatorColor(.clear)
         ]
