@@ -9,7 +9,7 @@ import Foundation
 import PublicSafetyKit
 public extension UserStorage {
 
-    public static let CreatedEntitiesKey = "CreatedEntitiesKey"
+    public static let createdEntitiesKey = "CreatedEntitiesKey"
 
     /// Add an Entity to UserStorage with Key.
     /// The new Entity will be appended to an existing array of entities if there are already objects in that Key.
@@ -42,5 +42,5 @@ public extension UserStorage {
 
 }
 public extension NSNotification.Name {
-    public static let CreatedEntitiesDidUpdate = NSNotification.Name(rawValue: "CreatedEntitiesDidUpdate")
+    public static let createdEntitiesDidUpdate = NSNotification.Name(rawValue: "CreatedEntitiesDidUpdate")
 }

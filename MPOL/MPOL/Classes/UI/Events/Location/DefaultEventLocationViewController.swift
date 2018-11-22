@@ -58,7 +58,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
             .title("Event Location")
             .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
-            .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
+            .accessory(ItemAccessory.pencil)
             .required()
             .onValueChanged({ [weak self] (location) in
                 guard let `self` = self else { return }
