@@ -86,8 +86,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func updateAnnotation() {
-        guard let lat = viewModel.report.eventLocation?.latitude,
-            let lon = viewModel.report.eventLocation?.longitude
+        guard let lat = viewModel.report.eventLocations.first?.latitude,
+            let lon = viewModel.report.eventLocations.first?.longitude
             else { return }
 
         let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
@@ -102,8 +102,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func updateRegion() {
-        guard let lat = viewModel.report.eventLocation?.latitude,
-            let lon = viewModel.report.eventLocation?.longitude
+        guard let lat = viewModel.report.eventLocations.first?.latitude,
+            let lon = viewModel.report.eventLocations.first?.longitude
             else { return }
 
         let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)

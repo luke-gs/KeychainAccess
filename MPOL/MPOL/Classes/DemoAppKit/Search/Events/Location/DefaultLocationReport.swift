@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 
 open class DefaultLocationReport: DefaultEventReportable {
 
-    public var eventLocation: EventLocation? {
+    public var eventLocations: [EventLocation] = [] {
         didSet {
             evaluator.updateEvaluation(for: .eventLocation)
         }
@@ -27,19 +27,19 @@ open class DefaultLocationReport: DefaultEventReportable {
     private func commonInit() {
         evaluator.registerKey(.eventLocation) { [weak self] in
             guard let `self` = self else { return false }
-            return self.eventLocation != nil
+            return !self.eventLocations.isEmpty
         }
     }
 
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
-        case eventLocation
+        case eventLocations
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        eventLocation = try container.decodeIfPresent(EventLocation.self, forKey: .eventLocation)
+        eventLocations = try container.decodeIfPresent([EventLocation].self, forKey: .eventLocations) ?? []
 
         try super.init(from: decoder)
         commonInit()
@@ -47,7 +47,9 @@ open class DefaultLocationReport: DefaultEventReportable {
 
     open override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(eventLocation, forKey: CodingKeys.eventLocation)
+        if eventLocations.count > 0 {
+            try container.encodeIfPresent(eventLocations, forKey: .eventLocations)
+        }
 
         try super.encode(to: encoder)
     }
@@ -58,7 +60,10 @@ extension DefaultLocationReport: Summarisable {
     public var formItems: [FormItem] {
         var items = [FormItem]()
         items.append(LargeTextHeaderFormItem(text: "Locations"))
-        items.append(RowDetailFormItem(title: "Event Location", detail: eventLocation?.addressString ?? "Required").styleIdentifier(eventLocation == nil ? DemoAppKitStyler.summaryRequiredStyle : nil))
+
+        eventLocations.forEach { location in
+            items.append(RowDetailFormItem(title: "Event Location", detail: location.addressString ?? "Required"))
+        }
         return items
     }
 }

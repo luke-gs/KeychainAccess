@@ -26,10 +26,10 @@ public class EventBuilder: EventBuilding {
 
     public func displayable(for event: Event) -> EventListDisplayable {
 
-        // Use location of event as subtitle
+        // Use first location in event as subtitle
         var subtitle: String?
         if let locationReport = event.reports.compactMap({ $0 as? DefaultLocationReport }).first {
-            subtitle = locationReport.eventLocation?.addressString ?? "Location Unknown"
+            subtitle = locationReport.eventLocations.first?.addressString ?? "Location Unknown"
         }
 
         return EventListDisplayable(
