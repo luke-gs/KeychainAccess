@@ -37,8 +37,8 @@ final public class EventsManager {
         }
     }
 
-    public func create(eventType: EventType) throws -> Event? {
-        let event = eventBuilder.createEvent(for: eventType)
+    public func create(eventType: EventType, incidentType: IncidentType?) throws -> Event? {
+        let event = eventBuilder.createEvent(eventType: eventType, incidentType: incidentType)
         events.append(event)
 
         // Store latest events array to disk

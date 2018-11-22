@@ -10,7 +10,7 @@ import PublicSafetyKit
 
 public class EventBuilder: EventBuilding {
 
-    public func createEvent(for type: EventType) -> Event {
+    public func createEvent(eventType: EventType, incidentType: IncidentType?) -> Event {
         let event = Event()
 
         // Add reports here
@@ -20,6 +20,14 @@ public class EventBuilder: EventBuilding {
         event.add(report: IncidentListReport(event: event))
         event.add(report: EventEntitiesListReport(event: event))
         event.add(report: DefaultNotesMediaReport(event: event))
+
+        // TODO: move incident builder/manager so that we can create default incident here,
+        // rather than when we open the event for the first time
+
+        // Set initial title from incident
+        if let incidentType = incidentType {
+            event.title = incidentType.rawValue
+        }
 
         return event
     }

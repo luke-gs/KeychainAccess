@@ -17,9 +17,10 @@ public protocol EventBuilding {
 
     /// Create an event, injecting any reports that you need.
     ///
-    /// - Parameter type: The type of event that is being asked to be created.
+    /// - Parameter eventType: The type of event that is being asked to be created.
+    /// - Parameter incidentType: The type of default incident, or nil for none.
     /// - Returns: The new event
-    func createEvent(for type: EventType) -> Event
+    func createEvent(eventType: EventType, incidentType: IncidentType?) -> Event
 
     /// Create a displayable for an event, to be shown in event list
     ///

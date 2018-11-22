@@ -183,7 +183,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 eventsListVC.present(eventCreationNavController, animated: true, completion: nil)
 
                 incidentSelectionViewController.didSelectIncident = { [weak self] incidentType in
-                    guard let event = try! self?.eventsManager.create(eventType: .blank) else { return }
+                    guard let event = try! self?.eventsManager.create(eventType: .blank, incidentType: incidentType) else { return }
                     self?.presentEvent(event, with: incidentType, from: eventsListVC)
                 }
             }
