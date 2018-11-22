@@ -96,10 +96,18 @@ public class EventListViewModel: EventListViewModelable {
         let draftItems = allDisplayables.filter { ($0 as! EventListItemViewModel).isDraft }
         let queuedItems = allDisplayables.filter { !($0 as! EventListItemViewModel).isDraft }
 
-        sections = [
-            EventListSectionViewModel(title: AssetManager.shared.string(forKey: .draftSectionTitle), isExpanded: true, items: draftItems, useCards: true),
-            EventListSectionViewModel(title: "Queued", isExpanded: true, items: queuedItems, useCards: false)
+        let sections = [
+            EventListSectionViewModel(title: AssetManager.shared.string(forKey: .eventsDraftSectionTitle),
+                                      isExpanded: true,
+                                      items: draftItems,
+                                      useCards: true),
+            EventListSectionViewModel(title: AssetManager.shared.string(forKey: .eventsQueuedSectionTitle),
+                                      isExpanded: true,
+                                      items: queuedItems,
+                                      useCards: false)
         ]
+
+        self.sections = sections.filter { $0.items.count > 0 }
     }
 
 }
