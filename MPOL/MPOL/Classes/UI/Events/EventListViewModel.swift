@@ -11,7 +11,11 @@ import PublicSafetyKit
 // PSCore demo app implementation of event list view model
 public class EventListViewModel: EventListViewModelable {
 
-    private let manager: EventsManager
+    /// Delegate for observing changes to view model
+    public weak var delegate: EventListViewModelableDelegate?
+
+    /// The events eventsManager
+    public let eventsManager: EventsManager
 
     /// Handler for creating a new item
     public var creationHandler: (() -> Void)?
@@ -19,8 +23,10 @@ public class EventListViewModel: EventListViewModelable {
     /// Handler for selecting an item
     public var selectionHandler: ((EventListItemViewModelable) -> Void)?
 
-    public init(manager: EventsManager) {
-        self.manager = manager
+    public init(eventsManager: EventsManager) {
+        self.eventsManager = eventsManager
+        self.eventsManager.delegate = self
+
         self.updateSections()
     }
 
@@ -56,7 +62,11 @@ public class EventListViewModel: EventListViewModelable {
 
     // MARK: Items
 
-    public var sections: [EventListSectionViewModelable] = []
+    public var sections: [EventListSectionViewModelable] = [] {
+        didSet {
+            delegate?.sectionsUpdated()
+        }
+    }
 
     public func createNewItem() {
         creationHandler?()
@@ -67,11 +77,11 @@ public class EventListViewModel: EventListViewModelable {
     }
 
     public func deleteItem(_ item: EventListItemViewModelable) {
-        try? manager.remove(for: item.id)
+        try? eventsManager.remove(for: item.id)
     }
 
     public var badgeCountString: String? {
-        let count = manager.events.count
+        let count = eventsManager.events.count
         if count > 0 {
             return "\(count)"
         } else {
@@ -82,7 +92,7 @@ public class EventListViewModel: EventListViewModelable {
     // MARK: Private
 
     private func updateSections() {
-        let allDisplayables = manager.displayables
+        let allDisplayables = eventsManager.displayables
         let draftItems = allDisplayables.filter { ($0 as! EventListItemViewModel).isDraft }
         let queuedItems = allDisplayables.filter { !($0 as! EventListItemViewModel).isDraft }
 
@@ -119,4 +129,3 @@ public class EventListSectionViewModel: EventListSectionViewModelable {
         return traitCollection.horizontalSizeClass == .compact ? .list : useCards ? .cards : .list
     }
 }
-

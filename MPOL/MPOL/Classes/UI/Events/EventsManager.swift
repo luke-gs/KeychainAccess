@@ -85,4 +85,3 @@ final public class EventsManager {
         events = UserSession.current.userStorage?.retrieve(key: UserStorage.storedEventsKey) ?? []
     }
 }
-

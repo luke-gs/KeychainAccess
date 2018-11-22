@@ -171,7 +171,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             self.eventsManager = EventsManager(eventBuilder: EventBuilder())
 
-            let eventListViewModel = EventListViewModel(manager: eventsManager)
+            let eventListViewModel = EventListViewModel(eventsManager: eventsManager)
             let eventsListVC = EventListViewController(viewModel: eventListViewModel)
 
             eventListViewModel.creationHandler = { [weak self] in
