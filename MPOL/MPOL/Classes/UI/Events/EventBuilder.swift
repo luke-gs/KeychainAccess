@@ -40,15 +40,9 @@ public class EventBuilder: EventBuilding {
             location = locationReport.eventLocation?.addressString ?? "Location Unknown"
         }
 
-        /// The event's date of creation as a relative string, e.g. "Today 10:44"
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.dateFormat = "dd/MM"
-        let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
-        let date = customFormatter.string(from: event.creationDate)
-
-        let subtitle = [date, location].joined(separator: "\n").sizing(withNumberOfLines: 0)
-        let detail = event.submissionResult?.sizing(withNumberOfLines: 0)
+        let creationDate = EventBuilder.dateFormatter.string(from: event.creationDate)
+        let subtitle = [creationDate, location].joined(separator: "\n")
+        let detail = event.submissionResult
 
         // Use image specific to status and theme
         let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
@@ -68,12 +62,25 @@ public class EventBuilder: EventBuilding {
         return EventListItemViewModel(
             id: event.id,
             title: event.title,
-            subtitle: subtitle,
-            detail: detail,
+            subtitle: subtitle.sizing(withNumberOfLines: 0),
+            detail: detail?.sizing(withNumberOfLines: 0),
+            cardSubtitle: location?.sizing(withNumberOfLines: 0),
+            cardDetail: creationDate.sizing(withNumberOfLines: 0),
             image: image,
             selectable: selectable,
             isDraft: isDraft)
     }
 
     public init() {}
+
+    /// The event's date of creation as a relative string, e.g. "Today 10:44"
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "dd/MM"
+        return RelativeDateFormatter(dateFormatter: formatter,
+                                     timeFormatter: DateFormatter.preferredTimeStyle,
+                                     separator: ", ")
+    }()
+
 }
