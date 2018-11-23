@@ -25,7 +25,7 @@ public class DefaultEventLocationViewModel {
 
         let noInvolvementText = NSAttributedString(string: NSLocalizedString("No involvements", comment: ""),
                                                    attributes: [.foregroundColor: UIColor.orangeRed])
-        return LocationSelectionCore(eventLocation: location)?.type?.title ?? noInvolvementText
+        return location.involvement ?? noInvolvementText
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
