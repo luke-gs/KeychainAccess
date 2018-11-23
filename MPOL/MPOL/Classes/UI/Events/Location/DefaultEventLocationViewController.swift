@@ -57,7 +57,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             .separatorColor(.clear)
             .actionButton(title: NSLocalizedString("Add", comment: ""),
                           handler: { [weak self] _ in
-                                      guard let `self` = self else { return }
+                                      guard let self = self else { return }
                                       self.addLocation()
                                    })
 
@@ -68,7 +68,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                 .image(AssetManager.shared.image(forKey: .entityLocation))
                 .accessory(ItemAccessory.pencil)
                 .onSelection({ [weak self] cell in
-                    guard let `self` = self else { return }
+                    guard let self = self else { return }
                     self.onSelection(cell)
                 })
         // else add location to list for each in array
@@ -89,7 +89,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                     .image(AssetManager.shared.image(forKey: .entityLocation))
                     .accessory(ItemAccessory.pencil)
                     .onSelection({ [weak self] cell in
-                        guard let `self` = self else { return }
+                        guard let self = self else { return }
                         self.onSelection(cell)
                     })
                     .editActions(offset > 0 ? [deleteAction] : [])
