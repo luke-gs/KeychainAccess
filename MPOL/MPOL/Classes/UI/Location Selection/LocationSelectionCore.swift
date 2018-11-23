@@ -12,7 +12,13 @@ import Unbox
 
 /// Demo app implementation for a location selection
 public class LocationSelectionCore: Address, LocationSelectionType {
-    public var coordinate: CLLocationCoordinate2D
+    public var coordinate: CLLocationCoordinate2D {
+        if let lat = latitude, let lng = longitude {
+            return CLLocationCoordinate2D.init(latitude: lat, longitude: lng)
+        } else {
+            return CLLocationCoordinate2D()
+        }
+    }
     public var displayText: String?
 
     public var placemark: CLPlacemark?
@@ -21,9 +27,10 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     public var locationType: AnyPickable?
 
     public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
-        self.coordinate = coordinate
         self.displayText = displayText
         super.init(id: UUID().uuidString)
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
         // also stores full address in Address
         self.fullAddress = displayText
     }
@@ -31,13 +38,14 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     public required init?(placemark: CLPlacemark) {
         guard let coordinate = placemark.location?.coordinate else { return nil }
         self.placemark = placemark
-        self.coordinate = coordinate
 
         if let address = placemark.postalAddress {
             let mailingAddress = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
             self.displayText = mailingAddress.replacingOccurrences(of: "\n", with: ", ")
         }
         super.init(id: UUID().uuidString)
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
         // also stores address in Address props
         self.fullAddress = displayText
         self.postcode = placemark.postalCode
@@ -52,9 +60,10 @@ public class LocationSelectionCore: Address, LocationSelectionType {
 
         // TODO: use address formatter?
         self.searchResult = lookupAddress
-        self.coordinate = lookupAddress.coordinate
         self.displayText = lookupAddress.fullAddress
         super.init(id: UUID().uuidString)
+        self.latitude = lookupAddress.coordinate.latitude
+        self.longitude = lookupAddress.coordinate.longitude
         // also stores full address in Address props
         self.fullAddress = lookupAddress.fullAddress
         self.unit = lookupAddress.unitNumber
@@ -75,18 +84,10 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     // MARK: - Codable
 
     public required init(from decoder: Decoder) throws {
-        self.coordinate = CLLocationCoordinate2D()
         try super.init(from: decoder)
-        if let latitude = latitude, let longitude = longitude {
-            self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        }
     }
 
     public required init(unboxer: Unboxer) throws {
-        self.coordinate = CLLocationCoordinate2D.init()
         try super.init(unboxer: unboxer)
-        if let latitude = latitude, let longitude = longitude {
-            self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        }
     }
 }
