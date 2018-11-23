@@ -72,7 +72,15 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                 })
         // else add location to list for each in array
         } else {
-            viewModel.report.eventLocations.forEach { location in
+            for (offset, location) in viewModel.report.eventLocations.enumerated() {
+
+                let deleteAction = CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                    guard let `self` = self else { return }
+                    self.viewModel.report.eventLocations.remove(at: indexPath.row)
+                    self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
+                    self.reloadForm()
+                })
+
                 builder += SubtitleFormItem(title: location.addressString)
                     .subtitle(viewModel.invovlements(for: location))
                     .image(AssetManager.shared.image(forKey: .entityLocation))
@@ -81,6 +89,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                         guard let `self` = self else { return }
                         self.onSelection(cell)
                     })
+                    .editActions(offset > 0 ? [deleteAction] : [])
             }
         }
     }
