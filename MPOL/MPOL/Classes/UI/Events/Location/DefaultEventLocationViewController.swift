@@ -46,14 +46,14 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         // Set initial annotation
         self.updateAnnotation()
         self.updateRegion()
-        self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
+        self.sidebarItem.count = UInt(self.viewModel.displayCount)
     }
 
     override open func construct(builder: FormBuilder) {
         builder.title = "Locations"
         builder.enforceLinearLayout = .always
 
-        builder += LargeTextHeaderFormItem(text: "Locations")
+        builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("Locations (%d)", comment: ""), viewModel.displayCount))
             .separatorColor(.clear)
             .actionButton(title: NSLocalizedString("Add", comment: ""),
                           handler: { [weak self] _ in
@@ -78,7 +78,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                 let deleteAction = CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.report.eventLocations.remove(at: indexPath.row)
-                    self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
+                    self.sidebarItem.count = UInt(self.viewModel.displayCount)
                     self.reloadForm()
                 })
 
@@ -148,7 +148,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                                                     self.updateAnnotation()
                                                                                     self.updateRegion()
                                                                                 }
-                                                                                self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
+                                                                                self.sidebarItem.count = UInt(self.viewModel.displayCount)
                                                                                 self.reloadForm()
                                                                             }
         present(presentable)
@@ -177,7 +177,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                                                     self.updateAnnotation()
                                                                                     self.updateRegion()
                                                                                 }
-                                                                                self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
+                                                                                self.sidebarItem.count = UInt(self.viewModel.displayCount)
                                                                                 self.reloadForm()
                                                                             }
         present(presentable)
