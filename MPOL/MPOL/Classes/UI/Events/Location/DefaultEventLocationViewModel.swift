@@ -9,6 +9,8 @@ import PublicSafetyKit
 
 public class DefaultEventLocationViewModel {
 
+    /// This variable matches the 'eventLocation' location involvement manefest item
+    public static var eventLocationInvolvement = NSLocalizedString("Event Location", comment: "") 
     weak var report: DefaultLocationReport!
 
     /// As we prefill the event with an empty location this count returns 1 when locations array is empty

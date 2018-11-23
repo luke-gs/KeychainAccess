@@ -64,7 +64,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         // if we have no location add empty location to list
         if viewModel.report.eventLocations.isEmpty {
             builder += SubtitleFormItem(title: NSLocalizedString("Not Yet Specified", comment: ""))
-                .subtitle(NSLocalizedString("Event Location", comment: ""))
+                .subtitle(DefaultEventLocationViewModel.eventLocationInvolvement)
                 .image(AssetManager.shared.image(forKey: .entityLocation))
                 .accessory(ItemAccessory.pencil)
                 .onSelection({ [weak self] cell in
