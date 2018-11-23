@@ -61,12 +61,18 @@ public class LocationSelectionCore: Address, LocationSelectionType {
         self.streetNumberFirst = lookupAddress.streetNumberFirst
         self.streetName = lookupAddress.streetName
         self.postcode = lookupAddress.postalCode
+        self.streetType = lookupAddress.streetType
+        self.state = lookupAddress.state
+        self.streetDirectional = lookupAddress.streetDirectional
+        self.streetNumberLast = lookupAddress.streetNumberLast
     }
 
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
         self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
     }
+
+    // MARK: - Codable
 
     public required init(from decoder: Decoder) throws {
         self.coordinate = CLLocationCoordinate2D.init()
