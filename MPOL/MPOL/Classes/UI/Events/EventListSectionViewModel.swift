@@ -29,6 +29,6 @@ public class EventListSectionViewModel: EventListSectionViewModelable {
 
     public func displayMode(for traitCollection: UITraitCollection) -> EventListSectionDisplayMode {
         // Use cards if set and have space
-        return traitCollection.horizontalSizeClass == .compact ? .list : useCards ? .cards : .list
+        return traitCollection.horizontalSizeClass == .compact ? .list : (useCards ? .cards : .list)
     }
 }

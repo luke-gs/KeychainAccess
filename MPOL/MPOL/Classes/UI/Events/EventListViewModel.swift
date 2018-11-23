@@ -82,11 +82,7 @@ public class EventListViewModel: EventListViewModelable {
 
     public var badgeCountString: String? {
         let count = eventsManager.events.count
-        if count > 0 {
-            return "\(count)"
-        } else {
-            return nil
-        }
+        return count > 0 ? "\(count)" : nil
     }
 
     // MARK: Private
