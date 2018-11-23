@@ -16,7 +16,7 @@ public protocol EventOfficerListViewModelDelegate: class {
 
 public class EventOfficerListViewModel {
 
-    /// This variable matches the 'reportingOfficer' officer involvement manefest item
+    /// This variable matches the 'reportingOfficer' officer involvement manifest item
     public static let reportingOfficerInvolvement = "Reporting officer"
 
     weak var delegate: EventOfficerListViewModelDelegate?
