@@ -10,7 +10,7 @@ import PublicSafetyKit
 public class DefaultEventLocationViewModel {
 
     /// This variable matches the 'eventLocation' location involvement manefest item
-    public static var eventLocationInvolvement = NSLocalizedString("Event Location", comment: "") 
+    public static var eventLocationInvolvement = NSLocalizedString("Event Location", comment: "")
     weak var report: DefaultLocationReport!
 
     /// As we prefill the event with an empty location this count returns 1 when locations array is empty
@@ -22,6 +22,14 @@ public class DefaultEventLocationViewModel {
         self.report = report
     }
 
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
+    }
+
     // TODO: invovlement will currently always be "no involvements" as the location flow doesnt currently return the selected involvements
     func invovlements(for location: EventLocation) -> StringSizable? {
 
@@ -30,11 +38,13 @@ public class DefaultEventLocationViewModel {
         return location.involvement ?? noInvolvementText
     }
 
-    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
-        if report.evaluator.isComplete {
-            return (defaultColor: .midGreen, selectedColor: .midGreen)
-        } else {
-            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+    func removeLocation(at indexPath: IndexPath) {
+
+        // check if location is 'Event Location' if so move this involvement to first location in list
+        if report.eventLocations[indexPath.row].involvement?.string == DefaultEventLocationViewModel.eventLocationInvolvement {
+            report.eventLocations[0].involvement = DefaultEventLocationViewModel.eventLocationInvolvement
         }
+
+        report.eventLocations.remove(at: indexPath.row)
     }
 }

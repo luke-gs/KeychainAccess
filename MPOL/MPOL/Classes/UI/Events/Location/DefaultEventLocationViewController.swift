@@ -77,7 +77,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
                                                             color: UIColor.red, handler: { [weak self] (_, indexPath) in
                                                                 guard let self = self else { return }
-                                                                self.viewModel.report.eventLocations.remove(at: indexPath.row)
+                                                                self.viewModel.removeLocation(at: indexPath)
                                                                 self.sidebarItem.count = UInt(self.viewModel.displayCount)
                                                                 self.reloadForm()
             })
