@@ -74,7 +74,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         } else {
             viewModel.report.eventLocations.forEach { location in
                 builder += SubtitleFormItem(title: location.addressString)
-                    .subtitle(LocationSelectionCore(eventLocation: location)?.type?.title ?? "No Involvements")
+                    .subtitle(viewModel.invovlements(for: location))
                     .image(AssetManager.shared.image(forKey: .entityLocation))
                     .accessory(ItemAccessory.pencil)
                     .onSelection({ [weak self] cell in

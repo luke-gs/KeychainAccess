@@ -61,8 +61,14 @@ extension DefaultLocationReport: Summarisable {
         var items = [FormItem]()
         items.append(LargeTextHeaderFormItem(text: "Locations"))
 
-        eventLocations.forEach { location in
-            items.append(RowDetailFormItem(title: "Event Location", detail: location.addressString ?? "Required"))
+        if eventLocations.isEmpty {
+            items.append(RowDetailFormItem(title: "Event Location", detail: "Required")
+                            .styleIdentifier(DemoAppKitStyler.summaryRequiredStyle))
+        } else {
+            eventLocations.forEach { location in
+                // TODO change to use location involvements for title (when we get them back from selection flow)
+                items.append(RowDetailFormItem(title: "Event Location", detail: location.addressString ?? "Required"))
+            }
         }
         return items
     }
