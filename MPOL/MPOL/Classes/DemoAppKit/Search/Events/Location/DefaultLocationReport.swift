@@ -47,9 +47,7 @@ open class DefaultLocationReport: DefaultEventReportable {
 
     open override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if eventLocations.count > 0 {
-            try container.encodeIfPresent(eventLocations, forKey: .eventLocations)
-        }
+        try container.encodeIfPresent(eventLocations, forKey: .eventLocations)
 
         try super.encode(to: encoder)
     }
