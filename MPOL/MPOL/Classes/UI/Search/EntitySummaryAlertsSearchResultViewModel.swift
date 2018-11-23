@@ -97,7 +97,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
             if searchComplete && self.shouldReadAlerts {
                 if alertEntities.isEmpty {
-                    TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .noResultsFoundMessage))
+                    TextToSpeechHelper.default.speak(NSLocalizedString("No Results Found", comment: ""))
                 } else {
                     let entity = alertEntities.first!
 
@@ -106,7 +106,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                     }
 
                     if alertEntities.count > 1 {
-                        TextToSpeechHelper.default.speak(AssetManager.shared.string(forKey: .multipleMatchesFoundMessage))
+                        TextToSpeechHelper.default.speak(NSLocalizedString("Multiple Matches Found", comment: ""))
                     }
                 }
             }

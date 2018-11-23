@@ -263,11 +263,11 @@ extension Vehicle: Speakable {
         if let alert = alertLevel {
             switch alert {
             case .high:
-                status = AssetManager.shared.string(forKey: .alertLevel2Message)
+                status = NSLocalizedString("High Alert", comment: "")
             case .medium:
-                status = AssetManager.shared.string(forKey: .alertLevel1Message)
+                status = NSLocalizedString("Medium Alert", comment: "")
             case .low:
-                status = AssetManager.shared.string(forKey: .alertLevel0Message)
+                status = NSLocalizedString("Low Alert", comment: "")
             }
         }
 
