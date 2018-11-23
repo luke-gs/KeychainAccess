@@ -140,19 +140,20 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func addLocation() {
-        let presentable = LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.eventWorkflowId,
-                                                                            nil) { [weak self] selection in
-                                                                                guard let `self` = self else { return }
-                                                                                if let selection = selection {
+        let presentable = LocationSelectionScreen.locationSelectionLanding(
+            LocationSelectionPresenter.eventWorkflowId,
+            nil) { [weak self] selection in
+                guard let self = self else { return }
+                if let selection = selection {
 
-                                                                                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
-                                                                                    self.viewModel.report.eventLocations.append(eventLocation)
-                                                                                    self.updateAnnotation()
-                                                                                    self.updateRegion()
-                                                                                }
-                                                                                self.sidebarItem.count = UInt(self.viewModel.displayCount)
-                                                                                self.reloadForm()
-                                                                            }
+                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
+                    self.viewModel.report.eventLocations.append(eventLocation)
+                    self.updateAnnotation()
+                    self.updateRegion()
+                }
+                self.sidebarItem.count = UInt(self.viewModel.displayCount)
+                self.reloadForm()
+            }
         present(presentable)
     }
 
