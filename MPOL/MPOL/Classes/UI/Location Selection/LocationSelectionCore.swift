@@ -8,19 +8,24 @@
 import MapKit
 import PublicSafetyKit
 import Contacts
+import Unbox
 
 /// Demo app implementation for a location selection
-public class LocationSelectionCore: LocationSelectionType {
+public class LocationSelectionCore: Address, LocationSelectionType {
     public var coordinate: CLLocationCoordinate2D
     public var displayText: String?
-    public var type: AnyPickable?
 
     public var placemark: CLPlacemark?
     public var searchResult: LookupAddress?
 
+    public var locationType: AnyPickable?
+
     public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
         self.coordinate = coordinate
         self.displayText = displayText
+        super.init(id: UUID().uuidString)
+        // also stores full address in Address
+        self.fullAddress = displayText
     }
 
     public required init?(placemark: CLPlacemark) {
@@ -32,6 +37,14 @@ public class LocationSelectionCore: LocationSelectionType {
             let mailingAddress = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
             self.displayText = mailingAddress.replacingOccurrences(of: "\n", with: ", ")
         }
+        super.init(id: UUID().uuidString)
+        // also stores address in Address props
+        self.fullAddress = displayText
+        self.postcode = placemark.postalCode
+        self.streetName = placemark.thoroughfare
+        self.streetNumberFirst = placemark.subThoroughfare
+        self.state = placemark.administrativeArea
+        self.suburb = placemark.subLocality
     }
 
     public required init?(searchResult: MPOLKitEntityProtocol) {
@@ -41,10 +54,27 @@ public class LocationSelectionCore: LocationSelectionType {
         self.searchResult = lookupAddress
         self.coordinate = lookupAddress.coordinate
         self.displayText = lookupAddress.fullAddress
+        super.init(id: UUID().uuidString)
+        // also stores full address in Address props
+        self.fullAddress = lookupAddress.fullAddress
+        self.unit = lookupAddress.unitNumber
+        self.streetNumberFirst = lookupAddress.streetNumberFirst
+        self.streetName = lookupAddress.streetName
+        self.postcode = lookupAddress.postalCode
     }
 
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
         self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
+    }
+
+    public required init(from decoder: Decoder) throws {
+        self.coordinate = CLLocationCoordinate2D.init()
+        try super.init(from: decoder)
+    }
+
+    public required init(unboxer: Unboxer) throws {
+        self.coordinate = CLLocationCoordinate2D.init()
+        try super.init(unboxer: unboxer)
     }
 }
