@@ -167,7 +167,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         let presentable = LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.eventWorkflowId,
                                                                              selectionType) { [weak self] selection in
-                                                                                guard let `self` = self else { return }
+                                                                                guard let self = self else { return }
                                                                                 if let selection = selection {
 
                                                                                     guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
