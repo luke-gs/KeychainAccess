@@ -59,7 +59,6 @@ public class PersonEditContactFormViewController: FormBuilderViewController {
             .text(viewModel.contact?.value)
             .required()
             .width(.column(1))
-            .accessory(ItemAccessory.pencil)
             .onValueChanged {
                 self.viewModel.contact?.value = $0
             }
