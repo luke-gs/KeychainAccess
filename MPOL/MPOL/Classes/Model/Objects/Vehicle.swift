@@ -259,10 +259,7 @@ extension Vehicle: Speakable {
 
         var items: [String?] = []
 
-        var status: String? = nil
-        if let alert = alertLevel {
-           status = alert.speakableText
-        }
+        let status: String? = alertLevel?.speakableText
 
         if let category = summary.category {
             let categoryWithSpaces = category.reduce("") { (result, character) -> String in
