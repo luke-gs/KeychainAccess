@@ -46,6 +46,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         // Set initial annotation
         self.updateAnnotation()
         self.updateRegion()
+        self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
     }
 
     override open func construct(builder: FormBuilder) {
@@ -63,7 +64,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         // if we have no location add empty location to list
         if viewModel.report.eventLocations.isEmpty {
             builder += SubtitleFormItem(title: "Not Yet Specified")
-                .subtitle("No Involvements")
+                .subtitle("Event Location")
                 .image(AssetManager.shared.image(forKey: .entityLocation))
                 .accessory(ItemAccessory.pencil)
                 .onSelection({ [weak self] cell in
@@ -147,6 +148,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                                                     self.updateAnnotation()
                                                                                     self.updateRegion()
                                                                                 }
+                                                                                self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
                                                                                 self.reloadForm()
                                                                             }
         present(presentable)
@@ -175,6 +177,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                                                     self.updateAnnotation()
                                                                                     self.updateRegion()
                                                                                 }
+                                                                                self.sidebarItem.count = UInt(self.viewModel.report.eventLocations.count)
                                                                                 self.reloadForm()
                                                                             }
         present(presentable)
