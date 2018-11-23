@@ -47,8 +47,8 @@ public class EventBuilder: EventBuilding {
         let customFormatter = RelativeDateFormatter(dateFormatter: formatter, timeFormatter: DateFormatter.preferredTimeStyle, separator: ", ")
         let date = customFormatter.string(from: event.creationDate)
 
-        let subtitle = [date, location].joined(separator: "\n")
-        let detail = event.submissionResult
+        let subtitle = [date, location].joined(separator: "\n").sizing(withNumberOfLines: 0)
+        let detail = event.submissionResult?.sizing(withNumberOfLines: 0)
 
         // Use image specific to status and theme
         let isDark = ThemeManager.shared.currentInterfaceStyle == .dark
