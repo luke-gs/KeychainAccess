@@ -9,6 +9,7 @@ import PublicSafetyKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
 
+    var delegate: EntityEditActionable?
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
     var entitySelectionViewModel: EntitySummarySelectionViewModel
@@ -72,5 +73,23 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
         default:
             fatalError("Invalid AdditionActionType")
         }
+    }
+
+    func editItems(for entity: MPOLKitEntity) -> [ActionSheetButton] {
+        var items = [ActionSheetButton]()
+        let image = AssetManager.shared.image(forKey: .edit)
+        if !involvements(for: entity).isEmpty {
+            items.append(ActionSheetButton(title: "Manage Involvements", icon: image, tintColor: UIColor.black, action: { [weak self] in
+                guard let `self` = self else { return }
+                self.delegate?.completeEditAction(on: entity, actionType: .involvement)
+            }))
+        }
+        if !additionalActions(for: entity).isEmpty {
+            items.append(ActionSheetButton(title: "Manage Additional Actions", subtitle: nil, icon: image, tintColor: UIColor.black, action: { [weak self] in
+                guard let `self` = self else { return }
+                self.delegate?.completeEditAction(on: entity, actionType: .additionalAction)
+            }))
+        }
+        return items
     }
 }
