@@ -120,7 +120,7 @@ PODS:
     - CoreKit
     - lottie-ios (~> 2.5)
     - SketchKit
-  - Porcupine-iOS (2.1)
+  - Porcupine-iOS (2.1.1)
   - PromiseKit (6.5.2):
     - PromiseKit/CorePromise (= 6.5.2)
     - PromiseKit/Foundation (= 6.5.2)
@@ -139,13 +139,13 @@ PODS:
   - SketchKit (0.0.1):
     - CoreKit
   - Unbox (3.0.0)
-  - VoiceSearchManager (2.1):
-    - Porcupine-iOS (~> 2.0)
-    - VoiceSearchManager/Core (= 2.1)
-  - VoiceSearchManager/Core (2.1):
-    - Porcupine-iOS (~> 2.0)
-  - VoiceSearchManager/VehicleRegistrationTransformer (2.1):
-    - Porcupine-iOS (~> 2.0)
+  - VoiceSearchManager (2.1.1):
+    - Porcupine-iOS (~> 2.1.1)
+    - VoiceSearchManager/Core (= 2.1.1)
+  - VoiceSearchManager/Core (2.1.1):
+    - Porcupine-iOS (~> 2.1.1)
+  - VoiceSearchManager/VehicleRegistrationTransformer (2.1.1):
+    - Porcupine-iOS (~> 2.1.1)
     - VoiceSearchManager/Core
   - Wrap (3.0.0)
 
@@ -191,7 +191,7 @@ SPEC REPOS:
     - Protobuf
     - Unbox
     - Wrap
-  https://github.com/Gridstone/SpecRepo-iOS:
+  https://github.com/Gridstone/SpecRepo-iOS.git:
     - Porcupine-iOS
     - VoiceSearchManager
 
@@ -232,13 +232,13 @@ SPEC CHECKSUMS:
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PatternKit: 334c56df06cfe91ed91536e72650cc0978d29c2b
-  Porcupine-iOS: 079dea06a21df96a5a2526fd0e116c516b6e1b52
+  Porcupine-iOS: 87d31fdd92a5eccfbfbe7779cc337deadaed3dfc
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   PublicSafetyKit: 985ec04a20f3949856c97cee0b913f52de9921f6
   SketchKit: 3052eaa99de9f18385fee642d0a39478ff564dfd
   Unbox: 9ed33b2a31f7a8a049f54b94d40c4a52a28c4d9d
-  VoiceSearchManager: 8e07525f4bc0ebeb57a17e9354a01cfbafebc470
+  VoiceSearchManager: b26a5558d9d5a751a96779b71d768d60bd7d4ecb
   Wrap: 918fdb5157e4f701f9503b2633752d6f94616f84
 
 PODFILE CHECKSUM: c57b83bac145d7ac2d40a6cf31add9b40dba49bd
