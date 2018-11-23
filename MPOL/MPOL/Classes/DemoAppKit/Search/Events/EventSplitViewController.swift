@@ -14,7 +14,7 @@ public protocol EventSplitViewControllerDelegate: class {
     func eventClosed(eventId: String)
 
     /// An event was submitted
-    func eventSubmittedFor(eventId: String, response: Any?, error: Error?)
+    func eventSubmittedFor(eventId: String, response: EventSubmittable?, error: Error?)
 }
 
 public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EventSummaryViewControllerDelegate, EventSubmitter {
