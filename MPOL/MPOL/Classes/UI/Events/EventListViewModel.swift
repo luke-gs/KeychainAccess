@@ -52,7 +52,7 @@ public class EventListViewModel: EventListViewModelable {
         return AssetManager.shared.image(forKey: AssetManager.ImageKey.iconFolder)
     }
 
-    public var rightNavBarButtonItemText: String? {
+    public var createItemButtonTitle: String? {
         return NSLocalizedString("New Event", comment: "")
     }
 
