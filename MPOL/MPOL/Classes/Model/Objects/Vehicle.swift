@@ -261,14 +261,7 @@ extension Vehicle: Speakable {
 
         var status: String? = nil
         if let alert = alertLevel {
-            switch alert {
-            case .high:
-                status = NSLocalizedString("High Alert", comment: "")
-            case .medium:
-                status = NSLocalizedString("Medium Alert", comment: "")
-            case .low:
-                status = NSLocalizedString("Low Alert", comment: "")
-            }
+           status = alert.speakableText
         }
 
         if let category = summary.category {
