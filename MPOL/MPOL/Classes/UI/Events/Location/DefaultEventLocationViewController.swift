@@ -73,15 +73,16 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                 })
         // else add location to list for each in array
         } else {
-            for (offset, location) in viewModel.report.eventLocations.enumerated() {
 
-                let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
-                                                                color: UIColor.red, handler: { [weak self] (_, indexPath) in
-                    guard let `self` = self else { return }
-                    self.viewModel.report.eventLocations.remove(at: indexPath.row)
-                    self.sidebarItem.count = UInt(self.viewModel.displayCount)
-                    self.reloadForm()
-                })
+            let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                            color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                                                                guard let self = self else { return }
+                                                                self.viewModel.report.eventLocations.remove(at: indexPath.row)
+                                                                self.sidebarItem.count = UInt(self.viewModel.displayCount)
+                                                                self.reloadForm()
+            })
+
+            for (offset, location) in viewModel.report.eventLocations.enumerated() {
 
                 builder += SubtitleFormItem(title: location.addressString)
                     .subtitle(viewModel.invovlements(for: location))
