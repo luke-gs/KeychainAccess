@@ -18,9 +18,10 @@ public class LocationSelectionCore: LocationSelectionType {
     public var placemark: CLPlacemark?
     public var searchResult: LookupAddress?
 
-    public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
+    public required init(coordinate: CLLocationCoordinate2D, displayText: String?, type: AnyPickable?) {
         self.coordinate = coordinate
         self.displayText = displayText
+        self.type = type
     }
 
     public required init?(placemark: CLPlacemark) {
@@ -45,6 +46,6 @@ public class LocationSelectionCore: LocationSelectionType {
 
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
-        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
+        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, type: AnyPickable(eventLocation.involvementPickable!.title!.string))
     }
 }

@@ -162,7 +162,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         let selectionType: LocationSelectionCore? = {
             guard let location = self.viewModel.report.eventLocations[ifExists: index] else { return nil }
-            return LocationSelectionCore(eventLocation: location)
+            let y = LocationSelectionCore(eventLocation: location)
+            return y
         }()
 
         let presentable = LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.eventWorkflowId,

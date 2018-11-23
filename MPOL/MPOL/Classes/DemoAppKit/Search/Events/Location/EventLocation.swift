@@ -18,18 +18,27 @@ public class EventLocation: NSObject, Codable {
     public var latitude: CLLocationDegrees
     public var longitude: CLLocationDegrees
     public var addressString: String?
-    public var involvement: StringSizable?
+    public var involvementPickable: Pickable?
 
-    required public init(coordinate: CLLocationCoordinate2D, addressString: String?, involvement: StringSizable?) {
+    public var involvement: StringSizable? {
+        get {
+            return involvementPickable?.title
+        }
+        set {
+            involvementPickable = AnyPickable(involvement!.string)
+        }
+    }
+
+    required public init(coordinate: CLLocationCoordinate2D, addressString: String?, involvementPickable: Pickable?) {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
         self.addressString = addressString
-        self.involvement = involvement
+        self.involvementPickable = involvementPickable
     }
 
     public convenience init?(locationSelection: LocationSelectionCore?) {
         guard let locationSelection = locationSelection else { return nil }
-        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText, involvement: locationSelection.type?.title)
+        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText, involvementPickable: locationSelection.type)
     }
 
     /// Convenience init for a placemark
