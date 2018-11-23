@@ -230,22 +230,6 @@
 			<string>%1$d Results Selected</string>
 		</dict>
 	</dict>
-	<key>Locations (%d)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@locations@</string>
-		<key>locations</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>Locations (%d)</string>
-			<key>one</key>
-			<string>Locations (%d)</string>
-		</dict>
-	</dict>
 	<key>%d Order(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
