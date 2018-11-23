@@ -191,7 +191,7 @@ SPEC REPOS:
     - Protobuf
     - Unbox
     - Wrap
-  https://github.com/Gridstone/SpecRepo-iOS.git:
+  https://github.com/Gridstone/SpecRepo-iOS:
     - Porcupine-iOS
     - VoiceSearchManager
 
