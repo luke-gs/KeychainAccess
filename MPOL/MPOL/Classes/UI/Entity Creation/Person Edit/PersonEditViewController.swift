@@ -275,7 +275,7 @@ public class PersonEditViewController: FormBuilderViewController {
             for (index, location) in locationTuples {
                 builder += PickerFormItem(pickerAction:
                     LocationSelectionFormAction(workflowId: LocationSelectionPresenter.personEditWorkflowId))
-                    .title(location.type?.title)
+                    .title(location.locationType?.title)
                     .selectedValue(location)
                     .width(.column(1))
                     .onValueChanged { [unowned self] (location) in
@@ -312,6 +312,7 @@ public class PersonEditViewController: FormBuilderViewController {
             } else {
                 finalPerson.descriptions = [finalDescription]
             }
+            finalPerson.addresses = locations
             do {
                 try UserSession.current.userStorage?.addEntity(object: finalPerson,
                                                                key: UserStorage.createdEntitiesKey,
