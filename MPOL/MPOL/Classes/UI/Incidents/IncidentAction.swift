@@ -44,11 +44,11 @@ struct AddIncidentDefinition: IncidentActionDefiniton {
         if let context = context {
             let headerConfig = SearchHeaderConfiguration(title: context.viewModel.searchHeaderTitle(),
                                                          subtitle: "",
-                                                         image: AssetManager.shared.image(forKey: .iconPencil)?
+                                                         image: AssetManager.shared.image(forKey: .edit)?
                                                             .withCircleBackground(tintColor: .white,
                                                                                   circleColor: .primaryGray,
                                                                                   style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                padding: .zero)),
+                                                                                                padding: CGSize(width: 18, height: 18))),
                                                          imageStyle: .circle)
 
             let dataSource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map { $0.rawValue },

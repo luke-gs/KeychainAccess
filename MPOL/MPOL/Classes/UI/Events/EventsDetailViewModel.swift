@@ -90,7 +90,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             header.captionLabel.textColor =  UIColor.secondaryGray
             header.iconView.backgroundColor = UIColor.sidebarGray
             header.iconView.tintColor = UIColor.secondaryGray
-            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderEdit)
+            header.iconView.image = AssetManager.shared.image(forKey: .edit, ofSize: CGSize(width: 40, height: 40))
             header.iconView.contentMode = .center
         }
         headerUpdated?()

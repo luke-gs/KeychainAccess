@@ -128,7 +128,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
             let type = IncidentType(rawValue: incident)
             let incidentType = IncidentType.allIncidentTypes().contains(type) ? type : .blank
             guard let incident = incidentsManager.create(incidentType: incidentType, in: event) else { continue }
-            let existingIncidentsOfSameType = report.incidents.filter({$0.incidentType == incident.incidentType})
+            let existingIncidentsOfSameType = report.incidents.filter { $0.incidentType == incident.incidentType }
             let duplicateCount = existingIncidentsOfSameType.count
             // If the count is exactly 1 and there is currently no display count set on it, then we are adding our first duplicate, so we need to rename the original to have a reference
             if duplicateCount == 1 && count(for: existingIncidentsOfSameType.first!) == nil {

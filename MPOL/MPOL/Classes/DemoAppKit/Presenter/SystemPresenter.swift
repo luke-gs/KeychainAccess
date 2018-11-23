@@ -23,7 +23,7 @@ public enum SystemScreen: Presentable {
 
 public class SystemPresenter: Presenter {
 
-    public init() { }
+    public init() {}
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         guard let presentable = presentable as? SystemScreen else { return UIViewController() }
@@ -50,8 +50,6 @@ public class SystemPresenter: Presenter {
             if let to = to as? ActionSheetViewController {
                 from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
             }
-
-
         }
     }
 

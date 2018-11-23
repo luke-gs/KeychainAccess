@@ -56,9 +56,9 @@ open class IncidentListReport: DefaultEventReportable, SideBarHeaderUpdateable {
         }
         evaluator.registerKey(.incidents) { [weak self] in
             guard let `self` = self else { return false }
-            let eval = self.incidents.reduce(true, { (result, incident) -> Bool in
+            let eval = self.incidents.reduce(true) { (result, incident) -> Bool in
                 return result && incident.evaluator.isComplete
-            })
+            }
             return self.incidents.count > 0 && eval
         }
     }
@@ -114,11 +114,11 @@ extension IncidentListReport: Summarisable {
         var items = [FormItem]()
         incidents.forEach { (incident) in
             items.append(LargeTextHeaderFormItem(text: incident.title))
-            incident.reports.forEach({ (report) in
+            incident.reports.forEach { (report) in
                 if let report = report as? Summarisable {
                     items += report.formItems
                 }
-            })
+            }
         }
         return items
     }

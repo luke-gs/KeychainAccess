@@ -25,6 +25,8 @@ public protocol EntitiesListViewModel {
 
     var currentLoadingManagerState: LoadingStateManager.State { get }
 
+    var delegate: EntityEditActionable? { get set }
+
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) { get }
 
     func retrieveInvolvements(for entity: MPOLKitEntity) -> [String]?
@@ -49,7 +51,7 @@ public protocol EntitiesListViewModel {
 
     func additionalActions(for entity: MPOLKitEntity) -> [String]
 
-    func editItems(for entity: MPOLKitEntity) -> [IconPickable]
+    func editItems(for entity: MPOLKitEntity) -> [ActionSheetButton]
 
     func definition(for type: EntityPickerType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton
 
@@ -155,18 +157,6 @@ public extension EntitiesListViewModel {
     func removeAdditionalAction(entity: MPOLKitEntity, action: AdditionalAction) {
         removeAction(action, from: entity)
         report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
-    }
-
-    func editItems(for entity: MPOLKitEntity) -> [IconPickable] {
-        var items = [IconPickable]()
-        let image = AssetManager.shared.image(forKey: .edit)
-        if !involvements(for: entity).isEmpty {
-            items.append(IconPickable(title: "Manage Involvements", subtitle: "involvement", icon: image, tintColor: UIColor.black))
-        }
-        if !additionalActions(for: entity).isEmpty {
-            items.append(IconPickable(title: "Manage Additional Actions", subtitle: "action", icon: image, tintColor: UIColor.black))
-        }
-        return items
     }
 
     func definition(for type: EntityPickerType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton {

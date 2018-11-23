@@ -16,6 +16,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         self.viewModel = viewModel
         super.init()
         viewModel.addObserver(self)
+        self.viewModel.delegate = self
 
         title = "Entities"
 
@@ -48,15 +49,11 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
         for entity in viewModel.entities {
 
-            let image = AssetManager.shared.image(forKey: .penStub)
-            let accessory = CustomItemAccessory(onCreate: { UIImageView(image: AssetManager.shared.image(forKey: .edit)) }, size: image?.size ?? .zero)
             builder += viewModel.displayable(for: entity).summaryListFormItem()
                         .separatorColor(.clear)
                         .subtitle(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
-                        .accessory(nil)
-                        .badgeColor(nil)
                         .badge(0)
-                        .accessory(accessory)
+                        .accessory(ItemAccessory.pencil)
                         .selectionStyle(.none)
                         .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in
                             self.viewModel.removeEntity(entity)
@@ -162,7 +159,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         viewController.finishUpdateHandler = definition.completion
 
         if let navController = presentedViewController as? UINavigationController {
-            navController.pushViewController(viewController, animated: false)
+            navController.pushViewController(viewController, animated: true)
         } else {
 
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
@@ -170,37 +167,36 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             let navController = PopoverNavigationController(rootViewController: viewController)
             navController.modalPresentationStyle = .formSheet
 
+            if let presentedController = presentedViewController {
+                presentedController.dismissAnimated()
+            }
+
             present(navController, animated: true, completion: nil)
         }
     }
 
     private func presentEditViewController(entity: MPOLKitEntity, cell: CollectionViewFormCell) {
-
         let editItems = viewModel.editItems(for: entity)
-        let pickerTableViewController = PickerTableViewController(style: .plain, items: editItems)
-        pickerTableViewController.title = "Edit Actions"
-        pickerTableViewController.allowsQuickSelection = false
-        pickerTableViewController.allowsMultipleSelection = false
-        pickerTableViewController.accessoryType = .none
-        pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
+        let controller = ActionSheetViewController(buttons: editItems)
+        controller.preferredContentWidth = 300
+        controller.modalPresentationStyle = .popover
+        controller.popoverPresentationController?.sourceView = cell.accessoryView
 
-            self?.dismiss(animated: true, completion: {
-                guard let index = selectedIndexes.first else { return }
-                let item = editItems[index]
-                if item.subtitle?.sizing().string == "involvement" {
-                    self?.presentPickerViewController(type: .involvement, entity: entity)
-                }
-                if item.subtitle?.sizing().string == "action" {
-                    self?.presentPickerViewController(type: .additionalAction, entity: entity)
-                }
-            })
-        }
-
-        let navigationController = PopoverNavigationController(rootViewController: pickerTableViewController)
-        navigationController.modalPresentationStyle = .popover
-        navigationController.popoverPresentationController?.sourceRect = cell.accessoryView!.bounds
-        navigationController.popoverPresentationController?.permittedArrowDirections = .up
-        navigationController.popoverPresentationController?.sourceView = cell.accessoryView
-        self.present(navigationController, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
+}
+
+extension DefaultEntitiesListViewController: EntityEditActionable {
+    public func completeEditAction(on entity: MPOLKitEntity, actionType: EntityPickerType) {
+        switch actionType {
+        case .involvement:
+            self.presentPickerViewController(type: .involvement, entity: entity)
+        case .additionalAction:
+            self.presentPickerViewController(type: .additionalAction, entity: entity)
+        }
+    }
+}
+
+public protocol EntityEditActionable {
+    func completeEditAction(on entity: MPOLKitEntity, actionType: EntityPickerType)
 }

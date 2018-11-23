@@ -66,8 +66,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         builder += LargeTextHeaderFormItem(text: viewModel.header)
             .separatorColor(.clear)
 
-        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-
         viewModel.officerDisplayables.forEach { displayable in
             let summaryListFormItem = SummaryListFormItem()
                 .title(displayable.title)
@@ -78,11 +76,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                 .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
                 .imageStyle(.circle)
-                .accessory(CustomItemAccessory(onCreate: { () -> UIView in
-                    let imageView = UIImageView(image: image)
-                    imageView.contentMode = .scaleAspectFit
-                    return imageView
-                }, size: image?.size ?? .zero))
+                .accessory(ItemAccessory.pencil)
                 .onSelection { [weak self] (_) in
                     guard let `self` = self else { return }
                     let officer = displayable.officer
@@ -90,7 +84,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             }
 
             // Only add deletion action if the officer is not the user and there is more than one officer.
-            guard (viewModel.officerDisplayables.count > 1 && displayable.officer != UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey)) else {
+            guard viewModel.officerDisplayables.count > 1
+                && displayable.officer != UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) else {
                 builder += summaryListFormItem
                 return
             }
@@ -98,12 +93,43 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             builder += summaryListFormItem.editActions([
                 CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
-                    self.viewModel.removeOfficer(at: indexPath)
-                    self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
-                    self.viewModel.delegate?.officerListDidUpdate()
+
+                    if self.viewModel.officer(at: indexPath).involvements.contains(EventOfficerListViewModel.reportingOfficerInvolvement) {
+                        self.presentReportingOfficerAlert(indexPath: indexPath)
+                    } else {
+                        self.deleteOfficer(for: indexPath)
+                    }
                 })]
             )
         }
+    }
+
+    private func deleteOfficer(for indexPath: IndexPath) {
+        viewModel.removeOfficer(at: indexPath)
+        sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
+        viewModel.delegate?.officerListDidUpdate()
+    }
+
+    private func presentReportingOfficerAlert(indexPath: IndexPath) {
+        let fallBackOfficer = self.viewModel.officer(at: IndexPath(row: 0, section: 0))
+        let fallBackOfficerName = [fallBackOfficer.familyName, fallBackOfficer.givenName].joined(separator: ", ")
+
+        let alertController = UIAlertController(title: NSLocalizedString("Before You Continue", comment: ""),
+                                                message: NSLocalizedString("This officer is currently assigned as the Reporting Officer. This involvement is required and will be reassigned to \(fallBackOfficerName)", comment: ""),
+                                                preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .cancel)
+
+        let continueAction = UIAlertAction(title: NSLocalizedString("Continue", comment: ""),
+                                           style: .default) { [weak self] _ in
+                                              fallBackOfficer.involvements.append(EventOfficerListViewModel.reportingOfficerInvolvement)
+                                              self?.deleteOfficer(for: indexPath)
+                                           }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(continueAction)
+        self.present(alertController, animated: true)
     }
 
     // MARK: - Officer model delegate 
