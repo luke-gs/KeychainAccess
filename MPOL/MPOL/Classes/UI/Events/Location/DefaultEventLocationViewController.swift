@@ -20,8 +20,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         super.init(layout: StackMapLayout())
         viewModel.report.evaluator.addObserver(self)
 
-        sidebarItem.regularTitle = "Location"
-        sidebarItem.compactTitle = "Location"
+        sidebarItem.regularTitle = NSLocalizedString("Location", comment: "")
+        sidebarItem.compactTitle = NSLocalizedString("Location", comment: "")
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.location)!
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
@@ -50,7 +50,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     override open func construct(builder: FormBuilder) {
-        builder.title = "Locations"
+        builder.title = NSLocalizedString("Location", comment: "")
         builder.enforceLinearLayout = .always
 
         builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("Locations (%d)", comment: ""), viewModel.displayCount))
@@ -63,8 +63,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         // if we have no location add empty location to list
         if viewModel.report.eventLocations.isEmpty {
-            builder += SubtitleFormItem(title: "Not Yet Specified")
-                .subtitle("Event Location")
+            builder += SubtitleFormItem(title: NSLocalizedString("Not Yet Specified", comment: ""))
+                .subtitle(NSLocalizedString("Event Location", comment: ""))
                 .image(AssetManager.shared.image(forKey: .entityLocation))
                 .accessory(ItemAccessory.pencil)
                 .onSelection({ [weak self] cell in
@@ -75,7 +75,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         } else {
             for (offset, location) in viewModel.report.eventLocations.enumerated() {
 
-                let deleteAction = CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                                color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.report.eventLocations.remove(at: indexPath.row)
                     self.sidebarItem.count = UInt(self.viewModel.displayCount)
@@ -101,10 +102,10 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func showLocationServicesDisabledPrompt() {
-        let alertController = UIAlertController(title: "Location Services Disabled",
-                                                message: "You need to enable location services in settings.",
+        let alertController = UIAlertController(title: NSLocalizedString("Location Services Disabled", comment: ""),
+                                                message: NSLocalizedString("You need to enable location services in settings.", comment: ""),
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Okay",
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Okay", comment: ""),
                                                 style: .default))
         AlertQueue.shared.add(alertController)
     }
