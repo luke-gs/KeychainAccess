@@ -19,7 +19,7 @@
             "0": "Registration"
         },
         "type": "Vehicle",
-        "imageKey": "iconEntityAutomotiveCarSmall",
+        "imageKey": "iconEntityAutomotiveCar",
         "text": "ABC123"
     },
     {
@@ -27,7 +27,7 @@
             "0": "VIN"
         },
         "type": "Vehicle",
-        "imageKey": "iconEntityAutomotiveCarSmall",
+        "imageKey": "iconEntityAutomotiveCar",
         "text": "1GBH41JXGN109186"
     },
     {
@@ -35,7 +35,7 @@
             "0": "Registration"
         },
         "type": "Vehicle",
-        "imageKey": "iconEntityAutomotiveCarSmall",
+        "imageKey": "iconEntityAutomotiveCar",
         "text": "ABC*"
     }
 ]
