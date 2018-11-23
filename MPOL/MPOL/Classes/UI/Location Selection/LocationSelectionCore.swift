@@ -75,12 +75,18 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     // MARK: - Codable
 
     public required init(from decoder: Decoder) throws {
-        self.coordinate = CLLocationCoordinate2D.init()
+        self.coordinate = CLLocationCoordinate2D()
         try super.init(from: decoder)
+        if let latitude = latitude, let longitude = longitude {
+            self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
     }
 
     public required init(unboxer: Unboxer) throws {
         self.coordinate = CLLocationCoordinate2D.init()
         try super.init(unboxer: unboxer)
+        if let latitude = latitude, let longitude = longitude {
+            self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
     }
 }
