@@ -24,6 +24,7 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     public var placemark: CLPlacemark?
     public var searchResult: LookupAddress?
 
+    /// represents a type that user chooses
     public var locationType: AnyPickable?
 
     public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
