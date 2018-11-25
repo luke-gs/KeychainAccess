@@ -57,6 +57,8 @@
 		2008BD8A21AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */; };
 		2008BD8B21AB693E00C0BB79 /* OrganisationEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */; };
 		2008BD8C21AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */; };
+		2008BD8E21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */; };
+		2008BD9021AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */; };
 		203F410E2193F49A00BAB007 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */; };
 		203F410F2193F49A00BAB007 /* NSAttributedString+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */; };
 		203F41102193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */; };
@@ -587,6 +589,8 @@
 		2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewController.swift; sourceTree = "<group>"; };
 		2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditViewController.swift; sourceTree = "<group>"; };
 		2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasFormViewController.swift; sourceTree = "<group>"; };
+		2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasViewModel.swift; sourceTree = "<group>"; };
 		203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemPresenter.swift; sourceTree = "<group>"; };
 		203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Theme.swift"; sourceTree = "<group>"; };
 		203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1275,6 +1279,8 @@
 				2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */,
 				2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */,
 				2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */,
+				2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */,
+				2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */,
 			);
 			path = "Organisation Edit";
 			sourceTree = "<group>";
@@ -3247,6 +3253,7 @@
 				203F41C22193F49B00BAB007 /* CADAssociatedVehicleCore.swift in Sources */,
 				203F41DA2193F49B00BAB007 /* CADAssociatedVehicleType.swift in Sources */,
 				203F41D72193F49B00BAB007 /* CADAssociationType.swift in Sources */,
+				2008BD9021AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift in Sources */,
 				203F41C52193F49B00BAB007 /* CADBookOffRequestCore.swift in Sources */,
 				203F41E42193F49B00BAB007 /* CADBookOffRequestType.swift in Sources */,
 				203F41C62193F49B00BAB007 /* CADBookOnRequestCore.swift in Sources */,
@@ -3329,6 +3336,7 @@
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */,
 				203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */,
+				2008BD8E21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift in Sources */,
 				203F41342193F49A00BAB007 /* DefaultEventReportable.swift in Sources */,
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				203F41212193F49A00BAB007 /* DefaultLocationReport.swift in Sources */,
