@@ -17,6 +17,8 @@ public class LocationSelectionPresenter: Presenter {
     public static let eventWorkflowId = "event"
     /// Workflow id for personEdit
     public static let personEditWorkflowId = "personEdit"
+    /// Workflow id for organisationEidt
+    public static let organisationEditWorkflowId = "organisationEdit"
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
