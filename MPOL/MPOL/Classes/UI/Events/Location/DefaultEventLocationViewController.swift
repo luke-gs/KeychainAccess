@@ -68,7 +68,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     public func updateAnnotations() {
 
         guard let mapView = mapView else { return }
-        var locationAnnotations: [MKPointAnnotation] = []
         mapView.removeAnnotations(mapView.annotations)
 
         for location in viewModel.report.eventLocations {
@@ -78,11 +77,10 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             let locationAnnotation = MKPointAnnotation()
             locationAnnotation.coordinate = coord
             locationAnnotation.title = location.involvement?.string
-            locationAnnotations.append(locationAnnotation)
             mapView.addAnnotation(locationAnnotation)
         }
 
-        mapView.showAnnotations(locationAnnotations, animated: true)
+        mapView.showAnnotations(mapView.annotations, animated: true)
     }
 
     public func addLocation() {
@@ -107,8 +105,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         let selectionType: LocationSelectionCore? = {
             guard let location = self.viewModel.report.eventLocations[ifExists: index] else { return nil }
-            let y = LocationSelectionCore(eventLocation: location)
-            return y
+            return LocationSelectionCore(eventLocation: location)
         }()
 
         let presentable = LocationSelectionScreen.locationSelectionLanding(
