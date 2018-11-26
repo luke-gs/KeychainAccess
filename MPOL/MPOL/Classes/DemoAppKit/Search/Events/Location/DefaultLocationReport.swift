@@ -26,7 +26,7 @@ open class DefaultLocationReport: DefaultEventReportable {
 
     private func commonInit() {
         evaluator.registerKey(.eventLocation) { [weak self] in
-            guard let `self` = self else { return false }
+            guard let self = self else { return false }
             return !self.eventLocations.isEmpty
         }
     }
