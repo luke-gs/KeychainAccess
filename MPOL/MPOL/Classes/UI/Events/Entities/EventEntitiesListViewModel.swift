@@ -98,8 +98,9 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     // MARK: EntityBucketDelegate
     public func entitiesDidChange() {
         // Reset validation of relationship report if entities have changed
+        #if !EXTERNAL
         report.entityDetailReports.forEach { $0.relationshipsReport.viewed = false }
-
         updateReports()
+        #endif
     }
 }
