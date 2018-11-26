@@ -60,13 +60,13 @@ extension DefaultLocationReport: Summarisable {
         items.append(LargeTextHeaderFormItem(text: NSLocalizedString("Locations", comment: "")))
 
         if eventLocations.isEmpty {
-            items.append(RowDetailFormItem(title: NSLocalizedString("Event Location", comment: ""),
+            items.append(RowDetailFormItem(title: DefaultEventLocationViewModel.eventLocationInvolvement,
                                            detail: NSLocalizedString("Required", comment: ""))
                             .styleIdentifier(DemoAppKitStyler.summaryRequiredStyle))
         } else {
             eventLocations.forEach { location in
-                items.append(RowDetailFormItem(title: NSLocalizedString("Event Location", comment: ""),
-                                               detail: location.addressString ?? NSLocalizedString("Required", comment: "")))
+                items.append(RowDetailFormItem(title: location.involvement,
+                                               detail: location.addressString))
             }
         }
         return items
