@@ -284,6 +284,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
         if let incidentType = incidentType, incidentsManager.incidents.isEmpty {
             if let incident = incidentsManager.create(incidentType: incidentType, in: event) {
                 incidentsManager.add(incident: incident)
+
+                // Save event immediately rather than waiting for the event to be closed
+                try! eventsManager.update(for: event.id)
             }
         }
 
