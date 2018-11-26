@@ -43,7 +43,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
 
         // Set initial annotation
-        self.updateAnnotation()
+        self.updateAnnotations()
         self.sidebarItem.count = self.viewModel.displayCount
     }
 
@@ -65,9 +65,11 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         AlertQueue.shared.add(alertController)
     }
 
-    public func updateAnnotation() {
+    public func updateAnnotations() {
 
+        guard let mapView = mapView else { return }
         var locationAnnotations: [MKPointAnnotation] = []
+        mapView.removeAnnotations(mapView.annotations)
 
         for location in viewModel.report.eventLocations {
 
@@ -77,10 +79,10 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             locationAnnotation.coordinate = coord
             locationAnnotation.title = location.involvement?.string
             locationAnnotations.append(locationAnnotation)
-            mapView?.addAnnotation(locationAnnotation)
+            mapView.addAnnotation(locationAnnotation)
         }
 
-        mapView?.showAnnotations(locationAnnotations, animated: true)
+        mapView.showAnnotations(locationAnnotations, animated: true)
     }
 
     public func addLocation() {
@@ -92,7 +94,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
                     guard let eventLocation = EventLocation(locationSelection: selection) else { return }
                     self.viewModel.report.eventLocations.append(eventLocation)
-                    self.updateAnnotation()
+                    self.updateAnnotations()
                 }
                 self.sidebarItem.count = self.viewModel.displayCount
                 self.reloadForm()
@@ -122,7 +124,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                     } else {
                         self.viewModel.report.eventLocations.append(eventLocation)
                     }
-                    self.updateAnnotation()
+                    self.updateAnnotations()
                 }
                 self.sidebarItem.count = self.viewModel.displayCount
                 self.reloadForm()
