@@ -194,11 +194,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
                         .item(IncidentType.domesticViolence)
                     ])
                 ]
-                incidentSelectionViewController.selectItemHandler = { [weak self, weak incidentSelectionViewController] incidentType in
+                incidentSelectionViewController.selectItemHandler = { [weak self, weak eventsListVC] incidentType in
+                    guard let eventsListVC = eventsListVC else { return }
                     guard let incidentType = incidentType as? IncidentType else { return }
                     guard let event = try! self?.eventsManager.create(eventType: .blank, incidentType: incidentType) else { return }
 
-                    incidentSelectionViewController?.dismiss(animated: true, completion: {
+                    eventsListVC.dismiss(animated: true, completion: {
                         self?.presentEvent(event, with: incidentType, from: eventsListVC)
                     })
                 }
