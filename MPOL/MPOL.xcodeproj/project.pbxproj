@@ -488,6 +488,7 @@
 		AAB34285216F0A490065266E /* OfficerFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB34284216F0A490065266E /* OfficerFetchRequest.swift */; };
 		AABF43E5219BDACF00F97884 /* AddressNavigationSelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF43E4219BDACF00F97884 /* AddressNavigationSelectionAction.swift */; };
 		AABF43ED21ABCE4300F97884 /* EventLogOffInterupt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF43EC21ABCE4300F97884 /* EventLogOffInterupt.swift */; };
+		AABF43EF21ABD0B400F97884 /* BookOnLogOffInterrupt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF43EE21ABD0B400F97884 /* BookOnLogOffInterrupt.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
@@ -1040,6 +1041,7 @@
 		AAB34284216F0A490065266E /* OfficerFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerFetchRequest.swift; sourceTree = "<group>"; };
 		AABF43E4219BDACF00F97884 /* AddressNavigationSelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressNavigationSelectionAction.swift; sourceTree = "<group>"; };
 		AABF43EC21ABCE4300F97884 /* EventLogOffInterupt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLogOffInterupt.swift; sourceTree = "<group>"; };
+		AABF43EE21ABD0B400F97884 /* BookOnLogOffInterrupt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnLogOffInterrupt.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* PS Core.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PS Core.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -2068,6 +2070,7 @@
 			children = (
 				203F41092193F49A00BAB007 /* Default */,
 				203F410C2193F49A00BAB007 /* CADStateManagerType.swift */,
+				AABF43EE21ABD0B400F97884 /* BookOnLogOffInterrupt.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -3252,6 +3255,7 @@
 				203F41D22193F49B00BAB007 /* CADResourceStatusType.swift in Sources */,
 				203F41E02193F49B00BAB007 /* CADResourceType.swift in Sources */,
 				203F41B62193F49B00BAB007 /* CADResourceUnitCore.swift in Sources */,
+				AABF43EF21ABD0B400F97884 /* BookOnLogOffInterrupt.swift in Sources */,
 				203F41D02193F49B00BAB007 /* CADResourceUnitType.swift in Sources */,
 				203F41EE2193F49B00BAB007 /* CADStateManagerBase.swift in Sources */,
 				963E5B0E2179831A00BC2415 /* CADStateManagerCore.swift in Sources */,

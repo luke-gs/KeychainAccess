@@ -219,6 +219,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 self?.switchTo(.event)
             }
             LogOffManager.shared.interrupts.append(eventsLogOff)
+            LogOffManager.shared.interrupts.append(BookOnLogOffInterrupt())
 
             return tabBarController
         }
@@ -238,15 +239,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
         }
-    }
-
-    override public func logOff() {
-        if CADStateManager.shared.lastBookOn != nil {
-            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
-                                             message: NSLocalizedString("You must book off before logging out.", comment: ""))
-            return
-        }
-        super.logOff()
     }
 
     override public func onRemoteLogOffCompleted() {
