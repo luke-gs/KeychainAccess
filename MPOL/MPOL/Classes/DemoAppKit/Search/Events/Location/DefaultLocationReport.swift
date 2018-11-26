@@ -65,7 +65,6 @@ extension DefaultLocationReport: Summarisable {
                             .styleIdentifier(DemoAppKitStyler.summaryRequiredStyle))
         } else {
             eventLocations.forEach { location in
-                // TODO change to use location involvements for title (when we get them back from selection flow)
                 items.append(RowDetailFormItem(title: NSLocalizedString("Event Location", comment: ""),
                                                detail: location.addressString ?? NSLocalizedString("Required", comment: "")))
             }

@@ -30,7 +30,6 @@ public class DefaultEventLocationViewModel {
         }
     }
 
-    // TODO: invovlement will currently always be "no involvements" as the location flow doesnt currently return the selected involvements
     func invovlements(for location: EventLocation) -> StringSizable? {
 
         let noInvolvementText = NSAttributedString(string: NSLocalizedString("No involvements", comment: ""),
