@@ -51,7 +51,7 @@ public class DefaultEventLocationViewModel {
             let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
                                                             color: UIColor.red, handler: { [weak self] (_, indexPath) in
                                                                 guard let self = self else { return }
-                                                                self.removeLocation(at: indexPath)
+                                                                self.report.eventLocations.remove(at: indexPath.row)
                                                                 viewController.updateAnnotation()
                                                                 viewController.sidebarItem.count = UInt(self.displayCount)
                                                                 viewController.reloadForm()
@@ -85,15 +85,5 @@ public class DefaultEventLocationViewModel {
         let noInvolvementText = NSAttributedString(string: NSLocalizedString("No involvements", comment: ""),
                                                    attributes: [.foregroundColor: UIColor.orangeRed])
         return location.involvement ?? noInvolvementText
-    }
-
-    func removeLocation(at indexPath: IndexPath) {
-
-        // check if location is 'Event Location' if so move this involvement to first location in list
-        if report.eventLocations[indexPath.row].involvement?.string == DefaultEventLocationViewModel.eventLocationInvolvement {
-            report.eventLocations[0].involvement = DefaultEventLocationViewModel.eventLocationInvolvement
-        }
-
-        report.eventLocations.remove(at: indexPath.row)
     }
 }
