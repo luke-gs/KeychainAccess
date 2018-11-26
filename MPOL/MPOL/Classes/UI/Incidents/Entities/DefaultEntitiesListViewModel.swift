@@ -9,7 +9,7 @@ import PublicSafetyKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
 
-    var delegate: EntityEditActionable?
+    weak var delegate: EntityEditActionable?
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
     var entitySelectionViewModel: EntitySummarySelectionViewModel

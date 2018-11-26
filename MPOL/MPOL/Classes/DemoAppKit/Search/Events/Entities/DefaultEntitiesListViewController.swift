@@ -204,6 +204,6 @@ extension DefaultEntitiesListViewController: EntityEditActionable {
     }
 }
 
-public protocol EntityEditActionable {
+public protocol EntityEditActionable: class {
     func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType)
 }

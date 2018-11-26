@@ -92,6 +92,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             .title("Location")
             .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.location))
             .onValueChanged({ (location) in
+                guard let location = location as? LocationSelectionCore else { return }
                 self.viewModel.report.location = EventLocation(locationSelection: location)
             })
 

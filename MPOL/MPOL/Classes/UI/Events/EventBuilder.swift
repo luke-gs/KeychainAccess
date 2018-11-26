@@ -37,7 +37,7 @@ public class EventBuilder: EventBuilding {
         // Use location of event as subtitle
         var location: String?
         if let locationReport = event.reports.compactMap({ $0 as? DefaultLocationReport }).first {
-            location = locationReport.eventLocation?.addressString ?? "Location Unknown"
+            location = locationReport.eventLocations.first?.addressString ?? NSLocalizedString("Location Unknown", comment: "")
         }
 
         let creationDate = EventBuilder.dateFormatter.string(from: event.creationDate)
