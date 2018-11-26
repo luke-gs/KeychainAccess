@@ -13,7 +13,6 @@ import PublicSafetyKit
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
     var viewModel: DefaultEventLocationViewModel
-    private var locationAnnotation: MKPointAnnotation?
 
     public init(viewModel: DefaultEventLocationViewModel) {
         self.viewModel = viewModel
@@ -45,7 +44,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         // Set initial annotation
         self.updateAnnotation()
-        self.updateRegion()
         self.sidebarItem.count = UInt(self.viewModel.displayCount)
     }
 
@@ -112,31 +110,21 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func updateAnnotation() {
-        guard let lat = viewModel.report.eventLocations.first?.latitude,
-            let lon = viewModel.report.eventLocations.first?.longitude
-            else { return }
 
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        var locationAnnotations: [MKPointAnnotation] = []
 
-        if let locationAnnotation = locationAnnotation {
+        for location in viewModel.report.eventLocations {
+
+            let coord = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+
+            let locationAnnotation = MKPointAnnotation()
             locationAnnotation.coordinate = coord
-        } else {
-            locationAnnotation = MKPointAnnotation()
-            locationAnnotation?.coordinate = coord
-            mapView?.addAnnotation(locationAnnotation!)
+            locationAnnotation.title = location.involvement?.string
+            locationAnnotations.append(locationAnnotation)
+            mapView?.addAnnotation(locationAnnotation)
         }
-    }
 
-    private func updateRegion() {
-        guard let lat = viewModel.report.eventLocations.first?.latitude,
-            let lon = viewModel.report.eventLocations.first?.longitude
-            else { return }
-
-        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        let region = MKCoordinateRegion(center: coord, span: span)
-
-        mapView?.setRegion(region, animated: true)
+        mapView?.showAnnotations(locationAnnotations, animated: true)
     }
 
     private func addLocation() {
@@ -149,7 +137,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                     guard let eventLocation = EventLocation(locationSelection: selection) else { return }
                     self.viewModel.report.eventLocations.append(eventLocation)
                     self.updateAnnotation()
-                    self.updateRegion()
                 }
                 self.sidebarItem.count = UInt(self.viewModel.displayCount)
                 self.reloadForm()
@@ -179,7 +166,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                                                         self.viewModel.report.eventLocations.append(eventLocation)
                                                                                     }
                                                                                     self.updateAnnotation()
-                                                                                    self.updateRegion()
                                                                                 }
                                                                                 self.sidebarItem.count = UInt(self.viewModel.displayCount)
                                                                                 self.reloadForm()
@@ -200,8 +186,6 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
             } else {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
-            // Do not show address
-            annotation.title = ""
 
             return pinView
         }
