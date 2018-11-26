@@ -65,7 +65,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         AlertQueue.shared.add(alertController)
     }
 
-    private func updateAnnotation() {
+    public func updateAnnotation() {
 
         var locationAnnotations: [MKPointAnnotation] = []
 

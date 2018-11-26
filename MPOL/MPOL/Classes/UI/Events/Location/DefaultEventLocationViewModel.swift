@@ -52,6 +52,7 @@ public class DefaultEventLocationViewModel {
                                                             color: UIColor.red, handler: { [weak self] (_, indexPath) in
                                                                 guard let self = self else { return }
                                                                 self.removeLocation(at: indexPath)
+                                                                viewController.updateAnnotation()
                                                                 viewController.sidebarItem.count = UInt(self.displayCount)
                                                                 viewController.reloadForm()
             })
