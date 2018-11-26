@@ -194,13 +194,11 @@ extension DefaultEntitiesListViewController: EntityEditActionable {
         case .additionalAction:
             self.presentPickerViewController(type: .additionalAction, entity: entity)
         case .viewRecord:
-            if let presentable = EntitySummaryDisplayFormatter.default.presentableForEntity(entity), let entityPresenter = (Director.shared.presenter as? PresenterGroup)?.presenters.first(where: { $0 is EntityPresenter }) {
-
+            if let presentable = EntitySummaryDisplayFormatter.default.presentableForEntity(entity) {
                 if let presentedController = presentedViewController {
                     presentedController.dismissAnimated()
                 }
-
-                present(entityPresenter.viewController(forPresentable: presentable), animated: true, completion: nil)
+                present(presentable)
             }
         }
     }
