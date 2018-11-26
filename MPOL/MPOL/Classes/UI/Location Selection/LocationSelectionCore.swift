@@ -27,14 +27,18 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     /// represents a type that user chooses
     public var locationType: AnyPickable?
 
-    public required init(coordinate: CLLocationCoordinate2D, displayText: String?, type: AnyPickable?) {
+    public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
         self.displayText = displayText
-        self.locationType = type
         super.init(id: UUID().uuidString)
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
         // also stores full address in Address
         self.fullAddress = displayText
+    }
+
+    public convenience init(coordinate: CLLocationCoordinate2D, displayText: String?, locationType: AnyPickable?) {
+        self.init(coordinate: coordinate, displayText: displayText)
+        self.locationType = locationType
     }
 
     public required init?(placemark: CLPlacemark) {
@@ -82,7 +86,7 @@ public class LocationSelectionCore: Address, LocationSelectionType {
         guard let eventLocation = eventLocation else { return nil }
 
         let involvementPickable = eventLocation.involvement != nil ? AnyPickable(eventLocation.involvement!) : nil
-        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, type: involvementPickable)
+        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, locationType: involvementPickable)
     }
 
     // MARK: - Codable
