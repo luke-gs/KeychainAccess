@@ -48,13 +48,14 @@ public class DefaultEventLocationViewModel {
             // else add location to list for each in array
         } else {
 
-            let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
-                                                            color: UIColor.red, handler: { [weak self] (_, indexPath) in
-                                                                guard let self = self else { return }
-                                                                self.report.eventLocations.remove(at: indexPath.row)
-                                                                viewController.updateAnnotation()
-                                                                viewController.sidebarItem.count = UInt(self.displayCount)
-                                                                viewController.reloadForm()
+            let deleteAction = CollectionViewFormEditAction(
+                title: NSLocalizedString("Remove", comment: ""),
+                color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                    guard let self = self else { return }
+                    self.report.eventLocations.remove(at: indexPath.row)
+                    viewController.updateAnnotation()
+                    viewController.sidebarItem.count = UInt(self.displayCount)
+                    viewController.reloadForm()
             })
 
             for (offset, location) in report.eventLocations.enumerated() {

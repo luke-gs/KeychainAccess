@@ -109,23 +109,24 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             return y
         }()
 
-        let presentable = LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.eventWorkflowId,
-                                                                             selectionType) { [weak self] selection in
-                                                                                guard let self = self else { return }
-                                                                                if let selection = selection as? LocationSelectionCore {
+        let presentable = LocationSelectionScreen.locationSelectionLanding(
+             LocationSelectionPresenter.eventWorkflowId,
+             selectionType) { [weak self] selection in
+                guard let self = self else { return }
+                if let selection = selection as? LocationSelectionCore {
 
-                                                                                    guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
-                                                                                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
-                                                                                    if self.viewModel.report.eventLocations[ifExists: index] != nil {
-                                                                                        self.viewModel.report.eventLocations[index] = eventLocation
-                                                                                    } else {
-                                                                                        self.viewModel.report.eventLocations.append(eventLocation)
-                                                                                    }
-                                                                                    self.updateAnnotation()
-                                                                                }
-                                                                                self.sidebarItem.count = self.viewModel.displayCount
-                                                                                self.reloadForm()
-                                                                            }
+                    guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
+                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
+                    if self.viewModel.report.eventLocations[ifExists: index] != nil {
+                        self.viewModel.report.eventLocations[index] = eventLocation
+                    } else {
+                        self.viewModel.report.eventLocations.append(eventLocation)
+                    }
+                    self.updateAnnotation()
+                }
+                self.sidebarItem.count = self.viewModel.displayCount
+                self.reloadForm()
+            }
         present(presentable)
     }
 }
