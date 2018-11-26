@@ -167,7 +167,7 @@ open class CADStateManagerBase: CADStateManagerType {
     /// Fetch manifest entries
     open func manifestEntries(for collection: ManifestCollection, activeOnly: Bool, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry] {
         // Just forward this to standard manifest by default. Clients can override if needed
-        return Manifest.shared.entries(for: collection, activeOnly: activeOnly, sortedBy: sortedBy) ?? []
+        return Manifest.shared.entries(for: collection, activeOnly: activeOnly, sortedBy: sortedBy)
     }
 
     /// TODO: Remove this function and use the ClientKit's version once CAD is separated into Kit/App
