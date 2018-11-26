@@ -7,13 +7,15 @@
 
 import PublicSafetyKit
 
-extension IncidentType {
+extension IncidentType: ReportType {
 
     // Add incident types here
     // rawValue used as title
     static let interceptReport = IncidentType(rawValue: "Intercept Report")
     static let trafficInfringement = IncidentType(rawValue: "Traffic Infringement")
     static let domesticViolence = IncidentType(rawValue: "Domestic Violence")
+
+    public var title: String { return rawValue }
 
     /// Contains all incident types
     ///

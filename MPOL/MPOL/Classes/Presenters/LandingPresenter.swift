@@ -175,17 +175,36 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let eventsListVC = EventListViewController(viewModel: eventListViewModel)
 
             eventListViewModel.creationHandler = { [weak self] in
-                let incidentSelectionViewController = IncidentSelectViewController()
-                let eventCreationNavController = PopoverNavigationController(rootViewController: incidentSelectionViewController)
-                eventCreationNavController.wantsTransparentBackground = false
-                eventCreationNavController.modalPresentationStyle = .formSheet
-
-                eventsListVC.present(eventCreationNavController, animated: true, completion: nil)
-
-                incidentSelectionViewController.didSelectIncident = { [weak self] incidentType in
+                let incidentSelectionViewController = ReportTypeSelectionViewController()
+                incidentSelectionViewController.title = "New Event"
+                incidentSelectionViewController.groups = [
+                    ReportGroup(title: "Browse", items: [
+                        .category("Show All", [[.item(IncidentType.interceptReport),
+                                                .item(IncidentType.trafficInfringement),
+                                                .item(IncidentType.domesticViolence)]]),
+                        .category("Traffic Offences", []),
+                        .category("Person Offences", []),
+                        .category("Good Order Offences", [])
+                    ]),
+                    ReportGroup(title: "Recently Used", items: [
+                        .item(IncidentType.interceptReport),
+                        .item(IncidentType.trafficInfringement),
+                        .item(IncidentType.domesticViolence)
+                    ])
+                ]
+                incidentSelectionViewController.selectItemHandler = { [weak self, weak incidentSelectionViewController] incidentType in
+                    guard let incidentType = incidentType as? IncidentType else { return }
                     guard let event = try! self?.eventsManager.create(eventType: .blank, incidentType: incidentType) else { return }
-                    self?.presentEvent(event, with: incidentType, from: eventsListVC)
+
+                    incidentSelectionViewController?.dismiss(animated: true, completion: {
+                        self?.presentEvent(event, with: incidentType, from: eventsListVC)
+                    })
                 }
+                incidentSelectionViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: incidentSelectionViewController, action: #selector(ReportTypeSelectionViewController.dismissAnimated))
+
+                let navigationController = ModalNavigationController(rootViewController: incidentSelectionViewController)
+                navigationController.modalPresentationStyle = .formSheet
+                eventsListVC.present(navigationController, animated: true, completion: nil)
             }
 
             eventListViewModel.selectionHandler = { [weak self] item in
