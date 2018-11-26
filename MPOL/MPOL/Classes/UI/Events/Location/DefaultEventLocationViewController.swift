@@ -44,7 +44,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         // Set initial annotation
         self.updateAnnotation()
-        self.sidebarItem.count = UInt(self.viewModel.displayCount)
+        self.sidebarItem.count = self.viewModel.displayCount
     }
 
     override open func construct(builder: FormBuilder) {
@@ -94,7 +94,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                     self.viewModel.report.eventLocations.append(eventLocation)
                     self.updateAnnotation()
                 }
-                self.sidebarItem.count = UInt(self.viewModel.displayCount)
+                self.sidebarItem.count = self.viewModel.displayCount
                 self.reloadForm()
             }
         present(presentable)
@@ -123,7 +123,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                                                     }
                                                                                     self.updateAnnotation()
                                                                                 }
-                                                                                self.sidebarItem.count = UInt(self.viewModel.displayCount)
+                                                                                self.sidebarItem.count = self.viewModel.displayCount
                                                                                 self.reloadForm()
                                                                             }
         present(presentable)
