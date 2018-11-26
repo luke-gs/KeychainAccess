@@ -176,17 +176,19 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             eventListViewModel.creationHandler = { [weak self] in
                 let incidentSelectionViewController = ReportTypeSelectionViewController()
-                incidentSelectionViewController.title = "New Event"
+                incidentSelectionViewController.title = NSLocalizedString("New Event", comment: "New event type selection title")
                 incidentSelectionViewController.groups = [
-                    ReportGroup(title: "Browse", items: [
-                        .category("Show All", [[.item(IncidentType.interceptReport),
-                                                .item(IncidentType.trafficInfringement),
-                                                .item(IncidentType.domesticViolence)]]),
-                        .category("Traffic Offences", []),
-                        .category("Person Offences", []),
-                        .category("Good Order Offences", [])
+                    ReportGroup(title: NSLocalizedString("Browse", comment: "Browse"), items: [
+                        .category(NSLocalizedString("Show All", comment: "Show all"), [[
+                            .item(IncidentType.interceptReport),
+                            .item(IncidentType.trafficInfringement),
+                            .item(IncidentType.domesticViolence)
+                        ]]),
+                        .category(NSLocalizedString("Traffic Offences", comment: "Traffic offences category"), []),
+                        .category(NSLocalizedString("Person Offences", comment: "Person offences category"), []),
+                        .category(NSLocalizedString("Good Order Offences", comment: "Good order offences category"), []),
                     ]),
-                    ReportGroup(title: "Recently Used", items: [
+                    ReportGroup(title: NSLocalizedString("Recently Used", comment: "Recently used report types"), items: [
                         .item(IncidentType.interceptReport),
                         .item(IncidentType.trafficInfringement),
                         .item(IncidentType.domesticViolence)
