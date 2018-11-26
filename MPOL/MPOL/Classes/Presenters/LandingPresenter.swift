@@ -207,13 +207,18 @@ public class LandingPresenter: AppGroupLandingPresenter {
             tabBarController.viewControllers = [bookOnViewController, searchNavController, eventListNavController, taskingViewController, activityLogViewController]
             tabBarController.selectedViewController = searchNavController
 
-            self.tabBarController = tabBarController
-
             registerEntityPresentables(withDelegate: searchViewController)
             registerEntityFetchClosures()
 
             self.searchViewController = searchViewController
             self.tabBarController = tabBarController
+
+            /// Log off logic.
+            let eventsLogOff = EventLogOffInterupt(eventsManager: self.eventsManager!)
+            eventsLogOff.showEvents = { [weak self] in
+                self?.switchTo(.event)
+            }
+            LogOffManager.shared.interrupts.append(eventsLogOff)
 
             return tabBarController
         }

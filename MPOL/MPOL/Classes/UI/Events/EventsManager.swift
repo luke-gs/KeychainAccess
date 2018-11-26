@@ -5,6 +5,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 
 import PublicSafetyKit
+import PromiseKit
 
 public extension UserStorage {
     public static let storedEventsKey = "StoredEventsKey"
@@ -34,6 +35,19 @@ final public class EventsManager {
     public var displayables: [EventListItemViewModelable] {
         return events.map { event in
             return eventBuilder.displayable(for: event)
+        }
+    }
+
+    /// All draft events
+    public func draftEvents() -> [Event] {
+        return events.filter { $0.submissionStatus == .draft }
+    }
+
+    /// All events that are neither draft or submitted
+    public func unsubmittedEvents() -> [Event] {
+        return events.filter {
+            $0.submissionStatus == .pending ||
+            $0.submissionStatus == .failed
         }
     }
 

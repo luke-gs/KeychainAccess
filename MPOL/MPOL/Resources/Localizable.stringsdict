@@ -462,6 +462,42 @@
 			<string>%d Resources</string>
 		</dict>
 	</dict>
+	<key>%d Draft Event(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@drafts@</string>
+		<key>drafts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Draft Event</string>
+			<key>zero</key>
+			<string>No Draft Event</string>
+			<key>other</key>
+			<string>%d Draft Events</string>
+		</dict>
+	</dict>
+	<key>%d Unsubmitted Event(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@events@</string>
+		<key>events</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Unsubmitted Event</string>
+			<key>zero</key>
+			<string>No Unsubmitted Events</string>
+			<key>other</key>
+			<string>%d Unsubmitted Events</string>
+		</dict>
+	</dict>
 	<key>%d Person(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
