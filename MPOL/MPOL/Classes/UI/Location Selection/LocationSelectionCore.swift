@@ -29,7 +29,7 @@ public class LocationSelectionCore: Address, LocationSelectionType {
 
     public required init(coordinate: CLLocationCoordinate2D, displayText: String?, type: AnyPickable?) {
         self.displayText = displayText
-        self.type = type
+        self.locationType = type
         super.init(id: UUID().uuidString)
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
@@ -80,7 +80,9 @@ public class LocationSelectionCore: Address, LocationSelectionType {
 
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
-        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, type: AnyPickable(eventLocation.involvementPickable!.title!.string))
+
+        let involvementPickable = eventLocation.involvementPickable != nil ? AnyPickable(eventLocation.involvementPickable!) : nil
+        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, type: involvementPickable)
     }
 
     // MARK: - Codable
