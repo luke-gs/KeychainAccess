@@ -81,7 +81,7 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
 
-        let involvementPickable = eventLocation.involvementPickable != nil ? AnyPickable(eventLocation.involvementPickable!) : nil
+        let involvementPickable = eventLocation.involvement != nil ? AnyPickable(eventLocation.involvement!) : nil
         self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, type: involvementPickable)
     }
 
