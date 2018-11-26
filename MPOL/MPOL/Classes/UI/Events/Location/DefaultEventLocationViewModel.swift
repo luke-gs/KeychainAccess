@@ -22,6 +22,54 @@ public class DefaultEventLocationViewModel {
         self.report = report
     }
 
+    func construct(for viewController: DefaultEventLocationViewController, with builder: FormBuilder) {
+        builder.title = NSLocalizedString("Location", comment: "")
+        builder.enforceLinearLayout = .always
+
+        builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("Locations (%d)", comment: ""), displayCount))
+            .separatorColor(.clear)
+            .actionButton(title: NSLocalizedString("Add", comment: ""),
+                          handler: { [weak viewController] _ in
+                            guard let viewController = viewController else { return }
+                            viewController.addLocation()
+            })
+
+        // if we have no location add empty location to list
+        if report.eventLocations.isEmpty {
+            builder += SubtitleFormItem(title: NSLocalizedString("Not Yet Specified", comment: ""))
+                .subtitle(DefaultEventLocationViewModel.eventLocationInvolvement)
+                .image(AssetManager.shared.image(forKey: .entityLocation))
+                .accessory(ItemAccessory.pencil)
+                .onSelection({ [weak viewController] cell in
+                    guard let viewController = viewController else { return }
+                    viewController.onSelection(cell)
+                })
+            // else add location to list for each in array
+        } else {
+
+            let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
+                                                            color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                                                                guard let self = self else { return }
+                                                                self.removeLocation(at: indexPath)
+                                                                viewController.sidebarItem.count = UInt(self.displayCount)
+                                                                viewController.reloadForm()
+            })
+
+            for (offset, location) in report.eventLocations.enumerated() {
+
+                builder += SubtitleFormItem(title: location.addressString)
+                    .subtitle(invovlements(for: location))
+                    .image(AssetManager.shared.image(forKey: .entityLocation))
+                    .accessory(ItemAccessory.pencil)
+                    .onSelection({ [weak viewController] cell in
+                        guard let viewController = viewController else { return }
+                        viewController.onSelection(cell)
+                    })
+                    .editActions(offset > 0 ? [deleteAction] : [])
+            }
+        }
+    }
+
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
         if report.evaluator.isComplete {
             return (defaultColor: .midGreen, selectedColor: .midGreen)

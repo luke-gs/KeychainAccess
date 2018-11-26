@@ -48,51 +48,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     override open func construct(builder: FormBuilder) {
-        builder.title = NSLocalizedString("Location", comment: "")
-        builder.enforceLinearLayout = .always
-
-        builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("Locations (%d)", comment: ""), viewModel.displayCount))
-            .separatorColor(.clear)
-            .actionButton(title: NSLocalizedString("Add", comment: ""),
-                          handler: { [weak self] _ in
-                                      guard let self = self else { return }
-                                      self.addLocation()
-                                   })
-
-        // if we have no location add empty location to list
-        if viewModel.report.eventLocations.isEmpty {
-            builder += SubtitleFormItem(title: NSLocalizedString("Not Yet Specified", comment: ""))
-                .subtitle(DefaultEventLocationViewModel.eventLocationInvolvement)
-                .image(AssetManager.shared.image(forKey: .entityLocation))
-                .accessory(ItemAccessory.pencil)
-                .onSelection({ [weak self] cell in
-                    guard let self = self else { return }
-                    self.onSelection(cell)
-                })
-        // else add location to list for each in array
-        } else {
-
-            let deleteAction = CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
-                                                            color: UIColor.red, handler: { [weak self] (_, indexPath) in
-                                                                guard let self = self else { return }
-                                                                self.viewModel.removeLocation(at: indexPath)
-                                                                self.sidebarItem.count = UInt(self.viewModel.displayCount)
-                                                                self.reloadForm()
-            })
-
-            for (offset, location) in viewModel.report.eventLocations.enumerated() {
-
-                builder += SubtitleFormItem(title: location.addressString)
-                    .subtitle(viewModel.invovlements(for: location))
-                    .image(AssetManager.shared.image(forKey: .entityLocation))
-                    .accessory(ItemAccessory.pencil)
-                    .onSelection({ [weak self] cell in
-                        guard let self = self else { return }
-                        self.onSelection(cell)
-                    })
-                    .editActions(offset > 0 ? [deleteAction] : [])
-            }
-        }
+        viewModel.construct(for: self, with: builder)
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -127,7 +83,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView?.showAnnotations(locationAnnotations, animated: true)
     }
 
-    private func addLocation() {
+    public func addLocation() {
         let presentable = LocationSelectionScreen.locationSelectionLanding(
             LocationSelectionPresenter.eventWorkflowId,
             nil) { [weak self] selection in
@@ -144,7 +100,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         present(presentable)
     }
 
-    private func onSelection(_ cell: CollectionViewFormCell) {
+    public func onSelection(_ cell: CollectionViewFormCell) {
         guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
 
         let selectionType: LocationSelectionCore? = {
