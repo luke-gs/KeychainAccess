@@ -36,6 +36,17 @@ open class Alert: IdentifiableDataModel {
             }
         }
 
+        public var speakableText: String {
+            switch self {
+                case .high:
+                    return NSLocalizedString("High Alert", comment: "")
+                case .medium:
+                    return NSLocalizedString("Medium Alert", comment: "")
+                case .low:
+                    return NSLocalizedString("Low Alert", comment: "")
+            }
+        }
+
         public static var all: [Level] = [.high, .medium, .low]
     }
 

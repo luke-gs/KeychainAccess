@@ -65,7 +65,7 @@ public class LocationSelectionConfirmationViewModel {
                 self.streetName = searchResult.streetName
                 self.postcode = searchResult.postalCode
             }
-            self.type = locationSelection.type
+            self.type = locationSelection.locationType
         }
     }
 }

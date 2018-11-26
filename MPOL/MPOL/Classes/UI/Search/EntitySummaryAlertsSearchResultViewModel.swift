@@ -14,6 +14,15 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
 
     public var alertEntities: [Entity] = []
 
+    private(set) var shouldDisplayAlerts: Bool
+    private(set) var shouldReadAlerts: Bool
+
+    public init(title: String, aggregatedSearch: AggregatedSearch<T>, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default, shouldDisplayAlerts: Bool = true, shouldReadAlerts: Bool = false) {
+        self.shouldDisplayAlerts = shouldDisplayAlerts
+        self.shouldReadAlerts = shouldReadAlerts
+        super.init(title: title, aggregatedSearch: aggregatedSearch, summaryDisplayFormatter: summaryDisplayFormatter)
+    }
+
     // Used to sort the entities according to their associated alert level
     private let associatedAlertLevelSort = SortDescriptor<Entity>(ascending: false) { (first, second) -> ComparisonResult in
         let firstAssociatedAlertLevel = first.associatedAlertLevel?.rawValue ?? -1
@@ -70,20 +79,42 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             return SearchResultSection(title: titleForResult(rawResult), entities: entities, isExpanded: shouldBeExpanded, state: rawResult.state, error: rawResult.error, source: rawResult.request.source)
         }
 
-        var alertEntities = [MPOLKitEntity]()
+        if shouldDisplayAlerts || shouldReadAlerts {
 
-        let finishedResults = rawResults.filter {$0.state == .finished}
-        finishedResults.forEach { (finishedResult) in
-            let entities = finishedResult.entities.compactMap {$0 as? Entity}
-            let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
-            filteredEntities.forEach({ (entity) in
-                alertEntities.append(entity)
-            })
-        }
+            // Determine whether the search is complete by iterating over the results and checking if any are still searching.
+            let searchComplete = rawResults.reduce(true) { (result, rawResult) -> Bool in
+                result && (rawResult.state != SearchState.searching)
+            }
 
-        if !alertEntities.isEmpty {
-            let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
-            processedResults.insert(alertSection, at: 0)
+            let finishedResults = rawResults.filter {$0.state == .finished}
+            finishedResults.forEach { (finishedResult) in
+                let entities = finishedResult.entities.compactMap {$0 as? Entity}
+                let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
+                filteredEntities.forEach({ (entity) in
+                    alertEntities.append(entity)
+                })
+            }
+
+            if searchComplete && self.shouldReadAlerts {
+                if alertEntities.isEmpty {
+                    TextToSpeechHelper.default.speak(NSLocalizedString("No Results Found", comment: ""))
+                } else {
+                    let entity = alertEntities.first!
+
+                    if let speakableEntity = entity as? Speakable {
+                        TextToSpeechHelper.default.speak(speakableEntity)
+                    }
+
+                    if alertEntities.count > 1 {
+                        TextToSpeechHelper.default.speak(NSLocalizedString("Multiple Matches Found", comment: ""))
+                    }
+                }
+            }
+
+            if !alertEntities.isEmpty && shouldDisplayAlerts {
+                let alertSection = SearchResultSection(title: "Alerts", entities: alertEntities, isExpanded: true, state: .finished, error: nil)
+                processedResults.insert(alertSection, at: 0)
+            }
         }
 
         return processedResults

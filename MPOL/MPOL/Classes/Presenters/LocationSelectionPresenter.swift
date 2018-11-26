@@ -115,7 +115,7 @@ public class LocationSelectionPresenter: Presenter {
             viewController.doneHandler = { viewModel in
                 // Do not pop this view controller, will be double/triple popped by locationSelectionLanding handler
                 if let selectedLocation = selectedLocation as? LocationSelectionCore {
-                    selectedLocation.type = viewModel.type
+                    selectedLocation.locationType = viewModel.type
                 }
                 completionHandler?(selectedLocation)
             }

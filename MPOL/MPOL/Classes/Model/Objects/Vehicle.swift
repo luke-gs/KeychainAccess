@@ -246,3 +246,38 @@ open class Vehicle: Entity {
     }
 
 }
+
+extension Vehicle: Speakable {
+    public var speakableText: String? {
+        let summary = VehicleSummaryDisplayable(self)
+
+        let rego = registration ?? ""
+
+        let regoFormatted: String = rego.reduce("") { (result, character) -> String in
+            return result + String(character) + " "
+        }
+
+        var items: [String?] = []
+
+        let status: String? = alertLevel?.speakableText
+
+        if let category = summary.category {
+            let categoryWithSpaces = category.reduce("") { (result, character) -> String in
+                return result + String(character) + " "
+            }
+            items.append("Result from \(categoryWithSpaces.trimmingCharacters(in: .whitespaces))")
+        }
+
+        items.append(status)
+
+        if !regoFormatted.isEmpty {
+            items.append("Registration, \(regoFormatted.trimmingCharacters(in: .whitespaces))")
+        }
+
+        items.append(primaryColor)
+
+        items.append(summary.detail1?.sizing().string)
+
+        return !items.isEmpty ? items.joined(separator: ". ").trimmingCharacters(in: .whitespaces) : nil
+    }
+}
