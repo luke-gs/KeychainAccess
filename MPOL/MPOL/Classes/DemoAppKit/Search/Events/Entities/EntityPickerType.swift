@@ -10,6 +10,7 @@ import PublicSafetyKit
 public enum EntityPickerType {
     case involvement
     case additionalAction
+    case viewRecord
 }
 
 /// Protocol for defining the implementation action to be performed within the EntityListViewController.

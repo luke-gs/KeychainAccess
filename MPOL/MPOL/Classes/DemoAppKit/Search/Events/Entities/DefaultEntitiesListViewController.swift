@@ -152,7 +152,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
     public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
 
-        let definition = viewModel.definition(for: type, from: self, with: entity)
+        guard let definition = viewModel.definition(for: type, from: self, with: entity) else { return }
         let dataSource = definition.dataSource
         let viewController = CustomPickerController(dataSource: dataSource)
 
@@ -193,6 +193,15 @@ extension DefaultEntitiesListViewController: EntityEditActionable {
             self.presentPickerViewController(type: .involvement, entity: entity)
         case .additionalAction:
             self.presentPickerViewController(type: .additionalAction, entity: entity)
+        case .viewRecord:
+            if let presentable = EntitySummaryDisplayFormatter.default.presentableForEntity(entity), let entityPresenter = (Director.shared.presenter as? PresenterGroup)?.presenters.first(where: { $0 is EntityPresenter }) {
+
+                if let presentedController = presentedViewController {
+                    presentedController.dismissAnimated()
+                }
+
+                present(entityPresenter.viewController(forPresentable: presentable), animated: true, completion: nil)
+            }
         }
     }
 }
