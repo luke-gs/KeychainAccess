@@ -82,7 +82,7 @@
 		203F41282193F49A00BAB007 /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40022193F49A00BAB007 /* EventsManager.swift */; };
 		203F41292193F49A00BAB007 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40042193F49A00BAB007 /* ServiceType.swift */; };
 		203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40052193F49A00BAB007 /* EventSplitViewController.swift */; };
-		203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityPickerType.swift */; };
+		203F412B2193F49A00BAB007 /* EntityActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityActionType.swift */; };
 		203F412C2193F49A00BAB007 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */; };
 		203F412D2193F49A00BAB007 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */; };
 		203F412E2193F49A00BAB007 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */; };
@@ -609,7 +609,7 @@
 		203F40022193F49A00BAB007 /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		203F40042193F49A00BAB007 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		203F40052193F49A00BAB007 /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
-		203F40072193F49A00BAB007 /* EntityPickerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerType.swift; sourceTree = "<group>"; };
+		203F40072193F49A00BAB007 /* EntityActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityActionType.swift; sourceTree = "<group>"; };
 		203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
 		203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
 		203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
@@ -1373,7 +1373,7 @@
 				203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */,
 				203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */,
 				203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */,
-				203F40072193F49A00BAB007 /* EntityPickerType.swift */,
+				203F40072193F49A00BAB007 /* EntityActionType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -3322,7 +3322,7 @@
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
 				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
 				96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */,
-				203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */,
+				203F412B2193F49A00BAB007 /* EntityActionType.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */,
 				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,

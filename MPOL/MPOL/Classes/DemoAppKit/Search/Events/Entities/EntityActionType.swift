@@ -7,9 +7,10 @@
 import PublicSafetyKit
 
 /// Enumeration that defines various entity pickers.
-public enum EntityPickerType {
+public enum EntityActionType {
     case involvement
     case additionalAction
+    case viewRecord
 }
 
 /// Protocol for defining the implementation action to be performed within the EntityListViewController.
@@ -65,8 +66,8 @@ internal struct InvolvementPickerDefinition: EntityPickerTypeDefiniton {
             let context = self.context
             var viewModel = context.viewModel
             let involvements = controller.objects.enumerated()
-            .filter({ indexes.contains($0.offset) })
-            .compactMap({ $0.element as? String })
+            .filter { indexes.contains($0.offset) }
+            .compactMap { $0.element as? String }
 
             let isEditingEntity = viewModel.entities.contains(self.entity)
 
@@ -130,8 +131,8 @@ internal struct AdditionalActionPickerDefinition: EntityPickerTypeDefiniton {
             var viewModel = context.viewModel
 
             let actionTypes = controller.objects.enumerated()
-                .filter({ indexes.contains($0.offset) })
-                .compactMap({ AdditionalActionType(rawValue: $0.element.title!.sizing().string) })
+                .filter { indexes.contains($0.offset) }
+                .compactMap { AdditionalActionType(rawValue: $0.element.title!.sizing().string) }
 
             let actions = actionTypes.map { AdditionalAction(incident: viewModel.report.incident!, type: $0) }
 

@@ -150,9 +150,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         loadingManager.state = viewModel.currentLoadingManagerState
     }
 
-    public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
+    public func presentPickerViewController(type: EntityActionType, entity: MPOLKitEntity) {
 
-        let definition = viewModel.definition(for: type, from: self, with: entity)
+        guard let definition = viewModel.definition(for: type, from: self, with: entity) else { return }
         let dataSource = definition.dataSource
         let viewController = CustomPickerController(dataSource: dataSource)
 
@@ -187,16 +187,23 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 }
 
 extension DefaultEntitiesListViewController: EntityEditActionable {
-    public func completeEditAction(on entity: MPOLKitEntity, actionType: EntityPickerType) {
+    public func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType) {
         switch actionType {
         case .involvement:
             self.presentPickerViewController(type: .involvement, entity: entity)
         case .additionalAction:
             self.presentPickerViewController(type: .additionalAction, entity: entity)
+        case .viewRecord:
+            if let presentable = EntitySummaryDisplayFormatter.default.presentableForEntity(entity) {
+                if let presentedController = presentedViewController {
+                    presentedController.dismissAnimated()
+                }
+                present(presentable)
+            }
         }
     }
 }
 
 public protocol EntityEditActionable: class {
-    func completeEditAction(on entity: MPOLKitEntity, actionType: EntityPickerType)
+    func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType)
 }

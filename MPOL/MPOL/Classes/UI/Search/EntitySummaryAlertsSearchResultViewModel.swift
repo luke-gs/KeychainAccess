@@ -90,9 +90,9 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
             finishedResults.forEach { (finishedResult) in
                 let entities = finishedResult.entities.compactMap {$0 as? Entity}
                 let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
-                filteredEntities.forEach({ (entity) in
+                filteredEntities.forEach { (entity) in
                     alertEntities.append(entity)
-                })
+                }
             }
 
             if searchComplete && self.shouldReadAlerts {

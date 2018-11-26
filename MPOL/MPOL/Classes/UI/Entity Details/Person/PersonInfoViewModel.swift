@@ -117,13 +117,13 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     .subtitle(value)
                     .detail(detail)
                     .width(.column(1))
-                    .onStyled({ (cell) in
+                    .onStyled { (cell) in
                         guard let cell = cell as? CollectionViewFormDetailCell else { return }
                         let theme = ThemeManager.shared.theme(for: .current)
                         cell.titleLabel.textColor = theme.color(forKey: .secondaryText)
                         cell.subtitleLabel.textColor = theme.color(forKey: .primaryText)
                         cell.detailLabel.textColor = theme.color(forKey: .secondaryText)
-                    })
+                    }
             }
         }
 
