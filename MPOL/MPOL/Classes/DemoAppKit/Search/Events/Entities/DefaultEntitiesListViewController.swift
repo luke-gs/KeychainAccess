@@ -150,7 +150,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         loadingManager.state = viewModel.currentLoadingManagerState
     }
 
-    public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
+    public func presentPickerViewController(type: EntityActionType, entity: MPOLKitEntity) {
 
         guard let definition = viewModel.definition(for: type, from: self, with: entity) else { return }
         let dataSource = definition.dataSource
@@ -187,7 +187,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 }
 
 extension DefaultEntitiesListViewController: EntityEditActionable {
-    public func completeEditAction(on entity: MPOLKitEntity, actionType: EntityPickerType) {
+    public func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType) {
         switch actionType {
         case .involvement:
             self.presentPickerViewController(type: .involvement, entity: entity)
@@ -205,5 +205,5 @@ extension DefaultEntitiesListViewController: EntityEditActionable {
 }
 
 public protocol EntityEditActionable {
-    func completeEditAction(on entity: MPOLKitEntity, actionType: EntityPickerType)
+    func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType)
 }

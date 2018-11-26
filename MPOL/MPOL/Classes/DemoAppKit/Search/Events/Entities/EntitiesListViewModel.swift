@@ -53,7 +53,7 @@ public protocol EntitiesListViewModel {
 
     func editItems(for entity: MPOLKitEntity) -> [ActionSheetButton]
 
-    func definition(for type: EntityPickerType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton?
+    func definition(for type: EntityActionType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton?
 
     func report(for action: AdditionalAction) -> ActionReportable
 }
@@ -159,7 +159,7 @@ public extension EntitiesListViewModel {
         report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
     }
 
-    func definition(for type: EntityPickerType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton? {
+    func definition(for type: EntityActionType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton? {
         switch type {
         case .additionalAction:
             return AdditionalActionPickerDefinition(for: context, with: entity)

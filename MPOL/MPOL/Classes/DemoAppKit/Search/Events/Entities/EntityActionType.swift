@@ -7,7 +7,7 @@
 import PublicSafetyKit
 
 /// Enumeration that defines various entity pickers.
-public enum EntityPickerType {
+public enum EntityActionType {
     case involvement
     case additionalAction
     case viewRecord
