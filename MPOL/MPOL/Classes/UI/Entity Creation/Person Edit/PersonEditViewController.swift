@@ -106,41 +106,37 @@ public class PersonEditViewController: FormBuilderViewController {
             .strictValidate(CountSpecification.max(3), message: NSLocalizedString("Maximum number of characters reached.", comment: ""))
             .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personBuild)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Build", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.build != nil ? [finalDescription.build!] : nil)
-                .onValueChanged { self.finalDescription.build = $0?.first }
-                .width(.column(4))
-        }
+        let buildItems = Manifest.shared.entries(for: .personBuild).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Build", comment: ""))
+            .options(buildItems)
+            .selectedValue(finalDescription.build != nil ? [finalDescription.build!] : nil)
+            .onValueChanged { self.finalDescription.build = $0?.first }
+            .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personRace)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Race", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.race != nil ? [finalDescription.race!] : nil)
-                .onValueChanged { self.finalDescription.race = $0?.first }
-                .width(.column(4))
-        }
+        let raceItems = Manifest.shared.entries(for: .personRace).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Race", comment: ""))
+            .options(raceItems)
+            .selectedValue(finalDescription.race != nil ? [finalDescription.race!] : nil)
+            .onValueChanged { self.finalDescription.race = $0?.first }
+            .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personEyeColour)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Eye Colour", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.eyeColour != nil ? [finalDescription.eyeColour!] : nil)
-                .onValueChanged { self.finalDescription.eyeColour = $0?.first }
-                .width(.column(4))
-        }
+        let eyeItems = Manifest.shared.entries(for: .personEyeColour).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Eye Colour", comment: ""))
+            .options(eyeItems)
+            .selectedValue(finalDescription.eyeColour != nil ? [finalDescription.eyeColour!] : nil)
+            .onValueChanged { self.finalDescription.eyeColour = $0?.first }
+            .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personHairColour)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Hair Colour", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.hairColour != nil ? [finalDescription.hairColour!] : nil)
-                .onValueChanged { self.finalDescription.hairColour = $0?.first }
-                .width(.column(4))
-        }
+        let hairItems = Manifest.shared.entries(for: .personHairColour).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Hair Colour", comment: ""))
+            .options(hairItems)
+            .selectedValue(finalDescription.hairColour != nil ? [finalDescription.hairColour!] : nil)
+            .onValueChanged { self.finalDescription.hairColour = $0?.first }
+            .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Ethnicity", comment: ""))
@@ -158,9 +154,8 @@ public class PersonEditViewController: FormBuilderViewController {
 
         // Contact Section
 
-        let contactHeaderText = finalPerson.contacts?.isEmpty ?? true
-            ? NSLocalizedString("Contact Details", comment: "header when no contacts exist")
-            : String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalPerson.contacts!.count)
+        let contactHeaderText = String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"),
+                                                                 finalPerson.contacts?.count ?? 0)
         builder += LargeTextHeaderFormItem(text: contactHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
@@ -203,9 +198,8 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         // Alias Section
-        let aliasHeaderText = finalPerson.aliases?.isEmpty ?? true
-            ? NSLocalizedString("Aliases", comment: "header when no aliases exist")
-            : String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalPerson.aliases!.count)
+        let aliasHeaderText = String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"),
+                                                               finalPerson.aliases?.count ?? 0)
         builder += LargeTextHeaderFormItem(text: aliasHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
@@ -256,9 +250,8 @@ public class PersonEditViewController: FormBuilderViewController {
         }
 
         // Address Section
-        let addressHeaderText = locations?.isEmpty ?? true
-            ? NSLocalizedString("Addresses", comment: "header when no addresses exist")
-            : String.localizedStringWithFormat(NSLocalizedString("Addresses (%d)", comment: "header when addresses exist"), locations!.count)
+        let addressHeaderText = String.localizedStringWithFormat(NSLocalizedString("Addresses (%d)", comment: "header when addresses exist"),
+                                                                 locations?.count ?? 0)
         builder += LargeTextHeaderFormItem(text: addressHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(LocationSelectionScreen.locationSelectionLanding(LocationSelectionPresenter.personEditWorkflowId, nil, completionHandler: { [unowned self] location in
@@ -275,7 +268,7 @@ public class PersonEditViewController: FormBuilderViewController {
             for (index, location) in locationTuples {
                 builder += PickerFormItem(pickerAction:
                     LocationSelectionFormAction(workflowId: LocationSelectionPresenter.personEditWorkflowId))
-                    .title(location.type?.title)
+                    .title(location.locationType?.title)
                     .selectedValue(location)
                     .width(.column(1))
                     .onValueChanged { [unowned self] (location) in
@@ -312,6 +305,7 @@ public class PersonEditViewController: FormBuilderViewController {
             } else {
                 finalPerson.descriptions = [finalDescription]
             }
+            finalPerson.addresses = locations
             do {
                 try UserSession.current.userStorage?.addEntity(object: finalPerson,
                                                                key: UserStorage.createdEntitiesKey,

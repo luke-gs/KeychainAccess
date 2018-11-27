@@ -18,7 +18,8 @@ public enum EntityScreen: Presentable {
     case createEntity(type: EntityType)
     case createPersonContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
     case createPersonAliasDetail(alias: PersonAlias?, submitHandler: ((PersonAlias?) -> Void)?)
-
+    case createOrganisationContactDetail(contact: Contact?, submitHandler: ((Contact?) -> Void)?)
+    case createOrganisationAliasDetail(alias: OrganisationAlias?, submitHandler: ((OrganisationAlias?) -> Void)?)
     public enum EntityType {
         case person, vehicle, organisation, location
     }
@@ -161,7 +162,8 @@ public class EntityPresenter: Presenter {
         case .scanner:
             cameraManager.finishPickingClosure = { image in
                 self.scanner.startScan(with: image) { text in
-                    let activity = SearchActivity.searchEntity(term: Searchable(text: text, type: "Person"), shouldSearchImmediately: false)
+                    let parameters = SearchActivity.SearchEntityParameters(term: Searchable(text: "", type: "Person"))
+                    let activity = SearchActivity.searchEntity(parameters: parameters)
                     try? SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
                 }
             }
@@ -180,7 +182,8 @@ public class EntityPresenter: Presenter {
             case .location:
                 title = NSLocalizedString("New Location", comment: "")
             case .organisation:
-                title = NSLocalizedString("New Organisation", comment: "")
+                let organisationViewController = OrganisationEditViewController()
+                return UINavigationController(rootViewController: organisationViewController)
             }
 
             let viewController = UIViewController()
@@ -193,6 +196,12 @@ public class EntityPresenter: Presenter {
 
         case .createPersonContactDetail(let contact, let handler):
             return PersonEditContactFormViewController(viewModel: PersonEditContactFormViewModel(contact: contact), submitHandler: handler)
+
+        case .createOrganisationAliasDetail(let alias, let handler):
+            return OrganisationEditAliasFormViewController(viewModel: OrganisationEditAliasFormViewModel(organisationAlias: alias), submitHandler: handler)
+
+        case .createOrganisationContactDetail(let contact, let handler):
+            return OrganisationEditContactFormViewController(viewModel: OrganisationEditContactFormViewModel(contact: contact), submitHandler: handler)
         }
     }
 
@@ -203,8 +212,8 @@ public class EntityPresenter: Presenter {
         case .createEntity:
             from.present(to, animated: true, completion: nil)
         case .entityDetails:
-            if from is EntityDetailFormViewController {
-                from.splitViewController?.navigationController?.show(to, sender: from)
+            if let splitView = from.pushableSplitViewController {
+                splitView.show(to, sender: splitView)
             } else {
                 from.show(to, sender: from)
             }
@@ -213,6 +222,14 @@ public class EntityPresenter: Presenter {
             container.preferredContentSize = CGSize(width: 512, height: 328)
             from.presentModalViewController(container)
         case .createPersonContactDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 256)
+            from.presentModalViewController(container)
+        case .createOrganisationAliasDetail:
+            let container = ModalNavigationController(rootViewController: to)
+            container.preferredContentSize = CGSize(width: 512, height: 256)
+            from.presentModalViewController(container)
+        case .createOrganisationContactDetail:
             let container = ModalNavigationController(rootViewController: to)
             container.preferredContentSize = CGSize(width: 512, height: 256)
             from.presentModalViewController(container)

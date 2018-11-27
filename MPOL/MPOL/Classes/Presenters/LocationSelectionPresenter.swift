@@ -17,6 +17,8 @@ public class LocationSelectionPresenter: Presenter {
     public static let eventWorkflowId = "event"
     /// Workflow id for personEdit
     public static let personEditWorkflowId = "personEdit"
+    /// Workflow id for organisationEidt
+    public static let organisationEditWorkflowId = "organisationEdit"
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
@@ -90,10 +92,9 @@ public class LocationSelectionPresenter: Presenter {
 
             if workflowId == LocationSelectionPresenter.eventWorkflowId {
                 // Add location type to final confirmation screen
-                if let manifestItems = Manifest.shared.entries(for: ManifestCollection.eventLocationInvolvementType) {
-                    viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
-                    viewModel.typeOptions = manifestItems.map { AnyPickable(PickableManifestEntry($0)) }
-                }
+                let manifestItems = Manifest.shared.entries(for: ManifestCollection.eventLocationInvolvementType)
+                viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
+                viewModel.typeOptions = manifestItems.map { AnyPickable(PickableManifestEntry($0)) }
 
                 // Address components are editable if not from GNAF lookahead search, and required
                 if let selectedLocation = selectedLocation as? LocationSelectionCore, selectedLocation.searchResult == nil {
@@ -115,7 +116,7 @@ public class LocationSelectionPresenter: Presenter {
             viewController.doneHandler = { viewModel in
                 // Do not pop this view controller, will be double/triple popped by locationSelectionLanding handler
                 if let selectedLocation = selectedLocation as? LocationSelectionCore {
-                    selectedLocation.type = viewModel.type
+                    selectedLocation.locationType = viewModel.type
                 }
                 completionHandler?(selectedLocation)
             }

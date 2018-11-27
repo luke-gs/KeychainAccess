@@ -104,21 +104,21 @@ public struct RelationshipReason {
     static func reasonsFor(_ firstEntity: MPOLKitEntity, _ secondEntity: MPOLKitEntity) -> [PickableManifestEntry] {
         switch (firstEntity, secondEntity) {
         case is (Person, Person):
-            return Manifest.shared.entries(for: .eventPersonPersonRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventPersonPersonRelationship).pickableList()
         case is (Person, Vehicle), is (Vehicle, Person):
-            return Manifest.shared.entries(for: .eventPersonVehicleRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventPersonVehicleRelationship).pickableList()
         case is (Person, Organisation), is (Organisation, Person):
-            return Manifest.shared.entries(for: .eventPersonOrganisationRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventPersonOrganisationRelationship).pickableList()
         case is (Person, Address), is (Address, Person):
-            return Manifest.shared.entries(for: .eventPersonLocationRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventPersonLocationRelationship).pickableList()
         case is (Vehicle, Vehicle):
-            return Manifest.shared.entries(for: .eventVehicleVehicleRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventVehicleVehicleRelationship).pickableList()
         case is (Vehicle, Organisation), is (Organisation, Vehicle):
-            return Manifest.shared.entries(for: .eventVehicleOrganisationRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventVehicleOrganisationRelationship).pickableList()
         case is (Vehicle, Address), is (Address, Vehicle):
-            return Manifest.shared.entries(for: .eventVehicleLocationRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventVehicleLocationRelationship).pickableList()
         case is (Address, Organisation), is (Organisation, Address):
-            return Manifest.shared.entries(for: .eventLocationOrganisationRelationship)?.pickableList() ?? []
+            return Manifest.shared.entries(for: .eventLocationOrganisationRelationship).pickableList()
         default:
             return []
         }

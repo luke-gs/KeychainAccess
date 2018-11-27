@@ -43,8 +43,8 @@ public class TrafficStopPresenter: Presenter {
         case .trafficStopAddEntity(let completionHandler):
             let createdSectionViewModel = CreatedEntitySummarySelectionSectionViewModel()
             let recentSectionViewModel = RecentEntitySummarySelectionSectionViewModel()
-            createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
-            recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
+            createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Organisation.self]
+            recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Organisation.self]
 
             let viewModel = EntitySummarySelectionViewModel(sections: [createdSectionViewModel, recentSectionViewModel])
 

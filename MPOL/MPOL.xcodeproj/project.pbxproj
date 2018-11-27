@@ -26,7 +26,6 @@
 		12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D52086D52200739924 /* InterceptReportIncidentBuilder.swift */; };
 		12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D62086D52200739924 /* InterceptReportScreenBuilder.swift */; };
 		12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */; };
-		12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D82086D52200739924 /* IncidentSelectViewController.swift */; };
 		12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D92086D52200739924 /* IncidentListViewModel.swift */; };
 		12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65DA2086D52200739924 /* IncidentTypes.swift */; };
 		12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FB2087071800739924 /* OfficerParserDefinition.swift */; };
@@ -54,6 +53,11 @@
 		20005DED218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */; };
 		2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */; };
 		2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */; };
+		2008BD8A21AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */; };
+		2008BD8B21AB693E00C0BB79 /* OrganisationEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */; };
+		2008BD8C21AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */; };
+		2008BD8E21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */; };
+		2008BD9021AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */; };
 		203F410E2193F49A00BAB007 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */; };
 		203F410F2193F49A00BAB007 /* NSAttributedString+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */; };
 		203F41102193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */; };
@@ -78,11 +82,11 @@
 		203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */; };
 		203F41252193F49A00BAB007 /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */; };
 		203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */; };
-		203F41272193F49A00BAB007 /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40012193F49A00BAB007 /* EventListDisplayable.swift */; };
+		203F41272193F49A00BAB007 /* EventDetailViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40012193F49A00BAB007 /* EventDetailViewModelType.swift */; };
 		203F41282193F49A00BAB007 /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40022193F49A00BAB007 /* EventsManager.swift */; };
 		203F41292193F49A00BAB007 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40042193F49A00BAB007 /* ServiceType.swift */; };
 		203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40052193F49A00BAB007 /* EventSplitViewController.swift */; };
-		203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityPickerType.swift */; };
+		203F412B2193F49A00BAB007 /* EntityActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityActionType.swift */; };
 		203F412C2193F49A00BAB007 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */; };
 		203F412D2193F49A00BAB007 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */; };
 		203F412E2193F49A00BAB007 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */; };
@@ -317,7 +321,7 @@
 		37C433922163339800544AA7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433902163339700544AA7 /* CameraManager.swift */; };
 		37C433932163339800544AA7 /* LicenceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C433912163339800544AA7 /* LicenceScanner.swift */; };
 		37CAF6112165C0BE007C449D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37CAF6102165C0BE007C449D /* GoogleService-Info.plist */; };
-		37D16155218AC43E00DFCB52 /* EventDraftListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */; };
+		37D16155218AC43E00DFCB52 /* EventListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D16154218AC43E00DFCB52 /* EventListViewModel.swift */; };
 		37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */; };
 		37F048A32105A4E400860B6D /* AlertsFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A22105A4E400860B6D /* AlertsFormItem.swift */; };
 		37F048A52105A5C200860B6D /* CollectionViewFormAlertsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */; };
@@ -331,6 +335,8 @@
 		445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */; };
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */; };
+		961CCE8921A61EC10052B582 /* EventListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961CCE8821A61EC10052B582 /* EventListItemViewModel.swift */; };
+		961CCE8B21A656710052B582 /* EventListSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961CCE8A21A656710052B582 /* EventListSectionViewModel.swift */; };
 		96300EDA216320AE00CF3B6F /* LocationSelectionCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */; };
 		963E5B0D2179831A00BC2415 /* CADOfficerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B092179831A00BC2415 /* CADOfficerCore.swift */; };
 		963E5B0E2179831A00BC2415 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E5B0B2179831A00BC2415 /* CADStateManagerCore.swift */; };
@@ -551,7 +557,6 @@
 		12EF65D52086D52200739924 /* InterceptReportIncidentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterceptReportIncidentBuilder.swift; sourceTree = "<group>"; };
 		12EF65D62086D52200739924 /* InterceptReportScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterceptReportScreenBuilder.swift; sourceTree = "<group>"; };
 		12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSearchDataSource.swift; sourceTree = "<group>"; };
-		12EF65D82086D52200739924 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
 		12EF65D92086D52200739924 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12EF65DA2086D52200739924 /* IncidentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
 		12EF65FB2087071800739924 /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
@@ -579,6 +584,11 @@
 		20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatedEntitySummarySelectionViewModel.swift; sourceTree = "<group>"; };
 		2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewModel.swift; sourceTree = "<group>"; };
 		2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewController.swift; sourceTree = "<group>"; };
+		2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewController.swift; sourceTree = "<group>"; };
+		2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditViewController.swift; sourceTree = "<group>"; };
+		2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasFormViewController.swift; sourceTree = "<group>"; };
+		2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasViewModel.swift; sourceTree = "<group>"; };
 		203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemPresenter.swift; sourceTree = "<group>"; };
 		203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Theme.swift"; sourceTree = "<group>"; };
 		203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -603,11 +613,11 @@
 		203F3FFE2193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
 		203F3FFF2193F49A00BAB007 /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
 		203F40002193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
-		203F40012193F49A00BAB007 /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
+		203F40012193F49A00BAB007 /* EventDetailViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewModelType.swift; sourceTree = "<group>"; };
 		203F40022193F49A00BAB007 /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		203F40042193F49A00BAB007 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		203F40052193F49A00BAB007 /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
-		203F40072193F49A00BAB007 /* EntityPickerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerType.swift; sourceTree = "<group>"; };
+		203F40072193F49A00BAB007 /* EntityActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityActionType.swift; sourceTree = "<group>"; };
 		203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
 		203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
 		203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
@@ -818,6 +828,11 @@
 		20E61AB62189369500B65F43 /* PersonEditAliasFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditAliasFormViewController.swift; sourceTree = "<group>"; };
 		20E61ABA218936BC00B65F43 /* PersonEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditContactFormViewModel.swift; sourceTree = "<group>"; };
 		20E61ABC218936C600B65F43 /* PersonEditAliasFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditAliasFormViewModel.swift; sourceTree = "<group>"; };
+		20EB4A1A21A67C1000C6D036 /* OrganisationEditContactFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewController.swift; sourceTree = "<group>"; };
+		20EB4A1B21A67C1000C6D036 /* OrganisationEditAliasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasViewModel.swift; sourceTree = "<group>"; };
+		20EB4A1C21A67C1000C6D036 /* OrganisationEditContactFormViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		20EB4A1D21A67C1000C6D036 /* OrganisationEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditViewController.swift; sourceTree = "<group>"; };
+		20EB4A1E21A67C1000C6D036 /* OrganisationEditAliasFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasFormViewController.swift; sourceTree = "<group>"; };
 		37097CA821648B000036434C /* VoiceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceSearchViewController.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -845,7 +860,7 @@
 		37C433902163339700544AA7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		37C433912163339800544AA7 /* LicenceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceScanner.swift; sourceTree = "<group>"; };
 		37CAF6102165C0BE007C449D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDraftListViewModel.swift; sourceTree = "<group>"; };
+		37D16154218AC43E00DFCB52 /* EventListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListViewModel.swift; sourceTree = "<group>"; };
 		37F0489F210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryAlertsSearchResultViewModel.swift; sourceTree = "<group>"; };
 		37F048A22105A4E400860B6D /* AlertsFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFormItem.swift; sourceTree = "<group>"; };
 		37F048A42105A5C200860B6D /* CollectionViewFormAlertsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAlertsCell.swift; sourceTree = "<group>"; };
@@ -870,6 +885,8 @@
 		529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-release.xcconfig"; sourceTree = "<group>"; };
 		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
+		961CCE8821A61EC10052B582 /* EventListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListItemViewModel.swift; sourceTree = "<group>"; };
+		961CCE8A21A656710052B582 /* EventListSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListSectionViewModel.swift; sourceTree = "<group>"; };
 		96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionCore.swift; sourceTree = "<group>"; };
 		963E5B092179831A00BC2415 /* CADOfficerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerCore.swift; sourceTree = "<group>"; };
 		963E5B0B2179831A00BC2415 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
@@ -1103,15 +1120,18 @@
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
+				961CCE8821A61EC10052B582 /* EventListItemViewModel.swift */,
+				961CCE8A21A656710052B582 /* EventListSectionViewModel.swift */,
+				37D16154218AC43E00DFCB52 /* EventListViewModel.swift */,
+				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
+				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
+				203F40022193F49A00BAB007 /* EventsManager.swift */,
+				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
 				37F3A3BC2084754A0077998C /* Entities */,
 				12ABD571207F1FE9004D0C9F /* Location */,
 				12EF65F92087071800739924 /* Officers */,
 				379869B220C4BE8C00E1FEAF /* Summary */,
-				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
-				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
-				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
-				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
-				37D16154218AC43E00DFCB52 /* EventDraftListViewModel.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1129,7 +1149,6 @@
 				12EF65D22086D52200739924 /* IncidentListViewController.swift */,
 				12EF65D92086D52200739924 /* IncidentListViewModel.swift */,
 				12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */,
-				12EF65D82086D52200739924 /* IncidentSelectViewController.swift */,
 				12EF65DA2086D52200739924 /* IncidentTypes.swift */,
 				371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */,
 			);
@@ -1239,6 +1258,30 @@
 			path = "Location Selection";
 			sourceTree = "<group>";
 		};
+		2008BD8521AB691D00C0BB79 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				20EB4A1A21A67C1000C6D036 /* OrganisationEditContactFormViewController.swift */,
+				20EB4A1D21A67C1000C6D036 /* OrganisationEditViewController.swift */,
+				20EB4A1E21A67C1000C6D036 /* OrganisationEditAliasFormViewController.swift */,
+				20EB4A1B21A67C1000C6D036 /* OrganisationEditAliasViewModel.swift */,
+				20EB4A1C21A67C1000C6D036 /* OrganisationEditContactFormViewModel.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		2008BD8621AB693E00C0BB79 /* Organisation Edit */ = {
+			isa = PBXGroup;
+			children = (
+				2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */,
+				2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */,
+				2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */,
+				2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */,
+				2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */,
+			);
+			path = "Organisation Edit";
+			sourceTree = "<group>";
+		};
 		203F3FDC2193F49A00BAB007 /* DemoAppKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1299,9 +1342,8 @@
 				203F400E2193F49A00BAB007 /* Submission */,
 				203F3FE92193F49A00BAB007 /* Event.swift */,
 				203F3FEA2193F49A00BAB007 /* EventBuilding.swift */,
-				203F40012193F49A00BAB007 /* EventListDisplayable.swift */,
+				203F40012193F49A00BAB007 /* EventDetailViewModelType.swift */,
 				203F3FE72193F49A00BAB007 /* EventSearchableViewModel.swift */,
-				203F40022193F49A00BAB007 /* EventsManager.swift */,
 				203F40052193F49A00BAB007 /* EventSplitViewController.swift */,
 				203F3FF62193F49A00BAB007 /* EventSummaryViewController.swift */,
 				203F3FE82193F49A00BAB007 /* EventSummaryViewModel.swift */,
@@ -1367,7 +1409,7 @@
 				203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */,
 				203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */,
 				203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */,
-				203F40072193F49A00BAB007 /* EntityPickerType.swift */,
+				203F40072193F49A00BAB007 /* EntityActionType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2408,6 +2450,7 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
+				2008BD8621AB693E00C0BB79 /* Organisation Edit */,
 				206E72C8219B9359009BA587 /* Vehicle Edit */,
 				20E61AB32189365800B65F43 /* Person Edit */,
 				20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */,
@@ -2683,6 +2726,7 @@
 				3C534FA68E46E1F1622CC13C /* Pods */,
 				BCD4EA8A1E515ACE000B993D /* Products */,
 				37CAF6102165C0BE007C449D /* GoogleService-Info.plist */,
+				2008BD8521AB691D00C0BB79 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3145,6 +3189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961CCE8921A61EC10052B582 /* EventListItemViewModel.swift in Sources */,
 				96B775AE214206F100836B83 /* ABNACNWildcardParserDefinition.swift in Sources */,
 				96B775AD214206F100836B83 /* ABNParserDefinition.swift in Sources */,
 				96B775A9214206F100836B83 /* ACNParserDefinition.swift in Sources */,
@@ -3205,6 +3250,7 @@
 				203F41C22193F49B00BAB007 /* CADAssociatedVehicleCore.swift in Sources */,
 				203F41DA2193F49B00BAB007 /* CADAssociatedVehicleType.swift in Sources */,
 				203F41D72193F49B00BAB007 /* CADAssociationType.swift in Sources */,
+				2008BD9021AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift in Sources */,
 				203F41C52193F49B00BAB007 /* CADBookOffRequestCore.swift in Sources */,
 				203F41E42193F49B00BAB007 /* CADBookOffRequestType.swift in Sources */,
 				203F41C62193F49B00BAB007 /* CADBookOnRequestCore.swift in Sources */,
@@ -3287,11 +3333,13 @@
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */,
 				203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */,
+				2008BD8E21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift in Sources */,
 				203F41342193F49A00BAB007 /* DefaultEventReportable.swift in Sources */,
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				203F41212193F49A00BAB007 /* DefaultLocationReport.swift in Sources */,
 				203F41252193F49A00BAB007 /* DefaultNotesMedaReport.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
+				961CCE8B21A656710052B582 /* EventListSectionViewModel.swift in Sources */,
 				203F41362193F49A00BAB007 /* DefaultReportable.swift in Sources */,
 				EAE9F6CB21365D32004D9DE8 /* DemoAPIManager.swift in Sources */,
 				203F413D2193F49A00BAB007 /* DemoAppKitStyler.swift in Sources */,
@@ -3314,7 +3362,7 @@
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
 				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
 				96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */,
-				203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */,
+				203F412B2193F49A00BAB007 /* EntityActionType.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */,
 				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
@@ -3334,7 +3382,7 @@
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
-				203F41272193F49A00BAB007 /* EventListDisplayable.swift in Sources */,
+				203F41272193F49A00BAB007 /* EventDetailViewModelType.swift in Sources */,
 				203F41202193F49A00BAB007 /* EventLocation.swift in Sources */,
 				12EF66022087071800739924 /* EventOfficerListViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
@@ -3372,7 +3420,6 @@
 				203F415B2193F49A00BAB007 /* IncidentResourcesViewController.swift in Sources */,
 				203F415C2193F49A00BAB007 /* IncidentResourcesViewModel.swift in Sources */,
 				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
-				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				203F41392193F49A00BAB007 /* IncidentsManager.swift in Sources */,
 				203F413B2193F49A00BAB007 /* IncidentSplitViewController.swift in Sources */,
 				203F416B2193F49A00BAB007 /* IncidentSummaryFormItem.swift in Sources */,
@@ -3461,10 +3508,11 @@
 				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
 				96B775272140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift in Sources */,
 				96B775742140F8EE00836B83 /* PersonDescription.swift in Sources */,
+				2008BD8B21AB693E00C0BB79 /* OrganisationEditViewController.swift in Sources */,
 				96B7752A2140F8EE00836B83 /* PersonDescriptionsViewController.swift in Sources */,
 				96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */,
 				96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */,
-				37D16155218AC43E00DFCB52 /* EventDraftListViewModel.swift in Sources */,
+				37D16155218AC43E00DFCB52 /* EventListViewModel.swift in Sources */,
 				20E61AB72189369500B65F43 /* PersonEditAliasFormViewController.swift in Sources */,
 				20E61ABD218936C600B65F43 /* PersonEditAliasFormViewModel.swift in Sources */,
 				20E61AB52189368600B65F43 /* PersonEditContactFormViewController.swift in Sources */,
@@ -3495,6 +3543,7 @@
 				203F411E2193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift in Sources */,
 				AABF43E5219BDACF00F97884 /* AddressNavigationSelectionAction.swift in Sources */,
 				96B775A8214206F100836B83 /* RangeParserDefinition.swift in Sources */,
+				2008BD8C21AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift in Sources */,
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				203F41332193F49A00BAB007 /* Reportable.swift in Sources */,
@@ -3551,6 +3600,7 @@
 				203F41682193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift in Sources */,
 				203F41662193F49A00BAB007 /* TasksListResourceSummaryView.swift in Sources */,
 				203F41672193F49A00BAB007 /* TasksListResourceViewModel.swift in Sources */,
+				2008BD8A21AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift in Sources */,
 				203F41772193F49A00BAB007 /* TasksListViewController.swift in Sources */,
 				203F41762193F49A00BAB007 /* TasksListViewModel.swift in Sources */,
 				203F41AD2193F49A00BAB007 /* TasksMapFilterViewModel.swift in Sources */,

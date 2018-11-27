@@ -63,7 +63,7 @@ extension EventSubmissionResponse: EventSubmittable {
 
     // MARK: EventSubmittable
     public var title: String {
-        return "Event Submitted"
+        return "Submitted"
     }
 
     public var detail: String {

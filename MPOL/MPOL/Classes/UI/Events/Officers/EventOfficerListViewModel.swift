@@ -16,6 +16,9 @@ public protocol EventOfficerListViewModelDelegate: class {
 
 public class EventOfficerListViewModel {
 
+    /// This variable matches the 'reportingOfficer' officer involvement manifest item
+    public static let reportingOfficerInvolvement = NSLocalizedString("Reporting officer", comment: "")
+
     weak var delegate: EventOfficerListViewModelDelegate?
     public let report: OfficerListReport
 
@@ -43,7 +46,7 @@ public class EventOfficerListViewModel {
     }
 
     public var officerInvolvementOptions: [Pickable] {
-        return Manifest.shared.entries(for: .eventOfficerInvolvement)?.pickableList() ?? []
+        return Manifest.shared.entries(for: .eventOfficerInvolvement).pickableList()
     }
 
     public func officer(at indexPath: IndexPath) -> Officer {
@@ -68,8 +71,10 @@ public class EventOfficerListViewModel {
     }
 
     public func add(_ involvements: [String], to officer: Officer) {
-        let reportingOfficerInvolvement = "Reporting officer"
+        let reportingOfficerInvolvement = EventOfficerListViewModel.reportingOfficerInvolvement
 
+        // check if we have a new 'reporting officer'
+        // if so remove 'reporting' involvement from previous 'reporting officer'
         if involvements.contains(reportingOfficerInvolvement) {
             let reportingOfficer = self.officerDisplayables.map {$0.officer}
                 .filter {$0.involvements.contains(reportingOfficerInvolvement)}.first

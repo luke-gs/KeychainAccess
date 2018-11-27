@@ -9,10 +9,67 @@ import PublicSafetyKit
 
 public class DefaultEventLocationViewModel {
 
+    /// This variable matches the 'eventLocation' location involvement manefest item
+    public static var eventLocationInvolvement = NSLocalizedString("Event Location", comment: "")
     weak var report: DefaultLocationReport!
+
+    /// As we prefill the event with an empty location this count returns 1 when locations array is empty
+    var displayCount: UInt {
+        return UInt(max(1, report.eventLocations.count))
+    }
 
     init(report: DefaultLocationReport) {
         self.report = report
+    }
+
+    func construct(for viewController: DefaultEventLocationViewController, with builder: FormBuilder) {
+        builder.title = NSLocalizedString("Location", comment: "")
+        builder.enforceLinearLayout = .always
+
+        builder += LargeTextHeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("Locations (%d)", comment: ""), displayCount))
+            .separatorColor(.clear)
+            .actionButton(title: NSLocalizedString("Add", comment: ""),
+                          handler: { [weak viewController] _ in
+                            guard let viewController = viewController else { return }
+                            viewController.addLocation()
+            })
+
+        // if we have no location add empty location to list
+        if report.eventLocations.isEmpty {
+            builder += SubtitleFormItem(title: NSLocalizedString("Not Yet Specified", comment: ""))
+                .subtitle(DefaultEventLocationViewModel.eventLocationInvolvement)
+                .image(AssetManager.shared.image(forKey: .entityLocation))
+                .accessory(ItemAccessory.pencil)
+                .onSelection({ [weak viewController] cell in
+                    guard let viewController = viewController else { return }
+                    viewController.onSelection(cell)
+                })
+            // else add location to list for each in array
+        } else {
+
+            let deleteAction = CollectionViewFormEditAction(
+                title: NSLocalizedString("Remove", comment: ""),
+                color: UIColor.red, handler: { [weak self] (_, indexPath) in
+                    guard let self = self else { return }
+                    self.report.eventLocations.remove(at: indexPath.row)
+                    viewController.updateAnnotations()
+                    viewController.sidebarItem.count = UInt(self.displayCount)
+                    viewController.reloadForm()
+            })
+
+            for (offset, location) in report.eventLocations.enumerated() {
+
+                builder += SubtitleFormItem(title: location.addressString)
+                    .subtitle(invovlements(for: location))
+                    .image(AssetManager.shared.image(forKey: .entityLocation))
+                    .accessory(ItemAccessory.pencil)
+                    .onSelection({ [weak viewController] cell in
+                        guard let viewController = viewController else { return }
+                        viewController.onSelection(cell)
+                    })
+                    .editActions(offset > 0 ? [deleteAction] : [])
+            }
+        }
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
@@ -21,5 +78,12 @@ public class DefaultEventLocationViewModel {
         } else {
             return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
         }
+    }
+
+    func invovlements(for location: EventLocation) -> StringSizable? {
+
+        let noInvolvementText = NSAttributedString(string: NSLocalizedString("No involvements", comment: ""),
+                                                   attributes: [.foregroundColor: UIColor.orangeRed])
+        return location.involvement ?? noInvolvementText
     }
 }

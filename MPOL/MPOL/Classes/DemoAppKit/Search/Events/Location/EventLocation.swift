@@ -18,16 +18,18 @@ public class EventLocation: NSObject, Codable {
     public var latitude: CLLocationDegrees
     public var longitude: CLLocationDegrees
     public var addressString: String?
+    public var involvement: String?
 
-    required public init(coordinate: CLLocationCoordinate2D, addressString: String?) {
+    required public init(coordinate: CLLocationCoordinate2D, addressString: String?, involvement: String?) {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
         self.addressString = addressString
+        self.involvement = involvement
     }
 
-    public convenience init?(locationSelection: LocationSelectionType?) {
+    public convenience init?(locationSelection: LocationSelectionCore?) {
         guard let locationSelection = locationSelection else { return nil }
-        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText)
+        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText, involvement: locationSelection.locationType?.title?.string)
     }
 
     /// Convenience init for a placemark
@@ -54,6 +56,7 @@ public class EventLocation: NSObject, Codable {
         case latitude
         case longitude
         case addressString
+        case involvement
     }
 
     public required init(from decoder: Decoder) throws {
@@ -61,6 +64,7 @@ public class EventLocation: NSObject, Codable {
         latitude = try container.decode(CLLocationDegrees.self, forKey: .latitude)
         longitude = try container.decode(CLLocationDegrees.self, forKey: .longitude)
         addressString = try container.decodeIfPresent(String.self, forKey: .addressString)
+        involvement = try container.decodeIfPresent(String.self, forKey: .involvement)
     }
 
     open func encode(to encoder: Encoder) throws {
@@ -68,6 +72,7 @@ public class EventLocation: NSObject, Codable {
         try container.encode(latitude, forKey: CodingKeys.latitude)
         try container.encode(longitude, forKey: CodingKeys.longitude)
         try container.encode(addressString, forKey: CodingKeys.addressString)
+        try container.encode(involvement, forKey: CodingKeys.involvement)
     }
 
     // MARK: - Equality

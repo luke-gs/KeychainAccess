@@ -128,6 +128,7 @@ private enum State: String, Pickable {
 }
 
 private class VehicleSearchOptions: SearchOptions {
+
     var vehicleIdentifier: VehicleSearchType = .registration
     var vehicleType: VehicleType = .allVehicleTypes
     var state: State = .allStates
@@ -182,12 +183,14 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     static let searchableType = "Vehicle"
 
+    public var shouldReadAlerts: Bool = false
+
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
         let voiceSearchButton = UIButton(type: .system)
 
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
-        helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
+        helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
 
         voiceSearchButton.addTarget(self, action: #selector(didTapVoiceSearchButton(_:)), for: .touchUpInside)
         voiceSearchButton.setImage(AssetManager.shared.image(forKey: .commsMicrophone), for: .normal)
@@ -357,7 +360,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 let request = VehicleSearchRequest(source: .pscore, request: searchParameters)
                 let rdaRequest = VehicleSearchRequest(source: .rda, request: searchParameters)
 
-                let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]))
+                let resultModel = EntitySummaryAlertsSearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]), shouldDisplayAlerts: false, shouldReadAlerts: shouldReadAlerts)
 
                 resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
                 resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
@@ -406,6 +409,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         self.text = text
 
         if endEditing {
+            shouldReadAlerts = false
             performSearch()
         }
     }

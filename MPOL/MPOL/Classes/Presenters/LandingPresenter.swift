@@ -171,28 +171,49 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             self.eventsManager = EventsManager(eventBuilder: EventBuilder())
 
-            let didTapCreateHandler: ((EventListViewController) -> Void) = { vc in
-                let incidentSelectionViewController = IncidentSelectViewController()
-                let eventCreationNavController = PopoverNavigationController(rootViewController: incidentSelectionViewController)
-                eventCreationNavController.wantsTransparentBackground = false
-                eventCreationNavController.modalPresentationStyle = .formSheet
+            let eventListViewModel = EventListViewModel(eventsManager: eventsManager)
+            let eventsListVC = EventListViewController(viewModel: eventListViewModel)
 
-                vc.present(eventCreationNavController, animated: true, completion: nil)
+            eventListViewModel.creationHandler = { [weak self] in
+                let incidentSelectionViewController = ReportTypeSelectionViewController()
+                incidentSelectionViewController.title = NSLocalizedString("New Event", comment: "New event type selection title")
+                incidentSelectionViewController.groups = [
+                    ReportGroup(title: NSLocalizedString("Browse", comment: "Browse"), items: [
+                        .category(NSLocalizedString("Show All", comment: "Show all"), [[
+                            .item(IncidentType.interceptReport),
+                            .item(IncidentType.trafficInfringement),
+                            .item(IncidentType.domesticViolence)
+                        ]]),
+                        .category(NSLocalizedString("Traffic Offences", comment: "Traffic offences category"), []),
+                        .category(NSLocalizedString("Person Offences", comment: "Person offences category"), []),
+                        .category(NSLocalizedString("Good Order Offences", comment: "Good order offences category"), []),
+                    ]),
+                    ReportGroup(title: NSLocalizedString("Recently Used", comment: "Recently used report types"), items: [
+                        .item(IncidentType.interceptReport),
+                        .item(IncidentType.trafficInfringement),
+                        .item(IncidentType.domesticViolence)
+                    ])
+                ]
+                incidentSelectionViewController.selectItemHandler = { [weak self, weak eventsListVC] incidentType in
+                    guard let eventsListVC = eventsListVC else { return }
+                    guard let incidentType = incidentType as? IncidentType else { return }
+                    guard let event = try! self?.eventsManager.create(eventType: .blank, incidentType: incidentType) else { return }
 
-                incidentSelectionViewController.didSelectIncident = { [weak self] incidentType in
-                    guard let event = try! self?.eventsManager.create(eventType: .blank) else { return }
-                    self?.presentEvent(event, with: incidentType, from: vc)
+                    eventsListVC.dismiss(animated: true, completion: {
+                        self?.presentEvent(event, with: incidentType, from: eventsListVC)
+                    })
                 }
+                incidentSelectionViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: incidentSelectionViewController, action: #selector(ReportTypeSelectionViewController.dismissAnimated))
+
+                let navigationController = ModalNavigationController(rootViewController: incidentSelectionViewController)
+                navigationController.modalPresentationStyle = .formSheet
+                eventsListVC.present(navigationController, animated: true, completion: nil)
             }
 
-            let didTapItemHandler: ((EventListViewController, Int) -> Void) = { [weak self] vc, offset in
-                if let draftable = vc.viewModel.draftItem(for: offset) {
-                    guard let event = self?.eventsManager.event(for: draftable.id) else { return }
-                    self?.presentEvent(event, from: vc)
-                }
+            eventListViewModel.selectionHandler = { [weak self] item in
+                guard let event = self?.eventsManager.event(for: item.id) else { return }
+                self?.presentEvent(event, from: eventsListVC)
             }
-
-            let eventsListVC = EventListViewController(viewModel: EventDraftListViewModel(manager: eventsManager), didTapCreateHandler: didTapCreateHandler, didTapItemHandler: didTapItemHandler)
 
             eventsListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
@@ -285,6 +306,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
         if let incidentType = incidentType, incidentsManager.incidents.isEmpty {
             if let incident = incidentsManager.create(incidentType: incidentType, in: event) {
                 incidentsManager.add(incident: incident)
+
+                // Save event immediately rather than waiting for the event to be closed
+                try! eventsManager.update(for: event.id)
             }
         }
 
@@ -490,10 +514,18 @@ extension LandingPresenter: EventSplitViewControllerDelegate {
         try! eventsManager.update(for: eventId)
     }
 
-    public func eventSubmittedFor(eventId: String, response: Any?, error: Error?) {
-        // Remove the submitted event
-        // TODO: do something non-demo here
-        try! eventsManager.remove(for: eventId)
+    public func eventSubmittedFor(eventId: String, response: EventSubmittable?, error: Error?) {
+        if let event = eventsManager.event(for: eventId) {
+            // Update the submission status
+            if let error = error {
+                event.submissionStatus = .failed
+                event.submissionResult = error.localizedDescription
+            } else {
+                event.submissionStatus = .submitted
+                event.submissionResult = [response?.title, response?.detail].joined()
+            }
+            try! eventsManager.update(for: event.id)
+        }
     }
 
 }

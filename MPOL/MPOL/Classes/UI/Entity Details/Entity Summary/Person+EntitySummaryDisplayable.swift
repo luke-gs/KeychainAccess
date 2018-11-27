@@ -152,7 +152,7 @@ public struct PersonSummaryDisplayable: AssociatedEntitySummaryDisplayable {
             .style(style)
             .width(.column(2))
             .category(category)
-            .title(title?.sizing().string.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .title(title?.sizing(defaultNumberOfLines: style == .hero ? 0 : 1))
             .subtitle(detail1?.sizing(defaultNumberOfLines: style == .hero ? 0 : 1))
             .detail((formattedAddress(withNewLine: true) ?? "").sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)

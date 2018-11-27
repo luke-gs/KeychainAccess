@@ -47,8 +47,8 @@ public class CreateTaskPresenter: Presenter {
         case .createTaskAddEntity(let completionHandler):
             let createdSectionViewModel = CreatedEntitySummarySelectionSectionViewModel()
             let recentSectionViewModel = RecentEntitySummarySelectionSectionViewModel()
-            createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
-            recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self]
+            createdSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Organisation.self]
+            recentSectionViewModel.allowedEntityTypes = [Person.self, Vehicle.self, Organisation.self]
 
             let viewModel = EntitySummarySelectionViewModel(sections: [createdSectionViewModel, recentSectionViewModel])
 
@@ -84,7 +84,8 @@ public class CreateTaskPresenter: Presenter {
 
         case .createTaskSearchEntity:
             from.dismiss(animated: true) {
-                let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"), shouldSearchImmediately: false)
+                let parameters = SearchActivity.SearchEntityParameters(term: Searchable(text: "", type: "Vehicle"))
+                let activity = SearchActivity.searchEntity(parameters: parameters)
                 do {
                     try SearchActivityLauncher.default.launch(activity, using: AppURLNavigator.default)
                 } catch {

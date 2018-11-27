@@ -92,12 +92,14 @@ private class OrganisationSearchOptions: SearchOptions {
 
 class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
+    var shouldReadAlerts: Bool = false
+
     static let searchableType = "Organisation"
 
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
-        helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
+        helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         return [helpButton]
     }
 
@@ -234,7 +236,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
                     let resultModel = EntitySummaryAlertsSearchResultViewModel<Organisation>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
                     resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [EntityDisplayStyle.grid: 4, EntityDisplayStyle.list: 3])
-
+                    resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                     completion(resultModel, nil)
                 }
 
@@ -286,5 +288,11 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
 
     @objc private func searchButtonItemTapped() {
         performSearch()
+    }
+    
+    // MARK: - Add entity
+
+    @objc private func handleAddButtonTapped(_ item: UIBarButtonItem) {
+        updatingDelegate?.present(EntityScreen.createEntity(type: .organisation))
     }
 }

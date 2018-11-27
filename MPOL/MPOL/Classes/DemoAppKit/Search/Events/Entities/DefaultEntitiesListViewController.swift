@@ -16,6 +16,7 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         self.viewModel = viewModel
         super.init()
         viewModel.addObserver(self)
+        self.viewModel.delegate = self
 
         title = "Entities"
 
@@ -149,9 +150,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         loadingManager.state = viewModel.currentLoadingManagerState
     }
 
-    public func presentPickerViewController(type: EntityPickerType, entity: MPOLKitEntity) {
+    public func presentPickerViewController(type: EntityActionType, entity: MPOLKitEntity) {
 
-        let definition = viewModel.definition(for: type, from: self, with: entity)
+        guard let definition = viewModel.definition(for: type, from: self, with: entity) else { return }
         let dataSource = definition.dataSource
         let viewController = CustomPickerController(dataSource: dataSource)
 
@@ -166,37 +167,43 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             let navController = PopoverNavigationController(rootViewController: viewController)
             navController.modalPresentationStyle = .formSheet
 
+            if let presentedController = presentedViewController {
+                presentedController.dismissAnimated()
+            }
+
             present(navController, animated: true, completion: nil)
         }
     }
 
     private func presentEditViewController(entity: MPOLKitEntity, cell: CollectionViewFormCell) {
-
         let editItems = viewModel.editItems(for: entity)
-        let pickerTableViewController = PickerTableViewController(style: .plain, items: editItems)
-        pickerTableViewController.title = "Edit Actions"
-        pickerTableViewController.allowsQuickSelection = false
-        pickerTableViewController.allowsMultipleSelection = false
-        pickerTableViewController.accessoryType = .none
-        pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
+        let controller = ActionSheetViewController(buttons: editItems)
+        controller.preferredContentWidth = 300
+        controller.modalPresentationStyle = .popover
+        controller.popoverPresentationController?.sourceView = cell.accessoryView
 
-            self?.dismiss(animated: true, completion: {
-                guard let index = selectedIndexes.first else { return }
-                let item = editItems[index]
-                if item.subtitle?.sizing().string == "involvement" {
-                    self?.presentPickerViewController(type: .involvement, entity: entity)
-                }
-                if item.subtitle?.sizing().string == "action" {
-                    self?.presentPickerViewController(type: .additionalAction, entity: entity)
-                }
-            })
-        }
-
-        let navigationController = PopoverNavigationController(rootViewController: pickerTableViewController)
-        navigationController.modalPresentationStyle = .popover
-        navigationController.popoverPresentationController?.sourceRect = cell.accessoryView!.bounds
-        navigationController.popoverPresentationController?.permittedArrowDirections = .up
-        navigationController.popoverPresentationController?.sourceView = cell.accessoryView
-        self.present(navigationController, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
+}
+
+extension DefaultEntitiesListViewController: EntityEditActionable {
+    public func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType) {
+        switch actionType {
+        case .involvement:
+            self.presentPickerViewController(type: .involvement, entity: entity)
+        case .additionalAction:
+            self.presentPickerViewController(type: .additionalAction, entity: entity)
+        case .viewRecord:
+            if let presentable = EntitySummaryDisplayFormatter.default.presentableForEntity(entity) {
+                if let presentedController = presentedViewController {
+                    presentedController.dismissAnimated()
+                }
+                present(presentable)
+            }
+        }
+    }
+}
+
+public protocol EntityEditActionable: class {
+    func completeEditAction(on entity: MPOLKitEntity, actionType: EntityActionType)
 }
