@@ -490,47 +490,56 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         let draftEventsInterrupt: LogOffManager.LogOffInterrupt = { [weak self] in
             guard let self = self else { return Promise<Bool> { $0.fulfill(true) } }
-            return Promise { seal in
+            return Promise<Bool> { seal in
                 let draftCount = self.eventsManager.draftEvents().count
                 let unsubmittedCount = self.eventsManager.unsubmittedEvents().count
-                guard draftCount > 0 || unsubmittedCount > 0 else {
-                    seal.fulfill(false)
-                    return
-                }
-
-                let viewEventsButton = DialogAction(title: NSLocalizedString("View Events", comment: ""), style: .default, handler: { [weak self] (_) in
-                    self?.switchTo(.event)
-                    seal.fulfill(true)
-                })
-
-                let continueButton = DialogAction(title: NSLocalizedString("Continue", comment: ""), style: .default, handler: { (_) in
-                    seal.fulfill(false)
-                })
-
-                var title = "You still have "
-
-                if draftCount > 0 {
-                    title +=  String.localizedStringWithFormat(NSLocalizedString("%d Draft Event(s)", comment: ""), draftCount)
-                    if unsubmittedCount > 0 {
-                        title += " and "
+                    seal.fulfill(draftCount > 0 || unsubmittedCount > 0)
+                }.then { result -> Promise<Bool> in
+                    if result {
+                        return self.showLogoffWithEventsPrompt()
+                    } else {
+                        return Promise<Bool>.value(false)
                     }
-
-                }
-
-                if unsubmittedCount > 0 {
-                    title +=  String.localizedStringWithFormat(NSLocalizedString("%d Unsubmitted Event(s)", comment: ""), unsubmittedCount)
-                }
-
-                title += ". These will be saved until your next session."
-
-                let alertController = PSCAlertController(title: "Before You log off", message: title, image: nil)
-                alertController.addAction(viewEventsButton)
-                alertController.addAction(continueButton)
-                AlertQueue.shared.add(alertController)
             }
         }
 
         LogOffManager.shared.addInterrupt(draftEventsInterrupt)
+    }
+
+    func showLogoffWithEventsPrompt() -> Promise<Bool> {
+         return Promise<Bool> { seal in
+            let draftCount = self.eventsManager.draftEvents().count
+            let unsubmittedCount = self.eventsManager.unsubmittedEvents().count
+            let viewEventsButton = DialogAction(title: NSLocalizedString("View Events", comment: ""), style: .default, handler: { [weak self] (_) in
+                self?.switchTo(.event)
+                seal.fulfill(true)
+            })
+
+            let continueButton = DialogAction(title: NSLocalizedString("Continue", comment: ""), style: .default, handler: { (_) in
+                seal.fulfill(false)
+            })
+
+            var title = "You still have "
+
+            if draftCount > 0 {
+                title +=  String.localizedStringWithFormat(NSLocalizedString("%d Draft Event(s)", comment: ""), draftCount)
+                if unsubmittedCount > 0 {
+                    title += " and "
+                }
+
+            }
+
+            if unsubmittedCount > 0 {
+                title +=  String.localizedStringWithFormat(NSLocalizedString("%d Unsubmitted Event(s)", comment: ""), unsubmittedCount)
+            }
+
+            title += ". These will be saved until your next session."
+
+            let alertController = PSCAlertController(title: "Before You log off", message: title, image: nil)
+            alertController.addAction(viewEventsButton)
+            alertController.addAction(continueButton)
+            AlertQueue.shared.add(alertController)
+        }
     }
 }
 
