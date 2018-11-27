@@ -67,6 +67,7 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
     }
 
     override public func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
+
         let previousResults = self.results
         var processedResults: [SearchResultSection] = rawResults.enumerated().map { (index, rawResult) -> SearchResultSection in
             let entities = summarySearchResultsHandler(rawResult.entities)
@@ -86,13 +87,15 @@ public class EntitySummaryAlertsSearchResultViewModel<T: MPOLKitEntity>: EntityS
                 result && (rawResult.state != SearchState.searching)
             }
 
+            alertEntities.removeAll()
+
             let finishedResults = rawResults.filter {$0.state == .finished}
             finishedResults.forEach { (finishedResult) in
                 let entities = finishedResult.entities.compactMap {$0 as? Entity}
                 let filteredEntities = entities.filter {$0.alertLevel != nil || $0.associatedAlertLevel != nil}
-                filteredEntities.forEach({ (entity) in
+                filteredEntities.forEach { (entity) in
                     alertEntities.append(entity)
-                })
+                }
             }
 
             if searchComplete && self.shouldReadAlerts {

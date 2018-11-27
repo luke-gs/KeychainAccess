@@ -17,7 +17,7 @@ public protocol EventOfficerListViewModelDelegate: class {
 public class EventOfficerListViewModel {
 
     /// This variable matches the 'reportingOfficer' officer involvement manifest item
-    public static let reportingOfficerInvolvement = "Reporting officer"
+    public static let reportingOfficerInvolvement = NSLocalizedString("Reporting officer", comment: "")
 
     weak var delegate: EventOfficerListViewModelDelegate?
     public let report: OfficerListReport
@@ -46,7 +46,7 @@ public class EventOfficerListViewModel {
     }
 
     public var officerInvolvementOptions: [Pickable] {
-        return Manifest.shared.entries(for: .eventOfficerInvolvement)?.pickableList() ?? []
+        return Manifest.shared.entries(for: .eventOfficerInvolvement).pickableList()
     }
 
     public func officer(at indexPath: IndexPath) -> Officer {

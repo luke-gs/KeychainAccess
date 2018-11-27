@@ -36,6 +36,11 @@ public class LocationSelectionCore: Address, LocationSelectionType {
         self.fullAddress = displayText
     }
 
+    public convenience init(coordinate: CLLocationCoordinate2D, displayText: String?, locationType: AnyPickable?) {
+        self.init(coordinate: coordinate, displayText: displayText)
+        self.locationType = locationType
+    }
+
     public required init?(placemark: CLPlacemark) {
         guard let coordinate = placemark.location?.coordinate else { return nil }
         self.placemark = placemark
@@ -79,7 +84,9 @@ public class LocationSelectionCore: Address, LocationSelectionType {
 
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
-        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString)
+
+        let involvementPickable = eventLocation.involvement != nil ? AnyPickable(eventLocation.involvement!) : nil
+        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, locationType: involvementPickable)
     }
 
     // MARK: - Codable

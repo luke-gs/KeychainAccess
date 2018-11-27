@@ -64,8 +64,10 @@ public class EventEntityDetailReport: DefaultEventReportable {
          for demo purpose, setting viewed to true allow validation to pass straightly
          without adding relationship.
          */
+        #if EXTERNAL
         descriptionReport.viewed = true
         relationshipsReport.viewed = true
+        #endif
     }
 
     // Eval
