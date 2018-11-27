@@ -49,7 +49,7 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>Contact Details (%1$d)</string>
+			<string>Contact Detail (%1$d)</string>
 			<key>zero</key>
 			<string>Contact Detail</string>
 			<key>other</key>
