@@ -17,10 +17,14 @@ public class OrganisationEditAliasFormViewModel {
 
     public var organisationAlias: OrganisationAlias?
 
-    public static let aliasOptions = Manifest.shared.entries(for: .organisationNameType)!.map { AnyPickable($0.rawValue!) }
+    public var aliasOptions: [AnyPickable] {
+        return Manifest.shared.entries(for: .organisationNameType)!.map { AnyPickable($0.rawValue!) }
+    }
 
     public init(organisationAlias: OrganisationAlias?) {
         self.organisationAlias = organisationAlias
-        self.selectedType = organisationAlias?.type != nil ? AnyPickable(organisationAlias!.type!) : nil
+        if let alias = organisationAlias, let type = alias.type {
+            self.selectedType = AnyPickable(type)
+        }
     }
 }

@@ -72,9 +72,8 @@ public class OrganisationEditViewController: FormBuilderViewController {
             })])
 
         // Contact section
-        let contactHeaderText = finalOrganisation.contacts?.isEmpty ?? true
-            ? NSLocalizedString("Contact Details", comment: "header when no contacts exist")
-            : String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"), finalOrganisation.contacts!.count)
+        let contactHeaderText = String.localizedStringWithFormat(NSLocalizedString("Contact Details (%d)", comment: "header when contacts exist"),
+                                                                 finalOrganisation.contacts?.count ?? 0)
         builder += LargeTextHeaderFormItem(text: contactHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
@@ -117,9 +116,8 @@ public class OrganisationEditViewController: FormBuilderViewController {
         }
 
         // Alias section
-        let aliasHeaderText = finalOrganisation.aliases?.isEmpty ?? true
-            ? NSLocalizedString("Aliases", comment: "header when no aliases exist")
-            : String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"), finalOrganisation.aliases!.count)
+        let aliasHeaderText = String.localizedStringWithFormat(NSLocalizedString("Aliases (%d)", comment: "header when aliases exist"),
+                                                               finalOrganisation.aliases?.count ?? 0)
         builder += LargeTextHeaderFormItem(text: aliasHeaderText)
             .actionButton(title: NSLocalizedString("Add", comment: ""), handler: { [unowned self] _ in
                 self.present(
@@ -145,7 +143,7 @@ public class OrganisationEditViewController: FormBuilderViewController {
                     .editActions([CollectionViewFormEditAction(title: NSLocalizedString("Remove", comment: ""),
                                                                color: UIColor.red,
                                                                handler: { [unowned self] (_, _) in
-                                                                self.finalOrganisation.contacts?.remove(at: index)
+                                                                self.finalOrganisation.aliases?.remove(at: index)
                                                                 self.reloadForm()
                     })])
                     .onSelection { [unowned self] _ in

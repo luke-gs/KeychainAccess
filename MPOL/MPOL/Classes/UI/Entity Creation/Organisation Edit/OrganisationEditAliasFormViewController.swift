@@ -41,7 +41,7 @@ public class OrganisationEditAliasFormViewController: FormBuilderViewController 
 
         builder += DropDownFormItem()
             .title(NSLocalizedString("Alias Type", comment: ""))
-            .options(OrganisationEditAliasFormViewModel.aliasOptions)
+            .options(viewModel.aliasOptions)
             .required()
             .selectedValue(viewModel.selectedType != nil ? [viewModel.selectedType!] : [])
             .onValueChanged { [unowned self] value in
