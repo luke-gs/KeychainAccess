@@ -74,7 +74,7 @@ public class OrganisationEditContactFormViewController: FormBuilderViewControlle
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.contact?.remark = $0
-        }
+            }
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
