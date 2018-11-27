@@ -516,12 +516,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 seal.fulfill(false)
             })
 
-            var title = "You still have "
+            var title = NSLocalizedString("You still have ", comment: "")
 
             if draftCount > 0 {
                 title +=  String.localizedStringWithFormat(NSLocalizedString("%d Draft Event(s)", comment: ""), draftCount)
                 if unsubmittedCount > 0 {
-                    title += " and "
+                    title += NSLocalizedString(" and ", comment: "")
                 }
 
             }
@@ -530,9 +530,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 title +=  String.localizedStringWithFormat(NSLocalizedString("%d Unsubmitted Event(s)", comment: ""), unsubmittedCount)
             }
 
-            title += ". These will be saved until your next session."
+            title += NSLocalizedString(". These will be saved until your next session.", comment: "")
 
-            let alertController = PSCAlertController(title: "Before You log off", message: title, image: nil)
+            let alertController = PSCAlertController(title: NSLocalizedString("Before You log off", comment: ""), message: title, image: nil)
             alertController.addAction(viewEventsButton)
             alertController.addAction(continueButton)
             AlertQueue.shared.add(alertController)
