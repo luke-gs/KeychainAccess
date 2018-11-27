@@ -34,17 +34,16 @@ public class OrganisationEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "Details Section Header")).separatorColor(.clear)
 
-        if let items = Manifest.shared.entries(for: .organisationType)?.rawValues().map({ AnyPickable($0) }) {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Organisation Type", comment: "Drop Down Title"))
-                .options(items)
-                .selectedValue(finalOrganisation.type != nil ? [AnyPickable(finalOrganisation.type!)] : nil)
-                .required()
-                .width(.column(4))
-                .onValueChanged { [weak self] value in
-                    self?.finalOrganisation.type = value?.first?.base as? String
-                }
-        }
+        let items = Manifest.shared.entries(for: .organisationType).rawValues().map({ AnyPickable($0) })
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Organisation Type", comment: "Drop Down Title"))
+            .options(items)
+            .selectedValue(finalOrganisation.type != nil ? [AnyPickable(finalOrganisation.type!)] : nil)
+            .required()
+            .width(.column(4))
+            .onValueChanged { [weak self] value in
+                self?.finalOrganisation.type = value?.first?.base as? String
+            }
 
         builder += TextFieldFormItem().title(NSLocalizedString("Organisation Name", comment: "Title"))
             .required()

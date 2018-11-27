@@ -18,7 +18,7 @@ public class OrganisationEditAliasFormViewModel {
     public var organisationAlias: OrganisationAlias?
 
     public var aliasOptions: [AnyPickable] {
-        return Manifest.shared.entries(for: .organisationNameType)!.map { AnyPickable($0.rawValue!) }
+        return Manifest.shared.entries(for: .organisationNameType).map { AnyPickable($0.rawValue!) }
     }
 
     public init(organisationAlias: OrganisationAlias?) {
