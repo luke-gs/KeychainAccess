@@ -46,8 +46,12 @@ final public class EventsManager {
     /// All events that are neither draft or submitted
     public func unsubmittedEvents() -> [Event] {
         return events.filter {
-            $0.submissionStatus == .pending ||
-            $0.submissionStatus == .failed
+            switch $0.submissionStatus {
+            case .pending, .failed:
+                return true
+            case .draft, .submitted, .sending:
+                return false
+            }
         }
     }
 
