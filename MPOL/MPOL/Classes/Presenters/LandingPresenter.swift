@@ -488,16 +488,15 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         let draftEventsInterrupt: LogOffManager.LogOffInterrupt = { [weak self] in
             guard let self = self else { return Promise<Bool> { $0.fulfill(true) } }
-            return Promise<Bool> { seal in
-                let draftCount = self.eventsManager.draftEvents().count
-                let unsubmittedCount = self.eventsManager.unsubmittedEvents().count
-                    seal.fulfill(draftCount > 0 || unsubmittedCount > 0)
-                }.then { result -> Promise<Bool> in
-                    if result {
-                        return self.showLogoffWithEventsPrompt()
-                    } else {
-                        return Promise<Bool>.value(false)
-                    }
+            let draftCount = self.eventsManager.draftEvents().count
+            let unsubmittedCount = self.eventsManager.unsubmittedEvents().count
+
+            return Promise<Bool>.value(draftCount > 0 || unsubmittedCount > 0).then { result -> Promise<Bool> in
+                if result {
+                    return self.showLogoffWithEventsPrompt()
+                } else {
+                    return Promise<Bool>.value(false)
+                }
             }
         }
 
