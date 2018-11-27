@@ -13,7 +13,7 @@ public class OrganisationEditViewController: FormBuilderViewController {
 
     private var finalOrganisation = Organisation(id: UUID().uuidString)
 
-    private var location: LocationSelectionType?
+    private var location: LocationSelectionCore?
 
     public init(initialOrganisation: Organisation? = nil) {
         if let initialOrganisation = initialOrganisation {
@@ -38,19 +38,35 @@ public class OrganisationEditViewController: FormBuilderViewController {
             builder += DropDownFormItem()
                 .title(NSLocalizedString("Organisation Type", comment: "Drop Down Title"))
                 .options(items)
+                .selectedValue(finalOrganisation.type != nil ? [AnyPickable(finalOrganisation.type!)] : nil)
                 .required()
                 .width(.column(4))
+                .onValueChanged { [weak self] value in
+                    self?.finalOrganisation.type = value?.first?.base as? String
+                }
         }
 
         builder += TextFieldFormItem().title(NSLocalizedString("Organisation Name", comment: "Title"))
             .required()
+            .text(finalOrganisation.name)
             .width(.column(4))
+            .onValueChanged { [weak self] value in
+                self?.finalOrganisation.name = value
+            }
 
         builder += TextFieldFormItem().title(NSLocalizedString("ABN", comment: "Title"))
             .width(.column(4))
+            .text(finalOrganisation.abn)
+            .onValueChanged { [weak self] value in
+                self?.finalOrganisation.abn = value
+            }
 
         builder += TextFieldFormItem().title(NSLocalizedString("ACN", comment: "Title"))
             .width(.column(4))
+            .text(finalOrganisation.acn)
+            .onValueChanged { [weak self] value in
+                self?.finalOrganisation.acn = value
+            }
 
         builder += PickerFormItem(pickerAction:
             LocationSelectionFormAction(workflowId: LocationSelectionPresenter.organisationEditWorkflowId))
@@ -174,6 +190,9 @@ public class OrganisationEditViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
         case .valid:
             do {
+                if let address = location {
+                    finalOrganisation.addresses = [address]
+                }
                 try UserSession.current.userStorage?.addEntity(object: finalOrganisation,
                                                                key: UserStorage.createdEntitiesKey,
                                                                notification: NSNotification.Name.createdEntitiesDidUpdate)
