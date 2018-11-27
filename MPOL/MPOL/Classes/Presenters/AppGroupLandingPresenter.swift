@@ -259,11 +259,10 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 // and can
                 if lContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
                     var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
+                    biometricUser.becomeCurrentUser()
                     // Ask if the user wants to remember their password.
                     if biometricUser.useBiometric == .unknown {
-                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
-                            biometricUser.becomeCurrentUser()
-                        }
+                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials"))
                     }
                 }
             }
