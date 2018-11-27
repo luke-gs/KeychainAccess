@@ -475,15 +475,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     public func registerLogOffInterrupts() {
         let bookOffInterrupt: LogOffManager.LogOffInterrupt = {
-            return Promise<Bool> { seal in
-                if CADStateManager.shared.lastBookOn != nil {
-                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
-                                                     message: NSLocalizedString("You must book off before logging out.", comment: ""))
-                    seal.fulfill(true)
-                } else {
-                    seal.fulfill(false)
-                }
 
+            if CADStateManager.shared.lastBookOn != nil {
+                AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
+                                                 message: NSLocalizedString("You must book off before logging out.", comment: ""))
+                return Promise<Bool>.value(true)
+            } else {
+                return Promise<Bool>.value(false)
             }
         }
         LogOffManager.shared.addInterrupt(bookOffInterrupt)
