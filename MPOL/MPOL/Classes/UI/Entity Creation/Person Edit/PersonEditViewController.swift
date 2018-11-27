@@ -106,41 +106,37 @@ public class PersonEditViewController: FormBuilderViewController {
             .strictValidate(CountSpecification.max(3), message: NSLocalizedString("Maximum number of characters reached.", comment: ""))
             .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personBuild)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Build", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.build != nil ? [finalDescription.build!] : nil)
-                .onValueChanged { self.finalDescription.build = $0?.first }
-                .width(.column(4))
-        }
+        let buildItems = Manifest.shared.entries(for: .personBuild).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Build", comment: ""))
+            .options(buildItems)
+            .selectedValue(finalDescription.build != nil ? [finalDescription.build!] : nil)
+            .onValueChanged { self.finalDescription.build = $0?.first }
+            .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personRace)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Race", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.race != nil ? [finalDescription.race!] : nil)
-                .onValueChanged { self.finalDescription.race = $0?.first }
-                .width(.column(4))
-        }
+        let raceItems = Manifest.shared.entries(for: .personRace).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Race", comment: ""))
+            .options(raceItems)
+            .selectedValue(finalDescription.race != nil ? [finalDescription.race!] : nil)
+            .onValueChanged { self.finalDescription.race = $0?.first }
+            .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personEyeColour)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Eye Colour", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.eyeColour != nil ? [finalDescription.eyeColour!] : nil)
-                .onValueChanged { self.finalDescription.eyeColour = $0?.first }
-                .width(.column(4))
-        }
+        let eyeItems = Manifest.shared.entries(for: .personEyeColour).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Eye Colour", comment: ""))
+            .options(eyeItems)
+            .selectedValue(finalDescription.eyeColour != nil ? [finalDescription.eyeColour!] : nil)
+            .onValueChanged { self.finalDescription.eyeColour = $0?.first }
+            .width(.column(4))
 
-        if let items = Manifest.shared.entries(for: .personHairColour)?.rawValues() {
-            builder += DropDownFormItem()
-                .title(NSLocalizedString("Hair Colour", comment: ""))
-                .options(items)
-                .selectedValue(finalDescription.hairColour != nil ? [finalDescription.hairColour!] : nil)
-                .onValueChanged { self.finalDescription.hairColour = $0?.first }
-                .width(.column(4))
-        }
+        let hairItems = Manifest.shared.entries(for: .personHairColour).rawValues()
+        builder += DropDownFormItem()
+            .title(NSLocalizedString("Hair Colour", comment: ""))
+            .options(hairItems)
+            .selectedValue(finalDescription.hairColour != nil ? [finalDescription.hairColour!] : nil)
+            .onValueChanged { self.finalDescription.hairColour = $0?.first }
+            .width(.column(4))
 
         builder += TextFieldFormItem()
             .title(NSLocalizedString("Ethnicity", comment: ""))

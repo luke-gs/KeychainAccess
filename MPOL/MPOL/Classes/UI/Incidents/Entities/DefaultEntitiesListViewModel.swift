@@ -9,7 +9,7 @@ import PublicSafetyKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
 
-    var delegate: EntityEditActionable?
+    weak var delegate: EntityEditActionable?
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
     var entitySelectionViewModel: EntitySummarySelectionViewModel
@@ -77,19 +77,24 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
 
     func editItems(for entity: MPOLKitEntity) -> [ActionSheetButton] {
         var items = [ActionSheetButton]()
-        let image = AssetManager.shared.image(forKey: .edit)
+        let editImage = AssetManager.shared.image(forKey: .edit)
+        let infoImage = AssetManager.shared.image(forKey: .infoFilled)
         if !involvements(for: entity).isEmpty {
-            items.append(ActionSheetButton(title: "Manage Involvements", icon: image, tintColor: UIColor.black, action: { [weak self] in
+            items.append(ActionSheetButton(title: "Manage Involvements", icon: editImage, tintColor: UIColor.black, action: { [weak self] in
                 guard let `self` = self else { return }
                 self.delegate?.completeEditAction(on: entity, actionType: .involvement)
             }))
         }
         if !additionalActions(for: entity).isEmpty {
-            items.append(ActionSheetButton(title: "Manage Additional Actions", subtitle: nil, icon: image, tintColor: UIColor.black, action: { [weak self] in
+            items.append(ActionSheetButton(title: "Manage Additional Actions", subtitle: nil, icon: editImage, tintColor: UIColor.black, action: { [weak self] in
                 guard let `self` = self else { return }
                 self.delegate?.completeEditAction(on: entity, actionType: .additionalAction)
             }))
         }
+        items.append(ActionSheetButton(title: "View Record", icon: infoImage, action: { [weak self] in
+            guard let `self` = self else { return }
+            self.delegate?.completeEditAction(on: entity, actionType: .viewRecord)
+        }))
         return items
     }
 }

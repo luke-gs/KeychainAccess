@@ -212,8 +212,8 @@ public class EntityPresenter: Presenter {
         case .createEntity:
             from.present(to, animated: true, completion: nil)
         case .entityDetails:
-            if from is EntityDetailFormViewController {
-                from.splitViewController?.navigationController?.show(to, sender: from)
+            if let splitView = from.pushableSplitViewController {
+                splitView.show(to, sender: splitView)
             } else {
                 from.show(to, sender: from)
             }

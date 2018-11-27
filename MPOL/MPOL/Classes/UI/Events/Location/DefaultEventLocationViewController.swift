@@ -13,15 +13,14 @@ import PublicSafetyKit
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
     var viewModel: DefaultEventLocationViewModel
-    private var locationAnnotation: MKPointAnnotation?
 
     public init(viewModel: DefaultEventLocationViewModel) {
         self.viewModel = viewModel
         super.init(layout: StackMapLayout())
         viewModel.report.evaluator.addObserver(self)
 
-        sidebarItem.regularTitle = "Location"
-        sidebarItem.compactTitle = "Location"
+        sidebarItem.regularTitle = NSLocalizedString("Location", comment: "")
+        sidebarItem.compactTitle = NSLocalizedString("Location", comment: "")
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.location)!
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
@@ -44,31 +43,12 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
 
         // Set initial annotation
-        self.updateAnnotation()
-        self.updateRegion()
+        self.updateAnnotations()
+        self.sidebarItem.count = self.viewModel.displayCount
     }
 
     override open func construct(builder: FormBuilder) {
-        builder.title = "Locations"
-        builder.enforceLinearLayout = .always
-
-        builder += LargeTextHeaderFormItem(text: "Locations")
-            .separatorColor(.clear)
-
-        builder += PickerFormItem(pickerAction: LocationSelectionFormAction(workflowId: LocationSelectionPresenter.eventWorkflowId))
-            .title("Event Location")
-            .selectedValue(LocationSelectionCore(eventLocation: viewModel.report.eventLocation))
-            .accessory(ItemAccessory.pencil)
-            .required()
-            .onValueChanged({ [weak self] (location) in
-                guard let `self` = self else { return }
-                if let location = location {
-                    self.viewModel.report.eventLocation = EventLocation(locationSelection: location)
-                    self.updateAnnotation()
-                    self.updateRegion()
-                }
-                self.reloadForm()
-            })
+        viewModel.construct(for: self, with: builder)
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -77,40 +57,76 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func showLocationServicesDisabledPrompt() {
-        let alertController = UIAlertController(title: "Location Services Disabled",
-                                                message: "You need to enable location services in settings.",
+        let alertController = UIAlertController(title: NSLocalizedString("Location Services Disabled", comment: ""),
+                                                message: NSLocalizedString("You need to enable location services in settings.", comment: ""),
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Okay",
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Okay", comment: ""),
                                                 style: .default))
         AlertQueue.shared.add(alertController)
     }
 
-    private func updateAnnotation() {
-        guard let lat = viewModel.report.eventLocation?.latitude,
-            let lon = viewModel.report.eventLocation?.longitude
-            else { return }
+    public func updateAnnotations() {
 
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        guard let mapView = mapView else { return }
+        mapView.removeAnnotations(mapView.annotations)
 
-        if let locationAnnotation = locationAnnotation {
+        for location in viewModel.report.eventLocations {
+
+            let coord = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+
+            let locationAnnotation = MKPointAnnotation()
             locationAnnotation.coordinate = coord
-        } else {
-            locationAnnotation = MKPointAnnotation()
-            locationAnnotation?.coordinate = coord
-            mapView?.addAnnotation(locationAnnotation!)
+            locationAnnotation.title = location.involvement?.string
+            mapView.addAnnotation(locationAnnotation)
         }
+
+        mapView.showAnnotations(mapView.annotations, animated: true)
     }
 
-    private func updateRegion() {
-        guard let lat = viewModel.report.eventLocation?.latitude,
-            let lon = viewModel.report.eventLocation?.longitude
-            else { return }
+    public func addLocation() {
+        let presentable = LocationSelectionScreen.locationSelectionLanding(
+            LocationSelectionPresenter.eventWorkflowId,
+            nil) { [weak self] selection in
+                guard let self = self else { return }
+                if let selection = selection as? LocationSelectionCore {
 
-        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        let region = MKCoordinateRegion(center: coord, span: span)
+                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
+                    self.viewModel.report.eventLocations.append(eventLocation)
+                    self.updateAnnotations()
+                }
+                self.sidebarItem.count = self.viewModel.displayCount
+                self.reloadForm()
+            }
+        present(presentable)
+    }
 
-        mapView?.setRegion(region, animated: true)
+    public func onSelection(_ cell: CollectionViewFormCell) {
+        guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
+
+        let selectionType: LocationSelectionCore? = {
+            guard let location = self.viewModel.report.eventLocations[ifExists: index] else { return nil }
+            return LocationSelectionCore(eventLocation: location)
+        }()
+
+        let presentable = LocationSelectionScreen.locationSelectionLanding(
+             LocationSelectionPresenter.eventWorkflowId,
+             selectionType) { [weak self] selection in
+                guard let self = self else { return }
+                if let selection = selection as? LocationSelectionCore {
+
+                    guard let index = self.collectionView?.indexPath(for: cell)?.row else { return }
+                    guard let eventLocation = EventLocation(locationSelection: selection) else { return }
+                    if self.viewModel.report.eventLocations[ifExists: index] != nil {
+                        self.viewModel.report.eventLocations[index] = eventLocation
+                    } else {
+                        self.viewModel.report.eventLocations.append(eventLocation)
+                    }
+                    self.updateAnnotations()
+                }
+                self.sidebarItem.count = self.viewModel.displayCount
+                self.reloadForm()
+            }
+        present(presentable)
     }
 }
 
@@ -126,8 +142,6 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
             } else {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
-            // Do not show address
-            annotation.title = ""
 
             return pinView
         }

@@ -26,7 +26,6 @@
 		12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D52086D52200739924 /* InterceptReportIncidentBuilder.swift */; };
 		12EF65E92086D52200739924 /* InterceptReportScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D62086D52200739924 /* InterceptReportScreenBuilder.swift */; };
 		12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */; };
-		12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D82086D52200739924 /* IncidentSelectViewController.swift */; };
 		12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D92086D52200739924 /* IncidentListViewModel.swift */; };
 		12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65DA2086D52200739924 /* IncidentTypes.swift */; };
 		12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FB2087071800739924 /* OfficerParserDefinition.swift */; };
@@ -87,7 +86,7 @@
 		203F41282193F49A00BAB007 /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40022193F49A00BAB007 /* EventsManager.swift */; };
 		203F41292193F49A00BAB007 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40042193F49A00BAB007 /* ServiceType.swift */; };
 		203F412A2193F49A00BAB007 /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40052193F49A00BAB007 /* EventSplitViewController.swift */; };
-		203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityPickerType.swift */; };
+		203F412B2193F49A00BAB007 /* EntityActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40072193F49A00BAB007 /* EntityActionType.swift */; };
 		203F412C2193F49A00BAB007 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */; };
 		203F412D2193F49A00BAB007 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */; };
 		203F412E2193F49A00BAB007 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */; };
@@ -558,7 +557,6 @@
 		12EF65D52086D52200739924 /* InterceptReportIncidentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterceptReportIncidentBuilder.swift; sourceTree = "<group>"; };
 		12EF65D62086D52200739924 /* InterceptReportScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterceptReportScreenBuilder.swift; sourceTree = "<group>"; };
 		12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSearchDataSource.swift; sourceTree = "<group>"; };
-		12EF65D82086D52200739924 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
 		12EF65D92086D52200739924 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12EF65DA2086D52200739924 /* IncidentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
 		12EF65FB2087071800739924 /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
@@ -619,7 +617,7 @@
 		203F40022193F49A00BAB007 /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		203F40042193F49A00BAB007 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		203F40052193F49A00BAB007 /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
-		203F40072193F49A00BAB007 /* EntityPickerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerType.swift; sourceTree = "<group>"; };
+		203F40072193F49A00BAB007 /* EntityActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityActionType.swift; sourceTree = "<group>"; };
 		203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
 		203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
 		203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
@@ -1151,7 +1149,6 @@
 				12EF65D22086D52200739924 /* IncidentListViewController.swift */,
 				12EF65D92086D52200739924 /* IncidentListViewModel.swift */,
 				12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */,
-				12EF65D82086D52200739924 /* IncidentSelectViewController.swift */,
 				12EF65DA2086D52200739924 /* IncidentTypes.swift */,
 				371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */,
 			);
@@ -1412,7 +1409,7 @@
 				203F40092193F49A00BAB007 /* DefaultEntitiesListReport.swift */,
 				203F400A2193F49A00BAB007 /* DefaultEntitiesListViewController.swift */,
 				203F40082193F49A00BAB007 /* EntitiesListViewModel.swift */,
-				203F40072193F49A00BAB007 /* EntityPickerType.swift */,
+				203F40072193F49A00BAB007 /* EntityActionType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -3365,7 +3362,7 @@
 				96B775382140F8EE00836B83 /* EntityDetailFormViewModel.swift in Sources */,
 				96B7754E2140F8EE00836B83 /* EntityImageSizing.swift in Sources */,
 				96B7752D2140F8EE00836B83 /* EntityLocationInformationViewController.swift in Sources */,
-				203F412B2193F49A00BAB007 /* EntityPickerType.swift in Sources */,
+				203F412B2193F49A00BAB007 /* EntityActionType.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				96B7752F2140F8EE00836B83 /* EntityRetrievedEventsViewModel.swift in Sources */,
 				37F048A0210576FC00860B6D /* EntitySummaryAlertsSearchResultViewModel.swift in Sources */,
@@ -3423,7 +3420,6 @@
 				203F415B2193F49A00BAB007 /* IncidentResourcesViewController.swift in Sources */,
 				203F415C2193F49A00BAB007 /* IncidentResourcesViewModel.swift in Sources */,
 				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
-				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				203F41392193F49A00BAB007 /* IncidentsManager.swift in Sources */,
 				203F413B2193F49A00BAB007 /* IncidentSplitViewController.swift in Sources */,
 				203F416B2193F49A00BAB007 /* IncidentSummaryFormItem.swift in Sources */,

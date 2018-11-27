@@ -92,10 +92,9 @@ public class LocationSelectionPresenter: Presenter {
 
             if workflowId == LocationSelectionPresenter.eventWorkflowId {
                 // Add location type to final confirmation screen
-                if let manifestItems = Manifest.shared.entries(for: ManifestCollection.eventLocationInvolvementType) {
-                    viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
-                    viewModel.typeOptions = manifestItems.map { AnyPickable(PickableManifestEntry($0)) }
-                }
+                let manifestItems = Manifest.shared.entries(for: ManifestCollection.eventLocationInvolvementType)
+                viewModel.typeTitle = NSLocalizedString("Involvement/s", comment: "")
+                viewModel.typeOptions = manifestItems.map { AnyPickable(PickableManifestEntry($0)) }
 
                 // Address components are editable if not from GNAF lookahead search, and required
                 if let selectedLocation = selectedLocation as? LocationSelectionCore, selectedLocation.searchResult == nil {
