@@ -213,13 +213,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             self.searchViewController = searchViewController
             self.tabBarController = tabBarController
 
-            /// Log off logic.
-            let eventsLogOff = EventLogOffInterupt(eventsManager: self.eventsManager!)
-            eventsLogOff.showEvents = { [weak self] in
-                self?.switchTo(.event)
-            }
-            LogOffManager.shared.interrupts.append(eventsLogOff)
-            LogOffManager.shared.interrupts.append(BookOnLogOffInterrupt())
+            registerLogOffInterrupts()
 
             return tabBarController
         }
@@ -239,6 +233,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                       key: UserSession.currentOfficerKey,
                                                       flag: UserStorageFlag.session)
         }
+    }
+
+    override public func logOff() {
+        super.logOff()
+        LogOffManager.shared.clearInterrupts()
     }
 
     override public func onRemoteLogOffCompleted() {
@@ -447,6 +446,66 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
 
         RecentlyUsedEntityManager.default.registerFetchRequest(locationFetchClosure, forServerType: Address.serverTypeRepresentation)
+    }
+
+    public func registerLogOffInterrupts() {
+        let bookOffInterrupt: LogOffManager.LogOffInterrupt = {
+            return Promise<Bool> { seal in
+                if CADStateManager.shared.lastBookOn != nil {
+                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
+                                                     message: NSLocalizedString("You must book off before logging out.", comment: ""))
+                    seal.fulfill(true)
+                } else {
+                    seal.fulfill(false)
+                }
+
+            }
+        }
+        LogOffManager.shared.addInterrupt(bookOffInterrupt)
+
+        let draftEventsInterrupt: LogOffManager.LogOffInterrupt = { [weak self] in
+            guard let self = self else { return Promise<Bool> { $0.fulfill(true) } }
+            return Promise { seal in
+                let draftCount = self.eventsManager.draftEvents().count
+                let unsubmittedCount = self.eventsManager.unsubmittedEvents().count
+                guard draftCount > 0 || unsubmittedCount > 0 else {
+                    seal.fulfill(false)
+                    return
+                }
+
+                let viewEventsButton = DialogAction(title: NSLocalizedString("View Events", comment: ""), style: .default, handler: { [weak self] (_) in
+                    self?.switchTo(.event)
+                    seal.fulfill(true)
+                })
+
+                let continueButton = DialogAction(title: NSLocalizedString("Continue", comment: ""), style: .default, handler: { (_) in
+                    seal.fulfill(false)
+                })
+
+                var title = "You still have "
+
+                if draftCount > 0 {
+                    title +=  String.localizedStringWithFormat(NSLocalizedString("%d Draft Event(s)", comment: ""), draftCount)
+                    if unsubmittedCount > 0 {
+                        title += " and "
+                    }
+
+                }
+
+                if unsubmittedCount > 0 {
+                    title +=  String.localizedStringWithFormat(NSLocalizedString("%d Unsubmitted Event(s)", comment: ""), unsubmittedCount)
+                }
+
+                title += ". These will be saved until your next session."
+
+                let alertController = PSCAlertController(title: "Before You log off", message: title, image: nil)
+                alertController.addAction(viewEventsButton)
+                alertController.addAction(continueButton)
+                AlertQueue.shared.add(alertController)
+            }
+        }
+
+        LogOffManager.shared.addInterrupt(draftEventsInterrupt)
     }
 }
 
