@@ -134,7 +134,8 @@ final public class EventsManager {
             let draftCount = self.draftEvents().count
             let unsubmittedCount = self.unsubmittedEvents().count
             let viewEventsButton = DialogAction(title: NSLocalizedString("View Events", comment: ""), style: .default, handler: { (_) in
-                Director.shared.present(SystemScreen.events, fromViewController: UIViewController())
+                // FromVC will become nil with a future refactor
+                Director.shared.present(LandingScreen.tab(index: Screen.event.index()), fromViewController: UIViewController())
                 seal.fulfill(true)
             })
 
