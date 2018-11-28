@@ -14,12 +14,12 @@ extension APIManager: CADAPIManagerType {
 
     /// Book on to CAD
     open func cadBookOn(with request: CADBookOnRequestType, pathTemplate: String? = nil) -> Promise<Void> {
-        return performRequest(request, pathTemplate: pathTemplate ?? "cad/shift/bookon", method: .post)
+        return performPostRequest(request, pathTemplate: pathTemplate ?? "cad/shift/bookon")
     }
 
     /// Book off from CAD
     public func cadBookOff(with request: CADBookOffRequestType, pathTemplate: String? = nil) -> Promise<Void> {
-        return performRequest(request, pathTemplate: pathTemplate ?? "cad/shift/bookoff", method: .put)
+        return performRequest(request, pathTemplate: pathTemplate ?? "cad/shift/bookoff", method: .put, parameterEncoding: JSONEncoding.default)
     }
 
     /// Sync all summary details for a patrol group or bounding box
@@ -42,12 +42,12 @@ extension APIManager: CADAPIManagerType {
 
     /// Fetch details about an incident
     public func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
-        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/incident/{identifier}", method: .get)
+        return performGetRequest(request, pathTemplate: pathTemplate ?? "/cad/incident/{identifier}")
     }
 
     /// Fetch details about a resource
     public func cadResourceDetails<ResponseType: CADResourceDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
-        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/resource/{identifier}", method: .get)
+        return performGetRequest(request, pathTemplate: pathTemplate ?? "/cad/resource/{identifier}")
     }
 
 }
