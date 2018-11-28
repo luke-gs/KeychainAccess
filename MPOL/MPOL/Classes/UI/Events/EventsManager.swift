@@ -35,7 +35,7 @@ final public class EventsManager {
     public required init(eventBuilder: EventBuilding) {
         self.eventBuilder = eventBuilder
         loadEvents()
-        setupLogOffInterrupts()
+        registerLogOffInterrupts()
     }
 
     /// Return the current events as displayables
@@ -110,7 +110,7 @@ final public class EventsManager {
         events = UserSession.current.userStorage?.retrieve(key: UserStorage.storedEventsKey) ?? []
     }
 
-    func setupLogOffInterrupts() {
+    func registerLogOffInterrupts() {
 
         let draftEventsInterrupt: LogOffManager.LogOffInterrupt = { [weak self] in
             guard let self = self else { return Promise<Bool> { $0.fulfill(true) } }
