@@ -146,6 +146,7 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
 
         if let annotation = annotation as? ClusterAnnotation {
             
+            annotation.title = annotation.annotations.compactMap({ $0.title }).joined(separator: ", ")
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier) as? MPOLClusterAnnotationView
             annotationView?.annotation =  annotation
 
