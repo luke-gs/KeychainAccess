@@ -99,9 +99,9 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
             coordinateAction.actions = [
                 handler.openInAppleMapsButton(),
                 handler.openStreetViewButton(),
-                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { [weak self] in
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { [weak self] presenter in
                     UIPasteboard.general.string = self?.latLongString(from: address)
-                    self?.delegate?.dismiss(animated: true, completion: nil)
+                    presenter.dismiss(animated: true, completion: nil)
                 })
             ]
 
