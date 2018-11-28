@@ -53,6 +53,11 @@
 		20005DED218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */; };
 		2004A74B21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */; };
 		2004A74D21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */; };
+		2008BD8A21AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */; };
+		2008BD8B21AB693E00C0BB79 /* OrganisationEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */; };
+		2008BD8C21AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */; };
+		2008BD8E21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */; };
+		2008BD9021AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */; };
 		203F410E2193F49A00BAB007 /* SystemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */; };
 		203F410F2193F49A00BAB007 /* NSAttributedString+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */; };
 		203F41102193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */; };
@@ -579,6 +584,11 @@
 		20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatedEntitySummarySelectionViewModel.swift; sourceTree = "<group>"; };
 		2004A74A21645CA600B17C59 /* LocationSelectionConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewModel.swift; sourceTree = "<group>"; };
 		2004A74C21645CB400B17C59 /* LocationSelectionConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionConfirmationViewController.swift; sourceTree = "<group>"; };
+		2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewController.swift; sourceTree = "<group>"; };
+		2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditViewController.swift; sourceTree = "<group>"; };
+		2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasFormViewController.swift; sourceTree = "<group>"; };
+		2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasViewModel.swift; sourceTree = "<group>"; };
 		203F3FDF2193F49A00BAB007 /* SystemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemPresenter.swift; sourceTree = "<group>"; };
 		203F3FE12193F49A00BAB007 /* NSAttributedString+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Theme.swift"; sourceTree = "<group>"; };
 		203F3FE42193F49A00BAB007 /* TrafficHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -818,6 +828,11 @@
 		20E61AB62189369500B65F43 /* PersonEditAliasFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditAliasFormViewController.swift; sourceTree = "<group>"; };
 		20E61ABA218936BC00B65F43 /* PersonEditContactFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditContactFormViewModel.swift; sourceTree = "<group>"; };
 		20E61ABC218936C600B65F43 /* PersonEditAliasFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditAliasFormViewModel.swift; sourceTree = "<group>"; };
+		20EB4A1A21A67C1000C6D036 /* OrganisationEditContactFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewController.swift; sourceTree = "<group>"; };
+		20EB4A1B21A67C1000C6D036 /* OrganisationEditAliasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasViewModel.swift; sourceTree = "<group>"; };
+		20EB4A1C21A67C1000C6D036 /* OrganisationEditContactFormViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditContactFormViewModel.swift; sourceTree = "<group>"; };
+		20EB4A1D21A67C1000C6D036 /* OrganisationEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditViewController.swift; sourceTree = "<group>"; };
+		20EB4A1E21A67C1000C6D036 /* OrganisationEditAliasFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganisationEditAliasFormViewController.swift; sourceTree = "<group>"; };
 		37097CA821648B000036434C /* VoiceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceSearchViewController.swift; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -1241,6 +1256,30 @@
 				96300ED9216320AE00CF3B6F /* LocationSelectionCore.swift */,
 			);
 			path = "Location Selection";
+			sourceTree = "<group>";
+		};
+		2008BD8521AB691D00C0BB79 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				20EB4A1A21A67C1000C6D036 /* OrganisationEditContactFormViewController.swift */,
+				20EB4A1D21A67C1000C6D036 /* OrganisationEditViewController.swift */,
+				20EB4A1E21A67C1000C6D036 /* OrganisationEditAliasFormViewController.swift */,
+				20EB4A1B21A67C1000C6D036 /* OrganisationEditAliasViewModel.swift */,
+				20EB4A1C21A67C1000C6D036 /* OrganisationEditContactFormViewModel.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		2008BD8621AB693E00C0BB79 /* Organisation Edit */ = {
+			isa = PBXGroup;
+			children = (
+				2008BD8721AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift */,
+				2008BD8821AB693E00C0BB79 /* OrganisationEditViewController.swift */,
+				2008BD8921AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift */,
+				2008BD8D21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift */,
+				2008BD8F21AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift */,
+			);
+			path = "Organisation Edit";
 			sourceTree = "<group>";
 		};
 		203F3FDC2193F49A00BAB007 /* DemoAppKit */ = {
@@ -2411,6 +2450,7 @@
 		96B774BB2140F8EE00836B83 /* Entity Creation */ = {
 			isa = PBXGroup;
 			children = (
+				2008BD8621AB693E00C0BB79 /* Organisation Edit */,
 				206E72C8219B9359009BA587 /* Vehicle Edit */,
 				20E61AB32189365800B65F43 /* Person Edit */,
 				20005DEC218BF5EF0086F277 /* CreatedEntitySummarySelectionViewModel.swift */,
@@ -2686,6 +2726,7 @@
 				3C534FA68E46E1F1622CC13C /* Pods */,
 				BCD4EA8A1E515ACE000B993D /* Products */,
 				37CAF6102165C0BE007C449D /* GoogleService-Info.plist */,
+				2008BD8521AB691D00C0BB79 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3209,6 +3250,7 @@
 				203F41C22193F49B00BAB007 /* CADAssociatedVehicleCore.swift in Sources */,
 				203F41DA2193F49B00BAB007 /* CADAssociatedVehicleType.swift in Sources */,
 				203F41D72193F49B00BAB007 /* CADAssociationType.swift in Sources */,
+				2008BD9021AB6C3200C0BB79 /* OrganisationEditAliasViewModel.swift in Sources */,
 				203F41C52193F49B00BAB007 /* CADBookOffRequestCore.swift in Sources */,
 				203F41E42193F49B00BAB007 /* CADBookOffRequestType.swift in Sources */,
 				203F41C62193F49B00BAB007 /* CADBookOnRequestCore.swift in Sources */,
@@ -3291,6 +3333,7 @@
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				203F41242193F49A00BAB007 /* DefaultEventNotesMediaViewController.swift in Sources */,
 				203F41262193F49A00BAB007 /* DefaultEventNotesMediaViewModel.swift in Sources */,
+				2008BD8E21AB6C1C00C0BB79 /* OrganisationEditContactFormViewModel.swift in Sources */,
 				203F41342193F49A00BAB007 /* DefaultEventReportable.swift in Sources */,
 				96B7751A2140F8EE00836B83 /* DefaultFilterRules.swift in Sources */,
 				203F41212193F49A00BAB007 /* DefaultLocationReport.swift in Sources */,
@@ -3465,6 +3508,7 @@
 				AA359C452165ED940035A472 /* PersonAlias.swift in Sources */,
 				96B775272140F8EE00836B83 /* PersonCriminalHistoryViewModel.swift in Sources */,
 				96B775742140F8EE00836B83 /* PersonDescription.swift in Sources */,
+				2008BD8B21AB693E00C0BB79 /* OrganisationEditViewController.swift in Sources */,
 				96B7752A2140F8EE00836B83 /* PersonDescriptionsViewController.swift in Sources */,
 				96B7752C2140F8EE00836B83 /* PersonDescriptionViewModel.swift in Sources */,
 				96B775332140F8EE00836B83 /* PersonDetailsSectionsDataSource.swift in Sources */,
@@ -3499,6 +3543,7 @@
 				203F411E2193F49A00BAB007 /* PropertySearchDisplayableViewModel.swift in Sources */,
 				AABF43E5219BDACF00F97884 /* AddressNavigationSelectionAction.swift in Sources */,
 				96B775A8214206F100836B83 /* RangeParserDefinition.swift in Sources */,
+				2008BD8C21AB693E00C0BB79 /* OrganisationEditAliasFormViewController.swift in Sources */,
 				96B775A2214206F100836B83 /* RegistrationParserDefinition.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				203F41332193F49A00BAB007 /* Reportable.swift in Sources */,
@@ -3555,6 +3600,7 @@
 				203F41682193F49A00BAB007 /* TasksListResourceCollectionViewCell.swift in Sources */,
 				203F41662193F49A00BAB007 /* TasksListResourceSummaryView.swift in Sources */,
 				203F41672193F49A00BAB007 /* TasksListResourceViewModel.swift in Sources */,
+				2008BD8A21AB693E00C0BB79 /* OrganisationEditContactFormViewController.swift in Sources */,
 				203F41772193F49A00BAB007 /* TasksListViewController.swift in Sources */,
 				203F41762193F49A00BAB007 /* TasksListViewModel.swift in Sources */,
 				203F41AD2193F49A00BAB007 /* TasksMapFilterViewModel.swift in Sources */,

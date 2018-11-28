@@ -17,6 +17,8 @@ public class LocationSelectionPresenter: Presenter {
     public static let eventWorkflowId = "event"
     /// Workflow id for personEdit
     public static let personEditWorkflowId = "personEdit"
+    /// Workflow id for organisationEidt
+    public static let organisationEditWorkflowId = "organisationEdit"
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LocationSelectionScreen
@@ -97,13 +99,18 @@ public class LocationSelectionPresenter: Presenter {
                 // Address components are editable if not from GNAF lookahead search, and required
                 if let selectedLocation = selectedLocation as? LocationSelectionCore, selectedLocation.searchResult == nil {
                     viewModel.isEditable = true
-                    viewModel.requiredFields = true
                 }
             } else if workflowId == LocationSelectionPresenter.personEditWorkflowId {
                 // Add location type to final confirmation screen
                 viewModel.typeTitle = NSLocalizedString("Type", comment: "")
-                viewModel.typeOptions = ["Residential Address", "Work Address", "NFPA"].map { AnyPickable($0) }
-                viewModel.requiredFields = true
+                let residentialString = "Residential Address"
+                let workString = "Work Address"
+                viewModel.typeOptions = [residentialString, workString, "NFPA"].map { AnyPickable($0) }
+                viewModel.fieldRequired[.suburb] = { return true }
+                viewModel.fieldRequired[.streetName] = {
+                    let typeStrings = viewModel.selectedTypes.compactMap({ $0.title?.string })
+                    return typeStrings.contains(residentialString) || typeStrings.contains(workString)
+                }
                 viewModel.allowMultipleTypes = false
                 viewModel.isEditable = true
             } else {
@@ -114,7 +121,7 @@ public class LocationSelectionPresenter: Presenter {
             viewController.doneHandler = { viewModel in
                 // Do not pop this view controller, will be double/triple popped by locationSelectionLanding handler
                 if let selectedLocation = selectedLocation as? LocationSelectionCore {
-                    selectedLocation.locationType = viewModel.type
+                    selectedLocation.locationTypes = viewModel.selectedTypes
                 }
                 completionHandler?(selectedLocation)
             }

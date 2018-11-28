@@ -2,6 +2,60 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Aliases (%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@aliases@</string>
+		<key>aliases</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Alias (%1$d)</string>
+			<key>zero</key>
+			<string>Alias</string>
+			<key>other</key>
+			<string>Aliases (%1$d)</string>
+		</dict>
+	</dict>
+	<key>Addresses (%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@addresses@</string>
+		<key>addresses</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Address (%1$d )</string>
+			<key>zero</key>
+			<string>Address</string>
+			<key>other</key>
+			<string>Addresses (%d )</string>
+		</dict>
+	</dict>
+	<key>Contact Details (%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@contacts@</string>
+		<key>contacts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Contact Detail (%1$d)</string>
+			<key>zero</key>
+			<string>Contact Detail</string>
+			<key>other</key>
+			<string>Contact Details (%d)</string>
+		</dict>
+	</dict>
 	<key>%d offences</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

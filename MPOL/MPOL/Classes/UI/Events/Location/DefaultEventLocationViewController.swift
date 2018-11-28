@@ -76,7 +76,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
             let locationAnnotation = MKPointAnnotation()
             locationAnnotation.coordinate = coord
-            locationAnnotation.title = location.involvement?.string
+            locationAnnotation.title = location.involvements.joined(separator: ", ")
             mapView.addAnnotation(locationAnnotation)
         }
 

@@ -25,7 +25,7 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     public var searchResult: LookupAddress?
 
     /// represents a type that user chooses
-    public var locationType: AnyPickable?
+    public var locationTypes: [AnyPickable] = []
 
     public required init(coordinate: CLLocationCoordinate2D, displayText: String?) {
         self.displayText = displayText
@@ -36,9 +36,9 @@ public class LocationSelectionCore: Address, LocationSelectionType {
         self.fullAddress = displayText
     }
 
-    public convenience init(coordinate: CLLocationCoordinate2D, displayText: String?, locationType: AnyPickable?) {
+    public convenience init(coordinate: CLLocationCoordinate2D, displayText: String?, locationTypes: [AnyPickable]) {
         self.init(coordinate: coordinate, displayText: displayText)
-        self.locationType = locationType
+        self.locationTypes = locationTypes
     }
 
     public required init?(placemark: CLPlacemark) {
@@ -85,8 +85,8 @@ public class LocationSelectionCore: Address, LocationSelectionType {
     public convenience init?(eventLocation: EventLocation?) {
         guard let eventLocation = eventLocation else { return nil }
 
-        let involvementPickable = eventLocation.involvement != nil ? AnyPickable(eventLocation.involvement!) : nil
-        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, locationType: involvementPickable)
+        let involvementPickables = eventLocation.involvements.map { AnyPickable($0) }
+        self.init(coordinate: eventLocation.coordinate, displayText: eventLocation.addressString, locationTypes: involvementPickables)
     }
 
     // MARK: - Codable

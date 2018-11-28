@@ -65,7 +65,7 @@ extension DefaultLocationReport: Summarisable {
                             .styleIdentifier(DemoAppKitStyler.summaryRequiredStyle))
         } else {
             eventLocations.forEach { location in
-                items.append(RowDetailFormItem(title: location.involvement,
+                items.append(RowDetailFormItem(title: location.involvements.joined(separator: ", "),
                                                detail: location.addressString))
             }
         }

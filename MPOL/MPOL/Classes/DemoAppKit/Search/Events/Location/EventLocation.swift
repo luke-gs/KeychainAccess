@@ -18,18 +18,22 @@ public class EventLocation: NSObject, Codable {
     public var latitude: CLLocationDegrees
     public var longitude: CLLocationDegrees
     public var addressString: String?
-    public var involvement: String?
 
-    required public init(coordinate: CLLocationCoordinate2D, addressString: String?, involvement: String?) {
+    // TODO: change this to [AnyPickable] when we can persist manifest item
+    public var involvements: [String] = []
+
+    required public init(coordinate: CLLocationCoordinate2D, addressString: String?, involvements: [String]) {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
         self.addressString = addressString
-        self.involvement = involvement
+        self.involvements = involvements
     }
 
     public convenience init?(locationSelection: LocationSelectionCore?) {
         guard let locationSelection = locationSelection else { return nil }
-        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText, involvement: locationSelection.locationType?.title?.string)
+
+        let types: [String] = locationSelection.locationTypes.compactMap { $0.title?.string }
+        self.init(coordinate: locationSelection.coordinate, addressString: locationSelection.displayText, involvements: types)
     }
 
     /// Convenience init for a placemark
@@ -56,7 +60,7 @@ public class EventLocation: NSObject, Codable {
         case latitude
         case longitude
         case addressString
-        case involvement
+        case involvements
     }
 
     public required init(from decoder: Decoder) throws {
@@ -64,7 +68,7 @@ public class EventLocation: NSObject, Codable {
         latitude = try container.decode(CLLocationDegrees.self, forKey: .latitude)
         longitude = try container.decode(CLLocationDegrees.self, forKey: .longitude)
         addressString = try container.decodeIfPresent(String.self, forKey: .addressString)
-        involvement = try container.decodeIfPresent(String.self, forKey: .involvement)
+        involvements = try container.decode([String].self, forKey: .involvements)
     }
 
     open func encode(to encoder: Encoder) throws {
@@ -72,7 +76,7 @@ public class EventLocation: NSObject, Codable {
         try container.encode(latitude, forKey: CodingKeys.latitude)
         try container.encode(longitude, forKey: CodingKeys.longitude)
         try container.encode(addressString, forKey: CodingKeys.addressString)
-        try container.encode(involvement, forKey: CodingKeys.involvement)
+        try container.encode(involvements, forKey: CodingKeys.involvements)
     }
 
     // MARK: - Equality
