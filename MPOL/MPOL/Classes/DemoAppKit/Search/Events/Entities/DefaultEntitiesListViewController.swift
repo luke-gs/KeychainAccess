@@ -51,8 +51,8 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
             builder += viewModel.displayable(for: entity).summaryListFormItem()
                         .separatorColor(.clear)
-                        .subtitle(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
                         .badge(0)
+                        .detail(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
                         .accessory(ItemAccessory.pencil)
                         .selectionStyle(.none)
                         .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { _, _ in

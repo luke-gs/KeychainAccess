@@ -15,7 +15,7 @@ import KeychainAccess
 import LocalAuthentication
 
 /// Enum for all initial screens in a standard MPOL app
-public enum LandingScreen: Presentable {
+public enum LandingScreen: Presentable, Equatable {
 
     /// Initial login screen
     case login
@@ -31,6 +31,9 @@ public enum LandingScreen: Presentable {
 
     /// The "logged in" screen for this application
     case landing
+
+    /// the tab on the tab bar
+    case tab(index: Int)
 }
 
 /// Presenter for a standard MPOL app that shares the app group settings of the user session
@@ -259,11 +262,10 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                 // and can
                 if lContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
                     var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
+                    biometricUser.becomeCurrentUser()
                     // Ask if the user wants to remember their password.
                     if biometricUser.useBiometric == .unknown {
-                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
-                            biometricUser.becomeCurrentUser()
-                        }
+                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials"))
                     }
                 }
             }

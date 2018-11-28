@@ -19,6 +19,9 @@ public enum SystemScreen: Presentable {
     /// Address popover for "Directions, Street View, Search"
     case addressLookup(source: UIView, addressOptionHandler: AddressOptionHandler, actions: [ActionSheetButton]?)
 
+    /// show events tab.
+    case events
+
 }
 
 public class SystemPresenter: Presenter {
@@ -35,7 +38,8 @@ public class SystemPresenter: Presenter {
             return alertController
         case .addressLookup(_, let handler, let actions):
             return handler.actionSheetViewController(with: actions)
-
+        case .events:
+            return UIViewController()
         }
     }
 
@@ -50,6 +54,12 @@ public class SystemPresenter: Presenter {
             if let to = to as? ActionSheetViewController {
                 from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
             }
+        case .events:
+            guard let landingPresenter = (UIApplication.shared.delegate as? AppDelegate)?.landingPresenter else { return }
+            if from.presentedViewController != nil {
+                from.dismiss(animated: true, completion: nil)
+            }
+            landingPresenter.switchTo(.event)
         }
     }
 
