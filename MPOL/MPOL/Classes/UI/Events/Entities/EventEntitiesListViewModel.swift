@@ -82,7 +82,11 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     }
 
     public func relationshipStatusFor(_ item: Int) -> String? {
-        return report.entityDetailReports[item].evaluator.isComplete ? nil : "Unspecified Relationships"
+        var emptyStateText: String?
+        if report.entityDetailReports.count > 1 {
+            emptyStateText = "Unspecified Relationships"
+        }
+        return report.entityDetailReports[item].evaluator.isComplete ? nil : emptyStateText
     }
 
     // This can always return red because if relationships are valid then the status is a nil string, meaning no text is displayed
