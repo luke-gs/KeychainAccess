@@ -10,7 +10,6 @@ import PublicSafetyKit
 import PromiseKit
 
 open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationMapDisplayable {
-
     public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
 
     private var travelTimeETAs: [String: String] = [:]
@@ -24,6 +23,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
     open override var title: String? {
         return NSLocalizedString("Information", comment: "")
+
     }
 
     open override var noContentTitle: String? {
@@ -96,15 +96,16 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         let coordinateAction = AddressNavigationSelectionAction(addressNavigatable: address)
         if let handler = coordinateAction.handler {
+            handler.preferredControllerContentWidth = 250
             coordinateAction.actions = [
                 handler.openInAppleMapsButton(),
                 handler.openStreetViewButton(),
-                ActionSheetButton(title: NSLocalizedString("Copy to clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { [weak self] in
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { [weak self] in
                     UIPasteboard.general.string = self?.latLongString(from: address)
-                    // TODO: Ask presenter to dismiss
                     self?.delegate?.dismiss(animated: true, completion: nil)
                 })
             ]
+
         }
         return [
             AddressFormItem()
