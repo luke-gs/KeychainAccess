@@ -14,6 +14,12 @@ open class CADStateManagerCore: CADStateManagerBase {
     /// Default Patrol Group when a new user logins
     public static let DefaultPatrolGroup = "Collingwood"
 
+    public static let LogOffInterruptIdentifier = "CADStateManagerCore"
+
+    deinit {
+        LogOffManager.shared.removeInterrupt(key: CADStateManagerCore.LogOffInterruptIdentifier)
+    }
+
     public override init(apiManager: CADAPIManagerType) {
         super.init(apiManager: apiManager)
 
@@ -43,6 +49,8 @@ open class CADStateManagerCore: CADStateManagerBase {
 
         // Default patrol group for demo data
         patrolGroup = CADStateManagerCore.DefaultPatrolGroup
+
+        registerLogOffInterrupts()
     }
 
     private var _officerDetails: CADOfficerType?
@@ -350,5 +358,21 @@ open class CADStateManagerCore: CADStateManagerBase {
         self._officerDetails = nil
         // Default patrol group for demo data
         self.patrolGroup = CADStateManagerCore.DefaultPatrolGroup
+    }
+
+    // MARK: - Log Off
+
+    public func registerLogOffInterrupts() {
+        let bookOffInterrupt: LogOffManager.LogOffInterrupt = {
+
+            if CADStateManager.shared.lastBookOn != nil {
+                AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
+                                                 message: NSLocalizedString("You must book off before logging out.", comment: ""))
+                return Promise<Bool>.value(true)
+            } else {
+                return Promise<Bool>.value(false)
+            }
+        }
+        LogOffManager.shared.setInterrupt(bookOffInterrupt, for: CADStateManagerCore.LogOffInterruptIdentifier)
     }
 }
