@@ -32,8 +32,8 @@ public class AddressNavigationSelectionAction: SelectionAction {
     /// The presentable to be displayed, or nil if explicit viewController should be used
     public func presentable(for sourceView: UIView?) -> Presentable? {
         guard let sourceView = sourceView,
-            let coordinate = addressNavigatable.coordinate() else { return nil }
-        return SystemScreen.addressLookup(source: sourceView, coordinate: coordinate, address: addressNavigatable.fullAddress, actions: actions)
+            let handler = handler else { return nil }
+        return SystemScreen.addressLookup(source: sourceView, addressOptionHandler: handler, actions: actions)
     }
 
     /// The view controller to be displayed (if no presentable)
