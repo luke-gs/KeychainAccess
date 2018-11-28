@@ -12,8 +12,26 @@ import PromiseKit
 import LocalAuthentication
 
 public enum Screen {
+    case bookOn
     case search
     case event
+    case tasks
+    case activityLog
+
+    func index() -> Int {
+        switch self {
+        case .bookOn:
+            return 0
+        case .search:
+            return 1
+        case .event:
+            return 2
+        case .tasks:
+            return 3
+        case .activityLog:
+            return 4
+        }
+    }
 }
 
 public class LandingPresenter: AppGroupLandingPresenter {
@@ -229,8 +247,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             tabBarController.viewControllers = [bookOnViewController, searchNavController, eventListNavController, taskingViewController, activityLogViewController]
             tabBarController.selectedViewController = searchNavController
 
-            self.tabBarController = tabBarController
-
             registerEntityPresentables(withDelegate: searchViewController)
             registerEntityFetchClosures()
 
@@ -238,6 +254,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
             self.tabBarController = tabBarController
 
             return tabBarController
+
+        case .tab(let index):
+            tabBarController?.selectedIndex = index
+            return tabBarController ?? UIViewController()
+
         }
     }
 
@@ -257,30 +278,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
     }
 
-    override public func logOff() {
-        if CADStateManager.shared.lastBookOn != nil {
-            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
-                                             message: NSLocalizedString("You must book off before logging out.", comment: ""))
-            return
-        }
-        super.logOff()
-    }
-
     override public func onRemoteLogOffCompleted() {
         super.onRemoteLogOffCompleted()
         (UIApplication.shared.delegate as? AppDelegate)?.removeShortcuts()
     }
 
     func switchTo(_ screen: Screen) {
-        let selectedIndex: Int
-        switch screen {
-        case .search:
-            selectedIndex = 1
-        case .event:
-            selectedIndex = 2
-        }
-
-        tabBarController?.selectedIndex = selectedIndex
+        tabBarController?.selectedIndex = screen.index()
     }
 
     // MARK: - Events
