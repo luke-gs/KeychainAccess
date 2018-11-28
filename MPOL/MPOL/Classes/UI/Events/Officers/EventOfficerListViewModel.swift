@@ -64,6 +64,15 @@ public class EventOfficerListViewModel {
         return nil
     }
 
+    public func containsReportingOfficer() -> Bool {
+        let hasReportingOfficer = report.officers.contains(where: { $0.involvements.contains(where: {
+            $0.caseInsensitiveCompare(EventOfficerListViewModel.reportingOfficerInvolvement) == .orderedSame })
+        })
+        return hasReportingOfficer
+    }
+
+    // MARK: - Addition/Deletion
+
     public func add(officer: Officer) {
         guard report.officers.index(where: {$0 == officer}) == nil else { return }
         officerDisplayables.append(OfficerSummaryDisplayable(officer))
@@ -83,6 +92,12 @@ public class EventOfficerListViewModel {
 
         officer.involvements = involvements
         report.evaluator.updateEvaluation(for: .officers)
+    }
+
+    func remove(_ officer: Officer) {
+        if let index = report.officers.firstIndex(of: officer) {
+            removeOfficer(at: IndexPath(row: index, section: 0))
+        }
     }
 
     func removeOfficer(at indexPath: IndexPath) {
