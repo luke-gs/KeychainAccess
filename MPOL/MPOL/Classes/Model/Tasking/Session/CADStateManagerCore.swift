@@ -14,10 +14,10 @@ open class CADStateManagerCore: CADStateManagerBase {
     /// Default Patrol Group when a new user logins
     public static let DefaultPatrolGroup = "Collingwood"
 
-    public static let LogOffInterruptIdentifier = "CADStateManagerCore"
+    public static let logOffInterruptIdentifier = "CADStateManagerCore"
 
     deinit {
-        LogOffManager.shared.removeInterrupt(key: CADStateManagerCore.LogOffInterruptIdentifier)
+        LogOffManager.shared.removeInterrupt(key: CADStateManagerCore.logOffInterruptIdentifier)
     }
 
     public override init(apiManager: CADAPIManagerType) {
@@ -373,6 +373,6 @@ open class CADStateManagerCore: CADStateManagerBase {
                 return Promise<Bool>.value(false)
             }
         }
-        LogOffManager.shared.setInterrupt(bookOffInterrupt, for: CADStateManagerCore.LogOffInterruptIdentifier)
+        LogOffManager.shared.setInterrupt(bookOffInterrupt, for: CADStateManagerCore.logOffInterruptIdentifier)
     }
 }

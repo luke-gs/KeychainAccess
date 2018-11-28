@@ -18,7 +18,7 @@ public protocol EventsManagerDelegate: class {
 /// Manages the list of events
 final public class EventsManager {
 
-    public static let LogOffInterruptIdentifier = "EventsManager"
+    public static let logOffInterruptIdentifier = "EventsManager"
 
     public weak var delegate: EventsManagerDelegate?
 
@@ -29,7 +29,7 @@ final public class EventsManager {
     public private(set) var events: [Event] = []
 
     deinit {
-        LogOffManager.shared.removeInterrupt(key: CADStateManagerCore.LogOffInterruptIdentifier)
+        LogOffManager.shared.removeInterrupt(key: CADStateManagerCore.logOffInterruptIdentifier)
     }
 
     public required init(eventBuilder: EventBuilding) {
@@ -126,7 +126,7 @@ final public class EventsManager {
             }
         }
 
-        LogOffManager.shared.setInterrupt(draftEventsInterrupt, for: EventsManager.LogOffInterruptIdentifier)
+        LogOffManager.shared.setInterrupt(draftEventsInterrupt, for: EventsManager.logOffInterruptIdentifier)
     }
 
     func showLogoffWithEventsPrompt() -> Promise<Bool> {
