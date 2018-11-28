@@ -9,10 +9,20 @@
 import UIKit
 import MapKit
 import PublicSafetyKit
+import Cluster
 
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
     var viewModel: DefaultEventLocationViewModel
+
+    private let clusterManager: ClusterManager = {
+        let clusterManager = ClusterManager()
+        clusterManager.maxZoomLevel = 20
+        clusterManager.minCountForClustering = 2
+        clusterManager.shouldRemoveInvisibleAnnotations = true
+        clusterManager.clusterPosition = .average
+        return clusterManager
+    }()
 
     public init(viewModel: DefaultEventLocationViewModel) {
         self.viewModel = viewModel
@@ -38,7 +48,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.showsUserLocation = true
         mapView.showsCompass = false
         mapView.userTrackingMode = .none
-        mapView.isUserInteractionEnabled = false
+        mapView.isUserInteractionEnabled = true
 
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
 
@@ -68,7 +78,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     public func updateAnnotations() {
 
         guard let mapView = mapView else { return }
-        mapView.removeAnnotations(mapView.annotations)
+        clusterManager.removeAll()
 
         for location in viewModel.report.eventLocations {
 
@@ -77,10 +87,10 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             let locationAnnotation = MKPointAnnotation()
             locationAnnotation.coordinate = coord
             locationAnnotation.title = location.involvements.joined(separator: ", ")
-            mapView.addAnnotation(locationAnnotation)
+            clusterManager.add(locationAnnotation)
         }
 
-        mapView.showAnnotations(mapView.annotations, animated: true)
+        clusterManager.reload(mapView: mapView)
     }
 
     public func addLocation() {
@@ -133,8 +143,20 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? MKPointAnnotation {
-            let pinView: LocationSelectionAnnotationView
+
+        if let annotation = annotation as? ClusterAnnotation {
+            
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier) as? MPOLClusterAnnotationView
+            annotationView?.annotation =  annotation
+
+            if annotationView == nil {
+                annotationView = MPOLClusterAnnotationView(annotation: annotation, reuseIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier)
+            }
+
+            annotationView?.color = .disabledGray
+            return annotationView
+        } else if let annotation = annotation as? MKPointAnnotation {
+            let pinView: MKAnnotationView
             let identifier = LocationSelectionAnnotationView.defaultReuseIdentifier
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationSelectionAnnotationView {
                 dequeuedView.annotation = annotation
@@ -142,7 +164,6 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
             } else {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
-
             return pinView
         }
         return nil
@@ -152,5 +173,9 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
         let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
         mapView.setRegion(region, animated: true)
+    }
+
+    public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        clusterManager.reload(mapView: mapView)
     }
 }
