@@ -23,7 +23,6 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
     open override var title: String? {
         return NSLocalizedString("Information", comment: "")
-
     }
 
     open override var noContentTitle: String? {
@@ -118,7 +117,6 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
             ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
                 .selectionAction(coordinateAction)
                 .width(.column(1))
-                .separatorColor(.clear)
         ]
     }
 
