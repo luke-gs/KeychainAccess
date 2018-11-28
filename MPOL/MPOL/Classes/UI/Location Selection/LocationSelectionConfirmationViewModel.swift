@@ -26,7 +26,7 @@ public class LocationSelectionConfirmationViewModel {
     public var state: AnyPickable?
 
     // The location type, workflow specific
-    public var type: AnyPickable?
+    public var selectedTypes: [AnyPickable] = []
     public var typeTitle: String?
     public var typeOptions: [AnyPickable]?
     public var allowMultipleTypes: Bool = true
@@ -38,8 +38,8 @@ public class LocationSelectionConfirmationViewModel {
     // Whether the address fields are user editable
     public var isEditable: Bool = false
 
-    // Whether address components are enforced
-    public var requiredFields: Bool = false
+    /// A dictionary of closures keyed by field name that return a bool indicating if the field is required
+    public var fieldRequired: [LocationSelectionConfirmationViewController.FieldType: () -> Bool] = [:]
 
     public init(locationSelection: LocationSelectionType) {
         let coordinateText = "\(locationSelection.coordinate.latitude), \(locationSelection.coordinate.longitude)"
@@ -65,7 +65,7 @@ public class LocationSelectionConfirmationViewModel {
                 self.streetName = searchResult.streetName
                 self.postcode = searchResult.postalCode
             }
-            self.type = locationSelection.locationType
+            self.selectedTypes = locationSelection.locationTypes
         }
     }
 }

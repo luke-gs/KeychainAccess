@@ -11,6 +11,11 @@ import PromiseKit
 
 public class LocationSelectionConfirmationViewController: FormBuilderViewController {
 
+    public enum FieldType {
+        case suburb
+        case streetName
+    }
+
     public var doneHandler: ((LocationSelectionConfirmationViewModel) -> Void)?
 
     public let viewModel: LocationSelectionConfirmationViewModel
@@ -36,6 +41,9 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
 
     public override func construct(builder: FormBuilder) {
 
+        // init this here so we can reload in type dropDownItems onValueChanged
+        let streetNameItem = TextFieldFormItem()
+
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "")).separatorColor(.clear)
 
         builder += ValueFormItem(title: NSLocalizedString("Address", comment: ""),
@@ -53,13 +61,15 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
             builder += DropDownFormItem()
                 .title(title)
                 .options(options)
-                .selectedValue([viewModel.type].removeNils())
+                .selectedValue(viewModel.selectedTypes)
                 .allowsMultipleSelection(viewModel.allowMultipleTypes)
                 .required()
                 .width(.column(1))
                 .onValueChanged { [weak self] value in
-                    self?.viewModel.type = value?.first
-                    self?.reloadForm()
+                    guard let self = self, let value = value else { return }
+                    self.viewModel.selectedTypes = value
+                    streetNameItem.required(self.viewModel.fieldRequired[.streetName]?() ?? false)
+                    streetNameItem.reloadItem()
                 }
         }
 
@@ -81,12 +91,12 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                     self?.viewModel.streetNumber = $0
                 }
                 .width(.column(2))
-            let streetNameItem = TextFieldFormItem(title: NSLocalizedString("Street Name", comment: ""))
-                .text(viewModel.streetName)
-                .onValueChanged { [weak self] in
-                    self?.viewModel.streetName = $0
-                }
-                .width(.column(2))
+            streetNameItem.title = NSLocalizedString("Street Name", comment: "")
+            streetNameItem.text = viewModel.streetName
+            streetNameItem.onValueChanged = { [weak self] in
+                self?.viewModel.streetName = $0
+            }
+            streetNameItem.width(.column(2))
 
             if let streetTypeOptions = viewModel.streetTypeOptions {
                 builder += DropDownFormItem(title: NSLocalizedString("Street Type", comment: ""))
@@ -99,21 +109,14 @@ public class LocationSelectionConfirmationViewController: FormBuilderViewControl
                     .width(.column(2))
             }
 
-            let suburbItem = TextFieldFormItem(title: NSLocalizedString("Suburb", comment: ""))
+            builder += TextFieldFormItem(title: NSLocalizedString("Suburb", comment: ""))
                 .text(viewModel.suburb)
                 .width(.column(2))
                 .onValueChanged { [weak self] in
                     self?.viewModel.suburb = $0
-            }
-
-            if viewModel.requiredFields {
-                suburbItem.required()
-                if viewModel.type?.title?.string == "Residential Address" || viewModel.type?.title?.string == "Work Address" {
-                    streetNameItem.required()
                 }
-            }
+                .required(self.viewModel.fieldRequired[.suburb]?() ?? false)
 
-            builder += suburbItem
             builder += streetNameItem
 
             if let stateOptions = viewModel.stateOptions {

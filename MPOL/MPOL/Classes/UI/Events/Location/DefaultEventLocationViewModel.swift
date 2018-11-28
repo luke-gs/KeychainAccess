@@ -40,10 +40,10 @@ public class DefaultEventLocationViewModel {
                 .subtitle(DefaultEventLocationViewModel.eventLocationInvolvement)
                 .image(AssetManager.shared.image(forKey: .entityLocation))
                 .accessory(ItemAccessory.pencil)
-                .onSelection({ [weak viewController] cell in
+                .onSelection { [weak viewController] cell in
                     guard let viewController = viewController else { return }
                     viewController.onSelection(cell)
-                })
+                }
             // else add location to list for each in array
         } else {
 
@@ -60,13 +60,13 @@ public class DefaultEventLocationViewModel {
             for (offset, location) in report.eventLocations.enumerated() {
 
                 builder += SubtitleFormItem(title: location.addressString)
-                    .subtitle(invovlements(for: location))
+                    .subtitle(involvements(for: location))
                     .image(AssetManager.shared.image(forKey: .entityLocation))
                     .accessory(ItemAccessory.pencil)
-                    .onSelection({ [weak viewController] cell in
+                    .onSelection { [weak viewController] cell in
                         guard let viewController = viewController else { return }
                         viewController.onSelection(cell)
-                    })
+                    }
                     .editActions(offset > 0 ? [deleteAction] : [])
             }
         }
@@ -80,10 +80,10 @@ public class DefaultEventLocationViewModel {
         }
     }
 
-    func invovlements(for location: EventLocation) -> StringSizable? {
+    func involvements(for location: EventLocation) -> StringSizable {
 
         let noInvolvementText = NSAttributedString(string: NSLocalizedString("No involvements", comment: ""),
                                                    attributes: [.foregroundColor: UIColor.orangeRed])
-        return location.involvement ?? noInvolvementText
+        return !location.involvements.isEmpty ? location.involvements.joined(separator: ", ") : noInvolvementText
     }
 }

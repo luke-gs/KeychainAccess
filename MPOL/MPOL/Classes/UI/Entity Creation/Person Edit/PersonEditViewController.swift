@@ -268,7 +268,7 @@ public class PersonEditViewController: FormBuilderViewController {
             for (index, location) in locationTuples {
                 builder += PickerFormItem(pickerAction:
                     LocationSelectionFormAction(workflowId: LocationSelectionPresenter.personEditWorkflowId))
-                    .title(location.locationType?.title)
+                    .title(location.locationTypes.compactMap({ $0.title }).joined(separator: ", "))
                     .selectedValue(location)
                     .width(.column(1))
                     .onValueChanged { [unowned self] (location) in
