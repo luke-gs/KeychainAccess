@@ -11,7 +11,7 @@ import MapKit
 import PublicSafetyKit
 import Cluster
 
-open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
+open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable, ClusterManagerDelegate {
 
     var viewModel: DefaultEventLocationViewModel
 
@@ -49,7 +49,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.showsCompass = false
         mapView.userTrackingMode = .none
         mapView.isUserInteractionEnabled = true
-
+        clusterManager.delegate = self
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
 
         // Set initial annotation
@@ -145,7 +145,7 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
         if let annotation = annotation as? ClusterAnnotation {
-            
+
             annotation.title = annotation.annotations.compactMap({ $0.title }).joined(separator: ", ")
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier) as? MPOLClusterAnnotationView
             annotationView?.annotation =  annotation
