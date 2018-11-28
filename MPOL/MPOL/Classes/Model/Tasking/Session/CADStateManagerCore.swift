@@ -12,7 +12,7 @@ import PublicSafetyKit
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerBase {
     /// Default Patrol Group when a new user logins
-    public static let DefaultPatrolGroup = "Collingwood"
+    public static let defaultPatrolGroup = "Collingwood"
 
     public static let logOffInterruptIdentifier = "CADStateManagerCore"
 
@@ -48,7 +48,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
 
         // Default patrol group for demo data
-        patrolGroup = CADStateManagerCore.DefaultPatrolGroup
+        patrolGroup = CADStateManagerCore.defaultPatrolGroup
 
         registerLogOffInterrupts()
     }
@@ -357,7 +357,7 @@ open class CADStateManagerCore: CADStateManagerBase {
         super.clearSession()
         self._officerDetails = nil
         // Default patrol group for demo data
-        self.patrolGroup = CADStateManagerCore.DefaultPatrolGroup
+        self.patrolGroup = CADStateManagerCore.defaultPatrolGroup
     }
 
     // MARK: - Log Off
