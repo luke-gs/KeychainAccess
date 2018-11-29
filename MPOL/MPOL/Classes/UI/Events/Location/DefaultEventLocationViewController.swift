@@ -9,20 +9,10 @@
 import UIKit
 import MapKit
 import PublicSafetyKit
-import Cluster
 
-open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable, ClusterManagerDelegate {
+open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
     var viewModel: DefaultEventLocationViewModel
-
-    private let clusterManager: ClusterManager = {
-        let clusterManager = ClusterManager()
-        clusterManager.maxZoomLevel = 20
-        clusterManager.minCountForClustering = 2
-        clusterManager.shouldRemoveInvisibleAnnotations = true
-        clusterManager.clusterPosition = .average
-        return clusterManager
-    }()
 
     public init(viewModel: DefaultEventLocationViewModel) {
         self.viewModel = viewModel
@@ -49,7 +39,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.showsCompass = false
         mapView.userTrackingMode = .none
         mapView.isUserInteractionEnabled = true
-        clusterManager.delegate = self
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
 
         // Set initial annotation
@@ -78,7 +67,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     public func updateAnnotations() {
 
         guard let mapView = mapView else { return }
-        clusterManager.removeAll()
+        mapView.removeAnnotations(mapView.annotations)
 
         for location in viewModel.report.eventLocations {
 
@@ -87,10 +76,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             let locationAnnotation = MKPointAnnotation()
             locationAnnotation.coordinate = coord
             locationAnnotation.title = location.involvements.joined(separator: ", ")
-            clusterManager.add(locationAnnotation)
+            mapView.addAnnotation(locationAnnotation)
         }
-
-        clusterManager.reload(mapView: mapView)
     }
 
     public func addLocation() {
@@ -144,9 +131,9 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
-        if let annotation = annotation as? ClusterAnnotation {
+        if let annotation = annotation as? MKClusterAnnotation {
 
-            annotation.title = annotation.annotations.compactMap({ $0.title }).joined(separator: ", ")
+            annotation.title = annotation.memberAnnotations.compactMap({ $0.title }).joined(separator: ", ")
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier) as? MPOLClusterAnnotationView
             annotationView?.annotation =  annotation
 
@@ -164,6 +151,11 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
                 pinView = dequeuedView
             } else {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+
+                // set identifier for clustering group
+                pinView.clusteringIdentifier = "eventLocations"
+                // set display priority low to allow clustering
+                pinView.displayPriority = .defaultLow
             }
             return pinView
         }
@@ -176,7 +168,7 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
         mapView.setRegion(region, animated: true)
     }
 
-    public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        clusterManager.reload(mapView: mapView)
+    public func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
     }
 }
