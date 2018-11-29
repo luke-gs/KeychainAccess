@@ -93,43 +93,50 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             builder += summaryListFormItem.editActions([
                 CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { [weak self] (_, indexPath) in
                     guard let `self` = self else { return }
-
-                    if self.viewModel.officer(at: indexPath).involvements.contains(EventOfficerListViewModel.reportingOfficerInvolvement) {
-                        self.presentReportingOfficerAlert(indexPath: indexPath)
+                    let officer = self.viewModel.officer(at: indexPath)
+                    if officer.involvements.contains(EventOfficerListViewModel.reportingOfficerInvolvement) {
+                        self.presentReportingOfficerAlert(for: officer, from: self)
                     } else {
-                        self.deleteOfficer(for: indexPath)
+                        self.viewModel.remove(officer)
+                        self.updateSidebarItemCount()
                     }
                 })]
             )
         }
     }
 
-    private func deleteOfficer(for indexPath: IndexPath) {
-        viewModel.removeOfficer(at: indexPath)
-        sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
-        viewModel.delegate?.officerListDidUpdate()
-    }
-
-    private func presentReportingOfficerAlert(indexPath: IndexPath) {
+    /// Presents an alert that describes that at least one reporting officer is required.
+    /// If the officer is supplied then it will attempt to remove it from the viewModels officer list.
+    ///
+    /// - Parameters:
+    ///   - officer: The officer that the requirement has been changed upon. Defaults to nil
+    ///   - controller: The controller from which to present the alert from. Can be presented
+    ///                 from the picker controller as well.
+    private func presentReportingOfficerAlert(for officer: Officer? = nil, from controller: UIViewController) {
         let fallBackOfficer = self.viewModel.officer(at: IndexPath(row: 0, section: 0))
         let fallBackOfficerName = [fallBackOfficer.familyName, fallBackOfficer.givenName].joined(separator: ", ")
 
-        let alertController = UIAlertController(title: NSLocalizedString("Before You Continue", comment: ""),
-                                                message: NSLocalizedString("This officer is currently assigned as the Reporting Officer. This involvement is required and will be reassigned to \(fallBackOfficerName)", comment: ""),
-                                                preferredStyle: .alert)
-
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
-                                         style: .cancel)
-
-        let continueAction = UIAlertAction(title: NSLocalizedString("Continue", comment: ""),
-                                           style: .default) { [weak self] _ in
-                                              fallBackOfficer.involvements.append(EventOfficerListViewModel.reportingOfficerInvolvement)
-                                              self?.deleteOfficer(for: indexPath)
-                                           }
-
-        alertController.addAction(cancelAction)
-        alertController.addAction(continueAction)
-        self.present(alertController, animated: true)
+        let alertController = PSCAlertController(
+            title: NSLocalizedString("Before You Continue", comment: ""),
+            message: NSLocalizedString("This officer is currently assigned as the Reporting Officer. This involvement is required and will be reassigned to \(fallBackOfficerName)", comment: ""))
+        let cancelAction = PSCAlertAction(
+            title: NSLocalizedString("Cancel", comment: ""),
+            style: .cancel)
+        let continueAction = PSCAlertAction(
+            title: NSLocalizedString("Continue", comment: ""),
+            style: .default,
+            handler: { [weak self] action in
+                guard let self = self else { return }
+                fallBackOfficer.involvements.append(EventOfficerListViewModel.reportingOfficerInvolvement)
+                if let officer = officer {
+                    self.viewModel.remove(officer)
+                    self.updateSidebarItemCount()
+                }
+                self.reloadForm()
+                controller.dismiss(animated: true, completion: nil)
+        })
+        alertController.addActions([cancelAction, continueAction])
+        AlertQueue.shared.add(alertController)
     }
 
     // MARK: - Officer model delegate 
@@ -140,18 +147,37 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1?.sizing().string ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
+
+        // If the report contains only a single officer then when modifying his involvements
+        // the user cannot deselect the value of reporting officer.
+        let officerSelectionHandler: (Pickable) -> Bool = { [unowned self] object in
+            guard self.viewModel.report.officers.count == 1 else { return true }
+            return !(object.title?.string.caseInsensitiveCompare(EventOfficerListViewModel.reportingOfficerInvolvement) == .orderedSame)
+        }
+
         let dataSource = DefaultPickableSearchDataSource(objects: viewModel.officerInvolvementOptions,
                                                          selectedObjects: officer.involvements,
                                                          title: "Involvements",
-                                                         configuration: headerConfig)
+                                                         dismissOnFinish: false,
+                                                         configuration: headerConfig,
+                                                         selectionSatisfyHandler: officerSelectionHandler)
         dataSource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(dataSource: dataSource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
+        // Rather than modify the Kit for the weird logic regarding reporting officer
+        // The done button of the picker controller is modified here
+        viewController.navigationItem.rightBarButtonItem?.title = "Done"
+
         viewController.finishUpdateHandler = { [weak self] controller, index in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(involvements, to: officer)
+            guard self.viewModel.containsReportingOfficer() else {
+                self.presentReportingOfficerAlert(from: controller)
+                return
+            }
+            controller.dismiss(animated: true, completion: nil)
             self.reloadForm()
         }
 
@@ -173,6 +199,10 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
+    }
+
+    private func updateSidebarItemCount() {
+        self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
     }
 
 }
@@ -201,7 +231,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)
-            self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
+            self.updateSidebarItemCount()
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)
