@@ -151,12 +151,12 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
                 pinView = dequeuedView
             } else {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-
-                // set identifier for clustering group
-                pinView.clusteringIdentifier = "eventLocations"
-                // set display priority low to allow clustering
-                pinView.displayPriority = .defaultLow
             }
+            // set identifier for clustering group
+            pinView.clusteringIdentifier = "eventLocations"
+            // set display priority low to allow clustering
+            pinView.displayPriority = .defaultLow
+            pinView.collisionMode = .rectangle
             return pinView
         }
         return nil
