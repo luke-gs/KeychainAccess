@@ -14,6 +14,9 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
     var viewModel: DefaultEventLocationViewModel
 
+    // the clusterIdentifier for eventLocation map annotations
+    private let eventLocationClusterIdentifier = "eventLocations"
+
     public init(viewModel: DefaultEventLocationViewModel) {
         self.viewModel = viewModel
         super.init(layout: StackMapLayout())
@@ -162,7 +165,7 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
             // set identifier for clustering group
-            pinView.clusteringIdentifier = "eventLocations"
+            pinView.clusteringIdentifier = eventLocationClusterIdentifier
             // set display priority low to allow clustering
             pinView.displayPriority = .defaultLow
             pinView.collisionMode = .rectangle
