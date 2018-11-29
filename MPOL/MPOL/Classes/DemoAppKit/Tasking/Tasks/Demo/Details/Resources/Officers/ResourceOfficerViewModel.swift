@@ -46,20 +46,18 @@ open class ResourceOfficerViewModel {
     }
 
     open func thumbnail() -> ImageLoadable? {
+        var padding = CGSize(width: 32, height: 32)
         var thumbnail: UIImage?
         if let initials = initials?.ifNotEmpty() {
-            thumbnail = UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
-                                                                                       circleColor: .disabledGray,
-                                                                                       style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                     padding: CGSize(width: 14, height: 14)))
+            thumbnail = UIImage.thumbnail(withInitials: initials)
         } else {
-            thumbnail = AssetManager.shared.image(forKey: .entityPerson)?.withCircleBackground(tintColor: nil,
-                                                                                               circleColor: .disabledGray,
-                                                                                               style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                             padding: CGSize(width: 32, height: 32))
-            )
+            thumbnail = AssetManager.shared.image(forKey: .entityPerson)
+            padding = CGSize(width: 14, height: 14)
         }
-        guard let image = thumbnail else { return nil }
+        guard let image = thumbnail?.withCircleBackground(tintColor: nil,
+                                                          circleColor: .disabledGray,
+                                                          style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                        padding: padding)) else { return nil }
         return ImageSizing(image: image, size: image.size, contentMode: .center)
     }
 }
