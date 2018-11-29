@@ -45,13 +45,20 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
     public var section: String?
     public var image: UIImage? {
-        if let initials = initials {
-            return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
-                                                                                  circleColor: .disabledGray,
-                                                                                  style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                padding: CGSize(width: 14, height: 14)))
+        let icon: UIImage?
+        let padding: CGSize
+        if let initials = initials?.ifNotEmpty() {
+            icon = UIImage.thumbnail(withInitials: initials)
+            padding = CGSize(width: 14, height: 14)
+        } else {
+            icon = AssetManager.shared.image(forKey: .entityPerson)
+            padding = CGSize(width: 32, height: 32)
         }
-        return nil
+        guard let thumbnail = icon?.withCircleBackground(tintColor: nil,
+                                                         circleColor: .disabledGray,
+                                                         style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                       padding: padding)) else { return nil }
+        return thumbnail
     }
 
     public func contains(_ searchText: String) -> Bool {
