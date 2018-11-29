@@ -70,6 +70,7 @@ public class OrganisationEditViewController: FormBuilderViewController {
         builder += PickerFormItem(pickerAction:
             LocationSelectionFormAction(workflowId: LocationSelectionPresenter.organisationEditWorkflowId))
             .title(NSLocalizedString("Address", comment: "Address field title"))
+            .accessory(ItemAccessory.pencil)
             .selectedValue(location)
             .width(.column(1))
             .required()
