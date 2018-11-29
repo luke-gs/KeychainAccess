@@ -141,7 +141,7 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
                 annotationView = MPOLClusterAnnotationView(annotation: annotation, reuseIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier)
             }
 
-            annotationView?.color = .disabledGray
+            annotationView?.color = .orangeRed
             return annotationView
         } else if let annotation = annotation as? MKPointAnnotation {
             let pinView: MKAnnotationView
