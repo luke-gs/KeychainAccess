@@ -46,6 +46,15 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         self.sidebarItem.count = self.viewModel.displayCount
     }
 
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard let mapView = mapView else { return }
+        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+    }
+
     override open func construct(builder: FormBuilder) {
         viewModel.construct(for: self, with: builder)
     }
