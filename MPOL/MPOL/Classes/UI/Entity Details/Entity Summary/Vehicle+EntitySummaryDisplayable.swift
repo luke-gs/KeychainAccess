@@ -26,11 +26,11 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
     }
 
     public var detail1: StringSizable? {
-        return formattedYOMMakeModel()?.sizing(withNumberOfLines: 0)
+        return formattedVehicleDescription()?.sizing(withNumberOfLines: 0)
     }
 
     public var detail2: StringSizable? {
-        return vehicle.bodyType?.sizing(withNumberOfLines: 0)
+        return formattedVehicleColorBody()?.sizing(withNumberOfLines: 0)
     }
 
     public var association: String? {
@@ -63,9 +63,19 @@ public struct VehicleSummaryDisplayable: AssociatedEntitySummaryDisplayable {
         return nil
     }
 
-    private func formattedYOMMakeModel() -> String? {
+    private func formattedVehicleDescription() -> String? {
 
         let components = [vehicle.year, vehicle.make, vehicle.model].compactMap { $0 }
+        if components.isEmpty == false {
+            return components.joined(separator: " ")
+        }
+
+        return nil
+    }
+
+    private func formattedVehicleColorBody() -> String? {
+
+        let components = [vehicle.primaryColor, vehicle.bodyType].compactMap { $0 }
         if components.isEmpty == false {
             return components.joined(separator: " ")
         }
