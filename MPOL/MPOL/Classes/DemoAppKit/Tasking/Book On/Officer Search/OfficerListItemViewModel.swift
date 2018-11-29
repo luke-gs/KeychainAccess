@@ -45,10 +45,11 @@ public struct OfficerListItemViewModel: CustomSearchDisplayable {
 
     public var section: String?
     public var image: UIImage? {
-        var padding = CGSize(width: 14, height: 14)
-        var icon: UIImage?
+        let icon: UIImage?
+        let padding: CGSize
         if let initials = initials?.ifNotEmpty() {
             icon = UIImage.thumbnail(withInitials: initials)
+            padding = CGSize(width: 14, height: 14)
         } else {
             icon = AssetManager.shared.image(forKey: .entityPerson)
             padding = CGSize(width: 32, height: 32)

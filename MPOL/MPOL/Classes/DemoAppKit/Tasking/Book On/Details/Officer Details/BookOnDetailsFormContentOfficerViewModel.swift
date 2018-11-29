@@ -105,10 +105,11 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     public func thumbnail() -> UIImage? {
-        var image: UIImage?
-        var padding = CGSize(width: 14, height: 14)
+        let image: UIImage?
+        let padding: CGSize
         if let initials = initials?.ifNotEmpty() {
             image = UIImage.thumbnail(withInitials: initials)
+            padding = CGSize(width: 14, height: 14)
         } else {
             image = AssetManager.shared.image(forKey: .entityPerson)
             padding = CGSize(width: 32, height: 32)
