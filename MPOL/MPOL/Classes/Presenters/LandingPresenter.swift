@@ -204,7 +204,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                         ]]),
                         .category(NSLocalizedString("Traffic Offences", comment: "Traffic offences category"), []),
                         .category(NSLocalizedString("Person Offences", comment: "Person offences category"), []),
-                        .category(NSLocalizedString("Good Order Offences", comment: "Good order offences category"), []),
+                        .category(NSLocalizedString("Good Order Offences", comment: "Good order offences category"), [])
                     ]),
                     ReportGroup(title: NSLocalizedString("Recently Used", comment: "Recently used report types"), items: [
                         .item(IncidentType.interceptReport),
