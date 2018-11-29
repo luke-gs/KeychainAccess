@@ -46,13 +46,13 @@ open class ResourceOfficerViewModel {
     }
 
     open func thumbnail() -> ImageLoadable? {
-        var padding = CGSize(width: 32, height: 32)
+        var padding = CGSize(width: 14, height: 14)
         var thumbnail: UIImage?
         if let initials = initials?.ifNotEmpty() {
             thumbnail = UIImage.thumbnail(withInitials: initials)
         } else {
             thumbnail = AssetManager.shared.image(forKey: .entityPerson)
-            padding = CGSize(width: 14, height: 14)
+            padding = CGSize(width: 32, height: 32)
         }
         guard let image = thumbnail?.withCircleBackground(tintColor: nil,
                                                           circleColor: .disabledGray,

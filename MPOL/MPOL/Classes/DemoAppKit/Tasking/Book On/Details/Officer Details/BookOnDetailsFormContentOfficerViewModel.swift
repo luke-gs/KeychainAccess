@@ -105,20 +105,19 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     public func thumbnail() -> UIImage? {
+        var image: UIImage?
+        var padding = CGSize(width: 14, height: 14)
         if let initials = initials?.ifNotEmpty() {
-            return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
-                                                                                  circleColor: .disabledGray,
-                                                                                  style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                padding: CGSize(width: 14, height: 14))
-            )
-
+            image = UIImage.thumbnail(withInitials: initials)
         } else {
-            return AssetManager.shared.image(forKey: .entityPerson)?.withCircleBackground(tintColor: nil,
-                                                                                         circleColor: .disabledGray,
-                                                                                         style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                       padding: CGSize(width: 32, height: 32))
-            )
+            image = AssetManager.shared.image(forKey: .entityPerson)
+            padding = CGSize(width: 32, height: 32)
         }
+        guard let thumbnail = image?.withCircleBackground(tintColor: nil,
+                                                          circleColor: .disabledGray,
+                                                          style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                        padding: padding)) else { return nil }
+        return thumbnail
     }
 
 }
