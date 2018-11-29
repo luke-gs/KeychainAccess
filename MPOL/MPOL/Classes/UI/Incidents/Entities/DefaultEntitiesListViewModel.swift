@@ -80,18 +80,18 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
         let editImage = AssetManager.shared.image(forKey: .edit)
         let infoImage = AssetManager.shared.image(forKey: .infoFilled)
         if !involvements(for: entity).isEmpty {
-            items.append(ActionSheetButton(title: "Manage Involvements", icon: editImage, tintColor: UIColor.black, action: { [weak self] in
+            items.append(ActionSheetButton(title: "Manage Involvements", icon: editImage, tintColor: UIColor.black, action: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.delegate?.completeEditAction(on: entity, actionType: .involvement)
             }))
         }
         if !additionalActions(for: entity).isEmpty {
-            items.append(ActionSheetButton(title: "Manage Additional Actions", subtitle: nil, icon: editImage, tintColor: UIColor.black, action: { [weak self] in
+            items.append(ActionSheetButton(title: "Manage Additional Actions", subtitle: nil, icon: editImage, tintColor: UIColor.black, action: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.delegate?.completeEditAction(on: entity, actionType: .additionalAction)
             }))
         }
-        items.append(ActionSheetButton(title: "View Record", icon: infoImage, action: { [weak self] in
+        items.append(ActionSheetButton(title: "View Record", icon: infoImage, action: { [weak self] _ in
             guard let `self` = self else { return }
             self.delegate?.completeEditAction(on: entity, actionType: .viewRecord)
         }))

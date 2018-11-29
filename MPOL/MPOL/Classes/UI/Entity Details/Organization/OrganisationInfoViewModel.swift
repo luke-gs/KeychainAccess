@@ -10,7 +10,6 @@ import PublicSafetyKit
 import PromiseKit
 
 open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationMapDisplayable {
-
     public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
 
     private var travelTimeETAs: [String: String] = [:]
@@ -53,7 +52,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: ""), separatorColor: .clear)
 
-        builder += addressBlocks(for: organisation, viewController: viewController)
+        builder += addressBlocks(for: organisation)
 
         builder += detailsBlock(for: organisation)
 
@@ -70,13 +69,13 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
     // MARK: private
 
-    private func addressBlocks(for organisation: Organisation, viewController: UIViewController) -> [FormItem] {
+    private func addressBlocks(for organisation: Organisation) -> [FormItem] {
         return organisation.addresses?.reduce([FormItem]()) { (result, address) -> [FormItem] in
-            return result + individualAddressBlock(for: address, viewController: viewController)
+            return result + individualAddressBlock(for: address)
         } ?? []
     }
 
-    private func individualAddressBlock(for address: Address, viewController: UIViewController) -> [FormItem] {
+    private func individualAddressBlock(for address: Address) -> [FormItem] {
         let title = NSAttributedString(string: NSLocalizedString("Address", comment: ""), attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)])
 
         let asset = AssetManager.shared.image(forKey: .entityCar)
@@ -94,6 +93,19 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         }
 
+        let coordinateAction = AddressNavigationSelectionAction(addressNavigatable: address)
+        if let handler = coordinateAction.handler {
+            handler.preferredControllerContentWidth = 250
+            coordinateAction.actions = [
+                handler.openInAppleMapsButton(),
+                handler.openStreetViewButton(),
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { [weak self] presenter in
+                    UIPasteboard.general.string = self?.latLongString(from: address)
+                    presenter.dismiss(animated: true, completion: nil)
+                })
+            ]
+
+        }
         return [
             AddressFormItem()
                 .styleIdentifier(PublicSafetyKitStyler.addressLinkStyle)
@@ -103,8 +115,8 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
                 .width(.column(1))
                 .accessory(travelAccessory),
             ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
+                .selectionAction(coordinateAction)
                 .width(.column(1))
-                .separatorColor(.clear)
         ]
     }
 

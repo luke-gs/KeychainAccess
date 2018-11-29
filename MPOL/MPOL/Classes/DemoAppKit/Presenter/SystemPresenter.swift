@@ -17,7 +17,7 @@ public enum SystemScreen: Presentable {
     case serverError(title: String, message: String)
 
     /// Address popover for "Directions, Street View, Search"
-    case addressLookup(source: UIView, coordinate: CLLocationCoordinate2D?, address: String?)
+    case addressLookup(source: UIView, addressOptionHandler: AddressOptionHandler, actions: [ActionSheetButton]?)
 
     /// show events tab.
     case events
@@ -36,8 +36,8 @@ public class SystemPresenter: Presenter {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
             return alertController
-        case .addressLookup(_, let coordinate, let address):
-            return AddressOptionHandler(coordinate: coordinate, address: address).actionSheetViewController()
+        case .addressLookup(_, let handler, let actions):
+            return handler.actionSheetViewController(with: actions)
         case .events:
             return UIViewController()
         }
