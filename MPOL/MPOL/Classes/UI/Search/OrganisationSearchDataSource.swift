@@ -289,7 +289,7 @@ class OrganisationSearchDataSource: NSObject, SearchDataSource, UITextFieldDeleg
     @objc private func searchButtonItemTapped() {
         performSearch()
     }
-    
+
     // MARK: - Add entity
 
     @objc private func handleAddButtonTapped(_ item: UIBarButtonItem) {
