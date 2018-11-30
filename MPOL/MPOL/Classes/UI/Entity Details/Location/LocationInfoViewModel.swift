@@ -52,10 +52,26 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
             .accessory(travelAccessory)
         builder += addressFormItem
 
+        let coordinateAction = AddressNavigationSelectionAction(addressNavigatable: location)
+        if let handler = coordinateAction?.handler {
+            handler.preferredControllerContentWidth = 250
+            coordinateAction?.actions = [
+                handler.openInAppleMapsButton(),
+                handler.openStreetViewButton(),
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { presenter in
+                    UIPasteboard.general.string = location.coordinateStringRepresentation()
+                    presenter.dismiss(animated: true, completion: nil)
+                })
+            ]
+
+        }
+
         let coordItem = ValueFormItem()
-            .title(StringSizing(string: "Latitude, Longitude", font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .title(StringSizing(string: NSLocalizedString("Latitude, Longitude", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .value(StringSizing(string: location.coordinateStringRepresentation(), font: UIFont.preferredFont(forTextStyle: .subheadline)))
+            .selectionAction(coordinateAction)
             .width(.column(1))
+
         builder += coordItem
     }
 

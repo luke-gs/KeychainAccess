@@ -94,13 +94,13 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
         }
 
         let coordinateAction = AddressNavigationSelectionAction(addressNavigatable: address)
-        if let handler = coordinateAction.handler {
+        if let handler = coordinateAction?.handler {
             handler.preferredControllerContentWidth = 250
-            coordinateAction.actions = [
+            coordinateAction?.actions = [
                 handler.openInAppleMapsButton(),
                 handler.openStreetViewButton(),
-                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { [weak self] presenter in
-                    UIPasteboard.general.string = self?.latLongString(from: address)
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: {  presenter in
+                    UIPasteboard.general.string = address.coordinateStringRepresentation()
                     presenter.dismiss(animated: true, completion: nil)
                 })
             ]
