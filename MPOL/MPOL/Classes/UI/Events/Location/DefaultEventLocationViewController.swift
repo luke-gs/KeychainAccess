@@ -14,6 +14,9 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
     var viewModel: DefaultEventLocationViewModel
 
+    // the clusterIdentifier for eventLocation map annotations
+    private let eventLocationClusterIdentifier = "eventLocations"
+
     public init(viewModel: DefaultEventLocationViewModel) {
         self.viewModel = viewModel
         super.init(layout: StackMapLayout())
@@ -38,13 +41,21 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.showsUserLocation = true
         mapView.showsCompass = false
         mapView.userTrackingMode = .none
-        mapView.isUserInteractionEnabled = false
-
+        mapView.isUserInteractionEnabled = true
         _ = CLLocationManager.requestAuthorization(type: .whenInUse)
 
         // Set initial annotation
         self.updateAnnotations()
         self.sidebarItem.count = self.viewModel.displayCount
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        guard let mapView = mapView else { return }
+        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, span: span)
+        mapView.setRegion(region, animated: false)
     }
 
     override open func construct(builder: FormBuilder) {
@@ -79,8 +90,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             locationAnnotation.title = location.involvements.joined(separator: ", ")
             mapView.addAnnotation(locationAnnotation)
         }
-
-        mapView.showAnnotations(mapView.annotations, animated: true)
     }
 
     public func addLocation() {
@@ -133,8 +142,21 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? MKPointAnnotation {
-            let pinView: LocationSelectionAnnotationView
+
+        if let annotation = annotation as? MKClusterAnnotation {
+
+            annotation.title = annotation.memberAnnotations.compactMap({ $0.title }).joined(separator: ", ")
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier) as? MPOLClusterAnnotationView
+            annotationView?.annotation = annotation
+
+            if annotationView == nil {
+                annotationView = MPOLClusterAnnotationView(annotation: annotation, reuseIdentifier: MPOLClusterAnnotationView.defaultReuseIdentifier)
+            }
+
+            annotationView?.color = .orangeRed
+            return annotationView
+        } else if let annotation = annotation as? MKPointAnnotation {
+            let pinView: MKAnnotationView
             let identifier = LocationSelectionAnnotationView.defaultReuseIdentifier
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationSelectionAnnotationView {
                 dequeuedView.annotation = annotation
@@ -142,7 +164,11 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
             } else {
                 pinView = LocationSelectionAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
-
+            // set identifier for clustering group
+            pinView.clusteringIdentifier = eventLocationClusterIdentifier
+            // set display priority low to allow clustering
+            pinView.displayPriority = .defaultLow
+            pinView.collisionMode = .rectangle
             return pinView
         }
         return nil
@@ -152,5 +178,9 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
         let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
         mapView.setRegion(region, animated: true)
+    }
+
+    public func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
     }
 }
