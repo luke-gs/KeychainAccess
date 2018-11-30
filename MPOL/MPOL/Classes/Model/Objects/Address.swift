@@ -10,7 +10,7 @@ import Unbox
 import PublicSafetyKit
 
 @objc(MPLAddress)
-open class Address: Entity, AddressNavigatable {
+open class Address: Entity {
 
     // MARK: - Class
 
@@ -179,5 +179,18 @@ open class Address: Entity, AddressNavigatable {
         try container.encode(type, forKey: CodingKeys.type)
         try container.encode(unit, forKey: CodingKeys.unit)
     }
+}
 
+extension Address: AddressNavigatable {
+    public func addressStringRepresentation() -> String? {
+        if let fullAddress = fullAddress {
+            return fullAddress
+        } else if let suburb = suburb {
+            return suburb
+        } else if let coordinate = coordinate() {
+            return "\(coordinate.latitude), \(coordinate.longitude)"
+        } else {
+            return nil
+        }
+    }
 }
