@@ -99,7 +99,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
             coordinateAction?.actions = [
                 handler.openInAppleMapsButton(),
                 handler.openStreetViewButton(),
-                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: {  presenter in
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { presenter in
                     UIPasteboard.general.string = address.coordinateStringRepresentation()
                     presenter.dismiss(animated: true, completion: nil)
                 })
