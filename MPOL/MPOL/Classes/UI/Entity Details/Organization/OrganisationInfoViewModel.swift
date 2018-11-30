@@ -99,7 +99,7 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
             coordinateAction?.actions = [
                 handler.openInAppleMapsButton(),
                 handler.openStreetViewButton(),
-                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: {  presenter in
+                ActionSheetButton(title: NSLocalizedString("Copy to Clipboard", comment: ""), icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.copyToClipboard), action: { presenter in
                     UIPasteboard.general.string = address.coordinateStringRepresentation()
                     presenter.dismiss(animated: true, completion: nil)
                 })
@@ -114,7 +114,8 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
                 .selectionAction(AddressNavigationSelectionAction(addressNavigatable: address))
                 .width(.column(1))
                 .accessory(travelAccessory),
-            ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: latLongString(from: address))
+            ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: address.coordinateStringRepresentation())
+                .styleIdentifier(PublicSafetyKitStyler.valueLinkStyle)
                 .selectionAction(coordinateAction)
                 .width(.column(1))
         ]
@@ -184,12 +185,4 @@ open class OrganisationInfoViewModel: EntityDetailFormViewModel, EntityLocationM
 
         return CLLocation(latitude: lat, longitude: long)
     }
-
-    private func latLongString(from address: Address?) -> String? {
-        guard let lat = address?.latitude,
-            let long = address?.longitude else { return nil }
-
-        return "\(lat), \(long)"
-    }
-
 }

@@ -23,8 +23,8 @@ public class AddressNavigationSelectionAction: SelectionAction {
     public init?(addressNavigatable: AddressNavigatable) {
         self.addressNavigatable = addressNavigatable
         // Acting on a location must consist of either an address or a coordinate.
-        guard addressNavigatable.coordinate() != nil || addressNavigatable.fullAddress != nil else { return nil }
-        self.handler = AddressOptionHandler(coordinate: addressNavigatable.coordinate(), address: addressNavigatable.fullAddress)
+        guard addressNavigatable.coordinate() != nil || addressNavigatable.addressStringRepresentation() != nil else { return nil }
+        self.handler = AddressOptionHandler(coordinate: addressNavigatable.coordinate(), address: addressNavigatable.addressStringRepresentation())
     }
 
     /// The presentable to be displayed, or nil if explicit viewController should be used

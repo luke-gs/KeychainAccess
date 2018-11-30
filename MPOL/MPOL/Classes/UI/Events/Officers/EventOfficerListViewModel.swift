@@ -65,8 +65,10 @@ public class EventOfficerListViewModel {
     }
 
     public func containsReportingOfficer() -> Bool {
-        let hasReportingOfficer = report.officers.contains(where: { $0.involvements.contains(where: {
-            $0.caseInsensitiveCompare(EventOfficerListViewModel.reportingOfficerInvolvement) == .orderedSame })
+        let hasReportingOfficer = report.officers.contains(where: {
+            $0.involvements.contains(where: {
+                $0.caseInsensitiveCompare(EventOfficerListViewModel.reportingOfficerInvolvement) == .orderedSame
+            })
         })
         return hasReportingOfficer
     }

@@ -34,7 +34,7 @@ public class OrganisationEditViewController: FormBuilderViewController {
 
         builder += LargeTextHeaderFormItem(text: NSLocalizedString("Details", comment: "Details Section Header")).separatorColor(.clear)
 
-        let items = Manifest.shared.entries(for: .organisationType).rawValues().map({ AnyPickable($0) })
+        let items = Manifest.shared.entries(for: .organisationType).rawValues().map { AnyPickable($0) }
         builder += DropDownFormItem()
             .title(NSLocalizedString("Organisation Type", comment: "Drop Down Title"))
             .options(items)

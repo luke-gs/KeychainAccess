@@ -67,6 +67,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
         }
 
         let coordItem = ValueFormItem()
+            .styleIdentifier(PublicSafetyKitStyler.valueLinkStyle)
             .title(StringSizing(string: NSLocalizedString("Latitude, Longitude", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .value(StringSizing(string: location.coordinateStringRepresentation(), font: UIFont.preferredFont(forTextStyle: .subheadline)))
             .selectionAction(coordinateAction)

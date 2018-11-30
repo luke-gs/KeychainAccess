@@ -90,3 +90,10 @@ open class CADLocationCore: Codable, CADLocationType {
         MPLUnimplemented()
     }
 }
+
+/// AddressNavigatable
+extension CADLocationCore {
+    public func addressStringRepresentation() -> String? {
+        return displayText
+    }
+}
