@@ -98,6 +98,7 @@ public class EventOfficerListViewModel {
 
     func remove(_ officer: Officer) {
         if let index = report.officers.firstIndex(of: officer) {
+            officer.involvements = []
             removeOfficer(at: IndexPath(row: index, section: 0))
         }
     }
