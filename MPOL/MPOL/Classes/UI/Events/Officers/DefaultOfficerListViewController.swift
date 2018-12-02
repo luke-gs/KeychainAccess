@@ -95,7 +95,11 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                     guard let `self` = self else { return }
                     let officer = self.viewModel.officer(at: indexPath)
                     if officer.involvements.contains(EventOfficerListViewModel.reportingOfficerInvolvement) {
-                        self.presentReportingOfficerAlert(for: officer, from: self)
+                        self.presentReportingOfficerAlert(for: officer, from: self, completion: { success in
+                            guard success == true else { return }
+                            let fallBackOfficer = self.viewModel.officer(at: IndexPath(row: 0, section: 0))
+                            fallBackOfficer.involvements.append(EventOfficerListViewModel.reportingOfficerInvolvement)
+                        })
                     } else {
                         self.viewModel.remove(officer)
                         self.updateSidebarItemCount()
@@ -112,7 +116,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     ///   - officer: The officer that the requirement has been changed upon. Defaults to nil
     ///   - controller: The controller from which to present the alert from. Can be presented
     ///                 from the picker controller as well.
-    private func presentReportingOfficerAlert(for officer: Officer? = nil, from controller: UIViewController) {
+    private func presentReportingOfficerAlert(for officer: Officer? = nil,
+                                              from controller: UIViewController,
+                                              completion: ((Bool) -> Void)? = nil) {
         let fallBackOfficer = self.viewModel.officer(at: IndexPath(row: 0, section: 0))
         let fallBackOfficerName = [fallBackOfficer.familyName, fallBackOfficer.givenName].joined(separator: ", ")
 
@@ -121,13 +127,18 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             message: NSLocalizedString("This officer is currently assigned as the Reporting Officer. This involvement is required and will be reassigned to \(fallBackOfficerName)", comment: ""))
         let cancelAction = PSCAlertAction(
             title: NSLocalizedString("Cancel", comment: ""),
-            style: .cancel)
+            style: .cancel,
+            handler: { action in
+                completion?(false)
+            }
+        )
+
         let continueAction = PSCAlertAction(
             title: NSLocalizedString("Continue", comment: ""),
             style: .default,
             handler: { [weak self] action in
                 guard let self = self else { return }
-                fallBackOfficer.involvements.append(EventOfficerListViewModel.reportingOfficerInvolvement)
+                completion?(true)
                 if let officer = officer {
                     self.viewModel.remove(officer)
                     self.updateSidebarItemCount()
@@ -172,11 +183,14 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         viewController.finishUpdateHandler = { [weak self] controller, index in
             guard let self = self else { return }
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title?.sizing().string }
-            self.viewModel.add(involvements, to: officer)
             guard self.viewModel.containsReportingOfficer() else {
-                self.presentReportingOfficerAlert(from: controller)
+                self.presentReportingOfficerAlert(from: controller, completion: { [weak self] success in
+                    guard let self = self, success == true else { return }
+                    self.viewModel.add(involvements, to: officer)
+                })
                 return
             }
+            self.viewModel.add(involvements, to: officer)
             controller.dismiss(animated: true, completion: nil)
             self.reloadForm()
         }
